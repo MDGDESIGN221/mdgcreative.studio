@@ -199,14 +199,26 @@ section{position:relative;z-index:1}
   content:'';position:absolute;inset:0;z-index:3;
   background:linear-gradient(to bottom,rgba(6,6,6,.45) 0%,transparent 35%,rgba(6,6,6,.6) 100%);
 }
+/* Dégradé gauche — div dédié pour passer au-dessus de la vidéo */
+.hero-gradient-overlay{
+  position:absolute;inset:0;z-index:10;pointer-events:none;
+  background:linear-gradient(to right,
+    var(--black) 0%,
+    var(--black) 26%,
+    rgba(6,6,6,.88) 40%,
+    rgba(6,6,6,.55) 54%,
+    rgba(6,6,6,.15) 68%,
+    rgba(6,6,6,0) 84%
+  );
+}
 /* Grain léger sur la photo */
 .hero-photo-wrap .grain{
-  position:absolute;inset:0;z-index:4;opacity:.04;
+  position:absolute;inset:0;z-index:11;opacity:.04;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events:none;
 }
 .hero-left{
-  position:relative;z-index:5;
+  position:relative;z-index:15;
   width:60%;max-width:780px;
   padding:8rem 3rem 12rem;
   display:flex;flex-direction:column;justify-content:center;
@@ -6619,6 +6631,7 @@ nav::before { display:none; }
       <source src="https://res.cloudinary.com/djdkpihuz/video/upload/e_reverse,f_auto,q_auto/8a7da855-c262-4cb8-ab3f-573b17e5b8c5-2026-04-22_q0qzfl" type="video/mp4">
     </video>
     <div class="grain" aria-hidden="true"></div>
+    <div class="hero-gradient-overlay" aria-hidden="true"></div>
   </div>
   <div class="hero-left">
     <div class="hero-eyebrow">MDG Creative Studio · Kaolack, SN</div>
@@ -9344,8 +9357,8 @@ nav::before { display:none; }
 /* Mobile */
 @media(max-width:480px){
   #uranus-visual{gap:.6rem;}
-  #uranus-box-wrap{width:clamp(100px,38vw,145px);}
-  #uranus-psd-stack{width:clamp(70px,26vw,110px);height:clamp(100px,36vw,160px);}
+  #uranus-box-wrap{width:clamp(130px,55vw,200px);}
+  #uranus-psd-stack{width:clamp(90px,32vw,130px);height:clamp(125px,45vw,185px);}
 }
 </style>
 
