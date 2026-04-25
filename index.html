@@ -6610,12 +6610,12 @@ nav::before { display:none; }
       fetchpriority="high"
       style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:1;opacity:.9;transition:opacity .6s cubic-bezier(.4,0,.2,1);">
     <!-- Vidéos hero — desktop + mobile -->
-    <video id="heroVidA" autoplay muted playsinline webkit-playsinline preload="auto" aria-hidden="true"
-      style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:2;opacity:0;transition:opacity .6s cubic-bezier(.4,0,.2,1);">
+    <video id="heroVidA" autoplay muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="auto" aria-hidden="true"
+      style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:2;opacity:0;transition:opacity .6s cubic-bezier(.4,0,.2,1);pointer-events:none;">
       <source src="https://res.cloudinary.com/djdkpihuz/video/upload/f_auto,q_auto/8a7da855-c262-4cb8-ab3f-573b17e5b8c5-2026-04-22_q0qzfl" type="video/mp4">
     </video>
-    <video id="heroVidB" muted playsinline webkit-playsinline preload="none" aria-hidden="true"
-      style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:2;opacity:0;transition:opacity .6s cubic-bezier(.4,0,.2,1);">
+    <video id="heroVidB" muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="none" aria-hidden="true"
+      style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:2;opacity:0;transition:opacity .6s cubic-bezier(.4,0,.2,1);pointer-events:none;">
       <source src="https://res.cloudinary.com/djdkpihuz/video/upload/e_reverse,f_auto,q_auto/8a7da855-c262-4cb8-ab3f-573b17e5b8c5-2026-04-22_q0qzfl" type="video/mp4">
     </video>
     <div class="grain" aria-hidden="true"></div>
@@ -8720,9 +8720,10 @@ nav::before { display:none; }
 }
 .u-hero-title {
   font-family: 'Syne', sans-serif; font-weight: 900;
-  font-size: clamp(3rem, 6vw, 5.8rem);
-  line-height: .88; letter-spacing: -.055em;
+  font-size: clamp(2rem, 10vw, 5.8rem);
+  line-height: .92; letter-spacing: -.04em;
   color: var(--u-light); margin-bottom: 1.1rem;
+  word-break: keep-all; overflow-wrap: normal;
 }
 .u-hero-title .u-line2 {
   display: block;
@@ -9204,108 +9205,186 @@ nav::before { display:none; }
   <div class="u-box-visual reveal-up rd1">
 
 <style>
-/* ── Wrapper global ── */
-#mdg-visual-wrap{
+/* ══ URANUS BOX VISUAL ══ */
+#uranus-visual{
+  width:100%;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:1.5rem;
-  width:100%;
-  padding:1rem 0;
+  gap:clamp(.75rem,3vw,1.5rem);
+  padding:.5rem 0 1rem;
+  perspective:900px;
 }
-/* ── Canvas boîte ── */
-#mdg-canvas-wrap{
+
+/* ── Boîte CSS 3D draggable ── */
+#uranus-box-wrap{
   flex-shrink:0;
-  width:clamp(140px,28vw,200px);
-  height:clamp(200px,40vw,290px);
+  width:clamp(110px,24vw,190px);
   position:relative;
   cursor:grab;
+  user-select:none;
   touch-action:none;
 }
-#mdg-canvas-wrap:active{cursor:grabbing}
-#mdg-canvas-wrap canvas{display:block;width:100%!important;height:100%!important;}
-#mdg-drag-hint{
-  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
-  font-family:'Syne',sans-serif;font-size:.42rem;font-weight:700;
-  letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(177,158,245,.32);pointer-events:none;white-space:nowrap;
-}
-/* ── PSD cards column ── */
-#mdg-psd-col{
-  display:flex;
-  flex-direction:column;
-  gap:.55rem;
-  flex:1;
-  min-width:0;
-}
-.mdg-psd-card{
+#uranus-box-wrap:active{cursor:grabbing}
+
+#uranus-box-inner{
   position:relative;
-  border-radius:10px;
+  transform-style:preserve-3d;
+  will-change:transform;
+  transform:rotateX(-12deg) rotateY(28deg);
+}
+
+/* Toutes les faces */
+.ub-face{
+  position:absolute;
+  top:0; left:0;
+  backface-visibility:hidden;
   overflow:hidden;
-  border:1px solid rgba(139,92,246,.18);
-  background:#0d0820;
-  aspect-ratio:16/9;
-  transition:border-color .25s, transform .25s cubic-bezier(.16,1,.3,1);
+}
+.ub-face img{
+  width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;
+}
+
+/* FRONT : face de référence, colle au plan */
+#ub-front{
+  /* positionné par JS : width, height, translateZ(D/2) */
+  border:1px solid rgba(139,92,246,.55);
+  box-shadow:0 20px 60px rgba(0,0,0,.8),0 0 0 1px rgba(196,181,253,.1) inset;
+  border-radius:2px;
+}
+/* BACK : charnière sur le bord gauche du front, pivote 180° vers l'arrière */
+#ub-back{
+  background:#08041a;
+  border:1px solid rgba(139,92,246,.2);
+  border-radius:2px;
+}
+/* RIGHT : charnière sur le bord droit du front, pivote 90° vers la droite */
+#ub-right{
+  background:#120826;
+  border:1px solid rgba(139,92,246,.25);
+}
+/* LEFT : charnière sur le bord gauche du front, pivote -90° vers la gauche */
+#ub-left{
+  background:#120826;
+  border:1px solid rgba(139,92,246,.25);
+}
+/* TOP : charnière sur le bord haut du front, pivote -90° vers le haut */
+#ub-top{
+  background:linear-gradient(180deg,rgba(180,140,255,.3) 0%,rgba(40,12,100,.8) 100%);
+  border:1px solid rgba(196,181,253,.35);
+}
+/* BOTTOM : charnière sur le bord bas du front, pivote 90° vers le bas */
+#ub-bot{
+  background:#06030e;
+  border:1px solid rgba(139,92,246,.1);
+}
+/* Overlay gradient front */
+#ub-ov{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,2,10,0) 45%,rgba(3,2,10,.88) 100%);
+}
+#ub-lbl{position:absolute;bottom:0;left:0;right:0;padding:.5rem .55rem;}
+#ub-lbl .ubn{
+  font-family:'Syne',sans-serif;font-weight:900;
+  font-size:clamp(.55rem,2vw,.75rem);
+  color:#fff;letter-spacing:-.02em;line-height:1.05;
+}
+#ub-lbl .ubs{
+  font-size:.38rem;color:var(--u-accent);font-weight:800;
+  letter-spacing:.18em;text-transform:uppercase;margin-top:.1rem;
+}
+/* Drag hint */
+#ub-hint{
+  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+  font-family:'Syne',sans-serif;font-size:.38rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(177,158,245,.28);pointer-events:none;white-space:nowrap;
+  transition:opacity .4s;
+}
+
+/* ── PSD Cards empilées ── */
+#uranus-psd-stack{
+  position:relative;
+  width:clamp(80px,18vw,140px);
+  height:clamp(115px,26vw,200px);
+  flex-shrink:0;
+}
+.upsd-card{
+  position:absolute;
+  width:100%;
+  aspect-ratio:3/4;
+  border-radius:6px;
+  overflow:hidden;
+  border:1px solid rgba(139,92,246,.22);
+  box-shadow:0 8px 24px rgba(0,0,0,.65);
+  transform-origin:bottom center;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
   cursor:pointer;
 }
-.mdg-psd-card:hover{
-  border-color:rgba(139,92,246,.5);
-  transform:translateX(4px);
-}
-.mdg-psd-card img{
-  width:100%;height:100%;
-  object-fit:cover;display:block;
-  opacity:.88;
-  transition:opacity .3s, transform .35s cubic-bezier(.16,1,.3,1);
-}
-.mdg-psd-card:hover img{opacity:1;transform:scale(1.04);}
-.mdg-psd-badge{
-  position:absolute;top:6px;left:6px;
-  background:rgba(3,2,10,.82);
-  color:#b19ef5;
-  font-family:'Syne',sans-serif;
-  font-size:7px;font-weight:900;letter-spacing:.1em;
-  padding:2px 6px;border-radius:3px;
+.upsd-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:.88;}
+.upsd-badge{
+  position:absolute;top:5px;left:5px;
+  background:rgba(3,2,10,.85);color:#b19ef5;
+  font-family:'Syne',sans-serif;font-size:7px;font-weight:900;
+  letter-spacing:.1em;padding:2px 5px;border-radius:3px;
   border:1px solid rgba(177,158,245,.22);
-}
-.mdg-psd-card::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(3,2,10,.45) 0%,transparent 60%);
   pointer-events:none;
 }
-/* Mobile: stack vertically */
-@media(max-width:600px){
-  #mdg-visual-wrap{flex-direction:column;gap:1.25rem;}
-  #mdg-canvas-wrap{width:clamp(130px,45vw,170px);height:clamp(185px,64vw,245px);}
-  #mdg-psd-col{flex-direction:row;flex-wrap:wrap;gap:.4rem;}
-  .mdg-psd-card{flex:1 1 calc(50% - .2rem);aspect-ratio:1;}
+/* Stack fan positions */
+#upsd-0{transform:rotate(-9deg) translateY(0px);z-index:1;}
+#upsd-1{transform:rotate(-3deg) translateY(-4px);z-index:2;}
+#upsd-2{transform:rotate(3deg) translateY(-8px);z-index:3;}
+#upsd-3{transform:rotate(9deg) translateY(-12px);z-index:4;}
+/* Hover: fan out */
+#uranus-psd-stack:hover #upsd-0{transform:rotate(-18deg) translateY(8px);}
+#uranus-psd-stack:hover #upsd-1{transform:rotate(-6deg) translateY(0px);}
+#uranus-psd-stack:hover #upsd-2{transform:rotate(6deg) translateY(0px);}
+#uranus-psd-stack:hover #upsd-3{transform:rotate(18deg) translateY(8px);}
+
+/* Mobile */
+@media(max-width:480px){
+  #uranus-visual{gap:.6rem;}
+  #uranus-box-wrap{width:clamp(100px,38vw,145px);}
+  #uranus-psd-stack{width:clamp(70px,26vw,110px);height:clamp(100px,36vw,160px);}
 }
 </style>
 
-<div id="mdg-visual-wrap">
+<div id="uranus-visual" style="--ubhd:36px">
 
-  <!-- Boîte 3D -->
-  <div id="mdg-canvas-wrap">
-    <div id="mdg-drag-hint">drag</div>
+  <!-- BOÎTE 3D draggable -->
+  <div id="uranus-box-wrap">
+    <div id="uranus-box-inner">
+      <div class="ub-face" id="ub-front">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/match-day-sadio_we5xzy.jpg" alt="URANUS GFX PACK">
+        <div id="ub-ov"></div>
+        <div id="ub-lbl"><div class="ubn">URANUS<br>GFX PACK</div><div class="ubs">by MDG Creative Studio</div></div>
+      </div>
+      <div class="ub-face" id="ub-back"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/match-day-sadio_we5xzy.jpg" alt=""></div>
+      <div class="ub-face" id="ub-right"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/match-day-sadio_we5xzy.jpg" alt=""></div>
+      <div class="ub-face" id="ub-left"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/match-day-sadio_we5xzy.jpg" alt=""></div>
+      <div class="ub-face" id="ub-top"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/match-day-sadio_we5xzy.jpg" alt=""></div>
+      <div class="ub-face" id="ub-bot"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/match-day-sadio_we5xzy.jpg" alt=""></div>
+    </div>
+    <div id="ub-hint">drag</div>
   </div>
 
-  <!-- Cartes PSD -->
-  <div id="mdg-psd-col">
-    <div class="mdg-psd-card">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1776659503/SUPER_MANE_qrxdld.jpg" alt="Super Mane PSD" loading="lazy">
-      <span class="mdg-psd-badge">PSD</span>
+  <!-- CARTES PSD EMPILÉES EN ÉVENTAIL -->
+  <div id="uranus-psd-stack">
+    <div class="upsd-card" id="upsd-0">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776491272/SENEGAL_VS_SOUDAN_xmrwii.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
     </div>
-    <div class="mdg-psd-card">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1776659243/HAKILL_l0a1rr.jpg" alt="Hakill PSD" loading="lazy">
-      <span class="mdg-psd-badge">PSD</span>
+    <div class="upsd-card" id="upsd-1">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776491253/SEN_VS_MAROC_go9pvs.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
     </div>
-    <div class="mdg-psd-card">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1776491253/SEN_VS_MAROC_go9pvs.jpg" alt="Sen vs Maroc PSD" loading="lazy">
-      <span class="mdg-psd-badge">PSD</span>
+    <div class="upsd-card" id="upsd-2">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659243/HAKILL_l0a1rr.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
     </div>
-    <div class="mdg-psd-card">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1776491272/SENEGAL_VS_SOUDAN_xmrwii.jpg" alt="Sénégal vs Soudan PSD" loading="lazy">
-      <span class="mdg-psd-badge">PSD</span>
+    <div class="upsd-card" id="upsd-3">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659503/SUPER_MANE_qrxdld.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
     </div>
   </div>
 
@@ -9317,107 +9396,85 @@ nav::before { display:none; }
 
 <script>
 (function(){
-  var wrap = document.getElementById('mdg-canvas-wrap');
-  var hint = document.getElementById('mdg-drag-hint');
-  var scr  = document.createElement('script');
-  scr.src  = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-  scr.onload = boot;
-  document.head.appendChild(scr);
+  var wrap  = document.getElementById('uranus-box-wrap');
+  var inner = document.getElementById('uranus-box-inner');
+  var hint  = document.getElementById('ub-hint');
+  if(!inner) return;
 
-  function boot(){
-    var W = wrap.clientWidth, H = wrap.clientHeight;
-    var PI = Math.PI;
+  var D = 40; /* profondeur de la boîte en px */
 
-    var renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-    renderer.setSize(W,H);
-    renderer.shadowMap.enabled=true;
-    renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-    renderer.outputEncoding=THREE.sRGBEncoding;
-    wrap.insertBefore(renderer.domElement, hint);
+  function buildFaces(){
+    var W = wrap.offsetWidth;
+    var H = Math.round(W * 4 / 3);
+    if(!W || !H) return;
 
-    var scene = new THREE.Scene();
-    var cam   = new THREE.PerspectiveCamera(38,W/H,0.1,50);
-    cam.position.set(0,0.3,4.0);
+    inner.style.width  = W + 'px';
+    inner.style.height = H + 'px';
 
-    scene.add(new THREE.AmbientLight(0xb8a8ff,0.55));
-    var key=new THREE.DirectionalLight(0xffffff,1.9);
-    key.position.set(3,6,5);key.castShadow=true;key.shadow.mapSize.set(512,512);
-    scene.add(key);
-    scene.add(Object.assign(new THREE.DirectionalLight(0x9b8dff,0.65),{position:new THREE.Vector3(-3,2,-3)}));
-    scene.add(Object.assign(new THREE.DirectionalLight(0xd4c5ff,0.4),{position:new THREE.Vector3(0,-4,-4)}));
+    /* Front et Back : W x H, translateZ = D/2 */
+    var f = document.getElementById('ub-front');
+    f.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(0deg) translateZ('+(D/2)+'px);';
 
-    var loader=new THREE.TextureLoader();loader.crossOrigin='anonymous';
-    function T(url){var t=loader.load(url);t.encoding=THREE.sRGBEncoding;return t;}
+    var b = document.getElementById('ub-back');
+    b.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(180deg) translateZ('+(D/2)+'px);';
 
-    var tFronts=[
-      'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_512/v1776491317/match-day-sadio_we5xzy.jpg',
-      'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_512/v1776659243/PEUZZI_n2xn80.jpg',
-      'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_512/v1776659243/ISS_d77hnz.jpg'
-    ].map(T);
-    var tSide=T('https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_512/v1776740207/TWITTER_NEW_BANNER_nmzqjw.jpg');
-    var tBack=T('https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_512/v1776659243/PEUZZI_n2xn80.jpg');
+    /* Right et Left : D x H, centrés sur W/2, translateZ = W/2 */
+    var r = document.getElementById('ub-right');
+    r.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(90deg) translateZ('+(W/2)+'px);';
 
-    function mat(o){return new THREE.MeshStandardMaterial(o);}
-    function slab(w,h,d,m){var mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);mesh.castShadow=true;mesh.receiveShadow=true;return mesh;}
+    var l = document.getElementById('ub-left');
+    l.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(-90deg) translateZ('+(W/2)+'px);';
 
-    var BW=1.3,BH=1.9,BD=0.62,t=0.038;
-    var dark={color:0x0d0820,roughness:0.88,metalness:0.04};
+    /* Top et Bottom : W x D, centrés sur H/2, translateZ = H/2 */
+    var t = document.getElementById('ub-top');
+    t.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(90deg) translateZ('+(H/2)+'px);';
 
-    var mFront=mat({map:tFronts[0],roughness:0.38,metalness:0.06});
-    var mSide =mat({map:tSide,roughness:0.5,metalness:0.06});
-    var mBack =mat({map:tBack,roughness:0.45,metalness:0.06});
-    var mDark =mat(dark);
-
-    var boxGroup=new THREE.Group();
-    scene.add(boxGroup);
-
-    var wF=slab(BW,BH,t,mFront); wF.position.set(0,0,BD/2-t/2); boxGroup.add(wF);
-    var wB=slab(BW,BH,t,mBack);  wB.position.set(0,0,-BD/2+t/2); boxGroup.add(wB);
-    var wR=slab(t,BH,BD,mSide);  wR.position.set(BW/2-t/2,0,0);  boxGroup.add(wR);
-    var wL=slab(t,BH,BD,mSide);  wL.position.set(-BW/2+t/2,0,0); boxGroup.add(wL);
-    var wBot=slab(BW,t,BD,mDark);wBot.position.set(0,-BH/2+t/2,0);boxGroup.add(wBot);
-
-    /* Lid */
-    var lidPivot=new THREE.Group();
-    lidPivot.position.set(0,BH/2,-BD/2);
-    boxGroup.add(lidPivot);
-    var mLid=mat({map:tSide,roughness:0.38,metalness:0.1});
-    var lidTop=slab(BW,t,BD,mLid);lidTop.position.set(0,0,BD/2);lidPivot.add(lidTop);
-    var skH=0.13;
-    var skF=slab(BW,skH,t,mat({color:0x1a0d38,roughness:0.82,metalness:0.1}));
-    skF.position.set(0,-skH/2,BD-t/2);lidPivot.add(skF);
-    var skR=slab(t,skH,BD,mDark);skR.position.set(BW/2-t/2,-skH/2,BD/2);lidPivot.add(skR);
-    var skL=slab(t,skH,BD,mDark);skL.position.set(-BW/2+t/2,-skH/2,BD/2);lidPivot.add(skL);
-
-    /* Ground */
-    var gnd=new THREE.Mesh(new THREE.PlaneGeometry(8,8),new THREE.ShadowMaterial({opacity:0.28}));
-    gnd.rotation.x=-PI/2;gnd.position.y=-BH/2-0.01;gnd.receiveShadow=true;scene.add(gnd);
-
-    /* Drag */
-    var rotX=-0.18,rotY=0.5,velX=0,velY=0.003,dragging=false,lx=0,ly=0;
-    wrap.addEventListener('mousedown',function(e){dragging=true;lx=e.clientX;ly=e.clientY;velX=0;velY=0;hint.style.opacity='0';});
-    window.addEventListener('mousemove',function(e){if(!dragging)return;var dx=e.clientX-lx,dy=e.clientY-ly;rotY+=dx*.007;rotX+=dy*.007;velY=dx*.007;velX=dy*.007;lx=e.clientX;ly=e.clientY;});
-    window.addEventListener('mouseup',function(){dragging=false;});
-    wrap.addEventListener('touchstart',function(e){e.preventDefault();dragging=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY;velX=0;velY=0;hint.style.opacity='0';},{passive:false});
-    window.addEventListener('touchmove',function(e){if(!dragging)return;e.preventDefault();var dx=e.touches[0].clientX-lx,dy=e.touches[0].clientY-ly;rotY+=dx*.007;rotX+=dy*.007;velY=dx*.007;velX=dy*.007;lx=e.touches[0].clientX;ly=e.touches[0].clientY;},{passive:false});
-    window.addEventListener('touchend',function(){dragging=false;});
-
-    window.addEventListener('resize',function(){W=wrap.clientWidth;H=wrap.clientHeight;renderer.setSize(W,H);cam.aspect=W/H;cam.updateProjectionMatrix();});
-
-    /* Front cycle */
-    var fi=0;
-    setInterval(function(){fi=(fi+1)%tFronts.length;mFront.map=tFronts[fi];mFront.needsUpdate=true;},3200);
-
-    /* Render */
-    function animate(){
-      requestAnimationFrame(animate);
-      if(!dragging){velX*=0.88;velY*=0.88;velY+=0.003;rotX+=velX;rotY+=velY;rotX=Math.max(-.5,Math.min(.5,rotX));}
-      boxGroup.rotation.x=rotX;boxGroup.rotation.y=rotY;
-      renderer.render(scene,cam);
-    }
-    animate();
+    var bt = document.getElementById('ub-bot');
+    bt.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(-90deg) translateZ('+(H/2)+'px);';
   }
+
+  /* Wait for layout — double RAF + timeout pour garantir les dimensions */
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      buildFaces();
+      setTimeout(buildFaces, 300);
+    });
+  });
+  window.addEventListener('resize', buildFaces);
+
+  /* Rotation */
+  var rotX=-12, rotY=28, velX=0, velY=.18, dragging=false, lx=0, ly=0;
+
+  function applyT(){ inner.style.transform='rotateX('+rotX+'deg) rotateY('+rotY+'deg)'; }
+  applyT();
+
+  wrap.addEventListener('mousedown',function(e){dragging=true;lx=e.clientX;ly=e.clientY;velX=0;velY=0;hint.style.opacity='0';e.preventDefault();});
+  window.addEventListener('mousemove',function(e){
+    if(!dragging)return;
+    var dx=e.clientX-lx,dy=e.clientY-ly;
+    rotY+=dx*.42;rotX-=dy*.42;velY=dx*.42;velX=-dy*.42;
+    lx=e.clientX;ly=e.clientY;applyT();
+  });
+  window.addEventListener('mouseup',function(){dragging=false;});
+  wrap.addEventListener('touchstart',function(e){e.preventDefault();dragging=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY;velX=0;velY=0;hint.style.opacity='0';},{passive:false});
+  window.addEventListener('touchmove',function(e){
+    if(!dragging)return;e.preventDefault();
+    var dx=e.touches[0].clientX-lx,dy=e.touches[0].clientY-ly;
+    rotY+=dx*.42;rotX-=dy*.42;velY=dx*.42;velX=-dy*.42;
+    lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyT();
+  },{passive:false});
+  window.addEventListener('touchend',function(){dragging=false;});
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if(!dragging){
+      velX+=(0-velX)*.04;velY+=(.18-velY)*.02;
+      rotX+=velX;rotY+=velY;
+      rotX=Math.max(-35,Math.min(35,rotX));
+    }
+    applyT();
+  }
+  animate();
 })();
 </script>
 
