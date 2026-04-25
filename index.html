@@ -2157,8 +2157,13 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
     width:100% !important;height:100% !important;right:auto !important;
   }
   .hero-photo-wrap img{object-position:60% 10% !important}
-  /* Décaler la vidéo vers la droite pour centrer le beau côté du visage */
-  #heroVidA,#heroVidB{object-position:80% 10% !important;}
+  /* Assombrir la vidéo sur mobile pour masquer les imperfections */
+  #heroVidA,#heroVidB{filter:contrast(1.02) brightness(.55) !important;}
+  /* Overlay noir supplémentaire sur mobile */
+  .hero-photo-wrap::after{
+    display:block !important;
+    background:rgba(6,6,6,.35) !important;
+  }
   .hero-photo-wrap::before{
     background:linear-gradient(to bottom,
       rgba(6,6,6,.05) 0%,rgba(6,6,6,.02) 20%,
