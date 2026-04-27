@@ -362,7 +362,7 @@ section{position:relative;z-index:1}
 .stat-label{font-family:'Syne',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--off);margin-top:.75rem}
 .stat-sub{font-size:.68rem;color:var(--off);margin-top:.3rem;line-height:1.4}
 
-/* ── HERO 4-CORNER — desktop ≥768px uniquement ── */
+/* ── HERO 4-CORNER — desktop ≥768px ── */
 @keyframes heroLineGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @media(min-width:768px){
   .hero-left{
@@ -380,77 +380,25 @@ section{position:relative;z-index:1}
   .hero-left .hero-portfolio-links,
   .hero-left .hero-sub,
   .hero-left .hero-type-wrap{pointer-events:auto}
-
-  /* TOP LEFT : eyebrow */
-  .hero-eyebrow{
-    grid-column:1;grid-row:1;align-self:start;
-    padding:calc(var(--nav-h,80px) + .75rem) 0 0 clamp(1.5rem,3.5vw,3rem);
-    margin-bottom:0 !important;
-  }
-  /* TOP LEFT : titre (par-dessus l'eyebrow via padding) */
-  .hero-name{
-    grid-column:1;grid-row:1;align-self:start;
-    padding:calc(var(--nav-h,80px) + 3.2rem) 0 0 clamp(1.5rem,3.5vw,3rem);
-  }
-  /* TOP RIGHT : scroll indicator */
+  .hero-eyebrow{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + .75rem) 0 0 clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important}
+  .hero-name{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 3.2rem) 0 0 clamp(1.5rem,3.5vw,3rem)}
   .hero-scroll-down{
-    display:flex !important;
-    position:static !important;
-    grid-column:2;grid-row:1;
-    align-self:start;justify-self:end;
+    display:flex !important;position:static !important;
+    grid-column:2;grid-row:1;align-self:start;justify-self:end;
     flex-direction:column;align-items:center;gap:.5rem;
     padding:calc(var(--nav-h,80px) + .75rem) clamp(1.5rem,3.5vw,3rem) 0 0;
     pointer-events:none;bottom:auto;left:auto;
     opacity:0;animation:fu 1s 2.2s ease forwards;
   }
-  .hero-scroll-line{
-    width:1px;height:52px;
-    background:linear-gradient(to bottom,rgba(200,250,100,0),var(--accent));
-    transform-origin:top;
-    animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both;
-  }
-  .hero-scroll-label{
-    writing-mode:horizontal-tb !important;
-    transform:none !important;
-    font-size:.55rem;letter-spacing:.22em;color:var(--dim);
-  }
-  /* BOTTOM LEFT : sub + ctas + portfolio */
-  .hero-sub{
-    grid-column:1;grid-row:2;align-self:end;
-    padding:0 0 6.2rem clamp(1.5rem,3.5vw,3rem);
-    margin-bottom:0 !important;max-width:420px;
-  }
-  .hero-ctas{
-    grid-column:1;grid-row:2;align-self:end;
-    padding:0 0 3rem clamp(1.5rem,3.5vw,3rem);
-    margin-bottom:0 !important;
-  }
-  .hero-portfolio-links{
-    grid-column:1;grid-row:2;align-self:end;
-    padding:0 0 .75rem clamp(1.5rem,3.5vw,3rem);
-    margin:0 !important;
-    opacity:0;animation:fu .9s 1.9s ease forwards;
-  }
+  .hero-scroll-line{width:1px;height:52px;background:linear-gradient(to bottom,rgba(200,250,100,0),var(--accent));transform-origin:top;animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both}
+  .hero-scroll-label{writing-mode:horizontal-tb !important;transform:none !important;font-size:.55rem;letter-spacing:.22em;color:var(--dim)}
+  .hero-sub{grid-column:1;grid-row:2;align-self:end;padding:0 0 6.2rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important;max-width:420px}
+  .hero-ctas{grid-column:1;grid-row:2;align-self:end;padding:0 0 3rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important}
+  .hero-portfolio-links{grid-column:1;grid-row:2;align-self:end;padding:0 0 .75rem clamp(1.5rem,3.5vw,3rem);margin:0 !important;opacity:0;animation:fu .9s 1.9s ease forwards}
   .hero-portfolio-link{font-size:.6rem;letter-spacing:.13em}
-  /* BOTTOM RIGHT : handle (nom) + typing */
-  .hero-handle{
-    grid-column:2;grid-row:2;align-self:end;justify-self:end;
-    text-align:right;
-    padding:0 clamp(1.5rem,3.5vw,3rem) 3.4rem 0;
-    font-style:normal;font-size:clamp(.68rem,1vw,.82rem);
-    font-weight:600;letter-spacing:.04em;
-    margin:0 !important;
-    opacity:0;animation:fu .9s 1.3s ease forwards;
-  }
-  .hero-handle .handle-sep,
-  .hero-handle .handle-ig{display:none}
-  .hero-type-wrap{
-    grid-column:2;grid-row:2;align-self:end;justify-self:end;
-    text-align:right;
-    padding:0 clamp(1.5rem,3.5vw,3rem) .75rem 0;
-    margin-bottom:0 !important;
-    font-size:clamp(.9rem,1.5vw,1.35rem);
-  }
+  .hero-handle{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(1.5rem,3.5vw,3rem) 3.4rem 0;font-style:normal;font-size:clamp(.68rem,1vw,.82rem);font-weight:600;letter-spacing:.04em;margin:0 !important;opacity:0;animation:fu .9s 1.3s ease forwards}
+  .hero-handle .handle-sep,.hero-handle .handle-ig{display:none}
+  .hero-type-wrap{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(1.5rem,3.5vw,3rem) .75rem 0;margin-bottom:0 !important;font-size:clamp(.9rem,1.5vw,1.35rem)}
 }
 
 /* ── ABOUT (fond légèrement plus clair pour alterner) ── */
@@ -2802,7 +2750,19 @@ section + section::before{
 #services,#pricing,#portfolio-accordion,#faq{background:var(--black)}
 </style>
 <script>
-/* Scroll natif — scroll-behavior:smooth sur html suffit */
+/* Lenis smooth scroll — desktop uniquement + respect prefers-reduced-motion */
+(function(){
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(prefersReduced) return;
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js';
+  s.onload = function(){
+    if(typeof Lenis === 'undefined') return;
+    // Appeler initLenis si déjà défini, sinon le poll s'en chargera
+    if(typeof initLenis === 'function') initLenis();
+  };
+  document.head.appendChild(s);
+})();
 </script>
 <script>
 // Nav scrolled
@@ -6888,6 +6848,8 @@ nav::before { display:none; }
     <video id="heroVidB" muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="none" aria-hidden="true"
       style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:2;opacity:0;transition:opacity .6s cubic-bezier(.4,0,.2,1);pointer-events:none;">
       <source src="https://res.cloudinary.com/djdkpihuz/video/upload/e_reverse,f_auto,q_auto/v1777325916/hero_3s_he6lvf" type="video/mp4">
+    </video>
+    <div class="grain" aria-hidden="true"></div>
     <div class="hero-gradient-overlay" aria-hidden="true"></div>
   </div>
   <div class="hero-left">
@@ -11616,28 +11578,52 @@ function typeRun(){
 }
 setTimeout(typeRun,600);
 
-// ── SMOOTH SCROLL NATIF (Lenis supprimé — bloqué par CSP Netlify) ──
-// scroll-behavior:smooth sur html gère le smooth scroll nativement.
-// On gère juste l'offset nav pour les ancres.
-let lenis = null; // garde la variable pour les appels lenis.stop/start existants
-const _lenisNoop = { stop:function(){}, start:function(){}, scrollTo:function(el,opts){ const nav=document.querySelector('nav'); const offset=(opts&&opts.offset)||0; const navH=nav?nav.getBoundingClientRect().height:80; const y=el.getBoundingClientRect().top+window.scrollY+offset-navH; window.scrollTo({top:y,behavior:'smooth'}); } };
-lenis = _lenisNoop;
-function initLenis(){ /* no-op — Lenis remplacé par scroll natif */ }
-
-// Ancres internes : scroll avec offset nav
-document.querySelectorAll('a[href^="#"]').forEach(function(a){
-  a.addEventListener('click', function(e){
-    var href = a.getAttribute('href');
-    if(!href || href === '#') return;
-    var target = document.querySelector(href);
-    if(!target) return;
-    e.preventDefault();
-    var nav = document.querySelector('nav');
-    var navH = nav ? nav.getBoundingClientRect().height : 80;
-    var y = target.getBoundingClientRect().top + window.scrollY - navH;
-    window.scrollTo({top: y, behavior: 'smooth'});
+// ── LENIS SMOOTH SCROLL ──
+// Lenis est chargé dynamiquement (async). On attend qu'il soit dispo.
+let lenis;
+function initLenis() {
+  if (typeof Lenis === 'undefined') return;
+  lenis = new Lenis({
+    duration: 1.4,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 0.8,
+    touchMultiplier: 2.0,
+    touchInertiaMultiplier: 20,
+    prevent: node => node.id === 'workTrack' || node.id === 'covTrack' || !!(node.closest && node.closest('.pack-modal-overlay')),
   });
-});
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+  // Sync avec les liens d'ancre
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, {offset: -80, duration: 1.6});
+    });
+  });
+  // Pause pendant les modals
+  const modalOverlay = document.getElementById('modalOverlay');
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', () => {
+      lenis.stop();
+      setTimeout(() => lenis.start(), 100);
+    });
+  }
+}
+// Lenis est chargé via s.onload dans le premier bloc —
+// on poll toutes les 50ms au cas où le script serait déjà prêt
+(function waitLenis(attempts) {
+  if (typeof Lenis !== 'undefined') { initLenis(); return; }
+  if (attempts <= 0) return; // abandon après 3s
+  setTimeout(function(){ waitLenis(attempts - 1); }, 50);
+})(60);
 
 // ── EASTER EGG — taper "MDG" ──
 (function(){
