@@ -152,28 +152,99 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 section{position:relative;z-index:1}
 
 /* ── HERO SCROLL DOWN HINT ── */
-.hero-scroll-down{
-  position:absolute;bottom:2.5rem;left:3rem;z-index:20;
-  display:flex;align-items:center;gap:.75rem;
+/* ── HERO 4-CORNER LAYOUT ── */
+/* hero-left supprimé */
+.hero-left{display:none !important}
+
+/* ancien scroll indicator supprimé */
+@keyframes heroLineGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+:root{--stats-h:130px}
+
+/* Le container est en pointer-events:none — ne bloque JAMAIS le scroll souris.
+   Seuls les éléments enfants interactifs ont pointer-events:auto.            */
+.hero-4corners{
+  position:absolute;
+  top:0;left:0;right:0;bottom:var(--stats-h);
+  z-index:15;
+  pointer-events:none;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  padding:clamp(1.25rem,3.5vw,3rem);
+}
+.h4c-topleft,
+.h4c-topright,
+.h4c-bottomleft,
+.h4c-bottomright{pointer-events:none}
+
+/* Seulement les éléments réellement interactifs reçoivent pointer-events:auto */
+.h4c-topleft .hero-eyebrow,
+.h4c-topleft .hero-name,
+.h4c-bottomleft .hero-sub,
+.h4c-bottomleft .hero-ctas,
+.h4c-bottomleft .hero-portfolio-links,
+.h4c-bottomright .h4c-name,
+.h4c-bottomright .hero-type-wrap{pointer-events:auto}
+
+/* TOP LEFT */
+.h4c-topleft{
+  grid-column:1;grid-row:1;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  padding-top:calc(var(--nav-h,80px) + .5rem);
+}
+/* TOP RIGHT — SCROLL, pointer-events:none car purement décoratif */
+.h4c-topright{
+  grid-column:2;grid-row:1;
+  display:flex;flex-direction:column;align-items:flex-end;
+  padding-top:calc(var(--nav-h,80px) + .5rem);
+  gap:.5rem;
   opacity:0;animation:fu 1s 2.2s ease forwards;
 }
-@media(max-width:900px){.hero-scroll-down{left:1.5rem;bottom:6rem}}
-.hero-scroll-line{
-  width:1px;height:48px;
-  background:linear-gradient(to bottom,rgba(200,250,100,0) 0%,var(--accent) 100%);
-  animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both;
+.h4c-scroll-label{
+  font-family:'Syne',sans-serif;font-size:.55rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+}
+.h4c-scroll-line{
+  width:1px;height:52px;
+  background:linear-gradient(to bottom,rgba(200,250,100,0),var(--accent));
   transform-origin:top;
+  animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both;
 }
-@keyframes heroLineGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-.hero-scroll-label{
-  font-family:'Syne',sans-serif;font-size:.52rem;font-weight:700;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
-  writing-mode:vertical-rl;transform:rotate(180deg);
-  transition:color .3s;
+/* BOTTOM LEFT */
+.h4c-bottomleft{
+  grid-column:1;grid-row:2;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding-bottom:.5rem;
 }
-.hero-scroll-down:hover .hero-scroll-label{color:var(--accent)}
+.h4c-bottomleft .hero-sub{margin-bottom:1.1rem}
+.h4c-bottomleft .hero-ctas{margin-bottom:.65rem}
+.h4c-bottomleft .hero-portfolio-links{margin:0;opacity:0;animation:fu .9s 1.9s ease forwards}
+.h4c-bottomleft .hero-portfolio-link{font-size:.6rem;letter-spacing:.13em;gap:.25rem}
+/* BOTTOM RIGHT */
+.h4c-bottomright{
+  grid-column:2;grid-row:2;
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;
+  padding-bottom:.5rem;text-align:right;
+}
+.h4c-name{
+  font-family:'Syne',sans-serif;font-size:clamp(.68rem,1vw,.82rem);font-weight:600;
+  color:var(--off);letter-spacing:.04em;margin-bottom:.3rem;
+  opacity:0;animation:fu .9s 1.3s ease forwards;
+}
+.h4c-bottomright .hero-type-wrap{text-align:right;margin-bottom:0;font-size:clamp(.9rem,1.5vw,1.35rem)}
+/* MOBILE */
+@media(max-width:767px){
+  :root{--stats-h:100px}
+  .hero-4corners{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;padding:1.25rem;bottom:var(--stats-h)}
+  .h4c-topright{display:none !important}
+  .h4c-topleft{grid-column:1;grid-row:1;padding-top:calc(var(--nav-h,70px) + .5rem)}
+  .h4c-bottomright{grid-column:1;grid-row:2;align-items:flex-end;text-align:right;justify-content:flex-end;padding-bottom:.5rem}
+  .h4c-bottomright .hero-type-wrap{text-align:right}
+  .h4c-bottomleft{grid-column:1;grid-row:3;padding-bottom:.5rem}
+}
 
-/* ── HERO : split layout, photo droite, texte gauche ── */
+/* ── HERO : layout principal ── */
 #hero{
   min-height:100dvh;display:flex;
   padding:0;border-bottom:1px solid var(--border);
@@ -181,19 +252,17 @@ section{position:relative;z-index:1}
 }
 .hero-photo-wrap{
   position:absolute;left:0;right:0;top:0;bottom:0;width:100%;z-index:0;
+  overflow:hidden;
 }
-.hero-photo-wrap{overflow:hidden}
 .hero-photo-wrap img{
   width:100%;height:100%;object-fit:cover;
   object-position:72% 20%;
   filter:contrast(1.02) brightness(.9);
   opacity:.9;display:block;
 }
-/* Préférence accessibilité — réduire les animations */
 @media(prefers-reduced-motion:reduce){
   .hero-photo-wrap img{animation:none;transform:none}
   .about-photo-animated img{transition:none}
-  /* Désactive animations lourdes sauf marquee */
   *:not(.collabs-marquee):not(.nav-ticker-inner)::before,
   *:not(.collabs-marquee):not(.nav-ticker-inner)::after{
     animation-duration:.01ms !important;
@@ -205,46 +274,32 @@ section{position:relative;z-index:1}
     scroll-behavior:auto !important;
   }
 }
-/* Fondu gauche — photo plein écran, noir opaque à gauche, transparent à droite */
 .hero-photo-wrap::before{
   content:'';position:absolute;inset:0;z-index:3;
   background:linear-gradient(to right,
-    rgba(6,6,6,.75) 0%,
-    rgba(6,6,6,.6) 14%,
-    rgba(6,6,6,.35) 26%,
-    rgba(6,6,6,.12) 40%,
-    rgba(6,6,6,.03) 55%,
-    rgba(6,6,6,0) 68%
+    rgba(6,6,6,.75) 0%,rgba(6,6,6,.6) 14%,
+    rgba(6,6,6,.35) 26%,rgba(6,6,6,.12) 40%,
+    rgba(6,6,6,.03) 55%,rgba(6,6,6,0) 68%
   );
 }
 .hero-photo-wrap::after{
   content:'';position:absolute;inset:0;z-index:3;
   background:linear-gradient(to bottom,rgba(6,6,6,.45) 0%,transparent 35%,rgba(6,6,6,.6) 100%);
 }
-/* Dégradé gauche — div dédié pour passer au-dessus de la vidéo */
 .hero-gradient-overlay{
   position:absolute;inset:0;z-index:10;pointer-events:none;
   background:linear-gradient(to right,
-    rgba(6,6,6,.7) 0%,
-    rgba(6,6,6,.6) 12%,
-    rgba(6,6,6,.4) 24%,
-    rgba(6,6,6,.15) 38%,
-    rgba(6,6,6,.03) 52%,
-    rgba(6,6,6,0) 65%
+    rgba(6,6,6,.7) 0%,rgba(6,6,6,.6) 12%,
+    rgba(6,6,6,.4) 24%,rgba(6,6,6,.15) 38%,
+    rgba(6,6,6,.03) 52%,rgba(6,6,6,0) 65%
   );
 }
-/* Grain léger sur la photo */
 .hero-photo-wrap .grain{
   position:absolute;inset:0;z-index:11;opacity:.04;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events:none;
 }
-.hero-left{
-  position:relative;z-index:15;
-  width:60%;max-width:780px;
-  padding:8rem 3rem 12rem;
-  display:flex;flex-direction:column;justify-content:center;
-}
+/* hero-left supprimé, remplacé par hero-4corners */
 /* Eyebrow label */
 .hero-eyebrow{
   font-family:'Syne',sans-serif;font-size:clamp(.65rem,1.1vw,.78rem);font-weight:700;letter-spacing:.16em;color:var(--off);
@@ -6811,42 +6866,35 @@ nav::before { display:none; }
       <source src="https://res.cloudinary.com/djdkpihuz/video/upload/e_reverse,f_auto,q_auto/v1777325916/hero_3s_he6lvf" type="video/mp4">
     <div class="hero-gradient-overlay" aria-hidden="true"></div>
   </div>
-  <div class="hero-left">
-    <div class="hero-eyebrow">MDG Creative Studio · Kaolack, SN</div>
-    <h1 class="hero-name" style="font-size:clamp(1.5rem,3.2vw,3.8rem);line-height:1.05;white-space:normal"><span class="hero-name-wrap" style="white-space:normal">L'élite</span><br><em class="hero-name-sub"><span class="hero-name-sub-wrap">se remarque.</span></em></h1>
-    <p class="hero-handle">
-      <span>Mouhamed Al Amine</span>
-      <span class="handle-sep"></span>
-      <span class="handle-ig">@_its.mdg</span>
-    </p>
-    <p class="hero-sub">L'excellence, <strong>c'est mon seul standard.</strong></p>
-    <div class="hero-ctas">
-      <a href="#contact" class="hero-btn-primary">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        <span data-i18n="nav_cta">Travaillons ensemble</span>
-      </a>
-      <a href="#portfolio-accordion" class="hero-btn-secondary">Voir les projets</a>
+  <!-- HERO 4-CORNER OVERLAY — pointer-events:none sur le container, auto seulement sur les éléments cliquables -->
+  <div class="hero-4corners">
+    <div class="h4c-topleft">
+      <div class="hero-eyebrow">MDG Creative Studio · Kaolack, SN</div>
+      <h1 class="hero-name" style="font-size:clamp(1.5rem,3.2vw,3.8rem);line-height:1.05;white-space:normal"><span class="hero-name-wrap" style="white-space:normal">L'élite</span><br><em class="hero-name-sub"><span class="hero-name-sub-wrap">se remarque.</span></em></h1>
     </div>
-    <div class="hero-portfolio-links">
-      <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="hero-portfolio-link">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.670-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9zM7.796 16.041l-.013-.017c.017.006.032.013.013.017zM5.906 15.125H2.833v2.964H5.82c1.218 0 2.053-.558 2.053-1.497 0-.948-.748-1.467-1.967-1.467zM2.833 9.938v2.65H5.52c1.095 0 1.883-.465 1.883-1.332 0-.876-.73-1.318-1.822-1.318H2.833zM11.275 17.25c0-2.234-1.644-3.484-4.014-3.484H0V7.5h6.88c2.358 0 3.96 1.121 3.96 3.07 0 1.34-.679 2.21-1.713 2.644C10.475 13.618 11.275 14.668 11.275 17.25z"/></svg>
-        Behance
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-      </a>
-      <span class="hero-portfolio-sep">·</span>
-      <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="hero-portfolio-link">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        @_its.mdg
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-      </a>
+    <div class="h4c-topright" aria-hidden="true">
+      <span class="h4c-scroll-label">Scroll</span>
+      <div class="h4c-scroll-line"></div>
     </div>
-    <div class="hero-type-wrap" id="heroType"><span id="heroTypeText"></span><span class="cursor-blink"></span></div>
-  </div>
-
-  <!-- Scroll down indicator -->
-  <div class="hero-scroll-down" aria-hidden="true">
-    <div class="hero-scroll-line"></div>
-    <span class="hero-scroll-label">Scroll</span>
+    <div class="h4c-bottomleft">
+      <p class="hero-sub">L'excellence, <strong>c'est mon seul standard.</strong></p>
+      <div class="hero-ctas">
+        <a href="#contact" class="hero-btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <span data-i18n="nav_cta">Travaillons ensemble</span>
+        </a>
+        <a href="#portfolio-accordion" class="hero-btn-secondary">Réalisations</a>
+      </div>
+      <div class="hero-portfolio-links">
+        <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="hero-portfolio-link">BEHANCE <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+        <span class="hero-portfolio-sep">·</span>
+        <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="hero-portfolio-link">@_ITS.MDG <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+    </div>
+    <div class="h4c-bottomright">
+      <p class="h4c-name">Mouhamed Al Amine</p>
+      <div class="hero-type-wrap" id="heroType"><span id="heroTypeText"></span><span class="cursor-blink"></span></div>
+    </div>
   </div>
 
   <div class="hero-stats">
@@ -14796,11 +14844,8 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
   /* ── Crossfade propre entre deux vidéos ── */
   function crossfade(from, to){
     to.currentTime = 0;
-    // iOS : changer preload seul ne suffit pas — load() force le fetch
-    if(to.preload !== 'auto'){
-      to.preload = 'auto';
-      to.load();
-    }
+    /* Ne pas appeler to.load() ici — B est préchargé dans startSequence.
+       load() au moment du switch re-fetche depuis le réseau → blanc sur mobile. */
     var p = to.play();
     if(p !== undefined){
       p.then(function(){
@@ -14830,6 +14875,10 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
     if(sequenceStarted) return;
     sequenceStarted = true;
 
+    /* Précharger B pendant que A joue — au switch, B est déjà en mémoire */
+    B.preload = 'auto';
+    B.load();
+
     /* Ping-pong A→B→A */
     A.addEventListener('ended', function(){ crossfade(A, B); }, {passive:true});
     B.addEventListener('ended', function(){ crossfade(B, A); }, {passive:true});
@@ -14846,7 +14895,7 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
   /* ── Démarre le chargement et lance la séquence dès que possible ── */
   function initVideo(){
     A.preload = 'auto';
-    B.preload = 'metadata'; // B chargé en différé, load() déclenché dans crossfade()
+    B.preload = 'none'; // sera upgradé dans startSequence()
     armFallback();
 
     if(A.readyState >= 3){
