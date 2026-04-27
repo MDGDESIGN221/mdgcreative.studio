@@ -65,7 +65,7 @@
   --border2:rgba(255,255,255,0.11);
   --r:14px;
 }
-html{scroll-behavior:smooth;overflow-x:hidden;overscroll-behavior:none}
+html{scroll-behavior:smooth;overflow-x:hidden}
 /* Sécurité anti-débordement horizontal mobile */
 @media(max-width:900px){
   section,main,header,footer,nav,.container{max-width:100vw;box-sizing:border-box}
@@ -112,7 +112,7 @@ html{scroll-behavior:smooth;overflow-x:hidden;overscroll-behavior:none}
   contain-intrinsic-size:0 800px;
 }
 
-body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--light);-webkit-font-smoothing:antialiased;cursor:none;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw;overscroll-behavior:none}
+body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--light);-webkit-font-smoothing:antialiased;cursor:none;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw}
 
 /* ── CURSOR ── */
 .cur{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);will-change:transform;transition:width .2s,height .2s;box-shadow:0 0 0 1.5px rgba(6,6,6,.5)}
@@ -209,12 +209,12 @@ section{position:relative;z-index:1}
 .hero-photo-wrap::before{
   content:'';position:absolute;inset:0;z-index:3;
   background:linear-gradient(to right,
-    rgba(6,6,6,.75) 0%,
-    rgba(6,6,6,.6) 14%,
-    rgba(6,6,6,.35) 26%,
-    rgba(6,6,6,.12) 40%,
-    rgba(6,6,6,.03) 55%,
-    rgba(6,6,6,0) 68%
+    var(--black) 0%,
+    var(--black) 26%,
+    rgba(6,6,6,.88) 40%,
+    rgba(6,6,6,.55) 54%,
+    rgba(6,6,6,.15) 68%,
+    rgba(6,6,6,0) 84%
   );
 }
 .hero-photo-wrap::after{
@@ -225,12 +225,12 @@ section{position:relative;z-index:1}
 .hero-gradient-overlay{
   position:absolute;inset:0;z-index:10;pointer-events:none;
   background:linear-gradient(to right,
-    rgba(6,6,6,.7) 0%,
-    rgba(6,6,6,.6) 12%,
-    rgba(6,6,6,.4) 24%,
-    rgba(6,6,6,.15) 38%,
-    rgba(6,6,6,.03) 52%,
-    rgba(6,6,6,0) 65%
+    var(--black) 0%,
+    var(--black) 22%,
+    rgba(6,6,6,.78) 36%,
+    rgba(6,6,6,.42) 52%,
+    rgba(6,6,6,.10) 68%,
+    rgba(6,6,6,0) 84%
   );
 }
 /* Grain léger sur la photo */
@@ -362,34 +362,15 @@ section{position:relative;z-index:1}
 .stat-label{font-family:'Syne',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--off);margin-top:.75rem}
 .stat-sub{font-size:.68rem;color:var(--off);margin-top:.3rem;line-height:1.4}
 
-/* ── HERO 4-CORNER — desktop ≥768px ── */
+/* ── HERO 4-CORNER LAYOUT — desktop ≥768px uniquement */
 @keyframes heroLineGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @media(min-width:768px){
-  .hero-left{
-    position:absolute !important;
-    top:0;left:0;right:0;bottom:130px;
-    width:100% !important;max-width:none !important;
-    padding:0 !important;
-    display:grid !important;
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:1fr 1fr;
-    z-index:15;pointer-events:none;
-  }
+  .hero-left{position:absolute !important;top:0;left:0;right:0;bottom:130px;width:100% !important;max-width:none !important;padding:0 !important;display:grid !important;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;z-index:15;pointer-events:none}
   .hero-left>*{pointer-events:none}
-  .hero-left .hero-ctas,
-  .hero-left .hero-portfolio-links,
-  .hero-left .hero-sub,
-  .hero-left .hero-type-wrap{pointer-events:auto}
+  .hero-left .hero-ctas,.hero-left .hero-portfolio-links,.hero-left .hero-sub,.hero-left .hero-type-wrap{pointer-events:auto}
   .hero-eyebrow{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + .75rem) 0 0 clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important}
   .hero-name{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 3.2rem) 0 0 clamp(1.5rem,3.5vw,3rem)}
-  .hero-scroll-down{
-    display:flex !important;position:static !important;
-    grid-column:2;grid-row:1;align-self:start;justify-self:end;
-    flex-direction:column;align-items:center;gap:.5rem;
-    padding:calc(var(--nav-h,80px) + .75rem) clamp(1.5rem,3.5vw,3rem) 0 0;
-    pointer-events:none;bottom:auto;left:auto;
-    opacity:0;animation:fu 1s 2.2s ease forwards;
-  }
+  .hero-scroll-down{display:flex !important;position:static !important;grid-column:2;grid-row:1;align-self:start;justify-self:end;flex-direction:column;align-items:center;gap:.5rem;padding:calc(var(--nav-h,80px) + .75rem) clamp(1.5rem,3.5vw,3rem) 0 0;pointer-events:none;bottom:auto;left:auto;opacity:0;animation:fu 1s 2.2s ease forwards}
   .hero-scroll-line{width:1px;height:52px;background:linear-gradient(to bottom,rgba(200,250,100,0),var(--accent));transform-origin:top;animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both}
   .hero-scroll-label{writing-mode:horizontal-tb !important;transform:none !important;font-size:.55rem;letter-spacing:.22em;color:var(--dim)}
   .hero-sub{grid-column:1;grid-row:2;align-self:end;padding:0 0 6.2rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important;max-width:420px}
@@ -1299,7 +1280,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
   .hero-photo-wrap img{object-position:72% 20%}
   .hero-photo-wrap::before{
-    background:linear-gradient(to right,rgba(6,6,6,.75) 0%,rgba(6,6,6,.55) 18%,rgba(6,6,6,.3) 34%,rgba(6,6,6,.1) 52%,rgba(6,6,6,0) 70%);
+    background:linear-gradient(to right,var(--black) 0%,var(--black) 28%,rgba(6,6,6,.88) 42%,rgba(6,6,6,.55) 58%,rgba(6,6,6,.15) 76%,rgba(6,6,6,0) 100%);
   }
   /* Texte : colonne gauche */
   .hero-left{
@@ -1377,7 +1358,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
     height:100% !important;
   }
   .hero-photo-wrap::before{
-    background:linear-gradient(to right,rgba(6,6,6,.75) 0%,rgba(6,6,6,.5) 18%,rgba(6,6,6,.25) 36%,rgba(6,6,6,.08) 55%,rgba(6,6,6,0) 72%) !important;
+    background:linear-gradient(to right,var(--black) 0%,var(--black) 22%,rgba(6,6,6,.88) 38%,rgba(6,6,6,.50) 58%,rgba(6,6,6,.12) 78%,rgba(6,6,6,0) 100%) !important;
   }
   .hero-left{
     position:relative;z-index:2;
@@ -2364,9 +2345,9 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .hero-photo-wrap img{object-position:60% 10% !important}
   .hero-photo-wrap::before{
     background:linear-gradient(to bottom,
-      rgba(6,6,6,.02) 0%,rgba(6,6,6,.01) 20%,
-      rgba(6,6,6,.3) 52%,rgba(6,6,6,.65) 78%,
-      rgba(6,6,6,.85) 100%
+      rgba(6,6,6,.05) 0%,rgba(6,6,6,.02) 20%,
+      rgba(6,6,6,.55) 52%,rgba(6,6,6,.95) 78%,
+      var(--black) 100%
     ) !important;
     background-image:none !important;
   }
@@ -2520,11 +2501,12 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   /* Fondu gauche */
   .hero-photo-wrap::before{
     background:linear-gradient(to right,
-      rgba(6,6,6,.75) 0%,
-      rgba(6,6,6,.5) 18%,
-      rgba(6,6,6,.25) 36%,
-      rgba(6,6,6,.08) 55%,
-      rgba(6,6,6,0) 72%
+      var(--black) 0%,
+      var(--black) 24%,
+      rgba(6,6,6,.88) 40%,
+      rgba(6,6,6,.52) 60%,
+      rgba(6,6,6,.14) 80%,
+      rgba(6,6,6,0) 100%
     ) !important;
   }
   .hero-photo-wrap::after{display:none}
@@ -4043,37 +4025,6 @@ nav::before { display:none; }
   max-width: 480px;
   margin: 0 auto;
   line-height: 1.65;
-}
-.pricing-scope-note {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .45rem;
-  margin: 1.25rem auto 0;
-  padding: .5rem 1.1rem;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 100px;
-  font-size: .72rem;
-  font-weight: 500;
-  color: var(--dim);
-  letter-spacing: .02em;
-  white-space: nowrap;
-}
-.pricing-scope-note svg {
-  flex-shrink: 0;
-  opacity: .55;
-  color: var(--accent);
-}
-@media(max-width: 600px) {
-  .pricing-scope-note {
-    white-space: normal;
-    text-align: center;
-    border-radius: 14px;
-    padding: .65rem 1rem;
-    font-size: .7rem;
-    max-width: 280px;
-  }
 }
 
 /* ── TABS ── */
@@ -8341,10 +8292,7 @@ nav::before { display:none; }
       <div class="sec-label reveal-line">Investissement</div>
       <h2>Choisis ton <em>pack</em></h2>
       <p data-i18n="pricing_sub">Trois packs, calibrés pour trois moments d'un projet. Les fourchettes de prix sont affichées ci-dessous.</p>
-      <div class="pricing-scope-note">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        <span>Covers, affiches &amp; vidéos uniquement. Les autres domaines sont sur devis.</span>
-      </div>
+      <p class="pricing-scope-note" style="display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;font-size:.78rem;color:var(--dim);background:var(--surface);border:1px solid var(--border2);border-radius:100px;padding:.4rem 1rem .4rem .75rem;font-weight:500;letter-spacing:.01em"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg> Ces packs concernent uniquement les <strong style="color:var(--light);margin:0 .2em">covers</strong>, <strong style="color:var(--light);margin:0 .2em">affiches</strong> et <strong style="color:var(--light);margin:0 .2em">vidéos</strong>, pas les autres domaines.</p>
     </div>
 
     <!-- PRIX VERROUILLÉS — unlock avec mot de passe -->
@@ -14834,46 +14782,59 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
     }, 4000);
   }
 
+  /* ── Crossfade propre entre deux vidéos ── */
   function crossfade(from, to){
     to.currentTime = 0;
+    // iOS : changer preload seul ne suffit pas — load() force le fetch
+    /* Pas de load() ici — B préchargé dans startSequence */
     var p = to.play();
     if(p !== undefined){
       p.then(function(){
         clearTimeout(fallbackTimer);
-        to.style.opacity='.9';
-        if(from) from.style.opacity='0';
-        if(IMG) IMG.style.opacity='0';
-        active=to;
+        to.style.opacity   = '.9';
+        if(from){ from.style.opacity = '0'; }
+        if(IMG){  IMG.style.opacity  = '0'; }
+        active = to;
       }).catch(function(){
-        to.style.opacity='0';
-        if(IMG) IMG.style.opacity='.9';
-        active=null;
+        /* Autoplay bloqué (politique navigateur) — image reste visible */
+        to.style.opacity = '0';
+        if(IMG){ IMG.style.opacity = '.9'; }
+        active = null;
       });
     } else {
+      /* Vieux navigateur sans Promise */
       clearTimeout(fallbackTimer);
-      to.style.opacity='.9';
-      if(from) from.style.opacity='0';
-      if(IMG) IMG.style.opacity='0';
-      active=to;
+      to.style.opacity = '.9';
+      if(from){ from.style.opacity = '0'; }
+      if(IMG){  IMG.style.opacity  = '0'; }
+      active = to;
     }
   }
 
+  /* ── Attache les listeners de séquence (une seule fois) ── */
   function startSequence(){
     if(sequenceStarted) return;
-    sequenceStarted=true;
+    sequenceStarted = true;
+
+    /* Ping-pong A→B→A */
+    A.addEventListener('ended', function(){ crossfade(A, B); }, {passive:true});
+    B.addEventListener('ended', function(){ crossfade(B, A); }, {passive:true});
+
+    /* Buffer stall : légère transparence pendant le rebuffering, jamais d'image par-dessus */
+    A.addEventListener('waiting', function(){ if(active===A){ A.style.opacity='.6'; } }, {passive:true});
+    A.addEventListener('playing', function(){ if(active===A){ A.style.opacity='.9'; if(IMG){ IMG.style.opacity='0'; } } }, {passive:true});
+    B.addEventListener('waiting', function(){ if(active===B){ B.style.opacity='.6'; } }, {passive:true});
+    B.addEventListener('playing', function(){ if(active===B){ B.style.opacity='.9'; if(IMG){ IMG.style.opacity='0'; } } }, {passive:true});
+
+    /* Précharger B pendant que A joue */
     B.preload='auto'; B.load();
-    A.addEventListener('ended',function(){ crossfade(A,B); },{passive:true});
-    B.addEventListener('ended',function(){ crossfade(B,A); },{passive:true});
-    A.addEventListener('waiting',function(){ if(active===A) A.style.opacity='.6'; },{passive:true});
-    A.addEventListener('playing',function(){ if(active===A){ A.style.opacity='.9'; if(IMG) IMG.style.opacity='0'; } },{passive:true});
-    B.addEventListener('waiting',function(){ if(active===B) B.style.opacity='.6'; },{passive:true});
-    B.addEventListener('playing',function(){ if(active===B){ B.style.opacity='.9'; if(IMG) IMG.style.opacity='0'; } },{passive:true});
-    crossfade(null,A);
+    crossfade(null, A);
   }
 
+  /* ── Démarre le chargement et lance la séquence dès que possible ── */
   function initVideo(){
-    A.preload='auto';
-    B.preload='none';
+    A.preload = 'auto';
+    B.preload = 'none'; // B chargé en différé, load() déclenché dans crossfade()
     armFallback();
 
     if(A.readyState >= 3){
