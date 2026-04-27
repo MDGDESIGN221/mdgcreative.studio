@@ -720,7 +720,7 @@ section+section::before,
 .work-track-wrap::before,.work-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .work-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .work-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .work-track::-webkit-scrollbar{display:none}
 /* ── WORK CARDS — design premium ── */
 .work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04)}
@@ -783,7 +783,7 @@ section+section::before,
 .cov-track-wrap::before,.cov-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .cov-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .cov-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .cov-track::-webkit-scrollbar{display:none}
 .cov-card{position:relative;display:block;text-decoration:none;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(240px,26vw,320px);aspect-ratio:1/1;scroll-snap-align:start;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0)}
 .cov-card:hover{transform:translateY(-4px)}
@@ -2381,7 +2381,7 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
 
   .hero-eyebrow{font-size:.58rem !important;margin-bottom:.85rem !important}
   .hero-handle{font-size:.7rem;margin-bottom:.5rem !important}
-  .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em}
+  .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em;height:1.4em;overflow:hidden;contain:strict}
 
   /* Stats bar 3 colonnes en bas */
   .hero-stats{display:grid !important;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border);z-index:4}
@@ -2520,7 +2520,7 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .hero-handle{font-size:.72rem;margin-bottom:.6rem !important}
 
   /* Type wrap */
-  .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em}
+  .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em;height:1.4em;overflow:hidden;contain:strict}
 
   /* Citation : visible, taille réduite pour gagner de la place */
   .hero-sub{display:block !important;font-size:.76rem !important;margin-bottom:1rem !important;line-height:1.6 !important}
@@ -4947,16 +4947,15 @@ nav::before { display:none; }
     display: none !important;
   }
   .pricing-mobile-tabs-wrap {
-    display: flex !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    gap: .45rem;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    overflow-x: unset;
+    scroll-snap-type: unset;
+    scrollbar-width: unset;
+    -webkit-overflow-scrolling: unset;
+    gap: .4rem;
     margin-bottom: 2rem;
     padding: .35rem;
-    /* padding-right généreux pour que le dernier tab puisse se centrer */
-    padding-right: calc(50% - 60px);
     background: var(--surface);
     border: 1px solid var(--border2);
     border-radius: 14px;
@@ -4964,7 +4963,7 @@ nav::before { display:none; }
   }
   .pricing-mobile-tabs-wrap::-webkit-scrollbar { display: none; }
 
-  /* Indicateur visuel de scroll → dégradé droite persistant */
+  /* Grille 2x2 — indicateur scroll inutile */
   .pricing-tabs-outer {
     position: relative;
     margin-bottom: 2rem;
@@ -4972,46 +4971,23 @@ nav::before { display:none; }
   .pricing-tabs-outer .pricing-mobile-tabs-wrap {
     margin-bottom: 0;
   }
-  .pricing-tabs-outer::after {
-    content: '';
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: 44px;
-    background: linear-gradient(to right, transparent, var(--surface));
-    border-radius: 0 14px 14px 0;
-    pointer-events: none;
-    z-index: 2;
-    transition: opacity .3s;
-  }
-  .pricing-tabs-outer.at-end::after { opacity: 0; }
-  .pricing-tabs-outer::before {
-    content: '›';
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.15rem;
-    color: var(--dim);
-    pointer-events: none;
-    z-index: 3;
-    transition: opacity .3s;
-    line-height: 1;
-  }
-  .pricing-tabs-outer.at-end::before { opacity: 0; }
+  .pricing-tabs-outer::after { display: none; }
+  .pricing-tabs-outer::before { display: none; }
 
   .pricing-mobile-tab {
     font-family: 'Syne', sans-serif;
     font-size: .6rem; font-weight: 700;
     letter-spacing: .07em; text-transform: uppercase;
-    padding: .55rem .9rem;
+    padding: .65rem .5rem;
     border-radius: 10px;
     border: none;
     background: transparent;
     color: var(--off);
     cursor: pointer;
-    white-space: nowrap;
-    flex-shrink: 0;
-    scroll-snap-align: start;
+    white-space: normal;
+    text-align: center;
+    width: 100%;
+    scroll-snap-align: unset;
     transition: all .25s cubic-bezier(.16,1,.3,1);
     line-height: 1.2;
   }
@@ -8013,8 +7989,8 @@ nav::before { display:none; }
         </div>
         <div class="proc-cond-val">6j/7</div>
         <div class="proc-cond-label">Disponibilité</div>
-        <div class="proc-cond-detail">Lun–Sam, 09h–minuit</div>
-        <div class="proc-cond-expl">Tu peux m'écrire le matin ou le soir — je réponds toujours dans la journée, même le samedi.</div>
+        <div class="proc-cond-detail">Lun à Sam, 09h à minuit</div>
+        <div class="proc-cond-expl">Tu peux m'écrire le matin ou le soir, je réponds toujours dans la journée, même le samedi.</div>
       </div>
       <div class="proc-cond-sep"></div>
       <div class="proc-cond">
@@ -8044,7 +8020,7 @@ nav::before { display:none; }
         <div class="proc-cond-val">+10%</div>
         <div class="proc-cond-label">Projet urgent</div>
         <div class="proc-cond-detail">Livraison en moins de 48h</div>
-        <div class="proc-cond-expl">Tu as besoin du résultat très vite ? C'est possible, mais je bloque tout pour toi — une majoration de 10% s'applique.</div>
+        <div class="proc-cond-expl">Tu as besoin du résultat très vite ? C'est possible, mais je bloque tout pour toi. Une majoration de 10% s'applique.</div>
       </div>
       <div class="proc-cond-sep"></div>
       <div class="proc-cond">
@@ -8296,6 +8272,7 @@ nav::before { display:none; }
       <div class="sec-label reveal-line">Investissement</div>
       <h2>Choisis ton <em>pack</em></h2>
       <p data-i18n="pricing_sub">Trois packs, calibrés pour trois moments d'un projet. Les fourchettes de prix sont affichées ci-dessous.</p>
+      <p class="pricing-scope-note" style="display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;font-size:.78rem;color:var(--dim);background:var(--surface);border:1px solid var(--border2);border-radius:100px;padding:.4rem 1rem .4rem .75rem;font-weight:500;letter-spacing:.01em"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg> Ces packs concernent uniquement les <strong style="color:var(--light);margin:0 .2em">covers</strong>, <strong style="color:var(--light);margin:0 .2em">affiches</strong> et <strong style="color:var(--light);margin:0 .2em">vidéos</strong>, pas les autres domaines.</p>
     </div>
 
     <!-- PRIX VERROUILLÉS — unlock avec mot de passe -->
@@ -8689,7 +8666,7 @@ nav::before { display:none; }
       <div class="pcond-rows">
         <div class="pcond-row">
           <span class="pcond-key">Hours / Horaires</span>
-          <span class="pcond-val"><strong>Mon–Sat, 9am–midnight</strong> · Sun closed<br><small style="color:var(--dim);font-size:.72em">Lun–Sam, 09h–minuit · Dimanche fermé</small></span>
+          <span class="pcond-val"><strong>Mon to Sat, 9am to midnight</strong> · Sun closed<br><small style="color:var(--dim);font-size:.72em">Lun à Sam, 09h à minuit · Dimanche fermé</small></span>
         </div>
         <div class="pcond-row">
           <span class="pcond-key">Revisions / Retouches</span>
@@ -12387,7 +12364,7 @@ var translations = {
 
   // Pricing note
   pricing_note_title: { fr: 'Conditions générales', en: 'General terms' },
-  pricing_note_body: { fr: '<strong>Acompte 50%</strong> avant démarrage de tout projet. Solde à la livraison finale. <strong>3 révisions</strong> incluses par projet. Au-delà, chaque correction est facturée selon le temps passé. Urgences : <strong>+10%</strong> sur le tarif. Projets longue durée : <strong>-20%</strong>. Disponible <strong>Lun–Sam, 09h–minuit</strong>. Contact : mdgdesign221@gmail.com', en: '<strong>50% deposit</strong> before any project starts. Balance due on final delivery. <strong>3 revisions</strong> included per project. Beyond that, each correction is billed by time spent. Rush jobs: <strong>+10%</strong>. Long-term projects: <strong>-20%</strong>. Available <strong>Mon–Sat, 9am–midnight</strong>. Contact: mdgdesign221@gmail.com' },
+  pricing_note_body: { fr: '<strong>Acompte 50%</strong> avant démarrage de tout projet. Solde à la livraison finale. <strong>3 révisions</strong> incluses par projet. Au-delà, chaque correction est facturée selon le temps passé. Urgences : <strong>+10%</strong> sur le tarif. Projets longue durée : <strong>-20%</strong>. Disponible <strong>Lun à Sam, 09h à minuit</strong>. Contact : mdgdesign221@gmail.com', en: '<strong>50% deposit</strong> before any project starts. Balance due on final delivery. <strong>3 revisions</strong> included per project. Beyond that, each correction is billed by time spent. Rush jobs: <strong>+10%</strong>. Long-term projects: <strong>-20%</strong>. Available <strong>Mon to Sat, 9am to midnight</strong>. Contact: mdgdesign221@gmail.com' },
 
   // Add-ons
   addon_lyrics_name: { fr: 'Lyrics Videos', en: 'Lyrics Videos' },
@@ -13080,7 +13057,7 @@ function applyComplexPatches(lang) {
     '<strong>3 incluses</strong> · au-delà, facturé au temps',
     '<strong class="pcond-up">+10%</strong> pour livraison sous 48h',
     '<strong class="pcond-down">−20%</strong> pour projets continus',
-    '<strong>Lun–Sam</strong> · 09h–minuit · Dim. fermé'
+    '<strong>Lun à Sam</strong> · 09h à minuit · Dim. fermé'
   ];
   var pcondValsEn = [
     '<strong>50%</strong> before any start',
@@ -13634,20 +13611,9 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelectorAll('.pricing-mobile-tab').forEach(function(b){ b.classList.remove('active'); });
         btn.classList.add('active');
         switchMobileTab(t.value);
-        // Centrer le tab cliqué dans le wrapper
-        var btnLeft = btn.offsetLeft;
-        var btnW = btn.offsetWidth;
-        var wrapW = tabsWrap.offsetWidth;
-        tabsWrap.scrollTo({ left: btnLeft - (wrapW / 2) + (btnW / 2), behavior: 'smooth' });
       });
       tabsWrap.appendChild(btn);
     });
-
-    // Indicateur → masquer le dégradé quand on est au bout
-    tabsWrap.addEventListener('scroll', function() {
-      var atEnd = tabsWrap.scrollLeft + tabsWrap.offsetWidth >= tabsWrap.scrollWidth - 8;
-      tabsOuter.classList.toggle('at-end', atEnd);
-    }, { passive: true });
 
     const selectWrap = document.createElement('div');
     selectWrap.className = 'pricing-mobile-select-wrap';
