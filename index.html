@@ -65,7 +65,7 @@
   --border2:rgba(255,255,255,0.11);
   --r:14px;
 }
-html{scroll-behavior:auto;overflow-x:hidden;overscroll-behavior:none}
+html{scroll-behavior:smooth;overflow-x:hidden;overscroll-behavior:none}
 /* Sécurité anti-débordement horizontal mobile */
 @media(max-width:900px){
   section,main,header,footer,nav,.container{max-width:100vw;box-sizing:border-box}
@@ -152,130 +152,98 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 section{position:relative;z-index:1}
 
 /* ── HERO SCROLL DOWN HINT ── */
-/* ancien scroll indicator supprimé */
-.hero-scroll-down{display:none !important}
+.hero-scroll-down{
+  position:absolute;bottom:2.5rem;left:3rem;z-index:20;
+  display:flex;align-items:center;gap:.75rem;
+  opacity:0;animation:fu 1s 2.2s ease forwards;
+}
+@media(max-width:900px){.hero-scroll-down{left:1.5rem;bottom:6rem}}
+.hero-scroll-line{
+  width:1px;height:48px;
+  background:linear-gradient(to bottom,rgba(200,250,100,0) 0%,var(--accent) 100%);
+  animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both;
+  transform-origin:top;
+}
 @keyframes heroLineGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.hero-scroll-label{
+  font-family:'Syne',sans-serif;font-size:.52rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  transition:color .3s;
+}
+.hero-scroll-down:hover .hero-scroll-label{color:var(--accent)}
 
-/* ── HERO layout ── */
-#hero{min-height:100dvh;display:flex;padding:0;border-bottom:1px solid var(--border);overflow:hidden;position:relative;background:var(--black)}
-.hero-photo-wrap{position:absolute;left:0;right:0;top:0;bottom:0;width:100%;z-index:0;overflow:hidden}
-.hero-photo-wrap img{width:100%;height:100%;object-fit:cover;object-position:72% 20%;filter:contrast(1.02) brightness(.9);opacity:.9;display:block}
+/* ── HERO : split layout, photo droite, texte gauche ── */
+#hero{
+  min-height:100dvh;display:flex;
+  padding:0;border-bottom:1px solid var(--border);
+  overflow:hidden;position:relative;background:var(--black);
+}
+.hero-photo-wrap{
+  position:absolute;left:0;right:0;top:0;bottom:0;width:100%;z-index:0;
+}
+.hero-photo-wrap{overflow:hidden}
+.hero-photo-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  object-position:72% 20%;
+  filter:contrast(1.02) brightness(.9);
+  opacity:.9;display:block;
+}
+/* Préférence accessibilité — réduire les animations */
 @media(prefers-reduced-motion:reduce){
   .hero-photo-wrap img{animation:none;transform:none}
   .about-photo-animated img{transition:none}
-  *:not(.collabs-marquee):not(.nav-ticker-inner)::before,*:not(.collabs-marquee):not(.nav-ticker-inner)::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
-  *:not(.collabs-marquee):not(.nav-ticker-inner){transition-duration:.01ms !important;scroll-behavior:auto !important}
+  /* Désactive animations lourdes sauf marquee */
+  *:not(.collabs-marquee):not(.nav-ticker-inner)::before,
+  *:not(.collabs-marquee):not(.nav-ticker-inner)::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+  *:not(.collabs-marquee):not(.nav-ticker-inner){
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
 }
-.hero-photo-wrap::before{content:'';position:absolute;inset:0;z-index:3;background:linear-gradient(to right,rgba(6,6,6,.75) 0%,rgba(6,6,6,.6) 14%,rgba(6,6,6,.35) 26%,rgba(6,6,6,.12) 40%,rgba(6,6,6,.03) 55%,rgba(6,6,6,0) 68%)}
-.hero-photo-wrap::after{content:'';position:absolute;inset:0;z-index:3;background:linear-gradient(to bottom,rgba(6,6,6,.45) 0%,transparent 35%,rgba(6,6,6,.6) 100%)}
-.hero-gradient-overlay{position:absolute;inset:0;z-index:10;pointer-events:none;background:linear-gradient(to right,rgba(6,6,6,.7) 0%,rgba(6,6,6,.6) 12%,rgba(6,6,6,.4) 24%,rgba(6,6,6,.15) 38%,rgba(6,6,6,.03) 52%,rgba(6,6,6,0) 65%)}
-.hero-photo-wrap .grain{position:absolute;inset:0;z-index:11;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none}
-
-/* hero-left supprimé, remplacé par hero-4corners */
-.hero-left{display:none !important}
-
-/* ── HERO 4-CORNER LAYOUT (desktop) ── */
-:root{--stats-h:130px}
-.hero-4corners{
-  position:absolute;top:0;left:0;right:0;bottom:var(--stats-h);
-  z-index:15;pointer-events:none;
-  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
-  padding:clamp(1.25rem,3.5vw,3rem);
+/* Fondu gauche — photo plein écran, noir opaque à gauche, transparent à droite */
+.hero-photo-wrap::before{
+  content:'';position:absolute;inset:0;z-index:3;
+  background:linear-gradient(to right,
+    rgba(6,6,6,.75) 0%,
+    rgba(6,6,6,.6) 14%,
+    rgba(6,6,6,.35) 26%,
+    rgba(6,6,6,.12) 40%,
+    rgba(6,6,6,.03) 55%,
+    rgba(6,6,6,0) 68%
+  );
 }
-.h4c-topleft,.h4c-topright,.h4c-bottomleft,.h4c-bottomright{pointer-events:none}
-.h4c-bottomleft .hero-sub,.h4c-bottomleft .hero-ctas,.h4c-bottomleft .hero-portfolio-links,
-.h4c-bottomright .h4c-name,.h4c-bottomright .hero-type-wrap{pointer-events:auto}
-
-/* TOP LEFT */
-.h4c-topleft{grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:calc(var(--nav-h,80px) + .5rem)}
-/* TOP RIGHT — SCROLL décoratif */
-.h4c-topright{grid-column:2;grid-row:1;display:flex;flex-direction:column;align-items:flex-end;padding-top:calc(var(--nav-h,80px) + .5rem);gap:.5rem;opacity:0;animation:fu 1s 2.2s ease forwards}
-.h4c-scroll-label{font-family:'Syne',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
-.h4c-scroll-line{width:1px;height:52px;background:linear-gradient(to bottom,rgba(200,250,100,0),var(--accent));transform-origin:top;animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both}
-/* BOTTOM LEFT */
-.h4c-bottomleft{grid-column:1;grid-row:2;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:.5rem}
-.h4c-bottomleft .hero-sub{margin-bottom:1.1rem}
-.h4c-bottomleft .hero-ctas{margin-bottom:.65rem}
-.h4c-bottomleft .hero-portfolio-links{margin:0;opacity:0;animation:fu .9s 1.9s ease forwards}
-.h4c-bottomleft .hero-portfolio-link{font-size:.6rem;letter-spacing:.13em;gap:.25rem}
-/* BOTTOM RIGHT */
-.h4c-bottomright{grid-column:2;grid-row:2;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;padding-bottom:.5rem;text-align:right}
-.h4c-name{font-family:'Syne',sans-serif;font-size:clamp(.68rem,1vw,.82rem);font-weight:600;color:var(--off);letter-spacing:.04em;margin-bottom:.3rem;opacity:0;animation:fu .9s 1.3s ease forwards}
-.h4c-bottomright .hero-type-wrap{text-align:right;margin-bottom:0;font-size:clamp(.9rem,1.5vw,1.35rem)}
-
-/* ── MOBILE < 768px ──
-   Layout : photo plein fond, tout le texte empilé en bas en une seule colonne.
-   Ordre : titre (haut) → nom + typing → citation → CTAs → liens             */
-@media(max-width:767px){
-  :root{--stats-h:96px}
-
-  /* Dégradé mobile : opaque en bas pour lisibilité totale du texte */
-  .hero-photo-wrap::before{
-    background:linear-gradient(to bottom,
-      rgba(6,6,6,0) 0%,
-      rgba(6,6,6,.15) 30%,
-      rgba(6,6,6,.72) 58%,
-      rgba(6,6,6,.95) 80%,
-      rgba(6,6,6,1) 100%
-    ) !important;
-  }
-  .hero-photo-wrap::after{display:none !important}
-  .hero-gradient-overlay{display:none}
-
-  /* La grille 4-corner devient une colonne flex verticale
-     couvrant toute la hauteur hors stats                     */
-  .hero-4corners{
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    padding:1.25rem 1.25rem .75rem;
-    bottom:var(--stats-h);
-  }
-  /* SCROLL masqué */
-  .h4c-topright{display:none !important}
-
-  /* TOP : juste l'eyebrow + titre en haut */
-  .h4c-topleft{
-    padding-top:calc(var(--nav-h,60px) + .5rem);
-    flex:0 0 auto;
-  }
-  .h4c-topleft .hero-name{
-    font-size:clamp(2.2rem,10vw,3rem) !important;
-    line-height:1.02 !important;
-  }
-
-  /* ZONE BAS : nom, typing, citation, CTAs, liens — tout regroupé */
-  .h4c-bottomright,.h4c-bottomleft{
-    flex:0 0 auto;
-    padding:0;
-    align-items:flex-start;
-    text-align:left;
-    justify-content:flex-end;
-  }
-  /* On regroupe bottom en colonne via flex order */
-  .h4c-bottomright{order:1;margin-bottom:.6rem}
-  .h4c-bottomleft{order:2}
-
-  .h4c-name{font-size:.72rem;margin-bottom:.25rem}
-  .h4c-bottomright .hero-type-wrap{
-    text-align:left;
-    font-size:clamp(.85rem,4vw,1.1rem);
-    margin-bottom:0;
-  }
-  .h4c-bottomleft .hero-sub{
-    font-size:.8rem;
-    margin-bottom:.9rem;
-  }
-  .h4c-bottomleft .hero-ctas{
-    flex-direction:column;gap:.5rem;margin-bottom:.65rem;
-  }
-  .h4c-bottomleft .hero-btn-primary,
-  .h4c-bottomleft .hero-btn-secondary{
-    width:100%;justify-content:center;
-  }
-  .h4c-bottomleft .hero-portfolio-links{
-    display:flex;
-  }
+.hero-photo-wrap::after{
+  content:'';position:absolute;inset:0;z-index:3;
+  background:linear-gradient(to bottom,rgba(6,6,6,.45) 0%,transparent 35%,rgba(6,6,6,.6) 100%);
+}
+/* Dégradé gauche — div dédié pour passer au-dessus de la vidéo */
+.hero-gradient-overlay{
+  position:absolute;inset:0;z-index:10;pointer-events:none;
+  background:linear-gradient(to right,
+    rgba(6,6,6,.7) 0%,
+    rgba(6,6,6,.6) 12%,
+    rgba(6,6,6,.4) 24%,
+    rgba(6,6,6,.15) 38%,
+    rgba(6,6,6,.03) 52%,
+    rgba(6,6,6,0) 65%
+  );
+}
+/* Grain léger sur la photo */
+.hero-photo-wrap .grain{
+  position:absolute;inset:0;z-index:11;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-left{
+  position:relative;z-index:15;
+  width:60%;max-width:780px;
+  padding:8rem 3rem 12rem;
+  display:flex;flex-direction:column;justify-content:center;
 }
 /* Eyebrow label */
 .hero-eyebrow{
@@ -393,6 +361,126 @@ section{position:relative;z-index:1}
 .stat-number.outline .suf{-webkit-text-stroke:1px var(--accent);color:transparent}
 .stat-label{font-family:'Syne',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--off);margin-top:.75rem}
 .stat-sub{font-size:.68rem;color:var(--off);margin-top:.3rem;line-height:1.4}
+
+/* ── HERO 4-CORNER LAYOUT — desktop uniquement (≥768px) ──
+   On repositionne les éléments existants de hero-left en 4 coins
+   via position:absolute. Rien d'autre n'est modifié.            */
+@media(min-width:768px){
+  /* hero-left devient le container absolu plein hero (hors stats bar) */
+  .hero-left{
+    position:absolute !important;
+    top:0;left:0;right:0;
+    bottom:130px; /* hauteur de la stats bar */
+    width:100% !important;
+    max-width:none !important;
+    padding:0 !important;
+    display:grid !important;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:0;
+    z-index:15;
+    pointer-events:none;
+  }
+  /* Tous les enfants directs : pointer-events none par défaut */
+  .hero-left > *{pointer-events:none}
+  /* Éléments interactifs : pointer-events:auto */
+  .hero-left .hero-ctas,
+  .hero-left .hero-portfolio-links,
+  .hero-left .hero-sub,
+  .hero-left .hero-type-wrap{pointer-events:auto}
+
+  /* ── TOP LEFT : eyebrow + titre ── */
+  .hero-eyebrow{
+    grid-column:1;grid-row:1;
+    align-self:start;
+    margin-bottom:0 !important;
+    padding:calc(var(--nav-h,80px) + .75rem) 0 0 clamp(1.5rem,3.5vw,3rem);
+  }
+  .hero-name{
+    grid-column:1;grid-row:1;
+    align-self:start;
+    padding:calc(var(--nav-h,80px) + 3.5rem) 0 0 clamp(1.5rem,3.5vw,3rem);
+  }
+
+  /* ── TOP RIGHT : SCROLL indicator ── */
+  .hero-scroll-down{
+    display:flex !important;
+    position:static !important;
+    grid-column:2;grid-row:1;
+    align-self:start;justify-self:end;
+    flex-direction:column;align-items:center;gap:.5rem;
+    padding:calc(var(--nav-h,80px) + .75rem) clamp(1.5rem,3.5vw,3rem) 0 0;
+    pointer-events:none;
+    bottom:auto;left:auto;
+  }
+  .hero-scroll-line{
+    width:1px;height:52px;
+    background:linear-gradient(to bottom,rgba(200,250,100,0),var(--accent));
+  }
+  .hero-scroll-label{
+    writing-mode:horizontal-tb !important;
+    transform:none !important;
+    font-size:.55rem;color:var(--dim);
+  }
+
+  /* ── BOTTOM LEFT : handle + sub + ctas + portfolio-links ── */
+  .hero-handle{
+    grid-column:1;grid-row:2;
+    align-self:end;
+    padding:0 0 .5rem clamp(1.5rem,3.5vw,3rem);
+    margin:0 !important;
+    display:none; /* remplacé par h4c-name côté bas droite */
+  }
+  .hero-sub{
+    grid-column:1;grid-row:2;
+    align-self:end;
+    padding:0 0 1rem clamp(1.5rem,3.5vw,3rem);
+    margin-bottom:0 !important;
+    max-width:420px;
+  }
+  .hero-ctas{
+    grid-column:1;grid-row:2;
+    align-self:end;
+    padding:0 0 .65rem clamp(1.5rem,3.5vw,3rem);
+    margin-bottom:0 !important;
+  }
+  .hero-portfolio-links{
+    grid-column:1;grid-row:2;
+    align-self:end;
+    padding:0 0 .5rem clamp(1.5rem,3.5vw,3rem);
+    margin:0 !important;
+  }
+  .hero-portfolio-link{font-size:.6rem;letter-spacing:.13em}
+
+  /* ── BOTTOM RIGHT : nom + typing ── */
+  .hero-type-wrap{
+    grid-column:2;grid-row:2;
+    align-self:end;justify-self:end;
+    text-align:right;
+    padding:0 clamp(1.5rem,3.5vw,3rem) .5rem 0;
+    margin-bottom:0 !important;
+    font-size:clamp(.9rem,1.5vw,1.35rem);
+  }
+
+  /* Nom "Mouhamed Al Amine" au-dessus du typing, bas droite */
+  .hero-handle{
+    display:block !important;
+    grid-column:2;grid-row:2;
+    align-self:end;justify-self:end;
+    text-align:right;
+    padding:0 clamp(1.5rem,3.5vw,3rem) 3.2rem 0;
+    font-style:normal;
+    font-size:clamp(.68rem,1vw,.82rem);
+    font-weight:600;
+    letter-spacing:.04em;
+  }
+  /* Masquer le séparateur et l'handle IG sur desktop (juste "Mouhamed Al Amine") */
+  .hero-handle .handle-sep,
+  .hero-handle .handle-ig{display:none}
+
+  /* hero-promise et hero-name-sub-wrap : rester dans topleft */
+  .hero-name-sub-wrap{display:inline-block}
+}
 
 /* ── ABOUT (fond légèrement plus clair pour alterner) ── */
 #about{padding:6rem 3rem;border-bottom:1px solid var(--border);background:var(--dark);position:relative;overflow:hidden}
@@ -6843,35 +6931,42 @@ nav::before { display:none; }
       <source src="https://res.cloudinary.com/djdkpihuz/video/upload/e_reverse,f_auto,q_auto/v1777325916/hero_3s_he6lvf" type="video/mp4">
     <div class="hero-gradient-overlay" aria-hidden="true"></div>
   </div>
-  <!-- HERO 4-CORNER OVERLAY -->
-  <div class="hero-4corners">
-    <div class="h4c-topleft">
-      <div class="hero-eyebrow">MDG Creative Studio · Kaolack, SN</div>
-      <h1 class="hero-name" style="font-size:clamp(1.5rem,3.2vw,3.8rem);line-height:1.05;white-space:normal"><span class="hero-name-wrap" style="white-space:normal">L'élite</span><br><em class="hero-name-sub"><span class="hero-name-sub-wrap">se remarque.</span></em></h1>
+  <div class="hero-left">
+    <div class="hero-eyebrow">MDG Creative Studio · Kaolack, SN</div>
+    <h1 class="hero-name" style="font-size:clamp(1.5rem,3.2vw,3.8rem);line-height:1.05;white-space:normal"><span class="hero-name-wrap" style="white-space:normal">L'élite</span><br><em class="hero-name-sub"><span class="hero-name-sub-wrap">se remarque.</span></em></h1>
+    <p class="hero-handle">
+      <span>Mouhamed Al Amine</span>
+      <span class="handle-sep"></span>
+      <span class="handle-ig">@_its.mdg</span>
+    </p>
+    <p class="hero-sub">L'excellence, <strong>c'est mon seul standard.</strong></p>
+    <div class="hero-ctas">
+      <a href="#contact" class="hero-btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span data-i18n="nav_cta">Travaillons ensemble</span>
+      </a>
+      <a href="#portfolio-accordion" class="hero-btn-secondary">Voir les projets</a>
     </div>
-    <div class="h4c-topright" aria-hidden="true">
-      <span class="h4c-scroll-label">Scroll</span>
-      <div class="h4c-scroll-line"></div>
+    <div class="hero-portfolio-links">
+      <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="hero-portfolio-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.670-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9zM7.796 16.041l-.013-.017c.017.006.032.013.013.017zM5.906 15.125H2.833v2.964H5.82c1.218 0 2.053-.558 2.053-1.497 0-.948-.748-1.467-1.967-1.467zM2.833 9.938v2.65H5.52c1.095 0 1.883-.465 1.883-1.332 0-.876-.73-1.318-1.822-1.318H2.833zM11.275 17.25c0-2.234-1.644-3.484-4.014-3.484H0V7.5h6.88c2.358 0 3.96 1.121 3.96 3.07 0 1.34-.679 2.21-1.713 2.644C10.475 13.618 11.275 14.668 11.275 17.25z"/></svg>
+        Behance
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <span class="hero-portfolio-sep">·</span>
+      <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="hero-portfolio-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @_its.mdg
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
     </div>
-    <div class="h4c-bottomleft">
-      <p class="hero-sub">L'excellence, <strong>c'est mon seul standard.</strong></p>
-      <div class="hero-ctas">
-        <a href="#contact" class="hero-btn-primary">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          <span data-i18n="nav_cta">Travaillons ensemble</span>
-        </a>
-        <a href="#portfolio-accordion" class="hero-btn-secondary">Réalisations</a>
-      </div>
-      <div class="hero-portfolio-links">
-        <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="hero-portfolio-link">BEHANCE <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
-        <span class="hero-portfolio-sep">·</span>
-        <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="hero-portfolio-link">@_ITS.MDG <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
-      </div>
-    </div>
-    <div class="h4c-bottomright">
-      <p class="h4c-name">Mouhamed Al Amine</p>
-      <div class="hero-type-wrap" id="heroType"><span id="heroTypeText"></span><span class="cursor-blink"></span></div>
-    </div>
+    <div class="hero-type-wrap" id="heroType"><span id="heroTypeText"></span><span class="cursor-blink"></span></div>
+  </div>
+
+  <!-- Scroll down indicator -->
+  <div class="hero-scroll-down" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+    <span class="hero-scroll-label">Scroll</span>
   </div>
 
   <div class="hero-stats">
@@ -14818,8 +14913,11 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
     }, 4000);
   }
 
+  /* ── Crossfade propre entre deux vidéos ── */
   function crossfade(from, to){
     to.currentTime = 0;
+    /* Pas de to.load() ici — B est préchargé dans startSequence.
+       load() au moment du switch re-fetche → blanc sur mobile.   */
     var p = to.play();
     if(p !== undefined){
       p.then(function(){
@@ -14842,9 +14940,11 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
     }
   }
 
+  /* ── Attache les listeners de séquence (une seule fois) ── */
   function startSequence(){
     if(sequenceStarted) return;
     sequenceStarted = true;
+    /* Précharger B pendant que A joue — au switch, B est déjà en mémoire */
     B.preload = 'auto';
     B.load();
     A.addEventListener('ended', function(){ crossfade(A, B); }, {passive:true});
@@ -14856,9 +14956,10 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
     crossfade(null, A);
   }
 
+  /* ── Démarre le chargement et lance la séquence dès que possible ── */
   function initVideo(){
     A.preload = 'auto';
-    B.preload = 'none';
+    B.preload = 'none'; // upgradé dans startSequence()
     armFallback();
 
     if(A.readyState >= 3){
