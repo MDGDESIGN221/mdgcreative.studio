@@ -362,47 +362,37 @@ section{position:relative;z-index:1}
 .stat-label{font-family:'Syne',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--off);margin-top:.75rem}
 .stat-sub{font-size:.68rem;color:var(--off);margin-top:.3rem;line-height:1.4}
 
-/* ── HERO 4-CORNER LAYOUT — desktop uniquement (≥768px) ──
-   On repositionne les éléments existants de hero-left en 4 coins
-   via position:absolute. Rien d'autre n'est modifié.            */
+/* ── HERO 4-CORNER — desktop ≥768px uniquement ── */
+@keyframes heroLineGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @media(min-width:768px){
-  /* hero-left devient le container absolu plein hero (hors stats bar) */
   .hero-left{
     position:absolute !important;
-    top:0;left:0;right:0;
-    bottom:130px; /* hauteur de la stats bar */
-    width:100% !important;
-    max-width:none !important;
+    top:0;left:0;right:0;bottom:130px;
+    width:100% !important;max-width:none !important;
     padding:0 !important;
     display:grid !important;
     grid-template-columns:1fr 1fr;
     grid-template-rows:1fr 1fr;
-    gap:0;
-    z-index:15;
-    pointer-events:none;
+    z-index:15;pointer-events:none;
   }
-  /* Tous les enfants directs : pointer-events none par défaut */
-  .hero-left > *{pointer-events:none}
-  /* Éléments interactifs : pointer-events:auto */
+  .hero-left>*{pointer-events:none}
   .hero-left .hero-ctas,
   .hero-left .hero-portfolio-links,
   .hero-left .hero-sub,
   .hero-left .hero-type-wrap{pointer-events:auto}
 
-  /* ── TOP LEFT : eyebrow + titre ── */
+  /* TOP LEFT : eyebrow */
   .hero-eyebrow{
-    grid-column:1;grid-row:1;
-    align-self:start;
-    margin-bottom:0 !important;
+    grid-column:1;grid-row:1;align-self:start;
     padding:calc(var(--nav-h,80px) + .75rem) 0 0 clamp(1.5rem,3.5vw,3rem);
+    margin-bottom:0 !important;
   }
+  /* TOP LEFT : titre (par-dessus l'eyebrow via padding) */
   .hero-name{
-    grid-column:1;grid-row:1;
-    align-self:start;
-    padding:calc(var(--nav-h,80px) + 3.5rem) 0 0 clamp(1.5rem,3.5vw,3rem);
+    grid-column:1;grid-row:1;align-self:start;
+    padding:calc(var(--nav-h,80px) + 3.2rem) 0 0 clamp(1.5rem,3.5vw,3rem);
   }
-
-  /* ── TOP RIGHT : SCROLL indicator ── */
+  /* TOP RIGHT : scroll indicator */
   .hero-scroll-down{
     display:flex !important;
     position:static !important;
@@ -410,76 +400,57 @@ section{position:relative;z-index:1}
     align-self:start;justify-self:end;
     flex-direction:column;align-items:center;gap:.5rem;
     padding:calc(var(--nav-h,80px) + .75rem) clamp(1.5rem,3.5vw,3rem) 0 0;
-    pointer-events:none;
-    bottom:auto;left:auto;
+    pointer-events:none;bottom:auto;left:auto;
+    opacity:0;animation:fu 1s 2.2s ease forwards;
   }
   .hero-scroll-line{
     width:1px;height:52px;
     background:linear-gradient(to bottom,rgba(200,250,100,0),var(--accent));
+    transform-origin:top;
+    animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both;
   }
   .hero-scroll-label{
     writing-mode:horizontal-tb !important;
     transform:none !important;
-    font-size:.55rem;color:var(--dim);
+    font-size:.55rem;letter-spacing:.22em;color:var(--dim);
   }
-
-  /* ── BOTTOM LEFT : handle + sub + ctas + portfolio-links ── */
-  .hero-handle{
-    grid-column:1;grid-row:2;
-    align-self:end;
-    padding:0 0 .5rem clamp(1.5rem,3.5vw,3rem);
-    margin:0 !important;
-    display:none; /* remplacé par h4c-name côté bas droite */
-  }
+  /* BOTTOM LEFT : sub + ctas + portfolio */
   .hero-sub{
-    grid-column:1;grid-row:2;
-    align-self:end;
-    padding:0 0 1rem clamp(1.5rem,3.5vw,3rem);
-    margin-bottom:0 !important;
-    max-width:420px;
+    grid-column:1;grid-row:2;align-self:end;
+    padding:0 0 6.2rem clamp(1.5rem,3.5vw,3rem);
+    margin-bottom:0 !important;max-width:420px;
   }
   .hero-ctas{
-    grid-column:1;grid-row:2;
-    align-self:end;
-    padding:0 0 .65rem clamp(1.5rem,3.5vw,3rem);
+    grid-column:1;grid-row:2;align-self:end;
+    padding:0 0 3rem clamp(1.5rem,3.5vw,3rem);
     margin-bottom:0 !important;
   }
   .hero-portfolio-links{
-    grid-column:1;grid-row:2;
-    align-self:end;
-    padding:0 0 .5rem clamp(1.5rem,3.5vw,3rem);
+    grid-column:1;grid-row:2;align-self:end;
+    padding:0 0 .75rem clamp(1.5rem,3.5vw,3rem);
     margin:0 !important;
+    opacity:0;animation:fu .9s 1.9s ease forwards;
   }
   .hero-portfolio-link{font-size:.6rem;letter-spacing:.13em}
-
-  /* ── BOTTOM RIGHT : nom + typing ── */
-  .hero-type-wrap{
-    grid-column:2;grid-row:2;
-    align-self:end;justify-self:end;
+  /* BOTTOM RIGHT : handle (nom) + typing */
+  .hero-handle{
+    grid-column:2;grid-row:2;align-self:end;justify-self:end;
     text-align:right;
-    padding:0 clamp(1.5rem,3.5vw,3rem) .5rem 0;
+    padding:0 clamp(1.5rem,3.5vw,3rem) 3.4rem 0;
+    font-style:normal;font-size:clamp(.68rem,1vw,.82rem);
+    font-weight:600;letter-spacing:.04em;
+    margin:0 !important;
+    opacity:0;animation:fu .9s 1.3s ease forwards;
+  }
+  .hero-handle .handle-sep,
+  .hero-handle .handle-ig{display:none}
+  .hero-type-wrap{
+    grid-column:2;grid-row:2;align-self:end;justify-self:end;
+    text-align:right;
+    padding:0 clamp(1.5rem,3.5vw,3rem) .75rem 0;
     margin-bottom:0 !important;
     font-size:clamp(.9rem,1.5vw,1.35rem);
   }
-
-  /* Nom "Mouhamed Al Amine" au-dessus du typing, bas droite */
-  .hero-handle{
-    display:block !important;
-    grid-column:2;grid-row:2;
-    align-self:end;justify-self:end;
-    text-align:right;
-    padding:0 clamp(1.5rem,3.5vw,3rem) 3.2rem 0;
-    font-style:normal;
-    font-size:clamp(.68rem,1vw,.82rem);
-    font-weight:600;
-    letter-spacing:.04em;
-  }
-  /* Masquer le séparateur et l'handle IG sur desktop (juste "Mouhamed Al Amine") */
-  .hero-handle .handle-sep,
-  .hero-handle .handle-ig{display:none}
-
-  /* hero-promise et hero-name-sub-wrap : rester dans topleft */
-  .hero-name-sub-wrap{display:inline-block}
 }
 
 /* ── ABOUT (fond légèrement plus clair pour alterner) ── */
@@ -2831,19 +2802,7 @@ section + section::before{
 #services,#pricing,#portfolio-accordion,#faq{background:var(--black)}
 </style>
 <script>
-/* Lenis smooth scroll — desktop uniquement + respect prefers-reduced-motion */
-(function(){
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(prefersReduced) return;
-  var s = document.createElement('script');
-  s.src = 'https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js';
-  s.onload = function(){
-    if(typeof Lenis === 'undefined') return;
-    // Appeler initLenis si déjà défini, sinon le poll s'en chargera
-    if(typeof initLenis === 'function') initLenis();
-  };
-  document.head.appendChild(s);
-})();
+/* Scroll natif — scroll-behavior:smooth sur html suffit */
 </script>
 <script>
 // Nav scrolled
@@ -11657,52 +11616,28 @@ function typeRun(){
 }
 setTimeout(typeRun,600);
 
-// ── LENIS SMOOTH SCROLL ──
-// Lenis est chargé dynamiquement (async). On attend qu'il soit dispo.
-let lenis;
-function initLenis() {
-  if (typeof Lenis === 'undefined') return;
-  lenis = new Lenis({
-    duration: 1.4,
-    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
-    smoothWheel: true,
-    wheelMultiplier: 0.8,
-    touchMultiplier: 2.0,
-    touchInertiaMultiplier: 20,
-    prevent: node => node.id === 'workTrack' || node.id === 'covTrack' || !!(node.closest && node.closest('.pack-modal-overlay')),
+// ── SMOOTH SCROLL NATIF (Lenis supprimé — bloqué par CSP Netlify) ──
+// scroll-behavior:smooth sur html gère le smooth scroll nativement.
+// On gère juste l'offset nav pour les ancres.
+let lenis = null; // garde la variable pour les appels lenis.stop/start existants
+const _lenisNoop = { stop:function(){}, start:function(){}, scrollTo:function(el,opts){ const nav=document.querySelector('nav'); const offset=(opts&&opts.offset)||0; const navH=nav?nav.getBoundingClientRect().height:80; const y=el.getBoundingClientRect().top+window.scrollY+offset-navH; window.scrollTo({top:y,behavior:'smooth'}); } };
+lenis = _lenisNoop;
+function initLenis(){ /* no-op — Lenis remplacé par scroll natif */ }
+
+// Ancres internes : scroll avec offset nav
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    var href = a.getAttribute('href');
+    if(!href || href === '#') return;
+    var target = document.querySelector(href);
+    if(!target) return;
+    e.preventDefault();
+    var nav = document.querySelector('nav');
+    var navH = nav ? nav.getBoundingClientRect().height : 80;
+    var y = target.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({top: y, behavior: 'smooth'});
   });
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-  // Sync avec les liens d'ancre
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (!target) return;
-      e.preventDefault();
-      lenis.scrollTo(target, {offset: -80, duration: 1.6});
-    });
-  });
-  // Pause pendant les modals
-  const modalOverlay = document.getElementById('modalOverlay');
-  if (modalOverlay) {
-    modalOverlay.addEventListener('click', () => {
-      lenis.stop();
-      setTimeout(() => lenis.start(), 100);
-    });
-  }
-}
-// Lenis est chargé via s.onload dans le premier bloc —
-// on poll toutes les 50ms au cas où le script serait déjà prêt
-(function waitLenis(attempts) {
-  if (typeof Lenis !== 'undefined') { initLenis(); return; }
-  if (attempts <= 0) return; // abandon après 3s
-  setTimeout(function(){ waitLenis(attempts - 1); }, 50);
-})(60);
+});
 
 // ── EASTER EGG — taper "MDG" ──
 (function(){
@@ -14913,53 +14848,46 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
     }, 4000);
   }
 
-  /* ── Crossfade propre entre deux vidéos ── */
   function crossfade(from, to){
     to.currentTime = 0;
-    /* Pas de to.load() ici — B est préchargé dans startSequence.
-       load() au moment du switch re-fetche → blanc sur mobile.   */
     var p = to.play();
     if(p !== undefined){
       p.then(function(){
         clearTimeout(fallbackTimer);
-        to.style.opacity   = '.9';
-        if(from){ from.style.opacity = '0'; }
-        if(IMG){  IMG.style.opacity  = '0'; }
-        active = to;
+        to.style.opacity='.9';
+        if(from) from.style.opacity='0';
+        if(IMG) IMG.style.opacity='0';
+        active=to;
       }).catch(function(){
-        to.style.opacity = '0';
-        if(IMG){ IMG.style.opacity = '.9'; }
-        active = null;
+        to.style.opacity='0';
+        if(IMG) IMG.style.opacity='.9';
+        active=null;
       });
     } else {
       clearTimeout(fallbackTimer);
-      to.style.opacity = '.9';
-      if(from){ from.style.opacity = '0'; }
-      if(IMG){  IMG.style.opacity  = '0'; }
-      active = to;
+      to.style.opacity='.9';
+      if(from) from.style.opacity='0';
+      if(IMG) IMG.style.opacity='0';
+      active=to;
     }
   }
 
-  /* ── Attache les listeners de séquence (une seule fois) ── */
   function startSequence(){
     if(sequenceStarted) return;
-    sequenceStarted = true;
-    /* Précharger B pendant que A joue — au switch, B est déjà en mémoire */
-    B.preload = 'auto';
-    B.load();
-    A.addEventListener('ended', function(){ crossfade(A, B); }, {passive:true});
-    B.addEventListener('ended', function(){ crossfade(B, A); }, {passive:true});
-    A.addEventListener('waiting', function(){ if(active===A){ A.style.opacity='.6'; } }, {passive:true});
-    A.addEventListener('playing', function(){ if(active===A){ A.style.opacity='.9'; if(IMG){ IMG.style.opacity='0'; } } }, {passive:true});
-    B.addEventListener('waiting', function(){ if(active===B){ B.style.opacity='.6'; } }, {passive:true});
-    B.addEventListener('playing', function(){ if(active===B){ B.style.opacity='.9'; if(IMG){ IMG.style.opacity='0'; } } }, {passive:true});
-    crossfade(null, A);
+    sequenceStarted=true;
+    B.preload='auto'; B.load();
+    A.addEventListener('ended',function(){ crossfade(A,B); },{passive:true});
+    B.addEventListener('ended',function(){ crossfade(B,A); },{passive:true});
+    A.addEventListener('waiting',function(){ if(active===A) A.style.opacity='.6'; },{passive:true});
+    A.addEventListener('playing',function(){ if(active===A){ A.style.opacity='.9'; if(IMG) IMG.style.opacity='0'; } },{passive:true});
+    B.addEventListener('waiting',function(){ if(active===B) B.style.opacity='.6'; },{passive:true});
+    B.addEventListener('playing',function(){ if(active===B){ B.style.opacity='.9'; if(IMG) IMG.style.opacity='0'; } },{passive:true});
+    crossfade(null,A);
   }
 
-  /* ── Démarre le chargement et lance la séquence dès que possible ── */
   function initVideo(){
-    A.preload = 'auto';
-    B.preload = 'none'; // upgradé dans startSequence()
+    A.preload='auto';
+    B.preload='none';
     armFallback();
 
     if(A.readyState >= 3){
