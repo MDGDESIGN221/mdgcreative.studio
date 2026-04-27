@@ -65,7 +65,7 @@
   --border2:rgba(255,255,255,0.11);
   --r:14px;
 }
-html{scroll-behavior:smooth;overflow-x:hidden}
+html{scroll-behavior:smooth;overflow-x:hidden;overscroll-behavior:none}
 /* Sécurité anti-débordement horizontal mobile */
 @media(max-width:900px){
   section,main,header,footer,nav,.container{max-width:100vw;box-sizing:border-box}
@@ -112,7 +112,7 @@ html{scroll-behavior:smooth;overflow-x:hidden}
   contain-intrinsic-size:0 800px;
 }
 
-body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--light);-webkit-font-smoothing:antialiased;cursor:none;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw}
+body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--light);-webkit-font-smoothing:antialiased;cursor:none;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw;overscroll-behavior:none}
 
 /* ── CURSOR ── */
 .cur{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);will-change:transform;transition:width .2s,height .2s;box-shadow:0 0 0 1.5px rgba(6,6,6,.5)}
@@ -4005,6 +4005,37 @@ nav::before { display:none; }
   max-width: 480px;
   margin: 0 auto;
   line-height: 1.65;
+}
+.pricing-scope-note {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  margin: 1.25rem auto 0;
+  padding: .5rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  font-size: .72rem;
+  font-weight: 500;
+  color: var(--dim);
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+.pricing-scope-note svg {
+  flex-shrink: 0;
+  opacity: .55;
+  color: var(--accent);
+}
+@media(max-width: 600px) {
+  .pricing-scope-note {
+    white-space: normal;
+    text-align: center;
+    border-radius: 14px;
+    padding: .65rem 1rem;
+    font-size: .7rem;
+    max-width: 280px;
+  }
 }
 
 /* ── TABS ── */
@@ -8272,7 +8303,10 @@ nav::before { display:none; }
       <div class="sec-label reveal-line">Investissement</div>
       <h2>Choisis ton <em>pack</em></h2>
       <p data-i18n="pricing_sub">Trois packs, calibrés pour trois moments d'un projet. Les fourchettes de prix sont affichées ci-dessous.</p>
-      <p class="pricing-scope-note" style="display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;font-size:.78rem;color:var(--dim);background:var(--surface);border:1px solid var(--border2);border-radius:100px;padding:.4rem 1rem .4rem .75rem;font-weight:500;letter-spacing:.01em"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.7"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg> Ces packs concernent uniquement les <strong style="color:var(--light);margin:0 .2em">covers</strong>, <strong style="color:var(--light);margin:0 .2em">affiches</strong> et <strong style="color:var(--light);margin:0 .2em">vidéos</strong>, pas les autres domaines.</p>
+      <div class="pricing-scope-note">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span>Covers, affiches &amp; vidéos uniquement. Les autres domaines sont sur devis.</span>
+      </div>
     </div>
 
     <!-- PRIX VERROUILLÉS — unlock avec mot de passe -->
