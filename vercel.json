@@ -39,7 +39,7 @@
 
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://res.cloudinary.com https://i.ytimg.com; media-src 'self' https://res.cloudinary.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://api.web3forms.com https://formspree.io; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://i.ytimg.com https://images.unsplash.com; media-src 'self' https://res.cloudinary.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://api.web3forms.com https://formspree.io https://res.cloudinary.com https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io https://wa.me;"
         }
 
       ]
