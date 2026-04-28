@@ -12150,11 +12150,42 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   // Init
   buildCardList();
 
-  // Clic sur les cards
-  document.querySelectorAll('[data-lb-src]').forEach(function(card, i){
+  // Tap sur les cards — distingue tap (ouvrir) vs swipe (scroller)
+  document.querySelectorAll('[data-lb-src]').forEach(function(card){
+    var txStart = 0, tyStart = 0, tMoved = false;
+
+    card.addEventListener('touchstart', function(e){
+      txStart = e.touches[0].clientX;
+      tyStart = e.touches[0].clientY;
+      tMoved = false;
+    }, { passive: true });
+
+    card.addEventListener('touchmove', function(e){
+      if (Math.abs(e.touches[0].clientX - txStart) > 8 ||
+          Math.abs(e.touches[0].clientY - tyStart) > 8) {
+        tMoved = true;
+      }
+    }, { passive: true });
+
+    card.addEventListener('touchend', function(e){
+      if (!tMoved) {
+        e.preventDefault();
+        buildCardList();
+        currentIndex = cards.indexOf(card);
+        openLb(
+          card.getAttribute('data-lb-src'),
+          card.getAttribute('data-lb-title'),
+          card.getAttribute('data-lb-desc'),
+          currentIndex
+        );
+      }
+    });
+
+    // Souris desktop
     card.addEventListener('click', function(e){
+      if ('ontouchstart' in window) return; // éviter double déclenchement
       e.preventDefault();
-      buildCardList(); // reconstruire au cas où le DOM a changé
+      buildCardList();
       currentIndex = cards.indexOf(card);
       openLb(
         card.getAttribute('data-lb-src'),
@@ -13984,12 +14015,38 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     update();
     enableDragScroll(track);
 
-    // Clic sur une card motion → ouvrir fullscreen
+    // Tap sur une card motion → ouvrir fullscreen
+    // Sur mobile : distinguer tap (< 8px de déplacement) vs swipe
     cards.forEach(function(card){
+      var touchStartX = 0, touchStartY = 0, touchMoved = false;
+
+      card.addEventListener('touchstart', function(e){
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchMoved = false;
+      }, { passive: true });
+
+      card.addEventListener('touchmove', function(e){
+        var dx = Math.abs(e.touches[0].clientX - touchStartX);
+        var dy = Math.abs(e.touches[0].clientY - touchStartY);
+        if (dx > 8 || dy > 8) touchMoved = true;
+      }, { passive: true });
+
+      card.addEventListener('touchend', function(e){
+        if (!touchMoved) {
+          e.preventDefault(); // éviter le click synthétique
+          var src   = card.getAttribute('data-mot-src');
+          var label = card.getAttribute('data-mot-title') || '';
+          var parts = label.split(' · ');
+          motionOpen(src, parts[0] || '', parts[1] || '');
+        }
+      });
+
+      // Souris desktop
       card.addEventListener('click', function(){
-        var src    = this.getAttribute('data-mot-src');
-        var label  = this.getAttribute('data-mot-title') || '';
-        var parts  = label.split(' · ');
+        var src   = this.getAttribute('data-mot-src');
+        var label = this.getAttribute('data-mot-title') || '';
+        var parts = label.split(' · ');
         motionOpen(src, parts[0] || '', parts[1] || '');
       });
     });
