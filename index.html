@@ -116,7 +116,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--
 
 
 /* ── WATERMARK TEXTE GÉANT (inspiré pieterkoopt) ── */
-.wm-section { position: relative; overflow: hidden; }
+.wm-section { position: relative; overflow: hidden; isolation: isolate; }
 .wm-section::before {
   content: attr(data-wm);
   position: absolute;
@@ -550,7 +550,7 @@ section{position:relative;z-index:1}
   display:flex;gap:0;
   opacity:0;animation:maskRevealUp .8s 1.7s cubic-bezier(.77,0,.18,1) forwards;
   border-top:1px solid var(--border);
-  z-index:5;
+  z-index:25;
   background:rgba(6,6,6,.72);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
@@ -8250,7 +8250,7 @@ nav::before { display:none; }
           </div>
         </div>
         <div class="pieter-step-media">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776659498/VJ_-_LE_NOUVEAU_STANDARD_ckphom.jpg" alt="Production MDG Creative Studio">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777337144/hf_20260428_004435_d46a0237-8c6f-4fb0-be69-ebfe526866ce_ablw4s.png" alt="Production MDG Creative Studio">
           <div class="pieter-step-media-overlay"></div>
         </div>
       </div>
