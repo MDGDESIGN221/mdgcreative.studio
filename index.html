@@ -1545,8 +1545,6 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   .ac-card:nth-child(5){grid-column:1;grid-row:5}
   .work-card{width:80vw}
   .cov-card{width:80vw}
-  /* In Motion : cards moins hautes pour ne pas bloquer le scroll */
-  #acc-motion .work-card{width:62vw;aspect-ratio:3/4}
   .trust-grid{grid-template-columns:repeat(2,1fr)}
   .trust-item{min-height:80px;padding:1.25rem .75rem}
   .svc-intro{font-size:.9rem}
@@ -8317,6 +8315,20 @@ nav::before { display:none; }
 }
 /* Cache après le premier scroll */
 .swipe-hint.hidden { display: none !important; }
+
+/* ── IN MOTION : cartes moins hautes sur mobile pour ne pas bloquer le scroll vertical ── */
+@media(max-width:900px){
+  #acc-motion .work-card{
+    width:58vw !important;
+    aspect-ratio:9/13 !important;
+  }
+}
+@media(max-width:600px){
+  #acc-motion .work-card{
+    width:70vw !important;
+    aspect-ratio:9/13 !important;
+  }
+}
 
 /* ── MARGES MOBILES GLOBALES ── */
 @media(max-width:600px) {
