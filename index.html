@@ -106,11 +106,7 @@ html{scroll-behavior:smooth;overflow-x:hidden}
 }
 
 
-/* ── PERFORMANCE: content-visibility for off-screen sections ── */
-#about,#services,#process,#testimonials,#motion,#press,#awards,#pricing{
-  content-visibility:auto;
-  contain-intrinsic-size:0 800px;
-}
+/* content-visibility retiré — cassait les calculs de position de ScrollTrigger */
 
 body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--light);-webkit-font-smoothing:antialiased;cursor:none;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw}
 
@@ -137,15 +133,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--
 .wm-section > * { position: relative; z-index: 1; }
 
 /* ── SCROLL-TRIGGERED CINEMATIC — fade sections ── */
-.reveal-cinema {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
-}
-.reveal-cinema.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal-cinema { will-change: opacity, transform; }
 
 /* ── PROCESS REDESIGN — style pieterkoopt 01/02/03 ── */
 .pieter-process {
@@ -1137,94 +1125,14 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
 ══════════════════════════════════════════ */
 
 /* Base — tous les éléments animables */
-.reveal,
-.reveal-up,
-.reveal-left,
-.reveal-right,
-.reveal-scale,
-.reveal-fade,
-.reveal-line {
-  opacity: 0;
+.reveal,.reveal-up,.reveal-left,.reveal-right,
+.reveal-scale,.reveal-fade,.reveal-line,.reveal-cinema {
   will-change: opacity, transform;
 }
 
-/* ── Fade + monte (défaut) ── */
-.reveal,
-.reveal-up {
-  transform: translateY(36px);
-  transition:
-    opacity 1s cubic-bezier(.16,1,.3,1),
-    transform 1s cubic-bezier(.16,1,.3,1);
-}
-.reveal.visible,
-.reveal-up.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* ── Reveal — géré par GSAP ── */
 
-/* ── Slide depuis la gauche ── */
-.reveal-left {
-  transform: translateX(-20px);
-  transition:
-    opacity .65s cubic-bezier(.16,1,.3,1),
-    transform .65s cubic-bezier(.16,1,.3,1);
-}
-.reveal-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* ── Slide depuis la droite ── */
-.reveal-right {
-  transform: translateX(20px);
-  transition:
-    opacity .65s cubic-bezier(.16,1,.3,1),
-    transform .65s cubic-bezier(.16,1,.3,1);
-}
-.reveal-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* ── Scale subtle (cards, photos) ── */
-.reveal-scale {
-  transform: scale(.95) translateY(18px);
-  transition:
-    opacity 1.1s cubic-bezier(.16,1,.3,1),
-    transform 1.1s cubic-bezier(.16,1,.3,1);
-}
-.reveal-scale.visible {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
-
-/* ── Fade pur (overlays, labels) ── */
-.reveal-fade {
-  transition: opacity .6s cubic-bezier(.16,1,.3,1);
-}
-.reveal-fade.visible {
-  opacity: 1;
-}
-
-/* ── Ligne décorative qui s'étire (sec-label) ── */
-.reveal-line {
-  transform: none;
-  clip-path: inset(0 100% 0 0);
-  transition:
-    opacity .5s cubic-bezier(.16,1,.3,1),
-    clip-path .7s cubic-bezier(.16,1,.3,1);
-}
-.reveal-line.visible {
-  opacity: 1;
-  clip-path: inset(0 0% 0 0);
-}
-
-/* ── Delays ── */
-.rd1  { transition-delay: .08s }
-.rd2  { transition-delay: .16s }
-.rd3  { transition-delay: .26s }
-.rd4  { transition-delay: .36s }
-.rd5  { transition-delay: .48s }
+/* ── Delays — gérés par GSAP ── */
 
 /* ── Stagger auto sur grilles ── */
 .svc-grid     .reveal-scale:nth-child(1),
@@ -6935,6 +6843,8 @@ nav::before { display:none; }
 }
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
 
@@ -11186,30 +11096,344 @@ if(window.matchMedia('(hover:hover)').matches){
     el.addEventListener('mouseleave',()=>{curR.style.background=''});
   });
 }
-// ── SYSTÈME REVEAL SCROLL ANIMATIONS ──
-const REVEAL_SEL = '.reveal,.reveal-up,.reveal-left,.reveal-right,.reveal-scale,.reveal-fade,.reveal-line';
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      obs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+// ── SYSTÈME REVEAL — GSAP ScrollTrigger ──
+// Logique : start 'top 85%' → l'élément commence à s'animer bien avant que l'user arrive dessus
+//           end 'bottom -10%' → le reverse ne se déclenche que quand l'élément a quitté l'écran par le haut
+//           Éléments liés → même timeline, trigger sur le parent
+gsap.registerPlugin(ScrollTrigger);
 
-function observeRevealEls() {
-  document.querySelectorAll(REVEAL_SEL).forEach(el => {
-    if (!el._revealObserved) {
-      el._revealObserved = true;
-      obs.observe(el);
+const _E  = 'power3.out';
+const _Eb = 'back.out(1.5)';
+
+// Helper : ScrollTrigger standard — start quand le haut de l'élément passe à 85% du viewport
+// end quand le bas sort à -10% (complètement hors écran par le haut) → reverse propre
+function _st(trigger, extra) {
+  return {
+    scrollTrigger: {
+      trigger,
+      start: 'top 85%',
+      end:   'bottom -10%',
+      toggleActions: 'play reverse play reverse',
+      ...(extra || {})
     }
+  };
+}
+
+// Helper batch : même logique start/end pour les grilles
+function _batch(sel, fromVars, toVars, staggerIn, staggerOut) {
+  ScrollTrigger.batch(sel, {
+    start: 'top 85%',
+    end:   'bottom -10%',
+    onEnter:     els => gsap.fromTo(els, fromVars, { ...toVars, stagger: staggerIn }),
+    onLeaveBack: els => gsap.to(els, { ...fromVars, duration: toVars.duration * .55, stagger: staggerOut }),
+    onEnterBack: els => gsap.to(els, { ...toVars, stagger: staggerIn }),
   });
 }
-observeRevealEls();
 
-// Re-run after dynamic sections (awards, pricing) render
-setTimeout(observeRevealEls, 800);
-setTimeout(observeRevealEls, 2000);
+// Helper stagger groupé : UN trigger sur le parent, les enfants s'animent en cascade
+// → synchronisation garantie, pas de désynchronisation au scroll rapide
+function _staggerTl(parentSel, childSel, fromVars, toVars, staggerVal) {
+  const parent = document.querySelector(parentSel);
+  if (!parent) return;
+  const els = parent.querySelectorAll(childSel);
+  if (!els.length) return;
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: parent,
+      start:   'top 85%',
+      end:     'bottom -10%',
+      toggleActions: 'play reverse play reverse'
+    }
+  });
+  tl.fromTo(els, fromVars, { ...toVars, stagger: staggerVal ?? 0.08 });
+}
+
+// ── PORTFOLIO ──
+// Header groupé en timeline : label → h2 → count → tabs, trigger sur la section
+{
+  const portHdr = document.querySelector('#portfolio') || document.querySelector('.port-h2')?.closest('section');
+  const tl = gsap.timeline({ scrollTrigger: { trigger: portHdr || '.port-h2', start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+  const _ph2 = document.querySelector('.port-h2');
+  const _pLbl = document.querySelector('.port-extract-label');
+  const _pCnt = document.querySelector('.port-count');
+  const _pTabs = document.querySelector('.port-tabs-wrap');
+  if (_ph2)   tl.fromTo(_ph2,   { opacity:0, y:40 },     { opacity:1, y:0, duration:.85, ease:_E });
+  if (_pLbl)  tl.fromTo(_pLbl,  { opacity:0, y:20 },     { opacity:1, y:0, duration:.6, ease:_E }, '-=0.55');
+  if (_pCnt)  tl.fromTo(_pCnt,  { opacity:0, scale:.8 }, { opacity:1, scale:1, duration:.65, ease:_Eb }, '-=0.45');
+  if (_pTabs) tl.fromTo(_pTabs, { opacity:0, y:20 },     { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
+}
+// Cards : batch sur le parent commun pour sync parfaite
+_batch('.work-card',
+  { opacity:0, y:50, scale:.95 },
+  { opacity:1, y:0, scale:1, duration:.7, ease:_E },
+  .08, .04
+);
+_batch('.cov-card',
+  { opacity:0, y:40, scale:.96 },
+  { opacity:1, y:0, scale:1, duration:.65, ease:_E },
+  .07, .04
+);
+gsap.fromTo('.work-footer', { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, ease:_E, ..._st('.work-footer') });
+
+// ── ABOUT ──
+// photo + contenu liés → même timeline, trigger sur #about
+{
+  const _aPhoto   = document.querySelector('.about-v2-photo');
+  const _aContent = document.querySelector('.about-v2-content');
+  if (_aPhoto && _aContent) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger:'#about', start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    tl.fromTo(_aPhoto,   { opacity:0, x:-60, rotate:-2 }, { opacity:1, x:0, rotate:0, duration:.95, ease:_E })
+      .fromTo(_aContent, { opacity:0, x:60 },              { opacity:1, x:0, duration:.85, ease:_E }, '-=0.65');
+  }
+}
+// Contenu textuel : sec-label → badge → h2 → intro → body, enchaîné depuis about-v2-content
+{
+  const _aLabel  = document.querySelector('.about-v2-content .sec-label');
+  const _aBadge  = document.querySelector('.av2-badge-txt') || document.querySelector('.av2-badge');
+  const _ah2     = document.querySelector('.about-v2-h2');
+  const _aIntro  = document.querySelector('.about-v2-intro');
+  const _aBody   = document.querySelector('.about-v2-body');
+  const anchor   = document.querySelector('.about-v2-h2') || document.querySelector('.about-v2-content');
+  if (anchor) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: anchor, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    if (_aLabel) tl.fromTo(_aLabel, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.6, ease:_E });
+    if (_ah2)    tl.fromTo(_ah2,    { opacity:0, y:24 }, { opacity:1, y:0, duration:.7, ease:_E }, '-=0.25');
+    if (_aIntro) tl.fromTo(_aIntro, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.45');
+    if (_aBody)  tl.fromTo(_aBody,  { opacity:0, y:14 }, { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
+  }
+  // badge "Disponible · Kaolack, SN" → animé avec la photo
+  if (_aBadge) {
+    gsap.fromTo(_aBadge, { opacity:0, y:12, scale:.9 }, { opacity:1, y:0, scale:1, duration:.6, ease:_Eb,
+      scrollTrigger:{ trigger:'#about', start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+  }
+}
+_staggerTl('#about', '.sk',         { opacity:0, y:24, scale:.92 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, 0.07);
+_staggerTl('#about', '.about-text', { opacity:0, y:16 },            { opacity:1, y:0, duration:.6, ease:_E }, 0.06);
+
+// ── SERVICES ──
+// sec-label → h2 → sec-sub → cards, timeline depuis #services
+{
+  const _svcLbl = document.querySelector('.svc-header .sec-label');
+  const _svcH2  = document.querySelector('.svc-header .svc-h2');
+  const _svcSub = document.querySelector('.svc-header .sec-sub');
+  const _sSec   = document.querySelector('.svc-secondary');
+  const svcAnchor = document.querySelector('#services') || document.querySelector('.svc-header');
+  if (svcAnchor) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: svcAnchor, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    if (_svcLbl) tl.fromTo(_svcLbl, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
+    if (_svcH2)  tl.fromTo(_svcH2,  { opacity:0, y:28 }, { opacity:1, y:0, duration:.8, ease:_E }, '-=0.3');
+    if (_svcSub) tl.fromTo(_svcSub, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
+  }
+  // svc-secondary : label + items en stagger depuis le conteneur
+  if (_sSec) {
+    const tl2 = gsap.timeline({ scrollTrigger: { trigger: _sSec, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    const _sLabel = _sSec.querySelector('.svc-secondary-label');
+    const _sItems = _sSec.querySelectorAll('.svc-secondary-item');
+    if (_sLabel) tl2.fromTo(_sLabel, { opacity:0, y:16 }, { opacity:1, y:0, duration:.6, ease:_E });
+    if (_sItems.length) tl2.fromTo(_sItems, { opacity:0, x:-24 }, { opacity:1, x:0, duration:.55, ease:_E, stagger:.07 }, '-=0.3');
+  }
+}
+
+_staggerTl('.svc-grid', '.svc-card', { opacity:0, y:50, scale:.93 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, 0.09);
+// tout le header collabs → une timeline, trigger sur la section
+{
+  const collabsSec = document.querySelector('#collabs') || document.querySelector('.collabs-hdr')?.closest('section');
+  const tl = gsap.timeline({ scrollTrigger: { trigger: collabsSec || '.collabs-hdr', start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+  const _cHdr   = document.querySelector('.collabs-hdr');
+  const _cTitle = document.querySelector('.collabs-main-title');
+  const _cSub   = document.querySelector('.collabs-main-sub');
+  const _cMq    = document.querySelector('.collabs-marquee-wrap');
+  const _cSub2  = document.querySelector('.collabs-sub');
+  const _cTrust = document.querySelector('.trust-strip');
+  if (_cHdr)   tl.fromTo(_cHdr,   { opacity:0, x:-44 },    { opacity:1, x:0, duration:.8, ease:_E });
+  if (_cTitle) tl.fromTo(_cTitle, { opacity:0, x:44 },     { opacity:1, x:0, duration:.8, ease:_E }, '-=0.65');
+  if (_cSub)   tl.fromTo(_cSub,   { opacity:0, y:20 },     { opacity:1, y:0, duration:.6, ease:_E }, '-=0.5');
+  if (_cMq)    tl.fromTo(_cMq,    { opacity:0, scaleX:.88 },{ opacity:1, scaleX:1, duration:.7, ease:_E }, '-=0.3');
+  if (_cSub2)  tl.fromTo(_cSub2,  { opacity:0, y:16 },     { opacity:1, y:0, duration:.55, ease:_E }, '-=0.3');
+  if (_cTrust) tl.fromTo(_cTrust, { opacity:0, y:20 },     { opacity:1, y:0, duration:.6, ease:_E }, '-=0.25');
+}
+
+// ── SOCIAL PROOF ──
+// sec-label → h2 → sp-sub → sp-feature → tout enchaîné, trigger sur #testimonials
+{
+  const _spLbl = document.querySelector('#testimonials .sec-label, .sp-header .sec-label');
+  const _spH2  = document.querySelector('.sp-header .svc-h2, .sp-header h2');
+  const _spSub = document.querySelector('.sp-header .sp-sub');
+  const _spF   = document.querySelector('.sp-feature');
+  const spAnchor = document.querySelector('#testimonials') || document.querySelector('.sp-header');
+  if (spAnchor) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: spAnchor, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    if (_spLbl) tl.fromTo(_spLbl, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
+    if (_spH2)  tl.fromTo(_spH2,  { opacity:0, y:30 }, { opacity:1, y:0, duration:.8, ease:_E }, '-=0.35');
+    if (_spSub) tl.fromTo(_spSub, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
+    if (_spF)   tl.fromTo(_spF,   { opacity:0, scale:.93, y:20 }, { opacity:1, scale:1, y:0, duration:.85, ease:_Eb }, '-=0.3');
+  }
+}
+// vcards : batch depuis leur parent
+_batch('.sp-vcard',
+  { opacity:0, y:30 },
+  { opacity:1, y:0, duration:.75, ease:_E },
+  .08, .05
+);
+
+// ── PROCESS ──
+// header puis steps en cascade depuis la section
+{
+  const procSec = document.querySelector('#process') || document.querySelector('.process-header')?.closest('section');
+  const tl = gsap.timeline({ scrollTrigger: { trigger: procSec || '.process-header', start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+  const _pH = document.querySelector('.process-header');
+  if (_pH) tl.fromTo(_pH, { opacity:0, y:30 }, { opacity:1, y:0, duration:.75, ease:_E });
+}
+// Chaque step a son propre trigger (éléments distants verticalement, pas liés visuellement entre eux)
+document.querySelectorAll('.pieter-step').forEach((el, i) => {
+  gsap.fromTo(el,
+    { opacity:0, x: i%2===0 ? -60 : 60, y:20 },
+    { opacity:1, x:0, y:0, duration:.9, ease:_E,
+      scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } }
+  );
+});
+_staggerTl('.proc-conds', '.proc-cond', { opacity:0, y:28, scale:.94 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, 0.08);
+
+// ── PRICING ──
+// pricing-header complet : sec-label → h2 → p → scope-note → pricing-tabs → tout enchaîné
+{
+  const _pricLbl  = document.querySelector('.pricing-header .sec-label');
+  const _pricH2   = document.querySelector('.pricing-header h2');
+  const _pricP    = document.querySelector('.pricing-header p');
+  const _pricNote = document.querySelector('.pricing-scope-note');
+  const _pricTabs = document.querySelector('.pricing-tabs');
+  const tl = gsap.timeline({ scrollTrigger: { trigger:'#pricing', start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+  if (_pricLbl)  tl.fromTo(_pricLbl,  { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
+  if (_pricH2)   tl.fromTo(_pricH2,   { opacity:0, x:-44 }, { opacity:1, x:0, duration:.8, ease:_E }, '-=0.3');
+  if (_pricP)    tl.fromTo(_pricP,    { opacity:0, y:20 },  { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
+  if (_pricNote) tl.fromTo(_pricNote, { opacity:0, y:14 },  { opacity:1, y:0, duration:.55, ease:_E }, '-=0.4');
+  if (_pricTabs) tl.fromTo(_pricTabs, { opacity:0, y:18 },  { opacity:1, y:0, duration:.6,  ease:_E }, '-=0.35');
+}
+// Pack-cards : batch sur .packs-grid (parent) → sync garantie
+_batch('.pack-card',
+  { opacity:0, y:60, rotation:2 },
+  { opacity:1, y:0, rotation:0, duration:.75, ease:_E },
+  .09, .05
+);
+// adv-cards : stagger depuis leur conteneur parent
+{
+  const advParent = document.querySelector('.pack-card')?.closest('section') || document.querySelector('.pricing-header')?.closest('section');
+  document.querySelectorAll('.adv-card').forEach((el, i) => {
+    gsap.fromTo(el,
+      { opacity:0, x: i%2===0 ? -40 : 40, y:20 },
+      { opacity:1, x:0, y:0, duration:.7, ease:_E,
+        scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } }
+    );
+  });
+}
+// rollout + addons-intro → liés, trigger sur rollout-card
+{
+  const _rc = document.querySelector('.rollout-card');
+  const _ai = document.querySelector('.addons-intro');
+  if (_rc) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger:_rc, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    tl.fromTo(_rc, { opacity:0, scale:.88, y:30 }, { opacity:1, scale:1, y:0, duration:.9, ease:_Eb });
+    if (_ai) tl.fromTo(_ai, { opacity:0, y:20 }, { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
+  }
+}
+// addon-cards : batch
+_batch('.addon-card',
+  { opacity:0, y:30, scale:.94 },
+  { opacity:1, y:0, scale:1, duration:.6, ease:_E },
+  .07, .04
+);
+
+// ── FAQ ──
+// header → items, timeline depuis la section
+{
+  const faqSec = document.querySelector('#faq') || document.querySelector('.faq-header')?.closest('section');
+  const tl = gsap.timeline({ scrollTrigger: { trigger: faqSec || '.faq-header', start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+  const _fH = document.querySelector('.faq-header');
+  if (_fH) tl.fromTo(_fH, { opacity:0, y:30 }, { opacity:1, y:0, duration:.75, ease:_E });
+}
+_batch('.faq-item2',
+  { opacity:0, y:20 },
+  { opacity:1, y:0, duration:.65, ease:_E },
+  .07, .04
+);
+
+// ── CONTACT ──
+// label → titre → info-list → liens directs → tout enchaîné, trigger sur #contact
+{
+  const _cLbl  = document.querySelector('#contact .sec-label');
+  const _cH2   = document.querySelector('.contact-h2');
+  const _cInfo = document.querySelector('.info-list');
+  const contactSec = document.querySelector('#contact');
+  if (contactSec) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger:contactSec, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    if (_cLbl)  tl.fromTo(_cLbl,  { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.7, ease:_E });
+    if (_cH2)   tl.fromTo(_cH2,   { opacity:0, y:36 },  { opacity:1, y:0, duration:.85, ease:_E }, '-=0.45');
+    if (_cInfo) tl.fromTo(_cInfo, { opacity:0, x:-44 }, { opacity:1, x:0, duration:.8, ease:_E }, '-=0.5');
+  }
+}
+// liens directs : batch (peuvent être hors vue au chargement initial de la section)
+_batch('.contact-direct-link',
+  { opacity:0, x:40, scale:.96 },
+  { opacity:1, x:0, scale:1, duration:.65, ease:_E },
+  .08, .05
+);
+
+// ── CITATION ──
+// les 3 éléments liés → timeline depuis .citation-text
+{
+  const _cEy  = document.querySelector('.citation-eyebrow');
+  const _cTxt = document.querySelector('.citation-text');
+  const _cAu  = document.querySelector('.citation-author');
+  if (_cTxt) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger:_cTxt, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    if (_cEy)  tl.fromTo(_cEy,  { opacity:0, y:16 },           { opacity:1, y:0, duration:.6, ease:_E });
+    tl.fromTo(_cTxt,             { opacity:0, x:54, skewX:-4 }, { opacity:1, x:0, skewX:0, duration:.95, ease:_E }, '-=0.3');
+    if (_cAu)  tl.fromTo(_cAu,  { opacity:0, y:16 },           { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
+  }
+}
+
+// ── URANUS ──
+// les 3 éléments liés → timeline
+{
+  const _uH = document.querySelector('.u-hero-copy');
+  const _uV = document.querySelector('.u-box-visual');
+  const _uO = document.querySelector('.u-order-card');
+  if (_uH || _uV) {
+    const trigger = _uH || _uV;
+    const tl = gsap.timeline({ scrollTrigger: { trigger, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+    if (_uH) tl.fromTo(_uH, { opacity:0, y:44 },               { opacity:1, y:0, duration:.9, ease:_E });
+    if (_uV) tl.fromTo(_uV, { opacity:0, scale:.86, rotate:4 },{ opacity:1, scale:1, rotate:0, duration:1.05, ease:_Eb }, '-=0.55');
+    if (_uO) tl.fromTo(_uO, { opacity:0, y:40 },               { opacity:1, y:0, duration:.85, ease:_E }, '-=0.5');
+  }
+}
+
+// ── Tous les sec-label restants (clip-path) ──
+// Ceux déjà animés dans leur section sont ignorés grâce au check ScrollTrigger
+document.querySelectorAll('.sec-label').forEach(el => {
+  // Vérifie qu'aucun ScrollTrigger n'est déjà attaché à cet élément
+  const existing = ScrollTrigger.getAll().find(st => st.vars.trigger === el || st.trigger === el);
+  if (!existing) {
+    gsap.fromTo(el,
+      { opacity:0, clipPath:'inset(0 100% 0 0)' },
+      { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.7, ease:'power3.out',
+        scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } }
+    );
+  }
+});
+
+// ── Tous les sec-num restants ──
+document.querySelectorAll('.sec-num').forEach(el => {
+  const existing = ScrollTrigger.getAll().find(st => st.vars.trigger === el || st.trigger === el);
+  if (!existing) {
+    gsap.fromTo(el,
+      { opacity:0, x:-32 },
+      { opacity:1, x:0, duration:.65, ease:_E,
+        scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } }
+    );
+  }
+});
+
+
 
 // ── COMPTEURS ANIMÉS ──
 function animateCounter(el) {
