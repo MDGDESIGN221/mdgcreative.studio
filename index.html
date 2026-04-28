@@ -6931,25 +6931,25 @@ nav::before { display:none; }
   </div>
   <div class="mob-nav-head">Navigation rapide</div>
   <div class="mob-links-list">
-    <a href="#hero" onclick="cm()"><span class="mob-num">00</span>Accueil</a>
-    <a href="#portfolio-accordion" onclick="cm()" data-i18n="nav_work"><span class="mob-num">01</span>Réalisations</a>
-    <a href="#about" onclick="cm()" data-i18n="nav_about"><span class="mob-num">02</span>À propos</a>
-    <a href="#services" onclick="cm()" data-i18n="nav_services"><span class="mob-num">03</span>Services</a>
-    <a href="#collabs" onclick="cm()" data-i18n="collabs_label"><span class="mob-num">04</span>Collabs</a>
-    <a href="#process" onclick="cm()" data-i18n="nav_process"><span class="mob-num">05</span>Process</a>
-    <a href="#pricing" onclick="cm()"><span class="mob-num">06</span>Tarifs &amp; Packs</a>
-    <a href="#uranus" onclick="cm()" style="color:#a78bfa;font-weight:700"><span class="mob-num" style="color:#a78bfa">✦</span>URANUS GFX</a>
+    <a href="#hero" onclick="cm('#hero')"><span class="mob-num">00</span>Accueil</a>
+    <a href="#portfolio-accordion" onclick="cm('#portfolio-accordion')" data-i18n="nav_work"><span class="mob-num">01</span>Réalisations</a>
+    <a href="#about" onclick="cm('#about')" data-i18n="nav_about"><span class="mob-num">02</span>À propos</a>
+    <a href="#services" onclick="cm('#services')" data-i18n="nav_services"><span class="mob-num">03</span>Services</a>
+    <a href="#collabs" onclick="cm('#collabs')" data-i18n="collabs_label"><span class="mob-num">04</span>Collabs</a>
+    <a href="#process" onclick="cm('#process')" data-i18n="nav_process"><span class="mob-num">05</span>Process</a>
+    <a href="#pricing" onclick="cm('#pricing')"><span class="mob-num">06</span>Tarifs &amp; Packs</a>
+    <a href="#uranus" onclick="cm('#uranus')" style="color:#a78bfa;font-weight:700"><span class="mob-num" style="color:#a78bfa">✦</span>URANUS GFX</a>
     <div class="mob-divider"></div>
-    <a href="#faq" onclick="cm()"><span class="mob-num">07</span>FAQ</a>
+    <a href="#faq" onclick="cm('#faq')"><span class="mob-num">07</span>FAQ</a>
     <div class="mob-divider"></div>
-    <a href="#contact" onclick="cm()" data-i18n="contact_label"><span class="mob-num">→</span>Contact</a>
+    <a href="#contact" onclick="cm('#contact')" data-i18n="contact_label"><span class="mob-num">→</span>Contact</a>
   </div>
   <div class="mob-divider"></div>
   <div class="mob-menu-bottom">
     <button class="mob-lang-toggle" id="mobLangToggle" onclick="toggleLang()">
       <span id="mobLangLabel">EN</span>
     </button>
-    <a href="#contact" class="mob-cta" onclick="cm()" data-i18n="nav_cta">Travaillons ensemble</a>
+    <a href="#contact" class="mob-cta" onclick="cm('#contact')" data-i18n="nav_cta">Travaillons ensemble</a>
   </div>
 </div>
 
@@ -11583,15 +11583,27 @@ function openMobMenu(){
   document.body.dataset.mobScrollY=_msy;
   setTimeout(()=>{const first=mob.querySelector('a,button:not(.mob-close)');if(first)first.focus();},80);
 }
-function closeMobMenu(){
+function closeMobMenu(skipScrollRestore){
   mob.classList.remove('open');
   if(mobOv)mobOv.classList.remove('open');
   burger.setAttribute('aria-expanded','false');
-  const _msy2=parseInt(document.body.dataset.mobScrollY||'0');
   document.documentElement.style.overflow='';
   document.documentElement.style.height='';
-  window.scrollTo({top:_msy2,behavior:'instant'});
+  if(!skipScrollRestore){
+    const _msy2=parseInt(document.body.dataset.mobScrollY||'0');
+    window.scrollTo({top:_msy2,behavior:'instant'});
+  }
   burger.focus();
+}
+function cm(href){
+  closeMobMenu(true); // ne pas restaurer la position, laisser le href gérer
+  if(href){
+    setTimeout(function(){
+      var id=href.replace('#','');
+      var el=document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    },80); // petit délai pour que le menu finisse de se fermer
+  }
 }
 /* Swipe down to close */
 (function(){
@@ -11624,7 +11636,6 @@ document.addEventListener('keydown',function(e){
 });
 // Close on overlay click (clicking outside nav links)
 mob.addEventListener('click',function(e){if(e.target===mob)closeMobMenu();});
-function cm(){closeMobMenu();}
 // ── SMOOTH CAROUSEL SCROLL — RAF-based, zero lag ──
 function carouselScrollTo(track, targetLeft) {
   var start = track.scrollLeft;
