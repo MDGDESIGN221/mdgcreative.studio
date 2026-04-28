@@ -736,7 +736,7 @@ section+section::before,
 .work-track-wrap::before,.work-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .work-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .work-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .work-track::-webkit-scrollbar{display:none}
 /* ── WORK CARDS — design premium ── */
 .work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04)}
@@ -6920,15 +6920,6 @@ nav::before { display:none; }
           <span class="port-tab-sub">Motion · Vidéo · Animation</span>
         </div>
       </button>
-      <button class="port-tab" onclick="accSwitch('work', this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
-        <div class="port-tab-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        </div>
-        <div class="port-tab-text">
-          <span class="port-tab-name">Graphisme</span>
-          <span class="port-tab-sub">Affiches · Éditorial · Identité</span>
-        </div>
-      </button>
       <button class="port-tab" onclick="accSwitch('covers', this)" data-panel="covers" data-count="14" data-label="covers · Cover Art">
         <div class="port-tab-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><path d="M21 15l-5-5L5 21"/></svg>
@@ -6936,6 +6927,15 @@ nav::before { display:none; }
         <div class="port-tab-text">
           <span class="port-tab-name">Cover Art</span>
           <span class="port-tab-sub">Singles · EP · Albums</span>
+        </div>
+      </button>
+      <button class="port-tab" onclick="accSwitch('work', this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
+        <div class="port-tab-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
+        <div class="port-tab-text">
+          <span class="port-tab-name">Graphisme</span>
+          <span class="port-tab-sub">Affiches · Éditorial · Identité</span>
         </div>
       </button>
     </div>
@@ -11226,6 +11226,7 @@ function enableDragScroll(track){
 
 enableDragScroll(document.getElementById('workTrack'));
 enableDragScroll(document.getElementById('covTrack'));
+enableDragScroll(document.getElementById('motTrack'));
 enableDragScroll(document.querySelector('.trust-strip-inner'));
 
 // ── CARROUSELS MOBILE — scroll natif CSS pur (scroll-snap + touch-action) ──
@@ -11590,7 +11591,7 @@ function initLenis() {
     wheelMultiplier: 0.8,
     touchMultiplier: 2.0,
     touchInertiaMultiplier: 20,
-    prevent: node => node.id === 'workTrack' || node.id === 'covTrack' || !!(node.closest && node.closest('.pack-modal-overlay')),
+    prevent: node => node.id === 'workTrack' || node.id === 'covTrack' || node.id === 'motTrack' || !!(node.closest && node.closest('.pack-modal-overlay')),
   });
   function raf(time) {
     lenis.raf(time);
@@ -12963,9 +12964,9 @@ function applyComplexPatches(lang) {
   // ── Portfolio tabs ──
   var portTabs = document.querySelectorAll('.port-tab');
   var portTabData = [
-    { name: lang === 'en' ? 'Graphics' : 'Graphisme',    sub: lang === 'en' ? 'Posters · Editorial · Identity' : 'Affiches · Éditorial · Identité' },
+    { name: lang === 'en' ? 'In Motion' : 'In Motion',   sub: lang === 'en' ? 'Motion · Video · Animation' : 'Motion · Vidéo · Animation' },
     { name: 'Cover Art',                                  sub: lang === 'en' ? 'Singles · EPs · Albums' : 'Singles · EP · Albums' },
-    { name: lang === 'en' ? 'In Motion' : 'In Motion',   sub: lang === 'en' ? 'Motion · Video · Animation' : 'Motion · Vidéo · Animation' }
+    { name: lang === 'en' ? 'Graphics' : 'Graphisme',    sub: lang === 'en' ? 'Posters · Editorial · Identity' : 'Affiches · Éditorial · Identité' }
   ];
   portTabs.forEach(function(tab, i) {
     var nameEl = tab.querySelector('.port-tab-name');
@@ -13916,7 +13917,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   // Aussi au clic sur le tab (si l'utilisateur revient dessus)
   document.querySelectorAll('.port-tab, .acc-tab').forEach(function(tab){
     tab.addEventListener('click', function(){
-      if(tab.dataset.panel === 'motion' || tab.textContent.trim() === 'In Motion'){
+      if(tab.dataset.panel === 'motion'){
         initMotTrack();
       }
     });
