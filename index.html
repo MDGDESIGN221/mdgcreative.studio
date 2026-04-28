@@ -1384,42 +1384,49 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   .nav-logo{font-size:.78rem;letter-spacing:.06em;white-space:nowrap}
   .nav-logo-sub{font-size:.78rem;letter-spacing:.06em}
 
-  /* ── HERO MOBILE : split gauche/droite ── */
+  /* ── HERO MOBILE : colonne, texte + stats dans le flux ── */
   #hero{
-    flex-direction:row;
+    flex-direction:column;
     min-height:100dvh;
     align-items:stretch;
     position:relative;
     overflow:hidden;
   }
-  /* Photo : plein écran, le gradient fait tout le travail */
+  /* Photo : plein écran absolu dans le hero */
   .hero-photo-wrap{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
     max-height:none;
     min-height:unset;
     opacity:1;
+    z-index:0;
   }
   .hero-photo-wrap img{object-position:72% 20%}
   .hero-photo-wrap::before{
     background:linear-gradient(to right,var(--black) 0%,var(--black) 28%,rgba(6,6,6,.88) 42%,rgba(6,6,6,.55) 58%,rgba(6,6,6,.15) 76%,rgba(6,6,6,0) 100%);
   }
-  /* Texte : colonne gauche */
+  /* Texte : flex:1, stats poussées en bas */
   .hero-left{
-    width:58%;
+    width:100%;
     max-width:none;
-    padding:6rem 1.5rem 8rem;
+    flex:1;
+    padding:calc(var(--nav-h,72px) + 1.5rem) 1.5rem 1.5rem;
     position:relative;
     z-index:5;
     justify-content:flex-end;
+    display:flex;
+    flex-direction:column;
   }
-  /* Stats : en bas full width — dans le flux */
+  /* Stats : dans le flux, 3 colonnes */
   .hero-stats{
     position:relative !important;
     bottom:auto !important;
     gap:0;flex-wrap:nowrap;
+    display:grid !important;
+    grid-template-columns:1fr 1fr 1fr;
+    width:100% !important;
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
     z-index:5;
@@ -1474,7 +1481,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
 
 /* ── TRÈS PETIT MOBILE (< 480px) : conserver le split gauche/droite ── */
 @media(max-width:480px){
-  #hero{flex-direction:row;min-height:100dvh;position:relative;overflow:hidden}
+  #hero{flex-direction:column !important;min-height:100dvh;position:relative;overflow:hidden}
   .hero-photo-wrap{
     position:absolute !important;
     inset:0 !important;
@@ -1486,15 +1493,18 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
   .hero-left{
     position:relative;z-index:2;
-    width:68%;
-    padding:5.5rem 1.2rem 7.5rem;
+    width:100% !important;
+    flex:1;
+    padding:calc(var(--nav-h,72px) + 1.5rem) 1.25rem 1.5rem;
     justify-content:flex-end;
+    display:flex;flex-direction:column;
   }
   .hero-stats{
     position:relative !important;
     bottom:auto !important;
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
+    width:100% !important;
     flex-wrap:nowrap;
   }
   .stat{padding:.75rem .4rem .9rem;border-right:1px solid var(--border);border-bottom:none}
@@ -2609,9 +2619,9 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
 
 /* ── TRÈS PETIT MOBILE (< 480px) ── */
 @media(max-width:480px){
-  /* Hero: conserver le split gauche/droite comme desktop */
+  /* Hero: colonne sur petit mobile aussi */
   #hero{
-    flex-direction:row !important;
+    flex-direction:column !important;
     min-height:100dvh;
     position:relative;
     overflow:hidden;
@@ -2646,12 +2656,13 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   }
   .hero-photo-wrap::after{display:none}
 
-  /* Texte : colonne gauche */
+  /* Texte : prend tout l'espace, stats en-dessous */
   .hero-left{
     position:relative !important;
     bottom:auto !important; left:auto !important; right:auto !important;
-    width:78% !important;
-    padding:5.5rem 1.2rem 7.5rem !important;
+    width:100% !important;
+    flex:1 !important;
+    padding:calc(var(--nav-h,72px) + 1.5rem) 1.25rem 1.5rem !important;
     z-index:3;
     justify-content:flex-end !important;
     display:flex;flex-direction:column;
@@ -2710,15 +2721,16 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   /* Portfolio links : cachés */
   .hero-portfolio-links{display:none !important}
 
-  /* Stats : grille 2x2 dans le flux */
+  /* Stats : grille 1x3 dans le flux */
   .hero-stats{
     position:relative !important;
     bottom:auto !important;left:auto !important;right:auto !important;
     display:grid !important;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1fr 1fr;
     border-top:1px solid var(--border);
     z-index:4;
     height:auto;
+    width:100% !important;
   }
   .stat{padding:.7rem .6rem .85rem;border-right:none;border-bottom:1px solid var(--border)}
   .stat:nth-child(odd){border-right:1px solid var(--border)}
