@@ -325,12 +325,9 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--
   }
 }
 
-/* Correction padding hero-stats quand ticker présent */
+/* Manifeste-ticker : supprimé (redondant avec le typing effect du hero) */
 .hero-manifeste-line {
-  bottom: 72px;
-}
-@media(max-width: 900px) {
-  .hero-manifeste-line { display: none; }
+  display: none !important;
 }
 
 /* ── CURSOR ── */
@@ -391,6 +388,7 @@ section{position:relative;z-index:1}
   min-height:100dvh;display:flex;
   padding:0;border-bottom:1px solid var(--border);
   overflow:hidden;position:relative;background:var(--black);
+  z-index:1;
 }
 .hero-photo-wrap{
   position:absolute;left:0;right:0;top:0;bottom:0;width:100%;z-index:0;
@@ -550,7 +548,7 @@ section{position:relative;z-index:1}
   display:flex;gap:0;
   opacity:0;animation:maskRevealUp .8s 1.7s cubic-bezier(.77,0,.18,1) forwards;
   border-top:1px solid var(--border);
-  z-index:25;
+  z-index:10;
   background:rgba(6,6,6,.72);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
@@ -585,13 +583,13 @@ section{position:relative;z-index:1}
   .hero-name{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 3.2rem) 0 0 clamp(1.5rem,3.5vw,3rem)}
   .hero-scroll-down{display:flex !important;position:static !important;grid-column:2;grid-row:1;align-self:start;justify-self:end;flex-direction:column;align-items:center;gap:.5rem;padding:calc(var(--nav-h,80px) + .75rem) clamp(1.5rem,3.5vw,3rem) 0 0;pointer-events:none;bottom:auto;left:auto;opacity:0;animation:fu 1s 2.2s ease forwards}
   .hero-scroll-line{width:1px;height:52px;background:linear-gradient(to bottom,rgba(200,250,100,0),var(--accent));transform-origin:top;animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both}
-  .hero-sub{grid-column:1;grid-row:2;align-self:end;padding:0 0 6.2rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important;max-width:420px}
-  .hero-ctas{grid-column:1;grid-row:2;align-self:end;padding:0 0 3rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important}
-  .hero-portfolio-links{grid-column:1;grid-row:2;align-self:end;padding:0 0 .75rem clamp(1.5rem,3.5vw,3rem);margin:0 !important;opacity:0;animation:fu .9s 1.9s ease forwards}
+  .hero-sub{grid-column:1;grid-row:2;align-self:end;padding:0 0 7rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important;max-width:420px}
+  .hero-ctas{grid-column:1;grid-row:2;align-self:end;padding:0 0 3.85rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important}
+  .hero-portfolio-links{grid-column:1;grid-row:2;align-self:end;padding:0 0 1.6rem clamp(1.5rem,3.5vw,3rem);margin:0 !important;opacity:0;animation:fu .9s 1.9s ease forwards}
   .hero-portfolio-link{font-size:.6rem;letter-spacing:.13em}
-  .hero-handle{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(1.5rem,3.5vw,3rem) 3.4rem 0;font-style:normal;font-size:clamp(.68rem,1vw,.82rem);font-weight:600;letter-spacing:.04em;margin:0 !important;opacity:0;animation:fu .9s 1.3s ease forwards}
+  .hero-handle{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(1.5rem,3.5vw,3rem) 4.25rem 0;font-style:normal;font-size:clamp(.68rem,1vw,.82rem);font-weight:600;letter-spacing:.04em;margin:0 !important;opacity:0;animation:fu .9s 1.3s ease forwards}
   .hero-handle .handle-sep,.hero-handle .handle-ig{display:none}
-  .hero-type-wrap{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(1.5rem,3.5vw,3rem) .75rem 0;margin-bottom:0 !important;font-size:clamp(.9rem,1.5vw,1.35rem)}
+  .hero-type-wrap{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(1.5rem,3.5vw,3rem) 1.6rem 0;margin-bottom:0 !important;font-size:clamp(.9rem,1.5vw,1.35rem)}
 }
 
 /* ── ABOUT (fond légèrement plus clair pour alterner) ── */
@@ -1506,10 +1504,10 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
     z-index:5;
     justify-content:flex-end;
   }
-  /* Stats : en bas full width */
+  /* Stats : en bas full width — au-dessus de la tab bar mobile */
   .hero-stats{
     position:absolute;
-    bottom:0;left:0;right:0;
+    bottom:calc(56px + env(safe-area-inset-bottom, 0px));left:0;right:0;
     gap:0;flex-wrap:nowrap;
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
@@ -1583,7 +1581,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
   .hero-stats{
     position:absolute;
-    bottom:0;left:0;right:0;
+    bottom:calc(56px + env(safe-area-inset-bottom, 0px));left:0;right:0;
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
     flex-wrap:nowrap;
@@ -2628,8 +2626,8 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .hero-handle{font-size:.7rem;margin-bottom:.5rem !important}
   .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em;height:1.4em;overflow:hidden;contain:strict}
 
-  /* Stats bar 3 colonnes en bas */
-  .hero-stats{display:grid !important;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border);z-index:4}
+  /* Stats bar 3 colonnes en bas — décalées au-dessus de la tab bar mobile (56px + safe-area) */
+  .hero-stats{display:grid !important;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border);z-index:4;bottom:calc(56px + env(safe-area-inset-bottom, 0px)) !important;background:rgba(6,6,6,.78) !important;backdrop-filter:blur(20px) saturate(1.4) !important;-webkit-backdrop-filter:blur(20px) saturate(1.4) !important}
   .stat{border-right:1px solid var(--border);border-bottom:none;padding:.8rem .4rem .95rem}
   .stat:last-child{border-right:none}
   .stat-number{font-size:1.4rem !important}
@@ -2800,10 +2798,10 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   /* Portfolio links : cachés */
   .hero-portfolio-links{display:none !important}
 
-  /* Stats : grille 2x2 en bas */
+  /* Stats : grille 2x2 en bas — décalées au-dessus de la tab bar */
   .hero-stats{
     position:absolute;
-    bottom:0;left:0;right:0;
+    bottom:calc(56px + env(safe-area-inset-bottom, 0px));left:0;right:0;
     display:grid !important;
     grid-template-columns:1fr 1fr;
     border-top:1px solid var(--border);
@@ -6765,6 +6763,7 @@ nav::before { display:none; }
   .hero-stats{
     grid-template-columns:repeat(3,1fr) !important;
     display:grid !important;
+    bottom:calc(56px + env(safe-area-inset-bottom, 0px)) !important;
   }
   .stat{padding:.7rem .35rem .85rem !important}
   .stat-number{font-size:1.15rem !important}
@@ -8225,7 +8224,7 @@ nav::before { display:none; }
           <span class="pieter-step-num">02</span>
           <div class="pieter-step-badge">Étape 02</div>
           <h3 class="pieter-step-title">Concept & Direction</h3>
-          <p class="pieter-step-desc">Je pose la direction : moodboard, palette, typographies. Tu valides avant que je rentre dans le vif. On est alignés dès le départ — pas de surprise en cours de route.</p>
+          <p class="pieter-step-desc">Je pose la direction : moodboard, palette, typographies. Tu valides avant que je rentre dans le vif. On est alignés dès le départ, pas de surprise en cours de route.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             1 révision de direction incluse
@@ -10503,13 +10502,13 @@ function copyWaveNumber(btn) {
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet, je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="mailto:mdgdesign221@gmail.com" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#f39e97949796809a949dc1c1c2b3949e929a9fdd909c9e" class="contact-direct-link">
             <div class="contact-direct-link-icon" style="background:rgba(200,250,100,.08)">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <div class="contact-direct-link-text">
               <span class="contact-direct-link-name">Email</span>
-              <span class="contact-direct-link-val">mdgdesign221@gmail.com</span>
+              <span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="94f9f0f3f0f1e7fdf3faa6a6a5d4f3f9f5fdf8baf7fbf9">[email&#160;protected]</span></span>
             </div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
@@ -10677,7 +10676,7 @@ function copyWaveNumber(btn) {
 <!-- script déplacé en fin de body -->
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── TABS ── */
 function switchPricingTab(panel, btn) {
   document.querySelectorAll('.pricing-tab').forEach(t => t.classList.remove('active'));
@@ -11114,9 +11113,9 @@ function submitPackForm(e) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="mailto:mdgdesign221@gmail.com" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#89e4edeeedecfae0eee7bbbbb8c9eee4e8e0e5a7eae6e4" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val">mdgdesign221@gmail.com</span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="d2bfb6b5b6b7a1bbb5bce0e0e392b5bfb3bbbefcb1bdbf">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -11147,7 +11146,7 @@ function submitPackForm(e) {
 
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── FONDU D'ENTRÉE 1S ──
 (function(){
   var loader = document.getElementById('loader');
@@ -12237,13 +12236,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="mailto:mdgdesign221@gmail.com" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#fc91989b98998f959b92cececdbc9b919d9590d29f9391" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail">mdgdesign221@gmail.com</div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="dfb2bbb8bbbaacb6b8b1ededee9fb8b2beb6b3f1bcb0b2">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -12287,7 +12286,7 @@ setInterval(updateKaolackTime, 10000);
 
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── MOTION THUMBNAIL → PLAY ──
 document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   thumb.addEventListener('click', function(){
@@ -15626,12 +15625,12 @@ function cqfToggleChip(btn, val) {
   z-index: 9999;
   display: flex;
   align-items: center;
-  gap: .75rem;
-  padding: .7rem 1.25rem .7rem .85rem;
+  gap: .55rem;
+  padding: .55rem 1rem .55rem .65rem;
   background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 50%, #a78bfa 100%);
   border: 1px solid rgba(196,181,253,.25);
   border-radius: 100px;
-  box-shadow: 0 8px 40px rgba(109,40,217,.6), 0 0 0 1px rgba(196,181,253,.1) inset;
+  box-shadow: 0 6px 28px rgba(109,40,217,.5), 0 0 0 1px rgba(196,181,253,.1) inset;
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
@@ -15654,36 +15653,36 @@ function cqfToggleChip(btn, val) {
 
 /* Icône boîte */
 #uranus-fab .fab-icon {
-  width: 36px; height: 36px; border-radius: 50%;
+  width: 28px; height: 28px; border-radius: 50%;
   background: rgba(255,255,255,.15);
   border: 1px solid rgba(255,255,255,.2);
   display: flex; align-items: center; justify-content: center;
-  font-size: .95rem; flex-shrink: 0;
+  font-size: .8rem; flex-shrink: 0;
 }
 
 /* Texte */
-#uranus-fab .fab-text { display: flex; flex-direction: column; gap: .06rem; }
+#uranus-fab .fab-text { display: flex; flex-direction: column; gap: .05rem; }
 #uranus-fab .fab-title {
   font-family: 'Syne', sans-serif;
-  font-size: .72rem; font-weight: 900;
+  font-size: .62rem; font-weight: 900;
   letter-spacing: .06em; text-transform: uppercase;
   color: #fff; line-height: 1;
 }
 #uranus-fab .fab-sub {
   font-family: 'Syne', sans-serif;
-  font-size: .58rem; font-weight: 600;
+  font-size: .5rem; font-weight: 600;
   color: rgba(255,255,255,.65); letter-spacing: .04em;
 }
 
 /* Countdown mini */
 #uranus-fab .fab-cd {
-  display: flex; align-items: center; gap: .2rem;
-  padding: .28rem .6rem;
+  display: flex; align-items: center; gap: .15rem;
+  padding: .22rem .5rem;
   background: rgba(0,0,0,.3);
   border: 1px solid rgba(255,255,255,.12);
   border-radius: 100px;
   font-family: 'Syne', sans-serif;
-  font-size: .62rem; font-weight: 800;
+  font-size: .54rem; font-weight: 800;
   color: #e0d4ff; letter-spacing: .04em;
   flex-shrink: 0;
 }
@@ -15710,14 +15709,23 @@ function cqfToggleChip(btn, val) {
 #uranus-fab-close.visible { display: flex; }
 #uranus-fab-close:hover { color: #fff; border-color: rgba(139,92,246,.6); }
 
-/* Mobile */
-@media(max-width: 480px) {
-  #uranus-fab { bottom: 16px; padding: .65rem 1rem .65rem .75rem; gap: .6rem; max-width: calc(100vw - 32px); }
-  #uranus-fab .fab-icon { width: 32px; height: 32px; font-size: .85rem; }
-  #uranus-fab .fab-title { font-size: .68rem; }
-  #uranus-fab .fab-sub { font-size: .54rem; }
-  #uranus-fab .fab-cd { font-size: .58rem; padding: .24rem .5rem; }
-  #uranus-fab-close { bottom: 62px; right: 12px; }
+/* Mobile — au-dessus de la tab bar (56px) + safe area */
+@media(max-width: 900px) {
+  #uranus-fab {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 12px);
+    padding: .5rem .85rem .5rem .55rem;
+    gap: .5rem;
+    max-width: calc(100vw - 24px);
+  }
+  #uranus-fab .fab-icon { width: 26px; height: 26px; font-size: .75rem; }
+  #uranus-fab .fab-title { font-size: .58rem; }
+  #uranus-fab .fab-sub { font-size: .48rem; }
+  #uranus-fab .fab-cd { font-size: .5rem; padding: .2rem .45rem; }
+  #uranus-fab .fab-arrow { font-size: .65rem; }
+  #uranus-fab-close {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 56px);
+    right: 12px;
+  }
 }
 </style>
 
@@ -15763,10 +15771,28 @@ function cqfToggleChip(btn, val) {
   updateFabCd();
   setInterval(updateFabCd, 1000);
 
-  /* Apparaît après 2s */
+  /* Apparaît seulement après que l'utilisateur a scroll (>= 1/2 hauteur du hero)
+     pour ne pas cacher les stats au chargement */
+  var heroEl = document.getElementById('hero');
+  var fabRevealed = false;
+  function maybeRevealFab(){
+    if (fabRevealed || closed) return;
+    var trigger = heroEl ? Math.max(200, heroEl.offsetHeight * 0.55) : 300;
+    if (window.scrollY >= trigger) {
+      fabRevealed = true;
+      fab.classList.add('visible');
+      closeBtn.classList.add('visible');
+    }
+  }
+  window.addEventListener('scroll', maybeRevealFab, {passive:true});
+  // safety net : si l'utilisateur ne scroll pas, on l'affiche après 8s
   setTimeout(function(){
-    if (!closed){ fab.classList.add('visible'); closeBtn.classList.add('visible'); }
-  }, 2000);
+    if (!fabRevealed && !closed){
+      fabRevealed = true;
+      fab.classList.add('visible');
+      closeBtn.classList.add('visible');
+    }
+  }, 8000);
 
   /* Cache quand on est sur la section Uranus */
   var uranusSection = document.getElementById('uranus');
