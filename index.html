@@ -6950,7 +6950,7 @@ nav::before { display:none; }
 
 <!-- Artist preview follow cursor -->
 <div class="artist-preview" id="artistPreview">
-  <img decoding="async" loading="lazy" id="artistPreviewImg" src="" alt="">
+  <img decoding="async" loading="lazy" id="artistPreviewImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
 </div>
 <div class="grain-overlay"></div>
 <div class="scroll-progress" id="scrollProgress"></div>
@@ -7953,7 +7953,7 @@ nav::before { display:none; }
   <!-- SCÈNE CARTE ARTISTE -->
   <div id="artist-stage">
   <div id="trust-bg-img" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;border-radius:inherit;pointer-events:none">
-    <img id="trust-bg-photo" src="" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.08;filter:grayscale(.4) blur(2px);transition:opacity .8s ease,filter .8s ease;display:block;">
+    <img id="trust-bg-photo" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.08;filter:grayscale(.4) blur(2px);transition:opacity .8s ease,filter .8s ease;display:block;">
   </div>
 
     <div class="stage-counter">
@@ -7973,7 +7973,7 @@ nav::before { display:none; }
 
                 <div class="card-inner" id="card-inner">
           <div class="card-thumb">
-            <img id="thumb-img" src="" alt="">
+            <img id="thumb-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
           </div>
           <div class="card-info">
             <span class="card-index"  id="card-index">AR-01</span>
@@ -10502,13 +10502,13 @@ function copyWaveNumber(btn) {
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet, je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#f39e97949796809a949dc1c1c2b3949e929a9fdd909c9e" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#402d242724253329272e72727100272d21292c6e232f2d" class="contact-direct-link">
             <div class="contact-direct-link-icon" style="background:rgba(200,250,100,.08)">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <div class="contact-direct-link-text">
               <span class="contact-direct-link-name">Email</span>
-              <span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="94f9f0f3f0f1e7fdf3faa6a6a5d4f3f9f5fdf8baf7fbf9">[email&#160;protected]</span></span>
+              <span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="076a63606362746e606935353647606a666e6b2964686a">[email&#160;protected]</span></span>
             </div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
@@ -11113,9 +11113,9 @@ function submitPackForm(e) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#89e4edeeedecfae0eee7bbbbb8c9eee4e8e0e5a7eae6e4" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#b1dcd5d6d5d4c2d8d6df838380f1d6dcd0d8dd9fd2dedc" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="d2bfb6b5b6b7a1bbb5bce0e0e392b5bfb3bbbefcb1bdbf">[email&#160;protected]</span></span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="660b02010203150f010854545726010b070f0a4805090b">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -11446,24 +11446,45 @@ function enableDragScroll(track){
   track._dragEnabled = true;
 
   var isDown = false, startX = 0, scrollLeft = 0, moved = false;
-  var THRESHOLD = 6; // pixels avant de considérer que c'est un drag
+  var lastX = 0, lastT = 0, velX = 0, rafId = null;
+  var THRESHOLD = 5;
+
+  // Désactiver scroll-snap pendant le drag pour éviter le "retour de force"
+  function setSnap(on){ track.style.scrollSnapType = on ? '' : 'none'; }
 
   track.addEventListener('mousedown', function(e){
-    // Ignorer les clics sur les boutons
     if(e.target.closest('button, a, input')) return;
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
     isDown = true; moved = false;
     startX = e.clientX;
+    lastX = e.clientX;
+    lastT = performance.now();
+    velX = 0;
     scrollLeft = track.scrollLeft;
     track.style.cursor = 'grabbing';
     track.style.userSelect = 'none';
+    setSnap(false);
   });
 
-  document.addEventListener('mouseup', function(){
+  function endDrag(){
     if(!isDown) return;
     isDown = false;
     track.style.cursor = 'grab';
     track.style.userSelect = '';
-  });
+    // Inertie naturelle puis ré-active snap quand ça s'arrête
+    var v = velX;
+    function glide(){
+      if(Math.abs(v) < 0.4){ setSnap(true); rafId = null; return; }
+      track.scrollLeft -= v;
+      v *= 0.94;
+      rafId = requestAnimationFrame(glide);
+    }
+    if(Math.abs(v) > 0.4) rafId = requestAnimationFrame(glide);
+    else setSnap(true);
+  }
+
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('mouseleave', endDrag);
 
   document.addEventListener('mousemove', function(e){
     if(!isDown) return;
@@ -11471,10 +11492,16 @@ function enableDragScroll(track){
     if(!moved && Math.abs(delta) < THRESHOLD) return;
     moved = true;
     e.preventDefault();
-    track.scrollLeft = scrollLeft - delta * 0.8;
+    // Ratio 1:1 — le curseur suit exactement la card
+    track.scrollLeft = scrollLeft - delta;
+    // Calcul vélocité pour l'inertie au relâchement
+    var now = performance.now();
+    var dt = now - lastT || 1;
+    velX = (e.clientX - lastX) / dt * 16; // px par frame (~60fps)
+    lastX = e.clientX;
+    lastT = now;
   });
 
-  // Bloquer le clic si on a glissé
   track.addEventListener('click', function(e){
     if(moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
   }, true);
@@ -11486,74 +11513,10 @@ enableDragScroll(document.getElementById('workTrack'));
 enableDragScroll(document.getElementById('covTrack'));
 enableDragScroll(document.getElementById('motTrack'));
 
-// ── TOUCH NATIF FLUIDE sur les tracks (mobile) ──
-// Suit le doigt pixel par pixel + inertie naturelle
-(function(){
-  function enableNativeTouch(track) {
-    if (!track || track._touchEnabled) return;
-    track._touchEnabled = true;
-
-    var startX = 0, startScroll = 0;
-    var lastX = 0, lastTime = 0;
-    var velX = 0;
-    var rafId = null;
-    var isSwiping = false;
-
-    track.addEventListener('touchstart', function(e) {
-      // Annuler l'inertie en cours
-      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-      var t = e.touches[0];
-      startX = t.clientX;
-      startScroll = track.scrollLeft;
-      lastX = t.clientX;
-      lastTime = Date.now();
-      velX = 0;
-      isSwiping = false;
-    }, { passive: true });
-
-    track.addEventListener('touchmove', function(e) {
-      var t = e.touches[0];
-      var dx = t.clientX - startX;
-      var dy = t.clientY - (e.touches[0].clientY || 0);
-
-      // Détecter si c'est un swipe horizontal
-      if (!isSwiping && Math.abs(dx) > 4) {
-        isSwiping = true;
-      }
-      if (!isSwiping) return;
-
-      // Empêcher le scroll vertical de la page pendant le swipe horizontal
-      e.stopPropagation();
-
-      // Calcul vélocité
-      var now = Date.now();
-      var dt = now - lastTime || 1;
-      velX = (t.clientX - lastX) / dt;
-      lastX = t.clientX;
-      lastTime = now;
-
-      // Suivi direct du doigt — sans délai, sans multiplicateur
-      track.scrollLeft = startScroll - dx;
-    }, { passive: true });
-
-    track.addEventListener('touchend', function() {
-      if (!isSwiping) return;
-      // Inertie post-swipe
-      var vel = velX * 16; // amplitude initiale
-      function glide() {
-        if (Math.abs(vel) < 0.5) return;
-        track.scrollLeft -= vel;
-        vel *= 0.92; // friction
-        rafId = requestAnimationFrame(glide);
-      }
-      rafId = requestAnimationFrame(glide);
-    }, { passive: true });
-  }
-
-  enableNativeTouch(document.getElementById('workTrack'));
-  enableNativeTouch(document.getElementById('covTrack'));
-  enableNativeTouch(document.getElementById('motTrack'));
-})();
+// ── TOUCH MOBILE = 100% natif ──
+// On laisse le navigateur gérer : overflow-x:auto + scroll-snap-type:x proximity
+// + -webkit-overflow-scrolling:touch + touch-action:pan-x
+// Aucun JS — c'est ce qui donne la fluidité maximale (inertie iOS native).
 enableDragScroll(document.querySelector('.trust-strip-inner'));
 
 // ── CARROUSELS MOBILE — scroll natif CSS pur (scroll-snap + touch-action) ──
@@ -12236,13 +12199,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#fc91989b98998f959b92cececdbc9b919d9590d29f9391" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#452821222120362c222b777774052228242c296b262a28" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="dfb2bbb8bbbaacb6b8b1ededee9fb8b2beb6b3f1bcb0b2">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="422f26252627312b252c70707302252f232b2e6c212d2f">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -12275,7 +12238,7 @@ setInterval(updateKaolackTime, 10000);
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
   </button>
   <div class="lb-img-wrap" id="lbImgWrap">
-    <img decoding="async" loading="lazy" class="lb-img" id="lbImg" src="" alt="">
+    <img decoding="async" loading="lazy" class="lb-img" id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
   </div>
   <div class="lb-info">
     <div class="lb-title" id="lbTitle"></div>
