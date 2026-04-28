@@ -11299,18 +11299,35 @@ _staggerTl('.svc-grid', '.svc-card', { opacity:0, y:50, scale:.93 }, { opacity:1
     if (_spH2)  tl.fromTo(_spH2,  { opacity:0, y:30 }, { opacity:1, y:0, duration:.8, ease:_E }, '-=0.35');
     if (_spSub) tl.fromTo(_spSub, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
   }
-  // sp-feature : trigger propre sur lui-même (il est bien après le header dans le DOM)
+  // sp-feature : glisse depuis la gauche comme un pieter-step
   if (_spF) {
-    gsap.fromTo(_spF, { opacity:0, scale:.93, y:20 }, { opacity:1, scale:1, y:0, duration:.85, ease:_Eb,
+    gsap.fromTo(_spF, { opacity:0, x:-60, y:16 }, { opacity:1, x:0, y:0, duration:.9, ease:_E,
       scrollTrigger: { trigger: _spF, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
   }
 }
-// vcards : batch depuis leur parent
-_batch('.sp-vcard',
-  { opacity:0, y:30 },
-  { opacity:1, y:0, duration:.75, ease:_E },
-  .08, .05
-);
+// vcards : même style que .pieter-step — alternance gauche/droite, trigger individuel
+document.querySelectorAll('.sp-vcard').forEach((el, i) => {
+  const dir = i % 2 === 0 ? -60 : 60;
+  gsap.fromTo(el,
+    { opacity:0, x: dir, y:20 },
+    { opacity:1, x:0, y:0, duration:.9, ease:_E,
+      scrollTrigger:{ trigger:el, start:'top 88%', end:'bottom -10%', toggleActions:'play reverse play reverse' } }
+  );
+  // Contenu interne en cascade (thumb → source → artist → desc)
+  const inner = [
+    el.querySelector('.sp-vcard-thumb'),
+    el.querySelector('.sp-vcard-source'),
+    el.querySelector('.sp-vcard-artist'),
+    el.querySelector('.sp-vcard-desc'),
+  ].filter(Boolean);
+  if(inner.length){
+    gsap.fromTo(inner,
+      { opacity:0, y:16 },
+      { opacity:1, y:0, duration:.6, ease:_E, stagger:.08, delay:.18,
+        scrollTrigger:{ trigger:el, start:'top 88%', end:'bottom -10%', toggleActions:'play reverse play reverse' } }
+    );
+  }
+});
 
 // ── PROCESS ──
 // header puis steps en cascade depuis la section
@@ -12562,7 +12579,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   var closeBtn = document.getElementById('igBannerClose');
   // Afficher seulement si navigateur interne Instagram/Facebook
   var ua = navigator.userAgent || '';
-  var isInApp = /Instagram|FBAN|FBAV|FB_IAB|Line|Twitter|Snapchat/i.test(ua);
+  var isInApp = /Instagram|FBAN|FBAV|FB_IAB|Line|Twitter|Snapchat|musical_ly|TikTok|BytedanceWebview|ByteLocale|Aweme/i.test(ua);
   if(!isInApp){ banner.style.display = 'none'; return; }
   // Signal au quick-nav de remonter + hauteur dynamique du banner
   function updateBannerOffsets(){
@@ -15547,6 +15564,16 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
       A.addEventListener('canplay',      onCanPlay, {once:true, passive:true});
       A.addEventListener('canplaythrough', onCanPlay, {once:true, passive:true});
     }
+  }
+
+  /* ── Détection navigateur interne TikTok / ByteDance ── */
+  var ua = navigator.userAgent || '';
+  var isTikTokBrowser = /musical_ly|TikTok|BytedanceWebview|ByteLocale|Aweme/i.test(ua);
+  if(isTikTokBrowser){
+    A.style.display = 'none';
+    B.style.display = 'none';
+    if(IMG){ IMG.style.opacity = '.9'; }
+    return;
   }
 
   /* ── Init immédiate ── */
