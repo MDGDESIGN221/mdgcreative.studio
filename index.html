@@ -13887,8 +13887,8 @@ function applyComplexPatches(lang) {
 
   // ── Burger menu nav links ──
   var mobMenuLinks = document.querySelectorAll('.mob-menu a:not(.mob-cta)');
-  var mobMenuFr = ['Portfolio','À propos','Services','Collabs','Témoignages','Process','Investissement','FAQ','Contact'];
-  var mobMenuEn = ['Portfolio','About','Services','Collabs','Testimonials','Process','Pricing','FAQ','Contact'];
+  var mobMenuFr = ['','Réalisations','À propos','Services','Collabs','Process','Tarifs & Packs','URANUS GFX','FAQ','Contact'];
+  var mobMenuEn = ['','Portfolio','About','Services','Collabs','Process','Pricing','URANUS GFX','FAQ','Contact'];
   mobMenuLinks.forEach(function(el, i) {
     if (mobMenuFr[i]) el.textContent = lang === 'en' ? (mobMenuEn[i] || el.textContent) : (mobMenuFr[i] || el.textContent);
   });
@@ -13897,18 +13897,16 @@ function applyComplexPatches(lang) {
 
   // ── Quick-nav ──
   var qnData = [
-    { fr: 'Accueil',              en: 'Home' },
-    { fr: 'À propos',             en: 'About' },
-    { fr: 'Réalisations',         en: 'Portfolio' },
-    { fr: 'Collaborations',       en: 'Collabs' },
-    { fr: 'Services',             en: 'Services' },
-    { fr: 'Comment je travaille', en: 'Process' },
-    { fr: 'Tarifs & Packs',       en: 'Pricing' },
-    { fr: 'URANUS GFX',           en: 'URANUS GFX' },
-    { fr: 'Clients',              en: 'Clients' },
-    { fr: 'Témoignages',          en: 'Testimonials' },
-    { fr: 'FAQ',                  en: 'FAQ' },
-    { fr: 'Contact',              en: 'Contact' }
+    { fr: 'Accueil',        en: 'Home' },
+    { fr: 'Réalisations',   en: 'Portfolio' },
+    { fr: 'À propos',       en: 'About' },
+    { fr: 'Services',       en: 'Services' },
+    { fr: 'Collabs',        en: 'Collabs' },
+    { fr: 'Process',        en: 'Process' },
+    { fr: 'Tarifs & Packs', en: 'Pricing' },
+    { fr: 'URANUS GFX',     en: 'URANUS GFX' },
+    { fr: 'FAQ',            en: 'FAQ' },
+    { fr: 'Contact',        en: 'Contact' }
   ];
   var quickNavLinks = document.querySelectorAll('#quick-nav a');
   quickNavLinks.forEach(function(el, i) {
@@ -14110,17 +14108,15 @@ document.addEventListener('DOMContentLoaded', function(){
   <div id="quick-nav-menu" role="menu">
     <div class="qn-label">Navigation rapide</div>
     <a class="qn-item" onclick="qnGo('hero')"><span class="qn-num">00</span>Accueil</a>
-    <a class="qn-item" onclick="qnGo('about')"><span class="qn-num">01</span>À propos</a>
-    <a class="qn-item" onclick="qnGo('portfolio-accordion')"><span class="qn-num">02</span>Réalisations</a>
-    <a class="qn-item" onclick="qnGo('collabs')"><span class="qn-num">03</span>Collaborations</a>
-    <a class="qn-item" onclick="qnGo('services')"><span class="qn-num">04</span>Services</a>
-    <a class="qn-item" onclick="qnGo('process')"><span class="qn-num">05</span>Comment je travaille</a>
+    <a class="qn-item" onclick="qnGo('portfolio-accordion')"><span class="qn-num">01</span>Réalisations</a>
+    <a class="qn-item" onclick="qnGo('about')"><span class="qn-num">02</span>À propos</a>
+    <a class="qn-item" onclick="qnGo('services')"><span class="qn-num">03</span>Services</a>
+    <a class="qn-item" onclick="qnGo('collabs')"><span class="qn-num">04</span>Collabs</a>
+    <a class="qn-item" onclick="qnGo('process')"><span class="qn-num">05</span>Process</a>
     <a class="qn-item" onclick="qnGo('pricing')"><span class="qn-num">06</span>Tarifs &amp; Packs</a>
     <a class="qn-item" onclick="qnGo('uranus')" style="color:#a78bfa"><span class="qn-num" style="color:#a78bfa">✦</span>URANUS GFX</a>
     <div class="qn-divider"></div>
-    <a class="qn-item" onclick="qnGo('trust')"><span class="qn-num">07</span>Clients</a>
-    <a class="qn-item" onclick="qnGo('testimonials')"><span class="qn-num">08</span>Témoignages</a>
-    <a class="qn-item" onclick="qnGo('faq')"><span class="qn-num">09</span>FAQ</a>
+    <a class="qn-item" onclick="qnGo('faq')"><span class="qn-num">07</span>FAQ</a>
     <div class="qn-divider"></div>
     <a class="qn-item" onclick="qnGo('contact')"><span class="qn-num">→</span>Contact</a>
   </div>
