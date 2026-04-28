@@ -736,7 +736,7 @@ section+section::before,
 .work-track-wrap::before,.work-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .work-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .work-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .work-track::-webkit-scrollbar{display:none}
 /* ── WORK CARDS — design premium ── */
 .work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04)}
@@ -799,7 +799,7 @@ section+section::before,
 .cov-track-wrap::before,.cov-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .cov-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .cov-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .cov-track::-webkit-scrollbar{display:none}
 .cov-card{position:relative;display:block;text-decoration:none;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(240px,26vw,320px);aspect-ratio:1/1;scroll-snap-align:start;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0)}
 .cov-card:hover{transform:translateY(-4px)}
@@ -1652,6 +1652,13 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
   aspect-ratio:16/9;
   position:relative;border-radius:12px;overflow:hidden;
   box-shadow:0 40px 120px rgba(0,0,0,.8);
+}
+@media(max-width:768px){
+  #motion-fullscreen{padding:0;align-items:stretch;justify-content:flex-start;}
+  #motion-fullscreen-inner{width:100vw;max-width:100%;border-radius:0;aspect-ratio:unset;height:100svh;display:flex;flex-direction:column;}
+  #motion-fullscreen-inner iframe,#motion-fullscreen-inner video{position:relative;width:100%;flex:1;height:auto;}
+  #motion-fullscreen-title,#motion-fullscreen-artist{padding:0 1rem;}
+  #motion-fullscreen-close{top:.75rem;right:.75rem;}
 }
 #motion-fullscreen-inner iframe,
 #motion-fullscreen-inner video{
@@ -11227,6 +11234,75 @@ function enableDragScroll(track){
 enableDragScroll(document.getElementById('workTrack'));
 enableDragScroll(document.getElementById('covTrack'));
 enableDragScroll(document.getElementById('motTrack'));
+
+// ── TOUCH NATIF FLUIDE sur les tracks (mobile) ──
+// Suit le doigt pixel par pixel + inertie naturelle
+(function(){
+  function enableNativeTouch(track) {
+    if (!track || track._touchEnabled) return;
+    track._touchEnabled = true;
+
+    var startX = 0, startScroll = 0;
+    var lastX = 0, lastTime = 0;
+    var velX = 0;
+    var rafId = null;
+    var isSwiping = false;
+
+    track.addEventListener('touchstart', function(e) {
+      // Annuler l'inertie en cours
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      var t = e.touches[0];
+      startX = t.clientX;
+      startScroll = track.scrollLeft;
+      lastX = t.clientX;
+      lastTime = Date.now();
+      velX = 0;
+      isSwiping = false;
+    }, { passive: true });
+
+    track.addEventListener('touchmove', function(e) {
+      var t = e.touches[0];
+      var dx = t.clientX - startX;
+      var dy = t.clientY - (e.touches[0].clientY || 0);
+
+      // Détecter si c'est un swipe horizontal
+      if (!isSwiping && Math.abs(dx) > 4) {
+        isSwiping = true;
+      }
+      if (!isSwiping) return;
+
+      // Empêcher le scroll vertical de la page pendant le swipe horizontal
+      e.stopPropagation();
+
+      // Calcul vélocité
+      var now = Date.now();
+      var dt = now - lastTime || 1;
+      velX = (t.clientX - lastX) / dt;
+      lastX = t.clientX;
+      lastTime = now;
+
+      // Suivi direct du doigt — sans délai, sans multiplicateur
+      track.scrollLeft = startScroll - dx;
+    }, { passive: true });
+
+    track.addEventListener('touchend', function() {
+      if (!isSwiping) return;
+      // Inertie post-swipe
+      var vel = velX * 16; // amplitude initiale
+      function glide() {
+        if (Math.abs(vel) < 0.5) return;
+        track.scrollLeft -= vel;
+        vel *= 0.92; // friction
+        rafId = requestAnimationFrame(glide);
+      }
+      rafId = requestAnimationFrame(glide);
+    }, { passive: true });
+  }
+
+  enableNativeTouch(document.getElementById('workTrack'));
+  enableNativeTouch(document.getElementById('covTrack'));
+  enableNativeTouch(document.getElementById('motTrack'));
+})();
 enableDragScroll(document.querySelector('.trust-strip-inner'));
 
 // ── CARROUSELS MOBILE — scroll natif CSS pur (scroll-snap + touch-action) ──
@@ -11582,6 +11658,8 @@ setTimeout(typeRun,600);
 let lenis;
 function initLenis() {
   if (typeof Lenis === 'undefined') return;
+  // Lenis désactivé sur mobile — le scroll natif gère le touch
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
   lenis = new Lenis({
     duration: 1.4,
     easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -11589,8 +11667,6 @@ function initLenis() {
     gestureOrientation: 'vertical',
     smoothWheel: true,
     wheelMultiplier: 0.8,
-    touchMultiplier: 2.0,
-    touchInertiaMultiplier: 20,
     prevent: node => node.id === 'workTrack' || node.id === 'covTrack' || node.id === 'motTrack' || !!(node.closest && node.closest('.pack-modal-overlay')),
   });
   function raf(time) {
@@ -13843,8 +13919,16 @@ function motionOpen(src, name, artist) {
   var content = document.getElementById('motion-fullscreen-content');
   document.getElementById('motion-fullscreen-title').textContent = name || '';
   document.getElementById('motion-fullscreen-artist').textContent = artist || '';
-  var autoSrc = src + (src.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1&muted=0';
-  content.innerHTML = '<iframe src="' + autoSrc + '" allow="autoplay; fullscreen" allowfullscreen></iframe>';
+
+  var isMp4 = /\.(mp4|webm|mov)(\?|$)/i.test(src);
+  if (isMp4) {
+    content.innerHTML = '<video src="' + src + '" autoplay playsinline webkit-playsinline controls style="position:absolute;inset:0;width:100%;height:100%;background:#000;border:none;" preload="auto"></video>';
+  } else {
+    var sep = src.indexOf('?') > -1 ? '&' : '?';
+    var autoSrc = src + sep + 'autoplay=1&muted=false&controls=true&loop=false&quality=auto&preload=auto';
+    content.innerHTML = '<iframe src="' + autoSrc + '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>';
+  }
+
   fs.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
