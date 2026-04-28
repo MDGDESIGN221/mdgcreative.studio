@@ -11254,19 +11254,24 @@ _staggerTl('.svc-grid', '.svc-card', { opacity:0, y:50, scale:.93 }, { opacity:1
 }
 
 // ── SOCIAL PROOF ──
-// sec-label → h2 → sp-sub → sp-feature → tout enchaîné, trigger sur #testimonials
+// sec-label → h2 → sp-sub → sp-feature → tout enchaîné, trigger sur .sp-header
+// (la section #testimonials est display:none — fantôme. La vraie SP est dans #collabs)
 {
-  const _spLbl = document.querySelector('#testimonials .sec-label, .sp-header .sec-label');
+  const _spLbl = document.querySelector('.sp-header .sec-label');
   const _spH2  = document.querySelector('.sp-header .svc-h2, .sp-header h2');
   const _spSub = document.querySelector('.sp-header .sp-sub');
   const _spF   = document.querySelector('.sp-feature');
-  const spAnchor = document.querySelector('#testimonials') || document.querySelector('.sp-header');
+  const spAnchor = document.querySelector('.sp-header');
   if (spAnchor) {
     const tl = gsap.timeline({ scrollTrigger: { trigger: spAnchor, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
     if (_spLbl) tl.fromTo(_spLbl, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
     if (_spH2)  tl.fromTo(_spH2,  { opacity:0, y:30 }, { opacity:1, y:0, duration:.8, ease:_E }, '-=0.35');
     if (_spSub) tl.fromTo(_spSub, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
-    if (_spF)   tl.fromTo(_spF,   { opacity:0, scale:.93, y:20 }, { opacity:1, scale:1, y:0, duration:.85, ease:_Eb }, '-=0.3');
+  }
+  // sp-feature : trigger propre sur lui-même (il est bien après le header dans le DOM)
+  if (_spF) {
+    gsap.fromTo(_spF, { opacity:0, scale:.93, y:20 }, { opacity:1, scale:1, y:0, duration:.85, ease:_Eb,
+      scrollTrigger: { trigger: _spF, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
   }
 }
 // vcards : batch depuis leur parent
@@ -11309,39 +11314,57 @@ _staggerTl('.proc-conds', '.proc-cond', { opacity:0, y:28, scale:.94 }, { opacit
   if (_pricNote) tl.fromTo(_pricNote, { opacity:0, y:14 },  { opacity:1, y:0, duration:.55, ease:_E }, '-=0.4');
   if (_pricTabs) tl.fromTo(_pricTabs, { opacity:0, y:18 },  { opacity:1, y:0, duration:.6,  ease:_E }, '-=0.35');
 }
-// Pack-cards : batch sur .packs-grid (parent) → sync garantie
+// Pack-cards (panel-primaires, toujours visible) : batch classique
 _batch('.pack-card',
   { opacity:0, y:60, rotation:2 },
   { opacity:1, y:0, rotation:0, duration:.75, ease:_E },
   .09, .05
 );
-// adv-cards : stagger depuis leur conteneur parent
+
+// ── PANELS CACHÉS (avancés, rollout, addons) ──
+// Les éléments dans pricing-panel display:none ne peuvent pas être animés par ScrollTrigger
+// (position incalculable). On les initialise à opacity:1 immédiatement,
+// et on ajoute une animation d'entrée au moment où l'onglet s'ouvre.
+// Forcer opacity:1 sur tous les éléments dans les panels non-actifs dès le départ
+document.querySelectorAll('.pricing-panel:not(.active) .adv-card,\
+  .pricing-panel:not(.active) .rollout-card,\
+  .pricing-panel:not(.active) .addons-intro,\
+  .pricing-panel:not(.active) .addon-card').forEach(el => {
+  gsap.set(el, { opacity:1, x:0, y:0, scale:1, rotation:0, clearProps:'all' });
+});
+
+// Wrapper switchPricingTab pour animer l'entrée des cards à l'ouverture
 {
-  const advParent = document.querySelector('.pack-card')?.closest('section') || document.querySelector('.pricing-header')?.closest('section');
-  document.querySelectorAll('.adv-card').forEach((el, i) => {
-    gsap.fromTo(el,
-      { opacity:0, x: i%2===0 ? -40 : 40, y:20 },
-      { opacity:1, x:0, y:0, duration:.7, ease:_E,
-        scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } }
-    );
-  });
+  const _origSwitch = window.switchPricingTab;
+  window.switchPricingTab = function(panel, btn) {
+    _origSwitch(panel, btn);
+    const activePanel = document.getElementById('panel-' + panel);
+    if (!activePanel) return;
+    // Animation d'entrée selon le panel
+    if (panel === 'avances') {
+      const cards = activePanel.querySelectorAll('.adv-card');
+      gsap.fromTo(cards, { opacity:0, y:40, scale:.95 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E, stagger:.1, clearProps:'transform' });
+    } else if (panel === 'rollout') {
+      const rc = activePanel.querySelector('.rollout-card');
+      if (rc) gsap.fromTo(rc, { opacity:0, scale:.9, y:30 }, { opacity:1, scale:1, y:0, duration:.75, ease:_Eb, clearProps:'transform' });
+    } else if (panel === 'addons') {
+      const ai = activePanel.querySelector('.addons-intro');
+      const ac = activePanel.querySelectorAll('.addon-card');
+      if (ai) gsap.fromTo(ai, { opacity:0, y:20 }, { opacity:1, y:0, duration:.5, ease:_E });
+      if (ac.length) gsap.fromTo(ac, { opacity:0, y:30, scale:.94 }, { opacity:1, y:0, scale:1, duration:.6, ease:_E, stagger:.07, delay:.15, clearProps:'transform' });
+    } else if (panel === 'primaires') {
+      const cards = activePanel.querySelectorAll('.pack-card');
+      gsap.fromTo(cards, { opacity:0, y:40, rotation:1 }, { opacity:1, y:0, rotation:0, duration:.65, ease:_E, stagger:.09, clearProps:'transform' });
+    }
+  };
 }
-// rollout + addons-intro → liés, trigger sur rollout-card
-{
-  const _rc = document.querySelector('.rollout-card');
-  const _ai = document.querySelector('.addons-intro');
-  if (_rc) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger:_rc, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
-    tl.fromTo(_rc, { opacity:0, scale:.88, y:30 }, { opacity:1, scale:1, y:0, duration:.9, ease:_Eb });
-    if (_ai) tl.fromTo(_ai, { opacity:0, y:20 }, { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
-  }
-}
-// addon-cards : batch
-_batch('.addon-card',
-  { opacity:0, y:30, scale:.94 },
-  { opacity:1, y:0, scale:1, duration:.6, ease:_E },
-  .07, .04
-);
+
+// rollout-card dans le panel actif initial : on le laisse visible (ScrollTrigger ne peut pas y accéder)
+gsap.set('.pricing-panel:not(.active) .rollout-card', { opacity:1, clearProps:'all' });
+
+// addon-cards visibles par défaut aussi
+gsap.set('.addon-card', { opacity:1, clearProps:'all' });
+gsap.set('.addons-intro', { opacity:1, clearProps:'all' });
 
 // ── FAQ ──
 // header → items, timeline depuis la section
@@ -11393,18 +11416,19 @@ _batch('.contact-direct-link',
 }
 
 // ── URANUS ──
-// les 3 éléments liés → timeline
+// Trigger individuel sur chaque bloc pour éviter les délais de calcul
 {
   const _uH = document.querySelector('.u-hero-copy');
   const _uV = document.querySelector('.u-box-visual');
   const _uO = document.querySelector('.u-order-card');
-  if (_uH || _uV) {
-    const trigger = _uH || _uV;
-    const tl = gsap.timeline({ scrollTrigger: { trigger, start:'top 85%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
-    if (_uH) tl.fromTo(_uH, { opacity:0, y:44 },               { opacity:1, y:0, duration:.9, ease:_E });
-    if (_uV) tl.fromTo(_uV, { opacity:0, scale:.86, rotate:4 },{ opacity:1, scale:1, rotate:0, duration:1.05, ease:_Eb }, '-=0.55');
-    if (_uO) tl.fromTo(_uO, { opacity:0, y:40 },               { opacity:1, y:0, duration:.85, ease:_E }, '-=0.5');
-  }
+  // Section Uranus : trigger sur la section parente
+  const uSec = _uH?.closest('section') || document.querySelector('#uranus');
+  if (_uH) gsap.fromTo(_uH, { opacity:0, y:36 }, { opacity:1, y:0, duration:.85, ease:_E,
+    scrollTrigger:{ trigger:_uH, start:'top 88%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+  if (_uV) gsap.fromTo(_uV, { opacity:0, scale:.92, rotate:3 }, { opacity:1, scale:1, rotate:0, duration:.9, ease:_Eb,
+    scrollTrigger:{ trigger:_uV, start:'top 88%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
+  if (_uO) gsap.fromTo(_uO, { opacity:0, y:32 }, { opacity:1, y:0, duration:.75, ease:_E,
+    scrollTrigger:{ trigger:_uO, start:'top 88%', end:'bottom -10%', toggleActions:'play reverse play reverse' } });
 }
 
 // ── Tous les sec-label restants (clip-path) ──
@@ -11433,9 +11457,20 @@ document.querySelectorAll('.sec-num').forEach(el => {
   }
 });
 
+// ── GARDE-FOU MOBILE ──
+// Si un élément animé par GSAP reste à opacity:0 après 5s (bug de position sur mobile,
+// section cachée, etc.), on le force à opacity:1 pour ne jamais bloquer du contenu.
+setTimeout(() => {
+  document.querySelectorAll('.sp-feature, .sp-header, .sp-vcard, .adv-card, .rollout-card, .addons-intro, .addon-card, .u-hero-copy, .u-box-visual, .u-order-card').forEach(el => {
+    const computed = window.getComputedStyle(el);
+    if (parseFloat(computed.opacity) < 0.1) {
+      gsap.set(el, { opacity:1, clearProps:'all' });
+    }
+  });
+}, 5000);
 
 
-// ── COMPTEURS ANIMÉS ──
+
 function animateCounter(el) {
   const target = parseInt(el.dataset.target);
   const suffix = el.dataset.suffix || '';
