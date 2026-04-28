@@ -1635,15 +1635,18 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 
 /* Fullscreen video overlay */
 #motion-fullscreen{
-  display:none;
+  visibility:hidden;
+  opacity:0;
   position:fixed;inset:0;z-index:99999;
   background:rgba(0,0,0,.96);
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   align-items:center;justify-content:center;
   flex-direction:column;
+  display:flex;
+  transition:opacity .18s ease, visibility .18s ease;
 }
-#motion-fullscreen.open{display:flex}
+#motion-fullscreen.open{visibility:visible;opacity:1;}
 #motion-fullscreen-inner{
   width:90vw;max-width:960px;
   aspect-ratio:16/9;
@@ -3552,11 +3555,11 @@ nav::before { display:none; }
 }
 .acc-panel {
   display: none;
-  animation: accFadeIn .4s cubic-bezier(.16,1,.3,1);
+  animation: accFadeIn .22s cubic-bezier(.16,1,.3,1);
 }
 .acc-panel.active { display: block; }
 @keyframes accFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @media(max-width:900px){
@@ -6894,21 +6897,30 @@ nav::before { display:none; }
     <!-- Header portfolio premium -->
     <div class="port-header">
       <div>
-        <div class="sec-label reveal-line">Portfolio</div>
-        <h2 class="port-h2 reveal-up">Réalisations</h2>
-        <p class="port-extract-label reveal-fade">Extrait du portfolio</p>
+        <div class="sec-label reveal-line">Ce que je produis</div>
+        <h2 class="port-h2 reveal-up">Le travail<em style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--off);display:block;font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:0;margin-top:.3rem"> parle à ma place</em></h2>
+        <p class="port-extract-label reveal-fade">Extrait du portfolio — 7 ans d'exigence</p>
       </div>
       <!-- Compteur dynamique -->
       <div class="port-count reveal-fade">
-        <span class="port-count-num" id="portCountNum">22</span>
-        <span class="port-count-label" id="portCountLabel">projets · Graphisme</span>
+        <span class="port-count-num" id="portCountNum">9</span>
+        <span class="port-count-label" id="portCountLabel">vidéos · In Motion</span>
       </div>
     </div>
 
     <!-- Tabs premium — 3 colonnes avec icône + description -->
     <div class="port-tabs-wrap">
     <div class="port-tabs">
-      <button class="port-tab active" onclick="accSwitch('work', this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
+      <button class="port-tab active" onclick="accSwitch('motion', this)" data-panel="motion" data-count="9" data-label="vidéos · In Motion">
+        <div class="port-tab-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <div class="port-tab-text">
+          <span class="port-tab-name">In Motion</span>
+          <span class="port-tab-sub">Motion · Vidéo · Animation</span>
+        </div>
+      </button>
+      <button class="port-tab" onclick="accSwitch('work', this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
         <div class="port-tab-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         </div>
@@ -6926,20 +6938,11 @@ nav::before { display:none; }
           <span class="port-tab-sub">Singles · EP · Albums</span>
         </div>
       </button>
-      <button class="port-tab" onclick="accSwitch('motion', this)" data-panel="motion" data-count="9" data-label="vidéos · In Motion">
-        <div class="port-tab-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </div>
-        <div class="port-tab-text">
-          <span class="port-tab-name">In Motion</span>
-          <span class="port-tab-sub">Motion · Vidéo · Animation</span>
-        </div>
-      </button>
     </div>
     </div>
 
     <!-- Panel Réalisations -->
-    <div class="acc-panel active" id="acc-work">
+    <div class="acc-panel" id="acc-work">
     <div style="padding:2rem 3rem 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
       <div class="work-nav">
         <span class="work-counter"><strong id="workCur">01</strong> / <span id="workTot">22</span></span>
@@ -7343,7 +7346,7 @@ nav::before { display:none; }
   </div><!-- fin acc-covers -->
 
   <!-- ── PANEL MOTION ── -->
-  <div class="acc-panel" id="acc-motion">
+  <div class="acc-panel active" id="acc-motion">
     <div style="padding:2rem 3rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
       <div>
         <div class="sec-label reveal-line">Frames</div>
@@ -7358,6 +7361,27 @@ nav::before { display:none; }
     <div class="work-track-wrap reveal-up rd1">
       <div class="work-track" id="motTrack">
 
+        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=One_Lyrical_Promo_Video_concert_%C3%A0_Alassane_Djigo_elctoe" data-mot-title="PROMO · One Lyrical">
+          <img decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777184384/one_lyrical_33_s2iha2.jpg" alt="PROMO">
+          <div class="work-meta"><div class="work-cat">Promo Vidéo</div><div class="work-title">PROMO<em>One Lyrical</em></div></div>
+          <div class="work-overlay"></div>
+          <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+
+        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=PARIS_J_ARRIVE_-_CHEFYERSA_aaxmal" data-mot-title="Paris J'arrive · Chef Yersa">
+          <img decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777330471/hf_20260427_225219_b8c020f6-a244-499e-8864-da7d467e9219_qzucfr.png" alt="Paris J'arrive">
+          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Paris J'arrive<em>Chef Yersa</em></div></div>
+          <div class="work-overlay"></div>
+          <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+
+        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=NEW_WAVE_-_OOTHENTIK_ZEUS_fc5zv4" data-mot-title="New Wave · Oothentik Zeus">
+          <img decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="New Wave">
+          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">New Wave<em>Oothentik Zeus</em></div></div>
+          <div class="work-overlay"></div>
+          <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+
         <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=KEY_EM_TI_-_M%C3%89RITE_zlkh2c" data-mot-title="Mérite · KEY EM TI">
           <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777330471/hf_20260427_224414_e12dbd02-4321-4ee2-a0e1-5ba5c1b1e24c_pjo5ox.png" alt="Mérite">
           <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Mérite<em>KEY EM TI</em></div></div>
@@ -7365,23 +7389,9 @@ nav::before { display:none; }
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
 
-        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=One_Lyrical_Promo_Video_concert_%C3%A0_Alassane_Djigo_elctoe" data-mot-title="PROMO · One Lyrical">
-          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777184384/one_lyrical_33_s2iha2.jpg" alt="PROMO">
-          <div class="work-meta"><div class="work-cat">Promo Vidéo</div><div class="work-title">PROMO<em>One Lyrical</em></div></div>
-          <div class="work-overlay"></div>
-          <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
-        </div>
-
-        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=NEW_WAVE_-_OOTHENTIK_ZEUS_fc5zv4" data-mot-title="New Wave · Oothentik Zeus">
-          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="New Wave">
-          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">New Wave<em>Oothentik Zeus</em></div></div>
-          <div class="work-overlay"></div>
-          <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
-        </div>
-
-        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=PARIS_J_ARRIVE_-_CHEFYERSA_aaxmal" data-mot-title="Paris J'arrive · Chef Yersa">
-          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777330471/hf_20260427_225219_b8c020f6-a244-499e-8864-da7d467e9219_qzucfr.png" alt="Paris J'arrive">
-          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Paris J'arrive<em>Chef Yersa</em></div></div>
+        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=Rues_de_Paname_-_DAMNIBRA_FT._FXLL_fouwwt" data-mot-title="Rues de Paname · Damnibra ft. Fxll">
+          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777330853/ibra_yyckmv.png" alt="Rues de Paname">
+          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Rues de Paname<em>Damnibra ft. Fxll</em></div></div>
           <div class="work-overlay"></div>
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
@@ -7393,13 +7403,6 @@ nav::before { display:none; }
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
 
-        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=TUKKI_-_MGEEY_FT._DAMNIBRA_hduvob" data-mot-title="Tukki · Mgeey ft. Damnibra">
-          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/video/upload/so_4,w_800,q_auto,f_jpg/TUKKI_-_MGEEY_FT._DAMNIBRA_hduvob.jpg" alt="Tukki">
-          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Tukki<em>Mgeey ft. Damnibra</em></div></div>
-          <div class="work-overlay"></div>
-          <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
-        </div>
-
         <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=I_FEEL_IT_-_GUN_SILENT_by8bhv" data-mot-title="I Feel It · Gun Silent">
           <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777182558/GUN_SILE_socvwe.jpg" alt="I Feel It">
           <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">I Feel It<em>Gun Silent</em></div></div>
@@ -7407,9 +7410,9 @@ nav::before { display:none; }
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
 
-        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=Rues_de_Paname_-_DAMNIBRA_FT._FXLL_fouwwt" data-mot-title="Rues de Paname · Damnibra ft. Fxll">
-          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777330853/ibra_yyckmv.png" alt="Rues de Paname">
-          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Rues de Paname<em>Damnibra ft. Fxll</em></div></div>
+        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=TUKKI_-_MGEEY_FT._DAMNIBRA_hduvob" data-mot-title="Tukki · Mgeey ft. Damnibra">
+          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/video/upload/so_4,w_800,q_auto,f_jpg/TUKKI_-_MGEEY_FT._DAMNIBRA_hduvob.jpg" alt="Tukki">
+          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Tukki<em>Mgeey ft. Damnibra</em></div></div>
           <div class="work-overlay"></div>
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
@@ -11057,6 +11060,23 @@ document.addEventListener('keydown',function(e){
 // Close on overlay click (clicking outside nav links)
 mob.addEventListener('click',function(e){if(e.target===mob)closeMobMenu();});
 function cm(){mob.classList.remove('open')}
+// ── SMOOTH CAROUSEL SCROLL — RAF-based, zero lag ──
+function carouselScrollTo(track, targetLeft) {
+  var start = track.scrollLeft;
+  var dist = targetLeft - start;
+  if (Math.abs(dist) < 2) return;
+  var startTime = null;
+  var duration = 320;
+  function ease(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function step(ts){
+    if(!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    track.scrollLeft = start + dist * ease(progress);
+    if(progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 // Portfolio carousel
 (function(){
   const track=document.getElementById('workTrack');
@@ -11074,8 +11094,8 @@ function cm(){mob.classList.remove('open')}
     prev.disabled=track.scrollLeft<4;
     next.disabled=track.scrollLeft>=track.scrollWidth-track.clientWidth-4;
   }
-  prev.addEventListener('click',()=>track.scrollBy({left:-step(),behavior:'smooth'}));
-  next.addEventListener('click',()=>track.scrollBy({left:step(),behavior:'smooth'}));
+  prev.addEventListener('click',()=>carouselScrollTo(track, track.scrollLeft - step()));
+  next.addEventListener('click',()=>carouselScrollTo(track, track.scrollLeft + step()));
   track.addEventListener('scroll',update,{passive:true});
   window.addEventListener('resize',update);
   update();
@@ -11097,8 +11117,8 @@ function cm(){mob.classList.remove('open')}
     prev.disabled=track.scrollLeft<4;
     next.disabled=track.scrollLeft>=track.scrollWidth-track.clientWidth-4;
   }
-  prev.addEventListener('click',()=>track.scrollBy({left:-step(),behavior:'smooth'}));
-  next.addEventListener('click',()=>track.scrollBy({left:step(),behavior:'smooth'}));
+  prev.addEventListener('click',()=>carouselScrollTo(track, track.scrollLeft - step()));
+  next.addEventListener('click',()=>carouselScrollTo(track, track.scrollLeft + step()));
   track.addEventListener('scroll',update,{passive:true});
   window.addEventListener('resize',update);
   update();
@@ -13849,7 +13869,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   });
 });
 
-// ── MOT TRACK (In Motion carousel) — init au clic du tab ──
+// ── MOT TRACK (In Motion carousel) — init immédiat (panel actif par défaut) ──
 (function(){
   var initialized = false;
 
@@ -13873,10 +13893,10 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
       prev.disabled = track.scrollLeft < 4;
       next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
     }
-    prev.addEventListener('click', function(){ track.scrollBy({left:-step(), behavior:'smooth'}); });
-    next.addEventListener('click', function(){ track.scrollBy({left:step(),  behavior:'smooth'}); });
+    prev.addEventListener('click', function(){ carouselScrollTo(track, track.scrollLeft - step()); });
+    next.addEventListener('click', function(){ carouselScrollTo(track, track.scrollLeft + step()); });
     track.addEventListener('scroll', update, {passive:true});
-    setTimeout(update, 120);
+    update();
     enableDragScroll(track);
 
     // Clic sur une card motion → ouvrir fullscreen
@@ -13890,23 +13910,18 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     });
   }
 
-  // Déclencher à l'activation du tab motion
+  // Init immédiat — c'est le panel actif par défaut
+  initMotTrack();
+
+  // Aussi au clic sur le tab (si l'utilisateur revient dessus)
   document.querySelectorAll('.port-tab, .acc-tab').forEach(function(tab){
     tab.addEventListener('click', function(){
       if(tab.dataset.panel === 'motion' || tab.textContent.trim() === 'In Motion'){
-        setTimeout(initMotTrack, 60);
+        initMotTrack();
       }
     });
   });
-
-  // Si motion est déjà actif au chargement
-  if(document.getElementById('acc-motion') && document.getElementById('acc-motion').classList.contains('active')){
-    setTimeout(initMotTrack, 120);
-  }
 })();
-
-// ── DRAG TO SCROLL motTrack — activé après init du panel ──
-// (géré dans initMotTrack via enableDragScroll)
 </script>
 
 
@@ -13962,8 +13977,8 @@ function accSwitch(panel, btn) {
         next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
       }
       if (!prev._covBound) {
-        prev.addEventListener('click', function(){ track.scrollBy({left:-covStep(), behavior:'smooth'}); });
-        next.addEventListener('click', function(){ track.scrollBy({left:covStep(), behavior:'smooth'}); });
+        prev.addEventListener('click', function(){ carouselScrollTo(track, track.scrollLeft - covStep()); });
+        next.addEventListener('click', function(){ carouselScrollTo(track, track.scrollLeft + covStep()); });
         track.addEventListener('scroll', covUpdate, {passive:true});
         prev._covBound = true;
       }
