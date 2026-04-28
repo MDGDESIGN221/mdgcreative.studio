@@ -1412,10 +1412,10 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
     z-index:5;
     justify-content:flex-end;
   }
-  /* Stats : en bas full width — au-dessus de la tab bar mobile */
+  /* Stats : en bas full width — dans le flux */
   .hero-stats{
-    position:absolute;
-    bottom:calc(56px + env(safe-area-inset-bottom, 0px));left:0;right:0;
+    position:relative !important;
+    bottom:auto !important;
     gap:0;flex-wrap:nowrap;
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
@@ -1488,8 +1488,8 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
     justify-content:flex-end;
   }
   .hero-stats{
-    position:absolute;
-    bottom:calc(56px + env(safe-area-inset-bottom, 0px));left:0;right:0;
+    position:relative !important;
+    bottom:auto !important;
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
     flex-wrap:nowrap;
@@ -2468,7 +2468,7 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
 /* ── MOBILE IMPROVEMENTS ── */
 @media(max-width:640px){
   /* Hero : photo plein fond, texte en bas */
-  #hero{flex-direction:column !important;position:relative;overflow:hidden}
+  #hero{flex-direction:column !important;position:relative;overflow:hidden;min-height:100dvh;display:flex !important}
   .hero-photo-wrap{
     position:absolute !important;inset:0 !important;
     width:100% !important;height:100% !important;right:auto !important;
@@ -2485,10 +2485,11 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .hero-photo-wrap::after{display:none !important}
 
   .hero-left{
-    position:absolute !important;
-    bottom:0;left:0;right:0;
+    position:relative !important;
+    flex:1 !important;
+    bottom:auto;left:auto;right:auto;
     width:100% !important;
-    padding:0 1.25rem 8.5rem !important;
+    padding:calc(var(--nav-h,72px) + 2rem) 1.25rem 2rem !important;
     z-index:3;
     justify-content:flex-end !important;
     max-width:none !important;
@@ -2534,8 +2535,8 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .hero-handle{font-size:.7rem;margin-bottom:.5rem !important}
   .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em;height:1.4em;overflow:hidden;contain:strict}
 
-  /* Stats bar 3 colonnes en bas — décalées au-dessus de la tab bar mobile (56px + safe-area) */
-  .hero-stats{display:grid !important;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border);z-index:4;bottom:calc(56px + env(safe-area-inset-bottom, 0px)) !important;background:rgba(6,6,6,.78) !important;backdrop-filter:blur(20px) saturate(1.4) !important;-webkit-backdrop-filter:blur(20px) saturate(1.4) !important}
+  /* Stats bar 3 colonnes en bas — dans le flux, pas en absolute */
+  .hero-stats{display:grid !important;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border);z-index:4;position:relative !important;bottom:auto !important;background:rgba(6,6,6,.78) !important;backdrop-filter:blur(20px) saturate(1.4) !important;-webkit-backdrop-filter:blur(20px) saturate(1.4) !important}
   .stat{border-right:1px solid var(--border);border-bottom:none;padding:.8rem .4rem .95rem}
   .stat:last-child{border-right:none}
   .stat-number{font-size:1.4rem !important}
@@ -7041,7 +7042,7 @@ nav::before { display:none; }
       <div>
         <div class="sec-label reveal-line">Ce que je produis</div>
         <h2 class="port-h2 reveal-up">Le travail<em style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--off);display:block;font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:0;margin-top:.3rem"> parle à ma place</em></h2>
-        <p class="port-extract-label reveal-fade">Extrait du portfolio — 7 ans d'exigence</p>
+        <p class="port-extract-label reveal-fade">Extrait du portfolio, 7 ans d'exigence</p>
       </div>
       <!-- Compteur dynamique -->
       <div class="port-count reveal-fade">
