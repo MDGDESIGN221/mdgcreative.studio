@@ -114,6 +114,225 @@ html{scroll-behavior:smooth;overflow-x:hidden}
 
 body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--light);-webkit-font-smoothing:antialiased;cursor:none;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw}
 
+
+/* ── WATERMARK TEXTE GÉANT (inspiré pieterkoopt) ── */
+.wm-section { position: relative; overflow: hidden; }
+.wm-section::before {
+  content: attr(data-wm);
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(8rem, 22vw, 22rem);
+  letter-spacing: -.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,.04);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+  line-height: 1;
+}
+.wm-section > * { position: relative; z-index: 1; }
+
+/* ── SCROLL-TRIGGERED CINEMATIC — fade sections ── */
+.reveal-cinema {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
+}
+.reveal-cinema.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── PROCESS REDESIGN — style pieterkoopt 01/02/03 ── */
+.pieter-process {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.pieter-step {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 520px;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+.pieter-step:last-child { border-bottom: none; }
+.pieter-step:nth-child(even) .pieter-step-media { order: -1; }
+
+.pieter-step-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 4rem;
+  position: relative;
+  background: var(--black);
+}
+.pieter-step-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(6rem, 14vw, 11rem);
+  line-height: .85;
+  letter-spacing: -.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(200,250,100,.15);
+  margin-bottom: 1.5rem;
+  display: block;
+  transition: -webkit-text-stroke-color .4s;
+}
+.pieter-step:hover .pieter-step-num {
+  -webkit-text-stroke-color: rgba(200,250,100,.35);
+}
+.pieter-step-badge {
+  font-family: 'Syne', sans-serif;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.pieter-step-badge::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: var(--accent);
+}
+.pieter-step-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: -.02em;
+  line-height: 1.1;
+  color: var(--light);
+  margin-bottom: 1.25rem;
+}
+.pieter-step-desc {
+  font-size: .95rem;
+  color: var(--off);
+  line-height: 1.8;
+  font-weight: 300;
+  max-width: 420px;
+  margin-bottom: 1.75rem;
+}
+.pieter-step-rule {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: .55rem 1rem;
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  width: fit-content;
+}
+.pieter-step-rule svg { stroke: var(--accent); flex-shrink: 0; }
+
+.pieter-step-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  min-height: 420px;
+}
+.pieter-step-media img,
+.pieter-step-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .8s cubic-bezier(.16,1,.3,1);
+}
+.pieter-step:hover .pieter-step-media img,
+.pieter-step:hover .pieter-step-media video {
+  transform: scale(1.04);
+}
+.pieter-step-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(6,6,6,.3) 0%, transparent 60%);
+  z-index: 1;
+}
+
+@media(max-width: 900px) {
+  .pieter-step {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .pieter-step:nth-child(even) .pieter-step-media { order: 0; }
+  .pieter-step-content { padding: 3rem 1.5rem; }
+  .pieter-step-media { min-height: 280px; }
+  .pieter-step-num { font-size: clamp(5rem, 20vw, 8rem); }
+}
+
+/* ── HERO TYPO — plus massive ── */
+.hero-manifeste-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.5rem 3rem;
+  background: linear-gradient(to top, rgba(6,6,6,.9) 0%, transparent 100%);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  z-index: 20;
+  overflow: hidden;
+}
+.hero-manifeste-ticker {
+  display: flex;
+  gap: 4rem;
+  animation: manifeste-scroll 18s linear infinite;
+  white-space: nowrap;
+  font-family: 'Syne', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.hero-manifeste-ticker span { color: var(--accent); }
+@keyframes manifeste-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+
+/* ── HERO TYPO MASSIVE (inspiré pieterkoopt) ── */
+@media(min-width: 901px) {
+  .hero-name {
+    font-size: clamp(2rem, 5.5vw, 6.5rem) !important;
+    line-height: .92 !important;
+    letter-spacing: -.035em !important;
+  }
+  .hero-name-sub {
+    font-size: clamp(1.8rem, 4.8vw, 5.8rem) !important;
+  }
+  .hero-promise {
+    font-size: clamp(1.4rem, 2.4vw, 2rem) !important;
+  }
+  .hero-left {
+    padding-top: 9rem !important;
+    padding-bottom: 14rem !important;
+  }
+}
+
+/* Correction padding hero-stats quand ticker présent */
+.hero-manifeste-line {
+  bottom: 72px;
+}
+@media(max-width: 900px) {
+  .hero-manifeste-line { display: none; }
+}
+
 /* ── CURSOR ── */
 .cur{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);will-change:transform;transition:width .2s,height .2s;box-shadow:0 0 0 1.5px rgba(6,6,6,.5)}
 .cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(200,250,100,.28);border-radius:50%;pointer-events:none;z-index:9998;top:0;left:0;transform:translate(-50%,-50%);will-change:transform;transition:width .3s,height .3s,border-color .3s}
@@ -6878,6 +7097,13 @@ nav::before { display:none; }
 
   </div>
 
+  <!-- Ticker manifeste bas du hero — inspiré pieterkoopt -->
+  <div class="hero-manifeste-line" aria-hidden="true">
+    <div class="hero-manifeste-ticker">
+      <span>Cover Art</span>&nbsp;·&nbsp;<span style="color:var(--dim)">Direction Artistique</span>&nbsp;·&nbsp;<span>Motion Design</span>&nbsp;·&nbsp;<span style="color:var(--dim)">Brand Identity</span>&nbsp;·&nbsp;<span>7 ans d'exigence</span>&nbsp;·&nbsp;<span style="color:var(--dim)">Kaolack, Sénégal</span>&nbsp;·&nbsp;<span>Cover Art</span>&nbsp;·&nbsp;<span style="color:var(--dim)">Direction Artistique</span>&nbsp;·&nbsp;<span>Motion Design</span>&nbsp;·&nbsp;<span style="color:var(--dim)">Brand Identity</span>&nbsp;·&nbsp;<span>7 ans d'exigence</span>&nbsp;·&nbsp;<span style="color:var(--dim)">Kaolack, Sénégal</span>&nbsp;·&nbsp;
+    </div>
+  </div>
+
   <div class="hero-stats">
       <div class="stat">
         <div class="stat-number" data-target="7" data-suffix="+"><span class="num">7</span><span class="suf">+</span></div>
@@ -6898,7 +7124,7 @@ nav::before { display:none; }
 </section>
 
 <!-- MANIFESTE — déplacé juste après le hero pour poser le ton -->
-<section id="portfolio-accordion">
+<section id="portfolio-accordion" class="wm-section" data-wm="WORK">
   <div class="container">
 
     <!-- Header portfolio premium -->
@@ -7438,7 +7664,7 @@ nav::before { display:none; }
 </section>
 
 
-<section id="about">
+<section id="about" class="wm-section" data-wm="MDG">
   <div class="container">
     <div class="about-v2">
 
@@ -7616,7 +7842,7 @@ nav::before { display:none; }
 
 
 
-<section id="services">
+<section id="services" class="wm-section" data-wm="SERVICES">
   <div class="sec-num reveal-fade">04</div>
   <div class="container">
     <div class="svc-header reveal-up">
@@ -7964,7 +8190,7 @@ nav::before { display:none; }
 
 
 
-<section id="process">
+<section id="process" class="wm-section" data-wm="PROCESS">
   <div class="container">
     <div class="process-header reveal-up">
       <div class="sec-label reveal-line">Méthodologie</div>
@@ -7972,67 +8198,78 @@ nav::before { display:none; }
       <p class="sec-sub reveal-fade rd2">De la prise de contact à la livraison, voilà exactement comment ça se passe.</p>
     </div>
 
-    <!-- Timeline steps -->
-    <div class="proc-timeline">
-      <div class="proc-line"></div>
+    <!-- Process style pieterkoopt — 01/02/03/04 avec médias -->
+    <div class="pieter-process">
 
-      <div class="proc-step reveal-up rd1">
-        <div class="proc-dot">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div class="proc-card">
-          <div class="proc-badge">Étape 01</div>
-          <div class="proc-title">Brief & Échange</div>
-          <p class="proc-desc">On parle de ton projet, ton univers, tes références. Plus tu es précis sur ce que tu veux, plus le résultat va coller.</p>
-          <div class="proc-rule">
+      <!-- 01 Brief -->
+      <div class="pieter-step reveal-cinema">
+        <div class="pieter-step-content">
+          <span class="pieter-step-num">01</span>
+          <div class="pieter-step-badge">Étape 01</div>
+          <h3 class="pieter-step-title">Brief & Échange</h3>
+          <p class="pieter-step-desc">On parle de ton projet, ton univers, tes références. Plus tu es précis sur ce que tu veux, plus le résultat va coller. C'est la base de tout ce qui suit.</p>
+          <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             Acompte 50% avant démarrage
           </div>
         </div>
+        <div class="pieter-step-media">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776803241/Portrait_retouch__v4_lhyhf3.png" alt="Brief session MDG Creative Studio">
+          <div class="pieter-step-media-overlay"></div>
+        </div>
       </div>
 
-      <div class="proc-step reveal-up rd2">
-        <div class="proc-dot">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </div>
-        <div class="proc-card">
-          <div class="proc-badge">Étape 02</div>
-          <div class="proc-title">Concept & Direction</div>
-          <p class="proc-desc">Je pose la direction : moodboard, palette, typographies. Tu valides avant que je rentre dans le vif. On est alignés dès le départ.</p>
-          <div class="proc-rule">
+      <!-- 02 Concept -->
+      <div class="pieter-step reveal-cinema">
+        <div class="pieter-step-content">
+          <span class="pieter-step-num">02</span>
+          <div class="pieter-step-badge">Étape 02</div>
+          <h3 class="pieter-step-title">Concept & Direction</h3>
+          <p class="pieter-step-desc">Je pose la direction : moodboard, palette, typographies. Tu valides avant que je rentre dans le vif. On est alignés dès le départ — pas de surprise en cours de route.</p>
+          <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             1 révision de direction incluse
           </div>
         </div>
+        <div class="pieter-step-media">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776803241/N_B_myst_rieux_-_clair-obscur_z4heh2.png" alt="Direction artistique MDG">
+          <div class="pieter-step-media-overlay"></div>
+        </div>
       </div>
 
-      <div class="proc-step reveal-up rd3">
-        <div class="proc-dot">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><path d="M21 15l-5-5L5 21"/></svg>
-        </div>
-        <div class="proc-card">
-          <div class="proc-badge">Étape 03</div>
-          <div class="proc-title">Production</div>
-          <p class="proc-desc">Je crée. Photoshop, After Effects, Blender, AI selon le projet. Tu reçois une preview pour valider avant la version finale.</p>
-          <div class="proc-rule">
+      <!-- 03 Production -->
+      <div class="pieter-step reveal-cinema">
+        <div class="pieter-step-content">
+          <span class="pieter-step-num">03</span>
+          <div class="pieter-step-badge">Étape 03</div>
+          <h3 class="pieter-step-title">Production</h3>
+          <p class="pieter-step-desc">Je crée. Photoshop, After Effects, Blender, AI selon le projet. Tu reçois une preview pour valider avant la version finale. L'exigence s'applique à chaque pixel.</p>
+          <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             Délai respecté ou remboursement
           </div>
         </div>
+        <div class="pieter-step-media">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776659498/VJ_-_LE_NOUVEAU_STANDARD_ckphom.jpg" alt="Production MDG Creative Studio">
+          <div class="pieter-step-media-overlay"></div>
+        </div>
       </div>
 
-      <div class="proc-step reveal-up rd4">
-        <div class="proc-dot">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        </div>
-        <div class="proc-card">
-          <div class="proc-badge proc-badge-done">Livraison</div>
-          <div class="proc-title">Livraison & Suivi</div>
-          <p class="proc-desc">Fichiers en haute résolution dans tous les formats. Je reste dispo après pour les petits ajustements.</p>
-          <div class="proc-rule">
+      <!-- 04 Livraison -->
+      <div class="pieter-step reveal-cinema">
+        <div class="pieter-step-content">
+          <span class="pieter-step-num">04</span>
+          <div class="pieter-step-badge">Livraison</div>
+          <h3 class="pieter-step-title">Livraison & Suivi</h3>
+          <p class="pieter-step-desc">Fichiers en haute résolution dans tous les formats requis. Je reste dispo après la livraison pour les ajustements et tu gardes un accès direct.</p>
+          <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Solde à la livraison finale
           </div>
+        </div>
+        <div class="pieter-step-media">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776805814/Portrait_16_9_v2_xgfh5l.png" alt="Livraison MDG">
+          <div class="pieter-step-media-overlay"></div>
         </div>
       </div>
 
@@ -11188,6 +11425,21 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     target.scrollIntoView({behavior:'smooth', block:'start'});
   });
 });
+
+// ── REVEAL CINÉMATIQUE (scroll-triggered) — inspiré pieterkoopt ──
+(function(){
+  var els = document.querySelectorAll('.reveal-cinema');
+  if (!els.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  els.forEach(function(el){ io.observe(el); });
+})();
 
 // ── DRAG TO SCROLL (souris desktop) — système unique propre ──
 function enableDragScroll(track){
