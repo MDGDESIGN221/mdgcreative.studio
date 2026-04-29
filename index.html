@@ -6945,16 +6945,16 @@ nav::before { display:none; }
   </div>
 </div>
 <div class="scroll-indicator" id="scrollIndicator">
-  <div class="scroll-dot" data-section="hero" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">Accueil</span></div>
-  <div class="scroll-dot" data-section="about" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">À propos</span></div>
-  <div class="scroll-dot" data-section="portfolio-accordion" onclick="document.getElementById('portfolio-accordion').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">Projets</span></div>
-  <div class="scroll-dot" data-section="collabs" onclick="document.getElementById('collabs').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">Collabs</span></div>
-  <div class="scroll-dot" data-section="services" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">Services</span></div>
-  <div class="scroll-dot" data-section="process" onclick="document.getElementById('process').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">Process</span></div>
-  <div class="scroll-dot" data-section="pricing" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">Tarifs</span></div>
-  <div class="scroll-dot" data-section="uranus" onclick="document.getElementById('uranus').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label" style="color:#a78bfa">URANUS</span></div>
-  <div class="scroll-dot" data-section="faq" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">FAQ</span></div>
-  <div class="scroll-dot" data-section="contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">Contact</span></div>
+  <div class="scroll-dot" data-section="hero" onclick="lenisScroll('hero')"><span class="scroll-dot-label">Accueil</span></div>
+  <div class="scroll-dot" data-section="about" onclick="lenisScroll('about')"><span class="scroll-dot-label">À propos</span></div>
+  <div class="scroll-dot" data-section="portfolio-accordion" onclick="lenisScroll('portfolio-accordion')"><span class="scroll-dot-label">Projets</span></div>
+  <div class="scroll-dot" data-section="collabs" onclick="lenisScroll('collabs')"><span class="scroll-dot-label">Collabs</span></div>
+  <div class="scroll-dot" data-section="services" onclick="lenisScroll('services')"><span class="scroll-dot-label">Services</span></div>
+  <div class="scroll-dot" data-section="process" onclick="lenisScroll('process')"><span class="scroll-dot-label">Process</span></div>
+  <div class="scroll-dot" data-section="pricing" onclick="lenisScroll('pricing')"><span class="scroll-dot-label">Tarifs</span></div>
+  <div class="scroll-dot" data-section="uranus" onclick="lenisScroll('uranus')"><span class="scroll-dot-label" style="color:#a78bfa">URANUS</span></div>
+  <div class="scroll-dot" data-section="faq" onclick="lenisScroll('faq')"><span class="scroll-dot-label">FAQ</span></div>
+  <div class="scroll-dot" data-section="contact" onclick="lenisScroll('contact')"><span class="scroll-dot-label">Contact</span></div>
 </div>
 <div id="a11y-announce" aria-live="polite" aria-atomic="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap"></div>
 <a href="#hero" class="skip-link" style="position:fixed;top:-100px;left:1rem;z-index:99999;background:var(--accent);color:var(--black);font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;padding:.6rem 1.2rem;border-radius:100px;text-decoration:none;transition:top .2s;outline:none" onfocus="this.style.top='1rem'" onblur="this.style.top='-100px'">Aller au contenu principal</a>
@@ -11653,14 +11653,30 @@ function closeMobMenu(skipScrollRestore){
 function cm(href){
   closeMobMenu(true); // ne pas restaurer la position, laisser le href gérer
   if(href){
+    // Délai suffisant pour que le unlock overflow soit effectif sur mobile lent
     setTimeout(function(){
       var id=href.replace('#','');
       var el=document.getElementById(id);
-      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-    },80); // petit délai pour que le menu finisse de se fermer
+      if(!el) return;
+      // Utiliser Lenis si dispo (desktop), sinon scrollIntoView natif (mobile)
+      if(typeof lenis !== 'undefined' && lenis){
+        lenis.scrollTo(el, {offset: -80, duration: 1.4});
+      } else {
+        el.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    }, 160); // 160ms — laisse le temps au overflow:'' d'être appliqué
   }
 }
-/* Swipe down to close */
+// ── HELPER SCROLL GLOBAL — Lenis si dispo, sinon natif ──
+window.lenisScroll = function(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  if(typeof lenis !== 'undefined' && lenis){
+    lenis.scrollTo(el, {offset: -80, duration: 1.4});
+  } else {
+    el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+};
 (function(){
   let startY=0,startT=0;
   mob.addEventListener('touchstart',function(e){startY=e.touches[0].clientY;startT=Date.now();},{passive:true});
@@ -11805,11 +11821,12 @@ document.addEventListener('click', e => {
 
 // ── PAGE TRANSITION FADE ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {
+  if(a.closest('.mob-menu') || a.closest('#quick-nav')) return; // déjà gérés
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
     if (!target) return;
     e.preventDefault();
-    target.scrollIntoView({behavior:'smooth', block:'start'});
+    window.lenisScroll(target.id);
   });
 });
 
@@ -12293,8 +12310,9 @@ function initLenis() {
     requestAnimationFrame(raf);
   }
   requestAnimationFrame(raf);
-  // Sync avec les liens d'ancre
+  // Sync avec les liens d'ancre — exclure les liens du menu mobile (gérés par cm())
   document.querySelectorAll('a[href^="#"]').forEach(a => {
+    if(a.closest('.mob-menu') || a.closest('#quick-nav')) return; // cm() et qnGo() les gèrent
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
       if (!target) return;
@@ -15368,7 +15386,13 @@ window.addEventListener('load', function() {
 
   window.qnGo = function(id){
     var el = document.getElementById(id);
-    if(el){ el.scrollIntoView({behavior:'smooth'}); }
+    if(el){
+      if(typeof lenis !== 'undefined' && lenis){
+        lenis.scrollTo(el, {offset: -80, duration: 1.4});
+      } else {
+        el.scrollIntoView({behavior:'smooth'});
+      }
+    }
     open = false;
     menu.classList.remove('open');
   };
@@ -16007,7 +16031,7 @@ function cqfToggleChip(btn, val) {
       var target = document.getElementById(targetId);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({behavior:'smooth', block:'start'});
+        window.lenisScroll(targetId);
       }
     });
   });
