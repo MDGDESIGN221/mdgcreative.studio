@@ -1682,20 +1682,63 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 }
 
 /* ── LOADER PREMIUM ── */
-#loader{display:none !important}
+/* ── LOADER PREMIUM ── */
+#loader{
+  position:fixed;inset:0;z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  background:#060606;
+  pointer-events:all;
+  overflow:hidden;
+}
 #loader.done{pointer-events:none}
-.loader-bg2{position:absolute;inset:0;background:#060606;z-index:0}
-.loader-bg{position:absolute;inset:0;background:#060606;transform-origin:top;transition:transform 1.2s cubic-bezier(.76,0,.24,1);z-index:1}
+
+/* Rideau : s'écrase vers le bas */
+.loader-bg{
+  position:absolute;inset:0;background:#060606;
+  transform-origin:bottom;
+  transition:transform 1.1s cubic-bezier(.76,0,.18,1);
+  z-index:1;
+}
 #loader.done .loader-bg{transform:scaleY(0)}
-#loader.done .loader-bg2{transition:opacity .6s ease .9s;opacity:0}
-.loader-inner{position:relative;z-index:2;text-align:center;padding:0 2rem}
-.loader-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,5vw,4rem);color:#fff;letter-spacing:.1em;text-transform:uppercase;line-height:1.2;opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;text-align:center;padding:0 1.5rem}
-.loader-studio{color:#fff;letter-spacing:.1em;display:block}
-@media(min-width:600px){.loader-studio{display:inline}}
+
+.loader-inner{
+  position:relative;z-index:2;
+  text-align:center;
+  padding:0 2rem;
+  transition:opacity .35s ease;
+}
+#loader.done .loader-inner{opacity:0}
+
+/* Nom studio */
+.loader-title{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(1.6rem,4vw,3.2rem);
+  color:#fff;letter-spacing:.1em;text-transform:uppercase;
+  line-height:1.1;
+  opacity:0;transform:translateY(28px);
+  transition:opacity .65s ease,transform .65s cubic-bezier(.16,1,.3,1);
+}
 #loader.ready .loader-title{opacity:1;transform:translateY(0)}
-.loader-studio{color:#fff;letter-spacing:.1em}
-.loader-line{width:0;height:1px;background:#c8fa64;margin:.9rem auto 0;transition:width .9s .3s ease}
-#loader.ready .loader-line{width:120px}
+
+/* Ligne accent */
+.loader-line{
+  width:0;height:1px;background:#c8fa64;
+  margin:.85rem auto 0;
+  transition:width .8s .25s cubic-bezier(.77,0,.18,1);
+}
+#loader.ready .loader-line{width:100px}
+
+/* Label sous le nom */
+.loader-label{
+  font-family:'Syne',sans-serif;font-weight:600;
+  font-size:clamp(.6rem,1.2vw,.75rem);
+  letter-spacing:.32em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+  margin-top:1.1rem;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .6s .2s ease,transform .6s .2s ease;
+}
+#loader.ready .loader-label{opacity:1;transform:translateY(0)}
 
 /* ── SECTION NUMBERS ── */
 .sec-num{position:absolute;top:2rem;right:3rem;font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(4rem,8vw,9rem);color:rgba(255,255,255,.03);line-height:1;letter-spacing:-.04em;pointer-events:none;user-select:none;z-index:0}
@@ -6895,12 +6938,11 @@ nav::before { display:none; }
 <div class="scroll-progress" id="scrollProgress"></div>
 <div id="loader">
   <div class="loader-bg"></div>
-  <div class="loader-bg2"></div>
-    <div class="loader-inner">
-      <img fetchpriority="high" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" style="height:clamp(72px,14vw,130px);width:auto;display:block;margin:0 auto;opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease" id="loaderLogo" fetchpriority="high" decoding="async">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(.7rem,1.8vw,1rem);letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.9rem;opacity:0;transform:translateY(10px);transition:opacity .7s .15s ease,transform .7s .15s ease" id="loaderStudioLabel">MDG CREATIVE STUDIO</div>
-      <div class="loader-line"></div>
-    </div>
+  <div class="loader-inner">
+    <div class="loader-title">MDG<br>Creative Studio</div>
+    <div class="loader-line"></div>
+    <div class="loader-label">Kaolack, Sénégal</div>
+  </div>
 </div>
 <div class="scroll-indicator" id="scrollIndicator">
   <div class="scroll-dot" data-section="hero" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})"><span class="scroll-dot-label">Accueil</span></div>
@@ -11103,18 +11145,31 @@ function submitPackForm(e) {
 
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── FONDU D'ENTRÉE 1S ──
+// ── LOADER PREMIUM ──
 (function(){
   var loader = document.getElementById('loader');
-  if(loader) loader.style.display = 'none';
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 1s ease';
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      document.body.style.opacity = '1';
-      window._loaderDoneAt = Date.now();
-    });
-  });
+  if(!loader) { window._loaderDoneAt = Date.now(); return; }
+
+  // Bloquer le scroll pendant le loader
+  document.body.style.overflow = 'hidden';
+
+  // Apparition du contenu loader après 80ms (laisser le DOM respirer)
+  setTimeout(function(){
+    loader.classList.add('ready');
+    // Animer aussi le label sous le titre
+    var lbl = loader.querySelector('.loader-label');
+    if(lbl){ lbl.style.opacity='1'; lbl.style.transform='translateY(0)'; }
+  }, 80);
+
+  // Fermeture : rideau s'écrase vers le bas après 1.6s
+  setTimeout(function(){
+    loader.classList.add('done');
+    // Rétablir le scroll
+    document.body.style.overflow = '';
+    window._loaderDoneAt = Date.now();
+    // Retirer du DOM après la transition (1.1s)
+    setTimeout(function(){ loader.style.display = 'none'; }, 1200);
+  }, 1600);
 })();
 
 // ── CURSEUR PREMIUM ──
@@ -12188,17 +12243,34 @@ function fixHeroPadding(){
 fixHeroPadding();
 window.addEventListener('resize', fixHeroPadding, {passive:true});
 
-// ── TYPING EFFECT ──
-const typeWords = ['Brand Identity','Cover Art','Motion Design','Web Design','Direction Artistique'];
-let typeWi=0,typeCi=0,typeDeleting=false;
-const typeEl=document.getElementById('heroTypeText');
-function typeRun(){
-  const w=typeWords[typeWi];
-  if(!typeDeleting){typeEl.textContent=w.slice(0,++typeCi);if(typeCi===w.length){typeDeleting=true;setTimeout(typeRun,1800);return}}
-  else{typeEl.textContent=w.slice(0,--typeCi);if(typeCi===0){typeDeleting=false;typeWi=(typeWi+1)%typeWords.length}}
-  setTimeout(typeRun,typeDeleting?45:85);
-}
-setTimeout(typeRun,600);
+// ── DISPLAY ROTATIF — FADE DISCRET ──
+(function(){
+  var words = ['Brand Identity','Cover Art','Motion Design','Web Design','Direction Artistique'];
+  window._rotatorWords = words;
+  var el = document.getElementById('heroTypeText');
+  var cursor = document.querySelector('.hero-type-wrap .cursor-blink');
+  if(!el) return;
+
+  // Supprimer le curseur clignotant — pas adapté au fade
+  if(cursor) cursor.remove();
+
+  var i = 0;
+  el.textContent = words[0];
+  el.style.transition = 'none';
+  el.style.opacity = '1';
+
+  setInterval(function(){
+    // Fade out
+    el.style.transition = 'opacity .55s ease';
+    el.style.opacity = '0';
+    setTimeout(function(){
+      i = (i + 1) % window._rotatorWords.length;
+      el.textContent = window._rotatorWords[i];
+      // Fade in
+      el.style.opacity = '1';
+    }, 580);
+  }, 3200);
+})();
 
 // ── LENIS SMOOTH SCROLL ──
 // Lenis est chargé dynamiquement (async). On attend qu'il soit dispo.
@@ -13568,11 +13640,13 @@ function applyComplexPatches(lang) {
   var modalClose = document.getElementById('modalClose');
   if (modalClose) modalClose.setAttribute('aria-label', translations.close_label[lang]);
 
-  // ── Type words ──
+  // ── Type words (display rotatif) ──
   window._typeWordsEN = ['Brand Identity','Cover Art','Motion Design','Web Design','Art Direction'];
   window._typeWordsFR = ['Brand Identity','Cover Art','Motion Design','Web Design','Direction Artistique'];
   if (lang === 'en') window.typeWords = window._typeWordsEN;
   else window.typeWords = window._typeWordsFR;
+  // Mettre à jour le rotator en cours si actif
+  if (window._rotatorWords) window._rotatorWords = window.typeWords;
 
   // ── html lang attr ──
   document.documentElement.lang = lang;
