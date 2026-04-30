@@ -4936,88 +4936,111 @@ nav::before { display:none; }
 .pack-icon.gold   { background: rgba(240,192,64,.1);   border: 1px solid rgba(240,192,64,.28); }
 .pack-icon.diamond { background: rgba(200,250,100,.1); border: 1px solid rgba(200,250,100,.25); }
 
+/* ── Tier badge — pill coloré ── */
 .pack-tier {
+  display: inline-flex; align-items: center; gap: .4rem;
   font-family: 'Syne', sans-serif;
-  font-size: .65rem; font-weight: 800;
-  letter-spacing: .18em; text-transform: uppercase;
+  font-size: .52rem; font-weight: 800;
+  letter-spacing: .2em; text-transform: uppercase;
   color: var(--dim);
-  margin-bottom: .4rem;
+  margin-bottom: 1rem;
 }
+.pack-tier::before {
+  content: '';
+  width: 14px; height: 1px;
+  background: currentColor;
+  opacity: .5;
+}
+
+/* ── Pack name — grand, impactant ── */
 .pack-name {
   font-family: 'Syne', sans-serif;
-  font-size: 1.6rem; font-weight: 800;
+  font-size: 2.2rem; font-weight: 800;
+  letter-spacing: -.04em; line-height: .95;
   color: var(--light);
-  margin-bottom: .3rem;
+  margin-bottom: .5rem;
 }
+
+/* ── Pack sub ── */
 .pack-sub {
-  font-size: .8rem; color: var(--off);
-  margin-bottom: 1.8rem;
-  line-height: 1.5;
+  font-size: .78rem; color: var(--dim);
+  margin-bottom: 0;
+  line-height: 1.5; font-weight: 300;
 }
+
+/* ── Prix display ── */
 .pack-price-wrap { margin-bottom: 2rem; }
 .pack-price {
   font-family: 'Syne', sans-serif;
   font-size: 2.4rem; font-weight: 800;
-  color: var(--light);
-  line-height: 1;
+  color: var(--light); line-height: 1;
 }
 .pack-card.featured .pack-price { color: var(--accent); }
 .pack-price-unit {
   font-size: .75rem; font-weight: 500;
   color: var(--off); margin-left: .3rem;
 }
-.pack-divider { height: 1px; background: var(--border); margin: 0 0 1.5rem; }
 
+/* ── Divider ── */
+.pack-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.08) 0%, transparent 80%);
+  margin: 1.5rem 0;
+}
+
+/* ── Features ── */
 .pack-features { list-style: none; margin-bottom: 2rem; }
 .pack-features li {
-  display: flex; align-items: flex-start; gap: .75rem;
-  font-size: .82rem; color: var(--off);
-  padding: .45rem 0;
+  display: flex; align-items: flex-start; gap: .65rem;
+  font-size: .8rem; color: var(--dim);
+  padding: .5rem 0;
   border-bottom: 1px solid rgba(255,255,255,.03);
   line-height: 1.4;
+  transition: color .2s;
 }
 .pack-features li:last-child { border-bottom: none; }
+.pack-features li:hover { color: var(--off); }
 .pack-features li .feat-icon {
-  width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px;
-  color: var(--accent);
+  width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;
+  color: var(--accent); opacity: .8;
 }
-.pack-features li strong { color: var(--light); font-weight: 500; }
-.pack-option {
-  margin-top: .3rem;
-  font-size: .75rem; color: var(--dim);
-  font-style: italic;
-}
+.pack-features li strong { color: var(--light); font-weight: 600; }
+
+/* ── CTA ── */
 .pack-cta {
-  display: flex; align-items: center; justify-content: center;
-  gap: .5rem;
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
   width: 100%;
   font-family: 'Syne', sans-serif;
-  font-size: .75rem; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase;
-  padding: .9rem 1.5rem;
+  font-size: .72rem; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: .85rem 1.5rem;
   border-radius: 100px;
-  border: 1.5px solid var(--border2);
-  background: transparent;
-  color: var(--light);
-  cursor: pointer;
-  text-decoration: none;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+  color: var(--off);
+  cursor: pointer; text-decoration: none;
   transition: all .25s cubic-bezier(.16,1,.3,1);
+  backdrop-filter: blur(8px);
 }
 .pack-cta:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 4px 20px rgba(200,250,100,.15);
+  border-color: rgba(255,255,255,.2);
+  color: var(--light);
+  background: rgba(255,255,255,.07);
 }
 .pack-card.featured .pack-cta {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--black);
-  box-shadow: 0 8px 28px rgba(200,250,100,.28);
+  box-shadow: 0 6px 24px rgba(200,250,100,.25);
+  font-weight: 800;
 }
 .pack-card.featured .pack-cta:hover {
-  opacity: .88;
+  opacity: .9;
   transform: scale(1.02);
-  box-shadow: 0 12px 36px rgba(200,250,100,.4);
+  box-shadow: 0 10px 32px rgba(200,250,100,.4);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--black);
 }
 
 /* ═══════════════════════
@@ -7231,9 +7254,6 @@ nav::before { display:none; }
   </div>
   <div class="mob-divider"></div>
   <div class="mob-menu-bottom">
-    <button class="mob-lang-toggle" id="mobLangToggle" onclick="toggleLang()">
-      <span id="mobLangLabel">EN</span>
-    </button>
     <a href="#contact" class="mob-cta" onclick="cm('#contact')" data-i18n="nav_cta">Travaillons ensemble</a>
   </div>
 </div>
@@ -7317,10 +7337,6 @@ nav::before { display:none; }
   </div>
 
   <!-- Scroll down indicator -->
-  <div class="hero-scroll-down" aria-hidden="true">
-    <div class="hero-scroll-line"></div>
-
-  </div>
 
   <!-- Ticker manifeste bas du hero — inspiré pieterkoopt -->
   <div class="hero-manifeste-line" aria-hidden="true">
@@ -11367,8 +11383,7 @@ function copyWaveNumber(btn) {
         </div>
 
         <div class="info-list reveal-up rd3" style="margin-top:2rem">
-          <div class="info-item"><span class="info-label">Localisation</span><span class="info-value">Kaolack, Sénégal</span></div>
-          <div class="info-item"><span class="info-label">Heure locale</span><span class="info-value" style="display:flex;align-items:center;gap:.4rem"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite;flex-shrink:0"></span><span id="kaolackTimeContact">--:--</span></span></div>
+          <div class="info-item"><span class="info-label">Localisation</span><span class="info-value" style="display:flex;align-items:center;gap:.5rem">Kaolack, Sénégal<span style="color:var(--dim)">·</span><span style="display:flex;align-items:center;gap:.3rem"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite;flex-shrink:0"></span><span id="kaolackTimeContact">--:--</span></span></span></div>
           <div class="info-item"><span class="info-label">Langues</span><span class="info-value">Français · Wolof · Anglais</span></div>
           <div class="info-item"><span class="info-label">Réponse</span><span class="info-value">Moins de 24h</span></div>
         </div>
