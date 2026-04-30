@@ -8991,8 +8991,14 @@ nav::before { display:none; }
 #process .sec-sub { color: rgba(6,6,6,.65) !important; }
 #process .pieter-step-num { color: rgba(6,6,6,.18) !important; }
 #process .pieter-step-badge { background: rgba(6,6,6,.1) !important; color: rgba(6,6,6,.7) !important; border-color: rgba(6,6,6,.15) !important; }
-#process .pieter-step-title { color: var(--black) !important; }
-#process .pieter-step-desc { color: rgba(6,6,6,.7) !important; }
+/* Overrides pour les step-content à fond noir */
+#process .pieter-step-content .pieter-step-num { color: rgba(200,250,100,.15) !important; }
+#process .pieter-step-content .pieter-step-badge { background: rgba(200,250,100,.08) !important; color: var(--accent) !important; border-color: rgba(200,250,100,.2) !important; }
+/* Titre/desc en noir seulement sur le fond vert (section), pas dans les step-content à fond noir */
+#process > *:not(.pieter-process) .pieter-step-title { color: var(--black) !important; }
+#process .pieter-step-content .pieter-step-title { color: var(--light) !important; }
+#process > *:not(.pieter-process) .pieter-step-desc { color: rgba(6,6,6,.7) !important; }
+#process .pieter-step-content .pieter-step-desc { color: var(--off) !important; }
 #process .pieter-step-rule { background: rgba(6,6,6,.12) !important; }
 #process .pieter-step-tag { background: rgba(6,6,6,.1) !important; color: rgba(6,6,6,.75) !important; border-color: rgba(6,6,6,.12) !important; }
 #process .pieter-step-media { border-color: rgba(6,6,6,.12) !important; background: rgba(6,6,6,.06) !important; }
