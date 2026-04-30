@@ -359,6 +359,7 @@ nav:not(#mob-tab-bar){position:fixed;top:0;left:0;right:0;z-index:100;display:fl
 .lang-toggle.active{background:var(--accent);border-color:var(--accent);color:var(--black)}
 .nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .nav-burger span{display:block;width:22px;height:1.5px;background:var(--light);border-radius:2px}
+#mob-nav-row{display:none}
 section{position:relative;z-index:1}
 
 /* ── HERO SCROLL DOWN HINT ── */
@@ -1418,11 +1419,55 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   .ac-card:nth-child(5){grid-column:2;grid-row:3}
 }
 @media(max-width:900px){
-  nav:not(#mob-tab-bar){padding:.75rem 1.25rem}
+  nav:not(#mob-tab-bar){padding:.75rem 1.25rem;flex-wrap:wrap;gap:0}
   .nav-links,.nav-right{display:none}
-  .nav-burger{display:flex}
+  .nav-burger{display:none}
   .nav-logo{font-size:.78rem;letter-spacing:.06em;white-space:nowrap}
   .nav-logo-sub{font-size:.78rem;letter-spacing:.06em}
+  /* Nav top row prend toute la largeur pour le row dessous */
+  nav:not(#mob-tab-bar) > *:not(#mob-nav-row){flex-shrink:0}
+  /* ── MOBILE SCROLLABLE NAV ROW ── */
+  #mob-nav-row{
+    display:flex;
+    width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    gap:0;
+    border-top:1px solid rgba(255,255,255,.05);
+    margin-top:.4rem;
+  }
+  #mob-nav-row::-webkit-scrollbar{display:none}
+  #mob-nav-row a{
+    font-family:'Syne',sans-serif;
+    font-size:.62rem;font-weight:700;
+    letter-spacing:.07em;text-transform:uppercase;
+    color:rgba(255,255,255,.38);
+    text-decoration:none;
+    white-space:nowrap;
+    padding:.55rem .85rem;
+    border-radius:6px;
+    flex-shrink:0;
+    transition:color .2s,background .2s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #mob-nav-row a:hover,#mob-nav-row a.active{color:var(--accent);background:rgba(200,250,100,.06)}
+  #mob-nav-row a.mob-nav-cta{
+    color:var(--black);background:var(--accent);
+    border-radius:100px;
+    margin:auto .5rem auto auto;
+    padding:.45rem .9rem;
+  }
+  #mob-nav-row a.mob-nav-cta:hover{opacity:.88}
+  .mob-nav-lang{
+    background:none;border:1px solid rgba(255,255,255,.12);border-radius:100px;
+    padding:.35rem .65rem;
+    font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;
+    color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s;
+    flex-shrink:0;align-self:center;margin-right:.4rem;white-space:nowrap;
+  }
+  .mob-nav-lang.active{background:var(--accent);border-color:var(--accent);color:var(--black)}
 
   /* ── HERO MOBILE : colonne, texte + stats dans le flux ── */
   #hero{
@@ -7254,6 +7299,7 @@ nav::before { display:none; }
   </div>
   <div class="mob-divider"></div>
   <div class="mob-menu-bottom">
+    <button class="mob-lang-toggle" id="mobLangToggle" onclick="toggleLang()" aria-label="Changer la langue / Switch language"><span id="mobLangLabel">EN</span></button>
     <a href="#contact" class="mob-cta" onclick="cm('#contact')" data-i18n="nav_cta">Travaillons ensemble</a>
   </div>
 </div>
@@ -7280,6 +7326,19 @@ nav::before { display:none; }
     <a href="javascript:void(0)" class="nav-cta" data-i18n="nav_cta">Travaillons ensemble</a>
   </div>
   <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
+  <!-- ── MOBILE NAV ROW — scrollable, visible uniquement sur mobile ── -->
+  <nav id="mob-nav-row" aria-label="Navigation mobile">
+    <a href="#portfolio-accordion" onclick="lenisScroll('portfolio-accordion')" data-i18n="nav_work">Projets</a>
+    <a href="#about" onclick="lenisScroll('about')" data-i18n="nav_about">À propos</a>
+    <a href="#services" onclick="lenisScroll('services')" data-i18n="nav_services">Services</a>
+    <a href="#collabs" onclick="lenisScroll('collabs')" data-i18n="collabs_label">Collabs</a>
+    <a href="#process" onclick="lenisScroll('process')" data-i18n="nav_process">Process</a>
+    <a href="#pricing" onclick="lenisScroll('pricing')">Tarifs</a>
+    <a href="#uranus" onclick="lenisScroll('uranus')" style="color:#a78bfa">URANUS</a>
+    <a href="#faq" onclick="lenisScroll('faq')">FAQ</a>
+    <button class="mob-nav-lang" id="mobNavLang" onclick="toggleLang()"><span id="mobNavLangLabel">EN</span></button>
+    <a href="javascript:void(0)" class="mob-nav-cta" onclick="lenisScroll('contact')" data-i18n="nav_cta">Contact</a>
+  </nav>
 </nav>
 
 
@@ -11309,10 +11368,13 @@ function copyWaveNumber(btn) {
   color: var(--black); transform: rotate(180deg);
 }
 .faq2-a {
-  max-height: 0; overflow: hidden;
-  transition: max-height .4s cubic-bezier(.16,1,.3,1), padding .3s;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .38s cubic-bezier(.16,1,.3,1), padding .35s cubic-bezier(.16,1,.3,1);
+  overflow: hidden;
 }
-.faq-item2.open .faq2-a { max-height: 300px; padding-top: .9rem; }
+.faq2-a > p { min-height: 0; overflow: hidden; }
+.faq-item2.open .faq2-a { grid-template-rows: 1fr; padding-top: .9rem; }
 .faq2-a p {
   font-size: .82rem; color: var(--off);
   line-height: 1.75; font-weight: 300; margin: 0;
@@ -15097,6 +15159,18 @@ function applyLang(lang) {
       mobBtn.classList.remove('active');
     }
   }
+  // Toggle button state — mobile nav row
+  var mobNavBtn = document.getElementById('mobNavLang');
+  var mobNavLbl = document.getElementById('mobNavLangLabel');
+  if (mobNavBtn && mobNavLbl) {
+    if (lang === 'en') {
+      mobNavLbl.textContent = 'FR';
+      mobNavBtn.classList.add('active');
+    } else {
+      mobNavLbl.textContent = 'EN';
+      mobNavBtn.classList.remove('active');
+    }
+  }
 
   // Ne pas sauvegarder dans localStorage — évite la contamination entre sessions
   // try { localStorage.setItem('mdg_lang', lang); } catch(e){}
@@ -16893,6 +16967,14 @@ function cqfToggleChip(btn, val) {
     tabs.forEach(function(tab) {
       tab.classList.toggle('active', tab.dataset.section === activeId && !tab.classList.contains('mob-tab-cta'));
     });
+    // Sync mobile nav row
+    var navRow = document.getElementById('mob-nav-row');
+    if (navRow) {
+      navRow.querySelectorAll('a[href]').forEach(function(a) {
+        var id = a.getAttribute('href').replace('#','');
+        a.classList.toggle('active', id === activeId);
+      });
+    }
   }
 
   window.addEventListener('scroll', updateTabs, {passive: true});
