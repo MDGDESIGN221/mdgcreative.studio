@@ -3618,89 +3618,227 @@ nav::before { display:none; }
 }
 .sp-quote-role { font-size: .68rem; color: var(--dim); margin-top: .2rem; letter-spacing: .02em; }
 
-/* ── Video cards — 2×2 desktop / liste mobile ── */
+/* ── VIDEO CARDS PREMIUM ── */
 .sp-videos {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
+  gap: 1.5rem;
   margin: 0 3rem;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 16px;
-  overflow: hidden;
 }
+
 .sp-vcard {
-  background: var(--black);
-  border: none; border-radius: 0;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  align-items: center;
-  transition: background .25s;
   position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,.07);
+  transition: border-color .3s, transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s;
+  group: true;
 }
-.sp-vcard::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0; width: 2px;
-  background: var(--accent);
-  transform: scaleY(0); transform-origin: top;
-  transition: transform .35s cubic-bezier(.16,1,.3,1);
-  z-index: 2;
+.sp-vcard:hover {
+  border-color: rgba(200,250,100,.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(200,250,100,.1);
 }
-.sp-vcard:hover { background: rgba(255,255,255,.025); }
-.sp-vcard:hover::before { transform: scaleY(1); }
+
+/* Thumbnail wrapper */
 .sp-vcard-thumb {
   position: relative;
+  width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
-  border-radius: 8px;
-  margin: .85rem .75rem .85rem 1.1rem;
-  flex-shrink: 0;
+  background: #111;
 }
-.sp-vcard-body {
-  padding: .9rem 1.25rem .9rem .5rem;
-  display: flex; flex-direction: column;
-  justify-content: center; gap: .35rem;
+.sp-vcard-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s cubic-bezier(.16,1,.3,1), filter .4s;
+  filter: grayscale(15%) brightness(.9);
 }
-.sp-play-btn {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--accent);
+.sp-vcard:hover .sp-vcard-thumb img {
+  transform: scale(1.05);
+  filter: grayscale(0%) brightness(1);
+}
+
+/* Dark gradient overlay */
+.sp-vcard-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.85) 0%,
+    rgba(0,0,0,.3) 50%,
+    rgba(0,0,0,.1) 100%
+  );
+  transition: background .4s;
+}
+.sp-vcard:hover .sp-vcard-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.75) 0%,
+    rgba(0,0,0,.2) 50%,
+    rgba(0,0,0,.05) 100%
+  );
+}
+
+/* Play button */
+.sp-vcard-play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(.88);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(200,250,100,.92);
+  backdrop-filter: blur(8px);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 3px 14px rgba(0,0,0,.65);
-  transition: transform .25s, box-shadow .25s;
-  z-index: 2;
+  transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .3s, background .3s;
+  box-shadow: 0 0 0 8px rgba(200,250,100,.08), 0 6px 24px rgba(0,0,0,.5);
 }
-.sp-vcard:hover .sp-play-btn { transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 5px 22px rgba(200,250,100,.35); }
-.sp-vcard-source {
-  display: flex; align-items: center; gap: .35rem;
-  font-size: .55rem; color: var(--dim); font-weight: 600;
-  letter-spacing: .1em; text-transform: uppercase;
+.sp-vcard:hover .sp-vcard-play {
+  transform: translate(-50%, -50%) scale(1);
+  background: var(--accent);
+  box-shadow: 0 0 0 12px rgba(200,250,100,.12), 0 8px 32px rgba(0,0,0,.6);
 }
-.sp-vcard-artist {
-  display: flex; align-items: center; gap: .5rem;
+.sp-vcard-play svg { margin-left: 3px; }
+
+/* YT badge top-right */
+.sp-vcard-badge {
+  position: absolute;
+  top: .75rem; right: .75rem;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 6px;
+  padding: .25rem .5rem;
+  display: flex; align-items: center; gap: .3rem;
+  font-family: 'Syne', sans-serif;
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,.7);
+  text-transform: uppercase;
+}
+
+/* Card footer */
+.sp-vcard-footer {
+  padding: 1.1rem 1.25rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: .85rem;
 }
 .sp-vcard-avatar {
-  width: 22px; height: 22px; border-radius: 50%;
-  object-fit: cover; flex-shrink: 0;
-  border: 1px solid rgba(200,250,100,.2);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(200,250,100,.2);
+  flex-shrink: 0;
+  transition: border-color .3s;
 }
-.sp-vcard-artist span { font-size: .78rem; color: var(--light); line-height: 1.3; font-weight: 600; }
-.sp-vcard-desc { font-size: .72rem; color: var(--dim); line-height: 1.55; font-weight: 300; }
-/* Séparateur vertical entre les 2 colonnes */
-.sp-vcard:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.05); }
-@media(max-width:900px) {
-  .sp-header, .sp-feature { padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0; }
-  .sp-videos { grid-template-columns: 1fr; margin: 0; border-radius: 12px; }
-  .sp-vcard { grid-template-columns: 150px 1fr; border-right: none !important; }
-  .sp-vcard-thumb { margin: .65rem .65rem .65rem 1rem; }
+.sp-vcard:hover .sp-vcard-avatar { border-color: rgba(200,250,100,.5); }
+
+.sp-vcard-meta { flex: 1; min-width: 0; }
+.sp-vcard-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  color: var(--light);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-@media(max-width:480px) {
-  .sp-vcard { grid-template-columns: 110px 1fr; }
-  .sp-vcard-thumb { margin: .5rem .5rem .5rem .75rem; }
-  .sp-vcard-desc { display: none; }
+.sp-vcard-role {
+  font-size: .65rem;
+  color: var(--dim);
+  letter-spacing: .04em;
+  margin-top: .15rem;
+}
+
+/* Quote overlay at bottom of thumb on hover */
+.sp-vcard-quote {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: .9rem 1.1rem;
+  font-size: .78rem;
+  font-style: italic;
+  color: rgba(255,255,255,.88);
+  font-weight: 300;
+  line-height: 1.5;
+  transform: translateY(6px);
+  opacity: 0;
+  transition: opacity .3s, transform .35s cubic-bezier(.16,1,.3,1);
+}
+.sp-vcard:hover .sp-vcard-quote {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Accent line at bottom */
+.sp-vcard::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity .35s;
+}
+.sp-vcard:hover::after { opacity: 1; }
+
+/* Lightbox overlay */
+#sp-video-lb {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,.92);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+#sp-video-lb.open {
+  opacity: 1;
+  pointer-events: all;
+}
+#sp-video-lb-inner {
+  position: relative;
+  width: min(840px, 92vw);
+  aspect-ratio: 16/9;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.8);
+  transform: scale(.94);
+  transition: transform .35s cubic-bezier(.16,1,.3,1);
+}
+#sp-video-lb.open #sp-video-lb-inner { transform: scale(1); }
+#sp-video-lb iframe {
+  width: 100%; height: 100%;
+  border: none; display: block;
+}
+#sp-video-lb-close {
+  position: absolute;
+  top: -44px; right: 0;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+  line-height: 1;
+}
+#sp-video-lb-close:hover { background: rgba(255,255,255,.2); }
+
+@media(max-width:900px){
+  .sp-videos { grid-template-columns: 1fr; margin: 0; gap: 1rem; }
+}
+@media(max-width:480px){
+  .sp-videos { margin: 0; }
+  .sp-vcard-quote { display: none; }
 }
 
 /* ── PORTFOLIO TABS PREMIUM ── */
@@ -7989,80 +8127,124 @@ nav::before { display:none; }
     </div>
 
     <!-- Vidéos témoignages — pour ceux qui veulent aller plus loin -->
-    <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem">
+    <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent)"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
       Voir les extraits vidéo
     </div>
-    <div class="sp-videos">
+    <div class="sp-videos" id="sp-audio-grid">
 
-      <div class="sp-vcard reveal-up rd1">
+      <!-- VIDEO CARD 1 — ISS 814 -->
+      <div class="sp-vcard reveal-up" data-yt-id="q8MD7X3gJLo" data-start="3552" role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
         <div class="sp-vcard-thumb">
-          <div class="yt-thumb" data-video-id="q8MD7X3gJLo" data-start="3552" data-end="3600" style="position:relative;width:100%;aspect-ratio:16/9;cursor:pointer;overflow:hidden;border-radius:12px;background:#000">
-            <img decoding="async" loading="lazy" src="https://i.ytimg.com/vi/q8MD7X3gJLo/mqdefault.jpg" alt="ISS 814 parle de MDG" style="width:100%;height:100%;object-fit:cover;opacity:.8">
-            <div class="sp-play-btn"><svg viewBox="0 0 24 24" fill="var(--black)" width="20" height="20" style="margin-left:2px"><path d="M8 5v14l11-7z"/></svg></div>
+          <img decoding="async" loading="lazy"
+            src="https://img.youtube.com/vi/q8MD7X3gJLo/maxresdefault.jpg"
+            onerror="this.src='https://img.youtube.com/vi/q8MD7X3gJLo/hqdefault.jpg'"
+            alt="ISS 814 — témoignage">
+          <div class="sp-vcard-overlay"></div>
+          <div class="sp-vcard-play">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
           </div>
+          <div class="sp-vcard-badge">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+            YouTube
+          </div>
+          <p class="sp-vcard-quote">« Son sérieux, son travail, ses qualités humaines — il en parle avec enthousiasme. »</p>
         </div>
-        <div class="sp-vcard-body">
-          <div class="sp-vcard-source">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent)"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-            YouTube · À partir de 59:12
+        <div class="sp-vcard-footer">
+          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" class="sp-vcard-avatar">
+          <div class="sp-vcard-meta">
+            <div class="sp-vcard-name">ISS 814</div>
+            <div class="sp-vcard-role">Producteur · Artiste · Sénégal · 6 ans de collaboration</div>
           </div>
-          <div class="sp-vcard-artist"><img decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" loading="lazy" class="sp-vcard-avatar"><span><strong>ISS 814</strong> parle de son directeur créatif</span></div>
-          <p class="sp-vcard-desc">ISS 814 parle de MDG avec enthousiasme. Il dit du bien de son travail, de son sérieux et de ses qualités humaines.</p>
         </div>
       </div>
 
-      <div class="sp-vcard reveal-up rd2">
+      <!-- VIDEO CARD 2 — ISS 814 bis -->
+      <div class="sp-vcard reveal-up rd1" data-yt-id="4hQRw6BqAQY" data-start="60" role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
         <div class="sp-vcard-thumb">
-          <div class="yt-thumb" data-video-id="4hQRw6BqAQY" data-start="60" data-end="75" style="position:relative;width:100%;aspect-ratio:16/9;cursor:pointer;overflow:hidden;border-radius:12px;background:#000">
-            <img decoding="async" loading="lazy" src="https://i.ytimg.com/vi/4hQRw6BqAQY/mqdefault.jpg" alt="ISS 814" style="width:100%;height:100%;object-fit:cover;opacity:.8">
-            <div class="sp-play-btn"><svg viewBox="0 0 24 24" fill="var(--black)" width="20" height="20" style="margin-left:2px"><path d="M8 5v14l11-7z"/></svg></div>
+          <img decoding="async" loading="lazy"
+            src="https://img.youtube.com/vi/4hQRw6BqAQY/maxresdefault.jpg"
+            onerror="this.src='https://img.youtube.com/vi/4hQRw6BqAQY/hqdefault.jpg'"
+            alt="ISS 814 — second témoignage">
+          <div class="sp-vcard-overlay"></div>
+          <div class="sp-vcard-play">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
           </div>
+          <div class="sp-vcard-badge">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+            YouTube
+          </div>
+          <p class="sp-vcard-quote">« "Trop fort" — le mot sort naturellement, en public. Pas de mise en scène. »</p>
         </div>
-        <div class="sp-vcard-body">
-          <div class="sp-vcard-source">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent)"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-            YouTube · 01:00
+        <div class="sp-vcard-footer">
+          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" class="sp-vcard-avatar">
+          <div class="sp-vcard-meta">
+            <div class="sp-vcard-name">ISS 814</div>
+            <div class="sp-vcard-role">Producteur · Artiste · Sénégal</div>
           </div>
-          <div class="sp-vcard-artist"><img decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" loading="lazy" class="sp-vcard-avatar"><span><strong>ISS 814</strong> · Producteur / Artiste · Sénégal</span></div>
-          <p class="sp-vcard-desc">Le mot "trop fort" sort naturellement, en public. Pas de mise en scène.</p>
         </div>
       </div>
 
-      <div class="sp-vcard reveal-up rd3">
+      <!-- VIDEO CARD 3 — Key Em Ti -->
+      <div class="sp-vcard reveal-up rd2" data-yt-id="7LgPqfl02yU" data-start="1862" role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
         <div class="sp-vcard-thumb">
-          <div class="yt-thumb" data-video-id="7LgPqfl02yU" data-start="1862" data-end="1874" style="position:relative;width:100%;aspect-ratio:16/9;cursor:pointer;overflow:hidden;border-radius:12px;background:#000">
-            <img decoding="async" loading="lazy" src="https://i.ytimg.com/vi/7LgPqfl02yU/mqdefault.jpg" alt="Key Em Ti" style="width:100%;height:100%;object-fit:cover;opacity:.8">
-            <div class="sp-play-btn"><svg viewBox="0 0 24 24" fill="var(--black)" width="20" height="20" style="margin-left:2px"><path d="M8 5v14l11-7z"/></svg></div>
+          <img decoding="async" loading="lazy"
+            src="https://img.youtube.com/vi/7LgPqfl02yU/maxresdefault.jpg"
+            onerror="this.src='https://img.youtube.com/vi/7LgPqfl02yU/hqdefault.jpg'"
+            alt="Key Em Ti — témoignage">
+          <div class="sp-vcard-overlay"></div>
+          <div class="sp-vcard-play">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
           </div>
+          <div class="sp-vcard-badge">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+            YouTube
+          </div>
+          <p class="sp-vcard-quote">« Sur le plateau, il sort le nom de MDG sans qu'on le lui demande. »</p>
         </div>
-        <div class="sp-vcard-body">
-          <div class="sp-vcard-source">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent)"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-            YouTube · 31:02
+        <div class="sp-vcard-footer">
+          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776662434/key_em_ti_bkv3uz.jpg" alt="Key Em Ti" class="sp-vcard-avatar">
+          <div class="sp-vcard-meta">
+            <div class="sp-vcard-name">Key Em Ti</div>
+            <div class="sp-vcard-role">Artiste · Sénégal</div>
           </div>
-          <div class="sp-vcard-artist"><img decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776662434/key_em_ti_bkv3uz.jpg" alt="Key Em Ti" loading="lazy" class="sp-vcard-avatar"><span><strong>Key Em Ti</strong> · Artiste · Sénégal</span></div>
-          <p class="sp-vcard-desc">Sur le plateau, Key Em Ti sort le nom de MDG sans qu'on le lui demande.</p>
         </div>
       </div>
 
-      <div class="sp-vcard reveal-up rd1">
+      <!-- VIDEO CARD 4 — Emza Young Boss -->
+      <div class="sp-vcard reveal-up rd3" data-yt-id="1Qaht5EYKds" data-start="988" role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
         <div class="sp-vcard-thumb">
-          <div class="yt-thumb" data-video-id="1Qaht5EYKds" data-start="988" data-end="996" style="position:relative;width:100%;aspect-ratio:16/9;cursor:pointer;overflow:hidden;border-radius:12px;background:#000">
-            <img decoding="async" loading="lazy" src="https://i.ytimg.com/vi/1Qaht5EYKds/mqdefault.jpg" alt="Emza Young Boss" style="width:100%;height:100%;object-fit:cover;opacity:.8">
-            <div class="sp-play-btn"><svg viewBox="0 0 24 24" fill="var(--black)" width="20" height="20" style="margin-left:2px"><path d="M8 5v14l11-7z"/></svg></div>
+          <img decoding="async" loading="lazy"
+            src="https://img.youtube.com/vi/1Qaht5EYKds/maxresdefault.jpg"
+            onerror="this.src='https://img.youtube.com/vi/1Qaht5EYKds/hqdefault.jpg'"
+            alt="Emza Young Boss — témoignage">
+          <div class="sp-vcard-overlay"></div>
+          <div class="sp-vcard-play">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
           </div>
+          <div class="sp-vcard-badge">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+            YouTube
+          </div>
+          <p class="sp-vcard-quote">« "Génie" — le mot sort naturellement, pas pour faire plaisir. »</p>
         </div>
-        <div class="sp-vcard-body">
-          <div class="sp-vcard-source">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent)"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-            YouTube · 16:28
+        <div class="sp-vcard-footer">
+          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776659417/Emza_young_boss_a8uecw.jpg" alt="Emza Young Boss" class="sp-vcard-avatar">
+          <div class="sp-vcard-meta">
+            <div class="sp-vcard-name">Emza Young Boss</div>
+            <div class="sp-vcard-role">Artiste · Sénégal</div>
           </div>
-          <div class="sp-vcard-artist"><img decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776659417/Emza_young_boss_a8uecw.jpg" alt="Emza Young Boss" loading="lazy" class="sp-vcard-avatar"><span><strong>Emza Young Boss</strong> · Artiste · Sénégal</span></div>
-          <p class="sp-vcard-desc">Le mot "génie" sort naturellement, pas pour faire plaisir.</p>
         </div>
       </div>
 
+    </div>
+
+    <!-- Lightbox vidéo -->
+    <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Vidéo témoignage">
+      <div id="sp-video-lb-inner">
+        <button id="sp-video-lb-close" aria-label="Fermer">&#10005;</button>
+        <div id="sp-video-lb-frame"></div>
+      </div>
     </div>
   </div>
   </div>
@@ -9006,128 +9188,10 @@ nav::before { display:none; }
 #process .process-header { border-color: rgba(6,6,6,.08) !important; }
 #process .reveal-line::before { background: rgba(6,6,6,.25) !important; }
 
-/* ── GAMER RETICLE ANIMATION ── */
-#process { isolation: isolate; }
-
-.pieter-process { position: relative; }
-
-/* z-index layering pour l'effet pass-through */
-.pieter-step-content {
-  z-index: 2;
-  position: relative;
-}
-.pieter-step-media {
-  z-index: 4;
-  position: relative;
-}
-
-#gamer-reticle {
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  pointer-events: none;
-  z-index: 3;
-  opacity: 0;
-  transform: translate(-50%, -50%);
-  will-change: transform, opacity;
-}
-#gamer-reticle svg { width: 100%; height: 100%; overflow: visible; }
-
-.reticle-ring-outer {
-  animation: reticle-spin-slow 3s linear infinite;
-  transform-origin: 40px 40px;
-}
-.reticle-ring-inner {
-  animation: reticle-spin-fast 1.2s linear infinite reverse;
-  transform-origin: 40px 40px;
-}
-.reticle-pulse-ring {
-  transform-origin: 40px 40px;
-}
-
-@keyframes reticle-spin-slow { to { transform: rotate(360deg); } }
-@keyframes reticle-spin-fast { to { transform: rotate(360deg); } }
-
-/* Scan laser */
-#scan-laser {
-  position: absolute;
-  left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(200,250,100,0.8) 20%, rgba(200,250,100,1) 50%, rgba(200,250,100,0.8) 80%, transparent);
-  pointer-events: none;
-  opacity: 0;
-  z-index: 10;
-  box-shadow: 0 0 8px rgba(200,250,100,0.6), 0 0 20px rgba(200,250,100,0.3);
-}
-
-/* Trail particles */
-.reticle-trail {
-  position: absolute;
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: #c8fa64;
-  pointer-events: none;
-  z-index: 3;
-  opacity: 0;
-}
-
-/* Highlight effect sur les textes ciblés */
-.reticle-lit {
-  color: #c8fa64 !important;
-  text-shadow: 0 0 20px rgba(200,250,100,0.5);
-  transition: color 0.15s, text-shadow 0.15s;
-}
-.reticle-lit-back {
-  color: inherit !important;
-  text-shadow: none;
-  transition: color 0.6s, text-shadow 0.6s;
-}
-
-/* Glitch sur les numéros */
-@keyframes glitch-num {
-  0%   { transform: translate(0); clip-path: none; }
-  10%  { transform: translate(-3px, 1px); }
-  20%  { transform: translate(3px, -1px); }
-  30%  { transform: translate(-2px, 2px); color: #c8fa64; }
-  40%  { transform: translate(2px, -2px); }
-  50%  { transform: translate(0); }
-  100% { transform: translate(0); }
-}
-.glitch-active {
-  animation: glitch-num 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-  color: rgba(200,250,100,0.8) !important;
-}
-
-/* Lock-on burst */
-@keyframes lock-burst {
-  0%   { transform: translate(-50%,-50%) scale(0.5); opacity: 1; }
-  100% { transform: translate(-50%,-50%) scale(2.5); opacity: 0; }
-}
-.lock-burst {
-  position: absolute;
-  width: 80px; height: 80px;
-  border: 1.5px solid #c8fa64;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10;
-  animation: lock-burst 0.5s ease-out forwards;
-}
-
-/* Data stream chars */
-.data-char {
-  position: absolute;
-  font-family: 'Syne', monospace;
-  font-size: 11px;
-  color: #c8fa64;
-  pointer-events: none;
-  z-index: 3;
-  opacity: 0;
-  user-select: none;
-}
-@keyframes data-char-fade {
-  0%   { opacity: 0.9; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(12px); }
-}
+/* ── MORPHING CURSOR — process section ── */
+#process { isolation: isolate; cursor: none; }
+#process * { cursor: none; }
+#pieter-process-wrap { position: relative; }
 </style>
   <div class="container">
     <div class="process-header reveal-up">
@@ -9139,35 +9203,15 @@ nav::before { display:none; }
     <!-- Process style pieterkoopt — 01/02/03/04 avec médias -->
     <div class="pieter-process" id="pieter-process-wrap">
 
-      <!-- GAMER RETICLE -->
-      <div id="gamer-reticle" aria-hidden="true">
-        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer spinning ring with dashes -->
-          <g class="reticle-ring-outer">
-            <circle cx="40" cy="40" r="36" stroke="#c8fa64" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
-          </g>
-          <!-- Inner spinning ring -->
-          <g class="reticle-ring-inner">
-            <circle cx="40" cy="40" r="26" stroke="#c8fa64" stroke-width="1.5" stroke-dasharray="3 8" opacity="0.8"/>
-          </g>
-          <!-- Corner brackets -->
-          <path d="M20 12 L12 12 L12 20" stroke="#c8fa64" stroke-width="2" stroke-linecap="round"/>
-          <path d="M60 12 L68 12 L68 20" stroke="#c8fa64" stroke-width="2" stroke-linecap="round"/>
-          <path d="M20 68 L12 68 L12 60" stroke="#c8fa64" stroke-width="2" stroke-linecap="round"/>
-          <path d="M60 68 L68 68 L68 60" stroke="#c8fa64" stroke-width="2" stroke-linecap="round"/>
-          <!-- Center crosshair -->
-          <line x1="40" y1="28" x2="40" y2="35" stroke="#c8fa64" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="40" y1="45" x2="40" y2="52" stroke="#c8fa64" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="28" y1="40" x2="35" y2="40" stroke="#c8fa64" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="45" y1="40" x2="52" y2="40" stroke="#c8fa64" stroke-width="1.5" stroke-linecap="round"/>
-          <!-- Center dot -->
-          <circle cx="40" cy="40" r="2.5" fill="#c8fa64"/>
-          <!-- Pulse ring -->
-          <circle class="reticle-pulse-ring" cx="40" cy="40" r="8" stroke="#c8fa64" stroke-width="1" opacity="0.4"/>
-        </svg>
-      </div>
-      <!-- Scan laser -->
-      <div id="scan-laser"></div>
+      <!-- MORPHING CURSOR DEFS -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <filter id="mdg-turbulence" x="-30%" y="-30%" width="160%" height="160%">
+            <feTurbulence id="mdg-turb" type="turbulence" baseFrequency="0.015" numOctaves="3" seed="2" result="turb"/>
+            <feDisplacementMap in="SourceGraphic" in2="turb" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+      </svg>
 
       <!-- 01 Brief -->
       <div class="pieter-step reveal-cinema">
@@ -17509,306 +17553,209 @@ function cqfGoBack() {
 </script>
 
 <script>
-/* ── GAMER RETICLE v2 — lent, dramatique, visible ── */
+/* ── VIDEO LIGHTBOX — témoignages ── */
 (function(){
-  var process = document.getElementById('process');
-  var wrap    = document.getElementById('pieter-process-wrap');
-  var reticle = document.getElementById('gamer-reticle');
-  var laser   = document.getElementById('scan-laser');
-  if(!process || !wrap || !reticle) return;
+  var lb    = document.getElementById('sp-video-lb');
+  var frame = document.getElementById('sp-video-lb-frame');
+  var close = document.getElementById('sp-video-lb-close');
+  if(!lb || !frame || !close) return;
 
-  /* Agrandir le réticule — beaucoup plus visible */
-  reticle.style.width  = '140px';
-  reticle.style.height = '140px';
+  var cards = document.querySelectorAll('.sp-vcard');
+  if(!cards.length) return;
 
-  var steps  = wrap.querySelectorAll('.pieter-step');
-  var played = false;
-  var ACCENT = '#c8fa64';
-  var chars  = ['01','∆','#','アイ','Ω','%','∑','//','>>','<<'].concat('0123456789'.split(''));
-
-  /* ── Utilitaires ── */
-  function easeOutBack(t){ var c1=1.70158,c3=c1+1; return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2); }
-  function easeInOutSine(t){ return -(Math.cos(Math.PI*t)-1)/2; }
-  function easeOutExpo(t){ return t===1?1:1-Math.pow(2,-10*t); }
-
-  function lerp(a,b,t){ return a+(b-a)*t; }
-
-  var curX = 0, curY = 0;
-
-  function setPos(x,y){ curX=x; curY=y; reticle.style.left=x+'px'; reticle.style.top=y+'px'; }
-
-  function getCenter(el){
-    var wR = wrap.getBoundingClientRect();
-    var eR = el.getBoundingClientRect();
-    return { x: eR.left-wR.left+eR.width/2, y: eR.top-wR.top+eR.height/2 };
+  function openLb(ytId, start){
+    var t = parseInt(start)||0;
+    frame.innerHTML = '<iframe src="https://www.youtube.com/embed/'+ytId+'?autoplay=1&start='+t+'&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
 
-  /* ── Animateur générique promesse-style ── */
-  function animTo(toX, toY, dur, easeFn, onTick){
-    return new Promise(function(resolve){
-      var fromX=curX, fromY=curY, t0=null;
-      easeFn = easeFn || easeOutExpo;
-      function tick(ts){
-        if(!t0) t0=ts;
-        var p=Math.min((ts-t0)/dur,1), e=easeFn(p);
-        var x=lerp(fromX,toX,e), y=lerp(fromY,toY,e);
-        setPos(x,y);
-        if(onTick) onTick(x,y,p);
-        if(p<1) requestAnimationFrame(tick);
-        else resolve();
-      }
-      requestAnimationFrame(tick);
+  function closeLb(){
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function(){ frame.innerHTML = ''; }, 350);
+  }
+
+  cards.forEach(function(card){
+    card.addEventListener('click', function(){
+      openLb(card.dataset.ytId, card.dataset.start);
     });
-  }
-
-  function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
-
-  function fadeReticle(to, dur){
-    return new Promise(function(resolve){
-      var from=parseFloat(reticle.style.opacity)||0, t0=null;
-      function tick(ts){
-        if(!t0) t0=ts;
-        var p=Math.min((ts-t0)/dur,1);
-        reticle.style.opacity=(from+(to-from)*p).toString();
-        if(p<1) requestAnimationFrame(tick);
-        else resolve();
-      }
-      requestAnimationFrame(tick);
+    card.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openLb(card.dataset.ytId, card.dataset.start); }
     });
-  }
+  });
 
-  /* ── Effets visuels ── */
-  function lockBurst(x,y,size){
-    size = size||120;
-    for(var i=0;i<2;i++){
-      (function(delay){
-        setTimeout(function(){
-          var b=document.createElement('div');
-          b.style.cssText='position:absolute;border:2px solid '+ACCENT+';border-radius:50%;pointer-events:none;z-index:10;';
-          b.style.left=x+'px'; b.style.top=y+'px';
-          b.style.width=size+'px'; b.style.height=size+'px';
-          b.style.marginLeft=(-size/2)+'px'; b.style.marginTop=(-size/2)+'px';
-          wrap.appendChild(b);
-          var t0=null,dur=700;
-          function anim(ts){
-            if(!t0) t0=ts;
-            var p=Math.min((ts-t0)/dur,1);
-            var s=1+p*1.8;
-            b.style.transform='scale('+s+')';
-            b.style.opacity=(1-p).toString();
-            if(p<1) requestAnimationFrame(anim);
-            else if(b.parentNode) b.parentNode.removeChild(b);
-          }
-          requestAnimationFrame(anim);
-        }, delay);
-      })(i*180);
-    }
-  }
-
-  function spawnChars(x,y,n){
-    for(var i=0;i<n;i++){
-      (function(i){
-        setTimeout(function(){
-          var dc=document.createElement('div');
-          dc.className='data-char';
-          dc.textContent=chars[Math.floor(Math.random()*chars.length)];
-          var angle=Math.random()*Math.PI*2;
-          var r=50+Math.random()*70;
-          dc.style.left=(x+Math.cos(angle)*r)+'px';
-          dc.style.top=(y+Math.sin(angle)*r)+'px';
-          dc.style.position='absolute';
-          dc.style.fontSize='13px';
-          dc.style.animation='data-char-fade 1.1s ease-out forwards';
-          wrap.appendChild(dc);
-          setTimeout(function(){ if(dc.parentNode) dc.parentNode.removeChild(dc); },1200);
-        }, i*60);
-      })(i);
-    }
-  }
-
-  function glitchNum(stepEl){
-    var num=stepEl.querySelector('.pieter-step-num');
-    if(!num) return;
-    /* Répéter le glitch 3 fois */
-    [0,200,420].forEach(function(delay){
-      setTimeout(function(){
-        num.classList.remove('glitch-active');
-        void num.offsetWidth;
-        num.classList.add('glitch-active');
-        setTimeout(function(){ num.classList.remove('glitch-active'); },350);
-      }, delay);
-    });
-  }
-
-  /* Illumine le titre lettre par lettre */
-  function illuminateTitle(stepEl){
-    return new Promise(function(resolve){
-      var title=stepEl.querySelector('.pieter-step-title');
-      var badge=stepEl.querySelector('.pieter-step-badge');
-      if(!title){ resolve(); return; }
-
-      /* Badge d'abord */
-      if(badge){
-        badge.style.transition='color .15s, text-shadow .15s';
-        badge.style.color=ACCENT;
-        badge.style.textShadow='0 0 18px rgba(200,250,100,.7)';
-        setTimeout(function(){
-          badge.style.color='';
-          badge.style.textShadow='';
-        }, 1200);
-      }
-
-      /* Titre lettre par lettre */
-      var text=title.textContent||'';
-      title.innerHTML='';
-      var spans=[];
-      text.split('').forEach(function(ch){
-        var s=document.createElement('span');
-        s.textContent=ch;
-        s.style.display='inline';
-        s.style.transition='color .12s, text-shadow .12s';
-        title.appendChild(s);
-        spans.push(s);
-      });
-      var delay=120;
-      spans.forEach(function(s,i){
-        setTimeout(function(){
-          s.style.color=ACCENT;
-          s.style.textShadow='0 0 22px rgba(200,250,100,.8)';
-          setTimeout(function(){
-            s.style.color='';
-            s.style.textShadow='';
-          }, 900);
-        }, delay + i*55);
-      });
-      setTimeout(resolve, delay + spans.length*55 + 300);
-    });
-  }
-
-  /* Scan mots de la desc */
-  function scanDesc(stepEl){
-    return new Promise(function(resolve){
-      var desc=stepEl.querySelector('.pieter-step-desc');
-      if(!desc){ resolve(); return; }
-      if(!desc.dataset.wrapped){
-        desc.innerHTML=desc.innerHTML.replace(/(\S+)/g,'<span class="rw">$1</span>');
-        desc.dataset.wrapped='1';
-      }
-      var words=desc.querySelectorAll('.rw');
-      words.forEach(function(w,i){
-        setTimeout(function(){
-          w.style.color=ACCENT;
-          w.style.transition='color 0.12s';
-          setTimeout(function(){ w.style.color=''; },400);
-        }, i*55);
-      });
-      setTimeout(resolve, words.length*55+300);
-    });
-  }
-
-  /* Sweep laser sur une étape */
-  function sweepLaser(stepEl){
-    return new Promise(function(resolve){
-      var wR=wrap.getBoundingClientRect();
-      var sR=stepEl.getBoundingClientRect();
-      var topY=sR.top-wR.top, botY=sR.bottom-wR.top;
-      laser.style.opacity='1';
-      laser.style.top=topY+'px';
-      var t0=null, dur=900;
-      function tick(ts){
-        if(!t0) t0=ts;
-        var p=Math.min((ts-t0)/dur,1);
-        laser.style.top=(topY+(botY-topY)*easeInOutSine(p))+'px';
-        if(p<1) requestAnimationFrame(tick);
-        else { laser.style.opacity='0'; resolve(); }
-      }
-      requestAnimationFrame(tick);
-    });
-  }
-
-  /* ── SÉQUENCE PRINCIPALE ── */
-  async function runCinematic(){
-    if(played) return;
-    played=true;
-
-    var wR=wrap.getBoundingClientRect();
-    /* Départ coin haut gauche */
-    setPos(wR.width*0.1, 80);
-    reticle.style.opacity='0';
-
-    /* 1 — Apparition lente */
-    await fadeReticle(1, 700);
-    await wait(400);
-
-    /* 2 — Traiter chaque étape */
-    for(var idx=0; idx<steps.length; idx++){
-      var step   = steps[idx];
-      var content= step.querySelector('.pieter-step-content');
-      var media  = step.querySelector('.pieter-step-media');
-      var title  = step.querySelector('.pieter-step-title');
-      var num    = step.querySelector('.pieter-step-num');
-
-      var tCenter = title   ? getCenter(title)   : getCenter(content||step);
-      var nCenter = num     ? getCenter(num)      : tCenter;
-      var mCenter = media   ? getCenter(media)    : {x:wR.width*0.75, y:tCenter.y};
-
-      /* — Déplacement vers le numéro de l'étape — rapide et nerveux */
-      var moveSpeed = idx===0 ? 900 : 650;
-      reticle.style.zIndex='3'; /* devant content, derrière media */
-      await animTo(nCenter.x, nCenter.y, moveSpeed, easeOutBack);
-
-      /* — Lock-on sur le numéro */
-      lockBurst(nCenter.x, nCenter.y, 160);
-      spawnChars(nCenter.x, nCenter.y, 10);
-      glitchNum(step);
-      await wait(600);
-
-      /* — Glisse vers le titre */
-      await animTo(tCenter.x, tCenter.y, 600, easeOutExpo);
-
-      /* — Illumine le titre lettre par lettre (on attend la fin) */
-      lockBurst(tCenter.x, tCenter.y, 100);
-      await illuminateTitle(step);
-      await wait(200);
-
-      /* — Sweep laser pendant qu'on scanne la desc */
-      var laserPromise = sweepLaser(step);
-      await scanDesc(step);
-      await laserPromise;
-      await wait(300);
-
-      /* — Traverse vers le bloc image — PASSE DERRIÈRE */
-      reticle.style.zIndex='3'; /* derrière media (z-index:4) */
-      await animTo(mCenter.x, mCenter.y, 700, easeInOutSine);
-      spawnChars(mCenter.x, mCenter.y, 6);
-      await wait(500);
-
-      /* — Ressort devant */
-      reticle.style.zIndex='5';
-      await wait(200);
-    }
-
-    /* 3 — Finale */
-    var lastTitle = steps[steps.length-1].querySelector('.pieter-step-title');
-    var fc = lastTitle ? getCenter(lastTitle) : {x:wR.width/2, y:curY};
-    await animTo(fc.x, fc.y, 500, easeOutExpo);
-    lockBurst(fc.x, fc.y, 200);
-    lockBurst(fc.x, fc.y, 120);
-    spawnChars(fc.x, fc.y, 22);
-    await wait(300);
-    await fadeReticle(0, 800);
-  }
-
-  /* Observer — se déclenche quand la section est à 20% visible */
-  var observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting && !played) setTimeout(runCinematic, 500);
-    });
-  }, { threshold: 0.2 });
-
-  observer.observe(process);
+  close.addEventListener('click', closeLb);
+  lb.addEventListener('click', function(e){ if(e.target === lb) closeLb(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLb(); });
 })();
 </script>
+
+<script>
+/* ── MORPHING CURSOR — blob vivant + labels orbitants ── */
+(function(){
+  var section = document.getElementById('process');
+  var wrap    = document.getElementById('pieter-process-wrap');
+  if(!section || !wrap) return;
+
+  var mx=0, my=0, cx=0, cy=0, t=0, mode='idle', prevMode='idle';
+  var initialized = false;
+
+  var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;overflow:visible;display:none';
+  document.body.appendChild(svg);
+
+  // ── TRAIL
+  var TN=14, tEls=[], tX=[], tY=[];
+  for(var i=TN-1;i>=0;i--){
+    var tc=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    var f=i/TN;
+    tc.setAttribute('r',(1.5+f*18).toFixed(1));
+    tc.setAttribute('fill','#060606');
+    tc.setAttribute('opacity',(0.03+f*0.15).toFixed(2));
+    svg.appendChild(tc);
+    tEls.unshift(tc); tX.unshift(0); tY.unshift(0);
+  }
+
+  // ── BLOB
+  var blob=document.createElementNS('http://www.w3.org/2000/svg','path');
+  blob.setAttribute('fill','#060606');
+  svg.appendChild(blob);
+
+  // ── SLASH
+  var slash=document.createElementNS('http://www.w3.org/2000/svg','line');
+  slash.setAttribute('stroke','#060606');
+  slash.setAttribute('stroke-width','2.5');
+  slash.setAttribute('stroke-dasharray','10 6');
+  slash.setAttribute('opacity','0');
+  svg.appendChild(slash);
+
+  // ── LABELS
+  var WORDS=[
+    {t:'MDG',    fs:22,fw:900,ls:6, dist:130,speed:.009},
+    {t:'STUDIO', fs:14,fw:900,ls:4, dist:115,speed:.011},
+    {t:'CRÉATIF',fs:12,fw:700,ls:3, dist:150,speed:.007},
+    {t:'01',     fs:28,fw:900,ls:0, dist:100,speed:.013},
+    {t:'02',     fs:18,fw:900,ls:0, dist:140,speed:.010},
+    {t:'×',      fs:32,fw:900,ls:0, dist:95, speed:.015},
+    {t:'DESIGN', fs:11,fw:700,ls:3, dist:160,speed:.008},
+    {t:'03',     fs:16,fw:900,ls:0, dist:120,speed:.012},
+  ];
+  var labels=WORDS.map(function(w,i){
+    var el=document.createElementNS('http://www.w3.org/2000/svg','text');
+    el.textContent=w.t;
+    el.setAttribute('font-family','Syne,Arial Black,sans-serif');
+    el.setAttribute('font-size',w.fs);
+    el.setAttribute('font-weight',w.fw);
+    el.setAttribute('letter-spacing',w.ls);
+    el.setAttribute('fill','#060606');
+    el.setAttribute('opacity','0');
+    el.setAttribute('text-anchor','middle');
+    el.setAttribute('dominant-baseline','middle');
+    svg.appendChild(el);
+    return{el:el,angle:(i/WORDS.length)*Math.PI*2,dist:w.dist,speed:w.speed,tilt:-30+i*9,op:0};
+  });
+
+  // ── BURSTS
+  var bursts=[];
+  function spawnBurst(){
+    for(var b=0;b<10;b++){
+      var angle=Math.random()*Math.PI*2, spd=4+Math.random()*9;
+      var el=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      el.setAttribute('r',(3+Math.random()*6).toFixed(1));
+      el.setAttribute('fill','#060606');
+      el.setAttribute('cx',cx.toFixed(1));
+      el.setAttribute('cy',cy.toFixed(1));
+      svg.appendChild(el);
+      bursts.push({el:el,x:cx,y:cy,vx:Math.cos(angle)*spd,vy:Math.sin(angle)*spd,life:1.0});
+    }
+  }
+
+  function blobPath(bx,by,r,chaos,t){
+    var N=8,pts=[];
+    for(var i=0;i<N;i++){
+      var a=(i/N)*Math.PI*2;
+      var n=Math.sin(t*2.1+i*1.1)*chaos+Math.cos(t*0.9+i*2.3)*chaos*.6+Math.sin(t*3.7+i*.7)*chaos*.25;
+      pts.push([bx+Math.cos(a)*(r+n),by+Math.sin(a)*(r+n)]);
+    }
+    var d='M'+pts[0][0].toFixed(1)+','+pts[0][1].toFixed(1);
+    for(var i=0;i<N;i++){
+      var p1=pts[i],p2=pts[(i+1)%N];
+      d+=' Q'+p1[0].toFixed(1)+','+p1[1].toFixed(1)+' '+((p1[0]+p2[0])/2).toFixed(1)+','+((p1[1]+p2[1])/2).toFixed(1);
+    }
+    return d+'Z';
+  }
+
+  // Events
+  section.addEventListener('mouseenter',function(e){
+    if(!initialized){ cx=e.clientX; cy=e.clientY; for(var i=0;i<TN;i++){tX[i]=cx;tY[i]=cy;} initialized=true; }
+    svg.style.display='block'; mode='idle';
+  });
+  section.addEventListener('mouseleave',function(){
+    svg.style.display='none'; mode='idle';
+  });
+  section.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; });
+
+  var stepEls=wrap.querySelectorAll('.pieter-step');
+  stepEls.forEach(function(step){
+    step.addEventListener('mouseenter',function(){ mode='hover'; });
+    step.addEventListener('mouseleave',function(){ mode='idle'; });
+  });
+
+  function tick(){
+    t+=0.022;
+    cx+=(mx-cx)*.1; cy+=(my-cy)*.1;
+
+    // trail
+    tX[0]+=(cx-tX[0])*.28; tY[0]+=(cy-tY[0])*.28;
+    for(var i=1;i<TN;i++){
+      tX[i]+=(tX[i-1]-tX[i])*.38; tY[i]+=(tY[i-1]-tY[i])*.38;
+      tEls[i].setAttribute('cx',tX[i].toFixed(1)); tEls[i].setAttribute('cy',tY[i].toFixed(1));
+    }
+    tEls[0].setAttribute('cx',tX[0].toFixed(1)); tEls[0].setAttribute('cy',tY[0].toFixed(1));
+
+    // mode change
+    if(mode!==prevMode){ if(mode==='hover') spawnBurst(); prevMode=mode; }
+
+    // blob
+    var r=mode==='hover'?40:22, chaos=mode==='hover'?16:6;
+    blob.setAttribute('d',blobPath(cx,cy,r,chaos,t));
+
+    // slash
+    var sT=mode==='hover'?.8:0, sCur=parseFloat(slash.getAttribute('opacity'));
+    slash.setAttribute('opacity',(sCur+(sT-sCur)*.09).toFixed(3));
+    var sl=90+Math.sin(t*1.6)*20, ang=.4+Math.sin(t*.5)*.25;
+    slash.setAttribute('x1',(cx-Math.cos(ang)*sl).toFixed(1));
+    slash.setAttribute('y1',(cy-Math.sin(ang)*sl*.5).toFixed(1));
+    slash.setAttribute('x2',(cx+Math.cos(ang)*sl).toFixed(1));
+    slash.setAttribute('y2',(cy+Math.sin(ang)*sl*.5).toFixed(1));
+
+    // labels
+    var lT=mode==='hover'?1:0;
+    labels.forEach(function(lb,i){
+      lb.angle+=lb.speed*(mode==='hover'?2.2:0.5);
+      var ox=Math.cos(lb.angle)*lb.dist, oy=Math.sin(lb.angle)*lb.dist;
+      var tx=cx+ox, ty=cy+oy;
+      lb.op+=(lT-lb.op)*.065;
+      lb.el.setAttribute('x',tx.toFixed(1)); lb.el.setAttribute('y',ty.toFixed(1));
+      lb.el.setAttribute('opacity',lb.op.toFixed(3));
+      var tilt=lb.tilt+Math.sin(t*.7+i)*10;
+      lb.el.setAttribute('transform','rotate('+tilt.toFixed(1)+','+tx.toFixed(1)+','+ty.toFixed(1)+')');
+    });
+
+    // bursts
+    for(var b=bursts.length-1;b>=0;b--){
+      var p=bursts[b];
+      p.x+=p.vx; p.y+=p.vy; p.vx*=.9; p.vy*=.9; p.life-=.035;
+      p.el.setAttribute('cx',p.x.toFixed(1)); p.el.setAttribute('cy',p.y.toFixed(1));
+      p.el.setAttribute('opacity',Math.max(0,p.life).toFixed(3));
+      if(p.life<=0){ svg.removeChild(p.el); bursts.splice(b,1); }
+    }
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();</script>
 
 </body>
 </html>
