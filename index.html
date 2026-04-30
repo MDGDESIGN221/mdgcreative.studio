@@ -3584,10 +3584,10 @@ nav::before { display:none; }
 }
 .sp-quote-role { font-size: .68rem; color: var(--dim); margin-top: .2rem; letter-spacing: .02em; }
 
-/* ── Video cards — liste horizontale compacte ── */
+/* ── Video cards — 2×2 desktop / liste mobile ── */
 .sp-videos {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1px;
   margin: 0 3rem;
   background: rgba(255,255,255,.05);
@@ -3600,7 +3600,7 @@ nav::before { display:none; }
   border: none; border-radius: 0;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 200px 1fr;
   align-items: center;
   transition: background .25s;
   position: relative;
@@ -3614,32 +3614,32 @@ nav::before { display:none; }
   transition: transform .35s cubic-bezier(.16,1,.3,1);
   z-index: 2;
 }
-.sp-vcard:hover { background: rgba(255,255,255,.02); }
+.sp-vcard:hover { background: rgba(255,255,255,.025); }
 .sp-vcard:hover::before { transform: scaleY(1); }
 .sp-vcard-thumb {
   position: relative;
   aspect-ratio: 16/9;
   overflow: hidden;
   border-radius: 8px;
-  margin: .65rem .65rem .65rem 1rem;
+  margin: .85rem .75rem .85rem 1.1rem;
   flex-shrink: 0;
 }
 .sp-vcard-body {
-  padding: .75rem 1.25rem .75rem .5rem;
+  padding: .9rem 1.25rem .9rem .5rem;
   display: flex; flex-direction: column;
-  justify-content: center; gap: .3rem;
+  justify-content: center; gap: .35rem;
 }
 .sp-play-btn {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   background: var(--accent);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 3px 12px rgba(0,0,0,.6);
+  box-shadow: 0 3px 14px rgba(0,0,0,.65);
   transition: transform .25s, box-shadow .25s;
   z-index: 2;
 }
-.sp-vcard:hover .sp-play-btn { transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 5px 20px rgba(200,250,100,.35); }
+.sp-vcard:hover .sp-play-btn { transform: translate(-50%,-50%) scale(1.1); box-shadow: 0 5px 22px rgba(200,250,100,.35); }
 .sp-vcard-source {
   display: flex; align-items: center; gap: .35rem;
   font-size: .55rem; color: var(--dim); font-weight: 600;
@@ -3653,15 +3653,18 @@ nav::before { display:none; }
   object-fit: cover; flex-shrink: 0;
   border: 1px solid rgba(200,250,100,.2);
 }
-.sp-vcard-artist span { font-size: .75rem; color: var(--light); line-height: 1.3; font-weight: 500; }
-.sp-vcard-desc { font-size: .7rem; color: var(--dim); line-height: 1.5; font-weight: 300; }
+.sp-vcard-artist span { font-size: .78rem; color: var(--light); line-height: 1.3; font-weight: 600; }
+.sp-vcard-desc { font-size: .72rem; color: var(--dim); line-height: 1.55; font-weight: 300; }
+/* Séparateur vertical entre les 2 colonnes */
+.sp-vcard:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.05); }
 @media(max-width:900px) {
   .sp-header, .sp-feature { padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0; }
-  .sp-videos { margin: 0; border-radius: 12px; }
-  .sp-vcard { grid-template-columns: 140px 1fr; }
+  .sp-videos { grid-template-columns: 1fr; margin: 0; border-radius: 12px; }
+  .sp-vcard { grid-template-columns: 150px 1fr; border-right: none !important; }
+  .sp-vcard-thumb { margin: .65rem .65rem .65rem 1rem; }
 }
 @media(max-width:480px) {
-  .sp-vcard { grid-template-columns: 100px 1fr; }
+  .sp-vcard { grid-template-columns: 110px 1fr; }
   .sp-vcard-thumb { margin: .5rem .5rem .5rem .75rem; }
   .sp-vcard-desc { display: none; }
 }
@@ -4205,61 +4208,75 @@ nav::before { display:none; }
   .ts-logo.ts-omzo { height: 30px; }
 }
 
-/* ── SERVICES SECONDAIRES — liste éditoriale ── */
+/* ── SERVICES SECONDAIRES — glassmorphisme ── */
 .svc-secondary {
   margin-top: 2.5rem;
-  border-top: 1px solid var(--border);
-  padding-top: 0;
 }
 .svc-secondary-label {
   font-family: 'Syne', sans-serif; font-size: .58rem; font-weight: 700;
   letter-spacing: .22em; text-transform: uppercase; color: var(--accent);
-  padding: 1.25rem .5rem .85rem;
+  padding: 0 0 1rem;
   display: flex; align-items: center; gap: .6rem;
 }
 .svc-secondary-label::before { content: ''; width: 18px; height: 1px; background: var(--accent); }
-.svc-secondary-list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.svc-secondary-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
 .svc-secondary-item {
-  display: grid; grid-template-columns: 44px 1fr auto 28px;
-  gap: 1.25rem; align-items: center;
-  padding: 1.1rem .5rem;
-  border-bottom: 1px solid rgba(255,255,255,.04);
+  display: flex; align-items: center; gap: .85rem;
+  padding: .9rem 1.1rem;
   cursor: pointer;
   position: relative;
-  transition: background .2s, padding-left .25s cubic-bezier(.16,1,.3,1);
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background .25s, border-color .25s, transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s;
+  overflow: hidden;
 }
-.svc-secondary-item::after {
+/* Glow accent coin haut-gauche */
+.svc-secondary-item::before {
   content: '';
-  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
-  background: var(--accent);
-  transition: width .25s cubic-bezier(.16,1,.3,1);
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, rgba(200,250,100,.3) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .3s;
 }
-.svc-secondary-item:hover { padding-left: .75rem; background: rgba(255,255,255,.015); }
-.svc-secondary-item:hover::after { width: 2px; }
+.svc-secondary-item:hover {
+  background: rgba(200,250,100,.06);
+  border-color: rgba(200,250,100,.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.3), 0 0 0 1px rgba(200,250,100,.08);
+}
+.svc-secondary-item:hover::before { opacity: 1; }
 .svc-secondary-num {
-  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 800;
-  color: rgba(255,255,255,.12); letter-spacing: -.01em;
+  font-family: 'Syne', sans-serif; font-size: .6rem; font-weight: 800;
+  color: rgba(200,250,100,.25); letter-spacing: .05em;
+  flex-shrink: 0; line-height: 1;
   transition: color .2s;
 }
-.svc-secondary-item:hover .svc-secondary-num { color: rgba(200,250,100,.3); }
+.svc-secondary-item:hover .svc-secondary-num { color: rgba(200,250,100,.5); }
 .svc-secondary-name {
-  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
-  color: var(--off); letter-spacing: -.01em;
+  font-family: 'Syne', sans-serif; font-size: .82rem; font-weight: 700;
+  color: var(--off); letter-spacing: -.01em; flex: 1;
   transition: color .2s;
+  line-height: 1.2;
 }
 .svc-secondary-item:hover .svc-secondary-name { color: var(--light); }
 .svc-secondary-tags {
-  font-size: .65rem; color: var(--dim); font-weight: 300;
-  letter-spacing: .02em; text-align: right;
+  font-size: .58rem; color: var(--dim); font-weight: 300;
+  letter-spacing: .02em; display: none;
 }
 .svc-secondary-arr {
-  color: var(--dim); font-size: .9rem; text-align: right;
+  color: rgba(200,250,100,.3); font-size: .8rem; flex-shrink: 0;
   transition: transform .25s, color .2s;
 }
-.svc-secondary-item:hover .svc-secondary-arr { transform: translateX(5px); color: var(--accent); }
+.svc-secondary-item:hover .svc-secondary-arr { transform: translateX(3px); color: var(--accent); }
 @media(max-width:640px) {
-  .svc-secondary-item { grid-template-columns: 36px 1fr 24px; }
-  .svc-secondary-tags { display: none; }
+  .svc-secondary-list { grid-template-columns: 1fr; gap: .4rem; }
 }
 
 /* ── RÉFÉRENCES VISUELLES — zone upload contact ── */
@@ -8017,7 +8034,7 @@ nav::before { display:none; }
         <!-- Outils -->
         <div class="av2-tools-label">Outils</div>
         <div class="av2-tools">
-          <span class="tool">Photoshop</span><span class="tool">Illustrator</span><span class="tool">After Effects</span><span class="tool">Premiere Pro</span><span class="tool">Blender</span><span class="tool">Higgsfield AI</span><span class="tool">Kling AI</span><span class="tool">Figma</span><span class="tool">HTML / CSS</span>
+          <span class="tool">Photoshop</span><span class="tool">Illustrator</span><span class="tool">After Effects</span><span class="tool">Premiere Pro</span><span class="tool">Blender</span><span class="tool">Higgsfield AI</span><span class="tool">Figma</span><span class="tool">HTML / CSS</span>
         </div>
 
         <!-- Lien Behance -->
@@ -8136,6 +8153,47 @@ nav::before { display:none; }
   color: var(--dim); margin-bottom: .75rem;
 }
 .av2-tools { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 2.5rem; }
+
+/* Tools glow animation */
+.av2-tools .tool {
+  font-size: .67rem; padding: .3rem .85rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--dim);
+  cursor: default;
+  position: relative;
+  transition: color .3s, border-color .3s, box-shadow .3s;
+  animation: toolGlow 4s ease-in-out infinite;
+}
+.av2-tools .tool:nth-child(1)  { animation-delay: 0s; }
+.av2-tools .tool:nth-child(2)  { animation-delay: .4s; }
+.av2-tools .tool:nth-child(3)  { animation-delay: .8s; }
+.av2-tools .tool:nth-child(4)  { animation-delay: 1.2s; }
+.av2-tools .tool:nth-child(5)  { animation-delay: 1.6s; }
+.av2-tools .tool:nth-child(6)  { animation-delay: 2s; }
+.av2-tools .tool:nth-child(7)  { animation-delay: 2.4s; }
+.av2-tools .tool:nth-child(8)  { animation-delay: 2.8s; }
+@keyframes toolGlow {
+  0%, 70%, 100% {
+    color: var(--dim);
+    border-color: rgba(255,255,255,.08);
+    box-shadow: none;
+  }
+  35% {
+    color: var(--accent);
+    border-color: rgba(200,250,100,.35);
+    box-shadow: 0 0 10px rgba(200,250,100,.15), inset 0 0 8px rgba(200,250,100,.05);
+  }
+}
+.av2-tools .tool:hover {
+  color: var(--accent) !important;
+  border-color: rgba(200,250,100,.4) !important;
+  box-shadow: 0 0 14px rgba(200,250,100,.2) !important;
+  animation-play-state: paused;
+}
+@media(prefers-reduced-motion: reduce) {
+  .av2-tools .tool { animation: none; }
+}
 .av2-cta {
   display: inline-flex; align-items: center; gap: .6rem;
   font-family: 'Syne', sans-serif;
@@ -8601,11 +8659,16 @@ nav::before { display:none; }
       height: clamp(260px, 70vw, 400px);
       flex-wrap: wrap;
     }
-    .ag-item { flex: 0 0 33.333%; margin-left: 0; border-left: 1px solid rgba(255,255,255,.06); }
+    .ag-item { flex: 0 0 33.333%; margin-left: 0; border-left: 1px solid rgba(255,255,255,.06); pointer-events: none; }
     .ag-item:nth-child(1),.ag-item:nth-child(4){ border-left:none }
     .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) { flex: 0 0 33.333%; }
     .artists-grid:has(.ag-item:hover) .ag-item:hover { flex: 0 0 33.333%; }
+    /* Photos plus lumineuses sur mobile */
+    .ag-photo img { filter: grayscale(10%) brightness(.95) !important; }
+    /* Overlay toujours visible */
     .ag-overlay { opacity: 1; }
+    /* Bouton IG visible + cliquable */
+    .ag-ig { opacity: 1 !important; pointer-events: all; }
     .ag-name-static { font-size: .5rem; }
     .ag-name { font-size: .8rem; }
     .ag-collab { font-size: .42rem; }
@@ -9642,7 +9705,7 @@ nav::before { display:none; }
           </div>
         </div>
 
-        <div class="pcond-row pcond-row--accent">
+        <div class="pcond-row">
           <span class="pcond-key">Urgences</span>
           <div class="pcond-val-wrap">
             <span class="pcond-big pcond-big--up">+10%</span>
@@ -9650,7 +9713,7 @@ nav::before { display:none; }
           </div>
         </div>
 
-        <div class="pcond-row pcond-row--green">
+        <div class="pcond-row">
           <span class="pcond-key">Long terme</span>
           <div class="pcond-val-wrap">
             <span class="pcond-big pcond-big--down">−20%</span>
@@ -9710,8 +9773,8 @@ nav::before { display:none; }
 .pcond-rows {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: rgba(255,255,255,.03);
   gap: 1px;
+  background: rgba(255,255,255,.04);
 }
 .pcond-row {
   display: flex; align-items: center; gap: 1.5rem;
@@ -11261,13 +11324,13 @@ function copyWaveNumber(btn) {
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet, je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#402d242724253329272e72727100272d21292c6e232f2d" class="contact-direct-link">
+          <a href="mailto:mdgdesign221@gmail.com" class="contact-direct-link">
             <div class="contact-direct-link-icon" style="background:rgba(200,250,100,.08)">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <div class="contact-direct-link-text">
               <span class="contact-direct-link-name">Email</span>
-              <span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="076a63606362746e606935353647606a666e6b2964686a">[email&#160;protected]</span></span>
+              <span class="contact-direct-link-val">mdgdesign221@gmail.com</span>
             </div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
@@ -11305,6 +11368,7 @@ function copyWaveNumber(btn) {
 
         <div class="info-list reveal-up rd3" style="margin-top:2rem">
           <div class="info-item"><span class="info-label">Localisation</span><span class="info-value">Kaolack, Sénégal</span></div>
+          <div class="info-item"><span class="info-label">Heure locale</span><span class="info-value" style="display:flex;align-items:center;gap:.4rem"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite;flex-shrink:0"></span><span id="kaolackTimeContact">--:--</span></span></div>
           <div class="info-item"><span class="info-label">Langues</span><span class="info-value">Français · Wolof · Anglais</span></div>
           <div class="info-item"><span class="info-label">Réponse</span><span class="info-value">Moins de 24h</span></div>
         </div>
@@ -11871,9 +11935,9 @@ function submitPackForm(e) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#b1dcd5d6d5d4c2d8d6df838380f1d6dcd0d8dd9fd2dedc" class="f-contact-item">
+        <a href="mailto:mdgdesign221@gmail.com" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="660b02010203150f010854545726010b070f0a4805090b">[email&#160;protected]</span></span>
+          <span class="f-contact-val">mdgdesign221@gmail.com</span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -13170,15 +13234,16 @@ document.querySelectorAll('.work-card,.cov-card,.svc-card,.process-step,.trust-c
 
 // ── HEURE EN TEMPS RÉEL À KAOLACK (GMT+0) ──
 function updateKaolackTime() {
-  const el = document.getElementById('kaolackTime');
-  if (!el) return;
   const now = new Date();
-  // Kaolack = GMT+0 (pas de décalage)
   const utc = now.getTime() + now.getTimezoneOffset() * 60000;
   const kaolack = new Date(utc);
   const h = String(kaolack.getHours()).padStart(2,'0');
   const m = String(kaolack.getMinutes()).padStart(2,'0');
-  el.textContent = h + 'h' + m;
+  const time = h + 'h' + m;
+  const el = document.getElementById('kaolackTime');
+  const el2 = document.getElementById('kaolackTimeContact');
+  if (el) el.textContent = time;
+  if (el2) el2.textContent = time;
 }
 updateKaolackTime();
 setInterval(updateKaolackTime, 10000);
@@ -13382,13 +13447,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#452821222120362c222b777774052228242c296b262a28" class="cpop-link cpop-mail">
+    <a href="mailto:mdgdesign221@gmail.com" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="422f26252627312b252c70707302252f232b2e6c212d2f">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail">mdgdesign221@gmail.com</div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
