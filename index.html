@@ -8160,6 +8160,7 @@ nav::before { display:none; }
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
           </span>
         </div>
+        <div class="ag-bottom-bar"></div>
       </a>
 
       <a class="ag-item" href="https://www.instagram.com/onelyrical.sn/" target="_blank" rel="noopener">
@@ -8177,6 +8178,7 @@ nav::before { display:none; }
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
           </span>
         </div>
+        <div class="ag-bottom-bar"></div>
       </a>
 
       <a class="ag-item" href="https://www.instagram.com/omzobeatz/" target="_blank" rel="noopener">
@@ -8194,6 +8196,7 @@ nav::before { display:none; }
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
           </span>
         </div>
+        <div class="ag-bottom-bar"></div>
       </a>
 
       <a class="ag-item" href="https://www.instagram.com/oothentik_zeus_gb/" target="_blank" rel="noopener">
@@ -8211,6 +8214,7 @@ nav::before { display:none; }
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
           </span>
         </div>
+        <div class="ag-bottom-bar"></div>
       </a>
 
       <a class="ag-item" href="https://www.instagram.com/gunsilentbeatz/" target="_blank" rel="noopener">
@@ -8228,6 +8232,7 @@ nav::before { display:none; }
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
           </span>
         </div>
+        <div class="ag-bottom-bar"></div>
       </a>
 
       <a class="ag-item" href="https://www.instagram.com/dopeboydmg/" target="_blank" rel="noopener">
@@ -8245,6 +8250,7 @@ nav::before { display:none; }
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
           </span>
         </div>
+        <div class="ag-bottom-bar"></div>
       </a>
 
     </div>
@@ -8286,17 +8292,210 @@ nav::before { display:none; }
     transition: transform .6s cubic-bezier(.16,1,.3,1),
                 filter .5s cubic-bezier(.16,1,.3,1);
   }
-  .ag-item:hover .ag-photo img {
-    transform: scale(1.06);
-    filter: grayscale(0%) brightness(.65);
+  /* ── ARTISTS GRID — Sentinels style ── */
+  .artists-grid-wrap {
+    padding: 3rem 0 0;
+    position: relative; z-index: 2;
+    overflow: hidden;
+  }
+  .artists-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    position: relative;
+    height: clamp(340px, 52vw, 580px);
+  }
+  .ag-item {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    background: #080808;
+    cursor: pointer;
+    margin-left: -2px;
+    border-left: 1px solid rgba(255,255,255,.06);
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path .7s cubic-bezier(.77,0,.18,1),
+                flex .45s cubic-bezier(.16,1,.3,1);
+  }
+  .ag-item:first-child { margin-left: 0; border-left: none; }
+  .ag-item.ag-revealed { clip-path: inset(0 0% 0 0); }
+
+  /* Photo */
+  .ag-photo {
+    position: absolute; inset: 0;
+    overflow: hidden;
+  }
+  .ag-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 15%;
+    display: block;
+    filter: grayscale(25%) brightness(.75) contrast(1.1);
+    transition: transform .6s cubic-bezier(.16,1,.3,1),
+                filter .5s cubic-bezier(.16,1,.3,1);
+    transform-origin: center top;
   }
 
-  /* ── SPOTLIGHT : les autres s'assombrissent au hover ── */
-  .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) .ag-photo img {
-    filter: grayscale(60%) brightness(.45);
+  /* Gradient cinématique — lumière accent sur le côté gauche */
+  .ag-item::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(to right, rgba(200,250,100,.06) 0%, transparent 35%),
+      linear-gradient(to top, rgba(6,6,6,.98) 0%, rgba(6,6,6,.4) 35%, transparent 65%);
+    pointer-events: none;
+    transition: opacity .4s;
   }
-  .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) .ag-name-static {
-    opacity: .35;
+
+  /* Ligne accent verticale gauche */
+  .ag-item::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--accent) 40%, transparent);
+    z-index: 3;
+    opacity: 0;
+    transition: opacity .35s;
+  }
+  .ag-item:hover::after { opacity: 1; }
+
+  /* Spotlight — les autres s'assombrissent */
+  .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) {
+    flex: 0.7;
+  }
+  .artists-grid:has(.ag-item:hover) .ag-item:hover {
+    flex: 1.6;
+  }
+  .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) .ag-photo img {
+    filter: grayscale(70%) brightness(.35) contrast(1.0);
+  }
+  .ag-item:hover .ag-photo img {
+    transform: scale(1.04);
+    filter: grayscale(0%) brightness(.7) contrast(1.1);
+  }
+
+  /* Nom en haut — toujours visible, style label Sentinels */
+  .ag-name-static {
+    position: absolute;
+    top: 1rem; left: .9rem; right: .9rem;
+    z-index: 4;
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(.55rem, .9vw, .72rem);
+    color: rgba(255,255,255,.45);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    line-height: 1;
+    display: flex; align-items: center; gap: .35rem;
+    transition: color .3s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ag-name-static::before {
+    content: '·';
+    color: var(--accent);
+    font-size: .8em;
+    flex-shrink: 0;
+  }
+  .ag-item:hover .ag-name-static { color: var(--accent); }
+
+  /* Info bas — visible au hover */
+  .ag-overlay {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; flex-direction: column;
+    justify-content: flex-end; align-items: flex-start;
+    padding: 1.25rem 1rem;
+    opacity: 0;
+    transition: opacity .35s cubic-bezier(.16,1,.3,1);
+  }
+  .ag-item:hover .ag-overlay { opacity: 1; }
+  .ag-info {
+    display: flex; flex-direction: column; gap: .2rem;
+  }
+  .ag-collab {
+    font-family: 'Syne', sans-serif;
+    font-size: .52rem; font-weight: 700;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent);
+    display: block; margin-bottom: .3rem;
+  }
+  .ag-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(.85rem, 1.4vw, 1.1rem);
+    font-weight: 800; letter-spacing: -.02em;
+    color: var(--light); display: block;
+    line-height: 1.05;
+  }
+  .ag-genre {
+    font-size: .58rem; color: var(--off);
+    font-weight: 300; display: block;
+    margin-top: .15rem; letter-spacing: .02em;
+  }
+  .ag-ig {
+    position: absolute; top: .75rem; right: .75rem;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(6,6,6,.8);
+    border: 1px solid rgba(255,255,255,.12);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--dim); z-index: 4;
+    transition: background .25s, border-color .25s, color .25s;
+    opacity: 0;
+  }
+  .ag-item:hover .ag-ig {
+    opacity: 1;
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--black);
+  }
+  .ag-ig svg { stroke: currentColor; }
+
+  /* Barre info bas — style Sentinels */
+  .ag-bottom-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s cubic-bezier(.16,1,.3,1);
+    z-index: 4;
+  }
+  .ag-item:hover .ag-bottom-bar { transform: scaleX(1); }
+
+  @media(max-width:900px) {
+    .artists-grid-wrap { padding: 2rem 0 0; }
+    .artists-grid {
+      height: clamp(260px, 70vw, 400px);
+      flex-wrap: wrap;
+    }
+    .ag-item { flex: 0 0 33.333%; margin-left: 0; border-left: 1px solid rgba(255,255,255,.06); }
+    .ag-item:nth-child(1),.ag-item:nth-child(4){ border-left:none }
+    .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) { flex: 0 0 33.333%; }
+    .artists-grid:has(.ag-item:hover) .ag-item:hover { flex: 0 0 33.333%; }
+    .ag-overlay { opacity: 1; }
+    .ag-name-static { font-size: .5rem; }
+    .ag-name { font-size: .8rem; }
+    .ag-collab { font-size: .42rem; }
+  }
+  @media(max-width:500px) {
+    .artists-grid { height: auto; }
+    .ag-item { flex: 0 0 50%; aspect-ratio: 2/3; }
+    .ag-item:nth-child(odd){ border-left:none }
+    .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) { flex: 0 0 50%; }
+    .artists-grid:has(.ag-item:hover) .ag-item:hover { flex: 0 0 50%; }
+  }
+
+  /* ── REVEAL SCROLL ── */
+  @media(prefers-reduced-motion: no-preference) {
+    .ag-item { clip-path: inset(0 100% 0 0); }
+    .ag-item.ag-revealed { clip-path: inset(0 0% 0 0); }
   }
   /* Gradient overlay permanent bas */
   .ag-item::before {
