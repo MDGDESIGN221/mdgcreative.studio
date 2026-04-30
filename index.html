@@ -1420,7 +1420,10 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
 @media(max-width:900px){
   nav:not(#mob-tab-bar){padding:.75rem 1.25rem}
   .nav-links,.nav-right{display:none}
-  .nav-burger{display:flex}
+  /* Afficher le lang-toggle sur mobile à la place du burger */
+  .nav-right { display: flex !important; }
+  .nav-right .nav-avail, .nav-right .nav-cta { display: none !important; }
+  .nav-burger{display:none}
   .nav-logo{font-size:.78rem;letter-spacing:.06em;white-space:nowrap}
   .nav-logo-sub{font-size:.78rem;letter-spacing:.06em}
   /* Nav top row prend toute la largeur pour le row dessous */
@@ -16878,13 +16881,9 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
   footer { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
   main { padding-bottom: 0; }
 }
-/* Quick nav : visible sur tablette (600-900px), masquée sur mobile étroit où la tab bar suffit */
-@media(max-width:600px) {
-  #quick-nav { display: none !important; }
-}
-/* Sur tablette avec tab bar visible, remonter le quick-nav au-dessus */
-@media(min-width:601px) and (max-width:900px) {
-  #quick-nav { bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 1rem) !important; }
+/* Quick nav : visible sur tous les breakpoints mobile, au-dessus de la tab bar */
+@media(max-width:900px) {
+  #quick-nav { bottom: calc(56px + env(safe-area-inset-bottom, 0px) + .75rem) !important; left: .85rem !important; }
 }
 
 /* Chaque tab */
