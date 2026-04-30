@@ -14173,7 +14173,6 @@ var patches = [
   // FOOTER
   ['.footer-col:nth-child(2) h4', 'footer_nav_title', 'text'],
   ['.footer-col:nth-child(3) h4', 'footer_contact_title', 'text'],
-  ['.f-contact-item:nth-child(3) span:first-child', 'footer_location_label', 'text'],
 
   // AWARDS label
   ['.awards-header .sec-label', 'awards_label', 'text'],
@@ -14358,6 +14357,65 @@ function applyComplexPatches(lang) {
   packCtaBtns.forEach(function(el){ el.textContent = translations.pack_cta[lang]; });
   if (packBadge) packBadge.textContent = translations.pack_diamond_badge[lang];
 
+  // Pack features (bullets)
+  var packFeaturesData = [
+    { // Silver
+      fr: [
+        '<strong>1 concept</strong> graphique pour ta cover',
+        '<strong>2 révisions</strong> incluses',
+        'Livrables <strong>PNG / JPG</strong> haute résolution',
+        '<em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong>'
+      ],
+      en: [
+        '<strong>1 graphic concept</strong> created for your cover',
+        '<strong>2 revisions</strong> included',
+        '<strong>PNG / JPG</strong> high-resolution deliverables',
+        '<em>Option:</em> story/post adaptation <strong>+5,000 XOF</strong>'
+      ]
+    },
+    { // Gold
+      fr: [
+        '<strong>1 concept</strong> graphique pour ta cover',
+        '<strong>3 révisions</strong> incluses',
+        'Livrables PNG/JPG + <strong>tracklist complète</strong>',
+        'Visuels réseaux : <strong>COMING SOON</strong> &amp; <strong>OUT NOW</strong>',
+        '<em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong>'
+      ],
+      en: [
+        '<strong>1 graphic concept</strong> created for your cover',
+        '<strong>3 revisions</strong> included',
+        'PNG/JPG deliverables + <strong>full tracklist</strong>',
+        'Social visuals: <strong>COMING SOON</strong> &amp; <strong>OUT NOW</strong>',
+        '<em>Option:</em> story/post adaptation <strong>+5,000 XOF</strong>'
+      ]
+    },
+    { // Diamond
+      fr: [
+        '<strong>1 concept</strong> graphique premium pour ta cover',
+        '<strong>4 révisions</strong> incluses',
+        'PNG/JPG + <strong>tracklist pro</strong> + support réseaux complet',
+        '<strong>Bonus offert :</strong> mini direction artistique (moodboard, palette, typo)'
+      ],
+      en: [
+        '<strong>1 premium graphic concept</strong> for your cover',
+        '<strong>4 revisions</strong> included',
+        'PNG/JPG + <strong>pro tracklist</strong> + full social support',
+        '<strong>Free bonus:</strong> mini art direction (moodboard, palette, type)'
+      ]
+    }
+  ];
+  document.querySelectorAll('.pack-card:not(.adv-card)').forEach(function(card, i) {
+    if (!packFeaturesData[i]) return;
+    var items = card.querySelectorAll('.pack-features li');
+    var texts = lang === 'en' ? packFeaturesData[i].en : packFeaturesData[i].fr;
+    items.forEach(function(li, j) {
+      if (!texts[j]) return;
+      var icon = li.querySelector('.feat-icon');
+      var div = li.querySelector('div');
+      if (div) div.innerHTML = texts[j];
+    });
+  });
+
   // Packs avancés
   var advTitles = document.querySelectorAll('.adv-title');
   var advSubs   = document.querySelectorAll('.adv-subtitle');
@@ -14444,15 +14502,23 @@ function applyComplexPatches(lang) {
     if (dEl && translations[stepDKeys[i]]) dEl.textContent = translations[stepDKeys[i]][lang];
   });
 
-  // Conditions
-  var condItems = document.querySelectorAll('.cond-item');
-  var condTKeys = ['cond1_title','cond2_title','cond3_title','cond4_title'];
-  var condDKeys = ['cond1_desc','cond2_desc','cond3_desc','cond4_desc'];
-  condItems.forEach(function(item, i){
-    var tEl = item.querySelector('.cond-name');
-    var dEl = item.querySelector('.cond-desc');
-    if (tEl && translations[condTKeys[i]]) tEl.textContent = translations[condTKeys[i]][lang];
-    if (dEl && translations[condDKeys[i]]) dEl.textContent = translations[condDKeys[i]][lang];
+  // Conditions de travail (proc-cond)
+  var procConds = document.querySelectorAll('.proc-cond');
+  var procCondData = [
+    { label: { fr: 'Disponibilité', en: 'Availability' }, detail: { fr: 'Lun à Sam, 09h à minuit', en: 'Mon to Sat, 9am to midnight' }, expl: { fr: "Tu peux m'écrire le matin ou le soir, je réponds toujours dans la journée, même le samedi.", en: "You can reach me morning or evening — I always reply the same day, even on Saturday." } },
+    { label: { fr: 'Retouches incluses', en: 'Revisions included' }, detail: { fr: 'Corrections supplémentaires au temps passé', en: 'Additional revisions billed by time' }, expl: { fr: "3 modifications offertes par projet. Au-delà, chaque correction est facturée selon le temps réel passé dessus.", en: "3 revisions included per project. Beyond that, each correction is billed based on actual time spent." } },
+    { label: { fr: 'Acompte au démarrage', en: 'Upfront deposit' }, detail: { fr: 'Wave · Orange Money · Virement', en: 'Wave · Orange Money · Bank transfer' }, expl: { fr: "La moitié est versée avant le début du travail. Le reste est payé à la livraison finale. Aucune surprise.", en: "Half is paid before work begins. The rest is due at final delivery. No surprises." } },
+    { label: { fr: 'Projet urgent', en: 'Urgent project' }, detail: { fr: 'Livraison en moins de 48h', en: 'Delivery in under 48h' }, expl: { fr: "Tu as besoin du résultat très vite ? C'est possible, mais je bloque tout pour toi. Une majoration de 10% s'applique.", en: "Need it fast? It's possible — but I block everything else for you. A 10% surcharge applies." } },
+    { label: { fr: 'Partenariat long terme', en: 'Long-term partnership' }, detail: { fr: 'Pour les projets récurrents', en: 'For recurring projects' }, expl: { fr: "Tu reviens régulièrement ? Je t'offre 20% de réduction sur tous tes projets suivants. La fidélité, ça mérite d'être récompensée.", en: "Coming back regularly? I offer 20% off on all your future projects. Loyalty deserves to be rewarded." } }
+  ];
+  procConds.forEach(function(item, i) {
+    if (!procCondData[i]) return;
+    var lbl = item.querySelector('.proc-cond-label');
+    var det = item.querySelector('.proc-cond-detail');
+    var expl = item.querySelector('.proc-cond-expl');
+    if (lbl) lbl.textContent = procCondData[i].label[lang];
+    if (det) det.textContent = procCondData[i].detail[lang];
+    if (expl) expl.textContent = procCondData[i].expl[lang];
   });
 
   // ── Press ──
@@ -14510,12 +14576,19 @@ function applyComplexPatches(lang) {
   // Footer avail badge
   var footerAvailText = document.querySelector('.f-avail-text');
   if (footerAvailText) footerAvailText.textContent = lang === 'en' ? 'Available' : 'Disponible';
+  // Footer nav title (Raccourcis / Shortcuts)
+  var footerNavTitle = document.querySelector('.footer-nav-group .f-nav-title');
+  if (footerNavTitle) footerNavTitle.textContent = lang === 'en' ? 'Shortcuts' : 'Raccourcis';
   // Footer nav links
-  var footerNavLinks = document.querySelectorAll('.footer-col:first-of-type ul li a');
-  var footerNavKeys = ['nav_about','nav_work','nav_covers','nav_services','nav_process','press_label','testimonials_label','collabs_label'];
+  var footerNavLinks = document.querySelectorAll('.footer-nav-group .f-nav-list li a');
+  var footerNavTextsFr = ['Projets','Services','Comment je travaille','Tarifs','Collaborations','✦ URANUS GFX','FAQ'];
+  var footerNavTextsEn = ['Work','Services','How I work','Pricing','Collaborations','✦ URANUS GFX','FAQ'];
   footerNavLinks.forEach(function(el, i){
-    if (translations[footerNavKeys[i]]) el.textContent = translations[footerNavKeys[i]][lang];
+    el.textContent = lang === 'en' ? (footerNavTextsEn[i] || el.textContent) : (footerNavTextsFr[i] || el.textContent);
   });
+  // Footer local time label
+  var footerLocalTimeLbl = document.querySelector('.footer-contact-group .f-contact-item:last-child .f-contact-lbl');
+  if (footerLocalTimeLbl) footerLocalTimeLbl.textContent = lang === 'en' ? 'Local time' : 'Heure locale';
 
   // ── Popup contact ──
   var cpopTitle = document.querySelector('.cpop-title');
