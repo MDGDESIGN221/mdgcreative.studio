@@ -1060,49 +1060,55 @@ section+section::before,
 .svc-h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,3.5vw,3rem);letter-spacing:-0.025em;line-height:1.05;margin-bottom:1.2rem}
 .svc-h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--off);display:block;font-size:clamp(1.2rem,2vw,1.6rem);letter-spacing:0;margin-top:.2rem}
 .svc-intro{font-size:1rem;color:var(--off);max-width:620px;margin:-2rem 0 3rem;line-height:1.6;font-weight:300}
-.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-@media(max-width:1100px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.svc-grid{grid-template-columns:1fr}}
-.svc-card{background:var(--black);padding:2.25rem 1.75rem;display:flex;flex-direction:column;gap:1rem;transition:transform .4s cubic-bezier(.16,1,.3,1);min-height:320px;position:relative;overflow:hidden;cursor:pointer}
-.svc-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.18;transition:opacity .4s,transform .6s cubic-bezier(.16,1,.3,1)}
-.svc-card:hover .svc-card-bg{opacity:.28;transform:scale(1.05)}
-.svc-card-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.98) 0%,rgba(6,6,6,.7) 50%,rgba(6,6,6,.2) 100%);transition:opacity .4s}
-.svc-card:nth-child(even) .svc-card-gradient{background:linear-gradient(to top,rgba(200,250,100,.98) 0%,rgba(200,250,100,.75) 50%,rgba(200,250,100,.15) 100%)}
-.svc-card:nth-child(even) .svc-card-bg{opacity:.22}
-.svc-card-content{position:relative;z-index:2;display:flex;flex-direction:column;gap:1rem;height:100%}
-.svc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.16,1,.3,1);z-index:3}
-.svc-card:hover::before{transform:scaleY(1);transform-origin:top}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+@media(max-width:1100px){.svc-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.svc-grid{grid-template-columns:1fr}}
+.svc-card{background:var(--black);padding:2.5rem 2rem 2rem;display:flex;flex-direction:column;gap:0;transition:background .35s cubic-bezier(.16,1,.3,1);min-height:360px;position:relative;overflow:hidden;cursor:pointer}
+.svc-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.12;transition:opacity .5s,transform .7s cubic-bezier(.16,1,.3,1)}
+.svc-card:hover .svc-card-bg{opacity:.22;transform:scale(1.06)}
+.svc-card-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,1) 0%,rgba(6,6,6,.8) 45%,rgba(6,6,6,.1) 100%);transition:opacity .4s}
+.svc-card:nth-child(even) .svc-card-gradient{background:linear-gradient(to top,rgba(200,250,100,.98) 0%,rgba(200,250,100,.75) 50%,rgba(200,250,100,.1) 100%)}
+.svc-card:nth-child(even) .svc-card-bg{opacity:.18}
+.svc-card-content{position:relative;z-index:2;display:flex;flex-direction:column;height:100%}
+/* Barre top accent */
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);z-index:3}
+.svc-card:hover::before{transform:scaleX(1)}
 
 /* ── SVC CARD CLICK HINT ── */
 .svc-click-hint{
-  display:inline-flex;align-items:center;gap:.4rem;
-  font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--accent);opacity:.75;
-  margin-bottom:.6rem;
+  display:inline-flex;align-items:center;gap:.35rem;
+  font-size:.55rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);opacity:0;
+  margin-bottom:1.5rem;
   transition:opacity .3s;
 }
 .svc-card:hover .svc-click-hint{opacity:1}
 .svc-click-hint svg{stroke:var(--accent);flex-shrink:0}
-@media(max-width:900px){.svc-click-hint{opacity:1}}
+@media(max-width:900px){.svc-click-hint{opacity:.75}}
 
+/* Numéro : grand filigrane en position absolue */
 .svc-num{
-  display:inline-flex;align-items:center;justify-content:center;
-  font-family:'Syne',sans-serif;font-weight:800;font-size:.6rem;
-  letter-spacing:.14em;color:var(--accent);
-  background:rgba(200,250,100,.1);
-  border:1px solid rgba(200,250,100,.2);
-  border-radius:100px;padding:.3rem .75rem;
-  line-height:1;margin-bottom:.85rem;
-  transition:background .3s,border-color .3s;
+  position:absolute;
+  top:1.5rem;right:1.75rem;
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:3.5rem;letter-spacing:-.05em;line-height:1;
+  color:rgba(255,255,255,.05);
+  transition:color .35s;
+  pointer-events:none;
+  user-select:none;
 }
-.svc-card:hover .svc-num{background:rgba(200,250,100,.18);border-color:rgba(200,250,100,.4)}
-.svc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:var(--light);margin-top:auto;letter-spacing:-0.015em;line-height:1.15}
+.svc-card:hover .svc-num{color:rgba(200,250,100,.08)}
+.svc-card:nth-child(even) .svc-num{color:rgba(0,0,0,.06)}
+.svc-card:nth-child(even):hover .svc-num{color:rgba(0,0,0,.1)}
+
+.svc-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:var(--light);margin-top:auto;letter-spacing:-.025em;line-height:1.1;margin-bottom:.9rem}
 .svc-card:nth-child(even) .svc-title{color:var(--black)}
-.svc-desc{font-size:.82rem;color:var(--off);line-height:1.6;font-weight:300}
-.svc-card:nth-child(even) .svc-desc{color:rgba(0,0,0,.65)}
-.svc-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
-.svc-tag{font-size:.62rem;font-weight:700;padding:.25rem .6rem;border-radius:4px;background:rgba(200,250,100,.08);color:var(--accent);letter-spacing:.08em;text-transform:uppercase;transition:background .3s}
-.svc-card:hover .svc-tag{background:rgba(200,250,100,.14)}
+.svc-desc{font-size:.83rem;color:var(--off);line-height:1.7;font-weight:300;margin-bottom:1.25rem}
+.svc-card:nth-child(even) .svc-desc{color:rgba(0,0,0,.6)}
+.svc-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:auto}
+.svc-tag{font-size:.58rem;font-weight:700;padding:.22rem .65rem;border-radius:100px;background:rgba(200,250,100,.07);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;transition:background .3s,border-color .3s;border:1px solid rgba(200,250,100,.12)}
+.svc-card:hover .svc-tag{background:rgba(200,250,100,.12);border-color:rgba(200,250,100,.25)}
+.svc-card:nth-child(even) .svc-tag{background:rgba(0,0,0,.1);color:rgba(0,0,0,.6);border-color:rgba(0,0,0,.12)}
 .svc-cta-wrap{margin-top:3.5rem;display:flex;justify-content:center}
 .svc-cta{display:inline-flex;align-items:center;gap:.8rem;padding:1rem 1.8rem;border:1px solid var(--border);border-radius:999px;font-family:'Syne',sans-serif;font-weight:600;font-size:.95rem;color:var(--light);letter-spacing:-0.005em;background:transparent;transition:all .35s cubic-bezier(.16,1,.3,1);text-decoration:none}
 .svc-cta em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--off)}
@@ -3486,80 +3492,125 @@ nav::before { display:none; }
 #press { padding: 6rem 0; border-bottom: 1px solid var(--border); }
 .sp-header { max-width: 700px; margin-bottom: 3rem; padding: 0 3rem; }
 .sp-sub { font-size: .9rem; color: var(--off); line-height: 1.8; font-weight: 300; margin-top: 1rem; }
+
+/* ── Citation principale ── */
 .sp-feature {
-  margin: 0 3rem 3rem;
-  background: linear-gradient(135deg, rgba(200,250,100,.05) 0%, rgba(200,250,100,.02) 100%);
-  border: 1px solid rgba(200,250,100,.15);
-  border-radius: 20px;
-  padding: 2.5rem 3rem;
+  margin: 0 3rem 3.5rem;
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 24px;
+  padding: 3rem 3rem 2.5rem;
   position: relative;
+  overflow: hidden;
+}
+/* Glow accent discret coin haut-gauche */
+.sp-feature::before {
+  content: '';
+  position: absolute;
+  top: -40px; left: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(200,250,100,.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+/* Barre top accent */
+.sp-feature::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
 }
 .sp-quote-mark {
-  font-family: 'Syne', sans-serif; font-size: 6rem; font-weight: 800;
-  color: rgba(200,250,100,.15); line-height: .8;
-  position: absolute; top: 1.5rem; left: 2.5rem;
+  font-family: 'Instrument Serif', serif;
+  font-size: 7rem; font-weight: 400; font-style: italic;
+  color: rgba(200,250,100,.18); line-height: .75;
+  display: block; margin-bottom: .25rem;
+  letter-spacing: -.02em;
 }
 .sp-quote-text {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.1rem, 2.5vw, 1.7rem);
-  font-weight: 700; letter-spacing: -.02em; line-height: 1.4;
-  color: var(--light); padding-left: 1rem; margin-bottom: 1.75rem;
-  padding-top: 1.5rem;
+  font-size: clamp(1.15rem, 2.2vw, 1.65rem);
+  font-weight: 700; letter-spacing: -.022em; line-height: 1.45;
+  color: var(--light); margin-bottom: 2rem;
+  max-width: 680px;
 }
+/* Mot clé mis en valeur */
+.sp-quote-text strong { color: var(--accent); font-weight: 800; }
 .sp-quote-author {
   display: flex; align-items: center; gap: 1rem;
-  border-top: 1px solid rgba(255,255,255,.07); padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,.06); padding-top: 1.5rem;
 }
 .sp-quote-avatar {
-  width: 44px; height: 44px; border-radius: 50%;
-  object-fit: cover; border: 2px solid rgba(200,250,100,.3);
+  width: 48px; height: 48px; border-radius: 50%;
+  object-fit: cover; border: 2px solid rgba(200,250,100,.25);
+  box-shadow: 0 0 20px rgba(200,250,100,.1);
+  flex-shrink: 0;
 }
 .sp-quote-name {
-  font-family: 'Syne', sans-serif; font-weight: 700;
-  font-size: .88rem; color: var(--light);
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: .92rem; color: var(--light);
 }
-.sp-quote-role { font-size: .72rem; color: var(--dim); margin-top: .15rem; }
+.sp-quote-role { font-size: .68rem; color: var(--dim); margin-top: .2rem; letter-spacing: .02em; }
+
+/* ── Video cards ── */
 .sp-videos {
   display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem; padding: 0 3rem;
+  gap: 1px; padding: 0;
+  margin: 0 3rem;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
 }
 .sp-vcard {
-  background: var(--surface);
-  border: 1px solid var(--border2); border-radius: 16px;
-  overflow: hidden; transition: border-color .25s, transform .3s;
+  background: var(--black);
+  border: none; border-radius: 0;
+  overflow: hidden;
+  transition: background .25s;
+  position: relative;
 }
-.sp-vcard:hover { border-color: rgba(200,250,100,.25); transform: translateY(-3px); }
-.sp-vcard-body { padding: 1rem; }
+.sp-vcard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .35s cubic-bezier(.16,1,.3,1);
+  z-index: 2;
+}
+.sp-vcard:hover { background: rgba(200,250,100,.03); transform: none; }
+.sp-vcard:hover::before { transform: scaleX(1); }
+.sp-vcard-body { padding: 1.1rem 1.1rem 1.25rem; }
 .sp-play-btn {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  width: 44px; height: 44px; border-radius: 50%;
+  width: 42px; height: 42px; border-radius: 50%;
   background: var(--accent);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,.5);
-  transition: transform .25s;
+  box-shadow: 0 4px 20px rgba(0,0,0,.6);
+  transition: transform .25s, box-shadow .25s;
 }
-.sp-vcard:hover .sp-play-btn { transform: translate(-50%,-50%) scale(1.1); }
+.sp-vcard:hover .sp-play-btn { transform: translate(-50%,-50%) scale(1.08); box-shadow: 0 6px 28px rgba(200,250,100,.3); }
 .sp-vcard-source {
   display: flex; align-items: center; gap: .4rem;
-  font-size: .62rem; color: var(--dim); font-weight: 600;
-  letter-spacing: .08em; text-transform: uppercase;
-  margin-bottom: .6rem;
+  font-size: .58rem; color: var(--dim); font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: .7rem;
 }
 .sp-vcard-artist {
-  display: flex; align-items: center; gap: .6rem;
-  margin-bottom: .6rem;
+  display: flex; align-items: center; gap: .55rem;
+  margin-bottom: .55rem;
 }
 .sp-vcard-avatar {
-  width: 28px; height: 28px; border-radius: 50%;
+  width: 26px; height: 26px; border-radius: 50%;
   object-fit: cover; flex-shrink: 0;
+  border: 1px solid rgba(200,250,100,.2);
 }
-.sp-vcard-artist span { font-size: .75rem; color: var(--off); line-height: 1.3; }
-.sp-vcard-desc { font-size: .75rem; color: var(--dim); line-height: 1.6; font-weight: 300; }
+.sp-vcard-artist span { font-size: .73rem; color: var(--off); line-height: 1.3; }
+.sp-vcard-desc { font-size: .72rem; color: var(--dim); line-height: 1.6; font-weight: 300; }
 @media(max-width:1100px) { .sp-videos { grid-template-columns: repeat(2, 1fr); } }
 @media(max-width:900px) {
   .sp-header, .sp-feature { padding-left: 1.5rem; padding-right: 1.5rem; margin-left: 0; margin-right: 0; }
-  .sp-videos { grid-template-columns: 1fr 1fr; padding: 0 1.5rem; gap: 1rem; }
+  .sp-videos { grid-template-columns: 1fr 1fr; padding: 0; margin: 0 1.5rem; gap: 0; }
 }
 @media(max-width:500px) { .sp-videos { grid-template-columns: 1fr; } }
 
@@ -7666,9 +7717,9 @@ nav::before { display:none; }
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
 
-        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=PARIS_J_ARRIVE_-_CHEFYERSA_aaxmal" data-mot-title="Paris J'arrive · Chef Yersa">
-          <img decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777330471/hf_20260427_225219_b8c020f6-a244-499e-8864-da7d467e9219_qzucfr.png" alt="Paris J'arrive">
-          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Paris J'arrive<em>Chef Yersa</em></div></div>
+        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=TUKKI_-_MGEEY_FT._DAMNIBRA_hduvob" data-mot-title="Tukki · Mgeey ft. Damnibra">
+          <img decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777514802/Graduation_Red_Mood_v3_-_Upscaled_o9x0zq.png" alt="Tukki">
+          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Tukki<em>Mgeey ft. Damnibra</em></div></div>
           <div class="work-overlay"></div>
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
@@ -7676,6 +7727,13 @@ nav::before { display:none; }
         <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=NEW_WAVE_-_OOTHENTIK_ZEUS_fc5zv4" data-mot-title="New Wave · Oothentik Zeus">
           <img decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="New Wave">
           <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">New Wave<em>Oothentik Zeus</em></div></div>
+          <div class="work-overlay"></div>
+          <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+
+        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=PARIS_J_ARRIVE_-_CHEFYERSA_aaxmal" data-mot-title="Paris J'arrive · Chef Yersa">
+          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777330471/hf_20260427_225219_b8c020f6-a244-499e-8864-da7d467e9219_qzucfr.png" alt="Paris J'arrive">
+          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Paris J'arrive<em>Chef Yersa</em></div></div>
           <div class="work-overlay"></div>
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
@@ -7708,12 +7766,6 @@ nav::before { display:none; }
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
 
-        <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=TUKKI_-_MGEEY_FT._DAMNIBRA_hduvob" data-mot-title="Tukki · Mgeey ft. Damnibra">
-          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/video/upload/so_4,w_800,q_auto,f_jpg/TUKKI_-_MGEEY_FT._DAMNIBRA_hduvob.jpg" alt="Tukki">
-          <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Tukki<em>Mgeey ft. Damnibra</em></div></div>
-          <div class="work-overlay"></div>
-          <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
-        </div>
 
         <div class="work-card" style="cursor:pointer" data-mot-src="https://res.cloudinary.com/djdkpihuz/video/upload/v1777016534/MAARZER_-_DELLO_MA_MERITE_hghwxz.mp4" data-mot-title="Dello Ma Mérite · Maarzer">
           <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/video/upload/so_3,w_800,q_auto,f_jpg/v1777016534/MAARZER_-_DELLO_MA_MERITE_hghwxz.jpg" alt="Dello Ma Mérite — Maarzer">
@@ -7925,9 +7977,9 @@ nav::before { display:none; }
       <div class="svc-card reveal-scale rd1" data-modal="01" role="button" tabindex="0">
         <div class="svc-card-bg"></div>
         <div class="svc-card-gradient"></div>
+        <div class="svc-num" aria-hidden="true">01</div>
         <div class="svc-card-content">
-          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
-          <div class="svc-num">01</div>
+          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
           <div class="svc-title">Direction Artistique Musicale</div>
           <div class="svc-desc">La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son, avant même que tu appuies sur play.</div>
           <div class="svc-tags"><span class="svc-tag">Cover Art</span><span class="svc-tag">EP / Album</span><span class="svc-tag">Press Kit</span></div>
@@ -7936,9 +7988,9 @@ nav::before { display:none; }
       <div class="svc-card reveal-scale rd2" data-modal="02" role="button" tabindex="0">
         <div class="svc-card-bg"></div>
         <div class="svc-card-gradient"></div>
+        <div class="svc-num" aria-hidden="true">02</div>
         <div class="svc-card-content">
-          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
-          <div class="svc-num">02</div>
+          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
           <div class="svc-title">Identité de Marque</div>
           <div class="svc-desc">Un logo, oui. Mais surtout : comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir. On pose les bases une bonne fois pour toutes.</div>
           <div class="svc-tags"><span class="svc-tag">Logo</span><span class="svc-tag">Charte</span><span class="svc-tag">Mockups</span></div>
@@ -7947,9 +7999,9 @@ nav::before { display:none; }
       <div class="svc-card reveal-scale rd3" data-modal="03" role="button" tabindex="0">
         <div class="svc-card-bg"></div>
         <div class="svc-card-gradient"></div>
+        <div class="svc-num" aria-hidden="true">03</div>
         <div class="svc-card-content">
-          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
-          <div class="svc-num">03</div>
+          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
           <div class="svc-title">Motion Design</div>
           <div class="svc-desc">Le mouvement, c'est ce qui retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.</div>
           <div class="svc-tags"><span class="svc-tag">Animation</span><span class="svc-tag">Logo Reveal</span><span class="svc-tag">Reels</span></div>
@@ -8168,7 +8220,7 @@ nav::before { display:none; }
     <!-- Citation forte en grand format -->
     <div class="sp-feature reveal-up rd2">
       <div class="sp-quote-mark">"</div>
-      <blockquote class="sp-quote-text">C'est quelqu'un avec qui je bosse beaucoup. Il est hyper correct, hyper travailleur et trop fort.</blockquote>
+      <blockquote class="sp-quote-text">C'est quelqu'un avec qui je bosse beaucoup. Il est <strong>hyper correct</strong>, <strong>hyper travailleur</strong> et <strong>trop fort.</strong></blockquote>
       <div class="sp-quote-author">
         <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" class="sp-quote-avatar">
         <div>
