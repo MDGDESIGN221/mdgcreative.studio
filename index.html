@@ -66,6 +66,37 @@
   --r:14px;
 }
 html{scroll-behavior:smooth;overflow-x:hidden}
+
+/* ── MODIF 10 : Hero tagline immédiatement visible — indépendant de la vidéo ── */
+.hero-name,
+.hero-name-wrap,
+.hero-name-sub,
+.hero-name-sub-wrap,
+.hero-eyebrow,
+.hero-sub,
+.hero-handle {
+  opacity: 1 !important;
+  transform: none !important;
+  animation-play-state: running !important;
+  will-change: auto !important;
+}
+/* Fallback visible dès le premier paint */
+#hero .hero-left { opacity: 1 !important; }
+
+
+/* ── MODIF 6 : Instrument Serif assumé sur toutes les em d'accroche ── */
+h1 em, h2 em, h3 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+/* Hero name sub déjà en Syne italic — on aligne */
+.hero-name-sub {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
 /* Sécurité anti-débordement horizontal mobile */
 @media(max-width:900px){
   section,main,header,footer,nav,.container{max-width:100vw;box-sizing:border-box}
@@ -8944,12 +8975,31 @@ nav::before { display:none; }
 </section>
 
 
-<section id="testimonials" style="display:none" aria-hidden="true"></section>
+<!-- #testimonials supprimé — section vide retirée du DOM -->
 
 
 
 
-<section id="process" class="wm-section" data-wm="PROCESS">
+<section id="process" class="wm-section" data-wm="PROCESS" style="background:var(--accent);color:var(--black)">
+<style>
+/* ── MODIF 7 : Process sur fond vert — overrides ── */
+#process { background: var(--accent) !important; }
+#process .sec-label { color: rgba(6,6,6,.55) !important; }
+#process .sec-label::after { background: rgba(6,6,6,.25) !important; }
+#process .svc-h2 { color: var(--black) !important; }
+#process .svc-h2 em { color: rgba(6,6,6,.6) !important; }
+#process .sec-sub { color: rgba(6,6,6,.65) !important; }
+#process .pieter-step-num { color: rgba(6,6,6,.18) !important; }
+#process .pieter-step-badge { background: rgba(6,6,6,.1) !important; color: rgba(6,6,6,.7) !important; border-color: rgba(6,6,6,.15) !important; }
+#process .pieter-step-title { color: var(--black) !important; }
+#process .pieter-step-desc { color: rgba(6,6,6,.7) !important; }
+#process .pieter-step-rule { background: rgba(6,6,6,.12) !important; }
+#process .pieter-step-tag { background: rgba(6,6,6,.1) !important; color: rgba(6,6,6,.75) !important; border-color: rgba(6,6,6,.12) !important; }
+#process .pieter-step-media { border-color: rgba(6,6,6,.12) !important; background: rgba(6,6,6,.06) !important; }
+#process .pieter-step-duration { color: rgba(6,6,6,.55) !important; }
+#process .process-header { border-color: rgba(6,6,6,.08) !important; }
+#process .reveal-line::before { background: rgba(6,6,6,.25) !important; }
+</style>
   <div class="container">
     <div class="process-header reveal-up">
       <div class="sec-label reveal-line">Méthodologie</div>
@@ -9898,6 +9948,21 @@ nav::before { display:none; }
      URANUS GFX PACK — Précommande
 ══════════════════════════════════════════ -->
 <section id="uranus">
+
+<!-- ── TRANSITION MDG → URANUS ── -->
+<div style="background:linear-gradient(to bottom,var(--black) 0%,#0d0a1a 100%);padding:2.5rem 3rem 0;position:relative;z-index:2;overflow:hidden">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3)">MDG Creative Studio</span>
+      <span style="color:rgba(200,250,100,.4);font-size:.9rem">→</span>
+      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#a78bfa">URANUS GFX</span>
+    </div>
+    <div style="height:1px;flex:1;background:linear-gradient(to right,rgba(167,139,250,.2),transparent);min-width:40px"></div>
+    <p style="font-size:.75rem;color:rgba(255,255,255,.35);font-weight:300;line-height:1.5;max-width:380px">
+      Une extension créative de MDG — packs graphiques premium pour les artistes qui veulent des visuels qui claquent, sans passer par une commande sur-mesure.
+    </p>
+  </div>
+</div>
 
 <style>
 /* ══════════════════════════════════════════════════════
