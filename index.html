@@ -359,7 +359,6 @@ nav:not(#mob-tab-bar){position:fixed;top:0;left:0;right:0;z-index:100;display:fl
 .lang-toggle.active{background:var(--accent);border-color:var(--accent);color:var(--black)}
 .nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .nav-burger span{display:block;width:22px;height:1.5px;background:var(--light);border-radius:2px}
-#mob-nav-row{display:none}
 section{position:relative;z-index:1}
 
 /* ── HERO SCROLL DOWN HINT ── */
@@ -1421,60 +1420,11 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
 @media(max-width:900px){
   nav:not(#mob-tab-bar){padding:.75rem 1.25rem}
   .nav-links,.nav-right{display:none}
-  .nav-burger{display:none}
+  .nav-burger{display:flex}
   .nav-logo{font-size:.78rem;letter-spacing:.06em;white-space:nowrap}
   .nav-logo-sub{font-size:.78rem;letter-spacing:.06em}
   /* Nav top row prend toute la largeur pour le row dessous */
-  nav:not(#mob-tab-bar) > *:not(#mob-nav-row){flex-shrink:0}
-  /* ── MOBILE SCROLLABLE NAV ROW ── */
-  #mob-nav-row{
-    display:flex;
-    position:fixed;
-    top:var(--nav-h, 54px);
-    left:0;right:0;
-    z-index:99;
-    overflow-x:auto;
-    overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    background:rgba(6,6,6,.92);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-    border-bottom:1px solid rgba(255,255,255,.07);
-    padding:0 .5rem;
-  }
-  #mob-nav-row::-webkit-scrollbar{display:none}
-  #mob-nav-row a{
-    font-family:'Syne',sans-serif;
-    font-size:.62rem;font-weight:700;
-    letter-spacing:.07em;text-transform:uppercase;
-    color:rgba(255,255,255,.38);
-    text-decoration:none;
-    white-space:nowrap;
-    padding:.55rem .85rem;
-    border-radius:6px;
-    flex-shrink:0;
-    transition:color .2s,background .2s;
-    -webkit-tap-highlight-color:transparent;
-  }
-  #mob-nav-row a:hover,#mob-nav-row a.active{color:var(--accent);background:rgba(200,250,100,.06)}
-  #mob-nav-row a.mob-nav-cta{
-    color:var(--black);background:var(--accent);
-    border-radius:100px;
-    margin:auto .5rem auto auto;
-    padding:.45rem .9rem;
-  }
-  #mob-nav-row a.mob-nav-cta:hover{opacity:.88}
-  .mob-nav-lang{
-    background:none;border:1px solid rgba(255,255,255,.12);border-radius:100px;
-    padding:.35rem .65rem;
-    font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;
-    color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s;
-    flex-shrink:0;align-self:center;margin-right:.4rem;white-space:nowrap;
-  }
-  .mob-nav-lang.active{background:var(--accent);border-color:var(--accent);color:var(--black)}
-
-  /* ── HERO MOBILE : colonne, texte + stats dans le flux ── */
+/* ── HERO MOBILE : colonne, texte + stats dans le flux ── */
   #hero{
     flex-direction:column;
     min-height:100dvh;
@@ -7332,21 +7282,6 @@ nav::before { display:none; }
   </div>
   <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
 </nav>
-<!-- ── MOBILE NAV ROW — scrollable, visible uniquement sur mobile ── -->
-<div id="mob-nav-row" role="navigation" aria-label="Navigation mobile">
-    <a href="#portfolio-accordion" onclick="lenisScroll('portfolio-accordion')" data-i18n="nav_work">Projets</a>
-    <a href="#about" onclick="lenisScroll('about')" data-i18n="nav_about">À propos</a>
-    <a href="#services" onclick="lenisScroll('services')" data-i18n="nav_services">Services</a>
-    <a href="#collabs" onclick="lenisScroll('collabs')" data-i18n="collabs_label">Collabs</a>
-    <a href="#process" onclick="lenisScroll('process')" data-i18n="nav_process">Process</a>
-    <a href="#pricing" onclick="lenisScroll('pricing')">Tarifs</a>
-    <a href="#uranus" onclick="lenisScroll('uranus')" style="color:#a78bfa">URANUS</a>
-    <a href="#faq" onclick="lenisScroll('faq')">FAQ</a>
-    <button class="mob-nav-lang" id="mobNavLang" onclick="toggleLang()"><span id="mobNavLangLabel">EN</span></button>
-    <a href="javascript:void(0)" class="mob-nav-cta" onclick="lenisScroll('contact')" data-i18n="nav_cta">Contact</a>
-</div>
-
-
 <main id="main-content"><section id="hero">
   <div class="hero-photo-wrap">
     <!-- Image fallback mobile — toujours visible sur mobile, caché sur desktop quand la vidéo joue -->
@@ -14608,6 +14543,172 @@ function applyComplexPatches(lang) {
   // Mettre à jour le rotator en cours si actif
   if (window._rotatorWords) window._rotatorWords = window.typeWords;
 
+
+  // ═══════════════════════════════════════════════════
+  // BLOCS HTML CODÉS EN DUR — traduction complète
+  // ═══════════════════════════════════════════════════
+
+  // ── Work hint & "voir plus" ──
+  var workHint = document.querySelector('.work-hint');
+  if (workHint) {
+    var wSvg = workHint.querySelector('svg');
+    workHint.innerHTML = '';
+    if (wSvg) workHint.appendChild(wSvg);
+    workHint.appendChild(document.createTextNode(' ' + (lang === 'en' ? 'Drag or use the arrows' : 'Fais glisser ou utilise les flèches')));
+  }
+  var workMore = document.querySelector('.work-more');
+  if (workMore) {
+    var wArr = workMore.querySelector('.arr');
+    workMore.innerHTML = (lang === 'en' ? 'Want to see more' : 'Envie de voir plus') + ' ';
+    if (wArr) workMore.appendChild(wArr); else workMore.innerHTML += '<span class="arr">\u2192</span>';
+  }
+
+  // ── Cover Art accordion ──
+  var accCoversLabel = document.querySelector('#acc-covers .sec-label');
+  if (accCoversLabel) accCoversLabel.textContent = lang === 'en' ? 'Musical Art Direction' : 'Direction Artistique Musicale';
+  var accCoversH2 = document.querySelector('#acc-covers h2');
+  if (accCoversH2) accCoversH2.innerHTML = lang === 'en'
+    ? 'Cover Art <em style="font-family:\'Instrument Serif\',serif;font-style:italic;font-weight:400;color:var(--off)">& Musical Direction</em>'
+    : 'Cover Art <em style="font-family:\'Instrument Serif\',serif;font-style:italic;font-weight:400;color:var(--off)">& Direction Musicale</em>';
+
+  // ── Social proof quote ──
+  var spQuoteText = document.querySelector('.sp-quote-text');
+  if (spQuoteText) spQuoteText.innerHTML = lang === 'en'
+    ? 'Someone I work with a lot. He\'s <strong>extremely professional</strong>, <strong>incredibly hardworking</strong> and <strong>too strong.</strong>'
+    : 'C\'est quelqu\'un avec qui je bosse beaucoup. Il est <strong>hyper correct</strong>, <strong>hyper travailleur</strong> et <strong>trop fort.</strong>';
+
+  // ── Services sub ──
+  var svcSub = document.querySelector('#services .sec-sub');
+  if (svcSub) svcSub.textContent = lang === 'en'
+    ? 'From logo to stage design, digital and print. What I do, I do all the way.'
+    : 'Du logo à la scénographie, en passant par le digital et le print. Ce que je fais, je le fais jusqu\'au bout.';
+
+  // ── Service cards (hardcoded HTML) ──
+  var svcTitlesHtml = document.querySelectorAll('.svc-title');
+  var svcDescsHtml  = document.querySelectorAll('.svc-desc');
+  var svcTFr = ['Direction Artistique Musicale','Identité de Marque','Motion Design & Vidéo'];
+  var svcTEn = ['Musical Art Direction','Brand Identity','Motion Design & Video'];
+  var svcDFr = [
+    'La musique mérite une image à sa hauteur. Du single à l\'album complet, je conçois l\'univers visuel qui prolonge ton son, avant même que tu appuies sur play.',
+    'Un logo, oui. Mais surtout : comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir. On pose les bases une bonne fois pour toutes.',
+    'Intro, lyric video, teaser, clip. Le mouvement au service du son. Chaque image est pensée pour prolonger l\'expérience musicale.'
+  ];
+  var svcDEn = [
+    'Music deserves visuals to match. From single to full album, I design the visual universe that extends your sound, before you even hit play.',
+    'A logo, yes. But above all: how your brand will hold up in 5 years, across 10 different media, without ever betraying itself. We set the foundations once and for all.',
+    'Intro, lyric video, teaser, clip. Motion in service of sound. Every image is designed to extend the musical experience.'
+  ];
+  svcTitlesHtml.forEach(function(el, i) { if(svcTFr[i]) el.textContent = lang === 'en' ? svcTEn[i] : svcTFr[i]; });
+  svcDescsHtml.forEach(function(el, i) { if(svcDFr[i]) el.textContent = lang === 'en' ? svcDEn[i] : svcDFr[i]; });
+
+  // ── Collabs sub ──
+  var collabsSub2 = document.querySelector('.collabs-sub');
+  if (collabsSub2) collabsSub2.innerHTML = lang === 'en'
+    ? 'Artists, labels and collectives from the Senegalese and African scene. <em>And the list keeps growing.</em>'
+    : 'Artistes, labels et collectifs de la scène sénégalaise et africaine. <em>Et la liste continue de s\'allonger.</em>';
+
+  // ── Process pieter-steps ──
+  var pSteps = document.querySelectorAll('.pieter-step');
+  var pBadgesFr=['Étape 01','Étape 02','Étape 03','Livraison'];
+  var pBadgesEn=['Step 01','Step 02','Step 03','Delivery'];
+  var pTitlesFr=['Brief & Échange','Concept & Direction','Production','Livraison & Suivi'];
+  var pTitlesEn=['Brief & Discovery','Concept & Direction','Production','Delivery & Follow-up'];
+  var pDescsFr=[
+    'On parle de ton projet, ton univers, tes références. Plus tu es précis sur ce que tu veux, plus le résultat va coller.',
+    'Je pose la direction créative : moodboard, palette, typographies. Tu valides avant que je rentre dans le vif.',
+    'Je crée. Photoshop, After Effects, Blender selon le projet. Tu reçois une preview pour valider avant la version finale.',
+    'Fichiers en haute résolution. Je reste dispo après livraison pour les petits ajustements.'
+  ];
+  var pDescsEn=[
+    'We talk about your project, your world, your references. The more specific you are, the closer the result.',
+    'I set the creative direction: moodboard, palette, typography. You validate before I go deeper. Aligned from the start.',
+    'I create. Photoshop, After Effects, Blender depending on the project. You get a preview to validate before the final version.',
+    'Files in high resolution. I stay available after delivery for minor adjustments.'
+  ];
+  var pRulesFr=['Acompte 50% avant démarrage','1 révision de direction incluse','Délai tenu, toujours','Solde à la livraison finale'];
+  var pRulesEn=['50% deposit before start','1 direction revision included','Deadline always met','Balance due on final delivery'];
+  pSteps.forEach(function(step,i){
+    var badge=step.querySelector('.pieter-step-badge');
+    var title=step.querySelector('.pieter-step-title');
+    var desc=step.querySelector('.pieter-step-desc');
+    var rule=step.querySelector('.pieter-step-rule');
+    if(badge) badge.textContent=lang==='en'?(pBadgesEn[i]||''):(pBadgesFr[i]||'');
+    if(title) title.textContent=lang==='en'?(pTitlesEn[i]||''):(pTitlesFr[i]||'');
+    if(desc)  desc.textContent =lang==='en'?(pDescsEn[i]||''):(pDescsFr[i]||'');
+    if(rule){var rSvg=rule.querySelector('svg');rule.innerHTML='';if(rSvg)rule.appendChild(rSvg);rule.appendChild(document.createTextNode(' '+(lang==='en'?(pRulesEn[i]||''):(pRulesFr[i]||''))));}
+  });
+
+  // ── Pricing scope note ──
+  var pricingScope=document.querySelector('.pricing-scope-note span');
+  if(pricingScope) pricingScope.textContent=lang==='en'?'Cover art, posters & videos only. Other services quoted on request.':'Covers, affiches & vidéos uniquement. Les autres domaines sont sur devis.';
+
+  // ── Pack curtain labels ──
+  document.querySelectorAll('.pack-curtain-tier').forEach(function(el){el.textContent=lang==='en'?'Primary Pack':'Pack Primaire';});
+  document.querySelectorAll('.pack-curtain-hint-text').forEach(function(el){el.textContent=lang==='en'?'Slide to reveal':'Glisse pour révéler';});
+
+  // ── URANUS section ──
+  var uBannerTxt=document.querySelector('.u-banner-txt');
+  if(uBannerTxt) uBannerTxt.innerHTML=lang==='en'?'Pre-order price available until the <strong>official drop</strong>':'Prix précommande disponible jusqu\'au <strong>drop officiel</strong>';
+  var uCdLabel=document.getElementById('u-cd-label');
+  if(uCdLabel) uCdLabel.textContent=lang==='en'?'Offer expires in':'Offre expire dans';
+  var uCdSubsFr=['jours','heures','min','sec'];
+  var uCdSubsEn=['days','hours','min','sec'];
+  document.querySelectorAll('.u-cd-sub').forEach(function(el,i){if(uCdSubsFr[i])el.textContent=lang==='en'?uCdSubsEn[i]:uCdSubsFr[i];});
+  var uExpired=document.getElementById('u-cd-expired');
+  if(uExpired){
+    var ueSpans=uExpired.querySelectorAll('span');
+    if(ueSpans[0]) ueSpans[0].textContent=lang==='en'?'⚡ Pre-order ended':'⚡ Précommande terminée';
+    if(ueSpans[1]) ueSpans[1].textContent=lang==='en'?'The pack is now available at the official price':'Le pack est maintenant disponible au tarif officiel';
+  }
+  var uEyebrow=document.querySelector('.u-eyebrow');
+  if(uEyebrow){var ueDot=uEyebrow.querySelector('.u-eyebrow-dot');uEyebrow.innerHTML='';if(ueDot)uEyebrow.appendChild(ueDot);uEyebrow.appendChild(document.createTextNode(' '+(lang==='en'?'Pre-order open':'Précommande ouverte')));}
+  var uHeroDesc=document.querySelector('.u-hero-desc');
+  if(uHeroDesc) uHeroDesc.textContent=lang==='en'?'The ultimate box for serious designers. Layered PSD files, HD mockups, exclusive textures, premium fonts, cover & flyer templates, Photoshop presets.':'La box ultime pour les graphistes sérieux. PSD calqués, mockups HD, textures exclusives, fonts premium, templates covers & flyers, presets Photoshop.';
+  var uPillsFr=['+5 000 assets','PSD calqués','Mockups HD','Fonts premium'];
+  var uPillsEn=['+5,000 assets','Layered PSD','HD Mockups','Premium Fonts'];
+  document.querySelectorAll('.u-pill').forEach(function(el,i){if(uPillsFr[i])el.textContent=lang==='en'?uPillsEn[i]:uPillsFr[i];});
+  var uPriceUnit=document.querySelector('.u-price-unit');
+  if(uPriceUnit) uPriceUnit.innerHTML=lang==='en'?'Full pack<br>pre-order':'Pack complet<br>précommande';
+  var uPriceBadge=document.querySelector('.u-price-badge');
+  if(uPriceBadge) uPriceBadge.textContent=lang==='en'?'Price locked · final price will be higher':'Prix bloqué · tarif final plus élevé';
+  var uBtnPrimary=document.querySelector('.u-btn-primary');
+  if(uBtnPrimary) uBtnPrimary.textContent=lang==='en'?'Reserve my pack \u2192':'Réserver mon pack \u2192';
+  var uSectionLabel=document.querySelector('.u-section-label');
+  if(uSectionLabel) uSectionLabel.textContent=lang==='en'?'What\'s inside the box':'Ce que contient la box';
+  var uAssetNamesFr=['Fichiers PSD','Mockups 3D','Textures','Fonts premium','Templates','Presets PS'];
+  var uAssetNamesEn=['PSD Files','3D Mockups','Textures','Premium Fonts','Templates','PS Presets'];
+  var uAssetDetailsFr=['Calques organisés, éditables','Réalistes, haute résolution','Grain, papier, métal, bruit','Sélection exclusive','Covers, flyers, social media','Actions & LUT Photoshop'];
+  var uAssetDetailsEn=['Organized, editable layers','Realistic, high resolution','Grain, paper, metal, noise','Exclusive selection','Covers, flyers, social media','Actions & LUT Photoshop'];
+  document.querySelectorAll('.u-asset-name2').forEach(function(el,i){if(uAssetNamesFr[i])el.textContent=lang==='en'?uAssetNamesEn[i]:uAssetNamesFr[i];});
+  document.querySelectorAll('.u-asset-detail2').forEach(function(el,i){if(uAssetDetailsFr[i])el.textContent=lang==='en'?uAssetDetailsEn[i]:uAssetDetailsFr[i];});
+  var uWhyFr=['<strong>Conçu par quelqu\'un qui crée vraiment</strong> — pas un pack générique assemblé pour vendre.','<strong>Orienté musique africaine</strong> — les templates sont taillés pour le rap, l\'afrobeats et le son local.','<strong>Assets sélectionnés à la main</strong> — chaque fichier est testé et validé. Pas de remplissage.','<strong>Un seul paiement, à vie</strong> — pas d\'abonnement, pas de tiers. La box t\'appartient.'];
+  var uWhyEn=['<strong>Built by someone who actually creates</strong> — not a generic pack assembled to sell.','<strong>African music-oriented</strong> — templates tailored for rap, afrobeats and local sounds.','<strong>Hand-picked assets</strong> — every file is tested and validated. No filler.','<strong>One payment, lifetime access</strong> — no subscription, no third parties. The box is yours.'];
+  document.querySelectorAll('.u-why-txt').forEach(function(el,i){if(uWhyFr[i])el.innerHTML=lang==='en'?uWhyEn[i]:uWhyFr[i];});
+  var uCardPackName=document.querySelector('.u-card-pack-name');
+  if(uCardPackName) uCardPackName.textContent=lang==='en'?'URANUS GFX PACK · Pre-order':'URANUS GFX PACK · Précommande';
+  var uCardPriceSub=document.querySelector('.u-card-price-sub');
+  if(uCardPriceSub) uCardPriceSub.innerHTML=lang==='en'?'FCFA<br>Full pack':'FCFA<br>Pack complet';
+  var uCardTag=document.querySelector('.u-card-tag');
+  if(uCardTag) uCardTag.textContent=lang==='en'?'⚡ Pre-order price':'⚡ Prix précommande';
+  var uLabel1=document.querySelector('label[for="uName2"]');
+  if(uLabel1) uLabel1.textContent=lang==='en'?'First name / handle':'Prénom / pseudo';
+  var uInput1=document.getElementById('uName2');
+  if(uInput1) uInput1.placeholder=lang==='en'?'e.g. Mohamed, MDG…':'Ex : Mouhamed, MDG…';
+  var uLabel3=document.querySelector('label[for="uPhone2"]');
+  if(uLabel3) uLabel3.textContent=lang==='en'?'Wave number / phone':'Numéro Wave / téléphone';
+  var uSubmit=document.querySelector('.u-submit2');
+  if(uSubmit){var usSvg=uSubmit.querySelector('svg');uSubmit.innerHTML='';if(usSvg)uSubmit.appendChild(usSvg);uSubmit.appendChild(document.createTextNode(' '+(lang==='en'?'Reserve my pack':'Réserver mon pack')));}
+  document.querySelectorAll('.u-wa-btn').forEach(function(btn){var waSvg=btn.querySelector('svg');btn.innerHTML='';if(waSvg)btn.appendChild(waSvg);btn.appendChild(document.createTextNode(' '+(lang==='en'?'Confirm on WhatsApp':'Confirmer sur WhatsApp')));});
+  var uWaHint=document.getElementById('uranusWaveInstructions');
+  if(uWaHint) uWaHint.innerHTML=lang==='en'?'WhatsApp opens with your message ready 👆<br>MDG will reply and send you the Wave request directly.':'WhatsApp s\'ouvre avec ton message prêt 👆<br>MDG te répond et t\'envoie la demande Wave directement.';
+  var uCardNote=document.querySelector('.u-card-note');
+  if(uCardNote) uCardNote.innerHTML=lang==='en'?'Payment via <strong>Wave</strong> · Delivered on launch · Your info is private':'Paiement par <strong>Wave</strong> · Livraison dès la sortie · Tes infos sont privées';
+  var uSuccess2=document.getElementById('uranusSuccess2');
+  if(uSuccess2){var us2h4=uSuccess2.querySelector('h4');var us2ps=uSuccess2.querySelectorAll('p');if(us2h4)us2h4.textContent=lang==='en'?'You\'re on the list!':'Tu es dans la liste !';if(us2ps[0])us2ps[0].textContent=lang==='en'?'Last step — confirm on WhatsApp to finalize your reservation.':'Dernière étape — confirme sur WhatsApp pour finaliser ta réservation.';if(us2ps[1])us2ps[1].textContent=lang==='en'?'MDG will reply and send you the Wave request directly 💜':'MDG te répond et t\'envoie la demande Wave directement 💜';}
+  var uTrustFr=['Données<br>privées','Livraison<br>à la sortie','Accès<br>à vie','Validé<br>par MDG'];
+  var uTrustEn=['Private<br>data','Delivered<br>on launch','Lifetime<br>access','Validated<br>by MDG'];
+  document.querySelectorAll('.u-trust-label').forEach(function(el,i){if(uTrustFr[i])el.innerHTML=lang==='en'?uTrustEn[i]:uTrustFr[i];});
+
   // ── html lang attr ──
   document.documentElement.lang = lang;
   // Mettre à jour sectionLabels selon la langue active
@@ -15166,18 +15267,6 @@ function applyLang(lang) {
     } else {
       mobLbl.textContent = 'EN';
       mobBtn.classList.remove('active');
-    }
-  }
-  // Toggle button state — mobile nav row
-  var mobNavBtn = document.getElementById('mobNavLang');
-  var mobNavLbl = document.getElementById('mobNavLangLabel');
-  if (mobNavBtn && mobNavLbl) {
-    if (lang === 'en') {
-      mobNavLbl.textContent = 'FR';
-      mobNavBtn.classList.add('active');
-    } else {
-      mobNavLbl.textContent = 'EN';
-      mobNavBtn.classList.remove('active');
     }
   }
 
@@ -16976,14 +17065,6 @@ function cqfToggleChip(btn, val) {
     tabs.forEach(function(tab) {
       tab.classList.toggle('active', tab.dataset.section === activeId && !tab.classList.contains('mob-tab-cta'));
     });
-    // Sync mobile nav row
-    var navRow = document.getElementById('mob-nav-row');
-    if (navRow) {
-      navRow.querySelectorAll('a[href]').forEach(function(a) {
-        var id = a.getAttribute('href').replace('#','');
-        a.classList.toggle('active', id === activeId);
-      });
-    }
   }
 
   window.addEventListener('scroll', updateTabs, {passive: true});
