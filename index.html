@@ -8290,6 +8290,14 @@ nav::before { display:none; }
     transform: scale(1.06);
     filter: grayscale(0%) brightness(.65);
   }
+
+  /* ── SPOTLIGHT : les autres s'assombrissent au hover ── */
+  .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) .ag-photo img {
+    filter: grayscale(60%) brightness(.45);
+  }
+  .artists-grid:has(.ag-item:hover) .ag-item:not(:hover) .ag-name-static {
+    opacity: .35;
+  }
   /* Gradient overlay permanent bas */
   .ag-item::before {
     content: '';
@@ -8372,7 +8380,50 @@ nav::before { display:none; }
   @media(max-width:500px) {
     .artists-grid { grid-template-columns: repeat(2, 1fr); }
   }
+
+  /* ── REVEAL SCROLL — clip-path colonne par colonne ── */
+  @media(prefers-reduced-motion: no-preference) {
+    .ag-item {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path .7s cubic-bezier(.77,0,.18,1);
+    }
+    .ag-item.ag-revealed {
+      clip-path: inset(0 0% 0 0);
+    }
+  }
   </style>
+
+  <script>
+  /* ── ARTISTS GRID — reveal + spotlight ── */
+  (function(){
+    var items = document.querySelectorAll('.ag-item');
+    if(!items.length) return;
+
+    /* Intersection Observer — déclenche le reveal */
+    var observed = false;
+    var io = new IntersectionObserver(function(entries){
+      if(observed) return;
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          observed = true;
+          items.forEach(function(item, i){
+            setTimeout(function(){
+              item.classList.add('ag-revealed');
+            }, i * 90);
+          });
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+
+    if(items[0]) io.observe(items[0].closest('.artists-grid-wrap') || items[0]);
+
+    /* Reduced motion — pas d'animation */
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      items.forEach(function(item){ item.classList.add('ag-revealed'); });
+    }
+  })();
+  </script>
 
   <!-- MARQUEE -->
   <div class="container">
