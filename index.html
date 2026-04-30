@@ -178,7 +178,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--
   gap: 0;
   min-height: 520px;
   border-bottom: 1px solid var(--border);
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 .pieter-step:last-child { border-bottom: none; }
@@ -9005,6 +9005,129 @@ nav::before { display:none; }
 #process .pieter-step-duration { color: rgba(6,6,6,.55) !important; }
 #process .process-header { border-color: rgba(6,6,6,.08) !important; }
 #process .reveal-line::before { background: rgba(6,6,6,.25) !important; }
+
+/* ── GAMER RETICLE ANIMATION ── */
+#process { isolation: isolate; }
+
+.pieter-process { position: relative; }
+
+/* z-index layering pour l'effet pass-through */
+.pieter-step-content {
+  z-index: 2;
+  position: relative;
+}
+.pieter-step-media {
+  z-index: 4;
+  position: relative;
+}
+
+#gamer-reticle {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+#gamer-reticle svg { width: 100%; height: 100%; overflow: visible; }
+
+.reticle-ring-outer {
+  animation: reticle-spin-slow 3s linear infinite;
+  transform-origin: 40px 40px;
+}
+.reticle-ring-inner {
+  animation: reticle-spin-fast 1.2s linear infinite reverse;
+  transform-origin: 40px 40px;
+}
+.reticle-pulse-ring {
+  transform-origin: 40px 40px;
+}
+
+@keyframes reticle-spin-slow { to { transform: rotate(360deg); } }
+@keyframes reticle-spin-fast { to { transform: rotate(360deg); } }
+
+/* Scan laser */
+#scan-laser {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(200,250,100,0.8) 20%, rgba(200,250,100,1) 50%, rgba(200,250,100,0.8) 80%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+  box-shadow: 0 0 8px rgba(200,250,100,0.6), 0 0 20px rgba(200,250,100,0.3);
+}
+
+/* Trail particles */
+.reticle-trail {
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #c8fa64;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+}
+
+/* Highlight effect sur les textes ciblés */
+.reticle-lit {
+  color: #c8fa64 !important;
+  text-shadow: 0 0 20px rgba(200,250,100,0.5);
+  transition: color 0.15s, text-shadow 0.15s;
+}
+.reticle-lit-back {
+  color: inherit !important;
+  text-shadow: none;
+  transition: color 0.6s, text-shadow 0.6s;
+}
+
+/* Glitch sur les numéros */
+@keyframes glitch-num {
+  0%   { transform: translate(0); clip-path: none; }
+  10%  { transform: translate(-3px, 1px); }
+  20%  { transform: translate(3px, -1px); }
+  30%  { transform: translate(-2px, 2px); color: #c8fa64; }
+  40%  { transform: translate(2px, -2px); }
+  50%  { transform: translate(0); }
+  100% { transform: translate(0); }
+}
+.glitch-active {
+  animation: glitch-num 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  color: rgba(200,250,100,0.8) !important;
+}
+
+/* Lock-on burst */
+@keyframes lock-burst {
+  0%   { transform: translate(-50%,-50%) scale(0.5); opacity: 1; }
+  100% { transform: translate(-50%,-50%) scale(2.5); opacity: 0; }
+}
+.lock-burst {
+  position: absolute;
+  width: 80px; height: 80px;
+  border: 1.5px solid #c8fa64;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+  animation: lock-burst 0.5s ease-out forwards;
+}
+
+/* Data stream chars */
+.data-char {
+  position: absolute;
+  font-family: 'Syne', monospace;
+  font-size: 11px;
+  color: #c8fa64;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  user-select: none;
+}
+@keyframes data-char-fade {
+  0%   { opacity: 0.9; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(12px); }
+}
 </style>
   <div class="container">
     <div class="process-header reveal-up">
@@ -9014,7 +9137,37 @@ nav::before { display:none; }
     </div>
 
     <!-- Process style pieterkoopt — 01/02/03/04 avec médias -->
-    <div class="pieter-process">
+    <div class="pieter-process" id="pieter-process-wrap">
+
+      <!-- GAMER RETICLE -->
+      <div id="gamer-reticle" aria-hidden="true">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer spinning ring with dashes -->
+          <g class="reticle-ring-outer">
+            <circle cx="40" cy="40" r="36" stroke="#c8fa64" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
+          </g>
+          <!-- Inner spinning ring -->
+          <g class="reticle-ring-inner">
+            <circle cx="40" cy="40" r="26" stroke="#c8fa64" stroke-width="1.5" stroke-dasharray="3 8" opacity="0.8"/>
+          </g>
+          <!-- Corner brackets -->
+          <path d="M20 12 L12 12 L12 20" stroke="#c8fa64" stroke-width="2" stroke-linecap="round"/>
+          <path d="M60 12 L68 12 L68 20" stroke="#c8fa64" stroke-width="2" stroke-linecap="round"/>
+          <path d="M20 68 L12 68 L12 60" stroke="#c8fa64" stroke-width="2" stroke-linecap="round"/>
+          <path d="M60 68 L68 68 L68 60" stroke="#c8fa64" stroke-width="2" stroke-linecap="round"/>
+          <!-- Center crosshair -->
+          <line x1="40" y1="28" x2="40" y2="35" stroke="#c8fa64" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="40" y1="45" x2="40" y2="52" stroke="#c8fa64" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="28" y1="40" x2="35" y2="40" stroke="#c8fa64" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="45" y1="40" x2="52" y2="40" stroke="#c8fa64" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Center dot -->
+          <circle cx="40" cy="40" r="2.5" fill="#c8fa64"/>
+          <!-- Pulse ring -->
+          <circle class="reticle-pulse-ring" cx="40" cy="40" r="8" stroke="#c8fa64" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+      <!-- Scan laser -->
+      <div id="scan-laser"></div>
 
       <!-- 01 Brief -->
       <div class="pieter-step reveal-cinema">
@@ -17352,6 +17505,308 @@ function cqfGoBack() {
     fcta.classList.toggle('visible', scrollY > heroH && scrollY < contactTop);
   }
   window.addEventListener('scroll', onScroll, {passive:true});
+})();
+</script>
+
+<script>
+/* ── GAMER RETICLE v2 — lent, dramatique, visible ── */
+(function(){
+  var process = document.getElementById('process');
+  var wrap    = document.getElementById('pieter-process-wrap');
+  var reticle = document.getElementById('gamer-reticle');
+  var laser   = document.getElementById('scan-laser');
+  if(!process || !wrap || !reticle) return;
+
+  /* Agrandir le réticule — beaucoup plus visible */
+  reticle.style.width  = '140px';
+  reticle.style.height = '140px';
+
+  var steps  = wrap.querySelectorAll('.pieter-step');
+  var played = false;
+  var ACCENT = '#c8fa64';
+  var chars  = ['01','∆','#','アイ','Ω','%','∑','//','>>','<<'].concat('0123456789'.split(''));
+
+  /* ── Utilitaires ── */
+  function easeOutBack(t){ var c1=1.70158,c3=c1+1; return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2); }
+  function easeInOutSine(t){ return -(Math.cos(Math.PI*t)-1)/2; }
+  function easeOutExpo(t){ return t===1?1:1-Math.pow(2,-10*t); }
+
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  var curX = 0, curY = 0;
+
+  function setPos(x,y){ curX=x; curY=y; reticle.style.left=x+'px'; reticle.style.top=y+'px'; }
+
+  function getCenter(el){
+    var wR = wrap.getBoundingClientRect();
+    var eR = el.getBoundingClientRect();
+    return { x: eR.left-wR.left+eR.width/2, y: eR.top-wR.top+eR.height/2 };
+  }
+
+  /* ── Animateur générique promesse-style ── */
+  function animTo(toX, toY, dur, easeFn, onTick){
+    return new Promise(function(resolve){
+      var fromX=curX, fromY=curY, t0=null;
+      easeFn = easeFn || easeOutExpo;
+      function tick(ts){
+        if(!t0) t0=ts;
+        var p=Math.min((ts-t0)/dur,1), e=easeFn(p);
+        var x=lerp(fromX,toX,e), y=lerp(fromY,toY,e);
+        setPos(x,y);
+        if(onTick) onTick(x,y,p);
+        if(p<1) requestAnimationFrame(tick);
+        else resolve();
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+
+  function fadeReticle(to, dur){
+    return new Promise(function(resolve){
+      var from=parseFloat(reticle.style.opacity)||0, t0=null;
+      function tick(ts){
+        if(!t0) t0=ts;
+        var p=Math.min((ts-t0)/dur,1);
+        reticle.style.opacity=(from+(to-from)*p).toString();
+        if(p<1) requestAnimationFrame(tick);
+        else resolve();
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  /* ── Effets visuels ── */
+  function lockBurst(x,y,size){
+    size = size||120;
+    for(var i=0;i<2;i++){
+      (function(delay){
+        setTimeout(function(){
+          var b=document.createElement('div');
+          b.style.cssText='position:absolute;border:2px solid '+ACCENT+';border-radius:50%;pointer-events:none;z-index:10;';
+          b.style.left=x+'px'; b.style.top=y+'px';
+          b.style.width=size+'px'; b.style.height=size+'px';
+          b.style.marginLeft=(-size/2)+'px'; b.style.marginTop=(-size/2)+'px';
+          wrap.appendChild(b);
+          var t0=null,dur=700;
+          function anim(ts){
+            if(!t0) t0=ts;
+            var p=Math.min((ts-t0)/dur,1);
+            var s=1+p*1.8;
+            b.style.transform='scale('+s+')';
+            b.style.opacity=(1-p).toString();
+            if(p<1) requestAnimationFrame(anim);
+            else if(b.parentNode) b.parentNode.removeChild(b);
+          }
+          requestAnimationFrame(anim);
+        }, delay);
+      })(i*180);
+    }
+  }
+
+  function spawnChars(x,y,n){
+    for(var i=0;i<n;i++){
+      (function(i){
+        setTimeout(function(){
+          var dc=document.createElement('div');
+          dc.className='data-char';
+          dc.textContent=chars[Math.floor(Math.random()*chars.length)];
+          var angle=Math.random()*Math.PI*2;
+          var r=50+Math.random()*70;
+          dc.style.left=(x+Math.cos(angle)*r)+'px';
+          dc.style.top=(y+Math.sin(angle)*r)+'px';
+          dc.style.position='absolute';
+          dc.style.fontSize='13px';
+          dc.style.animation='data-char-fade 1.1s ease-out forwards';
+          wrap.appendChild(dc);
+          setTimeout(function(){ if(dc.parentNode) dc.parentNode.removeChild(dc); },1200);
+        }, i*60);
+      })(i);
+    }
+  }
+
+  function glitchNum(stepEl){
+    var num=stepEl.querySelector('.pieter-step-num');
+    if(!num) return;
+    /* Répéter le glitch 3 fois */
+    [0,200,420].forEach(function(delay){
+      setTimeout(function(){
+        num.classList.remove('glitch-active');
+        void num.offsetWidth;
+        num.classList.add('glitch-active');
+        setTimeout(function(){ num.classList.remove('glitch-active'); },350);
+      }, delay);
+    });
+  }
+
+  /* Illumine le titre lettre par lettre */
+  function illuminateTitle(stepEl){
+    return new Promise(function(resolve){
+      var title=stepEl.querySelector('.pieter-step-title');
+      var badge=stepEl.querySelector('.pieter-step-badge');
+      if(!title){ resolve(); return; }
+
+      /* Badge d'abord */
+      if(badge){
+        badge.style.transition='color .15s, text-shadow .15s';
+        badge.style.color=ACCENT;
+        badge.style.textShadow='0 0 18px rgba(200,250,100,.7)';
+        setTimeout(function(){
+          badge.style.color='';
+          badge.style.textShadow='';
+        }, 1200);
+      }
+
+      /* Titre lettre par lettre */
+      var text=title.textContent||'';
+      title.innerHTML='';
+      var spans=[];
+      text.split('').forEach(function(ch){
+        var s=document.createElement('span');
+        s.textContent=ch;
+        s.style.display='inline';
+        s.style.transition='color .12s, text-shadow .12s';
+        title.appendChild(s);
+        spans.push(s);
+      });
+      var delay=120;
+      spans.forEach(function(s,i){
+        setTimeout(function(){
+          s.style.color=ACCENT;
+          s.style.textShadow='0 0 22px rgba(200,250,100,.8)';
+          setTimeout(function(){
+            s.style.color='';
+            s.style.textShadow='';
+          }, 900);
+        }, delay + i*55);
+      });
+      setTimeout(resolve, delay + spans.length*55 + 300);
+    });
+  }
+
+  /* Scan mots de la desc */
+  function scanDesc(stepEl){
+    return new Promise(function(resolve){
+      var desc=stepEl.querySelector('.pieter-step-desc');
+      if(!desc){ resolve(); return; }
+      if(!desc.dataset.wrapped){
+        desc.innerHTML=desc.innerHTML.replace(/(\S+)/g,'<span class="rw">$1</span>');
+        desc.dataset.wrapped='1';
+      }
+      var words=desc.querySelectorAll('.rw');
+      words.forEach(function(w,i){
+        setTimeout(function(){
+          w.style.color=ACCENT;
+          w.style.transition='color 0.12s';
+          setTimeout(function(){ w.style.color=''; },400);
+        }, i*55);
+      });
+      setTimeout(resolve, words.length*55+300);
+    });
+  }
+
+  /* Sweep laser sur une étape */
+  function sweepLaser(stepEl){
+    return new Promise(function(resolve){
+      var wR=wrap.getBoundingClientRect();
+      var sR=stepEl.getBoundingClientRect();
+      var topY=sR.top-wR.top, botY=sR.bottom-wR.top;
+      laser.style.opacity='1';
+      laser.style.top=topY+'px';
+      var t0=null, dur=900;
+      function tick(ts){
+        if(!t0) t0=ts;
+        var p=Math.min((ts-t0)/dur,1);
+        laser.style.top=(topY+(botY-topY)*easeInOutSine(p))+'px';
+        if(p<1) requestAnimationFrame(tick);
+        else { laser.style.opacity='0'; resolve(); }
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  /* ── SÉQUENCE PRINCIPALE ── */
+  async function runCinematic(){
+    if(played) return;
+    played=true;
+
+    var wR=wrap.getBoundingClientRect();
+    /* Départ coin haut gauche */
+    setPos(wR.width*0.1, 80);
+    reticle.style.opacity='0';
+
+    /* 1 — Apparition lente */
+    await fadeReticle(1, 700);
+    await wait(400);
+
+    /* 2 — Traiter chaque étape */
+    for(var idx=0; idx<steps.length; idx++){
+      var step   = steps[idx];
+      var content= step.querySelector('.pieter-step-content');
+      var media  = step.querySelector('.pieter-step-media');
+      var title  = step.querySelector('.pieter-step-title');
+      var num    = step.querySelector('.pieter-step-num');
+
+      var tCenter = title   ? getCenter(title)   : getCenter(content||step);
+      var nCenter = num     ? getCenter(num)      : tCenter;
+      var mCenter = media   ? getCenter(media)    : {x:wR.width*0.75, y:tCenter.y};
+
+      /* — Déplacement vers le numéro de l'étape — rapide et nerveux */
+      var moveSpeed = idx===0 ? 900 : 650;
+      reticle.style.zIndex='3'; /* devant content, derrière media */
+      await animTo(nCenter.x, nCenter.y, moveSpeed, easeOutBack);
+
+      /* — Lock-on sur le numéro */
+      lockBurst(nCenter.x, nCenter.y, 160);
+      spawnChars(nCenter.x, nCenter.y, 10);
+      glitchNum(step);
+      await wait(600);
+
+      /* — Glisse vers le titre */
+      await animTo(tCenter.x, tCenter.y, 600, easeOutExpo);
+
+      /* — Illumine le titre lettre par lettre (on attend la fin) */
+      lockBurst(tCenter.x, tCenter.y, 100);
+      await illuminateTitle(step);
+      await wait(200);
+
+      /* — Sweep laser pendant qu'on scanne la desc */
+      var laserPromise = sweepLaser(step);
+      await scanDesc(step);
+      await laserPromise;
+      await wait(300);
+
+      /* — Traverse vers le bloc image — PASSE DERRIÈRE */
+      reticle.style.zIndex='3'; /* derrière media (z-index:4) */
+      await animTo(mCenter.x, mCenter.y, 700, easeInOutSine);
+      spawnChars(mCenter.x, mCenter.y, 6);
+      await wait(500);
+
+      /* — Ressort devant */
+      reticle.style.zIndex='5';
+      await wait(200);
+    }
+
+    /* 3 — Finale */
+    var lastTitle = steps[steps.length-1].querySelector('.pieter-step-title');
+    var fc = lastTitle ? getCenter(lastTitle) : {x:wR.width/2, y:curY};
+    await animTo(fc.x, fc.y, 500, easeOutExpo);
+    lockBurst(fc.x, fc.y, 200);
+    lockBurst(fc.x, fc.y, 120);
+    spawnChars(fc.x, fc.y, 22);
+    await wait(300);
+    await fadeReticle(0, 800);
+  }
+
+  /* Observer — se déclenche quand la section est à 20% visible */
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !played) setTimeout(runCinematic, 500);
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(process);
 })();
 </script>
 
