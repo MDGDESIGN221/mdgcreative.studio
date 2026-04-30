@@ -6013,17 +6013,48 @@ nav::before { display:none; }
 }
 
 /* ── HEADER ── */
-.collabs-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding:0 3rem;position:relative;z-index:2}
-.collabs-hdr-right{display:flex;align-items:flex-end;flex-direction:column;gap:0}
+.collabs-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;padding:0 3rem;position:relative;z-index:2;gap:2rem}
+.collabs-hdr-right{display:flex;align-items:flex-end;flex-direction:column;gap:0;flex-shrink:0}
 .collabs-counter-num{
-  font-family:'Syne',sans-serif;font-weight:800;font-size:2.8rem;
-  color:var(--accent);line-height:1;letter-spacing:-.05em;
-  text-shadow:0 0 40px rgba(200,250,100,.2);
+  font-family:'Syne',sans-serif;font-weight:800;font-size:3.5rem;
+  color:var(--accent);line-height:1;letter-spacing:-.06em;
+  text-shadow:0 0 60px rgba(200,250,100,.2);
+  display:block;
 }
-.collabs-counter-txt{font-size:.58rem;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;font-weight:600;text-align:right}
-.collabs-main-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.4rem,5vw,4.5rem);letter-spacing:-.035em;line-height:.95;color:var(--light);padding:0 3rem;margin-bottom:1rem;position:relative;z-index:2;word-break:keep-all;overflow-wrap:break-word;hyphens:none}
-.collabs-main-title em{font-style:normal;color:var(--accent);display:block;font-family:'Syne',sans-serif;font-weight:800;margin-top:.08em}
-.collabs-main-sub{font-family:'Space Grotesk',sans-serif;font-size:clamp(.85rem,1.3vw,1rem);color:var(--dim);padding:0 3rem;margin-bottom:0;font-weight:300;font-style:italic;letter-spacing:.01em;position:relative;z-index:2}
+.collabs-counter-txt{font-size:.55rem;color:var(--dim);letter-spacing:.22em;text-transform:uppercase;font-weight:700;text-align:right;margin-top:.2rem}
+.collabs-main-title{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2.2rem,4vw,3.5rem);
+  letter-spacing:-.04em;line-height:.95;
+  color:var(--light);
+  padding:0 3rem;margin-bottom:1.5rem;
+  position:relative;z-index:2;
+  word-break:keep-all;overflow-wrap:break-word;hyphens:none;
+}
+.collabs-main-title em{
+  font-style:italic;
+  font-family:'Instrument Serif',serif;
+  font-weight:400;
+  color:var(--off);
+  display:block;
+  font-size:.78em;
+  margin-top:.15em;
+  letter-spacing:-.02em;
+}
+.collabs-main-sub{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(.88rem,1.3vw,1rem);
+  color:var(--dim);
+  padding:0 3rem;margin-bottom:0;
+  font-weight:300;letter-spacing:.01em;
+  position:relative;z-index:2;
+  max-width:520px;
+  border-left:2px solid rgba(200,250,100,.2);
+  padding-left:1.25rem;
+  margin-left:3rem;
+  font-style:normal;
+  line-height:1.7;
+}
 
 /* ── STAGE ── */
 #artist-stage{
@@ -8094,7 +8125,7 @@ nav::before { display:none; }
   <!-- HEADER -->
   <div class="container">
     <div class="collabs-hdr reveal-up">
-      <div class="sec-label">Collaborations Notables</div>
+      <div class="sec-label">Collaborations d'exception</div>
       <div class="collabs-hdr-right">
         <span class="collabs-counter-badge">
           <span class="collabs-counter-num">50+</span>
@@ -8103,7 +8134,7 @@ nav::before { display:none; }
       </div>
     </div>
     <h2 class="collabs-main-title reveal-up rd2">
-      Ils ont fait<br><em>confiance à MDG</em>
+      Aux côtés de<br><em>ceux qui font la scène</em>
     </h2>
     <p class="collabs-main-sub reveal-up rd3">
       De Kaolack à Dakar, la scène sénégalaise et africaine concentrée en une seule vision.
