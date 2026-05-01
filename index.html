@@ -18111,134 +18111,215 @@ function cqfGoBack() {
 </script>
 
 <!-- ══════════════════════════════════════════════════════
-     MDG BUGFIX — panels invisible + perf mobile
+     MDG PERF PATCH v2 — latence & fluidité
      ══════════════════════════════════════════════════════ -->
+<style>
+/* 1. Supprimer le grain animé sur mobile — animation infinite = janky */
+@media (max-width: 900px) {
+  .grain-overlay { animation: none !important; opacity: 0 !important; }
+}
+
+/* 2. Désactiver backdrop-filter sur mobile (très coûteux sur GPU mobile) */
+@media (max-width: 900px) {
+  nav:not(#mob-tab-bar),
+  .pack-card,
+  .svc-secondary-item,
+  .port-tabs,
+  .mdg-glass-card,
+  .mdg-player-right,
+  .hero-btn-secondary {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* Sauf le menu mobile qui en a besoin */
+  #mob-tab-bar { backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; }
+}
+
+/* 3. Désactiver les transitions hover coûteuses sur mobile (pas de hover de toute façon) */
+@media (hover: none) {
+  .work-card, .cov-card, .svc-card, .pack-card,
+  .pieter-step, .svc-secondary-item, .sk, .trust-item {
+    transition: none !important;
+    transform: none !important;
+  }
+  .work-card:hover, .cov-card:hover, .svc-card:hover, .pack-card:hover {
+    transform: none !important;
+  }
+}
+
+/* 4. will-change uniquement sur les éléments qui en ont vraiment besoin */
+@media (max-width: 900px) {
+  .hero-photo-wrap, .hero-name, .hero-name-sub,
+  .work-track, .cov-track,
+  .mob-menu, .cur, .cur-r,
+  .artists-grid .ag-item,
+  .reveal-cinema, .reveal-up, .reveal-line, .reveal-fade, .reveal-scale {
+    will-change: auto !important;
+  }
+}
+
+/* 5. Fixer les animations CSS infinies les plus coûteuses sur mobile */
+@media (max-width: 900px) {
+  .hero-manifeste-ticker,
+  .nav-ticker-inner,
+  .collabs-marquee-inner,
+  .hero-speed-line {
+    animation-play-state: paused !important;
+  }
+  /* Garder pulse et availability dot (légers) */
+}
+
+/* 6. Désactiver le parallax hero sur mobile (translateY en scroll = jank) */
+@media (max-width: 900px) {
+  .hero-photo-wrap { transform: none !important; transition: none !important; }
+}
+</style>
+
 <script>
 (function(){
 'use strict';
 
-/* ─────────────────────────────────────────────────────────
-   FIX 1 — .work-card et .cov-card restent invisibles dans
-   les panels acc-work et acc-covers (display:none au moment
-   où GSAP ScrollTrigger calcule les positions → trigger
-   ne se déclenche jamais → opacity:0 bloquée).
-
-   Solution :
-   • Sur mobile (<= 900px) → on désactive complètement les
-     animations GSAP sur ces cartes et on les force visibles.
-   • Sur desktop → on relance ScrollTrigger.refresh() chaque
-     fois qu'on switche de panel.
-   ───────────────────────────────────────────────────────── */
-
 var isMobile = window.matchMedia('(max-width: 900px)').matches;
+var isTouch  = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
-if (isMobile) {
-  // Forcer immédiatement toutes les cartes visibles sur mobile
-  // (GSAP les a déjà initialisées à opacity:0 au DOMContentLoaded)
-  function forceCardsVisible() {
-    document.querySelectorAll('.work-card, .cov-card').forEach(function(el){
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-      el.style.visibility = 'visible';
-    });
+/* ─────────────────────────────────────────────────────────
+   PATCH 1 — GSAP : désactiver toutes les animations sur
+   mobile. Le contenu est forcé visible immédiatement.
+   GSAP + ScrollTrigger sur mobile = principale source de lag
+   (recalculs de position à chaque scroll).
+   ───────────────────────────────────────────────────────── */
+if (isMobile && typeof gsap !== 'undefined') {
+  // Tuer tous les ScrollTriggers existants
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.getAll().forEach(function(st){ st.kill(); });
+    ScrollTrigger.disable();
   }
-  forceCardsVisible();
-  // Sécurité : re-appliquer après 300ms au cas où GSAP se relance
-  setTimeout(forceCardsVisible, 300);
-  setTimeout(forceCardsVisible, 800);
+  // Forcer tous les éléments animés visibles
+  var selectors = [
+    '.reveal-up','.reveal-line','.reveal-fade','.reveal-scale',
+    '.reveal-cinema','.reveal','.reveal-left','.reveal-right',
+    '.work-card','.cov-card','.svc-card','.pack-card',
+    '.pieter-step','.proc-cond','.award-item','.trust-item',
+    '.sk','.adv-card','.addon-card','.rollout-card',
+    '.sp-vcard','.sp-feature','.sp-header',
+    '.contact-direct-link','.citation-text','.citation-eyebrow',
+    '.citation-author','.port-h2','.port-count','.port-tabs-wrap',
+    '.about-v2-photo','.about-v2-content','.about-v2-h2',
+    '.about-v2-intro','.about-v2-body','.av2-badge',
+    '.u-hero-copy','.u-box-visual','.u-order-card',
+    '.collabs-hdr','.collabs-main-title','.work-footer',
+    '.addons-intro','.svc-secondary','.faq-header'
+  ];
+  selectors.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      el.style.cssText += ';opacity:1!important;transform:none!important;clip-path:none!important;filter:none!important;visibility:visible!important';
+    });
+  });
+  // Également forcer sec-label et sec-num
+  document.querySelectorAll('.sec-label,.sec-num').forEach(function(el){
+    el.style.opacity = '1';
+    el.style.clipPath = 'none';
+    el.style.transform = 'none';
+  });
 }
 
 /* ─────────────────────────────────────────────────────────
-   FIX 2 — ScrollTrigger.refresh() au switch de panel
-   pour recalculer les positions des éléments qui étaient
-   cachés (display:none → display:block).
+   PATCH 2 — Cursor blob SVG : loop rAF toujours active
+   même quand la souris ne bouge pas → frame budget gaspillé.
+   Remplacer par un loop idle-paused.
+   ───────────────────────────────────────────────────────── */
+// Le cursor blob est dans la section #process, on le met en pause
+// quand la section n'est pas visible (IntersectionObserver).
+if (!isTouch) {
+  var processSection = document.querySelector('#process');
+  if (processSection) {
+    // L'IIFE du blob démarre automatiquement — on ne peut pas l'arrêter
+    // mais on peut réduire son impact en coupant le SVG display quand hors vue
+    var blobSvg = processSection.querySelector('svg[style*="position:absolute"]') ||
+                  processSection.querySelector('.pieter-process svg');
+    if (!blobSvg) {
+      // Chercher via structure connue
+      blobSvg = processSection.querySelector('svg[width="100%"]');
+    }
+    if (blobSvg) {
+      var procObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (blobSvg) blobSvg.style.display = e.isIntersecting ? 'block' : 'none';
+        });
+      }, { rootMargin: '200px' });
+      procObs.observe(processSection);
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   PATCH 3 — Scroll parallax hero : throttle agressif sur
+   mobile. Le handler scroll natif MDG fait des calculs
+   layout (offsetHeight) à chaque event → forced reflow.
+   On le coupe sur mobile (déjà géré en CSS ci-dessus).
+   ───────────────────────────────────────────────────────── */
+// Rien à faire — le CSS `transform: none !important` sur .hero-photo-wrap
+// et le `opacity: 0` sur hero-speed-overlay suffisent.
+
+/* ─────────────────────────────────────────────────────────
+   PATCH 4 — Images lazy : sur mobile, charger en w_600
+   plutôt que w_1200 pour réduire le décodage.
+   ───────────────────────────────────────────────────────── */
+if (isMobile) {
+  document.querySelectorAll('.work-img, .cov-img').forEach(function(img){
+    if (img.src && img.src.indexOf('w_1200') > -1) {
+      img.src = img.src.replace('w_1200', 'w_600');
+    }
+    if (img.dataset && img.dataset.src && img.dataset.src.indexOf('w_1200') > -1) {
+      img.dataset.src = img.dataset.src.replace('w_1200', 'w_600');
+    }
+  });
+}
+
+/* ─────────────────────────────────────────────────────────
+   PATCH 5 — Carousels : panels invisibles (acc-work,
+   acc-covers) — fix visible au switch.
    ───────────────────────────────────────────────────────── */
 var _origAccSwitch = window.accSwitch;
 window.accSwitch = function(panel, btn) {
-  // Appel original
   if (_origAccSwitch) _origAccSwitch(panel, btn);
-
-  // Forcer visible les cartes du panel qui vient de s'afficher
   var panelEl = document.getElementById('acc-' + panel);
   if (!panelEl) return;
-
   panelEl.querySelectorAll('.work-card, .cov-card').forEach(function(el){
-    // Si GSAP a bloqué l'élément à opacity:0, on le libère
-    var op = parseFloat(getComputedStyle(el).opacity);
-    if (op < 0.05) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    }
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+    el.style.visibility = 'visible';
   });
-
-  // Rafraîchir ScrollTrigger pour recalculer les positions
-  if (typeof ScrollTrigger !== 'undefined') {
-    setTimeout(function(){
-      ScrollTrigger.refresh();
-    }, 50);
+  // Sur desktop seulement : refresh ScrollTrigger
+  if (!isMobile && typeof ScrollTrigger !== 'undefined') {
+    setTimeout(function(){ ScrollTrigger.refresh(); }, 80);
   }
 };
 
 /* ─────────────────────────────────────────────────────────
-   FIX 3 — Performance : désactiver grain-overlay sur mobile
-   (animation CSS infinite très coûteuse sur petits devices)
-   ───────────────────────────────────────────────────────── */
-if (isMobile) {
-  var grain = document.querySelector('.grain-overlay');
-  if (grain) {
-    grain.style.animation = 'none';
-    grain.style.opacity = '0.02';
-  }
-}
-
-/* ─────────────────────────────────────────────────────────
-   FIX 4 — Performance : pauser les rAF invisibles
-   Le cursor blob SVG tourne même quand inutilisé.
-   Sur mobile (hover:none), il n'est pas affiché — ok.
-   Sur desktop : on le suspend quand le tab est masqué.
-   ───────────────────────────────────────────────────────── */
-// NB: le cursor rAF a déjà une logique visibilitychange — on
-// vérifie juste que will-change n'est pas abusé.
-if (!isMobile) {
-  // Réduire les will-change excessifs après init (libère GPU)
-  setTimeout(function(){
-    document.querySelectorAll('.reveal-cinema, .reveal-up, .reveal-line, .reveal-fade, .reveal-scale').forEach(function(el){
-      // Si l'élément est déjà animé (visible), on retire will-change
-      if (parseFloat(getComputedStyle(el).opacity) > 0.5) {
-        el.style.willChange = 'auto';
-      }
-    });
-  }, 3000);
-}
-
-/* ─────────────────────────────────────────────────────────
-   FIX 5 — Loader : sécurité anti-blocage scroll
-   Si le loader tourne depuis plus de 4s, on force la fin.
+   PATCH 6 — Loader : max 3.5s, jamais bloquant
    ───────────────────────────────────────────────────────── */
 setTimeout(function(){
   var loader = document.getElementById('loader');
-  if (loader && loader.style.display !== 'none' && !loader.classList.contains('done')) {
+  if (loader && loader.style.display !== 'none') {
     loader.classList.add('done');
     document.body.style.overflow = '';
-    setTimeout(function(){ if(loader) loader.style.display = 'none'; }, 800);
+    document.documentElement.style.overflow = '';
+    setTimeout(function(){ if(loader) loader.style.display = 'none'; }, 600);
   }
-}, 4000);
+}, 3500);
 
 /* ─────────────────────────────────────────────────────────
-   FIX 6 — reveal-cinema / reveal-up bloqués
-   Certains éléments hors viewport au chargement ne reçoivent
-   jamais le ScrollTrigger (surtout sur mobile où la hauteur
-   est différente). On s'assure qu'ils deviennent visibles
-   au scroll grâce à un IntersectionObserver de secours.
+   PATCH 7 — Fallback IntersectionObserver (desktop uniquement)
+   Pour les éléments GSAP qui ratent leur trigger.
    ───────────────────────────────────────────────────────── */
-if (typeof IntersectionObserver !== 'undefined') {
+if (!isMobile && typeof IntersectionObserver !== 'undefined') {
   var fallbackObs = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if (entry.isIntersecting) {
         var el = entry.target;
-        var op = parseFloat(getComputedStyle(el).opacity);
-        if (op < 0.05) {
-          el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
+          el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
           el.style.opacity = '1';
           el.style.transform = 'none';
           el.style.clipPath = 'none';
@@ -18246,18 +18327,32 @@ if (typeof IntersectionObserver !== 'undefined') {
         fallbackObs.unobserve(el);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.05 });
 
-  // Observer après que GSAP ait eu le temps de s'initialiser
   setTimeout(function(){
-    document.querySelectorAll('.reveal-up, .reveal-cinema, .reveal-line, .reveal-fade, .reveal-scale, .pieter-step').forEach(function(el){
-      var op = parseFloat(getComputedStyle(el).opacity);
-      if (op < 0.05) {
+    document.querySelectorAll(
+      '.reveal-up, .reveal-cinema, .reveal-line, .reveal-fade, ' +
+      '.pieter-step, .work-card, .cov-card, .sec-label'
+    ).forEach(function(el){
+      if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
         fallbackObs.observe(el);
       }
     });
-  }, 500);
+  }, 600);
 }
+
+/* ─────────────────────────────────────────────────────────
+   PATCH 8 — will-change cleanup après animations
+   Libère la mémoire GPU 4s après le chargement.
+   ───────────────────────────────────────────────────────── */
+setTimeout(function(){
+  document.querySelectorAll(
+    '.reveal-up, .reveal-cinema, .reveal-line, .reveal-fade, .reveal-scale, ' +
+    '.work-card, .cov-card, .svc-card'
+  ).forEach(function(el){
+    el.style.willChange = 'auto';
+  });
+}, 4000);
 
 })();
 </script>
