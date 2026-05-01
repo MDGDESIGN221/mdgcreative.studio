@@ -18111,15 +18111,10 @@ function cqfGoBack() {
 </script>
 
 <!-- ══════════════════════════════════════════════════════
-     MDG PERF PATCH v2 — latence & fluidité
+     MDG PERF PATCH v3 — ciblé, sans casser les animations
      ══════════════════════════════════════════════════════ -->
 <style>
-/* 1. Supprimer le grain animé sur mobile — animation infinite = janky */
-@media (max-width: 900px) {
-  .grain-overlay { animation: none !important; opacity: 0 !important; }
-}
-
-/* 2. Désactiver backdrop-filter sur mobile (très coûteux sur GPU mobile) */
+/* ── 1. backdrop-filter désactivé sur mobile (coût GPU élevé) ── */
 @media (max-width: 900px) {
   nav:not(#mob-tab-bar),
   .pack-card,
@@ -18127,52 +18122,52 @@ function cqfGoBack() {
   .port-tabs,
   .mdg-glass-card,
   .mdg-player-right,
-  .hero-btn-secondary {
+  .hero-btn-secondary,
+  .av2-badge,
+  .av2-stats,
+  .sp-vcard-badge,
+  .sp-vcard-play {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  /* Sauf le menu mobile qui en a besoin */
-  #mob-tab-bar { backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; }
 }
 
-/* 3. Désactiver les transitions hover coûteuses sur mobile (pas de hover de toute façon) */
+/* ── 2. Grain overlay : stop animation sur mobile ── */
+@media (max-width: 900px) {
+  .grain-overlay { animation: none !important; opacity: 0.015 !important; }
+}
+
+/* ── 3. Parallax hero : désactivé sur mobile ── */
+@media (max-width: 900px) {
+  .hero-photo-wrap { transform: none !important; }
+}
+
+/* ── 4. Animations infinies non-essentielles : pause sur mobile ── */
+@media (max-width: 900px) {
+  .hero-speed-line { animation: none !important; display: none !important; }
+}
+
+/* ── 5. Hover transitions sur touch : inutiles, coûteuses ── */
 @media (hover: none) {
-  .work-card, .cov-card, .svc-card, .pack-card,
-  .pieter-step, .svc-secondary-item, .sk, .trust-item {
-    transition: none !important;
+  .work-card, .cov-card, .pack-card,
+  .pieter-step .pieter-step-media img,
+  .pieter-step .pieter-step-media video {
+    transition: opacity 0.3s !important;
+  }
+  .work-card:hover, .cov-card:hover, .pack-card:hover {
     transform: none !important;
-  }
-  .work-card:hover, .cov-card:hover, .svc-card:hover, .pack-card:hover {
-    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
-/* 4. will-change uniquement sur les éléments qui en ont vraiment besoin */
-@media (max-width: 900px) {
-  .hero-photo-wrap, .hero-name, .hero-name-sub,
-  .work-track, .cov-track,
-  .mob-menu, .cur, .cur-r,
-  .artists-grid .ag-item,
-  .reveal-cinema, .reveal-up, .reveal-line, .reveal-fade, .reveal-scale {
-    will-change: auto !important;
-  }
+/* ── 6. YouTube thumbnail fallback style ── */
+.sp-vcard-thumb-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0e0e0e 0%, #1a1a1a 100%);
+  position: relative;
 }
-
-/* 5. Fixer les animations CSS infinies les plus coûteuses sur mobile */
-@media (max-width: 900px) {
-  .hero-manifeste-ticker,
-  .nav-ticker-inner,
-  .collabs-marquee-inner,
-  .hero-speed-line {
-    animation-play-state: paused !important;
-  }
-  /* Garder pulse et availability dot (légers) */
-}
-
-/* 6. Désactiver le parallax hero sur mobile (translateY en scroll = jank) */
-@media (max-width: 900px) {
-  .hero-photo-wrap { transform: none !important; transition: none !important; }
-}
+.sp-vcard-thumb-fallback svg { opacity: 0.35; }
 </style>
 
 <script>
@@ -18183,121 +18178,149 @@ var isMobile = window.matchMedia('(max-width: 900px)').matches;
 var isTouch  = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
 /* ─────────────────────────────────────────────────────────
-   PATCH 1 — GSAP : désactiver toutes les animations sur
-   mobile. Le contenu est forcé visible immédiatement.
-   GSAP + ScrollTrigger sur mobile = principale source de lag
-   (recalculs de position à chaque scroll).
+   FIX 1 — YouTube thumbnails qui ne chargent pas
+   Problème : img.youtube.com bloqué par CSP/CORS sur
+   certains hébergeurs, ou réseau lent en Sénégal.
+   Solution : fallback robuste avec placeholder SVG + retry
    ───────────────────────────────────────────────────────── */
-if (isMobile && typeof gsap !== 'undefined') {
-  // Tuer tous les ScrollTriggers existants
-  if (typeof ScrollTrigger !== 'undefined') {
-    ScrollTrigger.getAll().forEach(function(st){ st.kill(); });
-    ScrollTrigger.disable();
-  }
-  // Forcer tous les éléments animés visibles
-  var selectors = [
-    '.reveal-up','.reveal-line','.reveal-fade','.reveal-scale',
-    '.reveal-cinema','.reveal','.reveal-left','.reveal-right',
-    '.work-card','.cov-card','.svc-card','.pack-card',
-    '.pieter-step','.proc-cond','.award-item','.trust-item',
-    '.sk','.adv-card','.addon-card','.rollout-card',
-    '.sp-vcard','.sp-feature','.sp-header',
-    '.contact-direct-link','.citation-text','.citation-eyebrow',
-    '.citation-author','.port-h2','.port-count','.port-tabs-wrap',
-    '.about-v2-photo','.about-v2-content','.about-v2-h2',
-    '.about-v2-intro','.about-v2-body','.av2-badge',
-    '.u-hero-copy','.u-box-visual','.u-order-card',
-    '.collabs-hdr','.collabs-main-title','.work-footer',
-    '.addons-intro','.svc-secondary','.faq-header'
+function fixYouTubeThumbs() {
+  document.querySelectorAll('.sp-vcard-thumb img[src*="youtube.com"]').forEach(function(img) {
+    var ytId = img.closest('[data-yt-id]') && img.closest('[data-yt-id]').dataset.ytId;
+    if (!ytId) return;
+
+    // Essayer plusieurs résolutions en cascade
+    var resolutions = [
+      'https://img.youtube.com/vi/' + ytId + '/maxresdefault.jpg',
+      'https://img.youtube.com/vi/' + ytId + '/sddefault.jpg',
+      'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg',
+      'https://img.youtube.com/vi/' + ytId + '/mqdefault.jpg',
+      'https://img.youtube.com/vi/' + ytId + '/default.jpg'
+    ];
+    var tried = 0;
+
+    function tryNext() {
+      if (tried >= resolutions.length) {
+        // Tous échoués → placeholder SVG
+        showPlaceholder(img);
+        return;
+      }
+      var src = resolutions[tried++];
+      var testImg = new Image();
+      testImg.onload = function() {
+        // Vérifier que ce n'est pas l'image "no thumbnail" de YouTube (120x90)
+        if (testImg.naturalWidth <= 120 && testImg.naturalHeight <= 90 && tried < resolutions.length) {
+          tryNext();
+        } else {
+          img.src = src;
+          img.style.opacity = '1';
+        }
+      };
+      testImg.onerror = tryNext;
+      testImg.src = src;
+    }
+
+    function showPlaceholder(imgEl) {
+      var thumb = imgEl.closest('.sp-vcard-thumb');
+      if (!thumb) return;
+      imgEl.style.display = 'none';
+      var ph = document.createElement('div');
+      ph.className = 'sp-vcard-thumb-fallback';
+      ph.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="#fff"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>';
+      thumb.insertBefore(ph, imgEl);
+    }
+
+    // Démarrer le process si l'image n'est pas déjà chargée
+    if (!img.complete || img.naturalWidth === 0) {
+      img.onerror = tryNext;
+      // Si l'image ne répond pas dans 3s → fallback
+      setTimeout(function() {
+        if (!img.complete || img.naturalWidth === 0) tryNext();
+      }, 3000);
+    }
+  });
+}
+
+// Lancer immédiatement + après DOMContentLoaded au cas où
+fixYouTubeThumbs();
+if (document.readyState !== 'complete') {
+  window.addEventListener('load', fixYouTubeThumbs);
+}
+
+/* ─────────────────────────────────────────────────────────
+   FIX 2 — GSAP sur mobile : tuer ScrollTrigger UNIQUEMENT,
+   pas les animations CSS keyframe (maskRevealUp, etc.)
+   On force visible SEULEMENT les éléments GSAP (opacity:0
+   via style inline), PAS les éléments CSS animés.
+   ───────────────────────────────────────────────────────── */
+if (isMobile && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  // Tuer tous les ScrollTriggers
+  ScrollTrigger.getAll().forEach(function(st){ st.kill(); });
+  ScrollTrigger.disable();
+
+  // Forcer visible SEULEMENT les éléments que GSAP a mis à opacity:0
+  // via style inline (pas les éléments CSS animés)
+  var gsapTargets = [
+    '.work-card', '.cov-card', '.svc-card', '.pack-card',
+    '.pieter-step', '.proc-cond', '.trust-item', '.sk',
+    '.adv-card', '.addon-card', '.rollout-card',
+    '.sp-vcard', '.sp-feature',
+    '.contact-direct-link',
+    '.about-v2-photo', '.about-v2-content',
+    '.u-hero-copy', '.u-box-visual', '.u-order-card',
+    '.collabs-hdr', '.work-footer', '.addons-intro'
   ];
-  selectors.forEach(function(sel){
-    document.querySelectorAll(sel).forEach(function(el){
-      el.style.cssText += ';opacity:1!important;transform:none!important;clip-path:none!important;filter:none!important;visibility:visible!important';
+
+  gsapTargets.forEach(function(sel) {
+    document.querySelectorAll(sel).forEach(function(el) {
+      // Vérifier que c'est bien GSAP qui a mis opacity:0 (style inline)
+      // et non une animation CSS (qui aurait animation-name non-vide)
+      var inlineOpacity = el.style.opacity;
+      var computedAnim = getComputedStyle(el).animationName;
+      var hasKeyframeAnim = computedAnim && computedAnim !== 'none';
+
+      if (!hasKeyframeAnim) {
+        // Pas d'animation CSS → forcer visible
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.style.clipPath = 'none';
+        el.style.filter = '';
+        el.style.visibility = 'visible';
+      }
+      // Si animation CSS → laisser jouer, ne pas toucher
     });
   });
-  // Également forcer sec-label et sec-num
-  document.querySelectorAll('.sec-label,.sec-num').forEach(function(el){
-    el.style.opacity = '1';
-    el.style.clipPath = 'none';
-    el.style.transform = 'none';
-  });
-}
 
-/* ─────────────────────────────────────────────────────────
-   PATCH 2 — Cursor blob SVG : loop rAF toujours active
-   même quand la souris ne bouge pas → frame budget gaspillé.
-   Remplacer par un loop idle-paused.
-   ───────────────────────────────────────────────────────── */
-// Le cursor blob est dans la section #process, on le met en pause
-// quand la section n'est pas visible (IntersectionObserver).
-if (!isTouch) {
-  var processSection = document.querySelector('#process');
-  if (processSection) {
-    // L'IIFE du blob démarre automatiquement — on ne peut pas l'arrêter
-    // mais on peut réduire son impact en coupant le SVG display quand hors vue
-    var blobSvg = processSection.querySelector('svg[style*="position:absolute"]') ||
-                  processSection.querySelector('.pieter-process svg');
-    if (!blobSvg) {
-      // Chercher via structure connue
-      blobSvg = processSection.querySelector('svg[width="100%"]');
-    }
-    if (blobSvg) {
-      var procObs = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if (blobSvg) blobSvg.style.display = e.isIntersecting ? 'block' : 'none';
-        });
-      }, { rootMargin: '200px' });
-      procObs.observe(processSection);
-    }
-  }
-}
-
-/* ─────────────────────────────────────────────────────────
-   PATCH 3 — Scroll parallax hero : throttle agressif sur
-   mobile. Le handler scroll natif MDG fait des calculs
-   layout (offsetHeight) à chaque event → forced reflow.
-   On le coupe sur mobile (déjà géré en CSS ci-dessus).
-   ───────────────────────────────────────────────────────── */
-// Rien à faire — le CSS `transform: none !important` sur .hero-photo-wrap
-// et le `opacity: 0` sur hero-speed-overlay suffisent.
-
-/* ─────────────────────────────────────────────────────────
-   PATCH 4 — Images lazy : sur mobile, charger en w_600
-   plutôt que w_1200 pour réduire le décodage.
-   ───────────────────────────────────────────────────────── */
-if (isMobile) {
-  document.querySelectorAll('.work-img, .cov-img').forEach(function(img){
-    if (img.src && img.src.indexOf('w_1200') > -1) {
-      img.src = img.src.replace('w_1200', 'w_600');
-    }
-    if (img.dataset && img.dataset.src && img.dataset.src.indexOf('w_1200') > -1) {
-      img.dataset.src = img.dataset.src.replace('w_1200', 'w_600');
+  // sec-label avec clip-path GSAP (pas CSS) → forcer visible
+  document.querySelectorAll('.sec-label, .sec-num').forEach(function(el) {
+    var computedAnim = getComputedStyle(el).animationName;
+    if (!computedAnim || computedAnim === 'none') {
+      el.style.opacity = '1';
+      el.style.clipPath = 'none';
+      el.style.transform = 'none';
     }
   });
 }
 
 /* ─────────────────────────────────────────────────────────
-   PATCH 5 — Carousels : panels invisibles (acc-work,
-   acc-covers) — fix visible au switch.
+   FIX 3 — accSwitch : forcer visible au changement de panel
    ───────────────────────────────────────────────────────── */
 var _origAccSwitch = window.accSwitch;
 window.accSwitch = function(panel, btn) {
   if (_origAccSwitch) _origAccSwitch(panel, btn);
   var panelEl = document.getElementById('acc-' + panel);
   if (!panelEl) return;
-  panelEl.querySelectorAll('.work-card, .cov-card').forEach(function(el){
+  panelEl.querySelectorAll('.work-card, .cov-card').forEach(function(el) {
     el.style.opacity = '1';
     el.style.transform = 'none';
     el.style.visibility = 'visible';
   });
-  // Sur desktop seulement : refresh ScrollTrigger
   if (!isMobile && typeof ScrollTrigger !== 'undefined') {
     setTimeout(function(){ ScrollTrigger.refresh(); }, 80);
   }
 };
 
 /* ─────────────────────────────────────────────────────────
-   PATCH 6 — Loader : max 3.5s, jamais bloquant
+   FIX 4 — Loader : max 3.5s
    ───────────────────────────────────────────────────────── */
 setTimeout(function(){
   var loader = document.getElementById('loader');
@@ -18310,49 +18333,62 @@ setTimeout(function(){
 }, 3500);
 
 /* ─────────────────────────────────────────────────────────
-   PATCH 7 — Fallback IntersectionObserver (desktop uniquement)
-   Pour les éléments GSAP qui ratent leur trigger.
+   FIX 5 — Fallback IntersectionObserver (desktop)
+   Pour les éléments GSAP qui ratent leur trigger
    ───────────────────────────────────────────────────────── */
 if (!isMobile && typeof IntersectionObserver !== 'undefined') {
-  var fallbackObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting) {
+  setTimeout(function(){
+    var fallbackObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
         var el = entry.target;
-        if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
+        var computedAnim = getComputedStyle(el).animationName;
+        var hasKeyframeAnim = computedAnim && computedAnim !== 'none';
+        if (!hasKeyframeAnim && parseFloat(getComputedStyle(el).opacity) < 0.05) {
           el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
           el.style.opacity = '1';
           el.style.transform = 'none';
           el.style.clipPath = 'none';
         }
         fallbackObs.unobserve(el);
-      }
-    });
-  }, { threshold: 0.05 });
+      });
+    }, { threshold: 0.05 });
 
-  setTimeout(function(){
     document.querySelectorAll(
-      '.reveal-up, .reveal-cinema, .reveal-line, .reveal-fade, ' +
-      '.pieter-step, .work-card, .cov-card, .sec-label'
+      '.reveal-up, .reveal-cinema, .pieter-step, .work-card, .cov-card, .sec-label'
     ).forEach(function(el){
       if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
         fallbackObs.observe(el);
       }
     });
-  }, 600);
+  }, 700);
 }
 
 /* ─────────────────────────────────────────────────────────
-   PATCH 8 — will-change cleanup après animations
-   Libère la mémoire GPU 4s après le chargement.
+   FIX 6 — Libérer will-change après 4s (GPU memory)
    ───────────────────────────────────────────────────────── */
 setTimeout(function(){
   document.querySelectorAll(
     '.reveal-up, .reveal-cinema, .reveal-line, .reveal-fade, .reveal-scale, ' +
     '.work-card, .cov-card, .svc-card'
   ).forEach(function(el){
-    el.style.willChange = 'auto';
+    if (parseFloat(getComputedStyle(el).opacity) > 0.5) {
+      el.style.willChange = 'auto';
+    }
   });
 }, 4000);
+
+/* ─────────────────────────────────────────────────────────
+   FIX 7 — Images galerie : w_600 sur mobile pour réduire
+   le décodage et le réseau
+   ───────────────────────────────────────────────────────── */
+if (isMobile) {
+  document.querySelectorAll('.work-img, .cov-img').forEach(function(img){
+    if (img.src && img.src.indexOf('w_1200') > -1) {
+      img.src = img.src.replace('w_1200', 'w_600');
+    }
+  });
+}
 
 })();
 </script>
