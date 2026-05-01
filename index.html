@@ -417,9 +417,15 @@ section{position:relative;z-index:1}
   max-width:100vw;
 }
 .hero-photo-wrap{
-  position:absolute;left:0;right:0;top:0;bottom:0;width:100%;z-index:0;
+  position:absolute;left:0;right:0;top:0;width:100%;z-index:0;
+  /* Légèrement plus grande que le hero pour absorber le décalage parallax sans créer de vide */
+  bottom:-80px;
+  overflow:hidden;
 }
-.hero-photo-wrap{overflow:hidden}
+/* Les vidéos et l'image doivent couvrir entièrement le wrap élargi */
+#heroVidA,#heroVidB,#heroMobileImg{
+  will-change:transform;
+}
 .hero-photo-wrap img{
   width:100%;height:100%;object-fit:cover;
   object-position:72% 20%;
@@ -17906,7 +17912,7 @@ function cqfGoBack() {
 }
 
 /* ── HERO VIDEO PARALLAX SUBTLE ── */
-#heroVidA,#heroVidB,#heroMobileImg{
+.hero-photo-wrap{
   will-change:transform;
 }
 
@@ -17974,9 +17980,11 @@ function cqfGoBack() {
 
 /* ── HERO PARALLAX + SPEED DISTORT ── */
 (function(){
-  var vidA = document.getElementById('heroVidA');
-  var vidB = document.getElementById('heroVidB');
-  var img  = document.getElementById('heroMobileImg');
+  // Le parallax s'applique sur le wrap entier (qui a overflow:hidden)
+  // Les vidéos individuelles n'ont plus de transform — c'était le bug :
+  // translateY sur position:absolute;inset:0 dans un conteneur overflow:hidden
+  // déplace l'élément hors du clip et l'effet est invisible.
+  var photoWrap = document.querySelector('.hero-photo-wrap');
   var heroNameEls = document.querySelectorAll('.hero-name,.hero-name-sub,.hero-eyebrow,.hero-promise');
 
   // Create speed lines overlay
@@ -18007,11 +18015,13 @@ function cqfGoBack() {
         var s = lastScrollY;
         var heroH = hero ? hero.offsetHeight : window.innerHeight;
 
-        // Parallax video
-        var pv = 'scale(1.06) translateY('+(s*0.22).toFixed(1)+'px)';
-        if(vidA) vidA.style.transform = pv;
-        if(vidB) vidB.style.transform = pv;
-        if(img)  img.style.transform  = pv;
+        // Parallax : on translate le wrap (qui contient les vidéos + img)
+        // Le wrap est bottom:-80px donc il a de la marge pour glisser sans créer de vide
+        if(photoWrap && s < heroH){
+          photoWrap.style.transform = 'translateY('+(s*0.28).toFixed(1)+'px)';
+        } else if(photoWrap){
+          photoWrap.style.transform = '';
+        }
 
         // Speed distort hero text
         if(s < heroH){
