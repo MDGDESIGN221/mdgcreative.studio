@@ -7745,7 +7745,7 @@ nav::before { display:none; }
 
     <!-- Panel Réalisations -->
     <div class="acc-panel" id="acc-work">
-    <div style="padding:2rem 3rem 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
+    <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
       <div class="work-nav">
         <span class="work-counter"><strong id="workCur">01</strong> / <span id="workTot">22</span></span>
         <button class="work-arrow" id="workPrev" aria-label="Précédent">←</button>
@@ -8149,10 +8149,10 @@ nav::before { display:none; }
 
   <!-- ── PANEL MOTION ── -->
   <div class="acc-panel active" id="acc-motion">
-    <div style="padding:2rem 3rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+    <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
       <div>
-        <div class="sec-label reveal-line">Frames</div>
-        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.025em;line-height:1.05;margin-top:.5rem"><em style="font-style:normal">In</em> Motion</h2>
+        <div class="sec-label reveal-line" style="opacity:1;transform:none;clip-path:none">Frames</div>
+        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.025em;line-height:1.05;margin-top:.5rem;opacity:1;transform:none"><em style="font-style:normal">In</em> Motion</h2>
       </div>
       <div class="work-nav">
         <span class="work-counter"><strong id="motCur">01</strong> / <span id="motTot">09</span></span>
@@ -8235,7 +8235,7 @@ nav::before { display:none; }
 
 <section id="social-proof" style="background:var(--dark);border-bottom:1px solid var(--border)">
   <!-- ── TÉMOIGNAGES — ce qu'ils disent ── -->
-  <div class="container" style="padding:5rem 3rem 4rem">
+  <div class="container" style="padding:5rem clamp(1.25rem,4vw,3rem) 4rem">
     <div class="sp-header reveal-up">
       <div class="sec-label reveal-line">Ce qu'ils disent</div>
       <h2 class="sp-h2">Ils parlent<em> avant qu'on leur demande</em></h2>
@@ -18120,6 +18120,73 @@ function cqfGoBack() {
   transform: none !important;
 }
 
+/* ── Fix acc-motion : panel actif par défaut mais GSAP peut bloquer l'opacité ── */
+#acc-motion.active .work-card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ── MOBILE FALLBACK UNIVERSEL : forcer la visibilité des éléments GSAP sur mobile ── */
+@media (max-width: 768px) {
+  /* Sections texte : testimonials, services, conditions, pricing */
+  .sp-header,
+  .sp-h2,
+  .sp-sub,
+  .sp-feature,
+  .sp-vcard,
+  .sp-quote-text,
+  .sp-quote-mark,
+  .sp-quote-author,
+  .svc-header,
+  .svc-h2,
+  .sec-sub,
+  .sec-label,
+  .svc-secondary,
+  .svc-secondary-label,
+  .svc-secondary-item,
+  .svc-secondary-name,
+  .proc-cond,
+  .proc-conds,
+  .pricing-header,
+  .pricing-header h2,
+  .pricing-header p,
+  .pricing-scope-note,
+  .pricing-tabs,
+  .port-h2,
+  .port-extract-label,
+  .port-count,
+  #acc-motion .work-card,
+  #acc-work .work-card,
+  #acc-covers .cov-card {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    visibility: visible !important;
+  }
+
+  /* Padding fix : éviter le débordement horizontal sur les sections SP */
+  .sp-header {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    max-width: 100% !important;
+  }
+  .sp-feature {
+    margin-left: 1.25rem !important;
+    margin-right: 1.25rem !important;
+    padding: 1.5rem 1.25rem !important;
+  }
+  .sp-videos {
+    margin-left: 1.25rem !important;
+    margin-right: 1.25rem !important;
+  }
+
+  /* Fix testimonials/social-proof container padding */
+  #social-proof > .container {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+}
+
 /* ── YouTube thumbnail placeholder ── */
 .yt-placeholder {
   position: absolute; inset: 0;
@@ -18193,7 +18260,42 @@ if (document.readyState === 'loading') {
   fixYT();
 }
 
-})();
+/* ── Fix mobile : forcer opacity:1 sur acc-motion au chargement ── */
+(function(){
+  function fixMobileOpacity() {
+    if (window.innerWidth > 768) return;
+    // Forcer la visibilité de toutes les work-cards dans acc-motion (panel actif par défaut)
+    var motionPanel = document.getElementById('acc-motion');
+    if (motionPanel) {
+      motionPanel.querySelectorAll('.work-card').forEach(function(el) {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+    // Forcer la visibilité des éléments GSAP dans toutes les sections
+    var selectors = [
+      '.sp-header', '.sp-h2', '.sp-sub', '.sp-feature',
+      '.svc-header', '.svc-h2', '.sec-sub',
+      '.svc-secondary', '.svc-secondary-item',
+      '.proc-cond', '.pricing-header', '.pricing-header h2', '.pricing-header p',
+      '.pricing-scope-note', '.pricing-tabs',
+      '.port-h2', '.port-extract-label', '.port-count'
+    ];
+    selectors.forEach(function(sel) {
+      document.querySelectorAll(sel).forEach(function(el) {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.style.clipPath = 'none';
+      });
+    });
+  }
+  // Attendre que GSAP ait eu le temps de s'initialiser, puis overrider
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(fixMobileOpacity, 400); });
+  } else {
+    setTimeout(fixMobileOpacity, 400);
+  }
+})();})();
 </script>
 </body>
 </html>
