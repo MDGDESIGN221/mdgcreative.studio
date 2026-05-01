@@ -18110,173 +18110,87 @@ function cqfGoBack() {
 })();
 </script>
 
-<!-- ══ MDG PATCH v4 — minimal, sûr, sans casser le layout ══ -->
 <style>
-/*
-  STRATÉGIE : on utilise une classe CSS ajoutée au body après un délai
-  plutôt que de modifier les styles inline. Ça respecte la cascade CSS
-  et ne casse aucun layout basé sur transform.
-*/
-
-/* Après 800ms, si un élément GSAP est encore invisible → le révéler */
-body.gsap-ready .reveal-up,
-body.gsap-ready .reveal-cinema,
-body.gsap-ready .reveal-line,
-body.gsap-ready .reveal-fade,
-body.gsap-ready .reveal-scale,
-body.gsap-ready .work-card,
-body.gsap-ready .cov-card,
-body.gsap-ready .pieter-step,
-body.gsap-ready .sp-vcard,
-body.gsap-ready .sp-feature,
-body.gsap-ready .sec-label,
-body.gsap-ready .sec-num,
-body.gsap-ready .svc-card,
-body.gsap-ready .pack-card,
-body.gsap-ready .proc-cond,
-body.gsap-ready .sk,
-body.gsap-ready .trust-item,
-body.gsap-ready .adv-card,
-body.gsap-ready .addon-card,
-body.gsap-ready .about-v2-photo,
-body.gsap-ready .about-v2-content,
-body.gsap-ready .collabs-hdr,
-body.gsap-ready .u-hero-copy,
-body.gsap-ready .u-box-visual,
-body.gsap-ready .contact-direct-link,
-body.gsap-ready .work-footer {
+/* ── Fix panels portfolio : work-card et cov-card restent à opacity:0
+   car leurs panels (acc-work, acc-covers) sont display:none au moment
+   où GSAP calcule les ScrollTriggers. On les révèle après switch. ── */
+#acc-work.active .work-card,
+#acc-covers.active .cov-card {
   opacity: 1 !important;
-  clip-path: none !important;
-  /* PAS de transform:none — ça casserait les layouts positionnés */
-  /* PAS de visibility — GSAP ne l'utilise pas */
+  transform: none !important;
 }
 
-/* Spécifiquement les éléments avec translateY bloqué */
-@media (max-width: 900px) {
-  body.gsap-ready .reveal-up,
-  body.gsap-ready .pieter-step,
-  body.gsap-ready .work-card,
-  body.gsap-ready .cov-card {
-    transform: translateY(0) !important;
-  }
-}
-
-/* Performance mobile — backdrop-filter coûteux */
-@media (max-width: 900px) {
-  nav:not(#mob-tab-bar) {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  .grain-overlay {
-    animation: none !important;
-    opacity: 0.01 !important;
-  }
-  .hero-photo-wrap {
-    transform: none !important;
-  }
-  .hero-speed-line {
-    display: none !important;
-  }
-}
-
-/* YouTube thumbnail fallback */
+/* ── YouTube thumbnail placeholder ── */
 .yt-placeholder {
-  width: 100%; height: 100%;
+  position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
   background: #111;
-  position: absolute; inset: 0;
+  z-index: 1;
 }
 .yt-placeholder svg { opacity: 0.3; }
 </style>
 
 <script>
 (function(){
-'use strict';
 
-/* ── Ajouter .gsap-ready après que GSAP ait eu le temps d'animer ──
-   Sur mobile : 600ms (GSAP fait ses calculs rapidement)
-   Sur desktop : 1200ms (laisser les animations se jouer normalement) */
-var isMobile = window.matchMedia('(max-width: 900px)').matches;
-var delay = isMobile ? 600 : 1200;
-setTimeout(function(){
-  document.body.classList.add('gsap-ready');
-}, delay);
-
-/* ── accSwitch : forcer visible au changement de panel ── */
-var _orig = window.accSwitch;
+/* ── 1. accSwitch : forcer les cartes visibles dans le nouveau panel ── */
+var _origAccSwitch = window.accSwitch;
 window.accSwitch = function(panel, btn) {
-  if (_orig) _orig(panel, btn);
-  var p = document.getElementById('acc-' + panel);
-  if (p) {
-    p.querySelectorAll('.work-card, .cov-card').forEach(function(el){
-      el.style.opacity = '1';
-      el.style.transform = 'translateY(0)';
-    });
-  }
-  if (!isMobile && typeof ScrollTrigger !== 'undefined') {
-    setTimeout(function(){ ScrollTrigger.refresh(); }, 80);
+  if (_origAccSwitch) _origAccSwitch(panel, btn);
+  var panelEl = document.getElementById('acc-' + panel);
+  if (!panelEl) return;
+  panelEl.querySelectorAll('.work-card, .cov-card').forEach(function(el) {
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+  });
+  if (typeof ScrollTrigger !== 'undefined') {
+    setTimeout(function(){ ScrollTrigger.refresh(); }, 60);
   }
 };
 
-/* ── YouTube thumbnails : fallback multi-résolution ── */
+/* ── 2. YouTube thumbnails : fallback si l'image ne charge pas ── */
 function fixYT() {
-  document.querySelectorAll('[data-yt-id]').forEach(function(card){
+  document.querySelectorAll('[data-yt-id]').forEach(function(card) {
     var ytId = card.dataset.ytId;
     if (!ytId) return;
     var img = card.querySelector('.sp-vcard-thumb img');
     if (!img) return;
 
-    var srcs = [
+    var tried = 0;
+    var fallbacks = [
       'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg',
       'https://img.youtube.com/vi/' + ytId + '/mqdefault.jpg',
       'https://img.youtube.com/vi/' + ytId + '/default.jpg'
     ];
-    var i = 0;
 
-    function tryNext() {
-      if (i >= srcs.length) {
-        // Placeholder final
-        var thumb = img.parentElement;
+    function next() {
+      if (tried >= fallbacks.length) {
+        // Placeholder SVG
         img.style.display = 'none';
         var ph = document.createElement('div');
         ph.className = 'yt-placeholder';
-        ph.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="#fff"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 00-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zm-13.8 9.3V8.5l6.3 3.5-6.3 3.5z"/></svg>';
-        if (thumb) thumb.insertBefore(ph, img);
+        ph.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="#fff"><path d="M23.5 6.2A3 3 0 0021.4 4C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8A3 3 0 002.6 20c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.2C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>';
+        var thumb = img.closest('.sp-vcard-thumb');
+        if (thumb) thumb.appendChild(ph);
         return;
       }
-      img.src = srcs[i++];
+      img.src = fallbacks[tried++];
     }
 
-    // Si l'image actuelle échoue ou n'est pas chargée
-    img.onerror = tryNext;
-    if (img.complete && img.naturalWidth === 0) tryNext();
-    // Timeout de sécurité
-    setTimeout(function(){
-      if (!img.complete || img.naturalWidth === 0) tryNext();
-    }, 4000);
+    img.onerror = next;
+    // Si déjà cassée au moment du scan
+    if (img.complete && img.naturalWidth === 0) next();
+    // Timeout filet de sécurité
+    setTimeout(function() {
+      if (!img.complete || img.naturalWidth === 0) next();
+    }, 5000);
   });
 }
-fixYT();
-if (document.readyState !== 'complete') {
-  window.addEventListener('load', fixYT);
-}
 
-/* ── Loader : max 3.5s ── */
-setTimeout(function(){
-  var l = document.getElementById('loader');
-  if (l && l.style.display !== 'none') {
-    l.classList.add('done');
-    document.body.style.overflow = '';
-    setTimeout(function(){ if(l) l.style.display = 'none'; }, 500);
-  }
-}, 3500);
-
-/* ── Images mobile : w_600 au lieu de w_1200 ── */
-if (isMobile) {
-  document.querySelectorAll('.work-img, .cov-img').forEach(function(img){
-    if (img.src && img.src.indexOf('w_1200') !== -1)
-      img.src = img.src.replace('w_1200', 'w_600');
-  });
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', fixYT);
+} else {
+  fixYT();
 }
 
 })();
