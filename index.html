@@ -12603,6 +12603,19 @@ _batch('.cov-card',
   { opacity:1, y:0, scale:1, duration:.65, ease:_E },
   .07, .04
 );
+// Sur mobile, les work-cards dans le panel actif (acc-motion) ne déclenchent pas ScrollTrigger
+// car elles sont en overflow:scroll horizontal → on les force visibles immédiatement
+if (window.innerWidth <= 900) {
+  setTimeout(function() {
+    var activePanel = document.querySelector('.acc-panel.active');
+    if (activePanel) {
+      activePanel.querySelectorAll('.work-card, .cov-card').forEach(function(el) {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+  }, 200);
+}
 gsap.fromTo('.work-footer', { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, ease:_E, ..._st('.work-footer') });
 
 // ── ABOUT ──
@@ -12767,6 +12780,15 @@ _batch('.pack-card',
   { opacity:1, y:0, rotation:0, duration:.75, ease:_E },
   .09, .05
 );
+// Sur mobile, les pack-cards sont en carousel scroll — ScrollTrigger ne se déclenche pas
+if (window.innerWidth <= 900) {
+  setTimeout(function() {
+    document.querySelectorAll('.pack-card').forEach(function(el) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }, 300);
+}
 
 // ── PANELS CACHÉS (avancés, rollout, addons) ──
 // Les éléments dans pricing-panel display:none ne peuvent pas être animés par ScrollTrigger
@@ -12876,6 +12898,18 @@ _batch('.contact-direct-link',
     scrollTrigger:{ trigger:_uV, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } });
   if (_uO) gsap.fromTo(_uO, { opacity:0, y:32 }, { opacity:1, y:0, duration:.75, ease:_E,
     scrollTrigger:{ trigger:_uO, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } });
+  // Mobile fallback : forcer visible après 300ms
+  if (window.innerWidth <= 900) {
+    setTimeout(function() {
+      [_uH, _uV, _uO].forEach(function(el) {
+        if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
+      });
+      // Assets et why-items aussi
+      document.querySelectorAll('.u-asset-chip, .u-why-item, .u-why-num, .u-why-txt, .u-assets-grid, .u-section-label, .u-why-grid').forEach(function(el) {
+        el.style.opacity = '1'; el.style.transform = 'none';
+      });
+    }, 300);
+  }
 }
 
 // ── Tous les sec-label restants (clip-path) ──
@@ -12915,6 +12949,37 @@ setTimeout(() => {
     }
   });
 }, 5000);
+
+// ── GARDE-FOU MOBILE RAPIDE (1s) ──
+// Sur mobile, les animations de portfolio/pricing/uranus ne se déclenchent souvent pas
+// car les éléments sont dans des panels cachés ou hors viewport calculé.
+setTimeout(() => {
+  if (window.innerWidth > 900) return; // desktop OK
+  // Portfolio cards
+  document.querySelectorAll('.work-card, .cov-card').forEach(el => {
+    const st = window.getComputedStyle(el);
+    if (parseFloat(st.opacity) < 0.1) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    }
+  });
+  // Pack cards
+  document.querySelectorAll('.pack-card, .adv-card').forEach(el => {
+    const st = window.getComputedStyle(el);
+    if (parseFloat(st.opacity) < 0.1) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    }
+  });
+  // Uranus
+  document.querySelectorAll('.u-hero-copy, .u-box-visual, .u-order-card, .u-assets-grid, .u-asset-chip, .u-why-item').forEach(el => {
+    const st = window.getComputedStyle(el);
+    if (parseFloat(st.opacity) < 0.1) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    }
+  });
+}, 1000);
 
 
 
@@ -17998,6 +18063,22 @@ function cqfGoBack() {
 }
 .reveal-line.visible{opacity:1;transform:translateX(0)}
 
+/* ── Mobile : overrider l'état initial opacity:0 pour les sections Uranus ── */
+@media(max-width: 768px) {
+  #uranus .reveal-up,
+  #uranus .reveal-fade,
+  #uranus .reveal-scale,
+  #uranus .reveal-line,
+  #pricing .reveal-up,
+  #pricing .reveal-fade,
+  #portfolio-accordion .reveal-up,
+  #portfolio-accordion .reveal-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+
 /* ── HERO NAME SPEED DISTORT AU SCROLL ── */
 .hero-name,.hero-name-sub{
   will-change:transform;
@@ -18184,6 +18265,36 @@ function cqfGoBack() {
   #social-proof > .container {
     padding-left: 1.25rem !important;
     padding-right: 1.25rem !important;
+  }
+
+  /* Pack cards pricing */
+  .pack-card,
+  .adv-card,
+  .rollout-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Uranus : tous les éléments reveal-up et les assets */
+  #uranus .reveal-up,
+  #uranus .reveal-fade,
+  #uranus .reveal-scale,
+  #uranus .reveal-line,
+  #uranus .u-hero-copy,
+  #uranus .u-box-visual,
+  #uranus .u-order-card,
+  #uranus .u-asset-chip,
+  #uranus .u-why-item,
+  #uranus .u-why-num,
+  #uranus .u-why-txt,
+  #uranus .u-assets-grid,
+  #uranus .u-section-label,
+  #uranus .u-why-grid,
+  #uranus .u-content {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    visibility: visible !important;
   }
 }
 
