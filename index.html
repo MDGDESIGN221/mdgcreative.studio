@@ -18109,5 +18109,157 @@ function cqfGoBack() {
   }, {passive:true});
 })();
 </script>
+
+<!-- ══════════════════════════════════════════════════════
+     MDG BUGFIX — panels invisible + perf mobile
+     ══════════════════════════════════════════════════════ -->
+<script>
+(function(){
+'use strict';
+
+/* ─────────────────────────────────────────────────────────
+   FIX 1 — .work-card et .cov-card restent invisibles dans
+   les panels acc-work et acc-covers (display:none au moment
+   où GSAP ScrollTrigger calcule les positions → trigger
+   ne se déclenche jamais → opacity:0 bloquée).
+
+   Solution :
+   • Sur mobile (<= 900px) → on désactive complètement les
+     animations GSAP sur ces cartes et on les force visibles.
+   • Sur desktop → on relance ScrollTrigger.refresh() chaque
+     fois qu'on switche de panel.
+   ───────────────────────────────────────────────────────── */
+
+var isMobile = window.matchMedia('(max-width: 900px)').matches;
+
+if (isMobile) {
+  // Forcer immédiatement toutes les cartes visibles sur mobile
+  // (GSAP les a déjà initialisées à opacity:0 au DOMContentLoaded)
+  function forceCardsVisible() {
+    document.querySelectorAll('.work-card, .cov-card').forEach(function(el){
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.visibility = 'visible';
+    });
+  }
+  forceCardsVisible();
+  // Sécurité : re-appliquer après 300ms au cas où GSAP se relance
+  setTimeout(forceCardsVisible, 300);
+  setTimeout(forceCardsVisible, 800);
+}
+
+/* ─────────────────────────────────────────────────────────
+   FIX 2 — ScrollTrigger.refresh() au switch de panel
+   pour recalculer les positions des éléments qui étaient
+   cachés (display:none → display:block).
+   ───────────────────────────────────────────────────────── */
+var _origAccSwitch = window.accSwitch;
+window.accSwitch = function(panel, btn) {
+  // Appel original
+  if (_origAccSwitch) _origAccSwitch(panel, btn);
+
+  // Forcer visible les cartes du panel qui vient de s'afficher
+  var panelEl = document.getElementById('acc-' + panel);
+  if (!panelEl) return;
+
+  panelEl.querySelectorAll('.work-card, .cov-card').forEach(function(el){
+    // Si GSAP a bloqué l'élément à opacity:0, on le libère
+    var op = parseFloat(getComputedStyle(el).opacity);
+    if (op < 0.05) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    }
+  });
+
+  // Rafraîchir ScrollTrigger pour recalculer les positions
+  if (typeof ScrollTrigger !== 'undefined') {
+    setTimeout(function(){
+      ScrollTrigger.refresh();
+    }, 50);
+  }
+};
+
+/* ─────────────────────────────────────────────────────────
+   FIX 3 — Performance : désactiver grain-overlay sur mobile
+   (animation CSS infinite très coûteuse sur petits devices)
+   ───────────────────────────────────────────────────────── */
+if (isMobile) {
+  var grain = document.querySelector('.grain-overlay');
+  if (grain) {
+    grain.style.animation = 'none';
+    grain.style.opacity = '0.02';
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   FIX 4 — Performance : pauser les rAF invisibles
+   Le cursor blob SVG tourne même quand inutilisé.
+   Sur mobile (hover:none), il n'est pas affiché — ok.
+   Sur desktop : on le suspend quand le tab est masqué.
+   ───────────────────────────────────────────────────────── */
+// NB: le cursor rAF a déjà une logique visibilitychange — on
+// vérifie juste que will-change n'est pas abusé.
+if (!isMobile) {
+  // Réduire les will-change excessifs après init (libère GPU)
+  setTimeout(function(){
+    document.querySelectorAll('.reveal-cinema, .reveal-up, .reveal-line, .reveal-fade, .reveal-scale').forEach(function(el){
+      // Si l'élément est déjà animé (visible), on retire will-change
+      if (parseFloat(getComputedStyle(el).opacity) > 0.5) {
+        el.style.willChange = 'auto';
+      }
+    });
+  }, 3000);
+}
+
+/* ─────────────────────────────────────────────────────────
+   FIX 5 — Loader : sécurité anti-blocage scroll
+   Si le loader tourne depuis plus de 4s, on force la fin.
+   ───────────────────────────────────────────────────────── */
+setTimeout(function(){
+  var loader = document.getElementById('loader');
+  if (loader && loader.style.display !== 'none' && !loader.classList.contains('done')) {
+    loader.classList.add('done');
+    document.body.style.overflow = '';
+    setTimeout(function(){ if(loader) loader.style.display = 'none'; }, 800);
+  }
+}, 4000);
+
+/* ─────────────────────────────────────────────────────────
+   FIX 6 — reveal-cinema / reveal-up bloqués
+   Certains éléments hors viewport au chargement ne reçoivent
+   jamais le ScrollTrigger (surtout sur mobile où la hauteur
+   est différente). On s'assure qu'ils deviennent visibles
+   au scroll grâce à un IntersectionObserver de secours.
+   ───────────────────────────────────────────────────────── */
+if (typeof IntersectionObserver !== 'undefined') {
+  var fallbackObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var op = parseFloat(getComputedStyle(el).opacity);
+        if (op < 0.05) {
+          el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.clipPath = 'none';
+        }
+        fallbackObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // Observer après que GSAP ait eu le temps de s'initialiser
+  setTimeout(function(){
+    document.querySelectorAll('.reveal-up, .reveal-cinema, .reveal-line, .reveal-fade, .reveal-scale, .pieter-step').forEach(function(el){
+      var op = parseFloat(getComputedStyle(el).opacity);
+      if (op < 0.05) {
+        fallbackObs.observe(el);
+      }
+    });
+  }, 500);
+}
+
+})();
+</script>
 </body>
 </html>
