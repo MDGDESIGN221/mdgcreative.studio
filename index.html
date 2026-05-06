@@ -1485,7 +1485,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
   .hero-photo-wrap img{object-position:72% 20%}
   .hero-photo-wrap::before{
-    background:linear-gradient(to right,var(--black) 0%,var(--black) 28%,rgba(6,6,6,.88) 42%,rgba(6,6,6,.55) 58%,rgba(6,6,6,.15) 76%,rgba(6,6,6,0) 100%);
+    background:linear-gradient(to right,rgba(6,6,6,.7) 0%,rgba(6,6,6,.45) 25%,rgba(6,6,6,.2) 50%,rgba(6,6,6,0) 75%);
   }
   /* Texte : flex:1, stats poussées en bas */
   .hero-left{
@@ -1569,7 +1569,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
     height:100% !important;
   }
   .hero-photo-wrap::before{
-    background:linear-gradient(to right,var(--black) 0%,var(--black) 22%,rgba(6,6,6,.88) 38%,rgba(6,6,6,.50) 58%,rgba(6,6,6,.12) 78%,rgba(6,6,6,0) 100%) !important;
+    background:linear-gradient(to right,rgba(6,6,6,.65) 0%,rgba(6,6,6,.4) 25%,rgba(6,6,6,.15) 55%,rgba(6,6,6,0) 78%) !important;
   }
   .hero-left{
     position:relative;z-index:2;
@@ -2403,7 +2403,17 @@ a.f-ci-value:hover{color:var(--light)}
 /* ── HERO PHOTO OVERLAY: stronger gradient on mobile for text legibility ── */
 @media(max-width:900px){
   .hero-photo-wrap::after{
-    background:linear-gradient(to bottom,rgba(6,6,6,.6) 0%,rgba(6,6,6,.98) 90%,var(--black) 100%)
+    background:linear-gradient(to bottom,rgba(6,6,6,.25) 0%,rgba(6,6,6,.7) 70%,var(--black) 100%)
+  }
+  /* Réduire le gradient gauche sur mobile pour laisser la vidéo visible */
+  .hero-gradient-overlay{
+    background:linear-gradient(to right,
+      rgba(6,6,6,.75) 0%,
+      rgba(6,6,6,.55) 20%,
+      rgba(6,6,6,.25) 45%,
+      rgba(6,6,6,.05) 65%,
+      rgba(6,6,6,0) 80%
+    ) !important;
   }
 }
 
@@ -2737,14 +2747,22 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   }
   .hero-photo-wrap img{object-position:60% 10% !important}
   .hero-photo-wrap::before{
-    background:linear-gradient(to bottom,
-      rgba(6,6,6,.05) 0%,rgba(6,6,6,.02) 20%,
-      rgba(6,6,6,.55) 52%,rgba(6,6,6,.95) 78%,
-      var(--black) 100%
+    background:linear-gradient(to right,
+      rgba(6,6,6,.85) 0%,
+      rgba(6,6,6,.4) 8%,
+      rgba(6,6,6,.1) 18%,
+      rgba(6,6,6,0) 28%
     ) !important;
     background-image:none !important;
   }
   .hero-photo-wrap::after{display:none !important}
+  .hero-gradient-overlay{
+    background:linear-gradient(to right,
+      rgba(6,6,6,.6) 0%,
+      rgba(6,6,6,.2) 8%,
+      rgba(6,6,6,0) 20%
+    ) !important;
+  }
 
   .hero-left{
     position:relative !important;
@@ -2892,15 +2910,20 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
     object-fit:cover !important;
     transform:none !important;
   }
-  /* Fondu gauche */
+  /* Fondu gauche repoussé à l'extrême gauche */
   .hero-photo-wrap::before{
     background:linear-gradient(to right,
-      var(--black) 0%,
-      var(--black) 24%,
-      rgba(6,6,6,.88) 40%,
-      rgba(6,6,6,.52) 60%,
-      rgba(6,6,6,.14) 80%,
-      rgba(6,6,6,0) 100%
+      rgba(6,6,6,.85) 0%,
+      rgba(6,6,6,.4) 8%,
+      rgba(6,6,6,.1) 18%,
+      rgba(6,6,6,0) 28%
+    ) !important;
+  }
+  .hero-gradient-overlay{
+    background:linear-gradient(to right,
+      rgba(6,6,6,.6) 0%,
+      rgba(6,6,6,.2) 8%,
+      rgba(6,6,6,0) 20%
     ) !important;
   }
   .hero-photo-wrap::after{display:none}
@@ -8439,6 +8462,7 @@ nav::before { display:none; }
       <!-- COLONNE DROITE : Texte -->
       <div class="about-v2-content reveal-up rd2">
         <div class="sec-label reveal-line" data-i18n="about_label">À propos</div>
+        <h1 class="about-main-title">Plus exigeant<br><em>que productif</em></h1>
         <h2 class="about-v2-h2">Creative Director<br><span>basé à Kaolack, Sénégal</span></h2>
 
         <p class="about-v2-intro">Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web, et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.</p>
@@ -8548,6 +8572,23 @@ nav::before { display:none; }
   margin: .5rem 0 1.75rem;
 }
 .about-v2-h2 span { color: var(--accent); font-weight: 700; }
+.about-main-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  color: var(--light);
+  margin: .75rem 0 1rem;
+}
+.about-main-title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--off);
+  display: block;
+  font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+}
 .about-v2-intro {
   font-size: 1.05rem; color: var(--light);
   line-height: 1.75; font-weight: 400;
