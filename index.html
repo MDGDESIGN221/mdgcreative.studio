@@ -8267,9 +8267,8 @@ nav::before { display:none; }
   <!-- ── TÉMOIGNAGES — ce qu'ils disent ── -->
   <div class="container" style="padding:5rem clamp(1.25rem,4vw,3rem) 4rem">
     <div class="sp-header reveal-up">
-      <div class="sec-label reveal-line">Ce qu'ils disent</div>
-      <h2 class="sp-h2">Ils parlent<em> avant qu'on leur demande</em></h2>
-      <p class="sp-sub">Pas de témoignages commandés. Juste des artistes qui ont dit ce qu'ils pensaient, en public, sans filtre.</p>
+      <div class="sec-label reveal-line">Références</div>
+      <h2 class="sp-h2">Des collaborateurs qui ont pris la parole<em> d'eux-mêmes.</em></h2>
     </div>
 
     <!-- Citation forte en grand format -->
@@ -8285,32 +8284,7 @@ nav::before { display:none; }
       </div>
     </div>
 
-    <!-- Quotes texte — visibles immédiatement avant interaction vidéo -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin-bottom:2.5rem">
-      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:1.1rem 1.25rem">
-        <p style="font-size:.85rem;color:var(--light);line-height:1.65;font-weight:300;margin-bottom:.85rem">"Il est <strong style="color:var(--light);font-weight:600">hyper correct, hyper travailleur</strong> et trop fort."</p>
-        <div style="display:flex;align-items:center;gap:.6rem">
-          <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" style="width:28px;height:28px;border-radius:50%;object-fit:cover;filter:grayscale(20%)">
-          <span style="font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;color:var(--off);letter-spacing:.06em">ISS 814 <span style="color:var(--accent)">·</span> Producteur · 6 ans</span>
-        </div>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:1.1rem 1.25rem">
-        <p style="font-size:.85rem;color:var(--light);line-height:1.65;font-weight:300;margin-bottom:.85rem">"<strong style="color:var(--light);font-weight:600">Génie.</strong> Le mot sort naturellement, pas pour faire plaisir."</p>
-        <div style="display:flex;align-items:center;gap:.6rem">
-          <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776659417/Emza_young_boss_a8uecw.jpg" alt="Emza Young Boss" style="width:28px;height:28px;border-radius:50%;object-fit:cover;filter:grayscale(20%)">
-          <span style="font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;color:var(--off);letter-spacing:.06em">Emza Young Boss <span style="color:var(--accent)">·</span> Artiste</span>
-        </div>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:1.1rem 1.25rem">
-        <p style="font-size:.85rem;color:var(--light);line-height:1.65;font-weight:300;margin-bottom:.85rem">"Il sort le nom de MDG <strong style="color:var(--light);font-weight:600">sans qu'on lui demande</strong>, sur le plateau."</p>
-        <div style="display:flex;align-items:center;gap:.6rem">
-          <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776662434/key_em_ti_bkv3uz.jpg" alt="Key Em Ti" style="width:28px;height:28px;border-radius:50%;object-fit:cover;filter:grayscale(20%)">
-          <span style="font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;color:var(--off);letter-spacing:.06em">Key Em Ti <span style="color:var(--accent)">·</span> Artiste</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Vidéos témoignages — pour ceux qui veulent aller plus loin -->
+    <!-- Vidéos témoignages -->
     <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent)"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
       Voir les extraits vidéo
@@ -15507,15 +15481,11 @@ function applyComplexPatches(lang) {
 
   // ── Social proof ──
   var spSecLabel = document.querySelector('#social-proof .sec-label');
-  if (spSecLabel) spSecLabel.textContent = lang === 'en' ? 'What they say' : 'Ce qu\'ils disent';
+  if (spSecLabel) spSecLabel.textContent = lang === 'en' ? 'References' : 'Références';
   var spH2 = document.querySelector('#social-proof .sp-h2');
   if (spH2) spH2.innerHTML = lang === 'en'
-    ? 'They speak<em> before we ask</em>'
-    : 'Ils parlent<em> avant qu\'on leur demande</em>';
-  var spSub = document.querySelector('.sp-sub');
-  if (spSub) spSub.textContent = lang === 'en'
-    ? 'No commissioned testimonials. Just artists who said what they thought, in public, unfiltered.'
-    : 'Pas de témoignages commandés. Juste des artistes qui ont dit ce qu\'ils pensaient, en public, sans filtre.';
+    ? 'Collaborators who spoke<em> on their own.</em>'
+    : 'Des collaborateurs qui ont pris la parole<em> d\'eux-mêmes.</em>';
   var spQuoteAuthor = document.querySelector('.sp-quote-role');
   if (spQuoteAuthor) spQuoteAuthor.textContent = lang === 'en'
     ? 'Producer / Artist · Senegal · 6 years of collaboration'
