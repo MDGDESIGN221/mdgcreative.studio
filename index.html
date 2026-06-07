@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776666026/NEW_LOGO_w_rxvoil.png" fetchpriority="high">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780832673/fais_la_premiere_image_que_202606071144_cglcpm.jpg" fetchpriority="high" media="(min-width: 768px)">
-  <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780833071/hero_9-16_mwjjsc.jpg" fetchpriority="high" media="(max-width: 767px)">
+  <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835079/hero_mobile_vouizb.jpg" fetchpriority="high" media="(max-width: 767px)">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>if(history.scrollRestoration)history.scrollRestoration='manual';window.scrollTo(0,0);</script>
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
@@ -606,12 +606,13 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--
 
 @media(min-width: 901px) {
   .hero-name {
-    font-size: clamp(2.4rem, 6vw, 7.5rem) !important;
-    line-height: .9 !important;
-    letter-spacing: -.038em !important;
+    font-size: clamp(2.2rem, 5vw, 6.2rem) !important;
+    line-height: .92 !important;
+    letter-spacing: -.035em !important;
   }
   .hero-name-sub {
-    font-size: clamp(2.1rem, 5.3vw, 6.6rem) !important;
+    font-size: clamp(2rem, 4.6vw, 5.8rem) !important;
+    letter-spacing: -.04em !important;
   }
   .hero-promise {
     font-size: clamp(1.4rem, 2.4vw, 2rem) !important;
@@ -723,28 +724,26 @@ section{position:relative;z-index:1}
 .hero-photo-wrap::before{
   content:'';position:absolute;inset:0;z-index:3;
   background:linear-gradient(to right,
-    var(--black) 0%,
-    var(--black) 16%,
-    rgba(6,6,6,.82) 30%,
-    rgba(6,6,6,.45) 44%,
-    rgba(6,6,6,.10) 58%,
-    rgba(6,6,6,0) 72%
+    rgba(6,6,6,.92) 0%,
+    rgba(6,6,6,.72) 22%,
+    rgba(6,6,6,.35) 40%,
+    rgba(6,6,6,.08) 58%,
+    rgba(6,6,6,0) 70%
   );
 }
 .hero-photo-wrap::after{
   content:'';position:absolute;inset:0;z-index:3;
-  background:linear-gradient(to bottom,rgba(6,6,6,.45) 0%,transparent 35%,rgba(6,6,6,.6) 100%);
+  background:linear-gradient(to bottom,rgba(6,6,6,.3) 0%,transparent 30%,rgba(6,6,6,.5) 100%);
 }
 /* Dégradé gauche — div dédié pour passer au-dessus de la vidéo */
 .hero-gradient-overlay{
   position:absolute;inset:0;z-index:10;pointer-events:none;
   background:linear-gradient(to right,
-    var(--black) 0%,
-    var(--black) 12%,
-    rgba(6,6,6,.72) 26%,
-    rgba(6,6,6,.35) 42%,
-    rgba(6,6,6,.06) 58%,
-    rgba(6,6,6,0) 72%
+    rgba(6,6,6,.88) 0%,
+    rgba(6,6,6,.55) 20%,
+    rgba(6,6,6,.22) 38%,
+    rgba(6,6,6,.04) 55%,
+    rgba(6,6,6,0) 68%
   );
 }
 /* Grain léger sur la photo */
@@ -773,10 +772,12 @@ section{position:relative;z-index:1}
 .hero-name{
   font-family:'Syne',sans-serif;font-weight:800;
   font-size:clamp(1.8rem,3.8vw,4.6rem);
-  line-height:.96;letter-spacing:-0.025em;
+  line-height:.93;letter-spacing:-0.03em;
   opacity:1;overflow:visible;
-  white-space:nowrap;
-  text-shadow:0 2px 40px rgba(0,0,0,.5);
+  white-space:normal;
+  text-transform:uppercase;
+  color:#fff;
+  text-shadow:none;
 }
 /* Mask reveal + glitch sur les wraps internes */
 .hero-name-wrap{
@@ -881,20 +882,18 @@ section{position:relative;z-index:1}
 @media(min-width:768px){
   #hero{flex-direction:row !important}
   .hero-stats{position:absolute !important;bottom:0 !important;left:0 !important;right:0 !important}
-  .hero-left{position:absolute !important;top:0;left:0;right:0;bottom:130px;width:100% !important;max-width:none !important;padding:0 !important;display:grid !important;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;z-index:15;pointer-events:none}
+  .hero-left{position:absolute !important;top:0;left:0;right:0;bottom:120px;width:100% !important;max-width:none !important;padding:0 !important;display:grid !important;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;z-index:15;pointer-events:none}
   .hero-left>*{pointer-events:none}
   .hero-left .hero-ctas,.hero-left .hero-portfolio-links,.hero-left .hero-sub,.hero-left .hero-type-wrap{pointer-events:auto}
-  .hero-eyebrow{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + .75rem) 0 0 clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important}
-  .hero-name{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 3.2rem) 0 0 clamp(1.5rem,3.5vw,3rem)}
-  .hero-scroll-down{display:flex !important;position:static !important;grid-column:2;grid-row:1;align-self:start;justify-self:end;flex-direction:column;align-items:center;gap:.5rem;padding:calc(var(--nav-h,80px) + .75rem) clamp(1.5rem,3.5vw,3rem) 0 0;pointer-events:none;bottom:auto;left:auto;opacity:0;animation:fu 1s 2.2s ease forwards}
-  .hero-scroll-line{width:1px;height:52px;background:linear-gradient(to bottom,rgba(255,255,255,0.0),var(--accent));transform-origin:top;animation:heroLineGrow 1.2s 2.5s cubic-bezier(.77,0,.18,1) both}
-  .hero-sub{grid-column:1;grid-row:2;align-self:end;padding:0 0 7rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important;max-width:420px}
-  .hero-ctas{grid-column:1;grid-row:2;align-self:end;padding:0 0 3.85rem clamp(1.5rem,3.5vw,3rem);margin-bottom:0 !important}
-  .hero-portfolio-links{grid-column:1;grid-row:2;align-self:end;padding:0 0 1.6rem clamp(1.5rem,3.5vw,3rem);margin:0 !important;opacity:0;animation:fu .9s 1.9s ease forwards}
-  .hero-portfolio-link{font-size:.6rem;letter-spacing:.13em}
-  .hero-handle{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(1.5rem,3.5vw,3rem) 4.25rem 0;font-style:normal;font-size:clamp(.68rem,1vw,.82rem);font-weight:600;letter-spacing:.04em;margin:0 !important;opacity:0;animation:fu .9s 1.3s ease forwards}
-  .hero-handle .handle-sep,.hero-handle .handle-ig{display:none}
-  .hero-type-wrap{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(1.5rem,3.5vw,3rem) 1.6rem 0;margin-bottom:0 !important;font-size:clamp(.9rem,1.5vw,1.35rem)}
+  .hero-eyebrow{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 1rem) 0 0 clamp(2rem,4vw,3.5rem);margin-bottom:0 !important}
+  .hero-name{grid-column:1/3;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 3rem) 0 0 clamp(2rem,4vw,3.5rem)}
+  .hero-scroll-down{display:none !important}
+  .hero-sub{grid-column:1;grid-row:2;align-self:end;padding:0 0 8.5rem clamp(2rem,4vw,3.5rem);margin-bottom:0 !important;max-width:400px}
+  .hero-ctas{grid-column:1;grid-row:2;align-self:end;padding:0 0 4.5rem clamp(2rem,4vw,3.5rem);margin-bottom:0 !important}
+  .hero-portfolio-links{grid-column:1;grid-row:2;align-self:end;padding:0 0 2rem clamp(2rem,4vw,3.5rem);margin:0 !important;opacity:0;animation:fu .9s 1.9s ease forwards}
+  .hero-portfolio-link{font-size:.58rem;letter-spacing:.16em}
+  .hero-handle{display:none !important}
+  .hero-type-wrap{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(2rem,4vw,3.5rem) 2rem 0;margin-bottom:0 !important;font-size:clamp(.75rem,1.1vw,.95rem) !important;font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)}
 }
 
 /* ── ABOUT (fond légèrement plus clair pour alterner) ── */
@@ -2983,8 +2982,8 @@ a.f-ci-value:hover{color:var(--light)}
 nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 
 
-.hero-type-wrap{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.3rem,2.2vw,1.8rem);color:var(--accent);min-height:2em;margin-bottom:3rem;}
-.hero-type-wrap .cursor-blink{display:inline-block;width:2px;height:1em;background:var(--accent);margin-left:2px;animation:blink .8s infinite;vertical-align:middle}
+.hero-type-wrap{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(.7rem,1vw,.88rem);letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7);min-height:1.4em;margin-bottom:1.5rem;}
+.hero-type-wrap .cursor-blink{display:inline-block;width:1.5px;height:.85em;background:rgba(255,255,255,.7);margin-left:3px;animation:blink .8s infinite;vertical-align:middle}
 /* ── HERO PORTFOLIO LINKS ── */
 .hero-portfolio-links{display:flex;align-items:center;gap:.75rem;margin-top:1rem;margin-bottom:0;opacity:0;animation:fu .9s 1.75s ease forwards;flex-wrap:wrap}
 .hero-portfolio-link{display:inline-flex;align-items:center;gap:.4rem;font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--off);text-decoration:none;transition:color .2s;padding:.3rem 0}
@@ -7923,7 +7922,7 @@ nav::before { display:none; }
       style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.05) brightness(.88);display:block;position:absolute;inset:0;z-index:1;opacity:1;">
     <!-- Image mobile -->
     <img id="heroMobileImg"
-      src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780833071/hero_9-16_mwjjsc.jpg"
+      src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835079/hero_mobile_vouizb.jpg"
       alt=""
       aria-hidden="true"
       fetchpriority="high"
@@ -8713,8 +8712,8 @@ nav::before { display:none; }
       <!-- COLONNE GAUCHE : Photo -->
       <div class="about-v2-photo reveal-scale rd1">
         <div class="about-morph-wrap">
-          <img loading="lazy" decoding="async" class="morph-slide active" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776803241/N_B_myst_rieux_-_clair-obscur_z4heh2.png" alt="Mouhamed Al Amine, directeur créatif MDG Creative Studio" style="object-position:center 5%">
-          <img decoding="async" loading="eager" class="morph-slide" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776803241/Portrait_retouch__v4_lhyhf3.png" alt="Mouhamed Al Amine en session créative — MDG" style="object-position:center 5%">
+          <img loading="lazy" decoding="async" class="morph-slide active" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835220/about_1_twty2g.jpg" alt="Mouhamed Al Amine, directeur créatif MDG Creative Studio" style="object-position:center 5%">
+          <img decoding="async" loading="eager" class="morph-slide" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835220/about_2_gnlsw5.jpg" alt="Mouhamed Al Amine en session créative — MDG" style="object-position:center 5%">
         </div>
         <div class="morph-dots" id="morphDots">
           <span class="morph-dot active" data-idx="0"></span>
@@ -9691,7 +9690,7 @@ nav::before { display:none; }
           </div>
         </div>
         <div class="pieter-step-media">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776803241/Portrait_retouch__v4_lhyhf3.png" alt="Brief session MDG Creative Studio">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835220/about_1_twty2g.jpg" alt="Brief session MDG Creative Studio">
           <div class="pieter-step-media-overlay"></div>
         </div>
       </div>
@@ -9709,7 +9708,7 @@ nav::before { display:none; }
           </div>
         </div>
         <div class="pieter-step-media">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776803241/N_B_myst_rieux_-_clair-obscur_z4heh2.png" alt="Direction artistique MDG">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835220/about_2_gnlsw5.jpg" alt="Direction artistique MDG">
           <div class="pieter-step-media-overlay"></div>
         </div>
       </div>
@@ -9727,7 +9726,7 @@ nav::before { display:none; }
           </div>
         </div>
         <div class="pieter-step-media">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1777337144/hf_20260428_004435_d46a0237-8c6f-4fb0-be69-ebfe526866ce_ablw4s.png" alt="Production MDG Creative Studio">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835218/about_4_e9hg5o.jpg" alt="Production MDG Creative Studio">
           <div class="pieter-step-media-overlay"></div>
         </div>
       </div>
@@ -9745,7 +9744,7 @@ nav::before { display:none; }
           </div>
         </div>
         <div class="pieter-step-media">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776805814/Portrait_16_9_v2_xgfh5l.png" alt="Livraison MDG">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835363/about_5_jdxu46.jpg" alt="Livraison MDG">
           <div class="pieter-step-media-overlay"></div>
         </div>
       </div>
