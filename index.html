@@ -3621,8 +3621,8 @@ nav::before { display:none; }
     0 0 40px rgba(255,255,255,0.02) !important;
 }
 .pack-card:hover,.adv-card:hover{transform:translateY(-8px) !important;box-shadow:var(--glass-shadow-hover) !important;border-color:rgba(255,255,255,0.08) !important}
-.pack-card.featured,.adv-card.featured{border-color:rgba(232,228,220,.2) !important;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(232,228,220,.12),0 0 60px rgba(232,228,220,.04) !important}
-.pack-card.featured:hover,.adv-card.featured:hover{box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(232,228,220,.3),0 0 100px rgba(232,228,220,.1) !important}
+.pack-card.featured,.adv-card.featured{border-color:rgba(192,132,252,.2) !important;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(192,132,252,.12),0 0 60px rgba(192,132,252,.04) !important}
+.pack-card.featured:hover,.adv-card.featured:hover{box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(192,132,252,.3),0 0 100px rgba(192,132,252,.1) !important}
 /* Silver / Gold / Diamond : leurs styles spécifiques ci-dessous prennent le dessus */
 
 /* ══ PROCESS STEPS ══ */
@@ -5472,10 +5472,10 @@ nav::before { display:none; }
   --gold-dim: #b8880a;
   --gold-glow: rgba(240,192,64,.15);
   --gold-border: rgba(240,192,64,.35);
-  --diamond: #e8e4dc;
-  --diamond-dim: #c4bfb6;
-  --diamond-glow: rgba(232,228,220,.14);
-  --diamond-border: rgba(232,228,220,.35);
+  --diamond: #c084fc;
+  --diamond-dim: #9333ea;
+  --diamond-glow: rgba(192,132,252,.16);
+  --diamond-border: rgba(192,132,252,.38);
 }
 
 /* ── SILVER card ── */
@@ -5594,30 +5594,30 @@ nav::before { display:none; }
 
 /* ── DIAMOND card — déjà featured, on renforce ── */
 .pack-card.featured.diamond-card {
-  background: linear-gradient(145deg, rgba(232,228,220,0.08) 0%, rgba(6,14,22,1) 52%) !important;
-  border-color: rgba(232,228,220,0.35) !important;
+  background: linear-gradient(145deg, rgba(192,132,252,0.08) 0%, rgba(6,14,22,1) 52%) !important;
+  border-color: rgba(192,132,252,0.35) !important;
   box-shadow:
-    inset 0 1px 0 rgba(232,228,220,0.22),
-    inset 1px 0 0 rgba(232,228,220,0.06),
-    0 0 0 1px rgba(232,228,220,0.18),
+    inset 0 1px 0 rgba(192,132,252,0.22),
+    inset 1px 0 0 rgba(192,132,252,0.06),
+    0 0 0 1px rgba(192,132,252,0.18),
     0 16px 50px rgba(0,0,0,.65),
-    0 0 80px rgba(232,228,220,0.07) !important;
+    0 0 80px rgba(192,132,252,0.07) !important;
 }
 .pack-card.featured.diamond-card:hover {
-  border-color: rgba(232,228,220,0.55) !important;
+  border-color: rgba(192,132,252,0.55) !important;
   box-shadow:
-    inset 0 1px 0 rgba(232,228,220,0.3),
-    inset 1px 0 0 rgba(232,228,220,0.08),
-    0 0 0 1px rgba(232,228,220,0.28),
+    inset 0 1px 0 rgba(192,132,252,0.3),
+    inset 1px 0 0 rgba(192,132,252,0.08),
+    0 0 0 1px rgba(192,132,252,0.28),
     0 28px 70px rgba(0,0,0,.75),
-    0 0 100px rgba(232,228,220,0.1) !important;
+    0 0 100px rgba(192,132,252,0.1) !important;
 }
 .pack-card.featured.diamond-card::before {
-  background: radial-gradient(ellipse at 30% 0%, rgba(232,228,220,0.14) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 30% 0%, rgba(192,132,252,0.14) 0%, transparent 60%);
   opacity: 1 !important;
 }
 .pack-card.featured.diamond-card .pack-name { color: var(--diamond); }
-.pack-card.featured.diamond-card .pack-tier { color: rgba(232,228,220,0.45); }
+.pack-card.featured.diamond-card .pack-tier { color: rgba(192,132,252,0.45); }
 .pack-card.featured.diamond-card .pack-price { color: var(--diamond); }
 .pack-card.featured.diamond-card .pack-features li .feat-icon { color: var(--diamond); }
 .pack-card.featured.diamond-card .pack-cta {
@@ -5625,20 +5625,20 @@ nav::before { display:none; }
   color: var(--diamond);
 }
 .pack-card.featured.diamond-card .pack-cta:hover {
-  background: rgba(232,228,220,0.1);
+  background: rgba(192,132,252,0.1);
   border-color: var(--diamond);
   color: var(--diamond);
 }
 .pack-card.featured.diamond-card .pack-divider { background: var(--diamond-border); }
 .pack-card.featured.diamond-card .pack-curtain-badge {
-  background: rgba(232,228,220,0.08);
-  border-color: rgba(232,228,220,0.2);
+  background: rgba(192,132,252,0.08);
+  border-color: rgba(192,132,252,0.2);
   color: var(--diamond);
 }
 
 .pack-icon.silver { background: rgba(192,200,216,.12); border: 1px solid rgba(192,200,216,.25); }
 .pack-icon.gold   { background: rgba(240,192,64,.1);   border: 1px solid rgba(240,192,64,.28); }
-.pack-icon.diamond { background: rgba(232,228,220,.08); border: 1px solid rgba(232,228,220,.22); }
+.pack-icon.diamond { background: rgba(192,132,252,.08); border: 1px solid rgba(192,132,252,.22); }
 
 /* ── Tier badge — pill coloré ── */
 .pack-tier {
@@ -9334,11 +9334,11 @@ body,
         <h1 class="about-main-title">Plus exigeant<br><em>que productif</em></h1>
         <h2 class="about-v2-h2">Creative Director<br><span>basé à Kaolack, Sénégal</span></h2>
 
-        <p class="about-v2-intro">Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web — et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.</p>
+        <p class="about-v2-intro">Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web, et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.</p>
 
-        <p class="about-v2-body">Des projets comme <strong>Bicrave</strong> et <strong>Bonus Tracks</strong> avec ISS 814, <strong>Road to Roots 2</strong> avec Dopeboy, <strong>808's God</strong> avec Omzo Beatz, ou encore le travail continu avec One Lyrical — chacun a été construit à partir de zéro, avec une vraie direction artistique, pas un template recyclé. Des noms connus au Sénégal, d'autres à l'international. Et d'autres projets à venir.</p>
+        <p class="about-v2-body">Avec ISS 814 j'ai même plus compté. Bicrave, Bonus Tracks, et ça s'arrête pas. Pareil avec Omzo Beatz, 808's God c'est un projet parmi d'autres. Dopeboy DMG, Road to Roots 2 X-Files. One Lyrical. Bientôt du merch avec VJ. Des noms connus ici, d'autres à l'international.</p>
 
-        <p class="about-v2-body">Chaque commande part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter. Pas de copier-coller. Pas de raccourci.</p>
+        <p class="about-v2-body">Chaque projet part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter. Pas de copier-coller. Pas de raccourci.</p>
 
         <!-- Outils -->
         <div class="av2-tools-label">Outils</div>
@@ -10688,9 +10688,9 @@ body,
           <!-- RIDEAU DIAMOND -->
           <div class="pack-curtain" data-pack="diamond">
             <div class="pack-curtain-face" style="background:linear-gradient(160deg,rgba(6,18,30,.97) 0%,rgba(4,10,20,.99) 100%)">
-              <div class="pack-curtain-num" style="color:rgba(232,228,220,0.08)">D</div>
+              <div class="pack-curtain-num" style="color:rgba(192,132,252,0.08)">D</div>
               <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
-              <div class="pack-curtain-tier" style="color:rgba(232,228,220,0.35)">Pack Album — Le + Complet</div>
+              <div class="pack-curtain-tier" style="color:rgba(192,132,252,0.35)">Pack Album — Le + Complet</div>
               <div class="pack-curtain-name" style="color:var(--diamond)">Diamond</div>
               <div class="pack-curtain-hint">
                 <div class="pack-curtain-hint-text">Glisse pour révéler</div>
@@ -10702,13 +10702,13 @@ body,
           </div>
           <div class="pack-icon diamond">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <ellipse cx="14" cy="22" rx="9" ry="2" fill="rgba(232,228,220,.14)"/>
-              <polygon points="14,3 22,10 19,23 9,23 6,10" fill="url(#dv1)" stroke="rgba(232,228,220,0.35)" stroke-width=".7" stroke-linejoin="round"/>
-              <polygon points="14,3 22,10 14,10 6,10" fill="rgba(232,228,220,.22)" stroke="rgba(232,228,220,0.2)" stroke-width=".5"/>
+              <ellipse cx="14" cy="22" rx="9" ry="2" fill="rgba(192,132,252,.14)"/>
+              <polygon points="14,3 22,10 19,23 9,23 6,10" fill="url(#dv1)" stroke="rgba(192,132,252,0.35)" stroke-width=".7" stroke-linejoin="round"/>
+              <polygon points="14,3 22,10 14,10 6,10" fill="rgba(192,132,252,.22)" stroke="rgba(192,132,252,0.2)" stroke-width=".5"/>
               <polygon points="14,10 19,23 9,23" fill="rgba(56,163,212,.14)"/>
-              <line x1="14" y1="10" x2="14" y2="23" stroke="rgba(232,228,220,0.15)" stroke-width=".6"/>
-              <line x1="6" y1="10" x2="22" y2="10" stroke="rgba(232,228,220,0.18)" stroke-width=".5"/>
-              <defs><linearGradient id="dv1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0ede8"/><stop offset="40%" stop-color="#e8e4dc"/><stop offset="100%" stop-color="#c4bfb6"/></linearGradient></defs>
+              <line x1="14" y1="10" x2="14" y2="23" stroke="rgba(192,132,252,0.15)" stroke-width=".6"/>
+              <line x1="6" y1="10" x2="22" y2="10" stroke="rgba(192,132,252,0.18)" stroke-width=".5"/>
+              <defs><linearGradient id="dv1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0ede8"/><stop offset="40%" stop-color="#c084fc"/><stop offset="100%" stop-color="#9333ea"/></linearGradient></defs>
             </svg>
           </div>
           <div class="pack-tier">Pack — Album</div>
@@ -16383,10 +16383,18 @@ function applyComplexPatches(lang) {
   if (aboutV2Intro) aboutV2Intro.textContent = lang === 'en'
     ? "I'm a textbook case, a disordered perfectionist. 7 years of cover art, branding, motion and web, and I've never been fully satisfied with a single project. Not for lack of results — because the standard grows faster than the output."
     : "Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web, et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.";
-  var aboutV2Body = document.querySelector('.about-v2-body');
-  if (aboutV2Body) aboutV2Body.textContent = lang === 'en'
-    ? "That's exactly why I can't do anything other than excellence. No templates. No copy-paste. Every project starts from a genuine understanding of who you are, what you do, and what you want to project."
-    : "Et c'est exactement pour ça que je ne sais pas faire autrement que de l'excellence. Pas de template. Pas de copier-coller. Chaque projet part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter.";
+  var aboutV2Bodies = document.querySelectorAll('.about-v2-body');
+  var aboutBodyFr = [
+    "Avec ISS 814 j'ai même plus compté. Bicrave, Bonus Tracks, et ça s'arrête pas. Pareil avec Omzo Beatz, 808's God c'est un projet parmi d'autres. Dopeboy DMG, Road to Roots 2 X-Files. One Lyrical. Bientôt du merch avec VJ. Des noms connus ici, d'autres à l'international.",
+    "Chaque projet part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter. Pas de copier-coller. Pas de raccourci."
+  ];
+  var aboutBodyEn = [
+    "With ISS 814 I lost count. Bicrave, Bonus Tracks, and it keeps going. Same with Omzo Beatz, 808's God is one project among others. Dopeboy DMG, Road to Roots 2 X-Files. One Lyrical. Merch with VJ coming soon. Known names here, others internationally.",
+    "Every project starts from a genuine understanding of who you are, what you do, and what you want to project. No copy-paste. No shortcuts."
+  ];
+  aboutV2Bodies.forEach(function(el, i) {
+    if (aboutBodyFr[i] !== undefined) el.textContent = lang === 'en' ? aboutBodyEn[i] : aboutBodyFr[i];
+  });
   var aboutV2ToolsLabel = document.querySelector('.av2-tools-label');
   if (aboutV2ToolsLabel) aboutV2ToolsLabel.textContent = lang === 'en' ? 'Tools' : 'Outils';
   var aboutV2Cta = document.querySelector('.av2-cta');
