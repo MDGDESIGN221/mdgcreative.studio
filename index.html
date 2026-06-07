@@ -8341,7 +8341,6 @@ body,
   <div class="scroll-dot" data-section="hero" onclick="lenisScroll('hero')"><span class="scroll-dot-label">Accueil</span></div>
   <div class="scroll-dot" data-section="about" onclick="lenisScroll('about')"><span class="scroll-dot-label">À propos</span></div>
   <div class="scroll-dot" data-section="portfolio-accordion" onclick="lenisScroll('portfolio-accordion')"><span class="scroll-dot-label">Projets</span></div>
-  <div class="scroll-dot" data-section="case-studies" onclick="lenisScroll('case-studies')"><span class="scroll-dot-label">Case Studies</span></div>
   <div class="scroll-dot" data-section="collabs" onclick="lenisScroll('collabs')"><span class="scroll-dot-label">Collabs</span></div>
   <div class="scroll-dot" data-section="services" onclick="lenisScroll('services')"><span class="scroll-dot-label">Services</span></div>
   <div class="scroll-dot" data-section="process" onclick="lenisScroll('process')"><span class="scroll-dot-label">Process</span></div>
@@ -9151,165 +9150,7 @@ body,
 
 
 
-<!-- ══════════════════════════════════════════
-     CASE STUDIES — Comment je pense & procède
-══════════════════════════════════════════ -->
-<section id="case-studies" style="background:var(--black);border-top:1px solid var(--border);padding:6rem 0 5rem">
-<style>
-#case-studies .cs-wrap {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 clamp(1.25rem,4vw,3rem);
-}
-#case-studies .cs-header {
-  margin-bottom: 4rem;
-}
-#case-studies .cs-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border-top: 1px solid var(--border);
-  min-height: 420px;
-  overflow: hidden;
-}
-#case-studies .cs-item:last-child { border-bottom: 1px solid var(--border); }
-#case-studies .cs-item:nth-child(even) .cs-img-wrap { order: 1; }
-#case-studies .cs-item:nth-child(even) .cs-content { order: 0; }
-#case-studies .cs-img-wrap {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 1/1;
-}
-#case-studies .cs-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(20%);
-  transition: transform .8s cubic-bezier(.16,1,.3,1), filter .6s;
-}
-#case-studies .cs-item:hover .cs-img-wrap img {
-  transform: scale(1.04);
-  filter: grayscale(0%);
-}
-#case-studies .cs-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 4rem clamp(2rem,4vw,4rem);
-  background: var(--black);
-}
-#case-studies .cs-num {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(5rem,12vw,9rem);
-  line-height: .85;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,.08);
-  margin-bottom: 1.5rem;
-  display: block;
-}
-#case-studies .cs-label {
-  font-family: 'Syne', sans-serif;
-  font-size: .58rem;
-  font-weight: 700;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--off);
-  margin-bottom: .6rem;
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-}
-#case-studies .cs-label::before {
-  content: '';
-  width: 18px; height: 1px;
-  background: var(--dim);
-}
-#case-studies .cs-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(1.6rem,3vw,2.2rem);
-  font-weight: 400;
-  color: var(--light);
-  line-height: 1.15;
-  margin-bottom: 1.5rem;
-}
-#case-studies .cs-quote {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(.88rem,1.2vw,1rem);
-  line-height: 1.75;
-  color: var(--off);
-  font-weight: 300;
-  font-style: italic;
-  border-left: 2px solid rgba(255,255,255,.12);
-  padding-left: 1.25rem;
-}
 
-@media(max-width:768px){
-  #case-studies .cs-item {
-    grid-template-columns: 1fr;
-    min-height: unset;
-  }
-  #case-studies .cs-item:nth-child(even) .cs-img-wrap { order: 0; }
-  #case-studies .cs-item:nth-child(even) .cs-content { order: 1; }
-  #case-studies .cs-img-wrap { aspect-ratio: 4/3; }
-  #case-studies .cs-content { padding: 2.5rem 1.25rem; }
-  #case-studies .cs-num { font-size: clamp(4rem,18vw,6rem); }
-}
-</style>
-
-<div class="cs-wrap">
-  <div class="cs-header reveal-up">
-    <div class="sec-label reveal-line">Case Studies</div>
-    <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:400;color:var(--light);margin-top:.5rem">Comment je pense<em> & procède</em></h2>
-  </div>
-
-  <!-- 01 — Bicrave / ISS 814 -->
-  <div class="cs-item reveal-up">
-    <div class="cs-img-wrap">
-      <img loading="lazy" decoding="async"
-        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/iss-bigway_nfvusf.jpg"
-        alt="Bicrave — ISS 814">
-    </div>
-    <div class="cs-content">
-      <span class="cs-num">01</span>
-      <span class="cs-label">ISS 814 · Cover Art</span>
-      <h3 class="cs-title">Bicrave</h3>
-      <p class="cs-quote">Bicrave, c'est un mot qui dit tout et rien à la fois. La cover devait fonctionner pareil, lisible en surface, chargée en dessous. Des formules, une logique chimique intégrée dans le design. Ceux qui savent, savent. Les autres voient juste quelque chose de propre.</p>
-    </div>
-  </div>
-
-  <!-- 02 — Road to Roots 2 X-Files / Dopeboy DMG -->
-  <div class="cs-item reveal-up rd1">
-    <div class="cs-img-wrap">
-      <img loading="lazy" decoding="async"
-        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/roots-2_grygek.jpg"
-        alt="Road to Roots 2 X-Files — Dopeboy DMG">
-    </div>
-    <div class="cs-content">
-      <span class="cs-num">02</span>
-      <span class="cs-label">Dopeboy DMG · Cover Art</span>
-      <h3 class="cs-title">Road to Roots 2 X-Files</h3>
-      <p class="cs-quote">Ce projet, c'était quelques années avant que Dopeboy DMG signe dans la structure de Booba, 92i Africa, qui se revendique pirates. La cover le pressentait déjà. Une esthétique de mer, de pirates, de territoire à conquérir. L'image avant les faits.</p>
-    </div>
-  </div>
-
-  <!-- 03 — 808's God / Omzo Beatz -->
-  <div class="cs-item reveal-up rd2">
-    <div class="cs-img-wrap">
-      <img loading="lazy" decoding="async"
-        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776659502/OMZO_BEATZ_qrxlee.jpg"
-        alt="808's God — Omzo Beatz">
-    </div>
-    <div class="cs-content">
-      <span class="cs-num">03</span>
-      <span class="cs-label">Omzo Beatz · Cover Art</span>
-      <h3 class="cs-title">808's God</h3>
-      <p class="cs-quote">808's God. On aurait pu faire sombre, minimaliste, c'est la drill. On a fait l'inverse. Parce qu'Omzo, c'est pas la rue qui parle, c'est l'Olympe. Le titre le disait déjà.</p>
-    </div>
-  </div>
-</div>
-</section>
 
 
 
@@ -18223,7 +18064,7 @@ window.addEventListener('load', function() {
   });
 
   // Mettre à jour le label selon la section visible
-  var sections = ['hero','about','portfolio-accordion','case-studies','collabs','services','process','uranus','pricing','faq','contact'];
+  var sections = ['hero','about','portfolio-accordion','collabs','services','process','uranus','pricing','faq','contact'];
   var sectionLabelsFr = {
     'hero':'Accueil', 'about':'À propos', 'portfolio-accordion':'Réalisations',
     'collabs':'Collabs', 'services':'Services', 'process':'Process',
