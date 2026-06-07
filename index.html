@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776666026/NEW_LOGO_w_rxvoil.png" fetchpriority="high">
-  <link rel="preload" as="video" href="https://res.cloudinary.com/djdkpihuz/video/upload/f_auto,q_auto/v1777325916/hero_3s_he6lvf" type="video/mp4" fetchpriority="high">
-  <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1776805814/Portrait_16_9_v2_xgfh5l.png" fetchpriority="high" media="(max-width: 767px)">
+  <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780832673/fais_la_premiere_image_que_202606071144_cglcpm.jpg" fetchpriority="high" media="(min-width: 768px)">
+  <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780833071/hero_9-16_mwjjsc.jpg" fetchpriority="high" media="(max-width: 767px)">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>if(history.scrollRestoration)history.scrollRestoration='manual';window.scrollTo(0,0);</script>
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
@@ -337,7 +337,224 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--black);color:var(--
 }
 
 
-/* ── HERO TYPO MASSIVE (inspiré pieterkoopt) ── */
+/* ── HERO HUD OVERLAY SYSTEM ── */
+
+/* Responsive image switcher */
+@media (max-width: 767px) {
+  #heroDesktopImg { display: none !important; }
+  #heroMobileImg  { display: block !important; }
+}
+@media (min-width: 768px) {
+  #heroDesktopImg { display: block !important; }
+  #heroMobileImg  { display: none !important; }
+}
+
+/* HUD — coin haut droite */
+.hero-hud-tr {
+  position: absolute;
+  top: calc(var(--nav-h, 80px) + 1.25rem);
+  right: clamp(1.5rem, 3.5vw, 3rem);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .35rem;
+  opacity: 0;
+  animation: fu .9s 1s ease forwards;
+}
+.hero-hud-tag {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(.52rem, .75vw, .65rem);
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.hero-hud-neg {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(.52rem, .75vw, .65rem);
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  background: #fff;
+  color: #060606;
+  padding: .12rem .45rem;
+  line-height: 1.5;
+}
+.hero-hud-coord {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(.48rem, .65vw, .58rem);
+  font-weight: 400;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.65);
+}
+
+/* HUD — bande bas (3 colonnes) */
+.hero-hud-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid rgba(255,255,255,.15);
+  background: rgba(6,6,6,.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 1.1rem clamp(1.5rem, 3.5vw, 3rem);
+  opacity: 0;
+  animation: maskRevealUp .8s 1.7s cubic-bezier(.77,0,.18,1) forwards;
+}
+.hero-hud-col {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.hero-hud-col--center {
+  align-items: center;
+  text-align: center;
+}
+.hero-hud-col--right {
+  align-items: flex-end;
+  text-align: right;
+}
+.hero-hud-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(.44rem, .6vw, .55rem);
+  font-weight: 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+}
+.hero-hud-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(.6rem, .9vw, .75rem);
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.hero-hud-neg-sm {
+  background: #fff;
+  color: #060606;
+  padding: .05rem .35rem;
+  display: inline-block;
+}
+
+/* Supprime les stats existantes quand HUD bottom est actif */
+.hero-stats { display: none !important; }
+
+/* ── HERO HUD — hero-sub redesign ── */
+.hero-sub {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-style: normal !important;
+  font-weight: 300 !important;
+  font-size: clamp(.58rem, .9vw, .72rem) !important;
+  letter-spacing: .18em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,.7) !important;
+  border-left: none !important;
+  padding-left: 0 !important;
+  line-height: 1.9 !important;
+  margin-bottom: 2.5rem !important;
+}
+.hero-sub .hero-sub-neg {
+  background: #fff;
+  color: #060606;
+  padding: .08rem .4rem;
+  display: inline-block;
+  margin-bottom: .4rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+.hero-sub strong {
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+/* ── HERO BTN redesign HUD ── */
+.hero-btn-primary {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: clamp(.58rem, .85vw, .7rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: .2em !important;
+  text-transform: uppercase !important;
+  background: #fff !important;
+  color: #060606 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: .75rem 1.6rem !important;
+  box-shadow: none !important;
+}
+.hero-btn-primary:hover {
+  opacity: .88 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.hero-btn-secondary {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: clamp(.58rem, .85vw, .7rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: .2em !important;
+  text-transform: uppercase !important;
+  background: transparent !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,.5) !important;
+  border-radius: 0 !important;
+  padding: .75rem 1.6rem !important;
+}
+.hero-btn-secondary:hover {
+  border-color: #fff !important;
+  background: rgba(255,255,255,.06) !important;
+}
+
+/* ── HERO EYEBROW HUD ── */
+.hero-eyebrow {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: clamp(.5rem, .75vw, .62rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: .22em !important;
+  color: rgba(255,255,255,.5) !important;
+  text-transform: uppercase !important;
+}
+.hero-eyebrow::before {
+  background: rgba(255,255,255,.4) !important;
+}
+
+/* ── HERO NAME HUD — majuscules ── */
+.hero-name-sub {
+  text-transform: uppercase !important;
+  font-family: 'Syne', sans-serif !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  font-size: inherit !important;
+  letter-spacing: -.025em !important;
+  color: rgba(255,255,255,.85) !important;
+}
+
+/* ── HERO PORTFOLIO LINKS HUD ── */
+.hero-portfolio-link {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: clamp(.5rem, .72vw, .62rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: .18em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,.55) !important;
+}
+.hero-portfolio-link:hover { color: #fff !important; }
+.hero-portfolio-sep { color: rgba(255,255,255,.25) !important; }
+
+/* ── HUD mobile adaptations ── */
+@media (max-width: 767px) {
+  .hero-hud-tr { right: 1.25rem; top: calc(var(--nav-h, 64px) + 1rem); }
+  .hero-hud-bottom { padding: .9rem 1.25rem; }
+  .hero-hud-label { font-size: .44rem; }
+  .hero-hud-val { font-size: .58rem; }
+}
+
+
 @media(min-width: 901px) {
   .hero-name {
     font-size: clamp(2.4rem, 6vw, 7.5rem) !important;
@@ -429,9 +646,8 @@ section{position:relative;z-index:1}
   overflow:hidden;
 }
 /* Les vidéos et l'image doivent couvrir entièrement le wrap élargi */
-#heroVidA,#heroVidB,#heroMobileImg{
-  will-change:transform;
-}
+/* hero images — will-change handled by responsive rules above */
+
 .hero-photo-wrap img{
   width:100%;height:100%;object-fit:cover;
   object-position:72% 20%;
@@ -7639,51 +7855,65 @@ nav::before { display:none; }
 </nav>
 <main id="main-content"><section id="hero">
   <div class="hero-photo-wrap">
-    <!-- Image fallback mobile — toujours visible sur mobile, caché sur desktop quand la vidéo joue -->
-    <img id="heroMobileImg"
-      src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1776805814/Portrait_16_9_v2_xgfh5l.png"
+    <!-- Image desktop -->
+    <img id="heroDesktopImg"
+      src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780832673/fais_la_premiere_image_que_202606071144_cglcpm.jpg"
       alt=""
       aria-hidden="true"
       fetchpriority="high"
-      style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:1;opacity:.9;transition:opacity .6s cubic-bezier(.4,0,.2,1);">
-    <!-- Vidéos hero — desktop + mobile -->
-    <video id="heroVidA" autoplay muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="auto" aria-hidden="true"
-      style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:2;opacity:0;transition:opacity .6s cubic-bezier(.4,0,.2,1);pointer-events:none;">
-      <source src="https://res.cloudinary.com/djdkpihuz/video/upload/f_auto,q_auto/v1777325916/hero_3s_he6lvf" type="video/mp4">
-    </video>
-    <video id="heroVidB" muted playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="none" aria-hidden="true"
-      style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.02) brightness(.9);display:block;position:absolute;inset:0;z-index:2;opacity:0;transition:opacity .6s cubic-bezier(.4,0,.2,1);pointer-events:none;">
-      <source src="https://res.cloudinary.com/djdkpihuz/video/upload/e_reverse,f_auto,q_auto/v1777325916/hero_3s_he6lvf" type="video/mp4">
-    </video>
+      style="width:100%;height:100%;object-fit:cover;object-position:60% 10%;filter:contrast(1.05) brightness(.88);display:block;position:absolute;inset:0;z-index:1;opacity:1;">
+    <!-- Image mobile -->
+    <img id="heroMobileImg"
+      src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780833071/hero_9-16_mwjjsc.jpg"
+      alt=""
+      aria-hidden="true"
+      fetchpriority="high"
+      style="width:100%;height:100%;object-fit:cover;object-position:50% 10%;filter:contrast(1.05) brightness(.88);display:none;position:absolute;inset:0;z-index:2;opacity:1;">
     <div class="grain" aria-hidden="true"></div>
     <div class="hero-gradient-overlay" aria-hidden="true"></div>
+    <!-- HUD — coin haut droite -->
+    <div class="hero-hud-tr" aria-hidden="true">
+      <span class="hero-hud-tag">MDG CREATIVE STUDIO</span>
+      <span class="hero-hud-neg">KAOLACK, SÉNÉGAL</span>
+      <span class="hero-hud-coord">14.1652° N / 16.0726° W</span>
+    </div>
+    <!-- HUD — coin bas gauche / droite -->
+    <div class="hero-hud-bottom" aria-hidden="true">
+      <div class="hero-hud-col">
+        <span class="hero-hud-label">CREATIVE DIRECTOR</span>
+        <span class="hero-hud-val">MOUHAMED AL AMINE</span>
+      </div>
+      <div class="hero-hud-col hero-hud-col--center">
+        <span class="hero-hud-label">DEPUIS</span>
+        <span class="hero-hud-val hero-hud-neg-sm">2017</span>
+      </div>
+      <div class="hero-hud-col hero-hud-col--right">
+        <span class="hero-hud-label">INSTAGRAM</span>
+        <span class="hero-hud-val">@_ITS.MDG</span>
+      </div>
+    </div>
   </div>
   <div class="hero-left">
-    <div class="hero-eyebrow">MDG Creative Studio · Kaolack, SN</div>
-    <h1 class="hero-name" style="line-height:1.05;white-space:normal"><span class="hero-name-wrap" style="white-space:normal">L'élite</span><br><em class="hero-name-sub"><span class="hero-name-sub-wrap">se remarque.</span></em></h1>
-    <p class="hero-handle">
-      <span>Mouhamed Al Amine</span>
-      <span class="handle-sep"></span>
-      <span class="handle-ig">@_its.mdg</span>
-    </p>
-    <p class="hero-sub">L'excellence, <strong>c'est mon seul standard.</strong></p>
+    <div class="hero-eyebrow">MDG CREATIVE STUDIO · KAOLACK, SN</div>
+    <h1 class="hero-name" style="line-height:1.05;white-space:normal"><span class="hero-name-wrap" style="white-space:normal">L'ÉLITE</span><br><em class="hero-name-sub"><span class="hero-name-sub-wrap">SE REMARQUE.</span></em></h1>
+    <p class="hero-sub"><span class="hero-sub-neg">BRAND IDENTITY · COVER ART · MOTION</span><br><strong>L'EXCELLENCE, C'EST MON SEUL STANDARD.</strong></p>
     <div class="hero-ctas">
       <a href="#contact" class="hero-btn-primary">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        <span data-i18n="nav_cta">Travaillons ensemble</span>
+        <span data-i18n="nav_cta">TRAVAILLONS ENSEMBLE</span>
       </a>
-      <a href="#portfolio-accordion" class="hero-btn-secondary">Voir les projets</a>
+      <a href="#portfolio-accordion" class="hero-btn-secondary">VOIR LES PROJETS</a>
     </div>
     <div class="hero-portfolio-links">
       <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="hero-portfolio-link">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.670-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9zM7.796 16.041l-.013-.017c.017.006.032.013.013.017zM5.906 15.125H2.833v2.964H5.82c1.218 0 2.053-.558 2.053-1.497 0-.948-.748-1.467-1.967-1.467zM2.833 9.938v2.65H5.52c1.095 0 1.883-.465 1.883-1.332 0-.876-.73-1.318-1.822-1.318H2.833zM11.275 17.25c0-2.234-1.644-3.484-4.014-3.484H0V7.5h6.88c2.358 0 3.96 1.121 3.96 3.07 0 1.34-.679 2.21-1.713 2.644C10.475 13.618 11.275 14.668 11.275 17.25z"/></svg>
-        Behance
+        BEHANCE
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </a>
       <span class="hero-portfolio-sep">·</span>
       <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="hero-portfolio-link">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        @_its.mdg
+        @_ITS.MDG
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </a>
     </div>
@@ -10349,7 +10579,7 @@ nav::before { display:none; }
    ══════════════════════════════════════════════════════ */
 
 #uranus {
-  --u-bg:      #03020a;
+  --u-bg:      #02010a;
   --u-bg2:     #06040f;
   --u-surface: rgba(255,255,255,.028);
   --u-border:  rgba(139,92,246,.1);
@@ -10364,8 +10594,8 @@ nav::before { display:none; }
   --u-mid:     #968fae;
   --u-light:   #f0ebff;
   background: var(--u-bg);
-  border-top: 1px solid rgba(100,60,220,.12);
-  border-bottom: 1px solid rgba(100,60,220,.12);
+  border-top: 1px solid rgba(100,60,220,.16);
+  border-bottom: 1px solid rgba(100,60,220,.16);
   position: relative; overflow: hidden; padding: 0;
 }
 
@@ -10374,10 +10604,11 @@ nav::before { display:none; }
   content: '';
   position: absolute; inset: 0; z-index: 0;
   background:
-    radial-gradient(ellipse 100% 55% at 50% -5%,  rgba(109,40,217,.28) 0%, transparent 65%),
-    radial-gradient(ellipse 50%  70% at 95%  90%,  rgba(167,139,250,.09) 0%, transparent 55%),
-    radial-gradient(ellipse 35%  45% at 5%   85%,  rgba(76,29,149,.14) 0%, transparent 55%),
-    radial-gradient(ellipse 60%  40% at 50% 120%,  rgba(124,58,237,.18) 0%, transparent 60%);
+    radial-gradient(ellipse 120% 60% at 50% -8%,  rgba(109,40,217,.38) 0%, transparent 60%),
+    radial-gradient(ellipse 60%  80% at 95%  90%,  rgba(167,139,250,.12) 0%, transparent 55%),
+    radial-gradient(ellipse 40%  50% at 5%   85%,  rgba(76,29,149,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 70%  45% at 50% 115%,  rgba(124,58,237,.22) 0%, transparent 60%),
+    radial-gradient(ellipse 35%  35% at 20%  20%,  rgba(109,40,217,.08) 0%, transparent 50%);
   pointer-events: none;
 }
 /* Noise grain */
@@ -10385,7 +10616,7 @@ nav::before { display:none; }
   content: '';
   position: absolute; inset: 0; z-index: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px; opacity: .022; pointer-events: none;
+  background-size: 180px 180px; opacity: .028; pointer-events: none;
 }
 
 /* ── Stars ── */
@@ -10402,8 +10633,8 @@ nav::before { display:none; }
 /* ══ TOP BANNER — limited drop ══ */
 .u-drop-banner {
   position: relative; z-index: 3;
-  background: linear-gradient(90deg, rgba(109,40,217,.25) 0%, rgba(139,92,246,.12) 50%, rgba(109,40,217,.25) 100%);
-  border-bottom: 1px solid rgba(139,92,246,.18);
+  background: linear-gradient(90deg, rgba(109,40,217,.3) 0%, rgba(139,92,246,.15) 50%, rgba(109,40,217,.3) 100%);
+  border-bottom: 1px solid rgba(139,92,246,.22);
   padding: .6rem 1.5rem;
   display: flex; align-items: center; justify-content: center; gap: 1.5rem;
   overflow: hidden;
@@ -10412,7 +10643,7 @@ nav::before { display:none; }
   content: '';
   position: absolute; top: 0; left: -100%;
   width: 40%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(196,181,253,.06), transparent);
+  background: linear-gradient(90deg, transparent, rgba(196,181,253,.08), transparent);
   animation: u-sweep 4s linear infinite;
 }
 @keyframes u-sweep { to { left: 160%; } }
@@ -10755,21 +10986,21 @@ nav::before { display:none; }
 
 /* ══ ORDER CARD ══ */
 .u-order-card {
-  background: rgba(8,5,20,.98);
-  border: 1px solid var(--u-border3);
+  background: rgba(6,4,18,.98);
+  border: 1px solid rgba(167,139,250,.25);
   border-radius: 26px; overflow: hidden;
   position: sticky; top: 100px;
-  box-shadow: 0 0 0 1px rgba(196,181,253,.04) inset, 0 40px 90px rgba(0,0,0,.7), 0 0 80px rgba(109,40,217,.1);
+  box-shadow: 0 0 0 1px rgba(196,181,253,.06) inset, 0 40px 90px rgba(0,0,0,.75), 0 0 100px rgba(109,40,217,.14), 0 0 200px rgba(109,40,217,.06);
 }
 .u-card-header {
   padding: 1.75rem 1.75rem 1.5rem;
   border-bottom: 1px solid var(--u-border);
-  background: linear-gradient(135deg, rgba(109,40,217,.14) 0%, rgba(167,139,250,.04) 100%);
+  background: linear-gradient(135deg, rgba(109,40,217,.2) 0%, rgba(167,139,250,.06) 100%);
   position: relative;
 }
 .u-card-header::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, #7c3aed, #b19ef5, #d4c5ff, #7c3aed, transparent);
+  background: linear-gradient(90deg, transparent, #9333ea, #c4b5fd, #e9d5ff, #c4b5fd, #9333ea, transparent);
 }
 .u-card-pack-name {
   font-family: 'Syne', sans-serif; font-size: .52rem; font-weight: 900;
@@ -10945,8 +11176,8 @@ nav::before { display:none; }
 
 <!-- ── TOP BANNER ── -->
 <div class="u-drop-banner">
-  <span class="u-banner-badge">⚡ Drop limité</span>
-  <span class="u-banner-txt">Prix précommande disponible jusqu'au <strong>drop officiel</strong></span>
+  <span class="u-banner-badge" style="color:#c4b5fd;background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.3);">🔥 Promo -43%</span>
+  <span class="u-banner-txt">Prix limité : <strong>19 900 FCFA</strong> au lieu de <strong style="text-decoration:line-through;opacity:.5;">35 000</strong></span>
   <span class="u-banner-badge" style="color:var(--u-accent3);background:rgba(177,158,245,.1);border-color:rgba(177,158,245,.25)">+5000 Assets</span>
 </div>
 
@@ -11017,13 +11248,19 @@ nav::before { display:none; }
 
     <!-- Prix -->
     <div class="u-price-block">
-      <div class="u-price-main">
-        <span class="u-price-currency">FCFA</span>
-        <span class="u-price-num">35 000</span>
-        <div class="u-price-unit">Pack complet<br>précommande</div>
+      <div class="u-price-main" style="flex-direction:column;align-items:flex-start;gap:.25rem;">
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.15rem;">
+          <span style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--u-dim);text-decoration:line-through;opacity:.55;">35 000 FCFA</span>
+          <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .65rem;border-radius:100px;background:rgba(167,139,250,.18);border:1px solid rgba(167,139,250,.38);font-family:'Syne',sans-serif;font-size:.52rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;">🔥 -43%</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:.35rem;">
+          <span class="u-price-currency" style="color:#a78bfa;">FCFA</span>
+          <span class="u-price-num" style="color:#c4b5fd;text-shadow:0 0 40px rgba(167,139,250,.5);">19 900</span>
+          <div class="u-price-unit">Pack complet<br>prix limité</div>
+        </div>
       </div>
     </div>
-    <p class="u-price-badge">Prix bloqué · tarif final plus élevé</p>
+    <p class="u-price-badge" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.3);color:#c4b5fd;">🔥 Prix limité · tarif final plus élevé</p>
 
     <!-- CTA -->
     <div class="u-cta-row">
@@ -11214,19 +11451,19 @@ nav::before { display:none; }
   <!-- CARTES PSD EMPILÉES EN ÉVENTAIL -->
   <div id="uranus-psd-stack">
     <div class="upsd-card" id="upsd-0">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776491272/SENEGAL_VS_SOUDAN_xmrwii.jpg" loading="lazy" alt="">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659243/ISS_d77hnz.jpg" loading="lazy" alt="">
       <span class="upsd-badge">PSD</span>
     </div>
     <div class="upsd-card" id="upsd-1">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776491253/SEN_VS_MAROC_go9pvs.jpg" loading="lazy" alt="">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659244/MIST_CASH_J24_xt1nzp.jpg" loading="lazy" alt="">
       <span class="upsd-badge">PSD</span>
     </div>
     <div class="upsd-card" id="upsd-2">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659243/HAKILL_l0a1rr.jpg" loading="lazy" alt="">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659244/ISS_814_BEATS_sctbte.jpg" loading="lazy" alt="">
       <span class="upsd-badge">PSD</span>
     </div>
     <div class="upsd-card" id="upsd-3">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659503/SUPER_MANE_qrxdld.jpg" loading="lazy" alt="">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" loading="lazy" alt="">
       <span class="upsd-badge">PSD</span>
     </div>
   </div>
@@ -11234,7 +11471,7 @@ nav::before { display:none; }
 </div>
 
 <div class="u-orb-badge b1">+5000 assets</div>
-<div class="u-orb-badge b2">⚡ 35 000 FCFA</div>
+<div class="u-orb-badge b2">🔥 19 900 FCFA</div>
 <div class="u-box-glow"></div>
 
 <script>
@@ -11359,11 +11596,152 @@ nav::before { display:none; }
       </div>
     </div>
 
+    <!-- ── GALERIE PREMIUM ── -->
+    <div class="u-section-label reveal-up">Aperçu des visuels</div>
+    <div class="u-gallery-premium reveal-up rd1">
+      <!-- Image 1 : USA vs Sénégal — grande, première position -->
+      <div class="u-gal-premium big" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg','USA vs Sénégal')">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" alt="USA vs Sénégal" loading="lazy">
+        <div class="u-gal-overlay">
+          <div class="u-gal-label">USA vs Sénégal</div>
+          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+      </div>
+      <!-- Image 2 : ISS 814 BEATS -->
+      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659244/ISS_814_BEATS_sctbte.jpg','ISS 814 Beats')">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776659244/ISS_814_BEATS_sctbte.jpg" alt="ISS 814 Beats" loading="lazy">
+        <div class="u-gal-overlay">
+          <div class="u-gal-label">ISS 814 Beats</div>
+          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+      </div>
+      <!-- Image 3 : MIST CASH J24 -->
+      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659244/MIST_CASH_J24_xt1nzp.jpg','Mist Cash J24')">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776659244/MIST_CASH_J24_xt1nzp.jpg" alt="Mist Cash J24" loading="lazy">
+        <div class="u-gal-overlay">
+          <div class="u-gal-label">Mist Cash J24</div>
+          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+      </div>
+      <!-- Image 4 : ISS -->
+      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659243/ISS_d77hnz.jpg','ISS')">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776659243/ISS_d77hnz.jpg" alt="ISS" loading="lazy">
+        <div class="u-gal-overlay">
+          <div class="u-gal-label">ISS</div>
+          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+      </div>
+      <!-- Image 5 -->
+      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/match-day-sadio_we5xzy.jpg','Match Day · Sadio Mané')">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio" loading="lazy">
+        <div class="u-gal-overlay">
+          <div class="u-gal-label">Match Day · Sadio</div>
+          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+      </div>
+      <!-- Image 6 -->
+      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/next-match-koulibaly_zkejpe.jpg','Next Match · Koulibaly')">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/next-match-koulibaly_zkejpe.jpg" alt="Next Match Koulibaly" loading="lazy">
+        <div class="u-gal-overlay">
+          <div class="u-gal-label">Next Match · Koulibaly</div>
+          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+      </div>
+      <!-- Image 7 -->
+      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/gameday-gambie_men43y.jpg','Game Day · vs Gambie')">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/gameday-gambie_men43y.jpg" alt="Game Day Gambie" loading="lazy">
+        <div class="u-gal-overlay">
+          <div class="u-gal-label">Game Day · vs Gambie</div>
+          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+      </div>
+      <!-- Image 8 -->
+      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/steadiness_gzcuvj.jpg','Steadiness · Sénégal')">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/steadiness_gzcuvj.jpg" alt="Steadiness" loading="lazy">
+        <div class="u-gal-overlay">
+          <div class="u-gal-label">Steadiness · Sénégal</div>
+          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox galerie Uranus -->
+    <div id="u-gal-lb" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(3,2,10,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:none;align-items:center;justify-content:center;padding:1.5rem;" onclick="if(event.target===this)uGalClose()">
+      <button onclick="uGalClose()" style="position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">×</button>
+      <img id="u-gal-lb-img" src="" alt="" style="max-width:92vw;max-height:88vh;border-radius:14px;object-fit:contain;box-shadow:0 40px 120px rgba(0,0,0,.8),0 0 0 1px rgba(196,181,253,.08) inset;">
+      <div id="u-gal-lb-cap" style="position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);font-family:'Syne',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(196,181,253,.6);white-space:nowrap;"></div>
+    </div>
+
+    <style>
+    /* ── GALERIE PREMIUM URANUS ── */
+    .u-gallery-premium {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: .5rem;
+      margin-bottom: 2.5rem;
+    }
+    .u-gal-premium {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      border: 1px solid rgba(109,40,217,.2);
+      cursor: pointer;
+      background: rgba(8,5,20,.8);
+      transition: border-color .3s, transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s;
+    }
+    .u-gal-premium.big {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+    .u-gal-premium:hover {
+      border-color: rgba(167,139,250,.55);
+      transform: scale(1.025);
+      z-index: 3;
+      box-shadow: 0 12px 48px rgba(109,40,217,.35), 0 0 0 1px rgba(196,181,253,.1) inset;
+    }
+    .u-gal-premium img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      opacity: .85;
+      transition: transform .45s cubic-bezier(.16,1,.3,1), opacity .3s;
+    }
+    .u-gal-premium:hover img { transform: scale(1.07); opacity: 1; }
+    .u-gal-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 45%, rgba(3,2,10,.82) 100%);
+      display: flex; align-items: flex-end; justify-content: space-between;
+      padding: .75rem;
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .u-gal-premium:hover .u-gal-overlay { opacity: 1; }
+    .u-gal-label {
+      font-family: 'Syne', sans-serif;
+      font-size: .55rem; font-weight: 800;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.9);
+    }
+    .u-gal-zoom {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(167,139,250,.22);
+      border: 1px solid rgba(196,181,253,.3);
+      display: flex; align-items: center; justify-content: center;
+      color: #c4b5fd; flex-shrink: 0;
+      backdrop-filter: blur(8px);
+    }
+    @media(max-width:600px){
+      .u-gallery-premium { grid-template-columns: 1fr 1fr; gap: .4rem; }
+      .u-gal-premium.big { grid-column: span 2; aspect-ratio: 16/9; }
+    }
+    </style>
+
     <div class="u-section-label reveal-up">Pourquoi précommander</div>
     <div class="reveal-up rd1">
       <div class="u-why-row">
         <span class="u-why-num">01</span>
-        <span class="u-why-txt"><strong>Prix bloqué à 35 000 FCFA</strong> — le tarif final sera plus élevé à la sortie officielle.</span>
+        <span class="u-why-txt"><strong>Prix bloqué à 19 900 FCFA</strong> — le tarif final sera plus élevé à la sortie officielle.</span>
       </div>
       <div class="u-why-row">
         <span class="u-why-num">02</span>
@@ -11385,11 +11763,15 @@ nav::before { display:none; }
   <div class="u-order-card reveal-up rd2">
     <div class="u-card-header">
       <div class="u-card-pack-name">URANUS GFX PACK · Précommande</div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem;">
+        <span style="font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:rgba(196,181,253,.4);text-decoration:line-through;">35 000</span>
+        <span style="display:inline-flex;align-items:center;padding:.18rem .55rem;border-radius:100px;background:rgba(167,139,250,.18);border:1px solid rgba(167,139,250,.38);font-family:'Syne',sans-serif;font-size:.5rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;">PROMO</span>
+      </div>
       <div class="u-card-price">
-        <span class="u-card-price-num">35 000</span>
+        <span class="u-card-price-num" style="color:#c4b5fd;text-shadow:0 0 30px rgba(167,139,250,.45);">19 900</span>
         <span class="u-card-price-sub">FCFA<br>Pack complet</span>
       </div>
-      <div class="u-card-tag">⚡ Prix précommande</div>
+      <div class="u-card-tag" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.3);color:#c4b5fd;">🔥 Prix limité</div>
     </div>
     <div class="u-card-body">
       <div id="uranusForm2">
@@ -11409,7 +11791,7 @@ nav::before { display:none; }
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           Réserver mon pack
         </button>
-        <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20viens%20de%20remplir%20le%20formulaire%20pour%20l%27URANUS%20GFX%20PACK.%20Je%20suis%20pr%C3%AAt%20%C3%A0%20payer%20les%2035%20000%20FCFA%20via%20Wave%20%F0%9F%92%9C" target="_blank" rel="noopener" class="u-wa-btn" id="uranusWaveBtn2">
+        <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20viens%20de%20remplir%20le%20formulaire%20pour%20l%27URANUS%20GFX%20PACK.%20Je%20suis%20pr%C3%AAt%20%C3%A0%20payer%20les%2019%20900%20FCFA%20via%20Wave%20%F0%9F%92%9C" target="_blank" rel="noopener" class="u-wa-btn" id="uranusWaveBtn2">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.532 5.859L.057 23.571a.75.75 0 0 0 .921.921l5.712-1.475A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.698-.528-5.228-1.446l-.374-.224-3.892 1.004 1.004-3.892-.224-.374A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
           Confirmer sur WhatsApp
         </a>
@@ -11424,7 +11806,7 @@ nav::before { display:none; }
         <div class="u-success-ring">✓</div>
         <h4>Tu es dans la liste !</h4>
         <p>Dernière étape — confirme sur WhatsApp pour finaliser ta réservation.</p>
-        <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20viens%20de%20remplir%20le%20formulaire%20pour%20l%27URANUS%20GFX%20PACK.%20Je%20suis%20pr%C3%AAt%20%C3%A0%20payer%20les%2035%20000%20FCFA%20via%20Wave%20%F0%9F%92%9C" target="_blank" rel="noopener" class="u-wa-btn" style="display:flex;margin-top:1.25rem">
+        <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20viens%20de%20remplir%20le%20formulaire%20pour%20l%27URANUS%20GFX%20PACK.%20Je%20suis%20pr%C3%AAt%20%C3%A0%20payer%20les%2019%20900%20FCFA%20via%20Wave%20%F0%9F%92%9C" target="_blank" rel="noopener" class="u-wa-btn" style="display:flex;margin-top:1.25rem">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.532 5.859L.057 23.571a.75.75 0 0 0 .921.921l5.712-1.475A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.698-.528-5.228-1.446l-.374-.224-3.892 1.004 1.004-3.892-.224-.374A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
           Confirmer sur WhatsApp
         </a>
@@ -11589,6 +11971,24 @@ nav::before { display:none; }
   var cdInterval = setInterval(function(){ if(expired){ clearInterval(cdInterval); return; } tick(); }, 1000);
 })();
 
+/* ── Galerie Uranus : lightbox ── */
+function uGalOpen(src, cap) {
+  var lb = document.getElementById('u-gal-lb');
+  var img = document.getElementById('u-gal-lb-img');
+  var capEl = document.getElementById('u-gal-lb-cap');
+  if (!lb || !img) return;
+  img.src = src;
+  if (capEl) capEl.textContent = cap || '';
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function uGalClose() {
+  var lb = document.getElementById('u-gal-lb');
+  if (lb) lb.style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') uGalClose(); });
+
 /* ── Submit ── */
 function uranusSubmit2() {
   var name  = document.getElementById('uName2').value.trim();
@@ -11612,7 +12012,7 @@ function uranusSubmit2() {
       subject: 'URANUS GFX PACK — Nouvelle précommande',
       from_name: 'MDG Creative Studio',
       name: name, email: email, phone: phone,
-      message: 'Précommande URANUS GFX PACK · 35 000 FCFA\n\nNom : ' + name + '\nEmail : ' + email + '\nTéléphone : ' + phone
+      message: 'Précommande URANUS GFX PACK · 19 900 FCFA\n\nNom : ' + name + '\nEmail : ' + email + '\nTéléphone : ' + phone
     })
   }).then(function(res){ return res.json(); }).then(function(data){
     if (data.success) {
@@ -15327,7 +15727,7 @@ function applyComplexPatches(lang) {
   var uPriceUnit=document.querySelector('.u-price-unit');
   if(uPriceUnit) uPriceUnit.innerHTML=lang==='en'?'Full pack<br>pre-order':'Pack complet<br>précommande';
   var uPriceBadge=document.querySelector('.u-price-badge');
-  if(uPriceBadge) uPriceBadge.textContent=lang==='en'?'Price locked · final price will be higher':'Prix bloqué · tarif final plus élevé';
+  if(uPriceBadge) uPriceBadge.textContent=lang==='en'?'🔥 Limited price · final price will be higher':'🔥 Prix limité · tarif final plus élevé';
   var uBtnPrimary=document.querySelector('.u-btn-primary');
   if(uBtnPrimary) uBtnPrimary.textContent=lang==='en'?'Reserve my pack \u2192':'Réserver mon pack \u2192';
   var uSectionLabel=document.querySelector('.u-section-label');
@@ -17309,180 +17709,8 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
 
 })();
 </script>
-<script>
-(function(){
-  var A   = document.getElementById('heroVidA');
-  var B   = document.getElementById('heroVidB');
-  var IMG = document.getElementById('heroMobileImg');
-  if(!A || !B) return;
+<!-- Video removed — static image hero -->
 
-  var sequenceStarted = false; // guard contre double startSequence
-  var active          = null;  // vidéo actuellement en lecture
-  var fallbackTimer   = null;
-
-  /* ── Fallback image si rien ne démarre dans les 4s ── */
-  function armFallback(){
-    clearTimeout(fallbackTimer);
-    fallbackTimer = setTimeout(function(){
-      if(!active){
-        if(IMG){ IMG.style.opacity = '.9'; }
-        A.style.opacity = '0';
-        B.style.opacity = '0';
-      }
-    }, 4000);
-  }
-
-  /* ── Crossfade propre entre deux vidéos ── */
-  function crossfade(from, to){
-    to.currentTime = 0;
-    // iOS : changer preload seul ne suffit pas — load() force le fetch
-    /* Pas de load() ici — B préchargé dans startSequence */
-    var p = to.play();
-    if(p !== undefined){
-      p.then(function(){
-        clearTimeout(fallbackTimer);
-        to.style.opacity   = '.9';
-        if(from){ from.style.opacity = '0'; }
-        if(IMG){  IMG.style.opacity  = '0'; }
-        active = to;
-      }).catch(function(){
-        /* Autoplay bloqué (politique navigateur) — image reste visible */
-        to.style.opacity = '0';
-        if(IMG){ IMG.style.opacity = '.9'; }
-        active = null;
-      });
-    } else {
-      /* Vieux navigateur sans Promise */
-      clearTimeout(fallbackTimer);
-      to.style.opacity = '.9';
-      if(from){ from.style.opacity = '0'; }
-      if(IMG){  IMG.style.opacity  = '0'; }
-      active = to;
-    }
-  }
-
-  /* ── Attache les listeners de séquence (une seule fois) ── */
-  function startSequence(){
-    if(sequenceStarted) return;
-    sequenceStarted = true;
-
-    /* Ping-pong A→B→A */
-    /* Pré-lancer la suivante à 88% pour crossfade sans blanc */
-    A.addEventListener('timeupdate',function(){
-      if(!A.duration)return;
-      if(A.currentTime/A.duration>=0.88&&B.readyState<3){B.currentTime=0;B.play().catch(function(){});}
-    },{passive:true});
-    B.addEventListener('timeupdate',function(){
-      if(!B.duration)return;
-      if(B.currentTime/B.duration>=0.88&&A.readyState<3){A.currentTime=0;A.play().catch(function(){});}
-    },{passive:true});
-    A.addEventListener('ended', function(){ crossfade(A, B); }, {passive:true});
-    B.addEventListener('ended', function(){ crossfade(B, A); }, {passive:true});
-
-    /* Buffer stall : légère transparence pendant le rebuffering, jamais d'image par-dessus */
-    A.addEventListener('waiting', function(){ if(active===A){ A.style.opacity='.6'; } }, {passive:true});
-    A.addEventListener('playing', function(){ if(active===A){ A.style.opacity='.9'; if(IMG){ IMG.style.opacity='0'; } } }, {passive:true});
-    B.addEventListener('waiting', function(){ if(active===B){ B.style.opacity='.6'; } }, {passive:true});
-    B.addEventListener('playing', function(){ if(active===B){ B.style.opacity='.9'; if(IMG){ IMG.style.opacity='0'; } } }, {passive:true});
-
-    /* Précharger B pendant que A joue */
-    B.preload='auto'; B.load();
-    crossfade(null, A);
-  }
-
-  /* ── Démarre le chargement et lance la séquence dès que possible ── */
-  function initVideo(){
-    A.preload = 'auto';
-    B.preload = 'none'; // B chargé en différé, load() déclenché dans crossfade()
-    armFallback();
-
-    if(A.readyState >= 3){
-      /* Assez de données pour commencer */
-      startSequence();
-    } else {
-      /* Attendre canplay — {once:true} sur les deux pour éviter tout double-fire */
-      var fired = false;
-      function onCanPlay(){
-        if(fired) return;
-        fired = true;
-        startSequence();
-      }
-      A.addEventListener('canplay',      onCanPlay, {once:true, passive:true});
-      A.addEventListener('canplaythrough', onCanPlay, {once:true, passive:true});
-    }
-  }
-
-  /* ── Détection navigateur interne TikTok / ByteDance ── */
-  var ua = navigator.userAgent || '';
-  var isTikTokBrowser = /musical_ly|TikTok|BytedanceWebview|ByteLocale|Aweme/i.test(ua);
-  if(isTikTokBrowser){
-    A.style.display = 'none';
-    B.style.display = 'none';
-    if(IMG){ IMG.style.opacity = '.9'; }
-    return;
-  }
-
-  /* ── Init immédiate ── */
-  initVideo();
-
-  /* ── Récupération sur premier geste (iOS Safari strict autoplay) ──
-     On ne recharge PAS la vidéo si elle buffer déjà — on tente juste play() */
-  var recoveryDone = false;
-  function recoverAfterGesture(){
-    if(recoveryDone) return;
-    recoveryDone = true;
-    if(active){
-      /* Déjà en lecture — s'assurer qu'elle n'est pas suspendue */
-      active.play().catch(function(){});
-      return;
-    }
-    if(A.readyState >= 1){
-      /* Buffer en cours — tenter play() directement sans load() */
-      var p = A.play();
-      if(p !== undefined){
-        p.then(function(){
-          clearTimeout(fallbackTimer);
-          A.style.opacity = '.9';
-          if(IMG){ IMG.style.opacity = '0'; }
-          active = A;
-          if(!sequenceStarted){ startSequence(); }
-        }).catch(function(){
-          /* Toujours bloqué — rien de plus à faire */
-        });
-      }
-    } else {
-      /* Pas encore de données — reset propre puis relance */
-      sequenceStarted = false;
-      A.preload = 'auto';
-      A.load();
-      initVideo();
-    }
-  }
-  document.addEventListener('touchstart', recoverAfterGesture, {once:true, passive:true});
-  document.addEventListener('click',      recoverAfterGesture, {once:true, passive:true});
-
-  /* ── Pause / reprise selon visibilité onglet ── */
-  document.addEventListener('visibilitychange', function(){
-    if(document.hidden){
-      if(active) active.pause();
-    } else {
-      if(active) active.play().catch(function(){});
-    }
-  }, {passive:true});
-
-  /* ── Reprise après appswitch mobile (iOS bfcache / pageshow) ── */
-  window.addEventListener('pageshow', function(e){
-    /* e.persisted = vrai si page restaurée depuis le cache navigateur */
-    if(active) active.play().catch(function(){});
-  }, {passive:true});
-
-  /* ── Focus window : reprise après alt-tab Android Chrome ── */
-  window.addEventListener('focus', function(){
-    if(active && active.paused) active.play().catch(function(){});
-  }, {passive:true});
-
-})();
-</script>
 
 <!-- ══════════════════════════════════════════════════
      BOTTOM TAB BAR MOBILE — Sprint 3
@@ -18305,7 +18533,8 @@ function cqfGoBack() {
   #uranus .u-why-item,
   #uranus .u-why-num,
   #uranus .u-why-txt,
-  #uranus .u-assets-grid,
+  #uranus .u-gallery-premium,
+  #uranus .u-gal-premium,
   #uranus .u-section-label,
   #uranus .u-why-grid,
   #uranus .u-content {
