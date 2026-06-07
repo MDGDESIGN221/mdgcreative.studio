@@ -8116,10 +8116,22 @@ body,
     display: block !important;
   }
 
-  /* Tagline — juste sous le H1 */
+  /* CTAs — bas centré, ancre fixe */
+  .hero-ctas {
+    position: absolute !important;
+    bottom: 7rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Tagline — juste AU-DESSUS des CTAs, même ancrage bottom */
   .hero-sub {
     position: absolute !important;
-    top: calc(50% + clamp(4rem, 8vw, 9rem)) !important;
+    bottom: calc(7rem + 56px + 1.4rem) !important;
+    top: auto !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     text-align: center !important;
@@ -8132,17 +8144,6 @@ body,
     font-size: clamp(.55rem, .8vw, .68rem) !important;
     letter-spacing: .2em !important;
     pointer-events: none !important;
-  }
-
-  /* CTAs — bas centré */
-  .hero-ctas {
-    position: absolute !important;
-    bottom: 7.5rem !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
   }
 
   /* Portfolio links — bas gauche sous CTAs */
@@ -8420,11 +8421,12 @@ body,
 /* 2. hero-sub + hero-ctas : éviter le chevauchement sur desktop intermédiaire */
 @media(min-width:768px) and (max-width:1200px) {
   .hero-sub {
-    top: calc(50% + clamp(3.5rem, 7vw, 8rem)) !important;
-    font-size: clamp(.5rem, .72vw, .65rem) !important;
+    bottom: calc(6.5rem + 52px + 1.2rem) !important;
+    top: auto !important;
+    font-size: clamp(.5rem, .72vw, .62rem) !important;
   }
   .hero-ctas {
-    bottom: 7rem !important;
+    bottom: 6.5rem !important;
   }
 }
 
