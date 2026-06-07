@@ -7745,6 +7745,8 @@ nav::before { display:none; }
   }
   .stat{padding:.7rem .35rem .85rem !important}
   .stat-number{font-size:1.15rem !important}
+  .stat-number.outline{-webkit-text-stroke:0 !important;color:#fff !important}
+  .stat-number.outline .suf{-webkit-text-stroke:0 !important;color:#fff !important}
   .stat-label{font-size:.48rem !important;letter-spacing:.1em}
 
   /* ── ABOUT ── */
@@ -8108,7 +8110,7 @@ body,
   /* CTAs — bas centré */
   .hero-ctas {
     position: absolute !important;
-    bottom: 4.5rem !important;
+    bottom: 6rem !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     padding: 0 !important;
@@ -8357,8 +8359,68 @@ body,
   .process-header h2 { font-size: clamp(1.4rem, 5.5vw, 1.9rem) !important; }
 }
 
+/* ── FIX PAQUET FINAL ── */
+
+/* 1. Behance / hero-portfolio-links : toujours visible sur desktop,
+      compact sur mobile sous les CTAs */
+@media(max-width:640px) {
+  .hero-portfolio-links {
+    display: flex !important;
+    opacity: 1 !important;
+    animation: none !important;
+    position: static !important;
+    justify-content: center !important;
+    margin: 0 auto .5rem !important;
+    gap: .5rem !important;
+  }
+  .hero-portfolio-link {
+    font-size: .5rem !important;
+    letter-spacing: .14em !important;
+    color: rgba(255,255,255,.55) !important;
+  }
+  .hero-portfolio-sep {
+    color: rgba(255,255,255,.25) !important;
+    font-size: .55rem !important;
+  }
+}
+/* Desktop : s'assurer que l'animation est bien jouée */
+@media(min-width:641px) {
+  .hero-portfolio-links {
+    animation: fu .9s .2s ease forwards !important;
+  }
+}
+
+/* 2. hero-sub + hero-ctas : éviter le chevauchement sur desktop intermédiaire */
+@media(min-width:768px) and (max-width:1200px) {
+  .hero-sub {
+    top: calc(50% + clamp(4rem, 8vw, 10rem)) !important;
+    font-size: clamp(.52rem, .78vw, .68rem) !important;
+  }
+  .hero-ctas {
+    bottom: 7rem !important;
+  }
+}
+
+/* 3. sp-h2 — empêcher débordement sur mobile */
+@media(max-width:640px) {
+  .sp-h2 {
+    max-width: 100% !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+  }
+  .sp-header {
+    overflow: hidden !important;
+  }
+}
+
+/* 4. tab actif lisible — port-new-tab-btn inactive plus visible */
+.port-new-tab-btn:not(.active) {
+  color: rgba(255,255,255,.45) !important;
+}
+.port-new-tab-btn:not(.active) svg {
+  opacity: .45 !important;
+}
 </style>
-</head>
 <body>
 
 <div id="easter-egg">
@@ -8685,21 +8747,21 @@ body,
       </div>
       <div class="port-tabs-wrap">
       <div class="port-new-tabs-row">
-        <button class="port-new-tab-btn active" onclick="pnlSwitch('motion',this)" data-panel="motion" data-count="9" data-label="vidéos · In Motion">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>In Motion
+        <button class="port-new-tab-btn active" onclick="pnlSwitch('work',this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Graphisme
         </button>
         <button class="port-new-tab-btn" onclick="pnlSwitch('covers',this)" data-panel="covers" data-count="14" data-label="covers · Cover Art">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><path d="M21 15l-5-5L5 21"/></svg>Cover Art
         </button>
-        <button class="port-new-tab-btn" onclick="pnlSwitch('work',this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Graphisme
+        <button class="port-new-tab-btn" onclick="pnlSwitch('motion',this)" data-panel="motion" data-count="9" data-label="vidéos · In Motion">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>In Motion
         </button>
       </div>
       </div>
     </div>
 
     <!-- Panel Graphisme -->
-    <div class="pnl-acc" id="pnl-work">
+    <div class="pnl-acc active" id="pnl-work">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
       <div class="work-nav">
         <span class="work-counter"><strong id="workCur">01</strong> / <span id="workTot">22</span></span>
@@ -8713,11 +8775,11 @@ body,
           Glisse pour explorer
         </div>
       <div class="work-track" id="workTrack">
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/falilou-edit_qzdp3w.jpg" data-lb-title="Falilou" data-lb-desc="Editorial · Portrait · Edit 01 · Ivy League" class-trigger="lightbox">
-          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/falilou-edit_qzdp3w.jpg" alt="Falilou — Editorial">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" data-lb-title="USA vs Sénégal" data-lb-desc="Sports Key Visual · Direction Artistique" class-trigger="lightbox">
+          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" alt="USA vs Sénégal — Sports Key Visual">
           <div class="work-meta">
-            <div class="work-cat">Editorial · Portrait</div>
-            <div class="work-title">Falilou<em>Edit 01 · Ivy League</em></div>
+            <div class="work-cat">Sports Key Visual</div>
+            <div class="work-title">USA vs Sénégal<em>Direction Artistique</em></div>
           </div>
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
@@ -8736,6 +8798,15 @@ body,
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">Steadiness<em>Sénégal vs Maroc</em></div>
+          </div>
+          <div class="work-overlay"></div>
+          <div class="work-card-bar"></div>
+        </a>
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/falilou-edit_qzdp3w.jpg" data-lb-title="Falilou" data-lb-desc="Editorial · Portrait · Edit 01 · Ivy League" class-trigger="lightbox">
+          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/falilou-edit_qzdp3w.jpg" alt="Falilou — Editorial">
+          <div class="work-meta">
+            <div class="work-cat">Editorial · Portrait</div>
+            <div class="work-title">Falilou<em>Edit 01 · Ivy League</em></div>
           </div>
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
@@ -8917,7 +8988,7 @@ body,
     </div>
 
     <div class="work-footer reveal-fade rd2" style="margin:2.5rem 3rem 0;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap">
-      <div class="work-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:middle"><path d="M21 12H3M3 12l4-4M3 12l4 4M21 12l-4-4M21 12l-4 4"/></svg> Fais glisser ou utilise les flèches</div>
+      <div class="work-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:middle"><path d="M21 12H3M3 12l4-4M3 12l4 4M21 12l-4-4M21 12l-4 4"/></svg> Glisse pour explorer</div>
       <a href="#contact" class="work-more">Envie de voir plus <span class="arr">→</span></a>
     </div>
   </div>
@@ -9103,7 +9174,7 @@ body,
   </div><!-- fin acc-covers -->
 
   <!-- ── PANEL MOTION ── -->
-  <div class="pnl-acc active" id="pnl-motion">
+  <div class="pnl-acc" id="pnl-motion">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
       <div>
         <div class="sec-label reveal-line" style="opacity:1;transform:none;clip-path:none">Frames</div>
@@ -16556,7 +16627,7 @@ function applyComplexPatches(lang) {
   var spH2 = document.querySelector('#social-proof .sp-h2');
   if (spH2) spH2.innerHTML = lang === 'en'
     ? 'Collaborators who spoke<em> on their own.</em>'
-    : 'Des collaborateurs qui ont pris la parole<em> d\'eux-mêmes.</em>';
+    : 'Ce qu\'ils disent<em> d\'eux-mêmes.</em>';
   var spQuoteAuthor = document.querySelector('.sp-quote-role');
   if (spQuoteAuthor) spQuoteAuthor.textContent = lang === 'en'
     ? 'Producer / Artist · Senegal · 6 years of collaboration'
@@ -18802,7 +18873,7 @@ function cqfGoBack() {
 }
 
 /* ── Fix acc-motion : panel actif par défaut mais GSAP peut bloquer l'opacité ── */
-#acc-motion.active .work-card {
+#pnl-work.active .work-card {
   opacity: 1 !important;
   transform: none !important;
 }
@@ -18836,9 +18907,9 @@ function cqfGoBack() {
   .port-h2,
   .port-extract-label,
   .port-count,
-  #acc-motion .work-card,
-  #acc-work .work-card,
-  #acc-covers .cov-card {
+  #pnl-motion .work-card,
+  #pnl-work .work-card,
+  #pnl-covers .cov-card {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
@@ -18972,14 +19043,14 @@ if (document.readyState === 'loading') {
   fixYT();
 }
 
-/* ── Fix mobile : forcer opacity:1 sur acc-motion au chargement ── */
+/* ── Fix mobile : forcer opacity:1 sur acc-work au chargement (panel actif par défaut) ── */
 (function(){
   function fixMobileOpacity() {
     if (window.innerWidth > 768) return;
-    // Forcer la visibilité de toutes les work-cards dans acc-motion (panel actif par défaut)
-    var motionPanel = document.getElementById('acc-motion');
-    if (motionPanel) {
-      motionPanel.querySelectorAll('.work-card').forEach(function(el) {
+    // Forcer la visibilité de toutes les work-cards dans acc-work (panel actif par défaut)
+    var workPanel = document.getElementById('pnl-work');
+    if (workPanel) {
+      workPanel.querySelectorAll('.work-card').forEach(function(el) {
         el.style.opacity = '1';
         el.style.transform = 'none';
       });
