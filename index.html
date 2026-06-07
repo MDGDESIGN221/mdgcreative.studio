@@ -7988,6 +7988,139 @@ body,
   .hero-hud-val   { font-size: .54rem !important; }
 }
 
+/* ════════════════════════════════════════════════════
+   PATCH 2 — image desktop, mobile hero, titres sections
+   ════════════════════════════════════════════════════ */
+
+/* A. IMAGE DESKTOP — dézoomer : on centre le sujet,
+      brightness un peu plus haute pour ne pas trop assombrir */
+#heroDesktopImg {
+  object-position: 50% 20% !important;
+  filter: contrast(1.02) brightness(.95) !important;
+}
+
+/* B. MOBILE HERO — centrage + minimalisme
+      Le titre au centre, les éléments superflus cachés,
+      gradient plus fort en bas pour ancrer le texte */
+@media(max-width:640px) {
+  /* Gradient mobile — fondu fort du bas vers le haut */
+  .hero-gradient-overlay {
+    background: linear-gradient(to top,
+      rgba(6,6,6,.96) 0%,
+      rgba(6,6,6,.72) 30%,
+      rgba(6,6,6,.28) 60%,
+      rgba(6,6,6,0) 100%
+    ) !important;
+  }
+
+  /* hero-left : flex colonne, tout centré, texte en bas */
+  .hero-left {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    text-align: center !important;
+    padding: calc(var(--nav-h,72px) + 1rem) 1.5rem 1.5rem !important;
+  }
+
+  /* Eyebrow : plus petit, centré */
+  .hero-eyebrow {
+    text-align: center !important;
+    margin-bottom: 1rem !important;
+    font-size: .46rem !important;
+  }
+
+  /* H1 — centré, taille raisonnable */
+  .hero-name {
+    text-align: center !important;
+    font-size: clamp(2rem, 10.5vw, 2.8rem) !important;
+    line-height: 1 !important;
+  }
+  .hero-name-sub {
+    text-align: center !important;
+    font-size: clamp(1.8rem, 9vw, 2.4rem) !important;
+  }
+
+  /* hero-sub — centré, simplifié */
+  .hero-sub {
+    text-align: center !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    font-size: .6rem !important;
+    margin-bottom: 1.25rem !important;
+    max-width: 280px !important;
+  }
+
+  /* CTAs — centré */
+  .hero-ctas {
+    align-items: center !important;
+    flex-direction: column !important;
+    width: fit-content !important;
+    margin: 0 auto 1rem auto !important;
+  }
+
+  /* Portfolio links — cachés sur mobile (minimalisme) */
+  .hero-portfolio-links { display: none !important; }
+
+  /* Type-wrap (Brand Identity typing) — caché sur mobile */
+  .hero-type-wrap { display: none !important; }
+
+  /* HUD top droite — plus discret sur mobile */
+  .hero-hud-tr { opacity: .7 !important; }
+}
+
+/* C. TITRES DE SECTIONS — même ADN que "L'ÉLITE SE REMARQUE"
+      Syne 800, uppercase, letter-spacing serré */
+.port-h2,
+.sp-h2,
+.about-main-title,
+.svc-h2,
+.collabs-main-title,
+.faq-h2,
+.contact-h2,
+.cpop-title,
+.about-title,
+.process-header h2 {
+  font-family: 'Syne', sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -.03em !important;
+  line-height: .95 !important;
+}
+
+/* Les em italiques dans les titres — Instrument Serif, pas uppercase */
+.port-h2 em,
+.sp-h2 em,
+.about-main-title em,
+.svc-h2 em,
+.collabs-main-title em,
+.faq-h2 em,
+.contact-h2 em,
+.cpop-title em {
+  font-family: 'Instrument Serif', serif !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: -.01em !important;
+}
+
+/* D. MOBILE — titres sections : taille raisonnable */
+@media(max-width:640px) {
+  .port-h2         { font-size: clamp(2rem, 8.5vw, 3rem) !important; }
+  .sp-h2           { font-size: clamp(1.6rem, 7vw, 2.4rem) !important; }
+  .about-main-title{ font-size: clamp(1.8rem, 8vw, 2.8rem) !important; }
+  .svc-h2          { font-size: clamp(1.6rem, 7vw, 2.4rem) !important; }
+  .collabs-main-title { font-size: clamp(1.6rem, 7vw, 2.4rem) !important; }
+  .faq-h2          { font-size: clamp(1.5rem, 6.5vw, 2.2rem) !important; }
+  .contact-h2      { font-size: clamp(2rem, 9vw, 3rem) !important; }
+
+  /* Sections padding mobile — plus compact */
+  #about, #services, #collabs, #process, #pricing, #faq, #contact {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+}
+
 </style>
 </head>
 <body>
