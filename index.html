@@ -3621,8 +3621,8 @@ nav::before { display:none; }
     0 0 40px rgba(255,255,255,0.02) !important;
 }
 .pack-card:hover,.adv-card:hover{transform:translateY(-8px) !important;box-shadow:var(--glass-shadow-hover) !important;border-color:rgba(255,255,255,0.08) !important}
-.pack-card.featured,.adv-card.featured{border-color:rgba(200,250,100,.2) !important;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(200,250,100,.12),0 0 60px rgba(200,250,100,.04) !important}
-.pack-card.featured:hover,.adv-card.featured:hover{box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(200,250,100,.3),0 0 100px rgba(200,250,100,.1) !important}
+.pack-card.featured,.adv-card.featured{border-color:rgba(125,211,252,.2) !important;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(125,211,252,.12),0 0 60px rgba(125,211,252,.04) !important}
+.pack-card.featured:hover,.adv-card.featured:hover{box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(125,211,252,.3),0 0 100px rgba(125,211,252,.1) !important}
 /* Silver / Gold / Diamond : leurs styles spécifiques ci-dessous prennent le dessus */
 
 /* ══ PROCESS STEPS ══ */
@@ -5472,6 +5472,10 @@ nav::before { display:none; }
   --gold-dim: #b8880a;
   --gold-glow: rgba(240,192,64,.15);
   --gold-border: rgba(240,192,64,.35);
+  --diamond: #7dd3fc;
+  --diamond-dim: #38a3d4;
+  --diamond-glow: rgba(125,211,252,.18);
+  --diamond-border: rgba(125,211,252,.4);
 }
 
 /* ── SILVER card ── */
@@ -5590,41 +5594,51 @@ nav::before { display:none; }
 
 /* ── DIAMOND card — déjà featured, on renforce ── */
 .pack-card.featured.diamond-card {
-  background: linear-gradient(145deg, rgba(255,255,255,0.15) 0%, rgba(10,14,6,1) 52%) !important;
-  border-color: rgba(255,255,255,0.3) !important;
+  background: linear-gradient(145deg, rgba(125,211,252,0.08) 0%, rgba(6,14,22,1) 52%) !important;
+  border-color: rgba(125,211,252,0.35) !important;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.19),
-    inset 1px 0 0 rgba(255,255,255,0.04),
-    0 0 0 1px rgba(255,255,255,0.15),
+    inset 0 1px 0 rgba(125,211,252,0.22),
+    inset 1px 0 0 rgba(125,211,252,0.06),
+    0 0 0 1px rgba(125,211,252,0.18),
     0 16px 50px rgba(0,0,0,.65),
-    0 0 80px rgba(255,255,255,0.06) !important;
+    0 0 80px rgba(125,211,252,0.07) !important;
 }
 .pack-card.featured.diamond-card:hover {
-  border-color: rgba(255,255,255,0.45) !important;
+  border-color: rgba(125,211,252,0.55) !important;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.25),
-    inset 1px 0 0 rgba(255,255,255,0.06),
-    0 0 0 1px rgba(255,255,255,0.23),
+    inset 0 1px 0 rgba(125,211,252,0.3),
+    inset 1px 0 0 rgba(125,211,252,0.08),
+    0 0 0 1px rgba(125,211,252,0.28),
     0 28px 70px rgba(0,0,0,.75),
-    0 0 100px rgba(255,255,255,0.08) !important;
+    0 0 100px rgba(125,211,252,0.1) !important;
 }
 .pack-card.featured.diamond-card::before {
-  background: radial-gradient(ellipse at 30% 0%, rgba(255,255,255,0.12) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 30% 0%, rgba(125,211,252,0.14) 0%, transparent 60%);
   opacity: 1 !important;
 }
-.pack-card.featured.diamond-card .pack-name { color: var(--accent); }
-.pack-card.featured.diamond-card .pack-tier { color: rgba(255,255,255,0.3); }
-.pack-card.featured.diamond-card .pack-price { color: var(--accent); }
-.pack-card.featured.diamond-card .pack-features li .feat-icon { color: var(--accent); }
+.pack-card.featured.diamond-card .pack-name { color: var(--diamond); }
+.pack-card.featured.diamond-card .pack-tier { color: rgba(125,211,252,0.45); }
+.pack-card.featured.diamond-card .pack-price { color: var(--diamond); }
+.pack-card.featured.diamond-card .pack-features li .feat-icon { color: var(--diamond); }
+.pack-card.featured.diamond-card .pack-cta {
+  border-color: var(--diamond-border);
+  color: var(--diamond);
+}
+.pack-card.featured.diamond-card .pack-cta:hover {
+  background: rgba(125,211,252,0.1);
+  border-color: var(--diamond);
+  color: var(--diamond);
+}
+.pack-card.featured.diamond-card .pack-divider { background: var(--diamond-border); }
 .pack-card.featured.diamond-card .pack-curtain-badge {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.12);
-  color: var(--accent);
+  background: rgba(125,211,252,0.08);
+  border-color: rgba(125,211,252,0.2);
+  color: var(--diamond);
 }
 
 .pack-icon.silver { background: rgba(192,200,216,.12); border: 1px solid rgba(192,200,216,.25); }
 .pack-icon.gold   { background: rgba(240,192,64,.1);   border: 1px solid rgba(240,192,64,.28); }
-.pack-icon.diamond { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); }
+.pack-icon.diamond { background: rgba(125,211,252,.08); border: 1px solid rgba(125,211,252,.22); }
 
 /* ── Tier badge — pill coloré ── */
 .pack-tier {
@@ -7188,6 +7202,19 @@ nav::before { display:none; }
 @media(max-width:900px){
   #collabs{padding:4rem 0}
   .collabs-hdr,.collabs-main-title,.collabs-main-sub{padding-left:1.5rem;padding-right:1.5rem}
+  .collabs-hdr{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:1rem;
+    margin-bottom:1.25rem;
+  }
+  .collabs-hdr-right{
+    flex-direction:row;
+    align-items:center;
+    gap:.75rem;
+  }
+  .collabs-counter-num{font-size:2.4rem}
+  .collabs-counter-txt{text-align:left;margin-top:0}
   #artist-stage{padding:2rem .75rem 1.5rem;min-height:auto;gap:.25rem}
   .stage-counter{display:none}
   .artist-cutout img{height:240px}
@@ -8092,7 +8119,7 @@ body,
   /* Tagline — juste sous le H1 */
   .hero-sub {
     position: absolute !important;
-    top: calc(50% + clamp(5rem, 10vw, 12rem)) !important;
+    top: calc(50% + clamp(4rem, 8vw, 9rem)) !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     text-align: center !important;
@@ -8102,7 +8129,7 @@ body,
     padding: 0 !important;
     margin: 0 !important;
     border-left: none !important;
-    font-size: clamp(.58rem, .85vw, .72rem) !important;
+    font-size: clamp(.55rem, .8vw, .68rem) !important;
     letter-spacing: .2em !important;
     pointer-events: none !important;
   }
@@ -8110,7 +8137,7 @@ body,
   /* CTAs — bas centré */
   .hero-ctas {
     position: absolute !important;
-    bottom: 6rem !important;
+    bottom: 7.5rem !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     padding: 0 !important;
@@ -8393,8 +8420,8 @@ body,
 /* 2. hero-sub + hero-ctas : éviter le chevauchement sur desktop intermédiaire */
 @media(min-width:768px) and (max-width:1200px) {
   .hero-sub {
-    top: calc(50% + clamp(4rem, 8vw, 10rem)) !important;
-    font-size: clamp(.52rem, .78vw, .68rem) !important;
+    top: calc(50% + clamp(3.5rem, 7vw, 8rem)) !important;
+    font-size: clamp(.5rem, .72vw, .65rem) !important;
   }
   .hero-ctas {
     bottom: 7rem !important;
@@ -8784,20 +8811,20 @@ body,
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/match-day-sadio_we5xzy.jpg" data-lb-title="Match Day" data-lb-desc="Matchday Poster · Sadio Mané · Sénégal vs Maroc" class-trigger="lightbox">
-          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/match-day-sadio_we5xzy.jpg" alt="Match Day — Sadio Mané">
-          <div class="work-meta">
-            <div class="work-cat">Matchday Poster</div>
-            <div class="work-title">Match Day<em>Sadio Mané · Sénégal vs Maroc</em></div>
-          </div>
-          <div class="work-overlay"></div>
-          <div class="work-card-bar"></div>
-        </a>
         <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/steadiness_gzcuvj.jpg" data-lb-title="Steadiness" data-lb-desc="Sports Key Visual · Sénégal vs Maroc" class-trigger="lightbox">
           <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/steadiness_gzcuvj.jpg" alt="Steadiness — Sénégal vs Maroc">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">Steadiness<em>Sénégal vs Maroc</em></div>
+          </div>
+          <div class="work-overlay"></div>
+          <div class="work-card-bar"></div>
+        </a>
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/match-day-sadio_we5xzy.jpg" data-lb-title="Match Day" data-lb-desc="Matchday Poster · Sadio Mané · Sénégal vs Maroc" class-trigger="lightbox">
+          <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/match-day-sadio_we5xzy.jpg" alt="Match Day — Sadio Mané">
+          <div class="work-meta">
+            <div class="work-cat">Matchday Poster</div>
+            <div class="work-title">Match Day<em>Sadio Mané · Sénégal vs Maroc</em></div>
           </div>
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
@@ -10796,15 +10823,16 @@ body,
     <div class="pricing-panel active" id="panel-primaires">
       <div class="packs-grid reveal-up rd2">
 
-        <!-- SILVER -->
-        <div class="pack-card silver-card">
-          <!-- RIDEAU SILVER -->
-          <div class="pack-curtain" data-pack="silver">
-            <div class="pack-curtain-face">
-              <div class="pack-curtain-num">S</div>
+        <!-- DIAMOND — featured — 1er -->
+        <div class="pack-card featured diamond-card">
+          <div class="pack-badge">Le + complet</div>
+          <!-- RIDEAU DIAMOND -->
+          <div class="pack-curtain" data-pack="diamond">
+            <div class="pack-curtain-face" style="background:linear-gradient(160deg,rgba(6,18,30,.97) 0%,rgba(4,10,20,.99) 100%)">
+              <div class="pack-curtain-num" style="color:rgba(125,211,252,0.08)">D</div>
               <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
-              <div class="pack-curtain-tier">Pack Primaire</div>
-              <div class="pack-curtain-name">Silver</div>
+              <div class="pack-curtain-tier" style="color:rgba(125,211,252,0.35)">Pack Album — Le + Complet</div>
+              <div class="pack-curtain-name" style="color:var(--diamond)">Diamond</div>
               <div class="pack-curtain-hint">
                 <div class="pack-curtain-hint-text">Glisse pour révéler</div>
                 <div class="pack-curtain-arrow"><span></span><span></span><span></span></div>
@@ -10813,35 +10841,35 @@ body,
               <div class="pack-curtain-light"></div>
             </div>
           </div>
-          <!-- Icône 3D disque vinyle / médaille -->
-          <div class="pack-icon silver">
+          <div class="pack-icon diamond">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <ellipse cx="14" cy="15" rx="12" ry="3" fill="rgba(180,180,200,.18)"/>
-              <circle cx="14" cy="13" r="11" fill="url(#sv1)" stroke="rgba(200,210,230,.35)" stroke-width=".8"/>
-              <circle cx="14" cy="13" r="6" fill="rgba(140,150,170,.25)" stroke="rgba(200,210,230,.25)" stroke-width=".5"/>
-              <circle cx="14" cy="13" r="2.5" fill="rgba(220,225,240,.6)"/>
-              <path d="M14 4 Q18 7 18 13 Q18 19 14 22 Q10 19 10 13 Q10 7 14 4Z" fill="rgba(255,255,255,.06)"/>
-              <defs><radialGradient id="sv1" cx="35%" cy="30%"><stop offset="0%" stop-color="#d8dce8"/><stop offset="60%" stop-color="#9aa0b8"/><stop offset="100%" stop-color="#6a7088"/></radialGradient></defs>
+              <ellipse cx="14" cy="22" rx="9" ry="2" fill="rgba(125,211,252,.14)"/>
+              <polygon points="14,3 22,10 19,23 9,23 6,10" fill="url(#dv1)" stroke="rgba(125,211,252,0.35)" stroke-width=".7" stroke-linejoin="round"/>
+              <polygon points="14,3 22,10 14,10 6,10" fill="rgba(125,211,252,.22)" stroke="rgba(125,211,252,0.2)" stroke-width=".5"/>
+              <polygon points="14,10 19,23 9,23" fill="rgba(56,163,212,.14)"/>
+              <line x1="14" y1="10" x2="14" y2="23" stroke="rgba(125,211,252,0.15)" stroke-width=".6"/>
+              <line x1="6" y1="10" x2="22" y2="10" stroke="rgba(125,211,252,0.18)" stroke-width=".5"/>
+              <defs><linearGradient id="dv1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bae6fd"/><stop offset="40%" stop-color="#7dd3fc"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs>
             </svg>
           </div>
-          <div class="pack-tier">Pack — Cover Simple</div>
-          <div class="pack-name">Silver</div>
-          <div class="pack-sub">Idéal pour un single ou projet rapide.</div>
+          <div class="pack-tier">Pack — Album</div>
+          <div class="pack-name">Diamond</div>
+          <div class="pack-sub">Pour album complet avec mini direction artistique offerte.</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">25.000</span>
+              <span class="ppd-amount">95.000</span>
               <span class="ppd-unit">XOF</span>
             </div>
           <div class="pack-divider"></div>
           <ul class="pack-features">
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique pour ta cover</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>2 révisions</strong> incluses</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>Livrables <strong>PNG / JPG</strong> haute résolution</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong></div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique premium pour ta cover</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>4 révisions</strong> incluses</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>PNG/JPG + <strong>tracklist pro</strong> + support réseaux complet</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>Bonus offert :</strong> mini direction artistique (moodboard, palette, typo)</div></li>
           </ul>
-          <button class="pack-cta" onclick="openPackModal('silver')">Démarrer ce pack →</button>
+          <button class="pack-cta" onclick="openPackModal('diamond')">Démarrer ce pack →</button>
         </div>
 
-        <!-- GOLD -->
+        <!-- GOLD — 2e -->
         <div class="pack-card gold-card">
           <!-- RIDEAU GOLD -->
           <div class="pack-curtain" data-pack="gold">
@@ -10886,16 +10914,15 @@ body,
           <button class="pack-cta" onclick="openPackModal('gold')">Démarrer ce pack →</button>
         </div>
 
-        <!-- DIAMOND — featured -->
-        <div class="pack-card featured diamond-card">
-          <div class="pack-badge">Le + complet</div>
-          <!-- RIDEAU DIAMOND -->
-          <div class="pack-curtain" data-pack="diamond">
-            <div class="pack-curtain-face" style="background:linear-gradient(160deg,rgba(12,18,8,.97) 0%,rgba(8,14,4,.99) 100%)">
-              <div class="pack-curtain-num" style="color:rgba(255,255,255,0.06)">D</div>
+        <!-- SILVER — 3e -->
+        <div class="pack-card silver-card">
+          <!-- RIDEAU SILVER -->
+          <div class="pack-curtain" data-pack="silver">
+            <div class="pack-curtain-face">
+              <div class="pack-curtain-num">S</div>
               <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
-              <div class="pack-curtain-tier" style="color:rgba(255,255,255,0.28)">Pack Album — Le + Complet</div>
-              <div class="pack-curtain-name" style="color:var(--accent)">Diamond</div>
+              <div class="pack-curtain-tier">Pack Primaire</div>
+              <div class="pack-curtain-name">Silver</div>
               <div class="pack-curtain-hint">
                 <div class="pack-curtain-hint-text">Glisse pour révéler</div>
                 <div class="pack-curtain-arrow"><span></span><span></span><span></span></div>
@@ -10904,32 +10931,32 @@ body,
               <div class="pack-curtain-light"></div>
             </div>
           </div>
-          <div class="pack-icon diamond">
+          <!-- Icône 3D disque vinyle / médaille -->
+          <div class="pack-icon silver">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <ellipse cx="14" cy="22" rx="9" ry="2" fill="rgba(150,250,100,.12)"/>
-              <polygon points="14,3 22,10 19,23 9,23 6,10" fill="url(#dv1)" stroke="rgba(255,255,255,0.28)" stroke-width=".7" stroke-linejoin="round"/>
-              <polygon points="14,3 22,10 14,10 6,10" fill="rgba(220,255,150,.22)" stroke="rgba(255,255,255,0.17)" stroke-width=".5"/>
-              <polygon points="14,10 19,23 9,23" fill="rgba(180,240,80,.12)"/>
-              <line x1="14" y1="10" x2="14" y2="23" stroke="rgba(255,255,255,0.11)" stroke-width=".6"/>
-              <line x1="6" y1="10" x2="22" y2="10" stroke="rgba(255,255,255,0.14)" stroke-width=".5"/>
-              <defs><linearGradient id="dv1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8ffb0"/><stop offset="40%" stop-color="#e0e0e0"/><stop offset="100%" stop-color="#5a9010"/></linearGradient></defs>
+              <ellipse cx="14" cy="15" rx="12" ry="3" fill="rgba(180,180,200,.18)"/>
+              <circle cx="14" cy="13" r="11" fill="url(#sv1)" stroke="rgba(200,210,230,.35)" stroke-width=".8"/>
+              <circle cx="14" cy="13" r="6" fill="rgba(140,150,170,.25)" stroke="rgba(200,210,230,.25)" stroke-width=".5"/>
+              <circle cx="14" cy="13" r="2.5" fill="rgba(220,225,240,.6)"/>
+              <path d="M14 4 Q18 7 18 13 Q18 19 14 22 Q10 19 10 13 Q10 7 14 4Z" fill="rgba(255,255,255,.06)"/>
+              <defs><radialGradient id="sv1" cx="35%" cy="30%"><stop offset="0%" stop-color="#d8dce8"/><stop offset="60%" stop-color="#9aa0b8"/><stop offset="100%" stop-color="#6a7088"/></radialGradient></defs>
             </svg>
           </div>
-          <div class="pack-tier">Pack — Album</div>
-          <div class="pack-name">Diamond</div>
-          <div class="pack-sub">Pour album complet avec mini direction artistique offerte.</div>
+          <div class="pack-tier">Pack — Cover Simple</div>
+          <div class="pack-name">Silver</div>
+          <div class="pack-sub">Idéal pour un single ou projet rapide.</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">95.000</span>
+              <span class="ppd-amount">25.000</span>
               <span class="ppd-unit">XOF</span>
             </div>
           <div class="pack-divider"></div>
           <ul class="pack-features">
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique premium pour ta cover</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>4 révisions</strong> incluses</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>PNG/JPG + <strong>tracklist pro</strong> + support réseaux complet</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>Bonus offert :</strong> mini direction artistique (moodboard, palette, typo)</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique pour ta cover</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>2 révisions</strong> incluses</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>Livrables <strong>PNG / JPG</strong> haute résolution</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong></div></li>
           </ul>
-          <button class="pack-cta" onclick="openPackModal('diamond')">Démarrer ce pack →</button>
+          <button class="pack-cta" onclick="openPackModal('silver')">Démarrer ce pack →</button>
         </div>
 
       </div>
