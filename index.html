@@ -3621,8 +3621,8 @@ nav::before { display:none; }
     0 0 40px rgba(255,255,255,0.02) !important;
 }
 .pack-card:hover,.adv-card:hover{transform:translateY(-8px) !important;box-shadow:var(--glass-shadow-hover) !important;border-color:rgba(255,255,255,0.08) !important}
-.pack-card.featured,.adv-card.featured{border-color:rgba(125,211,252,.2) !important;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(125,211,252,.12),0 0 60px rgba(125,211,252,.04) !important}
-.pack-card.featured:hover,.adv-card.featured:hover{box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(125,211,252,.3),0 0 100px rgba(125,211,252,.1) !important}
+.pack-card.featured,.adv-card.featured{border-color:rgba(232,228,220,.2) !important;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(232,228,220,.12),0 0 60px rgba(232,228,220,.04) !important}
+.pack-card.featured:hover,.adv-card.featured:hover{box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(232,228,220,.3),0 0 100px rgba(232,228,220,.1) !important}
 /* Silver / Gold / Diamond : leurs styles spécifiques ci-dessous prennent le dessus */
 
 /* ══ PROCESS STEPS ══ */
@@ -5472,10 +5472,10 @@ nav::before { display:none; }
   --gold-dim: #b8880a;
   --gold-glow: rgba(240,192,64,.15);
   --gold-border: rgba(240,192,64,.35);
-  --diamond: #7dd3fc;
-  --diamond-dim: #38a3d4;
-  --diamond-glow: rgba(125,211,252,.18);
-  --diamond-border: rgba(125,211,252,.4);
+  --diamond: #e8e4dc;
+  --diamond-dim: #c4bfb6;
+  --diamond-glow: rgba(232,228,220,.14);
+  --diamond-border: rgba(232,228,220,.35);
 }
 
 /* ── SILVER card ── */
@@ -5594,30 +5594,30 @@ nav::before { display:none; }
 
 /* ── DIAMOND card — déjà featured, on renforce ── */
 .pack-card.featured.diamond-card {
-  background: linear-gradient(145deg, rgba(125,211,252,0.08) 0%, rgba(6,14,22,1) 52%) !important;
-  border-color: rgba(125,211,252,0.35) !important;
+  background: linear-gradient(145deg, rgba(232,228,220,0.08) 0%, rgba(6,14,22,1) 52%) !important;
+  border-color: rgba(232,228,220,0.35) !important;
   box-shadow:
-    inset 0 1px 0 rgba(125,211,252,0.22),
-    inset 1px 0 0 rgba(125,211,252,0.06),
-    0 0 0 1px rgba(125,211,252,0.18),
+    inset 0 1px 0 rgba(232,228,220,0.22),
+    inset 1px 0 0 rgba(232,228,220,0.06),
+    0 0 0 1px rgba(232,228,220,0.18),
     0 16px 50px rgba(0,0,0,.65),
-    0 0 80px rgba(125,211,252,0.07) !important;
+    0 0 80px rgba(232,228,220,0.07) !important;
 }
 .pack-card.featured.diamond-card:hover {
-  border-color: rgba(125,211,252,0.55) !important;
+  border-color: rgba(232,228,220,0.55) !important;
   box-shadow:
-    inset 0 1px 0 rgba(125,211,252,0.3),
-    inset 1px 0 0 rgba(125,211,252,0.08),
-    0 0 0 1px rgba(125,211,252,0.28),
+    inset 0 1px 0 rgba(232,228,220,0.3),
+    inset 1px 0 0 rgba(232,228,220,0.08),
+    0 0 0 1px rgba(232,228,220,0.28),
     0 28px 70px rgba(0,0,0,.75),
-    0 0 100px rgba(125,211,252,0.1) !important;
+    0 0 100px rgba(232,228,220,0.1) !important;
 }
 .pack-card.featured.diamond-card::before {
-  background: radial-gradient(ellipse at 30% 0%, rgba(125,211,252,0.14) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 30% 0%, rgba(232,228,220,0.14) 0%, transparent 60%);
   opacity: 1 !important;
 }
 .pack-card.featured.diamond-card .pack-name { color: var(--diamond); }
-.pack-card.featured.diamond-card .pack-tier { color: rgba(125,211,252,0.45); }
+.pack-card.featured.diamond-card .pack-tier { color: rgba(232,228,220,0.45); }
 .pack-card.featured.diamond-card .pack-price { color: var(--diamond); }
 .pack-card.featured.diamond-card .pack-features li .feat-icon { color: var(--diamond); }
 .pack-card.featured.diamond-card .pack-cta {
@@ -5625,20 +5625,20 @@ nav::before { display:none; }
   color: var(--diamond);
 }
 .pack-card.featured.diamond-card .pack-cta:hover {
-  background: rgba(125,211,252,0.1);
+  background: rgba(232,228,220,0.1);
   border-color: var(--diamond);
   color: var(--diamond);
 }
 .pack-card.featured.diamond-card .pack-divider { background: var(--diamond-border); }
 .pack-card.featured.diamond-card .pack-curtain-badge {
-  background: rgba(125,211,252,0.08);
-  border-color: rgba(125,211,252,0.2);
+  background: rgba(232,228,220,0.08);
+  border-color: rgba(232,228,220,0.2);
   color: var(--diamond);
 }
 
 .pack-icon.silver { background: rgba(192,200,216,.12); border: 1px solid rgba(192,200,216,.25); }
 .pack-icon.gold   { background: rgba(240,192,64,.1);   border: 1px solid rgba(240,192,64,.28); }
-.pack-icon.diamond { background: rgba(125,211,252,.08); border: 1px solid rgba(125,211,252,.22); }
+.pack-icon.diamond { background: rgba(232,228,220,.08); border: 1px solid rgba(232,228,220,.22); }
 
 /* ── Tier badge — pill coloré ── */
 .pack-tier {
@@ -6588,153 +6588,8 @@ nav::before { display:none; }
 /* ═══════════════════════
    CURRENCY CONVERTER
 ═══════════════════════ */
-/* ══════════════════════════════════════════════
-   CONVERTISSEUR — thème premium bicolore
-══════════════════════════════════════════════ */
-.currency-converter {
-  background: linear-gradient(135deg, rgba(16,18,24,.98) 0%, rgba(12,14,18,.99) 100%);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 24px;
-  padding: 0;
-  margin-bottom: 2rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.04);
-}
-/* Bande lumineuse haut */
-.currency-converter::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.19) 30%, rgba(240,192,64,.35) 70%, transparent 100%);
-  pointer-events: none;
-}
-/* Glow coin haut-droit */
-.currency-converter::after {
-  content: '';
-  position: absolute; top: -80px; right: -80px;
-  width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 65%);
-  pointer-events: none;
-}
-/* Header bande colorée */
-.cc-top-bar {
-  background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(240,192,64,.05) 100%);
-  border-bottom: 1px solid rgba(255,255,255,.06);
-  padding: 1.4rem 2.5rem;
-  display: flex; align-items: center; gap: .75rem;
-}
-.cc-header {
-  display: flex; align-items: center; gap: .75rem;
-  font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700;
-  color: var(--light);
-  width: 100%;
-}
-.cc-header svg { flex-shrink: 0; }
-/* Icône dégradé vert→or */
-.cc-icon-wrap {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(240,192,64,.12) 100%);
-  border: 1px solid rgba(255,255,255,0.11);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.cc-icon-wrap svg { color: var(--accent); }
-.cc-badge {
-  font-size: .52rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase;
-  background: linear-gradient(90deg, rgba(255,255,255,0.07), rgba(240,192,64,.1));
-  border: 1px solid rgba(255,255,255,0.11);
-  color: var(--accent); padding: .22rem .65rem; border-radius: 100px;
-  margin-left: auto;
-}
-.cc-body-wrap { padding: 1.75rem 2.5rem 2rem; position: relative; z-index: 1; }
-.cc-sub {
-  font-size: .78rem; color: var(--off); line-height: 1.6;
-  margin-bottom: 1.5rem; font-weight: 300;
-}
-.cc-body { position: relative; z-index: 1; }
-.cc-input-row { margin-bottom: 1.5rem; display: flex; align-items: flex-end; gap: 1rem; flex-wrap: wrap; }
-.cc-label {
-  display: block;
-  font-family: 'Syne', sans-serif; font-size: .58rem; font-weight: 800;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--dim);
-  margin-bottom: .5rem;
-}
-.cc-input-wrap { position: relative; }
-.cc-input-prefix {
-  position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
-  font-family: 'Syne', sans-serif; font-size: .75rem; font-weight: 700;
-  color: var(--dim); pointer-events: none; letter-spacing: .08em;
-}
-.cc-input {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 14px; padding: .85rem 1.1rem .85rem 3.8rem;
-  font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800;
-  color: var(--accent); outline: none; width: 220px;
-  transition: border-color .25s, box-shadow .25s;
-  -moz-appearance: textfield;
-}
-.cc-input::-webkit-outer-spin-button,
-.cc-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.cc-input:focus {
-  border-color: rgba(255,255,255,0.22);
-  box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
-}
-/* Quick presets */
-.cc-presets {
-  display: flex; gap: .4rem; flex-wrap: wrap; align-self: flex-end; padding-bottom: .1rem;
-}
-.cc-preset {
-  font-family: 'Syne', sans-serif; font-size: .58rem; font-weight: 700;
-  letter-spacing: .06em; padding: .3rem .7rem; border-radius: 100px;
-  border: 1px solid rgba(255,255,255,.1); background: transparent;
-  color: var(--dim); cursor: pointer;
-  transition: all .2s;
-}
-.cc-preset:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.03); }
-/* Résultats */
-.cc-results {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: .65rem;
-  margin-bottom: 1.25rem;
-}
-@media(max-width: 640px) { .cc-results { grid-template-columns: repeat(2, 1fr); } }
-@media(max-width: 380px) { .cc-results { grid-template-columns: 1fr 1fr; } }
-.cc-result-item {
-  background: rgba(255,255,255,.025);
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 14px;
-  padding: .9rem 1rem;
-  display: flex; flex-direction: column; gap: .28rem;
-  transition: border-color .2s, background .2s, transform .2s;
-  cursor: default;
-}
-.cc-result-item:hover {
-  border-color: rgba(255,255,255,.15);
-  background: rgba(255,255,255,.05);
-  transform: translateY(-2px);
-}
-.cc-flag { font-size: 1.1rem; line-height: 1; }
-.cc-currency {
-  font-family: 'Syne', sans-serif; font-size: .55rem; font-weight: 800;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--dim);
-}
-.cc-value {
-  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800;
-  color: var(--light); line-height: 1.1;
-  transition: color .2s;
-}
-.cc-result-item:hover .cc-value { color: var(--accent); }
-.cc-disclaimer {
-  font-size: .64rem; color: var(--dim); font-style: italic; line-height: 1.5;
-  padding-top: .75rem; border-top: 1px solid rgba(255,255,255,.05);
-}
-@media(max-width: 600px) {
-  .cc-top-bar { padding: 1.1rem 1.5rem; }
-  .cc-body-wrap { padding: 1.25rem 1.5rem 1.5rem; }
-  .cc-header { font-size: .82rem; }
-  .cc-input { width: 100%; max-width: 280px; }
-}
+
+
 
 /* ══════════════════════════════════════════════
    CONDITIONS GÉNÉRALES — carte stylisée
@@ -9479,9 +9334,11 @@ body,
         <h1 class="about-main-title">Plus exigeant<br><em>que productif</em></h1>
         <h2 class="about-v2-h2">Creative Director<br><span>basé à Kaolack, Sénégal</span></h2>
 
-        <p class="about-v2-intro">Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web, et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.</p>
+        <p class="about-v2-intro">Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web — et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.</p>
 
-        <p class="about-v2-body">Et c'est exactement pour ça que je ne sais pas faire autrement que de l'excellence. Pas de template. Pas de copier-coller. Chaque projet part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter.</p>
+        <p class="about-v2-body">Des projets comme <strong>Bicrave</strong> et <strong>Bonus Tracks</strong> avec ISS 814, <strong>Road to Roots 2</strong> avec Dopeboy, <strong>808's God</strong> avec Omzo Beatz, ou encore le travail continu avec One Lyrical — chacun a été construit à partir de zéro, avec une vraie direction artistique, pas un template recyclé. Des noms connus au Sénégal, d'autres à l'international. Et d'autres projets à venir.</p>
+
+        <p class="about-v2-body">Chaque commande part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter. Pas de copier-coller. Pas de raccourci.</p>
 
         <!-- Outils -->
         <div class="av2-tools-label">Outils</div>
@@ -10831,9 +10688,9 @@ body,
           <!-- RIDEAU DIAMOND -->
           <div class="pack-curtain" data-pack="diamond">
             <div class="pack-curtain-face" style="background:linear-gradient(160deg,rgba(6,18,30,.97) 0%,rgba(4,10,20,.99) 100%)">
-              <div class="pack-curtain-num" style="color:rgba(125,211,252,0.08)">D</div>
+              <div class="pack-curtain-num" style="color:rgba(232,228,220,0.08)">D</div>
               <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
-              <div class="pack-curtain-tier" style="color:rgba(125,211,252,0.35)">Pack Album — Le + Complet</div>
+              <div class="pack-curtain-tier" style="color:rgba(232,228,220,0.35)">Pack Album — Le + Complet</div>
               <div class="pack-curtain-name" style="color:var(--diamond)">Diamond</div>
               <div class="pack-curtain-hint">
                 <div class="pack-curtain-hint-text">Glisse pour révéler</div>
@@ -10845,13 +10702,13 @@ body,
           </div>
           <div class="pack-icon diamond">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <ellipse cx="14" cy="22" rx="9" ry="2" fill="rgba(125,211,252,.14)"/>
-              <polygon points="14,3 22,10 19,23 9,23 6,10" fill="url(#dv1)" stroke="rgba(125,211,252,0.35)" stroke-width=".7" stroke-linejoin="round"/>
-              <polygon points="14,3 22,10 14,10 6,10" fill="rgba(125,211,252,.22)" stroke="rgba(125,211,252,0.2)" stroke-width=".5"/>
+              <ellipse cx="14" cy="22" rx="9" ry="2" fill="rgba(232,228,220,.14)"/>
+              <polygon points="14,3 22,10 19,23 9,23 6,10" fill="url(#dv1)" stroke="rgba(232,228,220,0.35)" stroke-width=".7" stroke-linejoin="round"/>
+              <polygon points="14,3 22,10 14,10 6,10" fill="rgba(232,228,220,.22)" stroke="rgba(232,228,220,0.2)" stroke-width=".5"/>
               <polygon points="14,10 19,23 9,23" fill="rgba(56,163,212,.14)"/>
-              <line x1="14" y1="10" x2="14" y2="23" stroke="rgba(125,211,252,0.15)" stroke-width=".6"/>
-              <line x1="6" y1="10" x2="22" y2="10" stroke="rgba(125,211,252,0.18)" stroke-width=".5"/>
-              <defs><linearGradient id="dv1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bae6fd"/><stop offset="40%" stop-color="#7dd3fc"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs>
+              <line x1="14" y1="10" x2="14" y2="23" stroke="rgba(232,228,220,0.15)" stroke-width=".6"/>
+              <line x1="6" y1="10" x2="22" y2="10" stroke="rgba(232,228,220,0.18)" stroke-width=".5"/>
+              <defs><linearGradient id="dv1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0ede8"/><stop offset="40%" stop-color="#e8e4dc"/><stop offset="100%" stop-color="#c4bfb6"/></linearGradient></defs>
             </svg>
           </div>
           <div class="pack-tier">Pack — Album</div>
@@ -11149,48 +11006,7 @@ body,
       </div>
     </div>
 
-    <!-- Convertisseur de devises -->
-    <div class="currency-converter reveal-fade rd3" id="currencyConverter" style="display:none">
-      <div class="cc-top-bar">
-        <div class="cc-header">
-          <div class="cc-icon-wrap">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
-          <span data-i18n="cc_title">Convertisseur de devises</span>
-          <span class="cc-badge" data-i18n="cc_badge">Indicatif</span>
-        </div>
-      </div>
-      <div class="cc-body-wrap">
-        <p class="cc-sub" data-i18n="cc_sub">Les prix sont en XOF (Franc CFA). Convertis en ta devise pour estimer le budget.</p>
-        <div class="cc-body">
-          <div class="cc-input-row">
-            <div>
-              <label class="cc-label" data-i18n="cc_amount_label">Montant XOF</label>
-              <div class="cc-input-wrap">
-                <span class="cc-input-prefix">XOF</span>
-                <input type="number" id="ccAmount" class="cc-input" placeholder="95000" value="95000" oninput="convertCurrency()">
-              </div>
-            </div>
-            <div class="cc-presets">
-              <button class="cc-preset" onclick="document.getElementById('ccAmount').value=25000;convertCurrency()">25K</button>
-              <button class="cc-preset" onclick="document.getElementById('ccAmount').value=50000;convertCurrency()">50K</button>
-              <button class="cc-preset" onclick="document.getElementById('ccAmount').value=95000;convertCurrency()">95K</button>
-              <button class="cc-preset" onclick="document.getElementById('ccAmount').value=175000;convertCurrency()">175K</button>
-              <button class="cc-preset" onclick="document.getElementById('ccAmount').value=450000;convertCurrency()">450K</button>
-            </div>
-          </div>
-          <div class="cc-results" id="ccResults">
-            <div class="cc-result-item"><span class="cc-flag">🇺🇸</span><span class="cc-currency">USD</span><span class="cc-value" id="ccUSD">—</span></div>
-            <div class="cc-result-item"><span class="cc-flag">🇪🇺</span><span class="cc-currency">EUR</span><span class="cc-value" id="ccEUR">—</span></div>
-            <div class="cc-result-item"><span class="cc-flag">🇬🇧</span><span class="cc-currency">GBP</span><span class="cc-value" id="ccGBP">—</span></div>
-            <div class="cc-result-item"><span class="cc-flag">🇨🇦</span><span class="cc-currency">CAD</span><span class="cc-value" id="ccCAD">—</span></div>
-            <div class="cc-result-item"><span class="cc-flag">🇲🇦</span><span class="cc-currency">MAD</span><span class="cc-value" id="ccMAD">—</span></div>
-            <div class="cc-result-item"><span class="cc-flag">🇩🇿</span><span class="cc-currency">DZD</span><span class="cc-value" id="ccDZD">—</span></div>
-          </div>
-          <p class="cc-disclaimer" data-i18n="cc_disclaimer">Taux de change approximatifs — à titre indicatif uniquement. 1 EUR ≈ 655 XOF (taux fixe CFA).</p>
-        </div>
-      </div>
-    </div>
+
 
     <!-- Note conditions -->
     <div class="pcond-wrap reveal-fade rd4">
@@ -13320,34 +13136,7 @@ function switchPricingTab(panel, btn) {
 /* ── CONVERTISSEUR DE DEVISES ── */
 // Taux fixes approximatifs par rapport à XOF
 // 1 EUR = 655.957 XOF (taux fixe CFA officiel)
-const xofRates = {
-  USD: 1 / 608,
-  EUR: 1 / 655.957,
-  GBP: 1 / 780,
-  CAD: 1 / 445,
-  MAD: 1 / 60,
-  DZD: 1 / 4.5,
-};
 
-const ccSymbols = { USD: '$', EUR: '€', GBP: '£', CAD: 'C$', MAD: 'DH', DZD: 'DA' };
-
-function convertCurrency() {
-  const raw = document.getElementById('ccAmount').value.replace(/\s/g, '');
-  const amount = parseFloat(raw) || 0;
-  Object.keys(xofRates).forEach(currency => {
-    const el = document.getElementById('cc' + currency);
-    if (!el) return;
-    if (amount <= 0) { el.textContent = '—'; return; }
-    const converted = amount * xofRates[currency];
-    const sym = ccSymbols[currency];
-    el.textContent = sym + converted.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
-  });
-}
-
-// Init au chargement
-document.addEventListener('DOMContentLoaded', function() {
-  convertCurrency();
-});
 
 /* ── DONNÉES MODALES ── */
 const packData = {
@@ -13562,18 +13351,7 @@ function submitPackForm(e) {
       </form>
       <div class="pack-modal-alt">Ou contacte directement via <a href="https://wa.me/221763772208" target="_blank">WhatsApp</a> · <a href="https://instagram.com/_its.mdg" target="_blank">Instagram</a></div>
 <!-- script déplacé en fin de body -->
-<section id="citation">
-  <div class="citation-bg-img"></div>
-  <div class="citation-overlay"></div>
-  <div class="citation-inner">
-    <div class="citation-eyebrow reveal-fade">MDG Creative Studio</div>
-    <blockquote class="citation-text reveal-up rd2">
-      On ne me voit pas.<br>
-      <em>Mes visuels parlent pour moi.</em>
-    </blockquote>
-    <div class="citation-author reveal-fade rd4">Mouhamed Al Amine — MDG Creative Studio</div>
-  </div>
-</section>
+
 
 </main>
 
@@ -16227,9 +16005,6 @@ function applyComplexPatches(lang) {
   var devisLabelKeys = ['devis_name_label','devis_email_label','devis_service_label','devis_budget_label','devis_desc_label'];
   devisLabels.forEach(function(el,i){ if(translations[devisLabelKeys[i]]) el.textContent = translations[devisLabelKeys[i]][lang]; });
 
-  // Currency converter
-  if (typeof convertCurrency === 'function') convertCurrency();
-
   // ── Process ──
   var processLabel = document.querySelector('#process .sec-label');
   if (processLabel) processLabel.textContent = translations.process_label[lang];
@@ -16873,16 +16648,6 @@ function applyComplexPatches(lang) {
   if (dropBrowse) dropBrowse.textContent = lang === 'en' ? 'Browse' : 'Parcourir';
   var linkInput = document.getElementById('cqfLinkInput');
   if (linkInput) linkInput.placeholder = lang === 'en' ? 'Pinterest, Behance, Instagram, Dribbble…' : 'Lien Pinterest, Behance, Instagram, Dribbble…';
-
-  // ── Citation (manifeste final) ──
-  var citationEyebrow = document.querySelector('.citation-eyebrow');
-  if (citationEyebrow) citationEyebrow.textContent = 'MDG Creative Studio';
-  var citationText = document.querySelector('.citation-text');
-  if (citationText) citationText.innerHTML = lang === 'en'
-    ? 'You don\'t see me.<br><em>My visuals speak for me.</em>'
-    : 'On ne me voit pas.<br><em>Mes visuels parlent pour moi.</em>';
-  var citationAuthor = document.querySelector('.citation-author');
-  if (citationAuthor) citationAuthor.textContent = 'Mouhamed Al Amine — MDG Creative Studio';
 
   // ── Footer contact section ──
   var contactLinks = document.querySelectorAll('.contact-link-label');
@@ -17679,9 +17444,6 @@ function accSwitch(panel, btn) {
           el.style.cursor = 'default';
           el.style.pointerEvents = 'none';
         });
-        // Afficher le convertisseur de devises
-        var cc = document.getElementById('currencyConverter');
-        if(cc) { cc.style.display = ''; convertCurrency(); }
       } else {
         err.style.display = 'block';
         document.getElementById('pricing-pw-input').style.borderColor = '#f87171';
