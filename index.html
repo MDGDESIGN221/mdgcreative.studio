@@ -2997,9 +2997,9 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
 
 /* ── HERO CTAs (boutons) ── */
 .hero-ctas{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;opacity:0;animation:fu .9s 1.55s ease forwards;margin-bottom:1.5rem}
-.hero-btn-primary{font-family:'Inter',sans-serif;font-size:clamp(.56rem,.75vw,.65rem);font-weight:700;color:#060606;background:#fff;padding:.85rem 1.8rem;border-radius:0;border:1px solid #fff;text-decoration:none;letter-spacing:.22em;text-transform:uppercase;transition:opacity .2s;display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap}
+.hero-btn-primary{font-family:'Inter',sans-serif;font-size:clamp(.56rem,.75vw,.65rem);font-weight:700;color:#060606;background:#fff;padding:.85rem 1.8rem;border-radius:0;border:1px solid #fff;text-decoration:none;letter-spacing:.22em;text-transform:uppercase;transition:opacity .2s;display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
 .hero-btn-primary:hover{opacity:.88}
-.hero-btn-secondary{font-family:'Inter',sans-serif;font-size:clamp(.56rem,.75vw,.65rem);font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.35);border-left:none;padding:.85rem 1.8rem;border-radius:0;text-decoration:none;letter-spacing:.22em;text-transform:uppercase;transition:border-color .2s,background .2s;display:inline-flex;align-items:center;white-space:nowrap}
+.hero-btn-secondary{font-family:'Inter',sans-serif;font-size:clamp(.56rem,.75vw,.65rem);font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.35);border-left:none;padding:.85rem 1.8rem;border-radius:0;text-decoration:none;letter-spacing:.22em;text-transform:uppercase;transition:border-color .2s,background .2s;display:inline-flex;align-items:center;white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .hero-btn-secondary:hover{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.04)}
 /* ── HERO MINI STATS (cercles) ── */
 .hero-mini-stats{display:flex;gap:2rem;margin-bottom:2.5rem;flex-wrap:wrap;opacity:0;animation:fu .8s .42s ease forwards}
@@ -8107,9 +8107,13 @@ body,
   }
   .hero-name-sub {
     text-align: center !important;
-    font-size: clamp(1.4rem, 7.5vw, 2.1rem) !important;
+    font-size: clamp(1.2rem, 6.5vw, 2.1rem) !important;
     white-space: normal !important;
     display: block !important;
+  }
+  .hero-name-sub-wrap {
+    white-space: nowrap !important;
+    display: inline-block !important;
   }
 
   /* Tagline — une ligne, centrée, compacte */
@@ -8396,10 +8400,10 @@ body,
   </div>
   <div class="hero-left">
     <div class="hero-eyebrow">MDG CREATIVE STUDIO · KAOLACK, SN</div>
-    <h1 class="hero-name" style="line-height:1.05;white-space:normal"><span class="hero-name-wrap" style="white-space:normal">L'ÉLITE</span><br><em class="hero-name-sub"><span class="hero-name-sub-wrap">SE REMARQUE.</span></em></h1>
+    <h1 class="hero-name" style="line-height:1.05;white-space:normal"><span class="hero-name-wrap" style="white-space:normal">L'ÉLITE</span><br><em class="hero-name-sub"><span class="hero-name-sub-wrap" style="white-space:nowrap;display:inline-block">SE REMARQUE.</span></em></h1>
     <p class="hero-sub"><span class="hero-sub-neg">BRAND IDENTITY · COVER ART · MOTION</span><br><strong>L'EXCELLENCE, C'EST MON SEUL STANDARD.</strong></p>
     <div class="hero-ctas">
-      <a href="#contact" class="hero-btn-primary">
+      <a href="javascript:void(0)" class="hero-btn-primary" role="button">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         <span data-i18n="nav_cta">TRAVAILLONS ENSEMBLE</span>
       </a>
