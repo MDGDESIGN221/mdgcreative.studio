@@ -606,16 +606,16 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 @media(min-width: 901px) {
   .hero-name {
-    font-size: clamp(2.2rem, 5vw, 6.2rem) !important;
+    font-size: clamp(2rem, 3.8vw, 4.8rem) !important;
     line-height: .92 !important;
     letter-spacing: -.035em !important;
   }
   .hero-name-sub {
-    font-size: clamp(2rem, 4.6vw, 5.8rem) !important;
+    font-size: clamp(1.8rem, 3.4vw, 4.2rem) !important;
     letter-spacing: -.04em !important;
   }
   .hero-promise {
-    font-size: clamp(1.4rem, 2.4vw, 2rem) !important;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem) !important;
   }
   .hero-left {
     padding-top: 9rem !important;
@@ -889,7 +889,7 @@ section{position:relative;z-index:1}
   .hero-name{grid-column:1/3;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 3rem) 0 0 clamp(2rem,4vw,3.5rem)}
   .hero-scroll-down{display:none !important}
   .hero-sub{grid-column:1;grid-row:2;align-self:end;padding:0 0 8.5rem clamp(2rem,4vw,3.5rem);margin-bottom:0 !important;max-width:400px}
-  .hero-ctas{grid-column:1;grid-row:2;align-self:end;padding:0 0 4.5rem clamp(2rem,4vw,3.5rem);margin-bottom:0 !important}
+  .hero-ctas{grid-column:1;grid-row:2;align-self:end;justify-self:start;padding:0 0 4.5rem clamp(2rem,4vw,3.5rem);margin-bottom:0 !important}
   .hero-portfolio-links{grid-column:1;grid-row:2;align-self:end;padding:0 0 2rem clamp(2rem,4vw,3.5rem);margin:0 !important;opacity:0;animation:fu .9s 1.9s ease forwards}
   .hero-portfolio-link{font-size:.58rem;letter-spacing:.16em}
   .hero-handle{display:none !important}
@@ -3062,8 +3062,9 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
     flex-wrap:nowrap !important;
     gap:0 !important;
     margin-bottom:1.25rem !important;
-    align-items:stretch !important;
-    width: fit-content !important;
+    align-items:flex-start !important;
+    width:auto !important;
+    align-self:flex-start !important;
   }
   .hero-btn-primary{
     border-radius:0 !important;
@@ -8183,13 +8184,13 @@ body,
 }
 
 /* Desktop — tailles raisonnables */
-.port-h2          { font-size: clamp(1.8rem, 2.8vw, 2.8rem) !important; }
-.sp-h2            { font-size: clamp(1.6rem, 2.4vw, 2.4rem) !important; }
-.about-main-title { font-size: clamp(1.6rem, 2.6vw, 2.6rem) !important; }
-.svc-h2           { font-size: clamp(1.6rem, 2.4vw, 2.4rem) !important; }
-.collabs-main-title { font-size: clamp(1.6rem, 2.4vw, 2.4rem) !important; }
-.faq-h2           { font-size: clamp(1.5rem, 2.2vw, 2.2rem) !important; }
-.contact-h2       { font-size: clamp(2rem, 3.2vw, 3.2rem) !important; }
+.port-h2          { font-size: clamp(1.5rem, 2.2vw, 2.2rem) !important; }
+.sp-h2            { font-size: clamp(1.4rem, 2vw, 2rem) !important; }
+.about-main-title { font-size: clamp(1.4rem, 2.2vw, 2.2rem) !important; }
+.svc-h2           { font-size: clamp(1.4rem, 2vw, 2rem) !important; }
+.collabs-main-title { font-size: clamp(1.4rem, 2vw, 2rem) !important; }
+.faq-h2           { font-size: clamp(1.3rem, 1.8vw, 1.8rem) !important; }
+.contact-h2       { font-size: clamp(1.7rem, 2.6vw, 2.6rem) !important; }
 
 /* Les em italiques dans les titres — Instrument Serif, pas uppercase */
 .port-h2 em,
@@ -8446,60 +8447,113 @@ body,
 
 <!-- MANIFESTE — déplacé juste après le hero pour poser le ton -->
 <section id="portfolio-accordion" class="wm-section" data-wm="WORK">
+<style>
+/* ── PORTFOLIO NEW HEADER ── */
+.port-new-top {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 4rem 3rem 0; flex-wrap: wrap; gap: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+.port-new-left { flex: 1; min-width: 0; }
+.port-new-eyebrow {
+  font-family: 'Syne', sans-serif; font-size: .58rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--dim);
+  display: flex; align-items: center; gap: .6rem; margin-bottom: .9rem;
+}
+.port-new-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--dim); }
+.port-new-h2 {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  letter-spacing: -.03em; line-height: 1; color: var(--light);
+  text-transform: uppercase; margin-bottom: 0;
+}
+.port-new-h2 em {
+  font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;
+  font-size: 58%; color: var(--off); text-transform: none; letter-spacing: 0;
+  display: inline; margin-left: .5em;
+}
+.port-new-tabs-row {
+  display: flex; flex-direction: row; align-items: flex-end; gap: 0;
+}
+.port-new-tab-btn {
+  font-family: 'Syne', sans-serif; font-size: .68rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--dim); background: transparent; border: none;
+  padding: 1rem 1.5rem; cursor: pointer;
+  position: relative; transition: color .2s;
+  white-space: nowrap; display: flex; align-items: center; gap: .5em;
+}
+.port-new-tab-btn::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s cubic-bezier(.16,1,.3,1);
+}
+.port-new-tab-btn:hover { color: var(--off); }
+.port-new-tab-btn.active { color: var(--light); }
+.port-new-tab-btn.active::after { transform: scaleX(1); }
+.port-new-tab-btn svg { opacity: .5; transition: opacity .2s; }
+.port-new-tab-btn.active svg,
+.port-new-tab-btn:hover svg { opacity: 1; }
+.port-new-count-badge {
+  align-self: center; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: flex-end; gap: .15rem;
+  padding: .7rem 1rem;
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.port-new-count-num {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(1.6rem, 2.4vw, 2rem); color: var(--light);
+  letter-spacing: -.05em; line-height: 1;
+}
+.port-new-count-label {
+  font-size: .52rem; color: var(--dim); letter-spacing: .14em;
+  text-transform: uppercase; font-weight: 600; white-space: nowrap;
+}
+/* Panels */
+.pnl-acc { display: none; }
+.pnl-acc.active { display: block; }
+@media(max-width:900px) {
+  .port-new-top { padding: 2.5rem 1.5rem 0; }
+  .port-new-tab-btn { padding: .8rem 1rem; font-size: .6rem; }
+  .port-new-count-badge { display: none; }
+}
+@media(max-width:500px) {
+  .port-new-top { flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .port-new-tabs-row { width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .port-new-tabs-row::-webkit-scrollbar { display: none; }
+  .port-new-tab-btn { flex-shrink: 0; }
+}
+</style>
+
   <div class="container">
-
-    <!-- Header portfolio premium -->
-    <div class="port-header">
-      <div>
-        <div class="sec-label reveal-line" style="padding-left:1.5rem;margin-bottom:1rem">Ce que je produis</div>
-        <h2 class="port-h2 reveal-up" id="portH2">Réalisations<em style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--off);display:block;font-size:clamp(1rem,1.8vw,1.4rem);letter-spacing:0;margin-top:.4rem;padding-left:.1em"> 7 ans d'exigence</em></h2>
-        <p class="port-extract-label reveal-fade">Extrait du portfolio</p>
+    <div class="port-new-top reveal-up">
+      <div class="port-new-left">
+        <div class="port-new-eyebrow">Ce que je produis</div>
+        <h2 class="port-new-h2 port-h2" id="portH2">Réalisations<em>7 ans d'exigence</em></h2>
       </div>
-      <!-- Compteur dynamique -->
-      <div class="port-count reveal-fade">
-        <span class="port-count-num" id="portCountNum">9</span>
-        <span class="port-count-label" id="portCountLabel">vidéos · In Motion</span>
+      <div class="port-new-count-badge reveal-fade">
+        <span class="port-new-count-num" id="portCountNum">9</span>
+        <span class="port-new-count-label" id="portCountLabel">vidéos · In Motion</span>
+      </div>
+      <div class="port-new-tabs-row">
+        <button class="port-new-tab-btn active" onclick="pnlSwitch('motion',this)" data-panel="motion" data-count="9" data-label="vidéos · In Motion">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>In Motion
+        </button>
+        <button class="port-new-tab-btn" onclick="pnlSwitch('covers',this)" data-panel="covers" data-count="14" data-label="covers · Cover Art">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><path d="M21 15l-5-5L5 21"/></svg>Cover Art
+        </button>
+        <button class="port-new-tab-btn" onclick="pnlSwitch('work',this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Graphisme
+        </button>
       </div>
     </div>
 
-    <!-- Tabs premium — 3 colonnes avec icône + description -->
-    <div class="port-tabs-wrap">
-    <div class="port-tabs">
-      <button class="port-tab active" onclick="accSwitch('motion', this)" data-panel="motion" data-count="9" data-label="vidéos · In Motion">
-        <span class="port-tab-num">01</span>
-        <div class="port-tab-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </div>
-        <div class="port-tab-text">
-          <span class="port-tab-name">In Motion</span>
-          <span class="port-tab-sub">Motion · Vidéo · Animation</span>
-        </div>
-      </button>
-      <button class="port-tab" onclick="accSwitch('covers', this)" data-panel="covers" data-count="14" data-label="covers · Cover Art">
-        <span class="port-tab-num">02</span>
-        <div class="port-tab-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><path d="M21 15l-5-5L5 21"/></svg>
-        </div>
-        <div class="port-tab-text">
-          <span class="port-tab-name">Cover Art</span>
-          <span class="port-tab-sub">Singles · EP · Albums</span>
-        </div>
-      </button>
-      <button class="port-tab" onclick="accSwitch('work', this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
-        <span class="port-tab-num">03</span>
-        <div class="port-tab-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        </div>
-        <div class="port-tab-text">
-          <span class="port-tab-name">Graphisme</span>
-          <span class="port-tab-sub">Affiches · Éditorial · Identité</span>
-        </div>
-      </button>
-    </div>
-    </div>
-
-    <!-- Panel Réalisations -->
-    <div class="acc-panel" id="acc-work">
+    <!-- Panel Graphisme -->
+    <div class="pnl-acc" id="pnl-work">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
       <div class="work-nav">
         <span class="work-counter"><strong id="workCur">01</strong> / <span id="workTot">22</span></span>
@@ -8722,7 +8776,7 @@ body,
     </div>
   </div>
 
-  <div class="acc-panel" id="acc-covers">
+  <div class="pnl-acc" id="pnl-covers">
     <div style="padding:3rem 3rem 2rem;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem">
       <div>
         <div class="sec-label reveal-line">Direction Artistique Musicale</div>
@@ -8903,7 +8957,7 @@ body,
   </div><!-- fin acc-covers -->
 
   <!-- ── PANEL MOTION ── -->
-  <div class="acc-panel active" id="acc-motion">
+  <div class="pnl-acc active" id="pnl-motion">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
       <div>
         <div class="sec-label reveal-line" style="opacity:1;transform:none;clip-path:none">Frames</div>
@@ -9000,7 +9054,7 @@ body,
   <div class="container" style="padding:5rem clamp(1.25rem,4vw,3rem) 4rem">
     <div class="sp-header reveal-up">
       <div class="sec-label reveal-line">Références</div>
-      <h2 class="sp-h2">Des collaborateurs qui ont pris la parole<em> d'eux-mêmes.</em></h2>
+      <h2 class="sp-h2">Ce qu'ils disent<em> d'eux-mêmes.</em></h2>
     </div>
 
     <!-- Citation forte en grand format -->
@@ -10090,9 +10144,6 @@ body,
 #process .process-header { border-color: rgba(6,6,6,.08) !important; }
 #process .reveal-line::before { background: rgba(6,6,6,.25) !important; }
 
-/* ── MORPHING CURSOR — process section ── */
-#process { isolation: isolate; cursor: none; }
-#process * { cursor: none; }
 #pieter-process-wrap { position: relative; }
 </style>
   <div class="container">
@@ -10121,7 +10172,7 @@ body,
           <span class="pieter-step-num">01</span>
           <div class="pieter-step-badge">Étape 01</div>
           <h3 class="pieter-step-title">Brief & Échange</h3>
-          <p class="pieter-step-desc">On parle de ton projet, ton univers, tes références. Plus tu es précis sur ce que tu veux, plus le résultat va coller. C'est la base de tout ce qui suit.</p>
+          <p class="pieter-step-desc">On cadre le projet — univers, références, objectifs. Plus c'est précis, plus le résultat est juste.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             Acompte 50% avant démarrage
@@ -10139,7 +10190,7 @@ body,
           <span class="pieter-step-num">02</span>
           <div class="pieter-step-badge">Étape 02</div>
           <h3 class="pieter-step-title">Concept & Direction</h3>
-          <p class="pieter-step-desc">Je pose la direction : moodboard, palette, typographies. Tu valides avant que je rentre dans le vif. On est alignés dès le départ, pas de surprise en cours de route.</p>
+          <p class="pieter-step-desc">Moodboard, palette, direction typo. Tu valides avant que la production commence — zéro surprise.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             1 révision de direction incluse
@@ -10157,7 +10208,7 @@ body,
           <span class="pieter-step-num">03</span>
           <div class="pieter-step-badge">Étape 03</div>
           <h3 class="pieter-step-title">Production</h3>
-          <p class="pieter-step-desc">Je crée. Photoshop, After Effects, Blender, AI selon le projet. Tu reçois une preview pour valider avant la version finale. L'exigence s'applique à chaque pixel.</p>
+          <p class="pieter-step-desc">Photoshop, After Effects, Blender — le bon outil pour le bon projet. Preview intermédiaire avant le final.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             Délai tenu, toujours
@@ -10175,7 +10226,7 @@ body,
           <span class="pieter-step-num">04</span>
           <div class="pieter-step-badge">Livraison</div>
           <h3 class="pieter-step-title">Livraison & Suivi</h3>
-          <p class="pieter-step-desc">Fichiers en haute résolution dans tous les formats requis. Je reste dispo après la livraison pour les ajustements et tu gardes un accès direct.</p>
+          <p class="pieter-step-desc">Fichiers haute résolution, tous formats. Dispo pour les retouches post-livraison — accès direct garanti.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Solde à la livraison finale
@@ -16323,7 +16374,7 @@ function applyComplexPatches(lang) {
       portCountLabel.textContent = activePortTab.dataset.label;
     }
   }
-  var portH2 = document.querySelector('.port-h2');
+  var portH2 = document.querySelector('.port-h2, .port-new-h2');
   if (portH2) {
     var portH2Em = portH2.querySelector('em');
     portH2.childNodes[0].nodeValue = lang === 'en' ? 'Creations' : 'Réalisations';
@@ -17320,11 +17371,23 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
 <!-- script déplacé en fin de body -->
 
 <script>
-function accSwitch(panel, btn) {
-  document.querySelectorAll('.acc-tab, .port-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.acc-panel').forEach(p => p.classList.remove('active'));
+function pnlSwitch(panel, btn) {
+  document.querySelectorAll('.port-new-tab-btn').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pnl-acc').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('acc-' + panel).classList.add('active');
+  var el = document.getElementById('pnl-' + panel);
+  if (el) el.classList.add('active');
+  var n = document.getElementById('portCountNum');
+  var l = document.getElementById('portCountLabel');
+  if (n && btn.dataset.count) n.textContent = btn.dataset.count;
+  if (l && btn.dataset.label) l.textContent = btn.dataset.label;
+}
+function accSwitch(panel, btn) {
+  document.querySelectorAll('.acc-tab, .port-tab, .port-new-tab-btn').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.acc-panel, .pnl-acc').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  var el = document.getElementById('acc-' + panel) || document.getElementById('pnl-' + panel);
+  if (el) el.classList.add('active');
 
   // Update dynamic counter
   var countNum = document.getElementById('portCountNum');
@@ -18603,335 +18666,7 @@ function cqfGoBack() {
 })();
 </script>
 
-<script>
-/* ── MORPHING CURSOR — blob vivant + labels orbitants ── */
-(function(){
-  var section = document.getElementById('process');
-  var wrap    = document.getElementById('pieter-process-wrap');
-  if(!section || !wrap) return;
 
-  var mx=0, my=0, cx=0, cy=0, t=0, mode='idle', prevMode='idle';
-  var initialized = false;
-
-  var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;overflow:visible;display:none';
-  document.body.appendChild(svg);
-
-  // ── TRAIL
-  var TN=14, tEls=[], tX=[], tY=[];
-  for(var i=TN-1;i>=0;i--){
-    var tc=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    var f=i/TN;
-    tc.setAttribute('r',(1.5+f*18).toFixed(1));
-    tc.setAttribute('fill','#060606');
-    tc.setAttribute('opacity',(0.03+f*0.15).toFixed(2));
-    svg.appendChild(tc);
-    tEls.unshift(tc); tX.unshift(0); tY.unshift(0);
-  }
-
-  // ── BLOB
-  var blob=document.createElementNS('http://www.w3.org/2000/svg','path');
-  blob.setAttribute('fill','#060606');
-  svg.appendChild(blob);
-
-  // ── SLASH
-  var slash=document.createElementNS('http://www.w3.org/2000/svg','line');
-  slash.setAttribute('stroke','#060606');
-  slash.setAttribute('stroke-width','2.5');
-  slash.setAttribute('stroke-dasharray','10 6');
-  slash.setAttribute('opacity','0');
-  svg.appendChild(slash);
-
-  // ── LABELS
-  var WORDS=[
-    {t:'MDG',    fs:22,fw:900,ls:6, dist:130,speed:.009},
-    {t:'STUDIO', fs:14,fw:900,ls:4, dist:115,speed:.011},
-    {t:'CRÉATIF',fs:12,fw:700,ls:3, dist:150,speed:.007},
-    {t:'01',     fs:28,fw:900,ls:0, dist:100,speed:.013},
-    {t:'02',     fs:18,fw:900,ls:0, dist:140,speed:.010},
-    {t:'×',      fs:32,fw:900,ls:0, dist:95, speed:.015},
-    {t:'DESIGN', fs:11,fw:700,ls:3, dist:160,speed:.008},
-    {t:'03',     fs:16,fw:900,ls:0, dist:120,speed:.012},
-  ];
-  var labels=WORDS.map(function(w,i){
-    var el=document.createElementNS('http://www.w3.org/2000/svg','text');
-    el.textContent=w.t;
-    el.setAttribute('font-family','Syne,Arial Black,sans-serif');
-    el.setAttribute('font-size',w.fs);
-    el.setAttribute('font-weight',w.fw);
-    el.setAttribute('letter-spacing',w.ls);
-    el.setAttribute('fill','#060606');
-    el.setAttribute('opacity','0');
-    el.setAttribute('text-anchor','middle');
-    el.setAttribute('dominant-baseline','middle');
-    svg.appendChild(el);
-    return{el:el,angle:(i/WORDS.length)*Math.PI*2,dist:w.dist,speed:w.speed,tilt:-30+i*9,op:0};
-  });
-
-  // ── BURSTS
-  var bursts=[];
-  function spawnBurst(){
-    for(var b=0;b<10;b++){
-      var angle=Math.random()*Math.PI*2, spd=4+Math.random()*9;
-      var el=document.createElementNS('http://www.w3.org/2000/svg','circle');
-      el.setAttribute('r',(3+Math.random()*6).toFixed(1));
-      el.setAttribute('fill','#060606');
-      el.setAttribute('cx',cx.toFixed(1));
-      el.setAttribute('cy',cy.toFixed(1));
-      svg.appendChild(el);
-      bursts.push({el:el,x:cx,y:cy,vx:Math.cos(angle)*spd,vy:Math.sin(angle)*spd,life:1.0});
-    }
-  }
-
-  function blobPath(bx,by,r,chaos,t){
-    var N=8,pts=[];
-    for(var i=0;i<N;i++){
-      var a=(i/N)*Math.PI*2;
-      var n=Math.sin(t*2.1+i*1.1)*chaos+Math.cos(t*0.9+i*2.3)*chaos*.6+Math.sin(t*3.7+i*.7)*chaos*.25;
-      pts.push([bx+Math.cos(a)*(r+n),by+Math.sin(a)*(r+n)]);
-    }
-    var d='M'+pts[0][0].toFixed(1)+','+pts[0][1].toFixed(1);
-    for(var i=0;i<N;i++){
-      var p1=pts[i],p2=pts[(i+1)%N];
-      d+=' Q'+p1[0].toFixed(1)+','+p1[1].toFixed(1)+' '+((p1[0]+p2[0])/2).toFixed(1)+','+((p1[1]+p2[1])/2).toFixed(1);
-    }
-    return d+'Z';
-  }
-
-  // Events
-  section.addEventListener('mouseenter',function(e){
-    if(!initialized){ cx=e.clientX; cy=e.clientY; for(var i=0;i<TN;i++){tX[i]=cx;tY[i]=cy;} initialized=true; }
-    svg.style.display='block'; mode='idle';
-  });
-  section.addEventListener('mouseleave',function(){
-    svg.style.display='none'; mode='idle';
-  });
-  section.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; });
-
-  var stepEls=wrap.querySelectorAll('.pieter-step');
-  stepEls.forEach(function(step){
-    step.addEventListener('mouseenter',function(){ mode='hover'; });
-    step.addEventListener('mouseleave',function(){ mode='idle'; });
-  });
-
-  function tick(){
-    t+=0.022;
-    cx+=(mx-cx)*.1; cy+=(my-cy)*.1;
-
-    // trail
-    tX[0]+=(cx-tX[0])*.28; tY[0]+=(cy-tY[0])*.28;
-    for(var i=1;i<TN;i++){
-      tX[i]+=(tX[i-1]-tX[i])*.38; tY[i]+=(tY[i-1]-tY[i])*.38;
-      tEls[i].setAttribute('cx',tX[i].toFixed(1)); tEls[i].setAttribute('cy',tY[i].toFixed(1));
-    }
-    tEls[0].setAttribute('cx',tX[0].toFixed(1)); tEls[0].setAttribute('cy',tY[0].toFixed(1));
-
-    // mode change
-    if(mode!==prevMode){ if(mode==='hover') spawnBurst(); prevMode=mode; }
-
-    // blob
-    var r=mode==='hover'?40:22, chaos=mode==='hover'?16:6;
-    blob.setAttribute('d',blobPath(cx,cy,r,chaos,t));
-
-    // slash
-    var sT=mode==='hover'?.8:0, sCur=parseFloat(slash.getAttribute('opacity'));
-    slash.setAttribute('opacity',(sCur+(sT-sCur)*.09).toFixed(3));
-    var sl=90+Math.sin(t*1.6)*20, ang=.4+Math.sin(t*.5)*.25;
-    slash.setAttribute('x1',(cx-Math.cos(ang)*sl).toFixed(1));
-    slash.setAttribute('y1',(cy-Math.sin(ang)*sl*.5).toFixed(1));
-    slash.setAttribute('x2',(cx+Math.cos(ang)*sl).toFixed(1));
-    slash.setAttribute('y2',(cy+Math.sin(ang)*sl*.5).toFixed(1));
-
-    // labels
-    var lT=mode==='hover'?1:0;
-    labels.forEach(function(lb,i){
-      lb.angle+=lb.speed*(mode==='hover'?2.2:0.5);
-      var ox=Math.cos(lb.angle)*lb.dist, oy=Math.sin(lb.angle)*lb.dist;
-      var tx=cx+ox, ty=cy+oy;
-      lb.op+=(lT-lb.op)*.065;
-      lb.el.setAttribute('x',tx.toFixed(1)); lb.el.setAttribute('y',ty.toFixed(1));
-      lb.el.setAttribute('opacity',lb.op.toFixed(3));
-      var tilt=lb.tilt+Math.sin(t*.7+i)*10;
-      lb.el.setAttribute('transform','rotate('+tilt.toFixed(1)+','+tx.toFixed(1)+','+ty.toFixed(1)+')');
-    });
-
-    // bursts
-    for(var b=bursts.length-1;b>=0;b--){
-      var p=bursts[b];
-      p.x+=p.vx; p.y+=p.vy; p.vx*=.9; p.vy*=.9; p.life-=.035;
-      p.el.setAttribute('cx',p.x.toFixed(1)); p.el.setAttribute('cy',p.y.toFixed(1));
-      p.el.setAttribute('opacity',Math.max(0,p.life).toFixed(3));
-      if(p.life<=0){ svg.removeChild(p.el); bursts.splice(b,1); }
-    }
-
-    requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-})();</script>
-
-<style>
-/* ── BARRE DE PROGRESSION SCROLL ACIDE ── */
-#mdg-scroll-progress{
-  position:fixed;top:0;left:0;right:0;
-  height:2px;z-index:99998;
-  pointer-events:none;
-}
-#mdg-scroll-fill{
-  height:100%;width:0%;
-  background:var(--accent);
-  box-shadow:0 0 8px rgba(255,255,255,0.44),0 0 20px rgba(255,255,255,0.22);
-  transition:width .08s linear;
-}
-
-/* ── HERO VIDEO PARALLAX SUBTLE ── */
-.hero-photo-wrap{
-  will-change:transform;
-}
-
-/* ── REVEAL CINÉMATIQUE AMÉLIORÉ ── */
-.reveal-up{
-  opacity:0;
-  transform:translateY(28px);
-  transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1);
-}
-.reveal-up.visible{opacity:1;transform:translateY(0)}
-.reveal-up.rd1{transition-delay:.08s}
-.reveal-up.rd2{transition-delay:.16s}
-.reveal-up.rd3{transition-delay:.24s}
-
-.reveal-line{
-  opacity:0;transform:translateX(-12px);
-  transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1);
-}
-.reveal-line.visible{opacity:1;transform:translateX(0)}
-
-/* ── Mobile : overrider l'état initial opacity:0 pour les sections Uranus ── */
-@media(max-width: 768px) {
-  #uranus .reveal-up,
-  #uranus .reveal-fade,
-  #uranus .reveal-scale,
-  #uranus .reveal-line,
-  #pricing .reveal-up,
-  #pricing .reveal-fade,
-  #portfolio-accordion .reveal-up,
-  #portfolio-accordion .reveal-fade {
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
-  }
-}
-
-/* ── HERO NAME SPEED DISTORT AU SCROLL ── */
-.hero-name,.hero-name-sub{
-  will-change:transform;
-  transition:none;
-}
-
-/* ── SPEED LINE OVERLAY on hero ── */
-#hero-speed-overlay{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:4;
-  overflow:hidden;
-  opacity:0;
-  transition:opacity .1s linear;
-}
-.hero-speed-line{
-  position:absolute;
-  width:1px;
-  background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.19),transparent);
-  transform-origin:top;
-  animation:spline-drop linear infinite;
-}
-@keyframes spline-drop{
-  0%{transform:translateY(-100%)}
-  100%{transform:translateY(200vh)}
-}
-</style>
-
-<div id="mdg-scroll-progress"><div id="mdg-scroll-fill"></div></div>
-
-<script>
-/* ── SCROLL PROGRESS ── */
-(function(){
-  var fill = document.getElementById('mdg-scroll-fill');
-  if(!fill) return;
-  function update(){
-    var s = window.scrollY;
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    fill.style.width = (h > 0 ? (s/h*100) : 0).toFixed(2) + '%';
-  }
-  window.addEventListener('scroll', update, {passive:true});
-  update();
-})();
-
-/* ── HERO PARALLAX + SPEED DISTORT ── */
-(function(){
-  // Le parallax s'applique sur le wrap entier (qui a overflow:hidden)
-  // Les vidéos individuelles n'ont plus de transform — c'était le bug :
-  // translateY sur position:absolute;inset:0 dans un conteneur overflow:hidden
-  // déplace l'élément hors du clip et l'effet est invisible.
-  var photoWrap = document.querySelector('.hero-photo-wrap');
-  var heroNameEls = document.querySelectorAll('.hero-name,.hero-name-sub,.hero-eyebrow,.hero-promise');
-
-  // Create speed lines overlay
-  var hero = document.getElementById('hero');
-  if(hero){
-    var ov = document.createElement('div');
-    ov.id = 'hero-speed-overlay';
-    for(var i=0;i<8;i++){
-      var ln = document.createElement('div');
-      ln.className = 'hero-speed-line';
-      var dur = 0.6 + Math.random()*0.8;
-      var left = 5 + Math.random()*90;
-      var h2 = 80 + Math.random()*200;
-      var delay = -Math.random()*1.5;
-      ln.style.cssText = 'left:'+left+'%;height:'+h2+'px;animation-duration:'+dur+'s;animation-delay:'+delay+'s;opacity:'+(0.3+Math.random()*0.5);
-      ov.appendChild(ln);
-    }
-    hero.appendChild(ov);
-  }
-
-  var lastScrollY = 0;
-  var ticking = false;
-
-  window.addEventListener('scroll', function(){
-    lastScrollY = window.scrollY;
-    if(!ticking){
-      requestAnimationFrame(function(){
-        var s = lastScrollY;
-        var heroH = hero ? hero.offsetHeight : window.innerHeight;
-
-        // Parallax : on translate le wrap (qui contient les vidéos + img)
-        // Le wrap est bottom:-80px donc il a de la marge pour glisser sans créer de vide
-        if(photoWrap && s < heroH){
-          photoWrap.style.transform = 'translateY('+(s*0.28).toFixed(1)+'px)';
-        } else if(photoWrap){
-          photoWrap.style.transform = '';
-        }
-
-        // Speed distort hero text
-        if(s < heroH){
-          var prog = s / heroH; // 0 → 1
-          var skew = prog * 2.5;
-          var scaleX = 1 + prog * 0.06;
-          heroNameEls.forEach(function(el){
-            el.style.transform = 'skewX(-'+skew.toFixed(2)+'deg) scaleX('+scaleX.toFixed(3)+')';
-          });
-          // Speed lines opacity
-          if(ov) ov.style.opacity = (prog * 0.7).toFixed(2);
-        } else {
-          heroNameEls.forEach(function(el){ el.style.transform=''; });
-          if(ov) ov.style.opacity = '0';
-        }
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, {passive:true});
-})();
-</script>
 
 <style>
 /* ── Fix panels portfolio : work-card et cov-card restent à opacity:0
