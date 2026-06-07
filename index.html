@@ -7937,39 +7937,99 @@ body,
   font-family: 'Inter', sans-serif !important;
 }
 
-/* 8. H1 HERO — centré + taille réduite */
+/* 8. H1 HERO desktop — centré, tagline centrée dessous */
 @media(min-width:768px) {
-  /* Le nom s'étend sur toute la largeur, centré */
+  /* hero-left : grid 2 colonnes pour coin bas gauche / bas droite */
+  .hero-left {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto 1fr auto !important;
+    position: absolute !important;
+    top: 0 !important; left: 0 !important; right: 0 !important; bottom: 88px !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    z-index: 15 !important;
+    pointer-events: none !important;
+  }
+  .hero-left > * { pointer-events: auto; }
+
+  /* Eyebrow — haut gauche */
+  .hero-eyebrow {
+    grid-column: 1; grid-row: 1;
+    align-self: start;
+    padding: calc(var(--nav-h,80px) + 1rem) 0 0 clamp(2rem,4vw,3.5rem) !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* H1 — pleine largeur, centré, row 1 */
   .hero-name {
     grid-column: 1 / 3 !important;
+    grid-row: 1 !important;
     text-align: center !important;
-    font-size: clamp(2rem, 4.2vw, 5rem) !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    padding-top: calc(var(--nav-h,80px) + 2.5rem) !important;
-    width: 100% !important;
+    font-size: clamp(2.2rem, 4.8vw, 5.6rem) !important;
+    line-height: .93 !important;
+    padding: calc(var(--nav-h,80px) + 3rem) clamp(2rem,4vw,3.5rem) 0 !important;
+    align-self: start !important;
     justify-self: center !important;
-    align-self: center !important;
+    width: 100% !important;
   }
   .hero-name-sub {
-    font-size: clamp(1.8rem, 3.8vw, 4.6rem) !important;
+    font-size: clamp(2rem, 4.4vw, 5.2rem) !important;
+    text-align: center !important;
   }
-  /* hero-left : passer en colonne unique pour centrage */
-  .hero-left {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
+
+  /* Tagline — centrée, sous le H1, row 2 pleine largeur */
+  .hero-sub {
+    grid-column: 1 / 3 !important;
+    grid-row: 2 !important;
+    align-self: center !important;
+    justify-self: center !important;
+    text-align: center !important;
     padding: 0 !important;
+    margin: 0 !important;
+    border-left: none !important;
+    max-width: 480px !important;
+    font-size: clamp(.58rem, .85vw, .72rem) !important;
+    letter-spacing: .2em !important;
+    pointer-events: none !important;
   }
-  /* Repositionner sub + ctas en bas gauche comme avant */
-  .hero-sub    { align-self: flex-start; margin-top: auto; padding-bottom: 8.5rem; padding-left: clamp(2rem,4vw,3.5rem) !important; }
-  .hero-ctas   { align-self: flex-start; padding-bottom: 4.5rem; padding-left: clamp(2rem,4vw,3.5rem) !important; }
-  .hero-portfolio-links { align-self: flex-start; padding-bottom: 2rem; padding-left: clamp(2rem,4vw,3.5rem) !important; }
-  .hero-eyebrow { padding-left: clamp(2rem,4vw,3.5rem) !important; padding-top: calc(var(--nav-h,80px) + 1rem) !important; }
+
+  /* CTAs — bas gauche, row 3 */
+  .hero-ctas {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    align-self: end !important;
+    padding: 0 0 4.5rem clamp(2rem,4vw,3.5rem) !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Portfolio links — bas gauche sous CTAs */
+  .hero-portfolio-links {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    align-self: end !important;
+    padding: 0 0 2rem clamp(2rem,4vw,3.5rem) !important;
+    margin: 0 !important;
+    opacity: 0;
+    animation: fu .9s 1.9s ease forwards;
+  }
+
+  /* Type-wrap — bas droite */
+  .hero-type-wrap {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    align-self: end !important;
+    justify-self: end !important;
+    text-align: right !important;
+    padding: 0 clamp(2rem,4vw,3.5rem) 2rem 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .hero-handle { display: none !important; }
 }
 
-/* 8b. H1 mobile — un peu plus compact aussi */
+/* 8b. H1 mobile — compact */
 @media(max-width:767px) {
   .hero-name { font-size: clamp(1.8rem, 9vw, 2.6rem) !important; }
   .hero-name-sub { font-size: clamp(1.6rem, 7.5vw, 2.2rem) !important; }
@@ -7992,81 +8052,108 @@ body,
    PATCH 2 — image desktop, mobile hero, titres sections
    ════════════════════════════════════════════════════ */
 
-/* A. IMAGE DESKTOP — dézoomer : on centre le sujet,
-      brightness un peu plus haute pour ne pas trop assombrir */
+/* A. IMAGE DESKTOP — object-position équilibré */
 #heroDesktopImg {
   object-position: 50% 20% !important;
   filter: contrast(1.02) brightness(.95) !important;
 }
 
-/* B. MOBILE HERO — centrage + minimalisme
-      Le titre au centre, les éléments superflus cachés,
-      gradient plus fort en bas pour ancrer le texte */
+/* B. MOBILE HERO — layout propre */
 @media(max-width:640px) {
-  /* Gradient mobile — fondu fort du bas vers le haut */
+  /* Gradient — fort en bas pour ancrer le texte */
   .hero-gradient-overlay {
     background: linear-gradient(to top,
-      rgba(6,6,6,.96) 0%,
-      rgba(6,6,6,.72) 30%,
-      rgba(6,6,6,.28) 60%,
-      rgba(6,6,6,0) 100%
+      rgba(6,6,6,.97) 0%,
+      rgba(6,6,6,.75) 28%,
+      rgba(6,6,6,.3) 55%,
+      rgba(6,6,6,0) 80%
     ) !important;
   }
 
-  /* hero-left : flex colonne, tout centré, texte en bas */
+  /* hero-left : colonne, centré, texte en bas */
   .hero-left {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-end !important;
     text-align: center !important;
-    padding: calc(var(--nav-h,72px) + 1rem) 1.5rem 1.5rem !important;
+    padding: 0 1.5rem 1.75rem !important;
+    width: 100% !important;
+    min-height: 100% !important;
   }
 
-  /* Eyebrow : plus petit, centré */
-  .hero-eyebrow {
-    text-align: center !important;
-    margin-bottom: 1rem !important;
-    font-size: .46rem !important;
-  }
+  /* Eyebrow — caché sur mobile, redondant */
+  .hero-eyebrow { display: none !important; }
 
-  /* H1 — centré, taille raisonnable */
+  /* H1 — ne déborde pas, taille fluide serrée */
   .hero-name {
     text-align: center !important;
-    font-size: clamp(2rem, 10.5vw, 2.8rem) !important;
+    font-size: clamp(1.6rem, 8.5vw, 2.4rem) !important;
     line-height: 1 !important;
+    white-space: normal !important;
+    width: 100% !important;
+    margin-bottom: .5rem !important;
   }
   .hero-name-sub {
     text-align: center !important;
-    font-size: clamp(1.8rem, 9vw, 2.4rem) !important;
+    font-size: clamp(1.4rem, 7.5vw, 2.1rem) !important;
+    white-space: normal !important;
+    display: block !important;
   }
 
-  /* hero-sub — centré, simplifié */
+  /* Tagline — une ligne, centrée, compacte */
   .hero-sub {
     text-align: center !important;
     border-left: none !important;
     padding-left: 0 !important;
-    font-size: .6rem !important;
-    margin-bottom: 1.25rem !important;
-    max-width: 280px !important;
+    font-size: .58rem !important;
+    letter-spacing: .18em !important;
+    margin: .85rem 0 1.4rem !important;
+    max-width: 260px !important;
+    line-height: 1.8 !important;
   }
+  /* Cacher le neg-tag redondant */
+  .hero-sub .hero-sub-neg { display: none !important; }
 
-  /* CTAs — centré */
+  /* CTAs — fit-content centré, pas pleine largeur */
   .hero-ctas {
-    align-items: center !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
+    gap: 0 !important;
     width: fit-content !important;
-    margin: 0 auto 1rem auto !important;
+    margin: 0 auto 1.25rem !important;
+    align-items: stretch !important;
+  }
+  .hero-btn-primary {
+    padding: .75rem 1.4rem !important;
+    font-size: .55rem !important;
+    white-space: nowrap !important;
+  }
+  .hero-btn-secondary {
+    padding: .75rem 1.4rem !important;
+    font-size: .55rem !important;
+    border-left: none !important;
+    border-top: none !important;
+    border: 1px solid rgba(255,255,255,.35) !important;
+    white-space: nowrap !important;
   }
 
-  /* Portfolio links — cachés sur mobile (minimalisme) */
+  /* Portfolio links Behance / IG — cachés */
   .hero-portfolio-links { display: none !important; }
 
-  /* Type-wrap (Brand Identity typing) — caché sur mobile */
+  /* Type-wrap — caché */
   .hero-type-wrap { display: none !important; }
 
-  /* HUD top droite — plus discret sur mobile */
-  .hero-hud-tr { opacity: .7 !important; }
+  /* HUD haut droite — très discret */
+  .hero-hud-tr {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* HUD bas — visible mais compact */
+  .hero-hud-bottom {
+    grid-template-columns: 1fr 1fr 1fr !important;
+    padding: .6rem 1rem !important;
+  }
 }
 
 /* C. TITRES DE SECTIONS — même ADN que "L'ÉLITE SE REMARQUE"
