@@ -13,7 +13,7 @@
 
 <!-- SEO -->
 <title>Mouhamed Al Amine — Creative Director, Cover Art & Branding | Kaolack, Sénégal</title>
-<meta name="description" content="MDG Creative Studio — Creative Director basé à Kaolack, Sénégal. Brand identity, cover art, motion design et web pour artistes et marques africaines. 7 ans d'expérience, un perfectionniste désordonné qui ne sait pas faire autrement que de l'excellence.">
+<meta name="description" content="MDG Creative Studio — Creative Director basé à Kaolack, Sénégal. Cover art, branding, motion & web pour artistes et marques africaines. Perfectionniste désordonné. ISS 814, Omzo Beatz, Dopeboy DMG — et ça s'arrête pas.">
 <!-- meta keywords supprimé — ignoré par Google depuis 2009 -->
 <meta name="author" content="Mouhamed Al Amine — MDG Creative Studio">
 <link rel="canonical" href="https://www.mdgcreative.studio">
@@ -8341,11 +8341,12 @@ body,
   <div class="scroll-dot" data-section="hero" onclick="lenisScroll('hero')"><span class="scroll-dot-label">Accueil</span></div>
   <div class="scroll-dot" data-section="about" onclick="lenisScroll('about')"><span class="scroll-dot-label">À propos</span></div>
   <div class="scroll-dot" data-section="portfolio-accordion" onclick="lenisScroll('portfolio-accordion')"><span class="scroll-dot-label">Projets</span></div>
+  <div class="scroll-dot" data-section="case-studies" onclick="lenisScroll('case-studies')"><span class="scroll-dot-label">Case Studies</span></div>
   <div class="scroll-dot" data-section="collabs" onclick="lenisScroll('collabs')"><span class="scroll-dot-label">Collabs</span></div>
   <div class="scroll-dot" data-section="services" onclick="lenisScroll('services')"><span class="scroll-dot-label">Services</span></div>
   <div class="scroll-dot" data-section="process" onclick="lenisScroll('process')"><span class="scroll-dot-label">Process</span></div>
-  <div class="scroll-dot" data-section="pricing" onclick="lenisScroll('pricing')"><span class="scroll-dot-label">Tarifs</span></div>
   <div class="scroll-dot" data-section="uranus" onclick="lenisScroll('uranus')"><span class="scroll-dot-label" style="color:#a78bfa">URANUS</span></div>
+  <div class="scroll-dot" data-section="pricing" onclick="lenisScroll('pricing')"><span class="scroll-dot-label">Tarifs</span></div>
   <div class="scroll-dot" data-section="faq" onclick="lenisScroll('faq')"><span class="scroll-dot-label">FAQ</span></div>
   <div class="scroll-dot" data-section="contact" onclick="lenisScroll('contact')"><span class="scroll-dot-label">Contact</span></div>
 </div>
@@ -9147,6 +9148,168 @@ body,
       </div>
     </div>
   </div><!-- fin acc-motion -->
+
+
+
+<!-- ══════════════════════════════════════════
+     CASE STUDIES — Comment je pense & procède
+══════════════════════════════════════════ -->
+<section id="case-studies" style="background:var(--black);border-top:1px solid var(--border);padding:6rem 0 5rem">
+<style>
+#case-studies .cs-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem,4vw,3rem);
+}
+#case-studies .cs-header {
+  margin-bottom: 4rem;
+}
+#case-studies .cs-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  min-height: 420px;
+  overflow: hidden;
+}
+#case-studies .cs-item:last-child { border-bottom: 1px solid var(--border); }
+#case-studies .cs-item:nth-child(even) .cs-img-wrap { order: 1; }
+#case-studies .cs-item:nth-child(even) .cs-content { order: 0; }
+#case-studies .cs-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+}
+#case-studies .cs-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(20%);
+  transition: transform .8s cubic-bezier(.16,1,.3,1), filter .6s;
+}
+#case-studies .cs-item:hover .cs-img-wrap img {
+  transform: scale(1.04);
+  filter: grayscale(0%);
+}
+#case-studies .cs-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem clamp(2rem,4vw,4rem);
+  background: var(--black);
+}
+#case-studies .cs-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(5rem,12vw,9rem);
+  line-height: .85;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,.08);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+#case-studies .cs-label {
+  font-family: 'Syne', sans-serif;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--off);
+  margin-bottom: .6rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+#case-studies .cs-label::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: var(--dim);
+}
+#case-studies .cs-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.6rem,3vw,2.2rem);
+  font-weight: 400;
+  color: var(--light);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+#case-studies .cs-quote {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(.88rem,1.2vw,1rem);
+  line-height: 1.75;
+  color: var(--off);
+  font-weight: 300;
+  font-style: italic;
+  border-left: 2px solid rgba(255,255,255,.12);
+  padding-left: 1.25rem;
+}
+
+@media(max-width:768px){
+  #case-studies .cs-item {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+  #case-studies .cs-item:nth-child(even) .cs-img-wrap { order: 0; }
+  #case-studies .cs-item:nth-child(even) .cs-content { order: 1; }
+  #case-studies .cs-img-wrap { aspect-ratio: 4/3; }
+  #case-studies .cs-content { padding: 2.5rem 1.25rem; }
+  #case-studies .cs-num { font-size: clamp(4rem,18vw,6rem); }
+}
+</style>
+
+<div class="cs-wrap">
+  <div class="cs-header reveal-up">
+    <div class="sec-label reveal-line">Case Studies</div>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:400;color:var(--light);margin-top:.5rem">Comment je pense<em> & procède</em></h2>
+  </div>
+
+  <!-- 01 — Bicrave / ISS 814 -->
+  <div class="cs-item reveal-up">
+    <div class="cs-img-wrap">
+      <img loading="lazy" decoding="async"
+        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/iss-bigway_nfvusf.jpg"
+        alt="Bicrave — ISS 814">
+    </div>
+    <div class="cs-content">
+      <span class="cs-num">01</span>
+      <span class="cs-label">ISS 814 · Cover Art</span>
+      <h3 class="cs-title">Bicrave</h3>
+      <p class="cs-quote">Bicrave, c'est un mot qui dit tout et rien à la fois. La cover devait fonctionner pareil, lisible en surface, chargée en dessous. Des formules, une logique chimique intégrée dans le design. Ceux qui savent, savent. Les autres voient juste quelque chose de propre.</p>
+    </div>
+  </div>
+
+  <!-- 02 — Road to Roots 2 X-Files / Dopeboy DMG -->
+  <div class="cs-item reveal-up rd1">
+    <div class="cs-img-wrap">
+      <img loading="lazy" decoding="async"
+        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/roots-2_grygek.jpg"
+        alt="Road to Roots 2 X-Files — Dopeboy DMG">
+    </div>
+    <div class="cs-content">
+      <span class="cs-num">02</span>
+      <span class="cs-label">Dopeboy DMG · Cover Art</span>
+      <h3 class="cs-title">Road to Roots 2 X-Files</h3>
+      <p class="cs-quote">Ce projet, c'était quelques années avant que Dopeboy DMG signe dans la structure de Booba, 92i Africa, qui se revendique pirates. La cover le pressentait déjà. Une esthétique de mer, de pirates, de territoire à conquérir. L'image avant les faits.</p>
+    </div>
+  </div>
+
+  <!-- 03 — 808's God / Omzo Beatz -->
+  <div class="cs-item reveal-up rd2">
+    <div class="cs-img-wrap">
+      <img loading="lazy" decoding="async"
+        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1776659502/OMZO_BEATZ_qrxlee.jpg"
+        alt="808's God — Omzo Beatz">
+    </div>
+    <div class="cs-content">
+      <span class="cs-num">03</span>
+      <span class="cs-label">Omzo Beatz · Cover Art</span>
+      <h3 class="cs-title">808's God</h3>
+      <p class="cs-quote">808's God. On aurait pu faire sombre, minimaliste, c'est la drill. On a fait l'inverse. Parce qu'Omzo, c'est pas la rue qui parle, c'est l'Olympe. Le titre le disait déjà.</p>
+    </div>
+  </div>
+</div>
+</section>
 
 
 
@@ -10652,529 +10815,6 @@ body,
 
 
 <a href="https://www.mdgcreative.studio/tarifs" aria-hidden="true" style="display:none"></a>
-<section id="pricing">
-  <div class="sec-num reveal-fade">10</div>
-  <div class="container">
-
-    <!-- Header -->
-    <div class="pricing-header reveal-up">
-      <div class="sec-label reveal-line">Investissement</div>
-      <h2>Choisis ton <em>pack</em></h2>
-      <p data-i18n="pricing_sub">Trois packs, calibrés pour trois moments d'un projet. Les fourchettes de prix sont affichées ci-dessous.</p>
-      <div class="pricing-scope-note">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        <span>Covers, affiches &amp; vidéos uniquement. Les autres domaines sont sur devis.</span>
-      </div>
-    </div>
-
-    <!-- PRIX VERROUILLÉS — unlock avec mot de passe -->
-    <!-- Tarifs déverrouillés — accès direct -->
-
-    <!-- Tabs -->
-    <div class="pricing-tabs">
-      <button class="pricing-tab active" onclick="switchPricingTab('primaires', this)">Packs Primaires</button>
-      <button class="pricing-tab" onclick="switchPricingTab('avances', this)">Packs Avancés</button>
-      <button class="pricing-tab" onclick="switchPricingTab('rollout', this)">Rollout</button>
-      <button class="pricing-tab" onclick="switchPricingTab('addons', this)">Compléments</button>
-    </div>
-
-    <!-- ─── PANEL : PACKS PRIMAIRES ─── -->
-    <div class="pricing-panel active" id="panel-primaires">
-      <div class="packs-grid reveal-up rd2">
-
-        <!-- DIAMOND — featured — 1er -->
-        <div class="pack-card featured diamond-card">
-          <div class="pack-badge">Le + complet</div>
-          <!-- RIDEAU DIAMOND -->
-          <div class="pack-curtain" data-pack="diamond">
-            <div class="pack-curtain-face" style="background:linear-gradient(160deg,rgba(6,18,30,.97) 0%,rgba(4,10,20,.99) 100%)">
-              <div class="pack-curtain-num" style="color:rgba(192,132,252,0.08)">D</div>
-              <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
-              <div class="pack-curtain-tier" style="color:rgba(192,132,252,0.35)">Pack Album — Le + Complet</div>
-              <div class="pack-curtain-name" style="color:var(--diamond)">Diamond</div>
-              <div class="pack-curtain-hint">
-                <div class="pack-curtain-hint-text">Glisse pour révéler</div>
-                <div class="pack-curtain-arrow"><span></span><span></span><span></span></div>
-              </div>
-              <div class="pack-curtain-progress"></div>
-              <div class="pack-curtain-light"></div>
-            </div>
-          </div>
-          <div class="pack-icon diamond">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <ellipse cx="14" cy="22" rx="9" ry="2" fill="rgba(192,132,252,.14)"/>
-              <polygon points="14,3 22,10 19,23 9,23 6,10" fill="url(#dv1)" stroke="rgba(192,132,252,0.35)" stroke-width=".7" stroke-linejoin="round"/>
-              <polygon points="14,3 22,10 14,10 6,10" fill="rgba(192,132,252,.22)" stroke="rgba(192,132,252,0.2)" stroke-width=".5"/>
-              <polygon points="14,10 19,23 9,23" fill="rgba(56,163,212,.14)"/>
-              <line x1="14" y1="10" x2="14" y2="23" stroke="rgba(192,132,252,0.15)" stroke-width=".6"/>
-              <line x1="6" y1="10" x2="22" y2="10" stroke="rgba(192,132,252,0.18)" stroke-width=".5"/>
-              <defs><linearGradient id="dv1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0ede8"/><stop offset="40%" stop-color="#c084fc"/><stop offset="100%" stop-color="#9333ea"/></linearGradient></defs>
-            </svg>
-          </div>
-          <div class="pack-tier">Pack — Album</div>
-          <div class="pack-name">Diamond</div>
-          <div class="pack-sub">Pour album complet avec mini direction artistique offerte.</div>
-          <div class="pack-price-display">
-              <span class="ppd-amount">100.000</span>
-              <span class="ppd-unit">XOF</span>
-            </div>
-          <div class="pack-divider"></div>
-          <ul class="pack-features">
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique premium pour ta cover</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>4 révisions</strong> incluses</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>PNG/JPG + <strong>tracklist pro</strong> + support réseaux complet</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>Bonus offert :</strong> mini direction artistique (moodboard, palette, typo)</div></li>
-          </ul>
-          <button class="pack-cta" onclick="openPackModal('diamond')">Démarrer ce pack →</button>
-        </div>
-
-        <!-- GOLD — 2e -->
-        <div class="pack-card gold-card">
-          <!-- RIDEAU GOLD -->
-          <div class="pack-curtain" data-pack="gold">
-            <div class="pack-curtain-face">
-              <div class="pack-curtain-num">G</div>
-              <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
-              <div class="pack-curtain-tier">Pack Mixtape / EP</div>
-              <div class="pack-curtain-name">Gold</div>
-              <div class="pack-curtain-hint">
-                <div class="pack-curtain-hint-text">Glisse pour révéler</div>
-                <div class="pack-curtain-arrow"><span></span><span></span><span></span></div>
-              </div>
-              <div class="pack-curtain-progress"></div>
-              <div class="pack-curtain-light"></div>
-            </div>
-          </div>
-          <div class="pack-icon gold">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <ellipse cx="14" cy="16" rx="11" ry="2.5" fill="rgba(200,150,30,.2)"/>
-              <circle cx="14" cy="13" r="11" fill="url(#gv1)" stroke="rgba(255,210,80,.4)" stroke-width=".8"/>
-              <path d="M9 10 L14 4 L19 10 L17 17 H11 Z" fill="rgba(255,230,100,.18)" stroke="rgba(255,210,80,.3)" stroke-width=".6"/>
-              <circle cx="14" cy="13" r="3" fill="rgba(255,220,80,.55)"/>
-              <path d="M14 4 Q18 8 18 13 Q18 18 14 22 Q10 18 10 13 Q10 8 14 4Z" fill="rgba(255,255,200,.07)"/>
-              <defs><radialGradient id="gv1" cx="35%" cy="28%"><stop offset="0%" stop-color="#ffe066"/><stop offset="55%" stop-color="#c8920a"/><stop offset="100%" stop-color="#7a5500"/></radialGradient></defs>
-            </svg>
-          </div>
-          <div class="pack-tier">Pack — Mixtape / EP</div>
-          <div class="pack-name">Gold</div>
-          <div class="pack-sub">Pour EP ou mixtape avec support réseaux sociaux inclus.</div>
-          <div class="pack-price-display">
-              <span class="ppd-amount">50.000</span>
-              <span class="ppd-unit">XOF</span>
-            </div>
-          <div class="pack-divider"></div>
-          <ul class="pack-features">
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique pour ta cover</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>3 révisions</strong> incluses</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>Livrables PNG/JPG + <strong>tracklist complète</strong></div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>Visuels réseaux : <strong>COMING SOON</strong> &amp; <strong>OUT NOW</strong></div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong></div></li>
-          </ul>
-          <button class="pack-cta" onclick="openPackModal('gold')">Démarrer ce pack →</button>
-        </div>
-
-        <!-- SILVER — 3e -->
-        <div class="pack-card silver-card">
-          <!-- RIDEAU SILVER -->
-          <div class="pack-curtain" data-pack="silver">
-            <div class="pack-curtain-face">
-              <div class="pack-curtain-num">S</div>
-              <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
-              <div class="pack-curtain-tier">Pack Primaire</div>
-              <div class="pack-curtain-name">Silver</div>
-              <div class="pack-curtain-hint">
-                <div class="pack-curtain-hint-text">Glisse pour révéler</div>
-                <div class="pack-curtain-arrow"><span></span><span></span><span></span></div>
-              </div>
-              <div class="pack-curtain-progress"></div>
-              <div class="pack-curtain-light"></div>
-            </div>
-          </div>
-          <!-- Icône 3D disque vinyle / médaille -->
-          <div class="pack-icon silver">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <ellipse cx="14" cy="15" rx="12" ry="3" fill="rgba(180,180,200,.18)"/>
-              <circle cx="14" cy="13" r="11" fill="url(#sv1)" stroke="rgba(200,210,230,.35)" stroke-width=".8"/>
-              <circle cx="14" cy="13" r="6" fill="rgba(140,150,170,.25)" stroke="rgba(200,210,230,.25)" stroke-width=".5"/>
-              <circle cx="14" cy="13" r="2.5" fill="rgba(220,225,240,.6)"/>
-              <path d="M14 4 Q18 7 18 13 Q18 19 14 22 Q10 19 10 13 Q10 7 14 4Z" fill="rgba(255,255,255,.06)"/>
-              <defs><radialGradient id="sv1" cx="35%" cy="30%"><stop offset="0%" stop-color="#d8dce8"/><stop offset="60%" stop-color="#9aa0b8"/><stop offset="100%" stop-color="#6a7088"/></radialGradient></defs>
-            </svg>
-          </div>
-          <div class="pack-tier">Pack — Cover Simple</div>
-          <div class="pack-name">Silver</div>
-          <div class="pack-sub">Idéal pour un single ou projet rapide.</div>
-          <div class="pack-price-display">
-              <span class="ppd-amount">25.000</span>
-              <span class="ppd-unit">XOF</span>
-            </div>
-          <div class="pack-divider"></div>
-          <ul class="pack-features">
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique pour ta cover</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>2 révisions</strong> incluses</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>Livrables <strong>PNG / JPG</strong> haute résolution</div></li>
-            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong></div></li>
-          </ul>
-          <button class="pack-cta" onclick="openPackModal('silver')">Démarrer ce pack →</button>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ─── PANEL : PACKS AVANCÉS ─── -->
-    <div class="pricing-panel" id="panel-avances">
-      <div class="advanced-grid reveal-up rd2">
-
-        <!-- SPOTLIGHT -->
-        <div class="adv-card spotlight">
-          <div class="adv-label">Spotlight</div>
-          <div class="adv-title">Single Edition</div>
-          <div class="adv-subtitle">Communication complète pour un single</div>
-          <div class="pack-price-display">
-              <span class="ppd-amount">175.000</span>
-              <span class="ppd-unit">XOF</span>
-            </div>
-          <div class="adv-divider"></div>
-          <ul class="adv-features">
-            <li><span class="af-dot"></span><div><strong>Cover</strong> + motion cover simple (Canvas inclus)</div></li>
-            <li><span class="af-dot"></span><div>Visuels promo <strong>COMING SOON / OUT NOW</strong></div></li>
-            <li><span class="af-dot"></span><div><strong>1 visualizer</strong> ou <strong>1 lyrics video</strong> au choix</div></li>
-            <li><span class="af-dot"></span><div class="adv-option">Option : déclinaison story/post +5.000 XOF</div></li>
-          </ul>
-          <a href="javascript:void(0)" class="adv-cta" onclick="openPackModal('spotlight')">Démarrer ce pack →</a>
-        </div>
-
-        <!-- MAGNUM -->
-        <div class="adv-card magnum">
-          <div class="adv-label">Magnum</div>
-          <div class="adv-title">EP Edition</div>
-          <div class="adv-subtitle">Pour un EP entre 2 et 7 titres</div>
-          <div class="pack-price-display">
-              <span class="ppd-amount">450.000</span>
-              <span class="ppd-unit">XOF</span>
-            </div>
-          <div class="adv-divider"></div>
-          <ul class="adv-features">
-            <li><span class="af-dot"></span><div><strong>Cover EP</strong> niveau Gold + tracklist complète</div></li>
-            <li><span class="af-dot"></span><div><strong>Motion cover avancé</strong> + Canvas Spotify/Apple</div></li>
-            <li><span class="af-dot"></span><div>Pack visuels promo : <strong>COMING SOON, REVEAL, PRE-SAVE, OUT NOW</strong></div></li>
-            <li><span class="af-dot"></span><div><strong>Visualizer ou lyrics video</strong> pour chaque titre</div></li>
-            <li><span class="af-dot"></span><div><strong>Pack bannières complet</strong> inclus</div></li>
-            <li><span class="af-dot"></span><div class="adv-option">Option : déclinaison story/post +5.000 XOF</div></li>
-          </ul>
-          <a href="javascript:void(0)" class="adv-cta" onclick="openPackModal('magnum')">Démarrer ce pack →</a>
-        </div>
-
-        <!-- PRESTIGE -->
-        <div class="adv-card prestige">
-          <div class="adv-label">Prestige</div>
-          <div class="adv-title">Album Edition</div>
-          <div class="adv-subtitle">L'arsenal complet pour un album</div>
-          <div class="pack-price-display">
-              <span class="ppd-amount">800.000</span>
-              <span class="ppd-unit">XOF</span>
-            </div>
-          <div class="adv-divider"></div>
-          <ul class="adv-features">
-            <li><span class="af-dot"></span><div><strong>Cover premium</strong> + mini direction artistique</div></li>
-            <li><span class="af-dot"></span><div><strong>Tracklist pro</strong> + motion cover premium + Canvas</div></li>
-            <li><span class="af-dot"></span><div><strong>Pack visuels promo étendu</strong></div></li>
-            <li><span class="af-dot"></span><div><strong>Visualizer ou lyrics video</strong> pour chaque titre</div></li>
-            <li><span class="af-dot"></span><div><strong>Template story réutilisable</strong> + déclinaisons story/post</div></li>
-            <li><span class="af-dot"></span><div><strong>Pack bannières complet</strong></div></li>
-            <li><span class="af-dot"></span><div class="adv-option">Option : déclinaison story/post +5.000 XOF</div></li>
-          </ul>
-          <a href="javascript:void(0)" class="adv-cta" onclick="openPackModal('prestige')">Démarrer ce pack →</a>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ─── PANEL : ROLLOUT ─── -->
-    <div class="pricing-panel" id="panel-rollout">
-      <div class="rollout-card reveal-scale rd3">
-        <div class="rollout-inner">
-          <div class="rollout-left">
-            <div class="rollout-label">Full Campaign</div>
-            <div class="rollout-title">ROLLOUT</div>
-            <div class="rollout-subtitle">La campagne complète, du visuel à la rue.</div>
-            <div class="rollout-desc">
-              Pour artistes sérieux, labels ou sorties majeures. Communication complète et premium sur <strong>2 semaines</strong>. Cover EP ou album, tracklist pro, motion cover avancé, Canvas Spotify/Apple, série complète de visuels promotionnels (teaser, coming soon, reveal, pre-save, out now, highlight post), visualizer ou lyrics video pour chaque titre, vidéo announcement 10–15s, pack bannières YouTube/Facebook/X, déclinaisons story + post, et plan de diffusion sur 2 semaines (Instagram, Facebook, X, TikTok).
-            </div>
-            <div class="rollout-features">
-              <span class="rollout-feat">Direction artistique complète</span>
-              <span class="rollout-feat">Spotify / Apple Music</span>
-              <span class="rollout-feat">Reels &amp; Stories</span>
-              <span class="rollout-feat">Flyers &amp; Affiches</span>
-              <span class="rollout-feat">Canvas animé</span>
-              <span class="rollout-feat">Motion Cover</span>
-              <span class="rollout-feat">YouTube, FB, IG</span>
-              <span class="rollout-feat">Template communauté</span>
-            </div>
-            <div class="rollout-option">Option : logo artiste ou mise à jour identité visuelle incluse</div>
-          </div>
-          <div class="rollout-price-block">
-            <div class="pack-price-display">
-              <span class="ppd-amount">1.200.000</span>
-              <span class="ppd-unit">XOF</span>
-            </div>
-            <a href="javascript:void(0)" class="rollout-price-cta" onclick="openPackModal('rollout')">Lancer le projet →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── PANEL : SERVICES ADDITIONNELS ─── -->
-    <div class="pricing-panel" id="panel-addons">
-      <div class="addons-intro reveal-up">
-        <p class="addons-intro-text" data-i18n="addons_intro">Ces éléments peuvent s'ajouter à n'importe quel pack, ou être commandés séparément. Chaque livrable est conçu avec le même niveau d'exigence que le reste.</p>
-      </div>
-      <div class="addons-grid reveal-up rd2">
-
-        <div class="addon-card">
-          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
-          <div class="addon-info">
-            <div class="addon-name" data-i18n="addon_lyrics_name">Lyrics Videos</div>
-            <div class="addon-detail" data-i18n="addon_lyrics_detail">Vidéo animée avec paroles synchronisées sur la musique.</div>
-            <div class="addon-price-tag" data-i18n="addon_lyrics_price">Basique 60K · Intermédiaire 80K · Avancé 100K XOF</div>
-          </div>
-        </div>
-
-        <div class="addon-card">
-          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-          <div class="addon-info">
-            <div class="addon-name" data-i18n="addon_flyer_name">Flyers &amp; Affiches</div>
-            <div class="addon-detail" data-i18n="addon_flyer_detail">Visuels impactants pour concerts, événements et promotions.</div>
-            <div class="addon-price-tag" data-i18n="addon_flyer_price">Affiche simple 25K · Multi-formats 50K XOF</div>
-          </div>
-        </div>
-
-        <div class="addon-card">
-          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-          <div class="addon-info">
-            <div class="addon-name" data-i18n="addon_motion_name">Motion Cover</div>
-            <div class="addon-detail" data-i18n="addon_motion_detail">Animation de cover, fluide et immersive.</div>
-            <div class="addon-price-tag" data-i18n="addon_motion_price">Simple 40K · Motion design avancé 60K XOF</div>
-          </div>
-        </div>
-
-        <div class="addon-card">
-          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M5.1 5.1l13.8 13.8" stroke-width="1.2" opacity=".4"/></svg></div>
-          <div class="addon-info">
-            <div class="addon-name" data-i18n="addon_canvas_name">Canvas Spotify &amp; Apple Music</div>
-            <div class="addon-detail" data-i18n="addon_canvas_detail">Vidéo animée courte (jusqu'à 8s) optimisée pour le streaming.</div>
-            <div class="addon-price-tag" data-i18n="addon_canvas_price">Motion simple 30K · Animation dynamique 50K XOF</div>
-          </div>
-        </div>
-
-        <div class="addon-card">
-          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg></div>
-          <div class="addon-info">
-            <div class="addon-name" data-i18n="addon_yt_name">Bannière YouTube</div>
-            <div class="addon-detail" data-i18n="addon_yt_detail">Bannière de chaîne optimisée pour YouTube.</div>
-            <div class="addon-price-tag" data-i18n="addon_yt_price">30.000 XOF</div>
-          </div>
-        </div>
-
-        <div class="addon-card">
-          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
-          <div class="addon-info">
-            <div class="addon-name" data-i18n="addon_fb_name">Bannière Facebook / X</div>
-            <div class="addon-detail" data-i18n="addon_fb_detail">Couverture profil pour Facebook ou X (ex-Twitter).</div>
-            <div class="addon-price-tag" data-i18n="addon_fb_price">20.000 XOF</div>
-          </div>
-        </div>
-
-        <div class="addon-card">
-          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-          <div class="addon-info">
-            <div class="addon-name" data-i18n="addon_story_name">Déclinaison Story</div>
-            <div class="addon-detail" data-i18n="addon_story_detail">Format story pour Instagram, Facebook, TikTok, etc.</div>
-            <div class="addon-price-tag" data-i18n="addon_story_price">15.000 XOF</div>
-          </div>
-        </div>
-
-        <div class="addon-card">
-          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div>
-          <div class="addon-info">
-            <div class="addon-name" data-i18n="addon_pack_name">Pack Multi-Formats</div>
-            <div class="addon-detail" data-i18n="addon_pack_detail">Story + Post + Bannière, présence optimisée sur toutes les plateformes.</div>
-            <div class="addon-price-tag" data-i18n="addon_pack_price">50.000 XOF</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-
-    <!-- Note conditions -->
-    <div class="pcond-wrap reveal-fade rd4">
-      <div class="pcond-header">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span class="pcond-header-label">Conditions générales</span>
-        <span class="pcond-header-en">General Terms</span>
-      </div>
-      <div class="pcond-rows">
-
-        <div class="pcond-row">
-          <span class="pcond-key">Acompte</span>
-          <div class="pcond-val-wrap">
-            <span class="pcond-big">50%</span>
-            <span class="pcond-val"><strong>avant tout démarrage</strong> · solde à la livraison</span>
-          </div>
-        </div>
-
-        <div class="pcond-row">
-          <span class="pcond-key">Révisions</span>
-          <div class="pcond-val-wrap">
-            <span class="pcond-big">×3</span>
-            <span class="pcond-val"><strong>incluses</strong> · au-delà, facturé au temps passé</span>
-          </div>
-        </div>
-
-        <div class="pcond-row">
-          <span class="pcond-key">Urgences</span>
-          <div class="pcond-val-wrap">
-            <span class="pcond-big pcond-big--up">+30%</span>
-            <span class="pcond-val">livraison <strong>sous 48h</strong></span>
-          </div>
-        </div>
-
-        <div class="pcond-row">
-          <span class="pcond-key">Long terme</span>
-          <div class="pcond-val-wrap">
-            <span class="pcond-big pcond-big--down">−20%</span>
-            <span class="pcond-val">pour <strong>projets récurrents</strong></span>
-          </div>
-        </div>
-
-        <div class="pcond-row pcond-row--full">
-          <span class="pcond-key">Dispo</span>
-          <div class="pcond-val-wrap">
-            <span class="pcond-big pcond-big--dispo">6j/7</span>
-            <span class="pcond-val"><strong>Lun à Sam</strong> · 09h à minuit · Dim. fermé</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-<style>
-/* ── CONDITIONS GÉNÉRALES REDESIGN ── */
-.pcond-wrap {
-  margin-top: 2.5rem;
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 20px;
-  overflow: hidden;
-  background: var(--black);
-  position: relative;
-}
-/* Ligne accent haut */
-.pcond-wrap::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
-}
-.pcond-header {
-  display: flex; align-items: center; gap: .65rem;
-  padding: 1rem 1.75rem;
-  border-bottom: 1px solid rgba(255,255,255,.05);
-  position: relative;
-}
-.pcond-header svg { stroke: var(--accent); flex-shrink: 0; }
-.pcond-header-label {
-  font-family: 'Syne', sans-serif;
-  font-size: .6rem; font-weight: 800;
-  letter-spacing: .22em; text-transform: uppercase;
-  color: var(--accent);
-}
-.pcond-header-en {
-  font-family: 'Syne', sans-serif;
-  font-size: .55rem; font-weight: 500;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--dim);
-  margin-left: auto;
-}
-
-/* Grille des rows */
-.pcond-rows {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: rgba(255,255,255,.04);
-}
-.pcond-row {
-  display: flex; align-items: center; gap: 1.5rem;
-  padding: 1.4rem 1.75rem;
-  background: var(--black);
-  transition: background .2s;
-  position: relative;
-  overflow: hidden;
-}
-.pcond-row::before {
-  content: '';
-  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
-  background: var(--accent);
-  transition: width .25s cubic-bezier(.16,1,.3,1);
-}
-.pcond-row:hover { background: rgba(255,255,255,.02); }
-.pcond-row:hover::before { width: 2px; }
-
-/* Row pleine largeur */
-.pcond-row--full {
-  grid-column: 1 / -1;
-  border-top: 1px solid rgba(255,255,255,.04);
-}
-
-/* Clé */
-.pcond-key {
-  font-family: 'Syne', sans-serif;
-  font-size: .55rem; font-weight: 700;
-  letter-spacing: .18em; text-transform: uppercase;
-  color: var(--dim);
-  width: 82px; flex-shrink: 0;
-}
-
-/* Valeur wrap */
-.pcond-val-wrap {
-  display: flex; align-items: center; gap: 1.1rem; flex: 1;
-}
-
-/* Grand chiffre accent */
-.pcond-big {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
-  letter-spacing: -.04em;
-  line-height: 1;
-  color: var(--accent);
-  flex-shrink: 0;
-  min-width: 52px;
-}
-.pcond-big--up  { color: #f97316; }
-.pcond-big--down { color: var(--accent); }
-.pcond-big--dispo { color: var(--accent); font-size: clamp(1.2rem, 2vw, 1.6rem); }
-
-/* Texte détail */
-.pcond-val {
-  font-size: .78rem; color: var(--dim);
-  font-weight: 300; line-height: 1.4;
-}
-.pcond-val strong { color: var(--light); font-weight: 600; }
-
-@media(max-width:700px) {
-  .pcond-rows { grid-template-columns: 1fr; }
-  .pcond-row--full { grid-column: 1; border-top: none; }
-  .pcond-row { padding: 1.1rem 1.25rem; gap: 1rem; }
-  .pcond-key { width: 70px; font-size: .5rem; }
-  .pcond-big { font-size: 1.3rem; min-width: 44px; }
-}
-</style>
-
-  </div>
-</section>
-
 <!-- ══════════════════════════════════════════
      URANUS GFX PACK — Précommande
 ══════════════════════════════════════════ -->
@@ -12667,6 +12307,531 @@ function copyWaveNumber(btn) {
 </script>
 
 </section>
+
+
+<section id="pricing">
+  <div class="sec-num reveal-fade">10</div>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="pricing-header reveal-up">
+      <div class="sec-label reveal-line">Investissement</div>
+      <h2>Choisis ton <em>pack</em></h2>
+      <p data-i18n="pricing_sub">Trois packs, calibrés pour trois moments d'un projet. Les fourchettes de prix sont affichées ci-dessous.</p>
+      <div class="pricing-scope-note">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span>Covers, affiches &amp; vidéos uniquement. Les autres domaines sont sur devis.</span>
+      </div>
+    </div>
+
+    <!-- PRIX VERROUILLÉS — unlock avec mot de passe -->
+    <!-- Tarifs déverrouillés — accès direct -->
+
+    <!-- Tabs -->
+    <div class="pricing-tabs">
+      <button class="pricing-tab active" onclick="switchPricingTab('primaires', this)">Packs Primaires</button>
+      <button class="pricing-tab" onclick="switchPricingTab('avances', this)">Packs Avancés</button>
+      <button class="pricing-tab" onclick="switchPricingTab('rollout', this)">Rollout</button>
+      <button class="pricing-tab" onclick="switchPricingTab('addons', this)">Compléments</button>
+    </div>
+
+    <!-- ─── PANEL : PACKS PRIMAIRES ─── -->
+    <div class="pricing-panel active" id="panel-primaires">
+      <div class="packs-grid reveal-up rd2">
+
+        <!-- DIAMOND — featured — 1er -->
+        <div class="pack-card featured diamond-card">
+          <div class="pack-badge">Le + complet</div>
+          <!-- RIDEAU DIAMOND -->
+          <div class="pack-curtain" data-pack="diamond">
+            <div class="pack-curtain-face" style="background:linear-gradient(160deg,rgba(6,18,30,.97) 0%,rgba(4,10,20,.99) 100%)">
+              <div class="pack-curtain-num" style="color:rgba(192,132,252,0.08)">D</div>
+              <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
+              <div class="pack-curtain-tier" style="color:rgba(192,132,252,0.35)">Pack Album — Le + Complet</div>
+              <div class="pack-curtain-name" style="color:var(--diamond)">Diamond</div>
+              <div class="pack-curtain-hint">
+                <div class="pack-curtain-hint-text">Glisse pour révéler</div>
+                <div class="pack-curtain-arrow"><span></span><span></span><span></span></div>
+              </div>
+              <div class="pack-curtain-progress"></div>
+              <div class="pack-curtain-light"></div>
+            </div>
+          </div>
+          <div class="pack-icon diamond">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <ellipse cx="14" cy="22" rx="9" ry="2" fill="rgba(192,132,252,.14)"/>
+              <polygon points="14,3 22,10 19,23 9,23 6,10" fill="url(#dv1)" stroke="rgba(192,132,252,0.35)" stroke-width=".7" stroke-linejoin="round"/>
+              <polygon points="14,3 22,10 14,10 6,10" fill="rgba(192,132,252,.22)" stroke="rgba(192,132,252,0.2)" stroke-width=".5"/>
+              <polygon points="14,10 19,23 9,23" fill="rgba(56,163,212,.14)"/>
+              <line x1="14" y1="10" x2="14" y2="23" stroke="rgba(192,132,252,0.15)" stroke-width=".6"/>
+              <line x1="6" y1="10" x2="22" y2="10" stroke="rgba(192,132,252,0.18)" stroke-width=".5"/>
+              <defs><linearGradient id="dv1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0ede8"/><stop offset="40%" stop-color="#c084fc"/><stop offset="100%" stop-color="#9333ea"/></linearGradient></defs>
+            </svg>
+          </div>
+          <div class="pack-tier">Pack — Album</div>
+          <div class="pack-name">Diamond</div>
+          <div class="pack-sub">Pour album complet avec mini direction artistique offerte.</div>
+          <div class="pack-price-display">
+              <span class="ppd-amount">100.000</span>
+              <span class="ppd-unit">XOF</span>
+            </div>
+          <div class="pack-divider"></div>
+          <ul class="pack-features">
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique premium pour ta cover</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>4 révisions</strong> incluses</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>PNG/JPG + <strong>tracklist pro</strong> + support réseaux complet</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>Bonus offert :</strong> mini direction artistique (moodboard, palette, typo)</div></li>
+          </ul>
+          <button class="pack-cta" onclick="openPackModal('diamond')">Démarrer ce pack →</button>
+        </div>
+
+        <!-- GOLD — 2e -->
+        <div class="pack-card gold-card">
+          <!-- RIDEAU GOLD -->
+          <div class="pack-curtain" data-pack="gold">
+            <div class="pack-curtain-face">
+              <div class="pack-curtain-num">G</div>
+              <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
+              <div class="pack-curtain-tier">Pack Mixtape / EP</div>
+              <div class="pack-curtain-name">Gold</div>
+              <div class="pack-curtain-hint">
+                <div class="pack-curtain-hint-text">Glisse pour révéler</div>
+                <div class="pack-curtain-arrow"><span></span><span></span><span></span></div>
+              </div>
+              <div class="pack-curtain-progress"></div>
+              <div class="pack-curtain-light"></div>
+            </div>
+          </div>
+          <div class="pack-icon gold">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <ellipse cx="14" cy="16" rx="11" ry="2.5" fill="rgba(200,150,30,.2)"/>
+              <circle cx="14" cy="13" r="11" fill="url(#gv1)" stroke="rgba(255,210,80,.4)" stroke-width=".8"/>
+              <path d="M9 10 L14 4 L19 10 L17 17 H11 Z" fill="rgba(255,230,100,.18)" stroke="rgba(255,210,80,.3)" stroke-width=".6"/>
+              <circle cx="14" cy="13" r="3" fill="rgba(255,220,80,.55)"/>
+              <path d="M14 4 Q18 8 18 13 Q18 18 14 22 Q10 18 10 13 Q10 8 14 4Z" fill="rgba(255,255,200,.07)"/>
+              <defs><radialGradient id="gv1" cx="35%" cy="28%"><stop offset="0%" stop-color="#ffe066"/><stop offset="55%" stop-color="#c8920a"/><stop offset="100%" stop-color="#7a5500"/></radialGradient></defs>
+            </svg>
+          </div>
+          <div class="pack-tier">Pack — Mixtape / EP</div>
+          <div class="pack-name">Gold</div>
+          <div class="pack-sub">Pour EP ou mixtape avec support réseaux sociaux inclus.</div>
+          <div class="pack-price-display">
+              <span class="ppd-amount">50.000</span>
+              <span class="ppd-unit">XOF</span>
+            </div>
+          <div class="pack-divider"></div>
+          <ul class="pack-features">
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique pour ta cover</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>3 révisions</strong> incluses</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>Livrables PNG/JPG + <strong>tracklist complète</strong></div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>Visuels réseaux : <strong>COMING SOON</strong> &amp; <strong>OUT NOW</strong></div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong></div></li>
+          </ul>
+          <button class="pack-cta" onclick="openPackModal('gold')">Démarrer ce pack →</button>
+        </div>
+
+        <!-- SILVER — 3e -->
+        <div class="pack-card silver-card">
+          <!-- RIDEAU SILVER -->
+          <div class="pack-curtain" data-pack="silver">
+            <div class="pack-curtain-face">
+              <div class="pack-curtain-num">S</div>
+              <div class="pack-curtain-badge"><span class="badge-txt"></span></div>
+              <div class="pack-curtain-tier">Pack Primaire</div>
+              <div class="pack-curtain-name">Silver</div>
+              <div class="pack-curtain-hint">
+                <div class="pack-curtain-hint-text">Glisse pour révéler</div>
+                <div class="pack-curtain-arrow"><span></span><span></span><span></span></div>
+              </div>
+              <div class="pack-curtain-progress"></div>
+              <div class="pack-curtain-light"></div>
+            </div>
+          </div>
+          <!-- Icône 3D disque vinyle / médaille -->
+          <div class="pack-icon silver">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <ellipse cx="14" cy="15" rx="12" ry="3" fill="rgba(180,180,200,.18)"/>
+              <circle cx="14" cy="13" r="11" fill="url(#sv1)" stroke="rgba(200,210,230,.35)" stroke-width=".8"/>
+              <circle cx="14" cy="13" r="6" fill="rgba(140,150,170,.25)" stroke="rgba(200,210,230,.25)" stroke-width=".5"/>
+              <circle cx="14" cy="13" r="2.5" fill="rgba(220,225,240,.6)"/>
+              <path d="M14 4 Q18 7 18 13 Q18 19 14 22 Q10 19 10 13 Q10 7 14 4Z" fill="rgba(255,255,255,.06)"/>
+              <defs><radialGradient id="sv1" cx="35%" cy="30%"><stop offset="0%" stop-color="#d8dce8"/><stop offset="60%" stop-color="#9aa0b8"/><stop offset="100%" stop-color="#6a7088"/></radialGradient></defs>
+            </svg>
+          </div>
+          <div class="pack-tier">Pack — Cover Simple</div>
+          <div class="pack-name">Silver</div>
+          <div class="pack-sub">Idéal pour un single ou projet rapide.</div>
+          <div class="pack-price-display">
+              <span class="ppd-amount">25.000</span>
+              <span class="ppd-unit">XOF</span>
+            </div>
+          <div class="pack-divider"></div>
+          <ul class="pack-features">
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>1 concept</strong> graphique pour ta cover</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><strong>2 révisions</strong> incluses</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div>Livrables <strong>PNG / JPG</strong> haute résolution</div></li>
+            <li><svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><div><em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong></div></li>
+          </ul>
+          <button class="pack-cta" onclick="openPackModal('silver')">Démarrer ce pack →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── PANEL : PACKS AVANCÉS ─── -->
+    <div class="pricing-panel" id="panel-avances">
+      <div class="advanced-grid reveal-up rd2">
+
+        <!-- SPOTLIGHT -->
+        <div class="adv-card spotlight">
+          <div class="adv-label">Spotlight</div>
+          <div class="adv-title">Single Edition</div>
+          <div class="adv-subtitle">Communication complète pour un single</div>
+          <div class="pack-price-display">
+              <span class="ppd-amount">175.000</span>
+              <span class="ppd-unit">XOF</span>
+            </div>
+          <div class="adv-divider"></div>
+          <ul class="adv-features">
+            <li><span class="af-dot"></span><div><strong>Cover</strong> + motion cover simple (Canvas inclus)</div></li>
+            <li><span class="af-dot"></span><div>Visuels promo <strong>COMING SOON / OUT NOW</strong></div></li>
+            <li><span class="af-dot"></span><div><strong>1 visualizer</strong> ou <strong>1 lyrics video</strong> au choix</div></li>
+            <li><span class="af-dot"></span><div class="adv-option">Option : déclinaison story/post +5.000 XOF</div></li>
+          </ul>
+          <a href="javascript:void(0)" class="adv-cta" onclick="openPackModal('spotlight')">Démarrer ce pack →</a>
+        </div>
+
+        <!-- MAGNUM -->
+        <div class="adv-card magnum">
+          <div class="adv-label">Magnum</div>
+          <div class="adv-title">EP Edition</div>
+          <div class="adv-subtitle">Pour un EP entre 2 et 7 titres</div>
+          <div class="pack-price-display">
+              <span class="ppd-amount">450.000</span>
+              <span class="ppd-unit">XOF</span>
+            </div>
+          <div class="adv-divider"></div>
+          <ul class="adv-features">
+            <li><span class="af-dot"></span><div><strong>Cover EP</strong> niveau Gold + tracklist complète</div></li>
+            <li><span class="af-dot"></span><div><strong>Motion cover avancé</strong> + Canvas Spotify/Apple</div></li>
+            <li><span class="af-dot"></span><div>Pack visuels promo : <strong>COMING SOON, REVEAL, PRE-SAVE, OUT NOW</strong></div></li>
+            <li><span class="af-dot"></span><div><strong>Visualizer ou lyrics video</strong> pour chaque titre</div></li>
+            <li><span class="af-dot"></span><div><strong>Pack bannières complet</strong> inclus</div></li>
+            <li><span class="af-dot"></span><div class="adv-option">Option : déclinaison story/post +5.000 XOF</div></li>
+          </ul>
+          <a href="javascript:void(0)" class="adv-cta" onclick="openPackModal('magnum')">Démarrer ce pack →</a>
+        </div>
+
+        <!-- PRESTIGE -->
+        <div class="adv-card prestige">
+          <div class="adv-label">Prestige</div>
+          <div class="adv-title">Album Edition</div>
+          <div class="adv-subtitle">L'arsenal complet pour un album</div>
+          <div class="pack-price-display">
+              <span class="ppd-amount">800.000</span>
+              <span class="ppd-unit">XOF</span>
+            </div>
+          <div class="adv-divider"></div>
+          <ul class="adv-features">
+            <li><span class="af-dot"></span><div><strong>Cover premium</strong> + mini direction artistique</div></li>
+            <li><span class="af-dot"></span><div><strong>Tracklist pro</strong> + motion cover premium + Canvas</div></li>
+            <li><span class="af-dot"></span><div><strong>Pack visuels promo étendu</strong></div></li>
+            <li><span class="af-dot"></span><div><strong>Visualizer ou lyrics video</strong> pour chaque titre</div></li>
+            <li><span class="af-dot"></span><div><strong>Template story réutilisable</strong> + déclinaisons story/post</div></li>
+            <li><span class="af-dot"></span><div><strong>Pack bannières complet</strong></div></li>
+            <li><span class="af-dot"></span><div class="adv-option">Option : déclinaison story/post +5.000 XOF</div></li>
+          </ul>
+          <a href="javascript:void(0)" class="adv-cta" onclick="openPackModal('prestige')">Démarrer ce pack →</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── PANEL : ROLLOUT ─── -->
+    <div class="pricing-panel" id="panel-rollout">
+      <div class="rollout-card reveal-scale rd3">
+        <div class="rollout-inner">
+          <div class="rollout-left">
+            <div class="rollout-label">Full Campaign</div>
+            <div class="rollout-title">ROLLOUT</div>
+            <div class="rollout-subtitle">La campagne complète, du visuel à la rue.</div>
+            <div class="rollout-desc">
+              Pour artistes sérieux, labels ou sorties majeures. Communication complète et premium sur <strong>2 semaines</strong>. Cover EP ou album, tracklist pro, motion cover avancé, Canvas Spotify/Apple, série complète de visuels promotionnels (teaser, coming soon, reveal, pre-save, out now, highlight post), visualizer ou lyrics video pour chaque titre, vidéo announcement 10–15s, pack bannières YouTube/Facebook/X, déclinaisons story + post, et plan de diffusion sur 2 semaines (Instagram, Facebook, X, TikTok).
+            </div>
+            <div class="rollout-features">
+              <span class="rollout-feat">Direction artistique complète</span>
+              <span class="rollout-feat">Spotify / Apple Music</span>
+              <span class="rollout-feat">Reels &amp; Stories</span>
+              <span class="rollout-feat">Flyers &amp; Affiches</span>
+              <span class="rollout-feat">Canvas animé</span>
+              <span class="rollout-feat">Motion Cover</span>
+              <span class="rollout-feat">YouTube, FB, IG</span>
+              <span class="rollout-feat">Template communauté</span>
+            </div>
+            <div class="rollout-option">Option : logo artiste ou mise à jour identité visuelle incluse</div>
+          </div>
+          <div class="rollout-price-block">
+            <div class="pack-price-display">
+              <span class="ppd-amount">1.200.000</span>
+              <span class="ppd-unit">XOF</span>
+            </div>
+            <a href="javascript:void(0)" class="rollout-price-cta" onclick="openPackModal('rollout')">Lancer le projet →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PANEL : SERVICES ADDITIONNELS ─── -->
+    <div class="pricing-panel" id="panel-addons">
+      <div class="addons-intro reveal-up">
+        <p class="addons-intro-text" data-i18n="addons_intro">Ces éléments peuvent s'ajouter à n'importe quel pack, ou être commandés séparément. Chaque livrable est conçu avec le même niveau d'exigence que le reste.</p>
+      </div>
+      <div class="addons-grid reveal-up rd2">
+
+        <div class="addon-card">
+          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+          <div class="addon-info">
+            <div class="addon-name" data-i18n="addon_lyrics_name">Lyrics Videos</div>
+            <div class="addon-detail" data-i18n="addon_lyrics_detail">Vidéo animée avec paroles synchronisées sur la musique.</div>
+            <div class="addon-price-tag" data-i18n="addon_lyrics_price">Basique 60K · Intermédiaire 80K · Avancé 100K XOF</div>
+          </div>
+        </div>
+
+        <div class="addon-card">
+          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <div class="addon-info">
+            <div class="addon-name" data-i18n="addon_flyer_name">Flyers &amp; Affiches</div>
+            <div class="addon-detail" data-i18n="addon_flyer_detail">Visuels impactants pour concerts, événements et promotions.</div>
+            <div class="addon-price-tag" data-i18n="addon_flyer_price">Affiche simple 25K · Multi-formats 50K XOF</div>
+          </div>
+        </div>
+
+        <div class="addon-card">
+          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="addon-info">
+            <div class="addon-name" data-i18n="addon_motion_name">Motion Cover</div>
+            <div class="addon-detail" data-i18n="addon_motion_detail">Animation de cover, fluide et immersive.</div>
+            <div class="addon-price-tag" data-i18n="addon_motion_price">Simple 40K · Motion design avancé 60K XOF</div>
+          </div>
+        </div>
+
+        <div class="addon-card">
+          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M5.1 5.1l13.8 13.8" stroke-width="1.2" opacity=".4"/></svg></div>
+          <div class="addon-info">
+            <div class="addon-name" data-i18n="addon_canvas_name">Canvas Spotify &amp; Apple Music</div>
+            <div class="addon-detail" data-i18n="addon_canvas_detail">Vidéo animée courte (jusqu'à 8s) optimisée pour le streaming.</div>
+            <div class="addon-price-tag" data-i18n="addon_canvas_price">Motion simple 30K · Animation dynamique 50K XOF</div>
+          </div>
+        </div>
+
+        <div class="addon-card">
+          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg></div>
+          <div class="addon-info">
+            <div class="addon-name" data-i18n="addon_yt_name">Bannière YouTube</div>
+            <div class="addon-detail" data-i18n="addon_yt_detail">Bannière de chaîne optimisée pour YouTube.</div>
+            <div class="addon-price-tag" data-i18n="addon_yt_price">30.000 XOF</div>
+          </div>
+        </div>
+
+        <div class="addon-card">
+          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+          <div class="addon-info">
+            <div class="addon-name" data-i18n="addon_fb_name">Bannière Facebook / X</div>
+            <div class="addon-detail" data-i18n="addon_fb_detail">Couverture profil pour Facebook ou X (ex-Twitter).</div>
+            <div class="addon-price-tag" data-i18n="addon_fb_price">20.000 XOF</div>
+          </div>
+        </div>
+
+        <div class="addon-card">
+          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div class="addon-info">
+            <div class="addon-name" data-i18n="addon_story_name">Déclinaison Story</div>
+            <div class="addon-detail" data-i18n="addon_story_detail">Format story pour Instagram, Facebook, TikTok, etc.</div>
+            <div class="addon-price-tag" data-i18n="addon_story_price">15.000 XOF</div>
+          </div>
+        </div>
+
+        <div class="addon-card">
+          <div class="addon-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div>
+          <div class="addon-info">
+            <div class="addon-name" data-i18n="addon_pack_name">Pack Multi-Formats</div>
+            <div class="addon-detail" data-i18n="addon_pack_detail">Story + Post + Bannière, présence optimisée sur toutes les plateformes.</div>
+            <div class="addon-price-tag" data-i18n="addon_pack_price">50.000 XOF</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- Note conditions -->
+    <div class="pcond-wrap reveal-fade rd4">
+      <div class="pcond-header">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="pcond-header-label">Conditions générales</span>
+        <span class="pcond-header-en">General Terms</span>
+      </div>
+      <div class="pcond-rows">
+
+        <div class="pcond-row">
+          <span class="pcond-key">Acompte</span>
+          <div class="pcond-val-wrap">
+            <span class="pcond-big">50%</span>
+            <span class="pcond-val"><strong>avant tout démarrage</strong> · solde à la livraison</span>
+          </div>
+        </div>
+
+        <div class="pcond-row">
+          <span class="pcond-key">Révisions</span>
+          <div class="pcond-val-wrap">
+            <span class="pcond-big">×3</span>
+            <span class="pcond-val"><strong>incluses</strong> · au-delà, facturé au temps passé</span>
+          </div>
+        </div>
+
+        <div class="pcond-row">
+          <span class="pcond-key">Urgences</span>
+          <div class="pcond-val-wrap">
+            <span class="pcond-big pcond-big--up">+30%</span>
+            <span class="pcond-val">livraison <strong>sous 48h</strong></span>
+          </div>
+        </div>
+
+        <div class="pcond-row">
+          <span class="pcond-key">Long terme</span>
+          <div class="pcond-val-wrap">
+            <span class="pcond-big pcond-big--down">−20%</span>
+            <span class="pcond-val">pour <strong>projets récurrents</strong></span>
+          </div>
+        </div>
+
+        <div class="pcond-row pcond-row--full">
+          <span class="pcond-key">Dispo</span>
+          <div class="pcond-val-wrap">
+            <span class="pcond-big pcond-big--dispo">6j/7</span>
+            <span class="pcond-val"><strong>Lun à Sam</strong> · 09h à minuit · Dim. fermé</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+<style>
+/* ── CONDITIONS GÉNÉRALES REDESIGN ── */
+.pcond-wrap {
+  margin-top: 2.5rem;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--black);
+  position: relative;
+}
+/* Ligne accent haut */
+.pcond-wrap::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+}
+.pcond-header {
+  display: flex; align-items: center; gap: .65rem;
+  padding: 1rem 1.75rem;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  position: relative;
+}
+.pcond-header svg { stroke: var(--accent); flex-shrink: 0; }
+.pcond-header-label {
+  font-family: 'Syne', sans-serif;
+  font-size: .6rem; font-weight: 800;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent);
+}
+.pcond-header-en {
+  font-family: 'Syne', sans-serif;
+  font-size: .55rem; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--dim);
+  margin-left: auto;
+}
+
+/* Grille des rows */
+.pcond-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,.04);
+}
+.pcond-row {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 1.4rem 1.75rem;
+  background: var(--black);
+  transition: background .2s;
+  position: relative;
+  overflow: hidden;
+}
+.pcond-row::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: var(--accent);
+  transition: width .25s cubic-bezier(.16,1,.3,1);
+}
+.pcond-row:hover { background: rgba(255,255,255,.02); }
+.pcond-row:hover::before { width: 2px; }
+
+/* Row pleine largeur */
+.pcond-row--full {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(255,255,255,.04);
+}
+
+/* Clé */
+.pcond-key {
+  font-family: 'Syne', sans-serif;
+  font-size: .55rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--dim);
+  width: 82px; flex-shrink: 0;
+}
+
+/* Valeur wrap */
+.pcond-val-wrap {
+  display: flex; align-items: center; gap: 1.1rem; flex: 1;
+}
+
+/* Grand chiffre accent */
+.pcond-big {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--accent);
+  flex-shrink: 0;
+  min-width: 52px;
+}
+.pcond-big--up  { color: #f97316; }
+.pcond-big--down { color: var(--accent); }
+.pcond-big--dispo { color: var(--accent); font-size: clamp(1.2rem, 2vw, 1.6rem); }
+
+/* Texte détail */
+.pcond-val {
+  font-size: .78rem; color: var(--dim);
+  font-weight: 300; line-height: 1.4;
+}
+.pcond-val strong { color: var(--light); font-weight: 600; }
+
+@media(max-width:700px) {
+  .pcond-rows { grid-template-columns: 1fr; }
+  .pcond-row--full { grid-column: 1; border-top: none; }
+  .pcond-row { padding: 1.1rem 1.25rem; gap: 1rem; }
+  .pcond-key { width: 70px; font-size: .5rem; }
+  .pcond-big { font-size: 1.3rem; min-width: 44px; }
+}
+</style>
+
+  </div>
+</section>
+
 
 <a href="https://www.mdgcreative.studio/faq" aria-hidden="true" style="display:none"></a>
 <section id="faq">
@@ -18058,7 +18223,7 @@ window.addEventListener('load', function() {
   });
 
   // Mettre à jour le label selon la section visible
-  var sections = ['hero','about','portfolio-accordion','collabs','services','process','pricing','uranus','faq','contact'];
+  var sections = ['hero','about','portfolio-accordion','case-studies','collabs','services','process','uranus','pricing','faq','contact'];
   var sectionLabelsFr = {
     'hero':'Accueil', 'about':'À propos', 'portfolio-accordion':'Réalisations',
     'collabs':'Collabs', 'services':'Services', 'process':'Process',
