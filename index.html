@@ -136,8 +136,7 @@ h1, h2, h3 {
 }
 @media(max-width:900px){
   .nav-links a,.nav-cta,.lang-toggle,.work-arrow,.cov-arrow,
-  .mob-close,.mob-menu a,.ig-banner-open,.ig-banner-close,
-  .mdg-ctrl-btn,.mdg-play-btn{
+  .mob-close,.mob-menu a,  .mdg-ctrl-btn,.mdg-play-btn{
     min-height:44px;
     display:inline-flex;
     align-items:center;
@@ -641,17 +640,6 @@ nav:not(#mob-tab-bar){position:fixed;top:0;left:0;right:0;z-index:100;display:fl
 .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;color:var(--light);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;flex-shrink:0}
 .nav-logo-sub{font-size:.95rem;letter-spacing:.1em;color:var(--light);font-weight:800}
 
-/* ── BANNER INSTAGRAM ── */
-#ig-banner{position:fixed;bottom:0;left:0;right:0;background:var(--black);border-top:1px solid var(--border);padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:9000;transform:translateY(100%);animation:bannerUp .5s cubic-bezier(.16,1,.3,1) 14s forwards}
-@keyframes bannerUp{to{transform:translateY(0)}}
-.ig-banner-text{font-size:.78rem;color:var(--dim);font-weight:300}
-.ig-banner-text strong{color:var(--light);font-weight:600}
-.ig-banner-actions{display:flex;gap:.75rem;align-items:center;flex-shrink:0}
-.ig-banner-open{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;color:#060606;background:#fff;padding:.5rem 1.1rem;border-radius:100px;text-decoration:none;white-space:nowrap;transition:opacity .2s}
-.ig-banner-open:hover{opacity:.85}
-.ig-banner-close{background:none;border:none;color:var(--dim);cursor:pointer;padding:.4rem;font-size:1.1rem;line-height:1;transition:color .2s}
-.ig-banner-close:hover{color:var(--light)}
-@media(max-width:600px){#ig-banner{flex-wrap:wrap}.ig-banner-text{font-size:.72rem}}
 .nav-logo span{color:var(--light)}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
 .nav-links a{font-size:.75rem;color:var(--off);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;font-weight:500}
@@ -1301,8 +1289,51 @@ section+section::before,
 .work-index{position:absolute;top:1rem;left:1.2rem;font-family:'Syne',sans-serif;font-weight:800;font-size:.65rem;letter-spacing:.18em;color:var(--light);z-index:2;opacity:.8;mix-blend-mode:difference}
 
 .work-footer{margin:2.5rem 3rem 0;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+
+/* ── SWIPE HINT — mobile only ── */
+.swipe-hint {
+  display: none;
+}
+@media(max-width:900px) {
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: .52rem;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin: 1rem 1.5rem 0;
+    opacity: 0;
+    animation: swipeHintFade 2.5s ease 1.2s forwards;
+  }
+  .swipe-hint svg { flex-shrink: 0; }
+  @keyframes swipeHintFade {
+    0%   { opacity: 0; transform: translateX(-6px); }
+    30%  { opacity: 1; transform: translateX(0); }
+    70%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+}
 .work-hint{font-size:.72rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;font-weight:500;display:flex;align-items:center;gap:.6rem}
 .work-hint .drag{display:inline-block;animation:dragHint 2.4s ease-in-out infinite}
+@media(max-width:900px){
+  .work-hint{
+    font-size:.58rem;
+    color:var(--off);
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:100px;
+    padding:.4rem .9rem;
+    animation:swipeHintPulse 3s ease 0.8s 3;
+  }
+  @keyframes swipeHintPulse{
+    0%,100%{opacity:.5}
+    50%{opacity:1;background:rgba(255,255,255,.07)}
+  }
+}
 @keyframes dragHint{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
 .work-more{display:inline-flex;align-items:center;gap:.6rem;font-family:'Syne',sans-serif;font-weight:600;font-size:.85rem;color:var(--off);letter-spacing:-.005em;text-decoration:none;transition:color .3s}
 .work-more:hover{color:var(--accent)}
@@ -1319,6 +1350,9 @@ section+section::before,
   .work-nav{display:none}
   .work-card:hover{transform:none}
   .work-card .work-img{transition:filter .3s}
+  /* Fix overlap mobile — supprimer les stacking contexts qui créent des conflits */
+  .work-card { will-change: auto; transform: none; }
+  .cov-card  { will-change: auto; transform: none; }
 }
 
 /* ── COVERS (carrousel horizontal) ── */
@@ -1367,6 +1401,7 @@ section+section::before,
   .cov-nav{display:none}
   .cov-card:hover{transform:none}
   .cov-card .cov-img{transition:filter .3s}
+  .cov-card { will-change: auto; transform: none; }
 }
 
 /* ── SERVICES (fond dark) ── */
@@ -2651,7 +2686,6 @@ a.f-ci-value:hover{color:var(--light)}
 /* ── SAFE AREA INSETS (iPhone notch/home indicator) ── */
 @supports(padding:max(0px)){
   body{padding-bottom:env(safe-area-inset-bottom,0)}
-  #ig-banner{padding-bottom:calc(.9rem + env(safe-area-inset-bottom,0))}
   .cpop{padding-bottom:calc(2rem + env(safe-area-inset-bottom,0))}
   #quick-nav{bottom:max(1rem, env(safe-area-inset-bottom,0))}
   #backToTop{bottom:max(1rem, env(safe-area-inset-bottom,0)) !important}
@@ -3375,8 +3409,6 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   #quick-nav{
     bottom:max(2rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));
   }
-  #ig-banner{
-    padding-bottom:max(.9rem, calc(env(safe-area-inset-bottom, 0px) + .5rem));
   }
   @media(max-width:480px){
     #quick-nav{
@@ -3661,7 +3693,6 @@ nav::before { display:none; }
 .pack-modal-box{background:linear-gradient(160deg,rgba(18,18,18,.97) 0%,rgba(8,8,8,.99) 100%) !important;border:1px solid rgba(255,255,255,.07) !important;box-shadow:0 24px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,0.04) !important;border-radius:28px !important}
 
 /* ══ IG BANNER ══ */
-#ig-banner{background:rgba(6,6,6,.9) !important;backdrop-filter:blur(20px) !important;-webkit-backdrop-filter:blur(20px) !important;border-top:1px solid rgba(255,255,255,.06) !important}
 
 /* ══ BACK TO TOP ══ */
 #backToTop{background:rgba(18,18,18,.88) !important;backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important;border:1px solid rgba(255,255,255,.07) !important;transition:bottom .3s cubic-bezier(.16,1,.3,1),opacity .3s,transform .3s,color .2s,border-color .2s !important}
@@ -4255,8 +4286,39 @@ nav::before { display:none; }
   .sp-videos { grid-template-columns: 1fr; margin: 0; gap: 1rem; }
 }
 @media(max-width:480px){
-  .sp-videos { margin: 0; }
+  .sp-videos { margin: 0; gap: .75rem; }
   .sp-vcard-quote { display: none; }
+
+  /* Layout horizontal compact — thumbnail gauche, info droite */
+  .sp-vcard {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    border-radius: 12px;
+    min-height: 0;
+  }
+  .sp-vcard-thumb {
+    width: 120px;
+    flex-shrink: 0;
+    aspect-ratio: unset;
+    min-height: 80px;
+    border-radius: 10px 0 0 10px;
+  }
+  .sp-vcard-play {
+    width: 36px; height: 36px;
+  }
+  .sp-vcard-play svg { width: 14px; height: 14px; }
+  .sp-vcard-badge { top: .4rem; right: .4rem; padding: .15rem .3rem; font-size: .45rem; }
+  .sp-vcard-footer {
+    flex: 1;
+    padding: .75rem 1rem;
+    align-items: center;
+    min-width: 0;
+  }
+  .sp-vcard-avatar { width: 32px; height: 32px; }
+  .sp-vcard-name { font-size: .78rem; }
+  .sp-vcard-role { font-size: .58rem; }
+  .sp-vcard:hover { transform: none; }
 }
 
 /* ── PORTFOLIO TABS PREMIUM ── */
@@ -6124,19 +6186,23 @@ nav::before { display:none; }
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding: .5rem 1.5rem 1rem;
+    /* padding-right large = peek visible de la card suivante */
+    padding: .5rem 0 1rem 1.25rem;
     margin: 0 -1.5rem;
+    /* fade droite pour indiquer scroll */
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 78%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black 78%, transparent 100%);
   }
   .pricing-panel.active .packs-grid::-webkit-scrollbar,
   .pricing-panel.active .advanced-grid::-webkit-scrollbar { display: none; }
 
-  /* ── Cards compactes dans le carousel ── */
+  /* ── Cards : 78vw pour laisser ~22% de la suivante visible ── */
   .pricing-panel.active .pack-card,
   .pricing-panel.active .adv-card {
-    flex: 0 0 80vw !important;
-    max-width: 340px !important;
-    scroll-snap-align: center;
-    margin: 0 .5rem !important;
+    flex: 0 0 78vw !important;
+    max-width: 320px !important;
+    scroll-snap-align: start;
+    margin: 0 .75rem 0 0 !important;
     padding: 1.75rem 1.5rem !important;
     border-radius: 20px !important;
     min-height: auto !important;
@@ -6190,22 +6256,32 @@ nav::before { display:none; }
   .pricing-dots {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: .5rem;
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     margin-bottom: .5rem;
   }
   .pricing-dot {
-    width: 6px; height: 6px;
+    width: 8px; height: 8px;
     border-radius: 50%;
-    background: var(--border2);
+    background: rgba(255,255,255,.2);
     transition: all .3s cubic-bezier(.16,1,.3,1);
     cursor: pointer;
     border: none; padding: 0;
+    /* zone de tap généreuse */
+    position: relative;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pricing-dot::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
   }
   .pricing-dot.active {
     background: var(--accent);
-    width: 20px;
-    border-radius: 3px;
+    width: 24px;
+    border-radius: 4px;
   }
 
   /* ── Hint swipe ── */
@@ -7751,9 +7827,6 @@ nav::before { display:none; }
   .f-socials a{width:38px !important;height:38px !important}
 
   /* ── IG BANNER ── */
-  #ig-banner{padding:.75rem 1.1rem;flex-wrap:wrap;gap:.6rem}
-  .ig-banner-text{font-size:.7rem;flex:1 1 100%}
-  .ig-banner-actions{width:100%;justify-content:flex-end}
 
   /* ── POPUP CONTACT ── */
   .cpop{
@@ -8482,58 +8555,93 @@ body,
   display: inline; margin-left: .5em;
 }
 .port-new-tabs-row {
-  display: flex; flex-direction: row; align-items: flex-end; gap: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 100px;
+  padding: 4px;
+  width: fit-content;
 }
 .port-new-tab-btn {
-  font-family: 'Syne', sans-serif; font-size: .68rem; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase;
-  color: var(--dim); background: transparent; border: none;
-  padding: 1rem 1.5rem; cursor: pointer;
-  position: relative; transition: color .2s;
-  white-space: nowrap; display: flex; align-items: center; gap: .5em;
+  font-family: 'Syne', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--dim);
+  background: transparent;
+  border: none;
+  border-radius: 100px;
+  padding: .55rem 1.25rem;
+  cursor: pointer;
+  position: relative;
+  transition: color .2s, background .2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: .4em;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
-.port-new-tab-btn::after {
-  content: ''; position: absolute;
-  bottom: 0; left: 0; right: 0; height: 2px;
-  background: var(--accent);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .3s cubic-bezier(.16,1,.3,1);
-}
+.port-new-tab-btn::after { display: none; }
 .port-new-tab-btn:hover { color: var(--off); }
-.port-new-tab-btn.active { color: var(--light); }
-.port-new-tab-btn.active::after { transform: scaleX(1); }
-.port-new-tab-btn svg { opacity: .5; transition: opacity .2s; }
-.port-new-tab-btn.active svg,
-.port-new-tab-btn:hover svg { opacity: 1; }
-.port-new-count-badge {
-  align-self: center; flex-shrink: 0;
-  display: flex; flex-direction: column; align-items: flex-end; gap: .15rem;
-  padding: .7rem 1rem;
-  background: rgba(255,255,255,.03); border: 1px solid var(--border);
-  border-radius: 10px;
+.port-new-tab-btn.active {
+  color: #060606;
+  background: var(--light);
 }
-.port-new-count-num {
-  font-family: 'Syne', sans-serif; font-weight: 800;
-  font-size: clamp(1.6rem, 2.4vw, 2rem); color: var(--light);
-  letter-spacing: -.05em; line-height: 1;
+.port-new-tab-btn svg { opacity: .5; transition: opacity .2s; flex-shrink: 0; }
+.port-new-tab-btn.active svg { opacity: 1; }
+.port-new-tab-btn:hover svg { opacity: .75; }
+
+/* Swipe hint — fade gradient droite sur mobile */
+.port-tabs-wrap {
+  position: relative;
 }
-.port-new-count-label {
-  font-size: .52rem; color: var(--dim); letter-spacing: .14em;
-  text-transform: uppercase; font-weight: 600; white-space: nowrap;
+.port-tabs-wrap::after {
+  content: '';
+  display: none;
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 32px;
+  background: linear-gradient(to right, transparent, var(--black));
+  pointer-events: none;
+  border-radius: 0 100px 100px 0;
 }
+
 /* Panels */
 .pnl-acc { display: none; }
 .pnl-acc.active { display: block; }
+
 @media(max-width:900px) {
-  .port-new-top { padding: 2.5rem 1.5rem 0; }
-  .port-new-tab-btn { padding: .8rem 1rem; font-size: .6rem; }
+  .port-new-top { padding: 2.5rem 1.5rem 1rem; }
+  .port-new-tabs-row { padding: 3px; }
+  .port-new-tab-btn { padding: .5rem 1rem; font-size: .6rem; }
   .port-new-count-badge { display: none; }
 }
 @media(max-width:500px) {
-  .port-new-top { flex-direction: column; gap: 1rem; align-items: flex-start; }
-  .port-new-tabs-row { width: 100%; overflow-x: auto; scrollbar-width: none; }
-  .port-new-tabs-row::-webkit-scrollbar { display: none; }
-  .port-new-tab-btn { flex-shrink: 0; }
+  .port-new-top {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    padding-bottom: 0;
+  }
+  .port-tabs-wrap {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .port-tabs-wrap::-webkit-scrollbar { display: none; }
+  .port-tabs-wrap::after { display: block; }
+  .port-new-tabs-row {
+    width: max-content;
+    min-width: 100%;
+  }
+  .port-new-tab-btn { flex-shrink: 0; padding: .5rem .9rem; font-size: .58rem; }
 }
 </style>
 
@@ -8543,20 +8651,18 @@ body,
         <div class="port-new-eyebrow">Ce que je produis</div>
         <h2 class="port-new-h2 port-h2" id="portH2">Réalisations<em>7 ans d'exigence</em></h2>
       </div>
-      <div class="port-new-count-badge reveal-fade">
-        <span class="port-new-count-num" id="portCountNum">9</span>
-        <span class="port-new-count-label" id="portCountLabel">vidéos · In Motion</span>
-      </div>
+      <div class="port-tabs-wrap">
       <div class="port-new-tabs-row">
         <button class="port-new-tab-btn active" onclick="pnlSwitch('motion',this)" data-panel="motion" data-count="9" data-label="vidéos · In Motion">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>In Motion
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>In Motion
         </button>
         <button class="port-new-tab-btn" onclick="pnlSwitch('covers',this)" data-panel="covers" data-count="14" data-label="covers · Cover Art">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><path d="M21 15l-5-5L5 21"/></svg>Cover Art
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><path d="M21 15l-5-5L5 21"/></svg>Cover Art
         </button>
         <button class="port-new-tab-btn" onclick="pnlSwitch('work',this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Graphisme
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Graphisme
         </button>
+      </div>
       </div>
     </div>
 
@@ -13525,16 +13631,21 @@ if(window.matchMedia('(hover:hover)').matches){
 //           Éléments liés → même timeline, trigger sur le parent
 gsap.registerPlugin(ScrollTrigger);
 
+/* ── MOBILE PERF : animations plus rapides et légères ── */
+const _isMobile = window.innerWidth <= 768;
+if (_isMobile) {
+  gsap.globalTimeline.timeScale(1.6); // 60% plus rapide globalement
+}
+
 const _E  = 'power3.out';
 const _Eb = 'back.out(1.5)';
 
-// Helper : ScrollTrigger standard — start quand le haut de l'élément passe à 85% du viewport
-// end quand le bas sort à -10% (complètement hors écran par le haut) → reverse propre
+// Helper : ScrollTrigger — sur mobile start à 98% (déclenche quasi immédiatement)
 function _st(trigger, extra) {
   return {
     scrollTrigger: {
       trigger,
-      start: 'top 85%',
+      start: _isMobile ? 'top 98%' : 'top 85%',
       end:   'bottom -10%',
       toggleActions: 'play none none none',
       ...(extra || {})
@@ -13545,7 +13656,7 @@ function _st(trigger, extra) {
 // Helper batch : même logique start/end pour les grilles
 function _batch(sel, fromVars, toVars, staggerIn) {
   ScrollTrigger.batch(sel, {
-    start: 'top 85%',
+    start: _isMobile ? 'top 98%' : 'top 85%',
     once: true, // joue une seule fois — pas de reverse au scroll back
     onEnter: els => gsap.fromTo(els, fromVars, { ...toVars, stagger: staggerIn }),
   });
@@ -15038,14 +15149,6 @@ setInterval(updateKaolackTime, 10000);
 
 
 <!-- script déplacé en fin de body -->
-<!-- ── BANNER INSTAGRAM ── -->
-<div id="ig-banner">
-  <p class="ig-banner-text"><strong>Pour une meilleure expérience</strong>, ouvre dans <em style="font-style:normal;color:var(--light)">Safari</em> ou <em style="font-style:normal;color:var(--light)">Chrome</em>.</p>
-  <div class="ig-banner-actions">
-    <a href="https://www.mdgcreative.studio" target="_blank" class="ig-banner-open">Ouvrir dans Safari / Chrome</a>
-    <button class="ig-banner-close" id="igBannerClose" aria-label="Fermer">✕</button>
-  </div>
-</div>
 
 <!-- ── LIGHTBOX ── -->
 <div class="lb-overlay" id="lbOverlay"></div>
@@ -15087,39 +15190,6 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     thumb.classList.remove('motion-thumb');
   });
 });
-
-// ── BANNER INSTAGRAM ──
-(function(){
-  var banner = document.getElementById('ig-banner');
-  var closeBtn = document.getElementById('igBannerClose');
-  // Afficher seulement si navigateur interne Instagram/Facebook
-  var ua = navigator.userAgent || '';
-  var isInApp = /Instagram|FBAN|FBAV|FB_IAB|Line|Twitter|Snapchat|musical_ly|TikTok|BytedanceWebview|ByteLocale|Aweme/i.test(ua);
-  if(!isInApp){ banner.style.display = 'none'; return; }
-  // Signal au quick-nav de remonter + hauteur dynamique du banner
-  function updateBannerOffsets(){
-    var h = banner.offsetHeight;
-    var qn     = document.getElementById('quick-nav');
-    var qnBase = window.innerWidth <= 600 ? 80 : 64; // px base du quick-nav sans banner
-    if(qn)    { qn.style.bottom = (h + qnBase) + 'px'; }
-  }
-  setTimeout(function(){
-    document.body.classList.add('banner-visible');
-    updateBannerOffsets();
-    if(window.ResizeObserver){
-      var ro = new ResizeObserver(updateBannerOffsets);
-      ro.observe(banner);
-    }
-  }, 4000);
-  if(closeBtn){
-    closeBtn.addEventListener('click', function(){
-      banner.style.display = 'none';
-      document.body.classList.remove('banner-visible');
-        var qn     = document.getElementById('quick-nav');
-        if(qn)    { qn.style.bottom = ''; }
-    });
-  }
-})();
 
 // ── LIGHTBOX ──
 (function(){
@@ -15550,8 +15620,6 @@ var translations = {
   cpop_sub: { fr: 'Choisis le canal qui te convient, je réponds sous 24h.', en: 'Pick your preferred channel, I reply within 24h.' },
 
   // ─── IG BANNER ───────────────────────────────────────
-  ig_banner_text: { fr: '<strong>Meilleure expérience</strong> : ouvre ce site dans ton navigateur.', en: '<strong>Better experience</strong> — open this in your browser.' },
-  ig_banner_open: { fr: 'Ouvrir dans Safari / Chrome', en: 'Open in Safari / Chrome' },
 
   // ─── MODAL CLOSE / FERMER ────────────────────────────
   close_label: { fr: 'Fermer', en: 'Close' },
@@ -16148,10 +16216,6 @@ function applyComplexPatches(lang) {
   }
 
   // ── IG Banner ──
-  var igBannerText = document.querySelector('.ig-banner-text');
-  if (igBannerText) igBannerText.innerHTML = translations.ig_banner_text[lang];
-  var igBannerOpen = document.querySelector('.ig-banner-open');
-  if (igBannerOpen) igBannerOpen.textContent = translations.ig_banner_open[lang];
 
   // ── Aria-labels ──
   var lbClose = document.getElementById('lbClose');
