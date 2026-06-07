@@ -1417,7 +1417,7 @@ section+section::before,
 .svc-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.12;transition:opacity .5s,transform .7s cubic-bezier(.16,1,.3,1)}
 .svc-card:hover .svc-card-bg{opacity:.22;transform:scale(1.06)}
 .svc-card-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,1) 0%,rgba(6,6,6,.8) 45%,rgba(6,6,6,.1) 100%);transition:opacity .4s}
-.svc-card:nth-child(even) .svc-card-gradient{background:linear-gradient(to top,rgba(200,250,100,.96) 0%,rgba(200,250,100,.72) 50%,rgba(200,250,100,.08) 100%)}
+.svc-card:nth-child(even) .svc-card-gradient{background:linear-gradient(to top,rgba(255,255,255,.96) 0%,rgba(255,255,255,.76) 50%,rgba(255,255,255,.06) 100%)}
 .svc-card:nth-child(even) .svc-card-bg{opacity:.18}
 .svc-card-content{position:relative;z-index:2;display:flex;flex-direction:column;height:100%}
 /* Barre top accent */
@@ -1442,23 +1442,23 @@ section+section::before,
   top:1.5rem;right:1.75rem;
   font-family:'Syne',sans-serif;font-weight:800;
   font-size:3.5rem;letter-spacing:-.05em;line-height:1;
-  color:rgba(255,255,255,.05);
+  color:rgba(255,255,255,.18);
   transition:color .35s;
   pointer-events:none;
   user-select:none;
 }
-.svc-card:hover .svc-num{color:rgba(255,255,255,0.04)}
-.svc-card:nth-child(even) .svc-num{color:rgba(0,0,0,.06)}
-.svc-card:nth-child(even):hover .svc-num{color:rgba(0,0,0,.1)}
+.svc-card:hover .svc-num{color:rgba(255,255,255,.28)}
+.svc-card:nth-child(even) .svc-num{color:rgba(0,0,0,.16)}
+.svc-card:nth-child(even):hover .svc-num{color:rgba(0,0,0,.26)}
 
 .svc-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:var(--light);margin-top:auto;letter-spacing:-.025em;line-height:1.1;margin-bottom:.9rem}
 .svc-card:nth-child(even) .svc-title{color:var(--black)}
 .svc-desc{font-size:.83rem;color:var(--off);line-height:1.7;font-weight:300;margin-bottom:1.25rem}
 .svc-card:nth-child(even) .svc-desc{color:rgba(0,0,0,.6)}
 .svc-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:auto}
-.svc-tag{font-size:.58rem;font-weight:700;padding:.22rem .65rem;border-radius:100px;background:rgba(200,250,100,.07);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;transition:background .3s,border-color .3s;border:1px solid rgba(200,250,100,.12)}
-.svc-card:hover .svc-tag{background:rgba(200,250,100,.12);border-color:rgba(200,250,100,.25)}
-.svc-card:nth-child(even) .svc-tag{background:rgba(0,0,0,.1);color:rgba(0,0,0,.6);border-color:rgba(0,0,0,.12)}
+.svc-tag{font-size:.58rem;font-weight:700;padding:.22rem .65rem;border-radius:100px;background:rgba(255,255,255,.07);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;transition:background .3s,border-color .3s;border:1px solid rgba(255,255,255,.12)}
+.svc-card:hover .svc-tag{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25)}
+.svc-card:nth-child(even) .svc-tag{background:rgba(0,0,0,.08);color:rgba(0,0,0,.65);border-color:rgba(0,0,0,.14)}
 .svc-cta-wrap{margin-top:3.5rem;display:flex;justify-content:center}
 .svc-cta{display:inline-flex;align-items:center;gap:.8rem;padding:1rem 1.8rem;border:1px solid var(--border);border-radius:999px;font-family:'Syne',sans-serif;font-weight:600;font-size:.95rem;color:var(--light);letter-spacing:-0.005em;background:transparent;transition:all .35s cubic-bezier(.16,1,.3,1);text-decoration:none}
 .svc-cta em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--off)}
@@ -10534,10 +10534,10 @@ body,
         <div class="proc-cond-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
-        <div class="proc-cond-val">+10%</div>
+        <div class="proc-cond-val">+30%</div>
         <div class="proc-cond-label">Projet urgent</div>
         <div class="proc-cond-detail">Livraison en moins de 48h</div>
-        <div class="proc-cond-expl">Tu as besoin du résultat très vite ? C'est possible, mais je bloque tout pour toi. Une majoration de 10% s'applique.</div>
+        <div class="proc-cond-expl">Tu as besoin du résultat très vite ? C'est possible, mais je bloque tout pour toi. Une majoration de 30% s'applique. Sous 24h : +50%, soumis à disponibilité.</div>
       </div>
       <div class="proc-cond-sep"></div>
       <div class="proc-cond">
@@ -10858,7 +10858,7 @@ body,
           <div class="pack-name">Diamond</div>
           <div class="pack-sub">Pour album complet avec mini direction artistique offerte.</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">95.000</span>
+              <span class="ppd-amount">100.000</span>
               <span class="ppd-unit">XOF</span>
             </div>
           <div class="pack-divider"></div>
@@ -11220,7 +11220,7 @@ body,
         <div class="pcond-row">
           <span class="pcond-key">Urgences</span>
           <div class="pcond-val-wrap">
-            <span class="pcond-big pcond-big--up">+10%</span>
+            <span class="pcond-big pcond-big--up">+30%</span>
             <span class="pcond-val">livraison <strong>sous 48h</strong></span>
           </div>
         </div>
@@ -12876,7 +12876,7 @@ function copyWaveNumber(btn) {
           Quels sont les délais ?
         </button>
         <span class="faq2-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
-        <div class="faq2-a"><p>Single cover : <strong>2 à 4 jours.</strong> EP / mixtape : <strong>5 à 10 jours.</strong> Album complet : <strong>10 à 21 jours.</strong> Urgence sous 48h : <strong>+10%.</strong> Le délai part à réception de l'acompte et du brief validé.</p></div>
+        <div class="faq2-a"><p>Single cover : <strong>2 à 4 jours.</strong> EP / mixtape : <strong>5 à 10 jours.</strong> Album complet : <strong>10 à 21 jours.</strong> Urgence sous 48h : <strong>+30%.</strong> Sous 24h : <strong>+50%</strong> (soumis à disponibilité). Le délai part à réception de l'acompte et du brief validé.</p></div>
       </div>
 
       <div class="faq-item2 reveal-up rd1">
@@ -13374,7 +13374,7 @@ const packData = {
   },
   diamond: {
     label: 'Pack Primaire — Le + complet', name: 'Diamond', sub: 'Album — avec mini direction artistique offerte',
-    price: '95.000', unit: 'XOF',
+    price: '100.000', unit: 'XOF',
     features: [
       '<strong>1 concept graphique premium</strong> pour ta cover album',
       '<strong>4 révisions</strong> incluses',
@@ -16098,9 +16098,9 @@ function applyComplexPatches(lang) {
   var packSubs  = document.querySelectorAll('.pack-sub');
   var packCtaBtns = document.querySelectorAll('.pack-cta');
   var packBadge = document.querySelector('.pack-badge');
-  var packTierKeys = ['pack_silver_tier','pack_gold_tier','pack_diamond_tier'];
-  var packNameKeys = ['pack_silver_name','pack_gold_name','pack_diamond_name'];
-  var packSubKeys  = ['pack_silver_sub','pack_gold_sub','pack_diamond_sub'];
+  var packTierKeys = ['pack_diamond_tier','pack_gold_tier','pack_silver_tier'];
+  var packNameKeys = ['pack_diamond_name','pack_gold_name','pack_silver_name'];
+  var packSubKeys  = ['pack_diamond_sub','pack_gold_sub','pack_silver_sub'];
   packTiers.forEach(function(el,i){ if(translations[packTierKeys[i]]) el.textContent = translations[packTierKeys[i]][lang]; });
   packNames.forEach(function(el,i){ if(translations[packNameKeys[i]]) el.textContent = translations[packNameKeys[i]][lang]; });
   packSubs.forEach(function(el,i){ if(translations[packSubKeys[i]]) el.textContent = translations[packSubKeys[i]][lang]; });
@@ -16109,21 +16109,21 @@ function applyComplexPatches(lang) {
 
   // Pack features (bullets)
   var packFeaturesData = [
-    { // Silver
+    { // Diamond — 1er dans le DOM
       fr: [
-        '<strong>1 concept</strong> graphique pour ta cover',
-        '<strong>2 révisions</strong> incluses',
-        'Livrables <strong>PNG / JPG</strong> haute résolution',
-        '<em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong>'
+        '<strong>1 concept</strong> graphique premium pour ta cover',
+        '<strong>4 révisions</strong> incluses',
+        'PNG/JPG + <strong>tracklist pro</strong> + support réseaux complet',
+        '<strong>Bonus offert :</strong> mini direction artistique (moodboard, palette, typo)'
       ],
       en: [
-        '<strong>1 graphic concept</strong> created for your cover',
-        '<strong>2 revisions</strong> included',
-        '<strong>PNG / JPG</strong> high-resolution deliverables',
-        '<em>Option:</em> story/post adaptation <strong>+5,000 XOF</strong>'
+        '<strong>1 premium graphic concept</strong> for your cover',
+        '<strong>4 revisions</strong> included',
+        'PNG/JPG + <strong>pro tracklist</strong> + full social support',
+        '<strong>Free bonus:</strong> mini art direction (moodboard, palette, type)'
       ]
     },
-    { // Gold
+    { // Gold — 2e dans le DOM
       fr: [
         '<strong>1 concept</strong> graphique pour ta cover',
         '<strong>3 révisions</strong> incluses',
@@ -16139,18 +16139,18 @@ function applyComplexPatches(lang) {
         '<em>Option:</em> story/post adaptation <strong>+5,000 XOF</strong>'
       ]
     },
-    { // Diamond
+    { // Silver — 3e dans le DOM
       fr: [
-        '<strong>1 concept</strong> graphique premium pour ta cover',
-        '<strong>4 révisions</strong> incluses',
-        'PNG/JPG + <strong>tracklist pro</strong> + support réseaux complet',
-        '<strong>Bonus offert :</strong> mini direction artistique (moodboard, palette, typo)'
+        '<strong>1 concept</strong> graphique pour ta cover',
+        '<strong>2 révisions</strong> incluses',
+        'Livrables <strong>PNG / JPG</strong> haute résolution',
+        '<em>Option :</em> déclinaison story/post <strong>+5.000 XOF</strong>'
       ],
       en: [
-        '<strong>1 premium graphic concept</strong> for your cover',
-        '<strong>4 revisions</strong> included',
-        'PNG/JPG + <strong>pro tracklist</strong> + full social support',
-        '<strong>Free bonus:</strong> mini art direction (moodboard, palette, type)'
+        '<strong>1 graphic concept</strong> created for your cover',
+        '<strong>2 revisions</strong> included',
+        '<strong>PNG / JPG</strong> high-resolution deliverables',
+        '<em>Option:</em> story/post adaptation <strong>+5,000 XOF</strong>'
       ]
     }
   ];
@@ -17177,7 +17177,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // ── Données des packs pour le bottom sheet ──
   // ── SOURCE UNIQUE des prix : on lit packData défini plus haut ──
   const ACCENT_MAP = {
-    silver:'var(--accent)', gold:'#c8a040', diamond:'var(--accent)',
+    silver:'var(--silver)', gold:'#c8a040', diamond:'var(--diamond)',
     spotlight:'var(--accent)', magnum:'#ff64c8', prestige:'#ffc832', rollout:'var(--accent)'
   };
   const PACK_DATA = {};
