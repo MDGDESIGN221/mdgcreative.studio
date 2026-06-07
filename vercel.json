@@ -4,6 +4,10 @@
 
   "routes": [
     { "handle": "filesystem" },
+    { "src": "/portfolio", "dest": "/portfolio.html" },
+    { "src": "/services", "dest": "/services.html" },
+    { "src": "/about", "dest": "/about.html" },
+    { "src": "/contact", "dest": "/contact.html" },
     { "src": "/(.*)", "dest": "/404.html", "status": 404 }
   ],
 
@@ -11,37 +15,15 @@
     {
       "source": "/(.*)",
       "headers": [
-
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), payment=()"
-        },
-
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://i.ytimg.com https://images.unsplash.com; media-src 'self' https://res.cloudinary.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://api.web3forms.com https://formspree.io https://res.cloudinary.com https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io https://wa.me;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn-cgi.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://i.ytimg.com https://img.youtube.com https://images.unsplash.com; media-src 'self' https://res.cloudinary.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://api.web3forms.com https://formspree.io https://res.cloudinary.com https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io https://wa.me;"
         }
-
       ]
     }
   ]
