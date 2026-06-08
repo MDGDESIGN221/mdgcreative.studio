@@ -1552,6 +1552,14 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
 }
 
+/* ── Mobile : will-change limité, pas de couches GPU inutiles ── */
+@media(max-width:768px) {
+  .reveal,.reveal-up,.reveal-left,.reveal-right,
+  .reveal-scale,.reveal-fade,.reveal-line,.reveal-cinema {
+    will-change: opacity;
+  }
+}
+
 @keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── MASQUE REVEAL — glisse depuis le bas derrière une ligne invisible ── */
@@ -9310,7 +9318,7 @@ body,
       <!-- COLONNE GAUCHE : Photo -->
       <div class="about-v2-photo reveal-scale rd1">
         <div class="about-morph-wrap">
-          <img loading="lazy" decoding="async" class="morph-slide active" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835220/about_1_twty2g.jpg" alt="Mouhamed Al Amine, directeur créatif MDG Creative Studio" style="object-position:center 5%">
+          <img loading="lazy" decoding="async" class="morph-slide active" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780886056/une_autre_imagede_la_meme_202606080234_yoguko.jpg" alt="Mouhamed Al Amine, directeur créatif MDG Creative Studio" style="object-position:center 5%">
           <img decoding="async" loading="eager" class="morph-slide" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835220/about_2_gnlsw5.jpg" alt="Mouhamed Al Amine en session créative — MDG" style="object-position:center 5%">
         </div>
         <div class="morph-dots" id="morphDots">
@@ -10298,7 +10306,7 @@ body,
           </div>
         </div>
         <div class="pieter-step-media">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835220/about_1_twty2g.jpg" alt="Brief session MDG Creative Studio">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780886056/une_autre_imagede_la_meme_202606080234_yoguko.jpg" alt="Brief session MDG Creative Studio">
           <div class="pieter-step-media-overlay"></div>
         </div>
       </div>
@@ -10334,7 +10342,7 @@ body,
           </div>
         </div>
         <div class="pieter-step-media">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835218/about_4_e9hg5o.jpg" alt="Production MDG Creative Studio">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780886572/t%C3%A9l%C3%A9chargement_j4xffx.png" alt="Production MDG Creative Studio">
           <div class="pieter-step-media-overlay"></div>
         </div>
       </div>
@@ -13448,14 +13456,16 @@ function submitPackForm(e) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-// Safety net : si GSAP ne se charge pas (réseau lent), on rend tous les éléments visibles après 2.5s
+// Safety net : si GSAP ne se charge pas (réseau lent), on rend tous les éléments visibles
+// Sur mobile : 800ms (plus rapide), desktop : 2500ms
+var _safetyDelay = window.innerWidth <= 768 ? 800 : 2500;
 setTimeout(function(){
   if(typeof gsap === 'undefined'){
     document.querySelectorAll('.reveal-up,.reveal-line,.reveal-fade,.reveal-scale,.reveal-cinema,.reveal,.reveal-left,.reveal-right').forEach(function(el){
       el.style.opacity='1';el.style.transform='none';el.style.clipPath='none';
     });
   }
-}, 2500);
+}, _safetyDelay);
 </script>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── LOADER CINÉMATIQUE ──
@@ -13550,18 +13560,24 @@ gsap.registerPlugin(ScrollTrigger);
 /* ── MOBILE PERF : animations plus rapides et légères ── */
 const _isMobile = window.innerWidth <= 768;
 if (_isMobile) {
-  gsap.globalTimeline.timeScale(1.6); // 60% plus rapide globalement
+  gsap.globalTimeline.timeScale(1.8); // plus rapide globalement
+  // Pré-initialise tous les reveal à opacity 0.3 pour éviter le flash noir
+  // GSAP va ensuite animer vers 1 — la transition est imperceptible mais plus propre
+  gsap.set('.reveal-up,.reveal-fade,.reveal-line,.reveal-scale,.reveal,.reveal-left,.reveal-right,.reveal-cinema', {
+    opacity: 0,
+    immediateRender: true
+  });
 }
 
 const _E  = 'power3.out';
 const _Eb = 'back.out(1.5)';
 
-// Helper : ScrollTrigger — sur mobile start à 98% (déclenche quasi immédiatement)
+// Helper : ScrollTrigger — sur mobile start à 100% (déclenche dès que l'élément entre dans le viewport)
 function _st(trigger, extra) {
   return {
     scrollTrigger: {
       trigger,
-      start: _isMobile ? 'top 98%' : 'top 85%',
+      start: _isMobile ? 'top 100%' : 'top 85%',
       end:   'bottom -10%',
       toggleActions: 'play none none none',
       ...(extra || {})
@@ -13572,9 +13588,12 @@ function _st(trigger, extra) {
 // Helper batch : même logique start/end pour les grilles
 function _batch(sel, fromVars, toVars, staggerIn) {
   ScrollTrigger.batch(sel, {
-    start: _isMobile ? 'top 98%' : 'top 85%',
+    start: _isMobile ? 'top 100%' : 'top 85%',
     once: true, // joue une seule fois — pas de reverse au scroll back
-    onEnter: els => gsap.fromTo(els, fromVars, { ...toVars, stagger: staggerIn }),
+    onEnter: els => gsap.fromTo(els,
+      _isMobile ? { opacity: 0 } : fromVars,
+      _isMobile ? { opacity: 1, duration: 0.35, ease: 'power2.out', stagger: staggerIn * 0.5 } : { ...toVars, stagger: staggerIn }
+    ),
   });
 }
 
@@ -13600,7 +13619,7 @@ function _staggerTl(parentSel, childSel, fromVars, toVars, staggerVal) {
 // Header groupé en timeline : label → h2 → count → tabs, trigger sur la section
 {
   const portHdr = document.querySelector('#portfolio') || document.querySelector('.port-h2')?.closest('section');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: portHdr || '.port-h2', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: portHdr || '.port-h2', start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   const _ph2 = document.querySelector('.port-h2');
   const _pLbl = document.querySelector('.port-extract-label');
   const _pCnt = document.querySelector('.port-count');
@@ -13642,7 +13661,7 @@ gsap.fromTo('.work-footer', { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, 
   const _aPhoto   = document.querySelector('.about-v2-photo');
   const _aContent = document.querySelector('.about-v2-content');
   if (_aPhoto && _aContent) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger:'#about', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const tl = gsap.timeline({ scrollTrigger: { trigger:'#about', start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     tl.fromTo(_aPhoto,   { opacity:0, x:-60, rotate:-2 }, { opacity:1, x:0, rotate:0, duration:.95, ease:_E })
       .fromTo(_aContent, { opacity:0, x:60 },              { opacity:1, x:0, duration:.85, ease:_E }, '-=0.65');
   }
@@ -13656,7 +13675,7 @@ gsap.fromTo('.work-footer', { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, 
   const _aBody   = document.querySelector('.about-v2-body');
   const anchor   = document.querySelector('.about-v2-h2') || document.querySelector('.about-v2-content');
   if (anchor) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: anchor, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const tl = gsap.timeline({ scrollTrigger: { trigger: anchor, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_aLabel) tl.fromTo(_aLabel, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.6, ease:_E });
     if (_ah2)    tl.fromTo(_ah2,    { opacity:0, y:24 }, { opacity:1, y:0, duration:.7, ease:_E }, '-=0.25');
     if (_aIntro) tl.fromTo(_aIntro, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.45');
@@ -13665,7 +13684,7 @@ gsap.fromTo('.work-footer', { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, 
   // badge "Disponible · Kaolack, SN" → animé avec la photo
   if (_aBadge) {
     gsap.fromTo(_aBadge, { opacity:0, y:12, scale:.9 }, { opacity:1, y:0, scale:1, duration:.6, ease:_Eb,
-      scrollTrigger:{ trigger:'#about', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+      scrollTrigger:{ trigger:'#about', start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   }
 }
 _staggerTl('#about', '.sk',         { opacity:0, y:24, scale:.92 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, 0.07);
@@ -13680,14 +13699,14 @@ _staggerTl('#about', '.about-text', { opacity:0, y:16 },            { opacity:1,
   const _sSec   = document.querySelector('.svc-secondary');
   const svcAnchor = document.querySelector('#services') || document.querySelector('.svc-header');
   if (svcAnchor) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: svcAnchor, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const tl = gsap.timeline({ scrollTrigger: { trigger: svcAnchor, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_svcLbl) tl.fromTo(_svcLbl, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
     if (_svcH2)  tl.fromTo(_svcH2,  { opacity:0, y:28 }, { opacity:1, y:0, duration:.8, ease:_E }, '-=0.3');
     if (_svcSub) tl.fromTo(_svcSub, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
   }
   // svc-secondary : label + items en stagger depuis le conteneur
   if (_sSec) {
-    const tl2 = gsap.timeline({ scrollTrigger: { trigger: _sSec, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const tl2 = gsap.timeline({ scrollTrigger: { trigger: _sSec, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     const _sLabel = _sSec.querySelector('.svc-secondary-label');
     const _sItems = _sSec.querySelectorAll('.svc-secondary-item');
     if (_sLabel) tl2.fromTo(_sLabel, { opacity:0, y:16 }, { opacity:1, y:0, duration:.6, ease:_E });
@@ -13699,7 +13718,7 @@ _staggerTl('.svc-grid', '.svc-card', { opacity:0, y:50, scale:.93 }, { opacity:1
 // tout le header collabs → une timeline, trigger sur la section
 {
   const collabsSec = document.querySelector('#collabs') || document.querySelector('.collabs-hdr')?.closest('section');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: collabsSec || '.collabs-hdr', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: collabsSec || '.collabs-hdr', start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   const _cHdr   = document.querySelector('.collabs-hdr');
   const _cTitle = document.querySelector('.collabs-main-title');
   const _cSub   = document.querySelector('.collabs-main-sub');
@@ -13724,7 +13743,7 @@ _staggerTl('.svc-grid', '.svc-card', { opacity:0, y:50, scale:.93 }, { opacity:1
   const _spF   = document.querySelector('.sp-feature');
   const spAnchor = document.querySelector('.sp-header');
   if (spAnchor) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: spAnchor, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const tl = gsap.timeline({ scrollTrigger: { trigger: spAnchor, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_spLbl) tl.fromTo(_spLbl, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
     if (_spH2)  tl.fromTo(_spH2,  { opacity:0, y:30 }, { opacity:1, y:0, duration:.8, ease:_E }, '-=0.35');
     if (_spSub) tl.fromTo(_spSub, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
@@ -13732,7 +13751,7 @@ _staggerTl('.svc-grid', '.svc-card', { opacity:0, y:50, scale:.93 }, { opacity:1
   // sp-feature : glisse depuis la gauche comme un pieter-step
   if (_spF) {
     gsap.fromTo(_spF, { opacity:0, x:-60, y:16 }, { opacity:1, x:0, y:0, duration:.9, ease:_E,
-      scrollTrigger: { trigger: _spF, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+      scrollTrigger: { trigger: _spF, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   }
 }
 // vcards : même style que .pieter-step — alternance gauche/droite, trigger individuel
@@ -13763,7 +13782,7 @@ document.querySelectorAll('.sp-vcard').forEach((el, i) => {
 // header puis steps en cascade depuis la section
 {
   const procSec = document.querySelector('#process') || document.querySelector('.process-header')?.closest('section');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: procSec || '.process-header', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: procSec || '.process-header', start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   const _pH = document.querySelector('.process-header');
   if (_pH) tl.fromTo(_pH, { opacity:0, y:30 }, { opacity:1, y:0, duration:.75, ease:_E });
 }
@@ -13772,7 +13791,7 @@ document.querySelectorAll('.pieter-step').forEach((el, i) => {
   gsap.fromTo(el,
     { opacity:0, x: i%2===0 ? -60 : 60, y:20 },
     { opacity:1, x:0, y:0, duration:.9, ease:_E,
-      scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
+      scrollTrigger:{ trigger:el, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
   );
 });
 _staggerTl('.proc-conds', '.proc-cond', { opacity:0, y:28, scale:.94 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, 0.08);
@@ -13785,7 +13804,7 @@ _staggerTl('.proc-conds', '.proc-cond', { opacity:0, y:28, scale:.94 }, { opacit
   const _pricP    = document.querySelector('.pricing-header p');
   const _pricNote = document.querySelector('.pricing-scope-note');
   const _pricTabs = document.querySelector('.pricing-tabs');
-  const tl = gsap.timeline({ scrollTrigger: { trigger:'#pricing', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger:'#pricing', start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   if (_pricLbl)  tl.fromTo(_pricLbl,  { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
   if (_pricH2)   tl.fromTo(_pricH2,   { opacity:0, x:-44 }, { opacity:1, x:0, duration:.8, ease:_E }, '-=0.3');
   if (_pricP)    tl.fromTo(_pricP,    { opacity:0, y:20 },  { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
@@ -13857,7 +13876,7 @@ gsap.set('.addons-intro', { opacity:1, clearProps:'all' });
 // header → items, timeline depuis la section
 {
   const faqSec = document.querySelector('#faq') || document.querySelector('.faq-header')?.closest('section');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: faqSec || '.faq-header', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: faqSec || '.faq-header', start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   const _fH = document.querySelector('.faq-header');
   if (_fH) tl.fromTo(_fH, { opacity:0, y:30 }, { opacity:1, y:0, duration:.75, ease:_E });
 }
@@ -13875,7 +13894,7 @@ _batch('.faq-item2',
   const _cInfo = document.querySelector('.info-list');
   const contactSec = document.querySelector('#contact');
   if (contactSec) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger:contactSec, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const tl = gsap.timeline({ scrollTrigger: { trigger:contactSec, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_cLbl)  tl.fromTo(_cLbl,  { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.7, ease:_E });
     if (_cH2)   tl.fromTo(_cH2,   { opacity:0, y:36 },  { opacity:1, y:0, duration:.85, ease:_E }, '-=0.45');
     if (_cInfo) tl.fromTo(_cInfo, { opacity:0, x:-44 }, { opacity:1, x:0, duration:.8, ease:_E }, '-=0.5');
@@ -13895,7 +13914,7 @@ _batch('.contact-direct-link',
   const _cTxt = document.querySelector('.citation-text');
   const _cAu  = document.querySelector('.citation-author');
   if (_cTxt) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger:_cTxt, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const tl = gsap.timeline({ scrollTrigger: { trigger:_cTxt, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_cEy)  tl.fromTo(_cEy,  { opacity:0, y:16 },           { opacity:1, y:0, duration:.6, ease:_E });
     tl.fromTo(_cTxt,             { opacity:0, x:54, skewX:-4 }, { opacity:1, x:0, skewX:0, duration:.95, ease:_E }, '-=0.3');
     if (_cAu)  tl.fromTo(_cAu,  { opacity:0, y:16 },           { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
@@ -13939,7 +13958,7 @@ document.querySelectorAll('.sec-label').forEach(el => {
     gsap.fromTo(el,
       { opacity:0, clipPath:'inset(0 100% 0 0)' },
       { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.7, ease:'power3.out',
-        scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
+        scrollTrigger:{ trigger:el, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
     );
   }
 });
@@ -13951,7 +13970,7 @@ document.querySelectorAll('.sec-num').forEach(el => {
     gsap.fromTo(el,
       { opacity:0, x:-32 },
       { opacity:1, x:0, duration:.65, ease:_E,
-        scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
+        scrollTrigger:{ trigger:el, start:_isMobile?'top 100%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
     );
   }
 });
