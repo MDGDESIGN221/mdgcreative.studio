@@ -1490,6 +1490,11 @@ section+section::before,
 .info-item{display:flex;flex-direction:column;gap:.15rem}
 .info-label{font-size:.6rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--dim)}
 .info-value{font-size:.88rem;color:var(--light)}
+@media(max-width:900px){
+  #contact{padding:5rem 1.5rem}
+  .contact-grid{grid-template-columns:1fr;gap:3rem}
+  .contact-h2{font-size:clamp(2rem,7vw,3rem)}
+}
 
 footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .f-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--light);letter-spacing:.06em}
@@ -4062,6 +4067,7 @@ nav::before { display:none; }
 .sp-quote-author {
   display: flex; align-items: center; gap: 1rem;
   border-top: 1px solid rgba(255,255,255,.06); padding-top: 1.5rem;
+  flex-wrap: wrap;
 }
 .sp-quote-avatar {
   width: 48px; height: 48px; border-radius: 50%;
@@ -4074,6 +4080,24 @@ nav::before { display:none; }
   font-size: .92rem; color: var(--light);
 }
 .sp-quote-role { font-size: .68rem; color: var(--dim); margin-top: .2rem; letter-spacing: .02em; }
+/* Badge verified — responsive */
+@media(max-width: 600px) {
+  .sp-quote-author {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: .65rem;
+    align-items: flex-start;
+  }
+  .sp-quote-author > div[style*="background:rgba(255,195,0"] {
+    white-space: nowrap !important;
+    font-size: .5rem !important;
+    padding: .28rem .7rem !important;
+    letter-spacing: .08em !important;
+    margin-left: auto;
+    margin-top: .15rem;
+  }
+  .sp-quote-role { font-size: .6rem !important; }
+}
 
 /* ── VIDEO CARDS PREMIUM ── */
 .sp-videos {
@@ -10076,6 +10100,39 @@ body,
     .sp-detail { flex-wrap: wrap; gap: .75rem; }
     .sp-detail-ig { width: 100%; justify-content: center; }
   }
+  /* Mobile : carousel horizontal pour les cartes artistes — max 3 visible */
+  @media(max-width: 600px) {
+    .sp-stage { margin: 0 1rem; padding: 1.5rem 1rem 1.25rem; }
+    .sp-cards-row {
+      flex-wrap: nowrap !important;
+      justify-content: flex-start !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      scrollbar-width: none !important;
+      gap: .6rem !important;
+      padding-bottom: .5rem !important;
+    }
+    .sp-cards-row::-webkit-scrollbar { display: none; }
+    .sp-card {
+      width: 115px !important;
+      height: 165px !important;
+      flex-shrink: 0 !important;
+      scroll-snap-align: start !important;
+    }
+    .sp-card-photo { height: 108px !important; }
+    .sp-card-fade { top: 72px !important; }
+    .sp-card-info { height: 57px !important; padding: .45rem .7rem .4rem !important; }
+    .sp-card-name { font-size: .68rem !important; }
+    .sp-card-genre { font-size: .46rem !important; }
+    .sp-detail {
+      padding: 1rem 1.1rem !important;
+      gap: .65rem !important;
+    }
+    .sp-detail-name { font-size: .88rem !important; }
+    .sp-detail-role { font-size: .56rem !important; }
+  }
   </style>
 
   <div class="sp-stage">
@@ -14235,11 +14292,20 @@ _batch('.pack-card',
 // Sur mobile, les pack-cards sont en carousel scroll — ScrollTrigger ne se déclenche pas
 if (window.innerWidth <= 900) {
   setTimeout(function() {
-    document.querySelectorAll('.pack-card').forEach(function(el) {
+    document.querySelectorAll('.pack-card, .adv-card, .rollout-card, .pricing-header, .pricing-tabs, .pricing-scope-note, .pcond-wrap, .pcond-row').forEach(function(el) {
       el.style.opacity = '1';
       el.style.transform = 'none';
+      el.style.clipPath = 'none';
     });
   }, 300);
+  // Double-fire pour s'assurer que GSAP n'overwrite pas après
+  setTimeout(function() {
+    document.querySelectorAll('.pack-card, .adv-card, .rollout-card, .pricing-header, .pricing-tabs, .pricing-scope-note, .pcond-wrap, .pcond-row').forEach(function(el) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.clipPath = 'none';
+    });
+  }, 800);
 }
 
 // ── PANELS CACHÉS (avancés, rollout, addons) ──
@@ -19151,7 +19217,35 @@ function cqfGoBack() {
   .port-count,
   #pnl-motion .work-card,
   #pnl-work .work-card,
-  #pnl-covers .cov-card {
+  #pnl-covers .cov-card,
+  /* ── Fix mobile manquants ── */
+  .port-new-top,
+  .port-new-left,
+  .port-new-eyebrow,
+  .port-new-h2,
+  .pack-card,
+  .adv-card,
+  .rollout-card,
+  .pricing-panel,
+  .pcond-wrap,
+  .pcond-row,
+  .contact-h2,
+  .contact-sub,
+  .contact-direct-link,
+  .contact-left-links,
+  .contact-grid,
+  .contact-quick-form,
+  .info-list,
+  .collabs-hdr,
+  .collabs-main-title,
+  .collabs-main-sub,
+  .collabs-marquee-wrap,
+  .collabs-sub,
+  .trust-strip,
+  .pieter-step,
+  .process-header,
+  .sp-vcard-thumb,
+  .sp-vcard-footer {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
@@ -19304,7 +19398,16 @@ if (document.readyState === 'loading') {
       '.svc-secondary', '.svc-secondary-item',
       '.proc-cond', '.pricing-header', '.pricing-header h2', '.pricing-header p',
       '.pricing-scope-note', '.pricing-tabs',
-      '.port-h2', '.port-extract-label', '.port-count'
+      '.port-h2', '.port-extract-label', '.port-count',
+      '.port-new-top', '.port-new-left', '.port-new-eyebrow', '.port-new-h2',
+      '.pack-card', '.adv-card', '.rollout-card',
+      '.pcond-wrap', '.pcond-row',
+      '.contact-h2', '.contact-sub', '.contact-direct-link', '.contact-grid',
+      '.collabs-hdr', '.collabs-main-title', '.collabs-main-sub',
+      '.collabs-marquee-wrap', '.trust-strip',
+      '.pieter-step', '.process-header',
+      '.sp-quote-author', '.sp-vcard', '.sp-vcard-thumb', '.sp-vcard-footer',
+      '.sp-cards-row', '.sp-detail'
     ];
     selectors.forEach(function(sel) {
       document.querySelectorAll(sel).forEach(function(el) {
