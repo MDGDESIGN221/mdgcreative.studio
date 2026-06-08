@@ -15212,8 +15212,13 @@ window.addEventListener('resize', fixHeroPadding, {passive:true});
 let lenis;
 function initLenis() {
   if (typeof Lenis === 'undefined') return;
-  // Lenis désactivé sur mobile — le scroll natif gère le touch
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+  // Lenis désactivé sur mobile — le scroll natif touch gère mieux l'inertie iOS/Android
+  var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouchDevice) {
+    // Sur mobile : scroll-behavior:smooth pour que lenisScroll (fallback natif) soit fluide
+    document.documentElement.style.scrollBehavior = 'smooth';
+    return;
+  }
   lenis = new Lenis({
     duration: 1.4,
     easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -19068,7 +19073,11 @@ function cqfGoBack() {
       var target = document.getElementById(targetId);
       if (target) {
         e.preventDefault();
-        window.lenisScroll(targetId);
+        if (typeof window.lenisScroll === 'function') {
+          window.lenisScroll(targetId);
+        } else {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     });
   });
@@ -19199,75 +19208,39 @@ function cqfGoBack() {
   transform: none !important;
 }
 
-/* ── MOBILE FALLBACK UNIVERSEL : forcer la visibilité des éléments GSAP sur mobile ── */
+/* ── MOBILE FALLBACK UNIVERSEL : forcer la visibilité des éléments GSAP sur mobile ──
+   On utilise une transition fade-in subtile plutôt qu'un forçage brutal pour
+   conserver un feeling animé sans bloquer le scroll.
+── */
 @media (max-width: 768px) {
-  /* Sections texte : testimonials, services, conditions, pricing */
-  .sp-stage,
-  .sp-card,
-  .sp-detail,
-  .sp-header,
-  .sp-h2,
-  .sp-sub,
-  .sp-feature,
-  .sp-vcard,
-  .sp-quote-text,
-  .sp-quote-mark,
-  .sp-quote-author,
-  .svc-header,
-  .svc-h2,
-  .sec-sub,
-  .sec-label,
-  .svc-secondary,
-  .svc-secondary-label,
-  .svc-secondary-item,
-  .svc-secondary-name,
-  .proc-cond,
-  .proc-conds,
-  .pricing-header,
-  .pricing-header h2,
-  .pricing-header p,
-  .pricing-scope-note,
-  .pricing-tabs,
-  .port-h2,
-  .port-extract-label,
-  .port-count,
-  #pnl-motion .work-card,
-  #pnl-work .work-card,
-  #pnl-covers .cov-card,
-  /* ── Fix mobile manquants ── */
-  .port-new-top,
-  .port-new-left,
-  .port-new-eyebrow,
-  .port-new-h2,
-  .pack-card,
-  .adv-card,
-  .rollout-card,
-  .pricing-panel,
-  .pcond-wrap,
-  .pcond-row,
-  .contact-h2,
-  .contact-sub,
-  .contact-direct-link,
-  .contact-left-links,
-  .contact-grid,
-  .contact-quick-form,
-  .info-list,
-  .collabs-hdr,
-  .collabs-main-title,
-  .collabs-main-sub,
-  .collabs-marquee-wrap,
-  .collabs-sub,
-  .trust-strip,
-  .pieter-step,
-  .process-header,
-  .sp-vcard-thumb,
-  .sp-vcard-footer {
+  /* Transition fade-in douce sur tous les éléments qui pourraient rester bloqués à opacity:0 */
+  .sp-stage, .sp-card, .sp-detail, .sp-header, .sp-h2, .sp-sub, .sp-feature,
+  .sp-vcard, .sp-quote-text, .sp-quote-mark, .sp-quote-author,
+  .svc-header, .svc-h2, .sec-sub, .sec-label,
+  .svc-secondary, .svc-secondary-label, .svc-secondary-item, .svc-secondary-name,
+  .proc-cond, .proc-conds,
+  .pricing-header, .pricing-header h2, .pricing-header p,
+  .pricing-scope-note, .pricing-tabs,
+  .port-h2, .port-extract-label, .port-count,
+  #pnl-motion .work-card, #pnl-work .work-card, #pnl-covers .cov-card,
+  .port-new-top, .port-new-left, .port-new-eyebrow, .port-new-h2,
+  .pack-card, .adv-card, .rollout-card, .pricing-panel,
+  .pcond-wrap, .pcond-row,
+  .contact-h2, .contact-sub, .contact-direct-link, .contact-left-links,
+  .contact-grid, .contact-quick-form,
+  .info-list, .collabs-hdr, .collabs-main-title, .collabs-main-sub,
+  .collabs-marquee-wrap, .collabs-sub,
+  .trust-strip, .pieter-step, .process-header,
+  .sp-vcard-thumb, .sp-vcard-footer {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
     visibility: visible !important;
+    /* Fade-in subtil — donne l'impression d'animation sans GSAP */
+    transition: opacity 0.4s ease, transform 0.4s ease !important;
   }
-
+  .port-new-h2,
+  .pack-card,
   /* Padding fix : éviter le débordement horizontal sur les sections SP */
   .sp-header {
     padding-left: 1.25rem !important;
@@ -19288,14 +19261,6 @@ function cqfGoBack() {
   #social-proof > .container {
     padding-left: 1.25rem !important;
     padding-right: 1.25rem !important;
-  }
-
-  /* Pack cards pricing */
-  .pack-card,
-  .adv-card,
-  .rollout-card {
-    opacity: 1 !important;
-    transform: none !important;
   }
 
   /* Uranus : tous les éléments reveal-up et les assets */
@@ -19330,6 +19295,126 @@ function cqfGoBack() {
   z-index: 1;
 }
 .yt-placeholder svg { opacity: 0.3; }
+
+/* ════════════════════════════════════════════════════════════
+   MOBILE TOUCH-ACTION FIX — MDG Creative Studio
+   Problème : le doigt posé sur une image ou une card bloque
+   le scroll vertical. Solution : touch-action:pan-y sur tout
+   ce qui ne doit PAS capturer le geste horizontal.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Images : toujours laisser passer le scroll vertical ── */
+img,
+video,
+canvas,
+iframe,
+.hero-photo-wrap img,
+.hero-photo-wrap video,
+.work-card .work-img,
+.cov-card .cov-img,
+.pieter-step-media img,
+.pieter-step-media video,
+.about-photo-wrap img,
+.morph-slide img,
+.sp-vcard-thumb img,
+.trust-logo,
+.ac-card img,
+.u-gallery-premium img,
+.u-gal-premium img {
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ── Cards : pan-y (scroll vertical natif) ── */
+.work-card,
+.cov-card,
+.pieter-step,
+.pieter-step-content,
+.pieter-step-media,
+.svc-card,
+.pack-card,
+.adv-card,
+.rollout-card,
+.trust-item,
+.ac-card,
+.sp-card,
+.sp-vcard,
+.process-step,
+.sk,
+.faq-item2,
+.about-photo-wrap,
+.about-morph-wrap,
+.morph-slide,
+.u-box-visual,
+.u-order-card,
+.u-gal-premium,
+.u-gallery-premium,
+#hero,
+.hero-photo-wrap,
+.hero-gradient-overlay,
+#about,
+#services,
+#process,
+#social-proof,
+#pricing,
+#contact,
+#collabs,
+#trust,
+footer {
+  touch-action: pan-y;
+}
+
+/* ── Carrousels horizontaux : pan-x exclusivement ── */
+.work-track,
+.cov-track,
+.mot-track,
+.trust-strip-inner,
+.port-tabs {
+  touch-action: pan-x !important;
+}
+
+/* ── Sections hero + photo-wrap : ne PAS bloquer le scroll ── */
+.hero-left,
+.hero-left > * {
+  touch-action: pan-y;
+}
+
+/* ── Suppression du cursor:none sur mobile (cause freeze perçu) ── */
+@media (hover: none) {
+  body { cursor: auto !important; }
+  .cur, .cur-r { display: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════
+   MOBILE ANIMATIONS — restaurer les transitions CSS
+   Les keyframes sont conservées mais les éléments
+   démarrent visibles (opacity:1) sur mobile via le CSS
+   media query existant. On restaure ici les transitions
+   hover uniquement sur desktop (hover:hover).
+   ══════════════════════════════════════════════════════ */
+@media (hover: none) {
+  /* Désactiver les effets hover qui causent du lag tactile */
+  .work-card:hover,
+  .cov-card:hover,
+  .svc-card:hover,
+  .pack-card:hover,
+  .pieter-step:hover .pieter-step-media img,
+  .pieter-step:hover .pieter-step-media video {
+    transform: none !important;
+  }
+  .work-card:hover .work-img,
+  .cov-card:hover .cov-img {
+    transform: none !important;
+    filter: none !important;
+  }
+  /* Transitions plus courtes sur touch = fluidité perçue */
+  .work-card,
+  .cov-card,
+  .svc-card {
+    transition: none !important;
+  }
+}
 </style>
 
 <script>
@@ -19408,6 +19493,7 @@ if (document.readyState === 'loading') {
       });
     }
     // Forcer la visibilité des éléments GSAP dans toutes les sections
+    // avec une transition douce pour garder un feeling animé
     var selectors = [
       '.sp-header', '.sp-h2', '.sp-sub', '.sp-feature',
       '.svc-header', '.svc-h2', '.sec-sub',
@@ -19427,6 +19513,8 @@ if (document.readyState === 'loading') {
     ];
     selectors.forEach(function(sel) {
       document.querySelectorAll(sel).forEach(function(el) {
+        // Transition douce — les éléments apparaissent progressivement
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         el.style.opacity = '1';
         el.style.transform = 'none';
         el.style.clipPath = 'none';
