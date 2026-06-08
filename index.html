@@ -1945,36 +1945,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
 }
 
 
-/* ══ MOBILE : STICKY PLAYER EN BAS ══ */
-@media(max-width:900px){
-  .mdg-player-section{padding:3.5rem 0 0}
 
-  /* Header compact */
-  .mdg-player-header{margin-bottom:1.5rem;gap:1rem}
-  .mdg-player-header-links{display:none}
-  .mdg-player-header-title{font-size:1.8rem}
-
-  /* Playlist visible en premier, full width */
-  .mdg-player-inner{gap:0}
-  .mdg-player-left{
-  
-    display:none;
-  }
-
-  /* Playlist mobile visible directement */
-  .mdg-player-right{
-    padding-bottom:80px;/* espace pour le sticky player */
-  }
-  .mdg-playlist{padding:.5rem}
-  .mdg-pl-item{
-    grid-template-columns:24px 1fr auto;
-    padding:.7rem .75rem;gap:.7rem;
-  }
-  .mdg-pl-spotify-btn{display:none}
-  .mdg-pl-tag{display:none}
-  .mdg-playlist-header{padding:1.25rem 1.25rem .75rem}
-  .mdg-vol-slider{display:none}
-}
 
 /* ── SECTION TITLE/SUBTITLE SPACING ── */
 .sec-label{margin-bottom:1rem}
@@ -2548,43 +2519,7 @@ a.f-ci-value:hover{color:var(--light)}
 .stat-number[data-target]{transition:color .3s}
 
 
-/* ── FORMULAIRE DEVIS ── */
-.devis-wrap{margin-top:3.5rem;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden}
-.devis-header{padding:2rem 2.5rem 0;border-bottom:1px solid var(--border);padding-bottom:1.75rem}
-.devis-header h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--light);letter-spacing:-.02em;margin-bottom:.4rem}
-.devis-header p{font-size:.82rem;color:var(--off);font-weight:300;line-height:1.6}
-.devis-form{padding:2rem 2.5rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.devis-field{display:flex;flex-direction:column;gap:.45rem}
-.devis-field.full{grid-column:1/-1}
-.devis-field label{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
-.devis-field input,.devis-field select,.devis-field textarea{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.85rem 1.1rem;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--light);outline:none;transition:border-color .3s,box-shadow .3s;width:100%;-webkit-appearance:none}
-.devis-field select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a9590' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
-.devis-field select option{background:var(--surface2);color:var(--light)}
-.devis-field input::placeholder,.devis-field textarea::placeholder{color:var(--dim)}
-.devis-field input:focus,.devis-field select:focus,.devis-field textarea:focus{border-color:rgba(255,255,255,0.22);box-shadow:0 0 0 3px rgba(255,255,255,0.03)}
-.devis-field textarea{resize:vertical;min-height:130px;line-height:1.65}
-.devis-submit{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:.5rem}
-.devis-submit button{display:inline-flex;align-items:center;gap:.75rem;background:var(--accent);color:var(--black);font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.03em;padding:1rem 2rem;border-radius:100px;border:none;cursor:pointer;transition:all .35s cubic-bezier(.16,1,.3,1)}
-.devis-submit button:hover{opacity:.88;transform:translateY(-2px)}
-.devis-submit button svg{width:16px;height:16px;stroke:var(--black);fill:none;stroke-width:2;transition:transform .3s}
-.devis-submit button:hover svg{transform:translateX(4px)}
-.devis-submit button.loading{opacity:.6;pointer-events:none}
-.devis-note{font-size:.72rem;color:var(--dim);font-weight:300;line-height:1.6;max-width:280px}
-.devis-success{grid-column:1/-1;text-align:center;padding:2rem;display:none}
-.devis-success.show{display:block}
-.devis-success-icon{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
-.devis-success-icon svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:2}
-.devis-success h4{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--light);margin-bottom:.5rem}
-.devis-success p{font-size:.85rem;color:var(--off);font-weight:300}
 
-@media(max-width:768px){
-  .devis-form{grid-template-columns:1fr;padding:1.5rem}
-  .devis-field.full{grid-column:1}
-  .devis-header{padding:1.5rem 1.5rem 1.25rem}
-  .devis-submit{flex-direction:column;align-items:stretch}
-  .devis-submit button{justify-content:center}
-  .devis-note{max-width:100%}
-}
 
 
 /* ── TICKER NAV ── */
@@ -2631,69 +2566,7 @@ a.f-ci-value:hover{color:var(--light)}
 .scroll-dot:hover .scroll-dot-label{opacity:1}
 @media(max-width:900px){.scroll-indicator{display:none}}
 
-/* ── CITATION SECTION ── */
-#citation{
-  padding:0;background:var(--black);border-bottom:1px solid var(--border);
-  position:relative;overflow:hidden;text-align:center;
-  min-height:clamp(380px,55vw,680px);
-  display:flex;align-items:center;justify-content:center;
-}
-#citation .citation-bg-img{
-  position:absolute;inset:0;z-index:0;
-  background-image:url('https://res.cloudinary.com/djdkpihuz/image/upload/v1776740232/BEHANCE_BANNER_xtdy4r.jpg');
-  background-size:cover;background-position:center;
-  transform:scale(1.04);
-  transition:transform 8s ease;
-}
-#citation:hover .citation-bg-img{transform:scale(1.0)}
-#citation .citation-overlay{
-  position:absolute;inset:0;z-index:1;
-  background:linear-gradient(
-    to bottom,
-    rgba(6,6,6,.72) 0%,
-    rgba(6,6,6,.55) 40%,
-    rgba(6,6,6,.82) 100%
-  );
-}
-#citation .citation-inner{
-  position:relative;z-index:2;
-  padding:7rem 3rem;
-  width:100%;
-}
-.citation-eyebrow{
-  font-family:'Syne',sans-serif;font-size:.58rem;font-weight:800;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--accent);
-  margin-bottom:2rem;display:flex;align-items:center;justify-content:center;gap:.75rem;
-  opacity:.85;
-}
-.citation-eyebrow::before,.citation-eyebrow::after{content:'';width:28px;height:1px;background:rgba(255,255,255,0.22)}
-.citation-text{
-  font-family:'Syne',sans-serif;font-weight:800;
-  font-size:clamp(2.2rem,5vw,5rem);
-  line-height:1.0;letter-spacing:-.03em;
-  color:var(--light);max-width:820px;margin:0 auto 1.5rem;
-  text-shadow:0 4px 40px rgba(0,0,0,.5);
-}
-.citation-text em{
-  font-family:'Instrument Serif',serif;
-  font-style:italic;font-weight:700;
-  color:var(--accent);display:block;
-  font-size:.82em;letter-spacing:-.01em;
-  margin-top:.25rem;
-  text-shadow:0 0 60px rgba(255,255,255,0.11);
-}
-.citation-author{
-  font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(240,237,232,.45);position:relative;z-index:1;
-  display:flex;align-items:center;justify-content:center;gap:.75rem;
-  margin-top:2.5rem;
-}
-.citation-author::before,.citation-author::after{content:'';width:32px;height:1px;background:rgba(255,255,255,.18)}
-.citation-bg{display:none}
-@media(max-width:900px){
-  #citation .citation-inner{padding:5rem 1.5rem}
-  .citation-text{font-size:clamp(1.9rem,7vw,3rem)}
-}
+
 
 /* ── SAFE AREA INSETS (iPhone notch/home indicator) ── */
 @supports(padding:max(0px)){
@@ -3133,7 +3006,7 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
     white-space:nowrap;
   }
 
-  /* Citation visible sur mobile */
+  /* hero-sub : visible sur mobile */
   .hero-sub{display:block !important;font-size:.62rem !important;margin-bottom:1.25rem !important;line-height:1.9 !important;letter-spacing:.18em !important}
   .hero-mini-stats{display:none !important}
   .hero-portfolio-links{display:flex !important;opacity:.7}
@@ -3168,14 +3041,6 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .cpop-link-detail{font-size:.68rem}
   .cpop-links{gap:.6rem}
 
-  /* Devis form: single col, better spacing */
-  .devis-wrap{border-radius:16px}
-  .devis-form{gap:1rem;padding:1.25rem}
-  .devis-header{padding:1.25rem 1.25rem 1rem}
-  .devis-header h3{font-size:1.1rem}
-  .devis-field input,.devis-field select,.devis-field textarea{font-size:.85rem;padding:.75rem .9rem}
-  .devis-submit button{font-size:.82rem;padding:.9rem 1.5rem}
-  
   /* Motion grid: single col */
   .motion-grid{grid-template-columns:1fr}
   
@@ -3195,9 +3060,6 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .testimonials-layout{gap:2rem}
   .tq-text{font-size:1rem}
   .tcard-body{padding:1rem 1.25rem 1.25rem}
-
-  /* Citation */
-  .citation-text{font-size:clamp(1.4rem,5.5vw,2rem)}
 
   /* Footer */
   .footer-top{padding:2.5rem 1.25rem;gap:2rem}
@@ -3287,7 +3149,7 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   /* Type wrap */
   .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em;height:1.4em;overflow:hidden;contain:strict}
 
-  /* Citation : visible, taille réduite */
+  /* hero-sub : visible, taille réduite */
   .hero-sub{display:block !important;font-size:.62rem !important;margin-bottom:1rem !important;line-height:1.9 !important;letter-spacing:.18em !important}
 
   /* CTAs HUD — empilés, pas côte à côte */
@@ -3357,13 +3219,6 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   /* Process conditions: 1 col */
   .process-conditions{grid-template-columns:1fr}
 
-  /* Devis form padding réduit */
-  .devis-header{padding:1rem 1rem .85rem}
-  .devis-form{padding:1rem}
-
-  /* Citation: plus compact */
-  #citation{padding:3rem 1rem}
-
   /* Footer: réduit */
   .footer-top{padding:2rem 1rem;gap:1.75rem}
   .footer-bottom{padding:.85rem 1rem}
@@ -3380,14 +3235,6 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .cpop-link-detail{font-size:.68rem}
   .cpop-links{gap:.6rem}
 
-  /* Devis form: single col, better spacing */
-  .devis-wrap{border-radius:16px}
-  .devis-form{gap:1rem;padding:1.25rem}
-  .devis-header{padding:1.25rem 1.25rem 1rem}
-  .devis-header h3{font-size:1.1rem}
-  .devis-field input,.devis-field select,.devis-field textarea{font-size:.85rem;padding:.75rem .9rem}
-  .devis-submit button{font-size:.82rem;padding:.9rem 1.5rem}
-
   /* Motion grid: single col */
   .motion-grid{grid-template-columns:1fr 1fr !important}
 
@@ -3401,9 +3248,6 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .testimonials-layout{gap:2rem}
   .tq-text{font-size:1rem}
   .tcard-body{padding:1rem 1.25rem 1.25rem}
-
-  /* Citation */
-  .citation-text{font-size:clamp(1.4rem,5.5vw,2rem)}
 
   /* Footer */
   .footer-top{padding:2.5rem 1.25rem;gap:2rem}
@@ -3739,27 +3583,6 @@ nav::before { display:none; }
 }
 .cond-item:hover{background:linear-gradient(160deg,rgba(20,20,20,.95) 0%,rgba(14,14,14,1) 100%) !important}
 
-/* ══ DEVIS FORM ══ */
-.devis-wrap{
-  background:linear-gradient(160deg,rgba(16,16,16,.85) 0%,rgba(10,10,10,.92) 100%) !important;
-  border:1px solid rgba(255,255,255,.08) !important;
-  border-radius:24px !important;
-  box-shadow:var(--glass-shadow) !important;
-  backdrop-filter:blur(20px) !important;
-  -webkit-backdrop-filter:blur(20px) !important;
-  overflow:hidden !important;
-}
-.devis-field input,.devis-field select,.devis-field textarea{
-  background:rgba(255,255,255,.04) !important;
-  border:1px solid rgba(255,255,255,.09) !important;
-  transition:border-color .25s, box-shadow .25s, background .25s !important;
-}
-.devis-field input:focus,.devis-field select:focus,.devis-field textarea:focus{
-  background:rgba(255,255,255,.06) !important;
-  border-color:rgba(255,255,255,0.22) !important;
-  box-shadow:0 0 0 3px rgba(255,255,255,0.04) !important;
-}
-
 /* ══ CQF (contact form) ══ */
 .cqf-field input,.cqf-field textarea,.cqf-field select{
   background:rgba(255,255,255,.04) !important;
@@ -3918,23 +3741,8 @@ nav::before { display:none; }
   background:linear-gradient(to right,rgba(255,255,255,0.14),transparent) !important;
 }
 
-/* ══ MDG GLASS CARD (player) ══ */
-.mdg-glass-card{
-  background:rgba(12,12,12,.82) !important;
-  backdrop-filter:blur(40px) saturate(1.5) !important;
-  -webkit-backdrop-filter:blur(40px) saturate(1.5) !important;
-  border:1px solid rgba(255,255,255,.09) !important;
-  box-shadow:0 8px 48px rgba(0,0,0,.65),0 1px 0 rgba(255,255,255,.07) inset,0 0 0 1px rgba(255,255,255,0.02) inset !important;
-}
-.mdg-player-right{
-  background:linear-gradient(160deg,rgba(14,14,14,.85) 0%,rgba(8,8,8,.92) 100%) !important;
-  border:1px solid rgba(255,255,255,.07) !important;
-  border-radius:24px !important;
-  backdrop-filter:blur(20px) !important;
-  -webkit-backdrop-filter:blur(20px) !important;
-  box-shadow:var(--glass-shadow) !important;
-  overflow:hidden !important;
-}
+
+
 
 /* ══ OPTIMISATION MOBILE GLOBALE ══ */
 @media(max-width:480px){
@@ -3946,9 +3754,7 @@ nav::before { display:none; }
   .svc-h2,.about-title,.process-header h2{font-size:clamp(1.4rem,6vw,1.8rem) !important}
   /* Contact grid */
   .contact-quick-form{padding:1.5rem !important;border-radius:16px !important}
-  /* Devis form */
-  .devis-wrap .devis-header{padding:1.25rem !important}
-  .devis-wrap .devis-form{padding:1.25rem !important}
+
   /* Trust grid */
   .trust-grid{grid-template-columns:repeat(2,1fr) !important}
   /* Footer */
@@ -4021,7 +3827,7 @@ nav::before { display:none; }
 .sp-h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--off); }
 .sp-sub { font-size: .9rem; color: var(--off); line-height: 1.8; font-weight: 300; margin-top: 1rem; }
 
-/* ── Citation principale ── */
+/* ── SP Feature block ── */
 .sp-feature {
   margin: 0 3rem 3.5rem;
   background: var(--black);
@@ -7745,16 +7551,6 @@ nav::before { display:none; }
   .cta-btn{width:100%;justify-content:center;font-size:.8rem;padding:.85rem 1.2rem}
   .info-list{gap:.65rem}
   .info-value{font-size:.8rem}
-
-  /* ── DEVIS FORM ── */
-  .devis-form{grid-template-columns:1fr !important;gap:.85rem !important;padding:1.1rem !important}
-  .devis-header{padding:1.1rem 1.1rem .9rem !important}
-  .devis-header h3{font-size:1.05rem}
-  .devis-field input,.devis-field select,.devis-field textarea{
-    font-size:.84rem;padding:.72rem .85rem
-  }
-  .devis-submit{flex-direction:column;gap:.75rem}
-  .devis-submit button{width:100%;justify-content:center;font-size:.82rem;padding:.85rem 1.4rem}
 
   /* ── FOOTER ── */
   .footer-top{
@@ -12086,13 +11882,21 @@ body,
     bt.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(-90deg) translateZ('+(H/2)+'px);';
   }
 
-  /* Wait for layout — double RAF + timeout pour garantir les dimensions */
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      buildFaces();
-      setTimeout(buildFaces, 300);
-    });
-  });
+  /* Build quand la section entre dans le viewport (200px avant) */
+  var _boxBuilt = false;
+  function _buildOnce(){
+    if(_boxBuilt) return;
+    if(wrap.offsetWidth > 0){ _boxBuilt = true; buildFaces(); setTimeout(buildFaces, 200); }
+  }
+  if('IntersectionObserver' in window){
+    var _boxObs = new IntersectionObserver(function(entries, obs){
+      if(entries[0].isIntersecting){ _buildOnce(); obs.disconnect(); }
+    },{ rootMargin:'200px' });
+    _boxObs.observe(wrap);
+  } else {
+    /* Fallback pour navigateurs anciens */
+    requestAnimationFrame(function(){ requestAnimationFrame(_buildOnce); });
+  }
   window.addEventListener('resize', buildFaces);
 
   /* Rotation */
@@ -14450,25 +14254,6 @@ _batch('.contact-direct-link',
   .08, .05
 );
 
-// ── CITATION ──
-{
-  const _cEy  = document.querySelector('.citation-eyebrow');
-  const _cTxt = document.querySelector('.citation-text');
-  const _cAu  = document.querySelector('.citation-author');
-  if (_cTxt) {
-    if (_isMobile) {
-      const tl = gsap.timeline({ scrollTrigger: { trigger:_cTxt, start:'top 95%', once:true } });
-      if (_cEy) tl.fromTo(_cEy,  { opacity:0, y:12 }, { opacity:1, y:0, duration:_mDur, ease:_mE });
-      tl.fromTo(_cTxt,            { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE }, '-=0.2');
-      if (_cAu) tl.fromTo(_cAu,  { opacity:0, y:12 }, { opacity:1, y:0, duration:_mDur, ease:_mE }, '-=0.2');
-    } else {
-      const tl = gsap.timeline({ scrollTrigger: { trigger:_cTxt, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
-      if (_cEy)  tl.fromTo(_cEy,  { opacity:0, y:16 },           { opacity:1, y:0, duration:.6, ease:_E });
-      tl.fromTo(_cTxt,             { opacity:0, x:54, skewX:-4 }, { opacity:1, x:0, skewX:0, duration:.95, ease:_E }, '-=0.3');
-      if (_cAu)  tl.fromTo(_cAu,  { opacity:0, y:16 },           { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
-    }
-  }
-}
 
 // ── URANUS ──
 {
@@ -15265,39 +15050,8 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal();
 
 })();
 
-const devisForm = document.getElementById('devisForm');
-if(devisForm){
-  devisForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const btn = document.getElementById('devisBtn');
-    const success = document.getElementById('devisSuccess');
-    btn.classList.add('loading');
-    btn.innerHTML = 'Envoi en cours... <svg viewBox="0 0 24 24" width="16" height="16" style="stroke:var(--black);fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/></svg>';
-    try {
-      const res = await fetch(devisForm.action, {
-        method:'POST',
-        body: new FormData(devisForm),
-        headers:{'Accept':'application/json'}
-      });
-      if(res.ok){
-        devisForm.querySelectorAll('.devis-field,.devis-submit').forEach(el=>el.style.display='none');
-        success.classList.add('show');
-      } else {
-        btn.classList.remove('loading');
-        btn.innerHTML = 'Réessayer <svg viewBox="0 0 24 24" width="16" height="16" style="stroke:var(--black);fill:none;stroke-width:2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
-        let errMsg = document.getElementById('devis-error-msg');
-        if(!errMsg){ errMsg = document.createElement('p'); errMsg.id='devis-error-msg'; errMsg.style.cssText='color:#ff6b6b;font-size:.85rem;margin-top:.5rem;'; devisForm.querySelector('.devis-submit').appendChild(errMsg); }
-        errMsg.textContent = 'Une erreur est survenue. Écris-moi directement sur WhatsApp ou à mdgdesign221@gmail.com.';
-      }
-    } catch(err){
-      btn.classList.remove('loading');
-      btn.innerHTML = 'Réessayer →';
-      let errMsg = document.getElementById('devis-error-msg');
-      if(!errMsg){ errMsg = document.createElement('p'); errMsg.id='devis-error-msg'; errMsg.style.cssText='color:#ff6b6b;font-size:.85rem;margin-top:.5rem;'; devisForm.querySelector('.devis-submit').appendChild(errMsg); }
-      errMsg.textContent = 'Problème de connexion. Écris-moi sur WhatsApp ou à mdgdesign221@gmail.com.';
-    }
-  });
-}
+
+
 
 
 // ── SCROLL PROGRESS BAR ──
@@ -15322,7 +15076,7 @@ const dotObs = new IntersectionObserver(entries => {
 dotSections.forEach(s => dotObs.observe(s));
 
 // ── MAGNETIC BUTTONS ──
-document.querySelectorAll('.nav-cta, .cta-btn, .devis-submit button, .modal-cta, .svc-cta, .hero-btn-primary, .hero-btn-secondary').forEach(btn => {
+document.querySelectorAll('.nav-cta, .cta-btn, .modal-cta, .svc-cta, .hero-btn-primary, .hero-btn-secondary').forEach(btn => {
   btn.classList.add('magnetic');
   btn.addEventListener('mousemove', e => {
     const rect = btn.getBoundingClientRect();
@@ -16313,26 +16067,6 @@ var translations = {
   pack_modal_msg_ph: { fr: 'Décris ton projet en quelques mots (type de sortie, style, date visée…)', en: 'Describe your project briefly (release type, style, target date…)' },
   pack_modal_submit: { fr: 'Envoyer la demande →', en: 'Send request →' },
   pack_modal_alt: { fr: 'Ou contacte directement via', en: 'Or contact directly via' },
-
-  // Currency converter
-  cc_title: { fr: 'Convertisseur de devises', en: 'Currency converter' },
-  cc_badge: { fr: 'Indicatif', en: 'Indicative' },
-  cc_sub: { fr: 'Les prix sont en XOF (Franc CFA). Convertis en ta devise pour estimer le budget.', en: 'Prices are in XOF (CFA Franc). Convert to your currency to estimate the budget.' },
-  cc_amount_label: { fr: 'Montant XOF', en: 'Amount XOF' },
-  cc_disclaimer: { fr: 'Taux de change approximatifs — à titre indicatif uniquement. 1 EUR ≈ 655 XOF (taux fixe CFA).', en: 'Approximate exchange rates — indicative only. 1 EUR ≈ 655 XOF (fixed CFA rate).' },
-
-  // Devis form
-  devis_title: { fr: 'Demander un devis', en: 'Request a quote' },
-  devis_sub: { fr: 'Décris-moi ton projet. Je te reviens sous 24h avec une proposition.', en: 'Describe your project. I\'ll get back to you within 24h with a proposal.' },
-  devis_name_label: { fr: 'Ton nom / Artiste', en: 'Your name / Artist' },
-  devis_email_label: { fr: 'Email ou WhatsApp', en: 'Email or WhatsApp' },
-  devis_service_label: { fr: 'Type de projet', en: 'Project type' },
-  devis_budget_label: { fr: 'Budget approximatif', en: 'Approximate budget' },
-  devis_desc_label: { fr: 'Décris ton projet', en: 'Describe your project' },
-  devis_btn: { fr: 'Envoyer la demande', en: 'Send request' },
-  devis_note: { fr: 'Réponse sous 24h. Tes infos restent entre nous, point.', en: 'Reply within 24h. Your info stays private, period.' },
-  devis_success_title: { fr: "C'est parti !", en: "You're all set!" },
-  devis_success_msg: { fr: 'Je te reviens sous 24h. Tu peux aussi me joindre directement sur WhatsApp si c\'est urgent.', en: 'I\'ll get back to you within 24h. You can also reach me directly on WhatsApp if urgent.' },
 };
 
 // ─── Éléments à patcher directement par sélecteur ────
@@ -16672,26 +16406,6 @@ function applyComplexPatches(lang) {
     pmAlt.innerHTML = lang_or + ' <a href="https://wa.me/221763772208" target="_blank">WhatsApp</a> · <a href="https://instagram.com/_its.mdg" target="_blank">Instagram</a>';
   }
 
-  // Devis form
-  var devisHeader = document.querySelector('.devis-header h3');
-  if (devisHeader) devisHeader.textContent = translations.devis_title[lang];
-  var devisHeaderP = document.querySelector('.devis-header p');
-  if (devisHeaderP) devisHeaderP.textContent = translations.devis_sub[lang];
-  var devisBtn = document.getElementById('devisBtn');
-  if (devisBtn) {
-    devisBtn.childNodes[0].textContent = translations.devis_btn[lang] + ' ';
-  }
-  var devisNote = document.querySelector('.devis-note');
-  if (devisNote) devisNote.textContent = translations.devis_note[lang];
-  var devisSuccessTitle = document.querySelector('.devis-success h4');
-  if (devisSuccessTitle) devisSuccessTitle.textContent = translations.devis_success_title[lang];
-  var devisSuccessMsg = document.querySelector('.devis-success p');
-  if (devisSuccessMsg) devisSuccessMsg.textContent = translations.devis_success_msg[lang];
-
-  // Devis labels
-  var devisLabels = document.querySelectorAll('.devis-field label');
-  var devisLabelKeys = ['devis_name_label','devis_email_label','devis_service_label','devis_budget_label','devis_desc_label'];
-  devisLabels.forEach(function(el,i){ if(translations[devisLabelKeys[i]]) el.textContent = translations[devisLabelKeys[i]][lang]; });
 
   // ── Process ──
   var processLabel = document.querySelector('#process .sec-label');
