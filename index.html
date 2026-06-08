@@ -14762,6 +14762,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 // ── DRAG TO SCROLL (souris desktop) — système unique propre ──
 function enableDragScroll(track){
   if(!track || track._dragEnabled) return;
+  // Sur mobile : le handler direction-aware gère tout — pas besoin du mouse drag
+  if('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
   track._dragEnabled = true;
 
   var isDown = false, startX = 0, scrollLeft = 0, moved = false;
@@ -14790,7 +14792,6 @@ function enableDragScroll(track){
     isDown = false;
     track.style.cursor = 'grab';
     track.style.userSelect = '';
-    // Inertie naturelle puis ré-active snap quand ça s'arrête
     var v = velX;
     function glide(){
       if(Math.abs(v) < 0.4){ setSnap(true); rafId = null; return; }
@@ -14811,12 +14812,10 @@ function enableDragScroll(track){
     if(!moved && Math.abs(delta) < THRESHOLD) return;
     moved = true;
     e.preventDefault();
-    // Ratio 1:1 — le curseur suit exactement la card
     track.scrollLeft = scrollLeft - delta;
-    // Calcul vélocité pour l'inertie au relâchement
     var now = performance.now();
     var dt = now - lastT || 1;
-    velX = (e.clientX - lastX) / dt * 16; // px par frame (~60fps)
+    velX = (e.clientX - lastX) / dt * 16;
     lastX = e.clientX;
     lastT = now;
   });
@@ -14880,32 +14879,29 @@ enableDragScroll(document.querySelector('.trust-strip-inner'));
       // Phase de détection : attendre le threshold
       if (direction === null) {
         var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < DIRECTION_THRESHOLD) return; // pas encore décidé
-        // Décision basée sur l'angle dominant
+        if (dist < DIRECTION_THRESHOLD) return;
         direction = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
       }
 
       if (direction === 'vertical') {
-        // Geste vertical → laisser la page scroller, ne rien faire
+        // Geste vertical → laisser la page scroller
         return;
       }
 
       // Geste horizontal → contrôler le carrousel
-      e.preventDefault(); // bloquer le scroll page uniquement ici
+      e.preventDefault();
       track.scrollLeft = scrollStartLeft - dx;
 
-      // Vélocité pour l'inertie
       var now = performance.now();
       var dt = now - lastTouchT || 1;
       velX = (t.clientX - lastTouchX) / dt * 16;
       lastTouchX = t.clientX;
       lastTouchT = now;
-    }, { passive: false }); // passive:false nécessaire pour preventDefault conditionnel
+    }, { passive: false });
 
     track.addEventListener('touchend', function() {
       if (direction !== 'horizontal') { setSnap(true); direction = null; return; }
       direction = null;
-      // Inertie post-swipe
       var v = velX;
       function glide() {
         if (Math.abs(v) < 0.5) { setSnap(true); rafId = null; return; }
@@ -14923,7 +14919,7 @@ enableDragScroll(document.querySelector('.trust-strip-inner'));
     }, { passive: true });
   }
 
-  // Appliquer sur tous les carrousels — maintenant et au changement de panel
+  // ── Carrousels principaux ──
   var carouselIds = ['workTrack', 'covTrack', 'motTrack'];
   carouselIds.forEach(function(id) {
     var el = document.getElementById(id);
@@ -14932,7 +14928,22 @@ enableDragScroll(document.querySelector('.trust-strip-inner'));
   var trustStrip = document.querySelector('.trust-strip-inner');
   if (trustStrip) attachDirectionAwareTouch(trustStrip);
 
-  // Hook sur les switches de panel pour réappliquer si le track est recréé
+  // ── Carrousels pricing (packs-grid, advanced-grid) — actifs sur mobile ──
+  // Ces grids deviennent des carousels via CSS sur mobile, il faut le même handler.
+  function initPricingCarousels() {
+    document.querySelectorAll('.packs-grid, .advanced-grid, .rollout-cards').forEach(function(el) {
+      attachDirectionAwareTouch(el);
+    });
+  }
+  // Init immédiat + après changement de tab pricing
+  initPricingCarousels();
+  document.querySelectorAll('.pricing-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      setTimeout(initPricingCarousels, 80);
+    });
+  });
+
+  // Hook sur les switches de panel pour réappliquer
   var _origPnlSwitch = window.pnlSwitch;
   window.pnlSwitch = function(panel, btn) {
     if (_origPnlSwitch) _origPnlSwitch(panel, btn);
@@ -14941,6 +14952,7 @@ enableDragScroll(document.querySelector('.trust-strip-inner'));
         var el = document.getElementById(id);
         if (el) attachDirectionAwareTouch(el);
       });
+      initPricingCarousels();
     }, 100);
   };
 })();
@@ -19405,15 +19417,11 @@ function cqfGoBack() {
    ce qui ne doit PAS capturer le geste horizontal.
    ════════════════════════════════════════════════════════════ */
 
-/* ── Images : toujours laisser passer le scroll vertical ── */
+/* ── Images dans sections fixes (hors carousel) : laisser passer le scroll vertical ── */
 img,
 video,
-canvas,
-iframe,
 .hero-photo-wrap img,
 .hero-photo-wrap video,
-.work-card .work-img,
-.cov-card .cov-img,
 .pieter-step-media img,
 .pieter-step-media video,
 .about-photo-wrap img,
@@ -19423,21 +19431,15 @@ iframe,
 .ac-card img,
 .u-gallery-premium img,
 .u-gal-premium img {
-  touch-action: pan-y;
   -webkit-user-select: none;
   user-select: none;
 }
 
-/* ── Cards : pan-y (scroll vertical natif) ── */
-.work-card,
-.cov-card,
+/* ── Éléments fixes (jamais dans un carousel horizontal) : pan-y ── */
 .pieter-step,
 .pieter-step-content,
 .pieter-step-media,
 .svc-card,
-.pack-card,
-.adv-card,
-.rollout-card,
 .trust-item,
 .ac-card,
 .sp-card,
@@ -19459,13 +19461,15 @@ iframe,
 #services,
 #process,
 #social-proof,
-#pricing,
 #contact,
 #collabs,
 #trust,
 footer {
   touch-action: pan-y;
 }
+
+/* ── NE PAS mettre pan-y sur pack-card/adv-card/rollout-card/work-card/cov-card
+   car ils sont dans des carousels horizontaux — le JS direction-aware gère ── */
 
 /* ── Carrousels : touch-action:auto — le JS direction-aware gère le reste ──
    Le handler JS détecte la direction (dx vs dy) avant de décider si le geste
