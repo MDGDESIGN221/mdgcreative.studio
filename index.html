@@ -1264,7 +1264,7 @@ section+section::before,
 .work-track-wrap::before,.work-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .work-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .work-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:auto;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .work-track::-webkit-scrollbar{display:none}
 /* ── WORK CARDS — design premium ── */
 .work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04)}
@@ -1373,7 +1373,7 @@ section+section::before,
 .cov-track-wrap::before,.cov-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .cov-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .cov-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:auto;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .cov-track::-webkit-scrollbar{display:none}
 .cov-card{position:relative;display:block;text-decoration:none;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(240px,26vw,320px);aspect-ratio:1/1;scroll-snap-align:start;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0)}
 .cov-card:hover{transform:translateY(-4px)}
@@ -14831,17 +14831,119 @@ function enableDragScroll(track){
 enableDragScroll(document.getElementById('workTrack'));
 enableDragScroll(document.getElementById('covTrack'));
 enableDragScroll(document.getElementById('motTrack'));
-
-// ── TOUCH MOBILE = 100% natif ──
-// On laisse le navigateur gérer : overflow-x:auto + scroll-snap-type:x proximity
-// + -webkit-overflow-scrolling:touch + touch-action:pan-x
-// Aucun JS — c'est ce qui donne la fluidité maximale (inertie iOS native).
 enableDragScroll(document.querySelector('.trust-strip-inner'));
 
-// ── CARROUSELS MOBILE — scroll natif CSS pur (scroll-snap + touch-action) ──
-// Lenis est configuré avec prevent() pour ignorer ces éléments.
-// Le CSS gère tout : touch-action:pan-x, scroll-snap-type, -webkit-overflow-scrolling:touch.
-// Aucun JS touch nécessaire — c'est le navigateur natif qui donne la fluidité maximale.
+// ════════════════════════════════════════════════════════════════════
+// DIRECTION-AWARE TOUCH HANDLER — comportement app native mobile
+// Principe : on attend 10px de déplacement pour détecter la direction,
+// puis on lock exclusivement horizontal OU vertical. Jamais les deux.
+// Le scroll vertical de la page n'est JAMAIS bloqué par un carrousel.
+// ════════════════════════════════════════════════════════════════════
+(function(){
+  var DIRECTION_THRESHOLD = 10; // px avant de décider la direction
+
+  function attachDirectionAwareTouch(track) {
+    if (!track || track._touchDirectionBound) return;
+    track._touchDirectionBound = true;
+
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var scrollStartLeft = 0;
+    var direction = null; // null | 'horizontal' | 'vertical'
+    var lastTouchX = 0;
+    var lastTouchT = 0;
+    var velX = 0;
+    var rafId = null;
+
+    function setSnap(on) {
+      track.style.scrollSnapType = on ? '' : 'none';
+    }
+
+    track.addEventListener('touchstart', function(e) {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      var t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      scrollStartLeft = track.scrollLeft;
+      direction = null;
+      velX = 0;
+      lastTouchX = t.clientX;
+      lastTouchT = performance.now();
+      setSnap(false);
+    }, { passive: true });
+
+    track.addEventListener('touchmove', function(e) {
+      var t = e.touches[0];
+      var dx = t.clientX - touchStartX;
+      var dy = t.clientY - touchStartY;
+
+      // Phase de détection : attendre le threshold
+      if (direction === null) {
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < DIRECTION_THRESHOLD) return; // pas encore décidé
+        // Décision basée sur l'angle dominant
+        direction = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+      }
+
+      if (direction === 'vertical') {
+        // Geste vertical → laisser la page scroller, ne rien faire
+        return;
+      }
+
+      // Geste horizontal → contrôler le carrousel
+      e.preventDefault(); // bloquer le scroll page uniquement ici
+      track.scrollLeft = scrollStartLeft - dx;
+
+      // Vélocité pour l'inertie
+      var now = performance.now();
+      var dt = now - lastTouchT || 1;
+      velX = (t.clientX - lastTouchX) / dt * 16;
+      lastTouchX = t.clientX;
+      lastTouchT = now;
+    }, { passive: false }); // passive:false nécessaire pour preventDefault conditionnel
+
+    track.addEventListener('touchend', function() {
+      if (direction !== 'horizontal') { setSnap(true); direction = null; return; }
+      direction = null;
+      // Inertie post-swipe
+      var v = velX;
+      function glide() {
+        if (Math.abs(v) < 0.5) { setSnap(true); rafId = null; return; }
+        track.scrollLeft -= v;
+        v *= 0.92;
+        rafId = requestAnimationFrame(glide);
+      }
+      if (Math.abs(v) > 0.5) glide();
+      else setSnap(true);
+    }, { passive: true });
+
+    track.addEventListener('touchcancel', function() {
+      direction = null;
+      setSnap(true);
+    }, { passive: true });
+  }
+
+  // Appliquer sur tous les carrousels — maintenant et au changement de panel
+  var carouselIds = ['workTrack', 'covTrack', 'motTrack'];
+  carouselIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) attachDirectionAwareTouch(el);
+  });
+  var trustStrip = document.querySelector('.trust-strip-inner');
+  if (trustStrip) attachDirectionAwareTouch(trustStrip);
+
+  // Hook sur les switches de panel pour réappliquer si le track est recréé
+  var _origPnlSwitch = window.pnlSwitch;
+  window.pnlSwitch = function(panel, btn) {
+    if (_origPnlSwitch) _origPnlSwitch(panel, btn);
+    setTimeout(function() {
+      carouselIds.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) attachDirectionAwareTouch(el);
+      });
+    }, 100);
+  };
+})();
 
 // ── SWIPE POPUP CONTACT (ferme en swipant vers le bas) ──
 (function(){
@@ -19365,13 +19467,16 @@ footer {
   touch-action: pan-y;
 }
 
-/* ── Carrousels horizontaux : pan-x exclusivement ── */
+/* ── Carrousels : touch-action:auto — le JS direction-aware gère le reste ──
+   Le handler JS détecte la direction (dx vs dy) avant de décider si le geste
+   est horizontal (→ slider) ou vertical (→ scroll page). CSS ne peut pas
+   faire ça — d'où le besoin de laisser "auto" ici. */
 .work-track,
 .cov-track,
 .mot-track,
 .trust-strip-inner,
 .port-tabs {
-  touch-action: pan-x !important;
+  touch-action: auto !important;
 }
 
 /* ── Sections hero + photo-wrap : ne PAS bloquer le scroll ── */
