@@ -1467,33 +1467,243 @@ section+section::before,
 .svc-cta .arr{transition:transform .35s cubic-bezier(.16,1,.3,1)}
 .svc-cta:hover .arr{transform:translateX(4px)}
 
-/* ── CONTACT (black) ── */
-#contact{padding:7rem 3rem;position:relative;overflow:hidden}
-#contact::before{content:'';position:absolute;inset:0;background-image:url('https://res.cloudinary.com/djdkpihuz/image/upload/v1780836229/cette_image_en_16_9_sans_202606071242_ylerhm.jpg');background-size:cover;background-position:center;opacity:.08;pointer-events:none;z-index:0}
-.contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:6rem;align-items:start}
-.contact-h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.4rem,4.8vw,4.6rem);line-height:.95;letter-spacing:-0.03em;margin-bottom:1.5rem}
-.contact-h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--accent);display:block;font-size:clamp(1.8rem,3.8vw,3.6rem);letter-spacing:-.01em}
-.contact-sub{font-size:.9rem;color:var(--off);line-height:1.82;font-weight:300;max-width:400px;margin-bottom:2.5rem}
-.cta-btn{display:inline-flex;align-items:center;gap:.7rem;font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;letter-spacing:.04em;color:var(--black);background:var(--accent);padding:.95rem 1.8rem;border-radius:var(--r);text-decoration:none;transition:transform .2s,opacity .2s,box-shadow .2s;box-shadow:0 4px 20px rgba(200,250,100,.2)}
-.cta-btn:hover{transform:translateY(-2px);opacity:.9;box-shadow:0 8px 32px rgba(200,250,100,.3)}
+/* ── CONTACT — REDESIGN PREMIUM ── */
+#contact{
+  padding:0;
+  position:relative;
+  overflow:hidden;
+  background:var(--black);
+}
+
+/* Ligne déco verticale gauche */
+#contact::after{
+  content:'';
+  position:absolute;
+  left:3rem;top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(255,255,255,.07) 20%,rgba(255,255,255,.07) 80%,transparent);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Bruit de fond subtil */
+#contact .contact-noise{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.4;
+}
+
+/* Halo lumière centre-gauche */
+#contact .contact-glow{
+  position:absolute;
+  left:-10%;top:30%;
+  width:60vw;height:60vw;max-width:700px;max-height:700px;
+  background:radial-gradient(ellipse at center, rgba(255,255,255,.03) 0%, transparent 65%);
+  pointer-events:none;z-index:0;
+}
+
+/* Layout principal */
+#contact .contact-inner{
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:100vh;
+}
+
+/* COLONNE GAUCHE — accroche éditoriale */
+.contact-left-col{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:7rem 4rem 5rem 3rem;
+  border-right:1px solid rgba(255,255,255,.06);
+  position:relative;
+}
+
+/* Numéro de section vertical */
+.contact-side-num{
+  position:absolute;
+  top:7rem;right:-1.1rem;
+  font-family:'Syne',sans-serif;
+  font-size:.52rem;font-weight:800;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  user-select:none;
+}
+
+.contact-eyebrow{
+  display:flex;align-items:center;gap:.8rem;
+  font-family:'Syne',sans-serif;font-size:.52rem;
+  font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:2.5rem;
+}
+.contact-eyebrow::before{
+  content:'';width:20px;height:1px;
+  background:var(--dim);display:block;flex-shrink:0;
+}
+
+.contact-h2{
+  font-family:'DM Serif Display',serif !important;
+  font-weight:400 !important;
+  font-size:clamp(3rem,5.5vw,5.5rem);
+  line-height:.92;
+  letter-spacing:-.02em;
+  margin-bottom:2.5rem;
+  color:var(--light);
+}
+.contact-h2 em{
+  font-family:'Instrument Serif',serif;
+  font-style:italic;font-weight:400;
+  color:rgba(255,255,255,.45);
+  display:block;
+  font-size:clamp(2.2rem,4vw,4.2rem);
+  letter-spacing:-.01em;
+}
+
+.contact-sub{
+  font-size:.88rem;color:var(--off);
+  line-height:1.85;font-weight:300;
+  max-width:360px;margin-bottom:3.5rem;
+}
+
+/* Liens directs redesignés */
+.contact-left-links{
+  display:flex;flex-direction:column;gap:.5rem;
+  margin-bottom:3rem;
+}
+.contact-direct-link{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.2rem;
+  background:transparent;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;
+  text-decoration:none;
+  transition:border-color .3s,background .3s,transform .3s cubic-bezier(.16,1,.3,1);
+  position:relative;overflow:hidden;
+}
+.contact-direct-link::before{
+  content:'';
+  position:absolute;inset:0;
+  background:rgba(255,255,255,.03);
+  opacity:0;transition:opacity .3s;
+}
+.contact-direct-link:hover{
+  border-color:rgba(255,255,255,.14);
+  transform:translateX(6px);
+}
+.contact-direct-link:hover::before{ opacity:1; }
+.contact-direct-link-icon{
+  width:38px;height:38px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.06);
+}
+.contact-direct-link-text{
+  display:flex;flex-direction:column;gap:.08rem;flex:1;
+}
+.contact-direct-link-name{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:.82rem;color:var(--light);letter-spacing:.01em;
+}
+.contact-direct-link-val{
+  font-size:.7rem;color:var(--dim);font-weight:300;
+}
+.contact-direct-link-arr{
+  display:flex;align-items:center;justify-content:center;
+  width:24px;height:24px;flex-shrink:0;
+  color:var(--dim);
+  transition:transform .25s cubic-bezier(.16,1,.3,1),color .2s;
+}
+.contact-direct-link:hover .contact-direct-link-arr{
+  transform:translate(3px,-3px);color:var(--accent);
+}
+
+/* Méta-infos bas de colonne */
+.info-list{
+  display:flex;flex-direction:column;gap:.8rem;
+  padding-top:2rem;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.info-item{display:flex;flex-direction:column;gap:.12rem}
+.info-label{
+  font-size:.52rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--dim);
+}
+.info-value{font-size:.82rem;color:var(--off)}
+
+/* COLONNE DROITE — formulaire */
+.contact-right-col{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:7rem 4rem 5rem 5rem;
+  position:relative;
+}
+
+.contact-form-eyebrow{
+  font-family:'Syne',sans-serif;font-size:.52rem;
+  font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:2rem;
+  display:flex;align-items:center;gap:.8rem;
+}
+.contact-form-eyebrow::before{
+  content:'';width:20px;height:1px;
+  background:var(--dim);display:block;flex-shrink:0;
+}
+
+.contact-quick-form{
+  background:rgba(15,15,15,.7) !important;
+  border:1px solid rgba(255,255,255,.09) !important;
+  border-radius:20px !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.05) inset,
+    0 24px 80px rgba(0,0,0,.5),
+    0 4px 16px rgba(0,0,0,.3) !important;
+  position:relative;overflow:hidden;
+  backdrop-filter:blur(32px) !important;
+  -webkit-backdrop-filter:blur(32px) !important;
+}
+
+/* Subtle top shine */
+.contact-quick-form::before{
+  content:'';
+  position:absolute;top:0;left:10%;right:10%;
+  height:1px;
+  background:linear-gradient(to right,transparent,rgba(255,255,255,.14),transparent);
+  pointer-events:none;z-index:1;
+}
+
+/* CTA btn */
+.cta-btn{display:inline-flex;align-items:center;gap:.7rem;font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;letter-spacing:.04em;color:var(--black);background:var(--accent);padding:.95rem 1.8rem;border-radius:var(--r);text-decoration:none;transition:transform .2s,opacity .2s,box-shadow .2s}
+.cta-btn:hover{transform:translateY(-2px);opacity:.9}
 .cta-btn svg{width:14px;height:14px;flex-shrink:0}
+
+/* Legacy — conservé pour compatibilité */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .soc-list{list-style:none;display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:2rem}
 .soc-item a{display:flex;align-items:center;justify-content:space-between;padding:1.05rem 1.35rem;background:var(--surface);text-decoration:none;transition:background .2s}
-.soc-item a:hover{background:var(--surface2);border-left:2px solid var(--accent);padding-left:calc(1.35rem - 2px)}
 .soc-left{display:flex;align-items:center;gap:.85rem}
 .soc-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.45;flex-shrink:0}
 .soc-name{font-family:'Syne',sans-serif;font-weight:600;font-size:.86rem;color:var(--light)}
 .soc-handle{font-size:.7rem;color:var(--dim);margin-top:.1rem}
 .soc-arrow{color:var(--dim);font-size:.8rem;transition:transform .2s,color .2s}
-.soc-item a:hover .soc-arrow{transform:translate(3px,-3px);color:var(--accent)}
-.info-list{display:flex;flex-direction:column;gap:.9rem}
-.info-item{display:flex;flex-direction:column;gap:.15rem}
-.info-label{font-size:.6rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--dim)}
-.info-value{font-size:.88rem;color:var(--light)}
+
 @media(max-width:900px){
-  #contact{padding:5rem 1.5rem}
-  .contact-grid{grid-template-columns:1fr;gap:3rem}
-  .contact-h2{font-size:clamp(2rem,7vw,3rem)}
+  #contact::after{display:none}
+  #contact .contact-inner{grid-template-columns:1fr;min-height:auto}
+  .contact-left-col{padding:5rem 1.5rem 3rem;border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+  .contact-right-col{padding:3rem 1.5rem 5rem}
+  .contact-side-num{display:none}
+  .contact-h2{font-size:clamp(2.4rem,7vw,3.5rem)}
+}
+@media(max-width:480px){
+  .contact-left-col{padding:4rem 1.2rem 2.5rem}
+  .contact-right-col{padding:2.5rem 1.2rem 4rem}
+  .contact-h2{font-size:clamp(2rem,8vw,2.8rem)}
 }
 
 footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
@@ -8989,12 +9199,7 @@ body,
 
     <!-- Citation forte en grand format -->
     <div class="sp-feature reveal-up rd2" style="background:#0a0a0a;border:1px solid rgba(255,195,0,0.18);">
-      <!-- Photo ISS 814 en grand fond discret -->
-      <div style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;border-radius:24px;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;right:-2%;top:-5%;height:118%;width:auto;object-fit:cover;object-position:center top;opacity:.12;filter:grayscale(25%) contrast(1.1);-webkit-mask-image:linear-gradient(to left,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 50%,transparent 78%);mask-image:linear-gradient(to left,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 50%,transparent 78%);">
-      </div>
-      <!-- Halo doré coin haut droit -->
-      <div style="position:absolute;top:-60px;right:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(255,195,0,0.13) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
+
       <!-- Contenu -->
       <div style="position:relative;z-index:1;">
         <div class="sp-quote-mark">"</div>
@@ -13109,70 +13314,58 @@ function copyWaveNumber(btn) {
 
 
 <a href="https://www.mdgcreative.studio/contact" aria-hidden="true" style="display:none"></a>
-<section id="contact">
-  <div class="sec-num reveal-fade">12</div>
-  <div class="container">
-    <div class="contact-grid">
 
-      <!-- GAUCHE : Accroche + liens directs -->
-      <div class="reveal">
-        <div class="sec-label reveal-line">Contact</div>
+<section id="contact">
+  <div class="contact-noise"></div>
+  <div class="contact-glow"></div>
+  <div class="sec-num reveal-fade">12</div>
+
+  <div class="contact-inner">
+
+    <!-- COLONNE GAUCHE : Accroche éditoriale + liens -->
+    <div class="contact-left-col reveal">
+      <span class="contact-side-num">MDG · Contact</span>
+
+      <div>
+        <div class="contact-eyebrow">Contact</div>
         <h2 class="contact-h2"><span class="text-reveal"><span class="text-reveal-inner">On crée</span></span><span class="text-reveal"><em><span class="text-reveal-inner">quelque chose ?</span></em></span></h2>
-        <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet, je reviens sous 24h avec une réponse concrète.</p>
+        <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
           <a href="mailto:mdgdesign221@gmail.com" class="contact-direct-link">
-            <div class="contact-direct-link-icon" style="background:rgba(255,255,255,0.04)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </div>
-            <div class="contact-direct-link-text">
-              <span class="contact-direct-link-name">Email</span>
-              <span class="contact-direct-link-val">mdgdesign221@gmail.com</span>
-            </div>
+            <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val">mdgdesign221@gmail.com</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
-            <div class="contact-direct-link-icon" style="background:rgba(37,211,102,.1)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            </div>
-            <div class="contact-direct-link-text">
-              <span class="contact-direct-link-name">WhatsApp</span>
-              <span class="contact-direct-link-val">+221 76 377 22 08</span>
-            </div>
+            <div class="contact-direct-link-icon" style="background:rgba(37,211,102,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">WhatsApp</span><span class="contact-direct-link-val">+221 76 377 22 08</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="contact-direct-link">
-            <div class="contact-direct-link-icon" style="background:rgba(225,48,108,.1)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#e1306c" stroke="none"/></svg>
-            </div>
-            <div class="contact-direct-link-text">
-              <span class="contact-direct-link-name">Instagram</span>
-              <span class="contact-direct-link-val">@_its.mdg</span>
-            </div>
+            <div class="contact-direct-link-icon" style="background:rgba(225,48,108,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#e1306c" stroke="none"/></svg></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Instagram</span><span class="contact-direct-link-val">@_its.mdg</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="contact-direct-link">
-            <div class="contact-direct-link-icon" style="background:rgba(18,93,245,.1)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#125df5"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.670-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9zM5.906 15.125H2.833v2.964H5.82c1.218 0 2.053-.558 2.053-1.497 0-.948-.748-1.467-1.967-1.467zM2.833 9.938v2.65H5.52c1.095 0 1.883-.465 1.883-1.332 0-.876-.73-1.318-1.822-1.318H2.833zM11.275 17.25c0-2.234-1.644-3.484-4.014-3.484H0V7.5h6.88c2.358 0 3.96 1.121 3.96 3.07 0 1.34-.679 2.21-1.713 2.644C10.475 13.618 11.275 14.668 11.275 17.25z"/></svg>
-            </div>
-            <div class="contact-direct-link-text">
-              <span class="contact-direct-link-name">Behance</span>
-              <span class="contact-direct-link-val">behance.net/itsmdg</span>
-            </div>
+            <div class="contact-direct-link-icon" style="background:rgba(18,93,245,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="#125df5"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.670-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9zM5.906 15.125H2.833v2.964H5.82c1.218 0 2.053-.558 2.053-1.497 0-.948-.748-1.467-1.967-1.467zM2.833 9.938v2.65H5.52c1.095 0 1.883-.465 1.883-1.332 0-.876-.73-1.318-1.822-1.318H2.833zM11.275 17.25c0-2.234-1.644-3.484-4.014-3.484H0V7.5h6.88c2.358 0 3.96 1.121 3.96 3.07 0 1.34-.679 2.21-1.713 2.644C10.475 13.618 11.275 14.668 11.275 17.25z"/></svg></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Behance</span><span class="contact-direct-link-val">behance.net/itsmdg</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
         </div>
-
-        <div class="info-list reveal-up rd3" style="margin-top:2rem">
-          <div class="info-item"><span class="info-label">Localisation</span><span class="info-value" style="display:flex;align-items:center;gap:.5rem">Kaolack, Sénégal<span style="color:var(--dim)">·</span><span style="display:flex;align-items:center;gap:.3rem"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite;flex-shrink:0"></span><span id="kaolackTimeContact">--:--</span></span></span></div>
-          <div class="info-item"><span class="info-label">Langues</span><span class="info-value">Français · Wolof · Anglais</span></div>
-          <div class="info-item"><span class="info-label">Réponse</span><span class="info-value">Moins de 24h</span></div>
-        </div>
       </div>
 
-      <!-- DROITE : Formulaire 2 étapes — friction réduite -->
-      <div class="reveal rd2">
-        <div class="contact-quick-form">
+      <div class="info-list reveal-up rd3">
+        <div class="info-item"><span class="info-label">Localisation</span><span class="info-value" style="display:flex;align-items:center;gap:.5rem">Kaolack, Sénégal<span style="color:var(--dim)">·</span><span style="display:flex;align-items:center;gap:.3rem"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite;flex-shrink:0"></span><span id="kaolackTimeContact">--:--</span></span></span></div>
+        <div class="info-item"><span class="info-label">Langues</span><span class="info-value">Français · Wolof · Anglais</span></div>
+        <div class="info-item"><span class="info-label">Réponse</span><span class="info-value">Moins de 24h</span></div>
+      </div>
+    </div>
+
+    <!-- COLONNE DROITE : Formulaire -->
+    <div class="contact-right-col reveal rd2">
+      <div class="contact-form-eyebrow">Formulaire</div>
+      <div class="contact-quick-form">
 
           <!-- ÉTAPE 1 : 3 champs + chips -->
           <div id="cqfStep1">
@@ -13261,12 +13454,10 @@ function copyWaveNumber(btn) {
             <p>Je te reviens sous 24h. Urgent ? WhatsApp direct.</p>
           </div>
 
-        </div>
-      </div>
+      </div><!-- /.contact-quick-form -->
+    </div><!-- /.contact-right-col -->
 
-
-    </div>
-  </div>
+  </div><!-- /.contact-inner -->
 </section>
 
 
