@@ -10100,32 +10100,29 @@ body,
     .sp-detail { flex-wrap: wrap; gap: .75rem; }
     .sp-detail-ig { width: 100%; justify-content: center; }
   }
-  /* Mobile : carousel horizontal pour les cartes artistes — max 3 visible */
+  /* Mobile : grille 2 colonnes pour les cartes artistes */
   @media(max-width: 600px) {
     .sp-stage { margin: 0 1rem; padding: 1.5rem 1rem 1.25rem; }
     .sp-cards-row {
-      flex-wrap: nowrap !important;
-      justify-content: flex-start !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      scroll-snap-type: x mandatory !important;
-      -webkit-overflow-scrolling: touch !important;
-      scrollbar-width: none !important;
-      gap: .6rem !important;
-      padding-bottom: .5rem !important;
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      justify-content: center !important;
+      overflow-x: unset !important;
+      flex-wrap: unset !important;
+      gap: .5rem !important;
+      padding-bottom: 0 !important;
     }
-    .sp-cards-row::-webkit-scrollbar { display: none; }
     .sp-card {
-      width: 115px !important;
-      height: 165px !important;
-      flex-shrink: 0 !important;
-      scroll-snap-align: start !important;
+      width: 100% !important;
+      height: 155px !important;
+      flex-shrink: unset !important;
+      scroll-snap-align: unset !important;
     }
-    .sp-card-photo { height: 108px !important; }
-    .sp-card-fade { top: 72px !important; }
-    .sp-card-info { height: 57px !important; padding: .45rem .7rem .4rem !important; }
-    .sp-card-name { font-size: .68rem !important; }
-    .sp-card-genre { font-size: .46rem !important; }
+    .sp-card-photo { height: 102px !important; }
+    .sp-card-fade { top: 70px !important; }
+    .sp-card-info { height: 53px !important; padding: .4rem .65rem .35rem !important; }
+    .sp-card-name { font-size: .65rem !important; }
+    .sp-card-genre { font-size: .44rem !important; }
     .sp-detail {
       padding: 1rem 1.1rem !important;
       gap: .65rem !important;
@@ -14029,27 +14026,38 @@ if(window.matchMedia('(hover:hover)').matches){
 //           Éléments liés → même timeline, trigger sur le parent
 gsap.registerPlugin(ScrollTrigger);
 
-/* ── MOBILE PERF : animations plus rapides et légères ── */
-const _isMobile = window.innerWidth <= 768;
+/* ── MOBILE PERF : sur mobile, on saute les animations GSAP complètement ── */
+const _isMobile = window.innerWidth <= 900;
 if (_isMobile) {
-  gsap.globalTimeline.timeScale(1.8); // plus rapide globalement
-  // Pré-initialise tous les reveal à opacity 0.3 pour éviter le flash noir
-  // GSAP va ensuite animer vers 1 — la transition est imperceptible mais plus propre
+  // Sur mobile : tout est visible immédiatement, pas d'animations de reveal
+  // Les animations GSAP causent des éléments bloqués à opacity:0 sur iOS/Android
   gsap.set('.reveal-up,.reveal-fade,.reveal-line,.reveal-scale,.reveal,.reveal-left,.reveal-right,.reveal-cinema', {
-    opacity: 0,
-    immediateRender: true
+    opacity: 1,
+    y: 0,
+    x: 0,
+    scale: 1,
+    clipPath: 'none',
+    immediateRender: true,
+    clearProps: 'all'
+  });
+  // Forcer visibilité immédiate de tous les éléments critiques
+  document.querySelectorAll('.work-card,.cov-card,.pack-card,.adv-card,.rollout-card,.sp-vcard,.sp-vcard-thumb,.sp-vcard-footer,.port-new-top,.pricing-header,.pack-price-display,.ppd-amount,.contact-h2,.contact-sub,.contact-direct-link,.pieter-step,.collabs-hdr,.collabs-main-title,.sp-quote-author,.pcond-wrap').forEach(function(el){
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+    el.style.clipPath = 'none';
   });
 }
 
 const _E  = 'power3.out';
 const _Eb = 'back.out(1.5)';
 
-// Helper : ScrollTrigger — sur mobile start à 100% (déclenche dès que l'élément entre dans le viewport)
+// Helper : ScrollTrigger — sur mobile skip tout
 function _st(trigger, extra) {
+  if (_isMobile) return {}; // no-op on mobile
   return {
     scrollTrigger: {
       trigger,
-      start: _isMobile ? 'top 100%' : 'top 85%',
+      start: 'top 85%',
       end:   'bottom -10%',
       toggleActions: 'play none none none',
       ...(extra || {})
@@ -14057,21 +14065,30 @@ function _st(trigger, extra) {
   };
 }
 
+// Wrapper pour les fromTo mobile-safe
+function _fromTo(el, from, to) {
+  if (_isMobile || !el) return;
+  gsap.fromTo(el, from, to);
+}
+function _tl(trigger, fn) {
+  if (_isMobile) return;
+  fn(gsap.timeline({ scrollTrigger: { trigger, start: 'top 85%', end: 'bottom -10%', toggleActions: 'play none none none' } }));
+}
+
 // Helper batch : même logique start/end pour les grilles
 function _batch(sel, fromVars, toVars, staggerIn) {
+  if (_isMobile) return; // sur mobile, tout est déjà visible — pas d'animation
   ScrollTrigger.batch(sel, {
-    start: _isMobile ? 'top 100%' : 'top 85%',
+    start: 'top 85%',
     once: true, // joue une seule fois — pas de reverse au scroll back
-    onEnter: els => gsap.fromTo(els,
-      _isMobile ? { opacity: 0 } : fromVars,
-      _isMobile ? { opacity: 1, duration: 0.35, ease: 'power2.out', stagger: staggerIn * 0.5 } : { ...toVars, stagger: staggerIn }
-    ),
+    onEnter: els => gsap.fromTo(els, fromVars, { ...toVars, stagger: staggerIn }),
   });
 }
 
 // Helper stagger groupé : UN trigger sur le parent, les enfants s'animent en cascade
 // → synchronisation garantie, pas de désynchronisation au scroll rapide
 function _staggerTl(parentSel, childSel, fromVars, toVars, staggerVal) {
+  if (_isMobile) return; // sur mobile, tout est déjà visible — pas d'animation
   const parent = document.querySelector(parentSel);
   if (!parent) return;
   const els = parent.querySelectorAll(childSel);
@@ -14086,6 +14103,9 @@ function _staggerTl(parentSel, childSel, fromVars, toVars, staggerVal) {
   });
   tl.fromTo(els, fromVars, { ...toVars, stagger: staggerVal ?? 0.08 });
 }
+
+// ── ANIMATIONS DESKTOP UNIQUEMENT — sur mobile tout est déjà visible ──
+if (!_isMobile) {
 
 // ── PORTFOLIO ──
 // Header groupé en timeline : label → h2 → count → tabs, trigger sur la section
@@ -14473,33 +14493,15 @@ setTimeout(() => {
 // car les éléments sont dans des panels cachés ou hors viewport calculé.
 setTimeout(() => {
   if (window.innerWidth > 900) return; // desktop OK
-  // Portfolio cards
-  document.querySelectorAll('.work-card, .cov-card').forEach(el => {
-    const st = window.getComputedStyle(el);
-    if (parseFloat(st.opacity) < 0.1) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    }
+  // Tout forcer visible sur mobile
+  document.querySelectorAll('.work-card,.cov-card,.pack-card,.adv-card,.rollout-card,.sp-vcard,.sp-vcard-thumb,.sp-vcard-footer,.u-hero-copy,.u-box-visual,.u-order-card,.u-assets-grid,.u-asset-chip,.u-why-item,.u-why-num,.u-why-txt,.u-section-label,.contact-h2,.contact-sub,.contact-direct-link,.pieter-step,.collabs-hdr,.collabs-main-title,.sp-quote-author,.pcond-wrap,.pcond-row,.pricing-header,.pricing-tabs,.packs-grid,.port-new-top').forEach(el => {
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+    el.style.clipPath = 'none';
   });
-  // Pack cards
-  document.querySelectorAll('.pack-card, .adv-card').forEach(el => {
-    const st = window.getComputedStyle(el);
-    if (parseFloat(st.opacity) < 0.1) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    }
-  });
-  // Uranus
-  document.querySelectorAll('.u-hero-copy, .u-box-visual, .u-order-card, .u-assets-grid, .u-asset-chip, .u-why-item').forEach(el => {
-    const st = window.getComputedStyle(el);
-    if (parseFloat(st.opacity) < 0.1) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    }
-  });
-}, 1000);
+}, 300);
 
-
+} // end if (!_isMobile) — animations desktop uniquement
 
 function animateCounter(el) {
   const target = parseInt(el.dataset.target);
@@ -17873,7 +17875,21 @@ function pnlSwitch(panel, btn) {
   document.querySelectorAll('.pnl-acc').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   var el = document.getElementById('pnl-' + panel);
-  if (el) el.classList.add('active');
+  if (el) {
+    el.classList.add('active');
+    // Force visibility sur toutes les cartes du panel — GSAP les a peut-être laissées à opacity:0
+    requestAnimationFrame(function() {
+      el.querySelectorAll('.work-card, .cov-card').forEach(function(card) {
+        card.style.opacity = '1';
+        card.style.transform = 'none';
+        card.style.clipPath = 'none';
+      });
+      // Refresh ScrollTrigger si dispo
+      if (typeof ScrollTrigger !== 'undefined') {
+        setTimeout(function() { ScrollTrigger.refresh(); }, 60);
+      }
+    });
+  }
   var n = document.getElementById('portCountNum');
   var l = document.getElementById('portCountLabel');
   if (n && btn.dataset.count) n.textContent = btn.dataset.count;
