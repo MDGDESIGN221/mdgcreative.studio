@@ -5,8 +5,6 @@
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776666026/NEW_LOGO_w_rxvoil.png" fetchpriority="high">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835363/about_5_jdxu46.jpg" fetchpriority="high" media="(min-width: 768px)">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835079/hero_mobile_vouizb.jpg" fetchpriority="high" media="(max-width: 767px)">
-  <!-- Préchargement face boîte URANUS GFX — évite la boîte transparente -->
-  <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>if(history.scrollRestoration)history.scrollRestoration='manual';window.scrollTo(0,0);</script>
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
@@ -6230,8 +6228,9 @@ nav::before { display:none; }
     gap: 0 !important;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
+    /* PAS de scroll-behavior:smooth ici — il combat le snap natif et provoque le rebond */
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
     /* padding-right large = peek visible de la card suivante */
     padding: .5rem 0 1rem 1.25rem;
@@ -6249,6 +6248,7 @@ nav::before { display:none; }
     flex: 0 0 78vw !important;
     max-width: 320px !important;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     margin: 0 .75rem 0 0 !important;
     padding: 1.75rem 1.5rem !important;
     border-radius: 20px !important;
@@ -9192,21 +9192,27 @@ body,
     </div>
 
     <!-- Citation forte en grand format -->
-    <div class="sp-feature reveal-up rd2" style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);">
+    <div class="sp-feature reveal-up rd2" style="background:#0a0a0a;border:1px solid rgba(255,195,0,0.18);">
+      <!-- Photo ISS 814 en grand fond discret -->
+      <div style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;border-radius:24px;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;right:-2%;top:-5%;height:118%;width:auto;object-fit:cover;object-position:center top;opacity:.12;filter:grayscale(25%) contrast(1.1);-webkit-mask-image:linear-gradient(to left,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 50%,transparent 78%);mask-image:linear-gradient(to left,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 50%,transparent 78%);">
+      </div>
+      <!-- Halo doré coin haut droit -->
+      <div style="position:absolute;top:-60px;right:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(255,195,0,0.13) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
       <!-- Contenu -->
       <div style="position:relative;z-index:1;">
         <div class="sp-quote-mark">"</div>
         <blockquote class="sp-quote-text">C'est quelqu'un avec qui je bosse beaucoup. Il est <strong>hyper correct</strong>, <strong>hyper travailleur</strong> et <strong>trop fort.</strong></blockquote>
-        <div class="sp-quote-author" style="border-top:1px solid rgba(255,255,255,0.08);">
-          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814" class="sp-quote-avatar" style="width:60px;height:60px;border:2px solid rgba(255,255,255,0.18);object-position:center top;">
+        <div class="sp-quote-author" style="border-top:1px solid rgba(255,195,0,0.18);">
+          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814" class="sp-quote-avatar" style="width:60px;height:60px;border:2px solid rgba(255,195,0,0.55);box-shadow:0 0 0 4px rgba(255,195,0,0.10);object-position:center top;">
           <div style="flex:1;">
             <div style="display:flex;align-items:center;gap:.4rem;">
               <div class="sp-quote-name">ISS 814</div>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Vérifié"><path d="M12 2l2.4 4.8 5.3.8-3.8 3.7.9 5.2L12 14l-4.8 2.5.9-5.2L4.3 7.6l5.3-.8z" fill="rgba(255,195,0,0.9)" stroke="rgba(230,168,0,0.6)" stroke-width="0.5"/><path d="M9.5 12l1.8 1.8 3.2-3.6" stroke="#7a4d00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Vérifié"><path d="M12 2l2.4 4.8 5.3.8-3.8 3.7.9 5.2L12 14l-4.8 2.5.9-5.2L4.3 7.6l5.3-.8z" fill="#FFD700" stroke="#E6A800" stroke-width="0.5"/><path d="M9.5 12l1.8 1.8 3.2-3.6" stroke="#7a4d00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div class="sp-quote-role">Producteur / Artiste · Sénégal · 6 ans de collaboration</div>
           </div>
-          <div style="background:rgba(255,195,0,0.08);border:1px solid rgba(255,195,0,0.28);border-radius:100px;padding:.35rem 1rem;font-family:'Syne',sans-serif;font-size:.58rem;font-weight:700;color:#fff;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;">Verified collab</div>
+          <div style="background:rgba(255,195,0,0.08);border:1px solid rgba(255,195,0,0.28);border-radius:100px;padding:.35rem 1rem;font-family:'Syne',sans-serif;font-size:.58rem;font-weight:700;color:rgba(255,195,0,0.8);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;">Verified collab</div>
         </div>
       </div>
     </div>
@@ -11896,8 +11902,6 @@ body,
   border:1.5px solid rgba(180,150,255,.75);
   box-shadow:0 20px 60px rgba(0,0,0,.9),0 0 0 1px rgba(220,200,255,.18) inset, 0 0 80px rgba(139,92,246,.25);
   border-radius:4px;
-  /* Fallback couleur — visible avant que JS positionne la face */
-  background: #0d0620;
 }
 /* BACK : charnière sur le bord gauche du front, pivote 180° vers l'arrière */
 #ub-back{
@@ -12004,15 +12008,15 @@ body,
   <div id="uranus-box-wrap">
     <div id="uranus-box-inner">
       <div class="ub-face" id="ub-front">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" decoding="async" alt="URANUS GFX PACK" onload="if(window._ubRebuild)window._ubRebuild()">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt="URANUS GFX PACK">
         <div id="ub-ov"></div>
         <div id="ub-lbl"><div class="ubn">URANUS<br>GFX PACK</div><div class="ubs">by MDG Creative Studio</div></div>
       </div>
-      <div class="ub-face" id="ub-back"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" decoding="async" alt=""></div>
-      <div class="ub-face" id="ub-right"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" decoding="async" alt=""></div>
-      <div class="ub-face" id="ub-left"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" decoding="async" alt=""></div>
-      <div class="ub-face" id="ub-top"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" decoding="async" alt=""></div>
-      <div class="ub-face" id="ub-bot"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" decoding="async" alt=""></div>
+      <div class="ub-face" id="ub-back"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
+      <div class="ub-face" id="ub-right"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
+      <div class="ub-face" id="ub-left"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
+      <div class="ub-face" id="ub-top"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
+      <div class="ub-face" id="ub-bot"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
     </div>
     <div id="ub-hint">drag</div>
   </div>
@@ -12052,20 +12056,10 @@ body,
 
   var D = 40; /* profondeur de la boîte en px */
 
-  var FACE_IMG = 'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg';
-  var _builtW = 0;
-
   function buildFaces(){
     var W = wrap.offsetWidth;
     var H = Math.round(W * 4 / 3);
-    /* Si pas de dimensions réelles, réessayer */
-    if(!W || W < 10 || !H) {
-      setTimeout(buildFaces, 80);
-      return;
-    }
-    /* Éviter un rebuild inutile si dimensions identiques */
-    if(W === _builtW) return;
-    _builtW = W;
+    if(!W || !H) return;
 
     inner.style.width  = W + 'px';
     inner.style.height = H + 'px';
@@ -12075,54 +12069,31 @@ body,
     f.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(0deg) translateZ('+(D/2)+'px);';
 
     var b = document.getElementById('ub-back');
-    b.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(180deg) translateZ('+(D/2)+'px);background:#08041a;border:1px solid rgba(139,92,246,.2);';
+    b.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(180deg) translateZ('+(D/2)+'px);';
 
     /* Right et Left : D x H, centrés sur W/2, translateZ = W/2 */
     var r = document.getElementById('ub-right');
-    r.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(90deg) translateZ('+(W/2)+'px);background:#120826;border:1px solid rgba(139,92,246,.25);';
+    r.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(90deg) translateZ('+(W/2)+'px);';
 
     var l = document.getElementById('ub-left');
-    l.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(-90deg) translateZ('+(W/2)+'px);background:#120826;border:1px solid rgba(139,92,246,.25);';
+    l.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(-90deg) translateZ('+(W/2)+'px);';
 
     /* Top et Bottom : W x D, centrés sur H/2, translateZ = H/2 */
     var t = document.getElementById('ub-top');
-    t.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(90deg) translateZ('+(H/2)+'px);background:linear-gradient(180deg,rgba(180,140,255,.3) 0%,rgba(40,12,100,.8) 100%);border:1px solid rgba(196,181,253,.35);';
+    t.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(90deg) translateZ('+(H/2)+'px);';
 
     var bt = document.getElementById('ub-bot');
-    bt.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(-90deg) translateZ('+(H/2)+'px);background:#06030e;border:1px solid rgba(139,92,246,.1);';
+    bt.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(-90deg) translateZ('+(H/2)+'px);';
   }
 
-  /* Exposer pour le callback onload des images */
-  window._ubRebuild = buildFaces;
-
-  /* ── Initialisation robuste des faces ──
-     buildFaces() a besoin de wrap.offsetWidth > 0.
-     Si la section #uranus est hors-viewport ou display:none au chargement,
-     offsetWidth = 0 → les faces restent à 0×0 (boîte transparente).
-     Solution : IntersectionObserver + retries échelonnés + window.load. */
-  if ('IntersectionObserver' in window) {
-    var _ubObs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) {
-          requestAnimationFrame(function(){ requestAnimationFrame(buildFaces); });
-          _ubObs.unobserve(e.target);
-        }
-      });
-    }, { rootMargin: '300px' });
-    _ubObs.observe(wrap);
-  }
-  /* Double RAF immédiat (si déjà visible au chargement) */
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){ buildFaces(); }); });
-  /* Retries échelonnés — couvre les cas de rendu tardif */
-  setTimeout(buildFaces, 250);
-  setTimeout(buildFaces, 700);
-  setTimeout(buildFaces, 1600);
-  /* Après load complet (fonts + images stables → dimensions définitives) */
-  window.addEventListener('load', function() {
-    requestAnimationFrame(function(){ buildFaces(); });
-    setTimeout(buildFaces, 400);
+  /* Wait for layout — double RAF + timeout pour garantir les dimensions */
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      buildFaces();
+      setTimeout(buildFaces, 300);
+    });
   });
-  window.addEventListener('resize', function() { _builtW = 0; buildFaces(); });
+  window.addEventListener('resize', buildFaces);
 
   /* Rotation */
   var rotX=-12, rotY=28, velX=0, velY=.18, dragging=false, lx=0, ly=0;
@@ -15015,10 +14986,14 @@ enableDragScroll(document.querySelector('.trust-strip-inner'));
   if (trustStrip) attachDirectionAwareTouch(trustStrip);
 
   // ── Carrousels pricing (packs-grid, advanced-grid) — actifs sur mobile ──
-  // Ces grids deviennent des carousels via CSS sur mobile, il faut le même handler.
+  // Ces grids utilisent le scroll natif du browser (scroll-snap CSS).
+  // PAS de handler JS — il interfère avec le snap et provoque le rebond.
+  // On ajoute seulement overscroll-behavior via JS si pas déjà présent.
   function initPricingCarousels() {
     document.querySelectorAll('.packs-grid, .advanced-grid, .rollout-cards').forEach(function(el) {
-      attachDirectionAwareTouch(el);
+      // S'assurer que le scroll-snap est actif et que le handler JS n'est PAS attaché
+      el.style.overscrollBehaviorX = 'contain';
+      // Ne PAS appeler attachDirectionAwareTouch ici — le scroll natif gère tout
     });
   }
   // Init immédiat + après changement de tab pricing
@@ -19551,6 +19526,13 @@ footer {
 .trust-strip-inner,
 .port-tabs {
   touch-action: auto !important;
+}
+
+/* ── Grids pricing en mode carousel (mobile) : pan-x pour scroll horizontal natif ── */
+/* On NE met PAS touch-action:auto ici car on veut le scroll natif pur sans handler JS */
+.packs-grid,
+.advanced-grid {
+  touch-action: pan-x !important;
 }
 
 /* ── Sections hero + photo-wrap : ne PAS bloquer le scroll ── */
