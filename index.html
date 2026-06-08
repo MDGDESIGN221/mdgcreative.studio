@@ -1103,7 +1103,7 @@ section+section::before,
 
 /* ── COLLABS PREMIUM ── */
 #collabs{padding:6rem 3rem;border-bottom:1px solid var(--border);background:var(--dark);position:relative;overflow:hidden}
-#collabs::before{content:'';position:absolute;inset:-8%;background-image:url('https://res.cloudinary.com/djdkpihuz/image/upload/v1776805814/Portrait_16_9_v2_xgfh5l.png');background-size:cover;background-position:center 20%;opacity:.13;pointer-events:none;z-index:0;filter:grayscale(40%) contrast(1.1);animation:collab-drift 18s ease-in-out infinite alternate;transform-origin:center}
+#collabs::before{content:'';position:absolute;inset:-8%;background-image:url('https://res.cloudinary.com/djdkpihuz/image/upload/v1780836229/cette_image_en_16_9_sans_202606071242_ylerhm.jpg');background-size:cover;background-position:center 20%;opacity:.18;pointer-events:none;z-index:0;filter:grayscale(30%) contrast(1.1);animation:collab-drift 18s ease-in-out infinite alternate;transform-origin:center}
 @keyframes collab-drift{0%{transform:scale(1.0) translateY(0)}100%{transform:scale(1.06) translateY(-1%)}}
 #collabs::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,0.02) 0%,transparent 60%),linear-gradient(to bottom,rgba(14,14,14,.88) 0%,rgba(14,14,14,.6) 40%,rgba(14,14,14,.88) 100%);pointer-events:none;z-index:0}
 .collabs-premium{text-align:center}
@@ -1469,7 +1469,7 @@ section+section::before,
 
 /* ── CONTACT (black) ── */
 #contact{padding:7rem 3rem;position:relative;overflow:hidden}
-#contact::before{content:'';position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1400&q=80');background-size:cover;background-position:center;opacity:.05;pointer-events:none;z-index:0}
+#contact::before{content:'';position:absolute;inset:0;background-image:url('https://res.cloudinary.com/djdkpihuz/image/upload/v1780836229/cette_image_en_16_9_sans_202606071242_ylerhm.jpg');background-size:cover;background-position:center;opacity:.08;pointer-events:none;z-index:0}
 .contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:6rem;align-items:start}
 .contact-h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.4rem,4.8vw,4.6rem);line-height:.95;letter-spacing:-0.03em;margin-bottom:1.5rem}
 .contact-h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--accent);display:block;font-size:clamp(1.8rem,3.8vw,3.6rem);letter-spacing:-.01em}
@@ -9646,138 +9646,540 @@ body,
 <section id="collabs">
 
   <!-- HEADER -->
+  <style>
+  .collabs-hero {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    align-items: center;
+    gap: 4rem;
+    padding: 5rem 3rem 4rem;
+    position: relative;
+    z-index: 2;
+  }
+  .collabs-hero-left { display: flex; flex-direction: column; justify-content: center; }
+  .collabs-hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    letter-spacing: -.04em;
+    line-height: .92;
+    color: var(--light);
+    margin: 1.2rem 0 1.8rem;
+  }
+  .collabs-hero-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--off);
+    display: block;
+    font-size: .72em;
+    margin-top: .2em;
+    letter-spacing: -.01em;
+  }
+  .collabs-hero-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(.85rem, 1.2vw, .95rem);
+    color: var(--dim);
+    font-weight: 300;
+    line-height: 1.7;
+    border-left: 2px solid rgba(255,255,255,.1);
+    padding-left: 1.25rem;
+    max-width: 480px;
+  }
+  /* ── Objet 3D CSS ── */
+  .collabs-gem-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 360px;
+  }
+  .collabs-gem-scene {
+    width: 220px; height: 220px;
+    position: relative;
+    animation: gem-float 6s ease-in-out infinite;
+  }
+  @keyframes gem-float {
+    0%, 100% { transform: translateY(0px) rotateY(0deg); }
+    50%       { transform: translateY(-18px) rotateY(180deg); }
+  }
+  .collabs-gem-scene svg {
+    width: 100%; height: 100%;
+    filter: drop-shadow(0 0 40px rgba(167,139,250,.35)) drop-shadow(0 0 80px rgba(167,139,250,.15));
+    animation: gem-rotate 12s linear infinite;
+  }
+  @keyframes gem-rotate {
+    from { filter: drop-shadow(0 0 40px rgba(167,139,250,.35)) drop-shadow(0 0 80px rgba(167,139,250,.15)) hue-rotate(0deg); }
+    to   { filter: drop-shadow(0 0 40px rgba(167,139,250,.35)) drop-shadow(0 0 80px rgba(167,139,250,.15)) hue-rotate(30deg); }
+  }
+  /* Orbes ambiantes */
+  .gem-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: orb-pulse 4s ease-in-out infinite;
+  }
+  .gem-orb-1 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(167,139,250,.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 0s;
+  }
+  .gem-orb-2 {
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(192,132,252,.18) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: -2s;
+  }
+  @keyframes orb-pulse {
+    0%, 100% { opacity: .6; transform: translate(-50%,-50%) scale(1); }
+    50%       { opacity: 1;  transform: translate(-50%,-50%) scale(1.15); }
+  }
+  /* Counter flottant */
+  .gem-counter {
+    position: absolute;
+    bottom: 24px; right: 24px;
+    display: flex; flex-direction: column;
+    align-items: flex-end;
+  }
+  .gem-counter-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 3.2rem;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -.06em;
+  }
+  .gem-counter-txt {
+    font-size: .52rem;
+    color: var(--dim);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: .2rem;
+  }
+
+  @media(max-width: 900px) {
+    .collabs-hero {
+      grid-template-columns: 1fr;
+      padding: 3.5rem 1.5rem 2rem;
+      gap: 0;
+    }
+    .collabs-gem-wrap { height: 260px; order: -1; }
+    .collabs-gem-scene { width: 160px; height: 160px; }
+    .gem-counter { bottom: 12px; right: 12px; }
+    .gem-counter-num { font-size: 2.2rem; }
+  }
+  </style>
+
   <div class="container">
-    <div class="collabs-hdr reveal-up">
-      <div class="sec-label collabs-section-label">Collaborations d'exception</div>
-      <div class="collabs-hdr-right">
-        <span class="collabs-counter-badge">
-          <span class="collabs-counter-num">50+</span>
-          <span class="collabs-counter-txt">artistes</span>
-        </span>
+    <div class="collabs-hero reveal-up">
+      <!-- Texte gauche -->
+      <div class="collabs-hero-left">
+        <div class="sec-label collabs-section-label">Collaborations d'exception</div>
+        <h2 class="collabs-hero-title">
+          Aux côtés de<br>
+          <em>ceux qui font la scène</em>
+        </h2>
+        <p class="collabs-hero-sub">
+          ISS 814. Omzo Beatz. Dopeboy DMG. One Lyrical. VJ. La liste s'allonge.
+        </p>
+      </div>
+
+      <!-- Objet 3D droit -->
+      <div class="collabs-gem-wrap">
+        <div class="gem-orb gem-orb-1"></div>
+        <div class="gem-orb gem-orb-2"></div>
+        <div class="collabs-gem-scene">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#f5f0ff" stop-opacity=".95"/>
+                <stop offset="100%" stop-color="#c084fc" stop-opacity=".7"/>
+              </linearGradient>
+              <linearGradient id="gMid" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#a78bfa" stop-opacity=".8"/>
+                <stop offset="100%" stop-color="#7c3aed" stop-opacity=".9"/>
+              </linearGradient>
+              <linearGradient id="gBot" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#6d28d9" stop-opacity=".9"/>
+                <stop offset="100%" stop-color="#2e1065" stop-opacity=".95"/>
+              </linearGradient>
+              <linearGradient id="gLeft" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%"   stop-color="#ddd6fe" stop-opacity=".6"/>
+                <stop offset="100%" stop-color="#7c3aed" stop-opacity=".8"/>
+              </linearGradient>
+              <linearGradient id="gRight" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#ede9fe" stop-opacity=".5"/>
+                <stop offset="100%" stop-color="#4c1d95" stop-opacity=".9"/>
+              </linearGradient>
+              <filter id="gem-glow">
+                <feGaussianBlur stdDeviation="2" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
+            </defs>
+            <!-- Gem octahedron-style faces -->
+            <!-- Top crown -->
+            <polygon points="100,18 140,72 100,62"  fill="url(#gTop)"  opacity=".95"/>
+            <polygon points="100,18 60,72  100,62"  fill="url(#gTop)"  opacity=".8"/>
+            <polygon points="100,18 140,72 160,55"  fill="url(#gLeft)" opacity=".7"/>
+            <polygon points="100,18 60,72  42,55"   fill="url(#gRight)" opacity=".6"/>
+            <!-- Mid belt -->
+            <polygon points="60,72  100,62 100,138 42,110"  fill="url(#gLeft)"  opacity=".85"/>
+            <polygon points="140,72 100,62 100,138 158,110" fill="url(#gRight)" opacity=".75"/>
+            <polygon points="100,62 140,72 158,110 100,138" fill="url(#gMid)"   opacity=".9"/>
+            <polygon points="100,62 60,72  42,110  100,138" fill="url(#gMid)"   opacity=".8"/>
+            <!-- Bottom -->
+            <polygon points="100,182 42,110 100,138"  fill="url(#gBot)" opacity=".95"/>
+            <polygon points="100,182 158,110 100,138" fill="url(#gBot)" opacity=".85"/>
+            <!-- Edge highlights -->
+            <line x1="100" y1="18"  x2="140" y2="72"  stroke="rgba(255,255,255,.4)" stroke-width=".8"/>
+            <line x1="100" y1="18"  x2="60"  y2="72"  stroke="rgba(255,255,255,.3)" stroke-width=".8"/>
+            <line x1="100" y1="18"  x2="160" y2="55"  stroke="rgba(255,255,255,.2)" stroke-width=".5"/>
+            <line x1="100" y1="18"  x2="42"  y2="55"  stroke="rgba(255,255,255,.2)" stroke-width=".5"/>
+            <line x1="60"  y1="72"  x2="140" y2="72"  stroke="rgba(255,255,255,.35)" stroke-width=".8"/>
+            <line x1="42"  y1="110" x2="158" y2="110" stroke="rgba(255,255,255,.2)" stroke-width=".5"/>
+            <line x1="100" y1="138" x2="42"  y2="110" stroke="rgba(255,255,255,.25)" stroke-width=".6"/>
+            <line x1="100" y1="138" x2="158" y2="110" stroke="rgba(255,255,255,.25)" stroke-width=".6"/>
+            <line x1="100" y1="182" x2="42"  y2="110" stroke="rgba(255,255,255,.15)" stroke-width=".5"/>
+            <line x1="100" y1="182" x2="158" y2="110" stroke="rgba(255,255,255,.15)" stroke-width=".5"/>
+            <!-- Inner reflection -->
+            <polygon points="100,40 128,72 100,65 72,72" fill="rgba(255,255,255,.18)"/>
+          </svg>
+        </div>
+        <div class="gem-counter">
+          <span class="gem-counter-num">50+</span>
+          <span class="gem-counter-txt">artistes</span>
+        </div>
       </div>
     </div>
-    <h2 class="collabs-main-title reveal-up rd2">
-      Aux côtés de<br><em>ceux qui font la scène</em>
-    </h2>
-    <p class="collabs-main-sub reveal-up rd3">
-      De Kaolack à Dakar, la scène sénégalaise et africaine concentrée en une seule vision.
-    </p>
   </div>
 
-  <!-- GRILLE ARTISTES -->
-  <div class="artists-grid-wrap">
-    <div class="artists-grid">
+  <!-- SPOTLIGHT ARTISTES -->
+  <style>
+  .sp-stage {
+    margin: 0 3rem;
+    padding: 2.5rem 2rem 2rem;
+    background: #060606;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.07);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    overflow: hidden;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .sp-wm {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(7rem, 18vw, 16rem);
+    letter-spacing: -.04em;
+    white-space: nowrap;
+    color: #fff;
+    opacity: .055;
+    filter: blur(10px);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    line-height: 1;
+  }
+  .sp-eyebrow,
+  .sp-cards-row,
+  .sp-detail { position: relative; z-index: 1; }
+  }
+  .sp-eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: .52rem;
+    font-weight: 700;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.25);
+    align-self: flex-start;
+  }
+  .sp-cards-row {
+    display: flex;
+    gap: .75rem;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .sp-card {
+    position: relative;
+    width: 175px;
+    height: 230px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s cubic-bezier(.16,1,.3,1);
+    flex-shrink: 0;
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,.08);
+    overflow: hidden;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .sp-card:hover {
+    transform: translateY(-8px) !important;
+    border-color: rgba(255,255,255,.18);
+    box-shadow: 0 20px 50px rgba(0,0,0,.5);
+  }
+  .sp-card.sp-active {
+    transform: translateY(-12px) !important;
+    border-color: rgba(255,255,255,.22);
+    box-shadow: 0 24px 60px rgba(0,0,0,.6);
+  }
+  .sp-card-photo {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    height: 158px;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%) contrast(1.05);
+    transition: filter .4s;
+  }
+  .sp-card.sp-active .sp-card-photo,
+  .sp-card:hover .sp-card-photo {
+    filter: grayscale(0%) contrast(1.02);
+  }
+  .sp-card-fade {
+    position: absolute;
+    top: 110px; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, #1a1a1a);
+    z-index: 1;
+  }
+  .sp-card-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 76px;
+    background: #1a1a1a;
+    padding: .65rem .85rem .6rem;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .sp-card-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: .78rem;
+    color: #f0ede8;
+    letter-spacing: -.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sp-card-genre {
+    font-size: .52rem;
+    font-weight: 400;
+    color: rgba(255,255,255,.3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sp-card-bar {
+    display: flex;
+    gap: 1.5px;
+    align-items: flex-end;
+    margin-top: 5px;
+  }
+  .sp-card-bar span {
+    display: block;
+    width: 1.5px;
+    background: rgba(255,255,255,.12);
+    border-radius: 1px;
+  }
+  .sp-detail {
+    width: 100%;
+    max-width: 560px;
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .sp-detail-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,.1);
+    transition: filter .4s;
+  }
+  .sp-detail-text { flex: 1; min-width: 0; }
+  .sp-detail-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #f0ede8;
+    letter-spacing: -.03em;
+    margin-bottom: 3px;
+  }
+  .sp-detail-role {
+    font-size: .62rem;
+    color: rgba(255,255,255,.35);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .sp-detail-ig {
+    display: flex; align-items: center; gap: .4rem;
+    font-size: .58rem; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: .45rem .9rem;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 100px;
+    color: rgba(255,255,255,.6);
+    text-decoration: none;
+    background: transparent;
+    flex-shrink: 0;
+    transition: background .2s, border-color .2s;
+  }
+  .sp-detail-ig:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); }
+  .sp-detail-ig svg { width: 11px; height: 11px; }
 
-      <a class="ag-item" href="https://www.instagram.com/iss814beats/" target="_blank" rel="noopener">
-        <div class="ag-photo">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1777184982/iss_814_v22_dtnhal.jpg" alt="ISS 814">
-        </div>
-        <span class="ag-name-static">ISS 814</span>
-        <div class="ag-overlay">
-          <div class="ag-info">
-            <span class="ag-name">ISS 814</span>
-            <span class="ag-genre">Rapper · Beatmaker · Producer</span><span style="font-size:.6rem;color:rgba(255,255,255,0.39);margin-top:.3rem;display:block;letter-spacing:.05em">+318K followers Instagram</span>
-          </div>
-          <span class="ag-ig">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </span>
-        </div>
-        <div class="ag-bottom-bar"></div>
+  @media(max-width: 900px) {
+    .sp-stage { margin: 0 1.5rem; padding: 2rem 1.25rem 1.5rem; }
+    .sp-card { width: 140px; height: 200px; }
+    .sp-card-photo { height: 130px; }
+    .sp-card-fade { top: 85px; }
+    .sp-detail { flex-wrap: wrap; gap: .75rem; }
+    .sp-detail-ig { width: 100%; justify-content: center; }
+  }
+  </style>
+
+  <div class="sp-stage">
+    <div class="sp-wm" aria-hidden="true">COLLABORATIONS</div>
+    <div class="sp-cards-row" id="spCardsRow"></div>
+    <div class="sp-detail" id="spDetail">
+      <img class="sp-detail-avatar" id="spDetailAvatar" src="" alt="">
+      <div class="sp-detail-text">
+        <div class="sp-detail-name" id="spDetailName"></div>
+        <div class="sp-detail-role" id="spDetailRole"></div>
+      </div>
+      <a class="sp-detail-ig" id="spDetailIg" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        Instagram
       </a>
-
-      <a class="ag-item" href="https://www.instagram.com/onelyrical.sn/" target="_blank" rel="noopener">
-        <div class="ag-photo">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical">
-        </div>
-        <span class="ag-name-static">One Lyrical</span>
-        <div class="ag-overlay">
-          <div class="ag-info">
-            <span class="ag-name">One Lyrical</span>
-            <span class="ag-genre">Artiste Rappeur</span><span style="font-size:.6rem;color:rgba(255,255,255,0.39);margin-top:.3rem;display:block;letter-spacing:.05em">848K followers Instagram</span>
-          </div>
-          <span class="ag-ig">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </span>
-        </div>
-        <div class="ag-bottom-bar"></div>
-      </a>
-
-      <a class="ag-item" href="https://www.instagram.com/omzobeatz/" target="_blank" rel="noopener">
-        <div class="ag-photo">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1777182477/omzo_1_jkbnwn.jpg" alt="Omzo Beatz">
-        </div>
-        <span class="ag-name-static">Omzo Beatz</span>
-        <div class="ag-overlay">
-          <div class="ag-info">
-            <span class="ag-name">Omzo Beatz</span>
-            <span class="ag-genre">Beatmaker · Producer</span><span style="font-size:.6rem;color:rgba(255,255,255,0.39);margin-top:.3rem;display:block;letter-spacing:.05em">77,9K followers Instagram</span>
-          </div>
-          <span class="ag-ig">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </span>
-        </div>
-        <div class="ag-bottom-bar"></div>
-      </a>
-
-      <a class="ag-item" href="https://www.instagram.com/oothentik_zeus_gb/" target="_blank" rel="noopener">
-        <div class="ag-photo">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus">
-        </div>
-        <span class="ag-name-static">Oothentik Zeus</span>
-        <div class="ag-overlay">
-          <div class="ag-info">
-            <span class="ag-name">Oothentik Zeus</span>
-            <span class="ag-genre">Artiste Rappeur</span><span style="font-size:.6rem;color:rgba(255,255,255,0.39);margin-top:.3rem;display:block;letter-spacing:.05em">189K followers Instagram</span>
-          </div>
-          <span class="ag-ig">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </span>
-        </div>
-        <div class="ag-bottom-bar"></div>
-      </a>
-
-      <a class="ag-item" href="https://www.instagram.com/gunsilentbeatz/" target="_blank" rel="noopener">
-        <div class="ag-photo">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1777182558/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz">
-        </div>
-        <span class="ag-name-static">Gun Silent Beatz</span>
-        <div class="ag-overlay">
-          <div class="ag-info">
-            <span class="ag-name">Gun Silent Beatz</span>
-            <span class="ag-genre">Beatmaker · Producer</span><span style="font-size:.6rem;color:rgba(255,255,255,0.39);margin-top:.3rem;display:block;letter-spacing:.05em">-10K followers Instagram</span>
-          </div>
-          <span class="ag-ig">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </span>
-        </div>
-        <div class="ag-bottom-bar"></div>
-      </a>
-
-      <a class="ag-item" href="https://www.instagram.com/dopeboydmg/" target="_blank" rel="noopener">
-        <div class="ag-photo">
-          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG">
-        </div>
-        <span class="ag-name-static">Dopeboy DMG</span>
-        <div class="ag-overlay">
-          <div class="ag-info">
-            <span class="ag-name">Dopeboy DMG</span>
-            <span class="ag-genre">Artiste Rappeur</span><span style="font-size:.6rem;color:rgba(255,255,255,0.39);margin-top:.3rem;display:block;letter-spacing:.05em">93,1K followers Instagram</span>
-          </div>
-          <span class="ag-ig">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </span>
-        </div>
-        <div class="ag-bottom-bar"></div>
-      </a>
-
     </div>
   </div>
 
+  <script>
+  (function(){
+    var ARTISTS = [
+      { name:'ISS 814',        role:'Rapper · Beatmaker · Producer', ig:'https://www.instagram.com/iss814beats/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184982/iss_814_v22_dtnhal.jpg',                                              pos:'center top'  },
+      { name:'One Lyrical',    role:'Artiste Rappeur',                ig:'https://www.instagram.com/onelyrical.sn/',      photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg',                                         pos:'center top'  },
+      { name:'Omzo Beatz',     role:'Beatmaker · Producer',           ig:'https://www.instagram.com/omzobeatz/',          photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182477/omzo_1_jkbnwn.jpg',                                                pos:'center top'  },
+      { name:'Dopeboy DMG',    role:'Artiste Rappeur',                ig:'https://www.instagram.com/dopeboydmg/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg',                                               pos:'center 20%'  },
+      { name:'Oothentik Zeus', role:'Artiste Rappeur',                ig:'https://www.instagram.com/oothentik_zeus_gb/', photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png', pos:'center top'  },
+      { name:'Gun Silent Beatz', role:'Beatmaker · Producer',         ig:'https://www.instagram.com/gunsilentbeatz/',    photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg',                                               pos:'center top'  }
+    ];
+
+    var barH = [14,9,12,7,14,10,8,13,7,11,14,8,10,7,13];
+    var row  = document.getElementById('spCardsRow');
+    var detailAvatar = document.getElementById('spDetailAvatar');
+    var detailName   = document.getElementById('spDetailName');
+    var detailRole   = document.getElementById('spDetailRole');
+    var detailIg     = document.getElementById('spDetailIg');
+    var activeIdx    = 0;
+    var cards        = [];
+
+    ARTISTS.forEach(function(a, i) {
+      var card = document.createElement('div');
+      card.className = 'sp-card' + (i === 0 ? ' sp-active' : '');
+      var bars = barH.map(function(h){ return '<span style="height:'+h+'px"></span>'; }).join('');
+      card.innerHTML =
+        '<img class="sp-card-photo" src="'+a.photo+'" alt="'+a.name+'" style="object-position:'+a.pos+'" onerror="this.style.display=\'none\'">' +
+        '<div class="sp-card-fade"></div>' +
+        '<div class="sp-card-info">' +
+          '<div class="sp-card-name">'+a.name+'</div>' +
+          '<div class="sp-card-genre">'+a.role+'</div>' +
+          '<div class="sp-card-bar">'+bars+'</div>' +
+        '</div>';
+      card.addEventListener('click', function(){ clearInterval(timer); activate(i); });
+      row.appendChild(card);
+      cards.push(card);
+    });
+
+    function activate(i) {
+      activeIdx = i;
+      var a = ARTISTS[i];
+      cards.forEach(function(c, j){ c.classList.toggle('sp-active', j === i); });
+      detailAvatar.src = a.photo;
+      detailAvatar.style.objectPosition = a.pos;
+      detailName.textContent = a.name;
+      detailRole.textContent = a.role;
+      detailIg.href = a.ig;
+    }
+
+    activate(0);
+    var timer = setInterval(function(){ activate((activeIdx + 1) % ARTISTS.length); }, 3500);
+  })();
+  </script>
+
+  <script>
+  /* Fix GSAP : forcer visibilité sp-stage et enfants après init */
+  (function(){
+    function fixSp() {
+      var stage = document.querySelector('.sp-stage');
+      if (!stage) return;
+      stage.style.opacity = '1';
+      stage.style.transform = 'none';
+      stage.querySelectorAll('.sp-card, .sp-detail').forEach(function(el){
+        el.style.opacity = '1';
+        el.style.transform = el.classList.contains('sp-active') ? 'translateY(-12px)' : 'none';
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function(){ setTimeout(fixSp, 100); setTimeout(fixSp, 600); });
+    } else {
+      setTimeout(fixSp, 100); setTimeout(fixSp, 600);
+    }
+
+    /* Animation d'entrée GSAP propre sur sp-stage */
+    function initSpAnim() {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        setTimeout(initSpAnim, 200);
+        return;
+      }
+      var stage = document.querySelector('.sp-stage');
+      if (!stage) return;
+      gsap.set(stage, { opacity: 1, y: 0, clearProps: 'all' });
+      gsap.fromTo(stage,
+        { opacity: 0, y: 28 },
+        { opacity: 1, y: 0, duration: .8, ease: 'power3.out',
+          scrollTrigger: { trigger: stage, start: 'top 90%', once: true } }
+      );
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSpAnim);
+    } else {
+      initSpAnim();
+    }
+  })();
+  </script>
+
   <style>
-  /* ── ARTISTS GRID ── */
+  /* ── ARTISTS GRID (legacy — masqué) ── */
   .artists-grid-wrap {
-    padding: 3rem 3rem 0;
-    position: relative; z-index: 2;
+    display: none;
   }
   .artists-grid {
     display: grid;
@@ -18705,6 +19107,9 @@ function cqfGoBack() {
 /* ── MOBILE FALLBACK UNIVERSEL : forcer la visibilité des éléments GSAP sur mobile ── */
 @media (max-width: 768px) {
   /* Sections texte : testimonials, services, conditions, pricing */
+  .sp-stage,
+  .sp-card,
+  .sp-detail,
   .sp-header,
   .sp-h2,
   .sp-sub,
