@@ -4017,38 +4017,38 @@ nav::before { display:none; }
 .sp-h2 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--off); }
 .sp-sub { font-size: .9rem; color: var(--off); line-height: 1.8; font-weight: 300; margin-top: 1rem; }
 
-/* ── Citation principale ── */
+/* ── Citation principale — PREMIUM GOLD ── */
 .sp-feature {
   margin: 0 3rem 3.5rem;
-  background: var(--black);
-  border: 1px solid rgba(255,255,255,.07);
+  background: #0a0a0a;
+  border: 1px solid rgba(255,195,0,0.18);
   border-radius: 24px;
   padding: 3rem 3rem 2.5rem;
   position: relative;
   overflow: hidden;
 }
-/* Glow accent discret coin haut-gauche */
 .sp-feature::before {
   content: '';
   position: absolute;
-  top: -40px; left: -40px;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 65%);
+  top: -60px; right: -60px;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(255,195,0,0.13) 0%, transparent 70%);
   pointer-events: none;
 }
-/* Barre top accent */
 .sp-feature::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+  bottom: -50px; left: 30px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(255,195,0,0.07) 0%, transparent 70%);
+  pointer-events: none;
 }
 .sp-quote-mark {
-  font-family: 'Instrument Serif', serif;
-  font-size: 7rem; font-weight: 400; font-style: italic;
-  color: rgba(255,255,255,0.1); line-height: .75;
+  font-family: 'Syne', sans-serif;
+  font-size: 7rem; font-weight: 800;
+  color: rgba(255,195,0,0.18); line-height: .75;
   display: block; margin-bottom: .25rem;
-  letter-spacing: -.02em;
+  letter-spacing: -.04em;
 }
 .sp-quote-text {
   font-family: 'Syne', sans-serif;
@@ -4061,12 +4061,20 @@ nav::before { display:none; }
 .sp-quote-text strong { color: var(--accent); font-weight: 800; }
 .sp-quote-author {
   display: flex; align-items: center; gap: 1rem;
-  border-top: 1px solid rgba(255,255,255,.06); padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,195,0,0.18); padding-top: 1.5rem;
 }
 .sp-quote-avatar {
-  width: 48px; height: 48px; border-radius: 50%;
-  object-fit: cover; border: 2px solid rgba(255,255,255,0.14);
-  box-shadow: 0 0 20px rgba(255,255,255,0.06);
+  width: 64px; height: 64px; border-radius: 50%;
+  object-fit: cover; object-position: center top;
+  border: 2px solid rgba(255,195,0,0.55);
+  box-shadow: 0 0 0 4px rgba(255,195,0,0.10), 0 0 24px rgba(255,195,0,0.12);
+  flex-shrink: 0;
+}
+.sp-quote-name-wrap {
+  display: flex; align-items: center; gap: .4rem;
+}
+.sp-verified-badge {
+  display: inline-flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 .sp-quote-name {
@@ -9175,11 +9183,20 @@ body,
       <div class="sp-quote-mark">"</div>
       <blockquote class="sp-quote-text">C'est quelqu'un avec qui je bosse beaucoup. Il est <strong>hyper correct</strong>, <strong>hyper travailleur</strong> et <strong>trop fort.</strong></blockquote>
       <div class="sp-quote-author">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" class="sp-quote-avatar">
-        <div>
-          <div class="sp-quote-name">ISS 814</div>
+        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814" class="sp-quote-avatar">
+        <div style="flex:1">
+          <div class="sp-quote-name-wrap">
+            <div class="sp-quote-name">ISS 814</div>
+            <span class="sp-verified-badge" aria-label="Vérifié">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2l2.4 4.8 5.3.8-3.8 3.7.9 5.2L12 14l-4.8 2.5.9-5.2L4.3 7.6l5.3-.8z" fill="#FFD700" stroke="#E6A800" stroke-width="0.5"/>
+                <path d="M9.5 12l1.8 1.8 3.2-3.6" stroke="#7a4d00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
           <div class="sp-quote-role">Producteur / Artiste · Sénégal · 6 ans de collaboration</div>
         </div>
+        <div style="background:rgba(255,195,0,0.08);border:1px solid rgba(255,195,0,0.28);border-radius:100px;padding:.35rem 1rem;font-family:'Syne',sans-serif;font-size:.58rem;font-weight:700;color:rgba(255,195,0,0.8);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;flex-shrink:0">Verified collab</div>
       </div>
     </div>
 
