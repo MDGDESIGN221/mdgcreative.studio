@@ -444,8 +444,52 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
   display: inline-block;
 }
 
-/* Stats cachées sur mobile uniquement (HUD bottom actif sur desktop) */
-@media(max-width:767px) { .hero-stats { display: none !important; } }
+/* Stats : réafficher sur mobile en format ligne dense */
+@media(max-width:767px) {
+  .hero-stats {
+    display: flex !important;
+    flex-direction: row !important;
+    position: relative !important;
+    bottom: auto !important;
+    background: rgba(6,6,6,.6) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-top: 1px solid rgba(255,255,255,.07) !important;
+    z-index: 4;
+    animation: none !important;
+    opacity: 1 !important;
+  }
+  .stat {
+    flex: 1;
+    padding: .75rem .5rem !important;
+    border-right: 1px solid rgba(255,255,255,.07) !important;
+    border-bottom: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .stat:last-child { border-right: none !important; }
+  .stat-number {
+    font-size: 1.25rem !important;
+    letter-spacing: -.03em;
+  }
+  .stat-number.outline {
+    -webkit-text-stroke: 1.5px #fff !important;
+    color: transparent !important;
+  }
+  .stat-number.outline .suf { -webkit-text-stroke: 1px #fff !important; color: transparent !important; }
+  .suf { font-size: .45em !important; }
+  .stat-label {
+    font-size: .48rem !important;
+    letter-spacing: .08em !important;
+    margin-top: .3rem !important;
+    line-height: 1.3;
+  }
+  .stat-sub { display: none !important; }
+}
 /* HUD bottom caché sur desktop — hero-stats le remplace */
 @media(min-width:768px) { .hero-hud-bottom { display: none !important; } }
 
@@ -4115,172 +4159,232 @@ nav::before { display:none; }
 }
 
 /* ── VIDEO CARDS PREMIUM ── */
+/* ══ VIDÉOS TÉMOIGNAGES — LAYOUT ÉDITORIAL ══ */
+
+/* Conteneur global */
 .sp-videos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin: 0 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
 }
 
-.sp-vcard {
+/* ── Card principale (hero) ── */
+.sp-vcard-hero {
   position: relative;
-  border-radius: 18px;
-  overflow: hidden;
   cursor: pointer;
-  background: #0a0a0a;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #080808;
   border: 1px solid rgba(255,255,255,.07);
-  transition: border-color .3s, transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s;
-  group: true;
+  transition: border-color .4s;
+  -webkit-tap-highlight-color: transparent;
 }
-.sp-vcard:hover {
-  border-color: rgba(255,255,255,0.17);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,0.06);
-}
+.sp-vcard-hero:hover { border-color: rgba(255,255,255,.16); }
 
-/* Thumbnail wrapper */
-.sp-vcard-thumb {
+.sp-vcard-hero-thumb {
   position: relative;
   width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
-  background: #111;
+  background: #0a0a0a;
 }
-.sp-vcard-thumb img {
+.sp-vcard-hero-thumb img {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform .5s cubic-bezier(.16,1,.3,1), filter .4s;
-  filter: grayscale(15%) brightness(.9);
+  filter: grayscale(20%) brightness(.82);
+  transition: filter .5s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
 }
-.sp-vcard:hover .sp-vcard-thumb img {
-  transform: scale(1.05);
-  filter: grayscale(0%) brightness(1);
+.sp-vcard-hero:hover .sp-vcard-hero-thumb img {
+  filter: grayscale(0%) brightness(.95);
+  transform: scale(1.03);
 }
-
-/* Dark gradient overlay */
-.sp-vcard-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,.85) 0%,
-    rgba(0,0,0,.3) 50%,
-    rgba(0,0,0,.1) 100%
-  );
-  transition: background .4s;
-}
-.sp-vcard:hover .sp-vcard-overlay {
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,.75) 0%,
-    rgba(0,0,0,.2) 50%,
-    rgba(0,0,0,.05) 100%
-  );
-}
-
-/* Play button */
-.sp-vcard-play {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(.88);
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.51);
-  backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center;
-  transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .3s, background .3s;
-  box-shadow: 0 0 0 8px rgba(255,255,255,0.04), 0 6px 24px rgba(0,0,0,.5);
-}
-.sp-vcard:hover .sp-vcard-play {
-  transform: translate(-50%, -50%) scale(1);
-  background: var(--accent);
-  box-shadow: 0 0 0 12px rgba(255,255,255,0.07), 0 8px 32px rgba(0,0,0,.6);
-}
-.sp-vcard-play svg { margin-left: 3px; }
-
-/* YT badge top-right */
-.sp-vcard-badge {
-  position: absolute;
-  top: .75rem; right: .75rem;
-  background: rgba(0,0,0,.75);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 6px;
-  padding: .25rem .5rem;
-  display: flex; align-items: center; gap: .3rem;
-  font-family: 'Syne', sans-serif;
-  font-size: .55rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  color: rgba(255,255,255,.7);
-  text-transform: uppercase;
-}
-
-/* Card footer */
-.sp-vcard-footer {
-  padding: 1.1rem 1.25rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: .85rem;
-}
-.sp-vcard-avatar {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid rgba(255,255,255,0.11);
-  flex-shrink: 0;
-  transition: border-color .3s;
-}
-.sp-vcard:hover .sp-vcard-avatar { border-color: rgba(255,255,255,0.28); }
-
-.sp-vcard-meta { flex: 1; min-width: 0; }
-.sp-vcard-name {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: .85rem;
-  color: var(--light);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.sp-vcard-role {
-  font-size: .65rem;
-  color: var(--dim);
-  letter-spacing: .04em;
-  margin-top: .15rem;
-}
-
-/* Quote overlay at bottom of thumb on hover */
-.sp-vcard-quote {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: .9rem 1.1rem;
-  font-size: .78rem;
-  font-style: italic;
-  color: rgba(255,255,255,.88);
-  font-weight: 300;
-  line-height: 1.5;
-  transform: translateY(6px);
-  opacity: 0;
-  transition: opacity .3s, transform .35s cubic-bezier(.16,1,.3,1);
-}
-.sp-vcard:hover .sp-vcard-quote {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Accent line at bottom */
-.sp-vcard::after {
+/* Gradient fort vers le bas pour faire respirer la citation */
+.sp-vcard-hero-thumb::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity: 0;
-  transition: opacity .35s;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6,6,6,.98) 0%, rgba(6,6,6,.55) 40%, rgba(6,6,6,.08) 100%);
+  pointer-events: none;
 }
-.sp-vcard:hover::after { opacity: 1; }
 
-/* Lightbox overlay */
+/* Citation directement sur l'image */
+.sp-vcard-hero-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.75rem 1.5rem 1.5rem;
+  z-index: 2;
+}
+.sp-vcard-hero-quote {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 3.2vw, 1.4rem);
+  line-height: 1.4;
+  color: rgba(255,255,255,.92);
+  margin-bottom: 1rem;
+  display: block;
+}
+.sp-vcard-hero-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+.sp-vcard-hero-who {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.sp-vcard-hero-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--light);
+}
+.sp-vcard-hero-role {
+  font-size: .6rem;
+  color: var(--dim);
+  letter-spacing: .04em;
+}
+
+/* Bouton play hero */
+.sp-vcard-hero-play {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.06);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .3s, border-color .3s, transform .3s cubic-bezier(.16,1,.3,1);
+}
+.sp-vcard-hero:hover .sp-vcard-hero-play {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.08);
+}
+.sp-vcard-hero:hover .sp-vcard-hero-play svg { fill: #000; }
+.sp-vcard-hero-play svg { fill: rgba(255,255,255,.9); margin-left: 2px; transition: fill .3s; }
+
+/* ── Séparateur liste ── */
+.sp-videos-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+
+/* ── Ligne compacte (cards secondaires) ── */
+.sp-vcard-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  position: relative;
+  transition: background .25s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sp-vcard-row:last-child { border-bottom: none; }
+.sp-vcard-row::before {
+  content: '';
+  position: absolute;
+  left: -1rem; right: -1rem; top: 0; bottom: 0;
+  background: rgba(255,255,255,.03);
+  opacity: 0;
+  transition: opacity .25s;
+}
+.sp-vcard-row:hover::before { opacity: 1; }
+
+/* Thumbnail ligne */
+.sp-vcard-row-thumb {
+  position: relative;
+  width: 96px;
+  aspect-ratio: 16/9;
+  flex-shrink: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #111;
+}
+.sp-vcard-row-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(25%) brightness(.8);
+  transition: filter .35s;
+}
+.sp-vcard-row:hover .sp-vcard-row-thumb img {
+  filter: grayscale(0%) brightness(1);
+}
+/* Petit play centré */
+.sp-vcard-row-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.18);
+  display: flex;
+  pointer-events: none;
+}
+.sp-vcard-row-play {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+}
+.sp-vcard-row-play svg {
+  fill: rgba(255,255,255,.7);
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,.7));
+  transition: fill .25s, transform .25s cubic-bezier(.16,1,.3,1);
+}
+.sp-vcard-row:hover .sp-vcard-row-play svg {
+  fill: #fff;
+  transform: scale(1.15);
+}
+
+/* Info ligne */
+.sp-vcard-row-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.sp-vcard-row-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: .78rem;
+  color: var(--light);
+  letter-spacing: .02em;
+}
+.sp-vcard-row-role {
+  font-size: .6rem;
+  color: var(--dim);
+  letter-spacing: .03em;
+}
+.sp-vcard-row-quote {
+  font-size: .65rem;
+  font-style: italic;
+  color: rgba(255,255,255,.4);
+  margin-top: .1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Flèche discrète droite */
+.sp-vcard-row-arr {
+  flex-shrink: 0;
+  color: rgba(255,255,255,.18);
+  transition: color .25s, transform .25s;
+}
+.sp-vcard-row:hover .sp-vcard-row-arr {
+  color: rgba(255,255,255,.55);
+  transform: translateX(3px);
+}
+
+/* ── Lightbox (inchangée) ── */
 #sp-video-lb {
   position: fixed;
   inset: 0;
@@ -4302,7 +4406,7 @@ nav::before { display:none; }
   position: relative;
   width: min(840px, 92vw);
   aspect-ratio: 16/9;
-  border-radius: 16px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 32px 80px rgba(0,0,0,.8);
   transform: scale(.94);
@@ -4321,7 +4425,7 @@ nav::before { display:none; }
   background: rgba(255,255,255,.1);
   border: 1px solid rgba(255,255,255,.15);
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: background .2s;
@@ -4329,44 +4433,23 @@ nav::before { display:none; }
 }
 #sp-video-lb-close:hover { background: rgba(255,255,255,.2); }
 
+/* ── Responsive ── */
 @media(max-width:900px){
-  .sp-videos { grid-template-columns: 1fr; margin: 0; gap: 1rem; }
+  .sp-vcard-hero-body { padding: 1.25rem 1rem 1rem; }
+  .sp-vcard-hero-quote { font-size: clamp(.92rem, 4vw, 1.1rem); }
 }
 @media(max-width:480px){
-  .sp-videos { margin: 0; gap: .75rem; }
-  .sp-vcard-quote { display: none; }
-
-  /* Layout horizontal compact — thumbnail gauche, info droite */
-  .sp-vcard {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    border-radius: 12px;
-    min-height: 0;
-  }
-  .sp-vcard-thumb {
-    width: 120px;
-    flex-shrink: 0;
-    aspect-ratio: unset;
-    min-height: 80px;
-    border-radius: 10px 0 0 10px;
-  }
-  .sp-vcard-play {
-    width: 36px; height: 36px;
-  }
-  .sp-vcard-play svg { width: 14px; height: 14px; }
-  .sp-vcard-badge { top: .4rem; right: .4rem; padding: .15rem .3rem; font-size: .45rem; }
-  .sp-vcard-footer {
-    flex: 1;
-    padding: .75rem 1rem;
-    align-items: center;
-    min-width: 0;
-  }
-  .sp-vcard-avatar { width: 32px; height: 32px; }
-  .sp-vcard-name { font-size: .78rem; }
-  .sp-vcard-role { font-size: .58rem; }
-  .sp-vcard:hover { transform: none; }
+  .sp-vcard-row-thumb { width: 80px; }
+  .sp-vcard-row-quote { display: none; }
+  .sp-vcard-hero-play { width: 38px; height: 38px; }
 }
+
+/* Conserver les anciens sélecteurs pour ne pas casser le JS lightbox */
+.sp-vcard { display: contents; }
+.sp-vcard-thumb, .sp-vcard-footer, .sp-vcard-avatar,
+.sp-vcard-meta, .sp-vcard-name, .sp-vcard-role,
+.sp-vcard-play, .sp-vcard-badge, .sp-vcard-overlay,
+.sp-vcard-quote { display: none; }
 
 /* ── PORTFOLIO TABS PREMIUM ── */
 .port-header {
@@ -8549,6 +8632,9 @@ body,
   border-bottom: 1px solid var(--border);
   padding-bottom: 0;
 }
+@media(max-width:767px) {
+  .port-new-top { padding: 2rem 1.25rem 0 !important; gap: 1rem !important; }
+}
 .port-new-left { flex: 1; min-width: 0; }
 .port-new-eyebrow {
   font-family: 'Syne', sans-serif; font-size: .58rem; font-weight: 700;
@@ -9218,118 +9304,88 @@ body,
       </div>
     </div>
 
-    <!-- Vidéos témoignages -->
-    <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent)"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-      Voir les extraits vidéo
-    </div>
+    <!-- Vidéos témoignages — layout éditorial -->
     <div class="sp-videos" id="sp-audio-grid">
 
-      <!-- VIDEO CARD 1 — ISS 814 -->
-      <div class="sp-vcard reveal-up" data-yt-id="q8MD7X3gJLo" data-start="3552" role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
-        <div class="sp-vcard-thumb">
+      <!-- HERO CARD — ISS 814 (citation principale) -->
+      <div class="sp-vcard-hero reveal-up" data-yt-id="q8MD7X3gJLo" data-start="3552" role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
+        <div class="sp-vcard-hero-thumb">
           <img decoding="async" loading="lazy"
             src="https://img.youtube.com/vi/q8MD7X3gJLo/maxresdefault.jpg"
             onerror="this.src='https://img.youtube.com/vi/q8MD7X3gJLo/hqdefault.jpg'"
             alt="ISS 814 — témoignage">
-          <div class="sp-vcard-overlay"></div>
-          <div class="sp-vcard-play">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <div class="sp-vcard-badge">
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-            YouTube
-          </div>
-          <p class="sp-vcard-quote">« Son sérieux, son travail, ses qualités humaines — il en parle avec enthousiasme. »</p>
         </div>
-        <div class="sp-vcard-footer">
-          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" class="sp-vcard-avatar">
-          <div class="sp-vcard-meta">
-            <div class="sp-vcard-name">ISS 814</div>
-            <div class="sp-vcard-role">Producteur · Artiste · Sénégal · 6 ans de collaboration</div>
+        <div class="sp-vcard-hero-body">
+          <span class="sp-vcard-hero-quote">« Son sérieux, son travail, ses qualités humaines — il en parle avec enthousiasme. »</span>
+          <div class="sp-vcard-hero-meta">
+            <div class="sp-vcard-hero-who">
+              <span class="sp-vcard-hero-name">ISS 814</span>
+              <span class="sp-vcard-hero-role">Producteur · Artiste · Sénégal · 6 ans</span>
+            </div>
+            <div class="sp-vcard-hero-play" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- VIDEO CARD 2 — ISS 814 bis -->
-      <div class="sp-vcard reveal-up rd1" data-yt-id="4hQRw6BqAQY" data-start="60" role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
-        <div class="sp-vcard-thumb">
-          <img decoding="async" loading="lazy"
-            src="https://img.youtube.com/vi/4hQRw6BqAQY/maxresdefault.jpg"
-            onerror="this.src='https://img.youtube.com/vi/4hQRw6BqAQY/hqdefault.jpg'"
-            alt="ISS 814 — second témoignage">
-          <div class="sp-vcard-overlay"></div>
-          <div class="sp-vcard-play">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <div class="sp-vcard-badge">
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-            YouTube
-          </div>
-          <p class="sp-vcard-quote">« "Trop fort" — le mot sort naturellement, en public. Pas de mise en scène. »</p>
-        </div>
-        <div class="sp-vcard-footer">
-          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_200/iss814_zgufzl.jpg" alt="ISS 814" class="sp-vcard-avatar">
-          <div class="sp-vcard-meta">
-            <div class="sp-vcard-name">ISS 814</div>
-            <div class="sp-vcard-role">Producteur · Artiste · Sénégal</div>
-          </div>
-        </div>
-      </div>
+      <!-- LISTE COMPACTE — 3 cartes secondaires -->
+      <div class="sp-videos-list reveal-up rd1">
 
-      <!-- VIDEO CARD 3 — Key Em Ti -->
-      <div class="sp-vcard reveal-up rd2" data-yt-id="7LgPqfl02yU" data-start="1862" role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
-        <div class="sp-vcard-thumb">
-          <img decoding="async" loading="lazy"
-            src="https://img.youtube.com/vi/7LgPqfl02yU/maxresdefault.jpg"
-            onerror="this.src='https://img.youtube.com/vi/7LgPqfl02yU/hqdefault.jpg'"
-            alt="Key Em Ti — témoignage">
-          <div class="sp-vcard-overlay"></div>
-          <div class="sp-vcard-play">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
+        <!-- Ligne 1 — ISS 814 bis -->
+        <div class="sp-vcard-row" data-yt-id="4hQRw6BqAQY" data-start="60" role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
+          <div class="sp-vcard-row-thumb">
+            <img decoding="async" loading="lazy"
+              src="https://img.youtube.com/vi/4hQRw6BqAQY/maxresdefault.jpg"
+              onerror="this.src='https://img.youtube.com/vi/4hQRw6BqAQY/hqdefault.jpg'"
+              alt="ISS 814">
+            <div class="sp-vcard-row-play"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
-          <div class="sp-vcard-badge">
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-            YouTube
+          <div class="sp-vcard-row-info">
+            <span class="sp-vcard-row-name">ISS 814</span>
+            <span class="sp-vcard-row-role">Producteur · Artiste · Sénégal</span>
+            <span class="sp-vcard-row-quote">« "Trop fort" — le mot sort naturellement. »</span>
           </div>
-          <p class="sp-vcard-quote">« Sur le plateau, il sort le nom de MDG sans qu'on le lui demande. »</p>
+          <svg class="sp-vcard-row-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
-        <div class="sp-vcard-footer">
-          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776662434/key_em_ti_bkv3uz.jpg" alt="Key Em Ti" class="sp-vcard-avatar">
-          <div class="sp-vcard-meta">
-            <div class="sp-vcard-name">Key Em Ti</div>
-            <div class="sp-vcard-role">Artiste · Sénégal</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- VIDEO CARD 4 — Emza Young Boss -->
-      <div class="sp-vcard reveal-up rd3" data-yt-id="1Qaht5EYKds" data-start="988" role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
-        <div class="sp-vcard-thumb">
-          <img decoding="async" loading="lazy"
-            src="https://img.youtube.com/vi/1Qaht5EYKds/maxresdefault.jpg"
-            onerror="this.src='https://img.youtube.com/vi/1Qaht5EYKds/hqdefault.jpg'"
-            alt="Emza Young Boss — témoignage">
-          <div class="sp-vcard-overlay"></div>
-          <div class="sp-vcard-play">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
+        <!-- Ligne 2 — Key Em Ti -->
+        <div class="sp-vcard-row" data-yt-id="7LgPqfl02yU" data-start="1862" role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
+          <div class="sp-vcard-row-thumb">
+            <img decoding="async" loading="lazy"
+              src="https://img.youtube.com/vi/7LgPqfl02yU/maxresdefault.jpg"
+              onerror="this.src='https://img.youtube.com/vi/7LgPqfl02yU/hqdefault.jpg'"
+              alt="Key Em Ti">
+            <div class="sp-vcard-row-play"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
-          <div class="sp-vcard-badge">
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-            YouTube
+          <div class="sp-vcard-row-info">
+            <span class="sp-vcard-row-name">Key Em Ti</span>
+            <span class="sp-vcard-row-role">Artiste · Sénégal</span>
+            <span class="sp-vcard-row-quote">« Il sort le nom de MDG sans qu'on le lui demande. »</span>
           </div>
-          <p class="sp-vcard-quote">« "Génie" — le mot sort naturellement, pas pour faire plaisir. »</p>
+          <svg class="sp-vcard-row-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
-        <div class="sp-vcard-footer">
-          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776659417/Emza_young_boss_a8uecw.jpg" alt="Emza Young Boss" class="sp-vcard-avatar">
-          <div class="sp-vcard-meta">
-            <div class="sp-vcard-name">Emza Young Boss</div>
-            <div class="sp-vcard-role">Artiste · Sénégal</div>
-          </div>
-        </div>
-      </div>
 
-    </div>
+        <!-- Ligne 3 — Emza Young Boss -->
+        <div class="sp-vcard-row" data-yt-id="1Qaht5EYKds" data-start="988" role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
+          <div class="sp-vcard-row-thumb">
+            <img decoding="async" loading="lazy"
+              src="https://img.youtube.com/vi/1Qaht5EYKds/maxresdefault.jpg"
+              onerror="this.src='https://img.youtube.com/vi/1Qaht5EYKds/hqdefault.jpg'"
+              alt="Emza Young Boss">
+            <div class="sp-vcard-row-play"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="sp-vcard-row-info">
+            <span class="sp-vcard-row-name">Emza Young Boss</span>
+            <span class="sp-vcard-row-role">Artiste · Sénégal</span>
+            <span class="sp-vcard-row-quote">« "Génie" — le mot sort naturellement. »</span>
+          </div>
+          <svg class="sp-vcard-row-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+      </div><!-- /.sp-videos-list -->
+
+    </div><!-- /.sp-videos -->
 
     <!-- Lightbox vidéo -->
     <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Vidéo témoignage">
@@ -18859,23 +18915,23 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
 ══════════════════════════════════════════════════ -->
 <nav id="mob-tab-bar" aria-label="Navigation principale">
   <a href="#hero" class="mob-tab active" data-section="hero" aria-label="Accueil">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/></svg>
     <span>Accueil</span>
   </a>
   <a href="#portfolio-accordion" class="mob-tab" data-section="portfolio-accordion" aria-label="Projets">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="11" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="12" width="8" height="9" rx="1"/><rect x="3" y="18" width="8" height="3" rx="1"/></svg>
     <span>Projets</span>
   </a>
   <a href="#services" class="mob-tab" data-section="services" aria-label="Services">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     <span>Services</span>
   </a>
   <a href="#pricing" class="mob-tab" data-section="pricing" aria-label="Tarifs">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
     <span>Tarifs</span>
   </a>
   <a href="#contact" class="mob-tab mob-tab-cta mono-cta" data-section="contact" aria-label="Contact" onclick="openContact(event)">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     <span>Contact</span>
   </a>
 </nav>
@@ -18887,20 +18943,22 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   z-index: 8400;
-  background: rgba(8,8,8,.97);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255,255,255,.1);
-  box-shadow: 0 -4px 30px rgba(0,0,0,.6);
-  /* safe area iOS */
+  /* Fix micro-mouvement iOS : forcer GPU layer stable */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+  /* Fond épuré — pas de border-top, juste une ombre diffuse vers le haut */
+  background: rgba(6,6,6,.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 -1px 0 rgba(255,255,255,.06), 0 -20px 40px rgba(0,0,0,.5);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 @media(max-width:900px) {
-  #mob-tab-bar { display: flex; align-items: center; height: 56px; }
+  #mob-tab-bar { display: flex; align-items: stretch; height: 56px; }
   footer { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
   main { padding-bottom: 0; }
 }
-/* Quick nav : visible sur tous les breakpoints mobile, au-dessus de la tab bar */
 @media(max-width:900px) {
   #quick-nav { bottom: calc(56px + env(safe-area-inset-bottom, 0px) + .75rem) !important; left: .85rem !important; }
 }
@@ -18912,69 +18970,82 @@ document.querySelectorAll('img[loading="lazy"]').forEach(img => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 10px 4px 8px;
-  min-height: 56px;
+  gap: 3px;
+  padding: 8px 4px 6px;
   text-decoration: none;
-  color: rgba(255,255,255,.35);
-  transition: color .2s;
+  color: rgba(255,255,255,.28);
+  transition: color .18s;
   position: relative;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
+  /* Isolation pour éviter que l'indicateur actif déborde */
+  isolation: isolate;
 }
 
-/* Icône */
+/* Icône — stroke fin, pas de fill */
 .mob-tab svg {
-  width: 18px; height: 18px;
-  stroke-width: 1.8;
+  width: 17px; height: 17px;
+  stroke-width: 1.6;
   display: block;
   flex-shrink: 0;
-  transition: transform .25s cubic-bezier(.16,1,.3,1);
+  transition: transform .22s cubic-bezier(.16,1,.3,1), opacity .18s;
 }
 
-/* Label */
+/* Label — encore plus discret */
 .mob-tab span {
   display: block;
   font-family: 'Syne', sans-serif;
-  font-size: 8px;
+  font-size: 7.5px;
   font-weight: 700;
-  letter-spacing: .05em;
+  letter-spacing: .06em;
   text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
+  opacity: .7;
+  transition: opacity .18s;
 }
 
-/* État actif */
-.mob-tab.active { color: var(--accent); filter: drop-shadow(0 0 6px rgba(255,255,255,0.25)); }
-.mob-tab.active svg { transform: translateY(-2px); }
-.mob-tab.active::before {
+/* État actif — pas de glow, juste couleur + point */
+.mob-tab.active {
+  color: var(--light);
+}
+.mob-tab.active span { opacity: 1; }
+.mob-tab.active svg { transform: translateY(-1px); }
+
+/* Point indicateur actif — minimaliste */
+.mob-tab.active::after {
   content: '';
   position: absolute;
-  top: 0; left: 25%; right: 25%;
-  height: 2px;
-  background: var(--accent);
-  border-radius: 0 0 3px 3px;
+  bottom: 7px;
+  left: 50%; transform: translateX(-50%);
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--light);
 }
 
-/* Bouton Contact — pill vert */
+/* Bouton Contact — texte seul, pas de pill */
 .mob-tab-cta {
-  color: var(--black) !important;
-  background: var(--accent);
-  border-radius: 10px;
-  margin: 8px 6px;
+  color: var(--light) !important;
+  background: none;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 6px;
+  margin: 10px 8px;
   flex: none;
-  padding: 0 14px;
+  padding: 0 12px;
   width: auto;
-  max-width: 80px;
-  height: 40px;
+  height: 36px;
   min-height: auto;
   gap: 3px;
   align-self: center;
+  transition: border-color .18s, color .18s;
 }
-.mob-tab-cta::before { display: none !important; }
-.mob-tab-cta svg { stroke: var(--black) !important; width: 18px; height: 18px; }
-.mob-tab-cta span { color: var(--black) !important; }
-.mob-tab-cta:active { opacity: .8; transform: scale(.96); }
+.mob-tab-cta:active {
+  border-color: rgba(255,255,255,.4);
+  opacity: .8;
+}
+.mob-tab-cta::before, .mob-tab-cta::after { display: none !important; }
+.mob-tab-cta svg { stroke: var(--light) !important; width: 14px; height: 14px; }
+.mob-tab-cta span { color: var(--light) !important; opacity: 1; font-size: 7.5px; }
 </style>
 
 <script>
@@ -19221,7 +19292,7 @@ function cqfGoBack() {
   var close = document.getElementById('sp-video-lb-close');
   if(!lb || !frame || !close) return;
 
-  var cards = document.querySelectorAll('.sp-vcard');
+  var cards = document.querySelectorAll('.sp-vcard-hero, .sp-vcard-row');
   if(!cards.length) return;
 
   function openYtLb(ytId, start){
@@ -19293,7 +19364,7 @@ function cqfGoBack() {
   .info-list, .collabs-hdr, .collabs-main-title, .collabs-main-sub,
   .collabs-marquee-wrap, .collabs-sub,
   .trust-strip, .pieter-step, .process-header,
-  .sp-vcard-thumb, .sp-vcard-footer {
+  .sp-vcard-hero, .sp-vcard-row, .sp-videos-list {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
@@ -19376,7 +19447,8 @@ video,
 .pieter-step-media video,
 .about-photo-wrap img,
 .morph-slide img,
-.sp-vcard-thumb img,
+.sp-vcard-hero-thumb img,
+.sp-vcard-row-thumb img,
 .trust-logo,
 .ac-card img,
 .u-gallery-premium img,
@@ -19506,7 +19578,7 @@ function fixYT() {
   document.querySelectorAll('[data-yt-id]').forEach(function(card) {
     var ytId = card.dataset.ytId;
     if (!ytId) return;
-    var img = card.querySelector('.sp-vcard-thumb img');
+    var img = card.querySelector('.sp-vcard-hero-thumb img, .sp-vcard-row-thumb img');
     if (!img) return;
 
     var tried = 0;
