@@ -11100,13 +11100,19 @@ body,
         <div class="proc-cond-expl">Tu reviens régulièrement ? Je t'offre 20% de réduction sur tous tes projets suivants. La fidélité, ça mérite d'être récompensée.</div>
       </div>
     </div>
-    <!-- Dots carousel mobile -->
-    <div class="proc-conds-dots" id="procCondsDots" style="display:none">
-      <span class="proc-conds-dot active"></span>
-      <span class="proc-conds-dot"></span>
-      <span class="proc-conds-dot"></span>
-      <span class="proc-conds-dot"></span>
-      <span class="proc-conds-dot"></span>
+    <!-- Dots + swipe hint carousel mobile -->
+    <div class="proc-conds-nav" id="procCondsNav" style="display:none">
+      <div class="proc-conds-hint" id="procCondsHint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Glisser
+      </div>
+      <div class="proc-conds-dots" id="procCondsDots">
+        <span class="proc-conds-dot active"></span>
+        <span class="proc-conds-dot"></span>
+        <span class="proc-conds-dot"></span>
+        <span class="proc-conds-dot"></span>
+        <span class="proc-conds-dot"></span>
+      </div>
     </div>
 
   </div>
@@ -11361,21 +11367,46 @@ body,
   }
   .proc-conds::-webkit-scrollbar { display: none; }
   .proc-cond {
-    flex: 0 0 78vw !important;
+    flex: 0 0 72vw !important;
     scroll-snap-align: start;
     border: 1px solid var(--border) !important;
     border-radius: 12px !important;
-    margin-left: 1.25rem;
+    margin-left: 1rem;
     min-height: 0;
     justify-content: flex-start;
   }
   .proc-cond:last-child { margin-right: 1.25rem; }
-  /* Dots indicator */
-  .proc-conds-dots {
+  /* Nav wrapper : hint + dots */
+  .proc-conds-nav {
     display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    margin-top: .85rem;
+  }
+  .proc-conds-hint {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    font-family: 'Syne', sans-serif;
+    font-size: .58rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+    transition: opacity .4s;
+  }
+  .proc-conds-hint.hidden { opacity: 0; pointer-events: none; }
+  .proc-conds-hint svg { opacity: .5; animation: hint-nudge 1.4s ease-in-out infinite; }
+  @keyframes hint-nudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(3px); }
+  }
+  /* Dots */
+  .proc-conds-dots {
+    display: flex;
     justify-content: center;
     gap: .4rem;
-    margin-top: .85rem;
   }
   .proc-conds-dot {
     width: 5px; height: 5px;
@@ -19942,27 +19973,36 @@ if (document.readyState === 'loading') {
 </script>
 
 <script>
-/* ── PROC-CONDS CAROUSEL DOTS — mobile only ── */
+/* ── PROC-CONDS CAROUSEL DOTS + HINT — mobile only ── */
 (function(){
-  var track = document.querySelector('.proc-conds');
-  var dotsWrap = document.getElementById('procCondsDots');
-  if(!track || !dotsWrap) return;
+  var track   = document.querySelector('.proc-conds');
+  var nav     = document.getElementById('procCondsNav');
+  var dotsWrap= document.getElementById('procCondsDots');
+  var hint    = document.getElementById('procCondsHint');
+  if(!track || !nav) return;
+
+  var swiped = false;
 
   function init(){
     if(window.innerWidth > 600){
-      dotsWrap.style.display = 'none';
+      nav.style.display = 'none';
       return;
     }
-    dotsWrap.style.display = 'flex';
-    var dots = dotsWrap.querySelectorAll('.proc-conds-dot');
+    nav.style.display = 'flex';
+    var dots  = dotsWrap ? dotsWrap.querySelectorAll('.proc-conds-dot') : [];
     var cards = track.querySelectorAll('.proc-cond');
-    if(!cards.length || !dots.length) return;
+    if(!cards.length) return;
 
     function update(){
-      var cardW = cards[0].getBoundingClientRect().width + 20; // width + margin
+      var cardW = cards[0].getBoundingClientRect().width + 16;
       var idx = Math.round(track.scrollLeft / cardW);
-      idx = Math.max(0, Math.min(idx, dots.length - 1));
+      idx = Math.max(0, Math.min(idx, cards.length - 1));
       dots.forEach(function(d, i){ d.classList.toggle('active', i === idx); });
+      // Cacher le hint dès le premier vrai scroll
+      if(!swiped && track.scrollLeft > 10){
+        swiped = true;
+        if(hint) hint.classList.add('hidden');
+      }
     }
 
     track.addEventListener('scroll', update, {passive: true});
@@ -19974,7 +20014,7 @@ if (document.readyState === 'loading') {
   } else {
     init();
   }
-  window.addEventListener('resize', init);
+  window.addEventListener('resize', function(){ swiped = false; if(hint) hint.classList.remove('hidden'); init(); });
 })();
 </script>
 </body>
