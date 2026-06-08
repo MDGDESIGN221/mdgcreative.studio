@@ -48,8 +48,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14752,7 +14751,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 })();
 
 // ── DRAG TO SCROLL (souris desktop) — système unique propre ──
-function enableDragScroll(track){
+window.enableDragScroll = function enableDragScroll(track){
   if(!track || track._dragEnabled) return;
   // Sur mobile : le handler direction-aware gère tout — pas besoin du mouse drag
   if('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
@@ -17905,7 +17904,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     next.addEventListener('click', function(){ carouselScrollTo(track, track.scrollLeft + step()); });
     track.addEventListener('scroll', update, {passive:true});
     update();
-    enableDragScroll(track);
+    if (typeof enableDragScroll === 'function') enableDragScroll(track);
 
     // Tap sur une card motion → ouvrir fullscreen
     // Sur mobile : distinguer tap (< 8px de déplacement) vs swipe
