@@ -154,6 +154,14 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 /* ── WATERMARK TEXTE GÉANT (inspiré pieterkoopt) ── */
 .wm-section { position: relative; overflow: hidden; isolation: isolate; }
+/* Sur mobile : overflow:clip + overflow-clip-margin permet au watermark d'être caché
+   sans couper les carousels horizontaux qui débordent légèrement sur les côtés */
+@media(max-width:900px){
+  .wm-section {
+    overflow-x: visible;
+    overflow-y: hidden;
+  }
+}
 .wm-section::before {
   content: attr(data-wm);
   position: absolute;
@@ -1343,14 +1351,15 @@ section+section::before,
 @media(max-width:900px){
   #work{padding:5rem 0}
   .work-header{margin:0 1.5rem 2rem}
-  .work-track-wrap{padding:0 1.5rem}
-  .work-track-wrap::before,.work-track-wrap::after{width:1.5rem}
-  .work-card{width:70vw}
+  .work-track-wrap{padding:0}
+  /* Supprimer les rideaux noirs sur mobile — ils coupent les images sur les bords */
+  .work-track-wrap::before,.work-track-wrap::after{display:none}
+  .work-track{padding-left:1.5rem;padding-right:1.5rem}
+  .work-card{width:78vw}
   .work-footer{margin:2rem 1.5rem 0}
   .work-nav{display:none}
   .work-card:hover{transform:none}
   .work-card .work-img{transition:filter .3s}
-  /* Fix overlap mobile — supprimer les stacking contexts qui créent des conflits */
   .work-card { will-change: auto; transform: none; }
   .cov-card  { will-change: auto; transform: none; }
 }
@@ -1394,9 +1403,11 @@ section+section::before,
 @media(max-width:900px){
   #covers{padding:5rem 0}
   .cov-header{margin:0 1.5rem 2rem}
-  .cov-track-wrap{padding:0 1.5rem}
-  .cov-track-wrap::before,.cov-track-wrap::after{width:1.5rem}
-  .cov-card{width:70vw}
+  .cov-track-wrap{padding:0}
+  /* Supprimer les rideaux noirs sur mobile */
+  .cov-track-wrap::before,.cov-track-wrap::after{display:none}
+  .cov-track{padding-left:1.5rem;padding-right:1.5rem}
+  .cov-card{width:78vw}
   .cov-footer{margin:2rem 1.5rem 0}
   .cov-nav{display:none}
   .cov-card:hover{transform:none}
