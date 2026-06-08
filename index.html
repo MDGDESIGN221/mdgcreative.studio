@@ -318,6 +318,67 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
   .pieter-step-num { font-size: clamp(5rem, 20vw, 8rem); }
 }
 
+/* ══════════════════════════════════════
+   PROCESS — CAROUSEL MOBILE + DOTS
+   ══════════════════════════════════════ */
+@media(max-width: 768px) {
+  #pieter-process-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Track horizontal scroll snap */
+  #pieter-process-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0;
+  }
+  #pieter-process-track::-webkit-scrollbar { display: none; }
+
+  /* Chaque step = slide full width */
+  .pieter-step {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    border-bottom: none;
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .pieter-step:nth-child(even) .pieter-step-media { order: 0; }
+  .pieter-step-content { padding: 2.5rem 1.5rem 2rem; }
+  .pieter-step-media { min-height: 240px; }
+  .pieter-step-num { font-size: clamp(5rem, 20vw, 8rem); }
+
+  /* Dots process */
+  .process-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 1.5rem 0 .5rem;
+  }
+  .process-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(6,6,6,.25);
+    transition: background .25s, width .25s;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .process-dot.active {
+    background: rgba(6,6,6,.75);
+    width: 18px;
+    border-radius: 3px;
+  }
+}
+@media(min-width: 769px) {
+  #pieter-process-track { display: contents; }
+  .process-dots { display: none; }
+}
+
 /* ── HERO TYPO — plus massive ── */
 .hero-manifeste-line {
   position: absolute;
@@ -4174,6 +4235,20 @@ nav::before { display:none; }
   margin: 0 3rem 0;
 }
 
+/* Desktop: track et slides sont des wrappers transparents */
+.sp-videos-track {
+  display: contents;
+}
+.sp-slide {
+  display: contents;
+}
+.sp-slide-list {
+  display: contents;
+}
+
+/* Dots cachés sur desktop */
+.sp-videos-dots { display: none; }
+
 /* ── HERO CARD (grande, colonne gauche) ── */
 .sp-vcard-hero {
   position: relative;
@@ -4557,16 +4632,6 @@ nav::before { display:none; }
 
 /* ── Responsive ── */
 @media(max-width: 900px) {
-  .sp-videos {
-    grid-template-columns: 1fr;
-    margin: 0 1.25rem;
-  }
-  .sp-vcard-hero-thumb { aspect-ratio: 16/9; }
-  .sp-vcard-hero-quote { font-size: clamp(.88rem, 4vw, 1.1rem); }
-  .sp-vcard-hero-play { width: 44px; height: 44px; }
-  .sp-videos-list { border-top: 1px solid rgba(255,255,255,.06); }
-  .sp-vcard-row { min-height: 88px; }
-  .sp-vcard-row-thumb { width: 36%; }
   #sp-video-lb-close {
     top: 1rem; right: 1rem;
     position: fixed;
@@ -4577,9 +4642,98 @@ nav::before { display:none; }
     border-radius: 3px;
   }
 }
+
+/* ══════════════════════════════════════════
+   SP VIDEOS — CAROUSEL MOBILE (< 768px)
+   ══════════════════════════════════════════ */
+@media(max-width: 768px) {
+  /* Wrapper carousel */
+  .sp-videos {
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    position: relative;
+  }
+
+  /* Track horizontal snap */
+  .sp-videos-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0;
+    padding: 0 clamp(1rem, 5vw, 1.5rem);
+    padding-right: clamp(2.5rem, 8vw, 3.5rem); /* peek next card */
+  }
+  .sp-videos-track::-webkit-scrollbar { display: none; }
+
+  /* Chaque slide = 88vw large */
+  .sp-slide {
+    flex: 0 0 calc(100vw - clamp(2.5rem, 10vw, 4rem));
+    max-width: 340px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,.08);
+    margin-right: .75rem;
+    position: relative;
+  }
+  .sp-slide:last-child { margin-right: 0; }
+
+  /* Hero card mobile */
+  .sp-vcard-hero {
+    border-radius: 0;
+    width: 100%;
+  }
+  .sp-vcard-hero-thumb { aspect-ratio: 4/3; }
+  .sp-vcard-hero-quote { font-size: clamp(.88rem, 4vw, 1rem); max-width: 100%; }
+  .sp-vcard-hero-play { width: 44px; height: 44px; }
+  .sp-vcard-hero-body { padding: 1.25rem 1.1rem 1.4rem; }
+
+  /* Row cards mobile */
+  .sp-vcard-row {
+    min-height: 110px;
+    border-bottom: none;
+    height: 100%;
+  }
+  .sp-vcard-row-thumb { width: 40%; }
+  .sp-vcard-row-info { padding: 1rem .9rem; }
+
+  /* Dots */
+  .sp-videos-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 1.25rem;
+  }
+  .sp-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    transition: background .25s, width .25s;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .sp-dot.active {
+    background: rgba(255,255,255,.85);
+    width: 18px;
+    border-radius: 3px;
+  }
+}
+
 @media(max-width: 480px) {
   .sp-vcard-row-quote { display: none; }
-  .sp-vcard-row-info { padding: .75rem .75rem .75rem .65rem; }
+  .sp-slide {
+    flex: 0 0 calc(100vw - 2.5rem);
+    max-width: none;
+  }
 }
 
 /* Compatibilité anciens sélecteurs */
@@ -9442,99 +9596,114 @@ body,
       </div>
     </div>
 
-    <!-- Vidéos témoignages — layout éditorial -->
+    <!-- Vidéos témoignages — layout éditorial + carousel mobile -->
     <div class="sp-videos" id="sp-audio-grid">
 
-      <!-- HERO CARD — ISS 814 -->
-      <div class="sp-vcard-hero reveal-up"
-           data-yt-id="q8MD7X3gJLo" data-start="3552" data-end="3600"
-           data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
-           role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
-        <div class="sp-vcard-hero-thumb">
-          <img decoding="async" loading="lazy"
-            src="https://img.youtube.com/vi/q8MD7X3gJLo/maxresdefault.jpg"
-            onerror="this.src='https://img.youtube.com/vi/q8MD7X3gJLo/hqdefault.jpg'"
-            alt="ISS 814 — témoignage">
-          <span class="sp-vcard-ts">▶ Voir</span>
-        </div>
-        <div class="sp-vcard-hero-body">
-          <span class="sp-vcard-hero-quote">« Son sérieux, son travail, ses qualités humaines — il en parle avec enthousiasme. »</span>
-          <div class="sp-vcard-hero-meta">
-            <div class="sp-vcard-hero-who">
-              <span class="sp-vcard-hero-name">ISS 814</span>
-              <span class="sp-vcard-hero-role">Producteur · Artiste · Sénégal · 6 ans</span>
+      <!-- Track scrollable (desktop: grid via CSS revert, mobile: flex scroll) -->
+      <div class="sp-videos-track">
+
+        <!-- SLIDE 1 / HERO CARD — ISS 814 -->
+        <div class="sp-slide">
+          <div class="sp-vcard-hero reveal-up"
+               data-yt-id="q8MD7X3gJLo" data-start="3552" data-end="3600"
+               data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
+               role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
+            <div class="sp-vcard-hero-thumb">
+              <img decoding="async" loading="lazy"
+                src="https://img.youtube.com/vi/q8MD7X3gJLo/maxresdefault.jpg"
+                onerror="this.src='https://img.youtube.com/vi/q8MD7X3gJLo/hqdefault.jpg'"
+                alt="ISS 814 — témoignage">
+              <span class="sp-vcard-ts">▶ Voir</span>
             </div>
-            <div class="sp-vcard-hero-play" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <div class="sp-vcard-hero-body">
+              <span class="sp-vcard-hero-quote">« Son sérieux, son travail, ses qualités humaines — il en parle avec enthousiasme. »</span>
+              <div class="sp-vcard-hero-meta">
+                <div class="sp-vcard-hero-who">
+                  <span class="sp-vcard-hero-name">ISS 814</span>
+                  <span class="sp-vcard-hero-role">Producteur · Artiste · Sénégal · 6 ans</span>
+                </div>
+                <div class="sp-vcard-hero-play" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- SLIDE 2 / COLONNE DROITE — 3 cartes compactes (desktop: colonne, mobile: slide) -->
+        <div class="sp-slide sp-slide-list">
+          <div class="sp-videos-list reveal-up rd1">
+
+            <!-- Carte 1 — ISS 814 bis -->
+            <div class="sp-vcard-row"
+                 data-yt-id="4hQRw6BqAQY" data-start="60" data-end="74"
+                 data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
+                 role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
+              <div class="sp-vcard-row-thumb">
+                <img decoding="async" loading="lazy"
+                  src="https://img.youtube.com/vi/4hQRw6BqAQY/maxresdefault.jpg"
+                  onerror="this.src='https://img.youtube.com/vi/4hQRw6BqAQY/hqdefault.jpg'"
+                  alt="ISS 814">
+                <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
+              </div>
+              <div class="sp-vcard-row-info">
+                <span class="sp-vcard-row-name">ISS 814</span>
+                <span class="sp-vcard-row-role">Producteur · Artiste · Sénégal</span>
+                <span class="sp-vcard-row-quote">« "Trop fort" — le mot sort naturellement. »</span>
+              </div>
+              <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+
+            <!-- Carte 2 — Key Em Ti -->
+            <div class="sp-vcard-row"
+                 data-yt-id="7LgPqfl02yU" data-start="1862" data-end="1870"
+                 data-name="Key Em Ti" data-role="Artiste · Sénégal"
+                 role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
+              <div class="sp-vcard-row-thumb">
+                <img decoding="async" loading="lazy"
+                  src="https://img.youtube.com/vi/7LgPqfl02yU/maxresdefault.jpg"
+                  onerror="this.src='https://img.youtube.com/vi/7LgPqfl02yU/hqdefault.jpg'"
+                  alt="Key Em Ti">
+                <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
+              </div>
+              <div class="sp-vcard-row-info">
+                <span class="sp-vcard-row-name">Key Em Ti</span>
+                <span class="sp-vcard-row-role">Artiste · Sénégal</span>
+                <span class="sp-vcard-row-quote">« Il sort le nom de MDG sans qu'on le lui demande. »</span>
+              </div>
+              <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+
+            <!-- Carte 3 — Emza Young Boss -->
+            <div class="sp-vcard-row"
+                 data-yt-id="1Qaht5EYKds" data-start="988" data-end="995"
+                 data-name="Emza Young Boss" data-role="Artiste · Sénégal"
+                 role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
+              <div class="sp-vcard-row-thumb">
+                <img decoding="async" loading="lazy"
+                  src="https://img.youtube.com/vi/1Qaht5EYKds/maxresdefault.jpg"
+                  onerror="this.src='https://img.youtube.com/vi/1Qaht5EYKds/hqdefault.jpg'"
+                  alt="Emza Young Boss">
+                <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
+              </div>
+              <div class="sp-vcard-row-info">
+                <span class="sp-vcard-row-name">Emza Young Boss</span>
+                <span class="sp-vcard-row-role">Artiste · Sénégal</span>
+                <span class="sp-vcard-row-quote">« "Génie" — le mot sort naturellement. »</span>
+              </div>
+              <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+
+          </div><!-- /.sp-videos-list -->
+        </div><!-- /.sp-slide-list -->
+
+      </div><!-- /.sp-videos-track -->
+
+      <!-- Dots — mobile only (hidden on desktop via CSS) -->
+      <div class="sp-videos-dots" id="sp-videos-dots" aria-hidden="true">
+        <span class="sp-dot active" data-idx="0"></span>
+        <span class="sp-dot" data-idx="1"></span>
       </div>
-
-      <!-- COLONNE DROITE — 3 cartes compactes -->
-      <div class="sp-videos-list reveal-up rd1">
-
-        <!-- Carte 1 — ISS 814 bis -->
-        <div class="sp-vcard-row"
-             data-yt-id="4hQRw6BqAQY" data-start="60" data-end="74"
-             data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
-             role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
-          <div class="sp-vcard-row-thumb">
-            <img decoding="async" loading="lazy"
-              src="https://img.youtube.com/vi/4hQRw6BqAQY/maxresdefault.jpg"
-              onerror="this.src='https://img.youtube.com/vi/4hQRw6BqAQY/hqdefault.jpg'"
-              alt="ISS 814">
-            <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="sp-vcard-row-info">
-            <span class="sp-vcard-row-name">ISS 814</span>
-            <span class="sp-vcard-row-role">Producteur · Artiste · Sénégal</span>
-            <span class="sp-vcard-row-quote">« "Trop fort" — le mot sort naturellement. »</span>
-          </div>
-          <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-
-        <!-- Carte 2 — Key Em Ti -->
-        <div class="sp-vcard-row"
-             data-yt-id="7LgPqfl02yU" data-start="1862" data-end="1870"
-             data-name="Key Em Ti" data-role="Artiste · Sénégal"
-             role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
-          <div class="sp-vcard-row-thumb">
-            <img decoding="async" loading="lazy"
-              src="https://img.youtube.com/vi/7LgPqfl02yU/maxresdefault.jpg"
-              onerror="this.src='https://img.youtube.com/vi/7LgPqfl02yU/hqdefault.jpg'"
-              alt="Key Em Ti">
-            <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="sp-vcard-row-info">
-            <span class="sp-vcard-row-name">Key Em Ti</span>
-            <span class="sp-vcard-row-role">Artiste · Sénégal</span>
-            <span class="sp-vcard-row-quote">« Il sort le nom de MDG sans qu'on le lui demande. »</span>
-          </div>
-          <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-
-        <!-- Carte 3 — Emza Young Boss -->
-        <div class="sp-vcard-row"
-             data-yt-id="1Qaht5EYKds" data-start="988" data-end="995"
-             data-name="Emza Young Boss" data-role="Artiste · Sénégal"
-             role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
-          <div class="sp-vcard-row-thumb">
-            <img decoding="async" loading="lazy"
-              src="https://img.youtube.com/vi/1Qaht5EYKds/maxresdefault.jpg"
-              onerror="this.src='https://img.youtube.com/vi/1Qaht5EYKds/hqdefault.jpg'"
-              alt="Emza Young Boss">
-            <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="sp-vcard-row-info">
-            <span class="sp-vcard-row-name">Emza Young Boss</span>
-            <span class="sp-vcard-row-role">Artiste · Sénégal</span>
-            <span class="sp-vcard-row-quote">« "Génie" — le mot sort naturellement. »</span>
-          </div>
-          <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-
-      </div><!-- /.sp-videos-list -->
 
     </div><!-- /.sp-videos -->
 
@@ -10974,6 +11143,9 @@ body,
         </defs>
       </svg>
 
+      <!-- Track — transparent sur desktop, carousel scroll sur mobile -->
+      <div id="pieter-process-track">
+
       <!-- 01 Brief -->
       <div class="pieter-step reveal-cinema">
         <div class="pieter-step-content">
@@ -11044,6 +11216,16 @@ body,
           <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835363/about_5_jdxu46.jpg" alt="Livraison MDG">
           <div class="pieter-step-media-overlay"></div>
         </div>
+      </div>
+
+      </div><!-- /#pieter-process-track -->
+
+      <!-- Dots pagination — mobile uniquement -->
+      <div class="process-dots" id="process-dots" aria-hidden="true">
+        <span class="process-dot active" data-idx="0"></span>
+        <span class="process-dot" data-idx="1"></span>
+        <span class="process-dot" data-idx="2"></span>
+        <span class="process-dot" data-idx="3"></span>
       </div>
 
     </div>
@@ -19627,23 +19809,41 @@ function cqfGoBack() {
 })();
 </script>
 
+<script>
+/* ── CAROUSEL DOTS — SP Videos & Process ── */
+(function(){
+  function initCarouselDots(trackId, dotsId) {
+    var track = document.getElementById(trackId);
+    var dotsWrap = document.getElementById(dotsId);
+    if (!track || !dotsWrap) return;
+    var dots = dotsWrap.querySelectorAll('[data-idx]');
+    if (!dots.length) return;
 
+    function updateDots() {
+      var scrollLeft = track.scrollLeft;
+      var slideWidth = track.clientWidth;
+      // For sp-videos-track: slides are sp-slide children
+      // For pieter-process-track: slides are pieter-step children
+      var idx = Math.round(scrollLeft / slideWidth);
+      dots.forEach(function(d, i) {
+        d.classList.toggle('active', i === idx);
+      });
+    }
 
-<style>
-/* ── Fix panels portfolio : work-card et cov-card restent à opacity:0
-   car leurs panels (acc-work, acc-covers) sont display:none au moment
-   où GSAP calcule les ScrollTriggers. On les révèle après switch. ── */
-#acc-work.active .work-card,
-#acc-covers.active .cov-card {
-  opacity: 1 !important;
-  transform: none !important;
-}
+    track.addEventListener('scroll', updateDots, { passive: true });
 
-/* ── Fix acc-motion : panel actif par défaut mais GSAP peut bloquer l'opacité ── */
-#pnl-work.active .work-card {
-  opacity: 1 !important;
-  transform: none !important;
-}
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        var idx = parseInt(this.dataset.idx);
+        track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' });
+      });
+    });
+  }
+
+  initCarouselDots('sp-videos-track', 'sp-videos-dots');
+  initCarouselDots('pieter-process-track', 'process-dots');
+})();
+</script>
 
 /* ── MOBILE FALLBACK UNIVERSEL : forcer la visibilité des éléments GSAP sur mobile ──
    On utilise une transition fade-in subtile plutôt qu'un forçage brutal pour
