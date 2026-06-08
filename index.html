@@ -4158,34 +4158,37 @@ nav::before { display:none; }
   .sp-quote-role { font-size: .6rem !important; }
 }
 
-/* ── VIDEO CARDS PREMIUM ── */
-/* ══ VIDÉOS TÉMOIGNAGES — LAYOUT ÉDITORIAL ══ */
+/* ══════════════════════════════════════════════
+   YT VIDEO CARDS — PREMIUM CINEMATIC REDESIGN
+   ══════════════════════════════════════════════ */
 
-/* Conteneur global */
+/* Grid 2 colonnes : 1 hero large + 3 cartes secondaires */
 .sp-videos {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0 3rem 0;
 }
 
-/* ── Card principale (hero) ── */
+/* ── HERO CARD (grande, colonne gauche) ── */
 .sp-vcard-hero {
   position: relative;
   cursor: pointer;
-  border-radius: 4px;
+  background: #060606;
   overflow: hidden;
-  background: #080808;
-  border: 1px solid rgba(255,255,255,.07);
-  transition: border-color .4s;
   -webkit-tap-highlight-color: transparent;
+  grid-row: span 1;
 }
-.sp-vcard-hero:hover { border-color: rgba(255,255,255,.16); }
 
+/* Poster = image statique YouTube, pas d'iframe */
 .sp-vcard-hero-thumb {
   position: relative;
   width: 100%;
-  aspect-ratio: 16/9;
+  aspect-ratio: 4/3;
   overflow: hidden;
   background: #0a0a0a;
 }
@@ -4193,37 +4196,60 @@ nav::before { display:none; }
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
-  filter: grayscale(20%) brightness(.82);
-  transition: filter .5s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+  filter: grayscale(30%) brightness(.72) contrast(1.05);
+  transition: filter .65s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
 }
 .sp-vcard-hero:hover .sp-vcard-hero-thumb img {
-  filter: grayscale(0%) brightness(.95);
-  transform: scale(1.03);
+  filter: grayscale(0%) brightness(.88) contrast(1);
+  transform: scale(1.05);
 }
-/* Gradient fort vers le bas pour faire respirer la citation */
+/* Gradient cinématique bas */
 .sp-vcard-hero-thumb::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(6,6,6,.98) 0%, rgba(6,6,6,.55) 40%, rgba(6,6,6,.08) 100%);
+  background:
+    linear-gradient(to top, rgba(6,6,6,1) 0%, rgba(6,6,6,.7) 35%, rgba(6,6,6,.0) 65%),
+    linear-gradient(to bottom, rgba(6,6,6,.3) 0%, transparent 30%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Numéro de durée timestamp — badge coin haut-droit */
+.sp-vcard-ts {
+  position: absolute;
+  top: .75rem; right: .75rem;
+  z-index: 3;
+  font-family: 'Syne', sans-serif;
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.65);
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(4px);
+  padding: .22rem .55rem;
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,.1);
   pointer-events: none;
 }
 
-/* Citation directement sur l'image */
+/* Contenu positionné sur l'image */
 .sp-vcard-hero-body {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  padding: 1.75rem 1.5rem 1.5rem;
+  padding: 1.5rem 1.5rem 1.75rem;
   z-index: 2;
 }
 .sp-vcard-hero-quote {
   font-family: 'DM Serif Display', serif;
   font-style: italic;
-  font-size: clamp(1.05rem, 3.2vw, 1.4rem);
-  line-height: 1.4;
-  color: rgba(255,255,255,.92);
-  margin-bottom: 1rem;
+  font-size: clamp(.95rem, 2.4vw, 1.25rem);
+  line-height: 1.45;
+  color: rgba(255,255,255,.88);
+  margin-bottom: 1.1rem;
   display: block;
+  max-width: 420px;
 }
 .sp-vcard-hero-meta {
   display: flex;
@@ -4234,99 +4260,107 @@ nav::before { display:none; }
 .sp-vcard-hero-who {
   display: flex;
   flex-direction: column;
-  gap: .15rem;
+  gap: .12rem;
 }
 .sp-vcard-hero-name {
   font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: .78rem;
-  letter-spacing: .06em;
+  font-weight: 800;
+  font-size: .7rem;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--light);
 }
 .sp-vcard-hero-role {
-  font-size: .6rem;
-  color: var(--dim);
+  font-size: .57rem;
+  color: rgba(255,255,255,.38);
   letter-spacing: .04em;
 }
 
-/* Bouton play hero */
+/* Bouton play hero — cercle premium */
 .sp-vcard-hero-play {
-  width: 44px; height: 44px;
+  width: 52px; height: 52px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,.25);
-  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(6px);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  transition: background .3s, border-color .3s, transform .3s cubic-bezier(.16,1,.3,1);
+  transition: background .35s, border-color .35s, transform .4s cubic-bezier(.16,1,.3,1), box-shadow .35s;
 }
 .sp-vcard-hero:hover .sp-vcard-hero-play {
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: scale(1.08);
+  background: rgba(255,255,255,.95);
+  border-color: rgba(255,255,255,.95);
+  transform: scale(1.1);
+  box-shadow: 0 0 28px rgba(255,255,255,.18);
 }
 .sp-vcard-hero:hover .sp-vcard-hero-play svg { fill: #000; }
-.sp-vcard-hero-play svg { fill: rgba(255,255,255,.9); margin-left: 2px; transition: fill .3s; }
+.sp-vcard-hero-play svg { fill: rgba(255,255,255,.9); margin-left: 3px; transition: fill .3s; }
 
-/* ── Séparateur liste ── */
+/* Ligne verticale gauche — accent hover */
+.sp-vcard-hero::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0; width: 2px;
+  background: rgba(255,255,255,.9);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .5s cubic-bezier(.16,1,.3,1);
+  z-index: 5;
+}
+.sp-vcard-hero:hover::before { transform: scaleY(1); }
+
+/* ── COLONNE DROITE — 3 cards secondaires empilées ── */
 .sp-videos-list {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid rgba(255,255,255,.07);
+  background: #060606;
 }
 
-/* ── Ligne compacte (cards secondaires) ── */
+/* ── Carte compacte secondaire ── */
 .sp-vcard-row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 0;
-  cursor: pointer;
-  border-bottom: 1px solid rgba(255,255,255,.05);
   position: relative;
-  transition: background .25s;
+  display: flex;
+  align-items: stretch;
+  cursor: pointer;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,.06);
   -webkit-tap-highlight-color: transparent;
+  transition: background .25s;
 }
 .sp-vcard-row:last-child { border-bottom: none; }
-.sp-vcard-row::before {
-  content: '';
-  position: absolute;
-  left: -1rem; right: -1rem; top: 0; bottom: 0;
-  background: rgba(255,255,255,.03);
-  opacity: 0;
-  transition: opacity .25s;
-}
-.sp-vcard-row:hover::before { opacity: 1; }
+.sp-vcard-row:hover { background: rgba(255,255,255,.025); }
 
-/* Thumbnail ligne */
+/* Thumbnail gauche — proportion verticale */
 .sp-vcard-row-thumb {
   position: relative;
-  width: 96px;
-  aspect-ratio: 16/9;
+  width: 38%;
   flex-shrink: 0;
-  border-radius: 3px;
   overflow: hidden;
-  background: #111;
+  background: #0a0a0a;
 }
 .sp-vcard-row-thumb img {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
-  filter: grayscale(25%) brightness(.8);
-  transition: filter .35s;
+  filter: grayscale(40%) brightness(.65);
+  transition: filter .4s, transform .55s cubic-bezier(.16,1,.3,1);
 }
 .sp-vcard-row:hover .sp-vcard-row-thumb img {
-  filter: grayscale(0%) brightness(1);
+  filter: grayscale(0%) brightness(.85);
+  transform: scale(1.06);
 }
-/* Petit play centré */
+/* Overlay sombre + dégradé droite */
 .sp-vcard-row-thumb::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,.18);
-  display: flex;
+  background: linear-gradient(to right, transparent 55%, rgba(6,6,6,.8) 100%);
   pointer-events: none;
 }
+
+/* Icône play centrée sur la thumbnail */
 .sp-vcard-row-play {
   position: absolute;
   inset: 0;
@@ -4334,69 +4368,83 @@ nav::before { display:none; }
   z-index: 2;
 }
 .sp-vcard-row-play svg {
-  fill: rgba(255,255,255,.7);
-  filter: drop-shadow(0 1px 6px rgba(0,0,0,.7));
-  transition: fill .25s, transform .25s cubic-bezier(.16,1,.3,1);
+  fill: rgba(255,255,255,.5);
+  filter: drop-shadow(0 1px 8px rgba(0,0,0,.8));
+  transition: fill .25s, transform .3s cubic-bezier(.16,1,.3,1);
+  width: 22px; height: 22px;
 }
 .sp-vcard-row:hover .sp-vcard-row-play svg {
-  fill: #fff;
-  transform: scale(1.15);
+  fill: rgba(255,255,255,.9);
+  transform: scale(1.2);
 }
 
-/* Info ligne */
+/* Info droite de la thumbnail */
 .sp-vcard-row-info {
   flex: 1;
-  min-width: 0;
+  padding: 1rem 1rem 1rem .9rem;
   display: flex;
   flex-direction: column;
-  gap: .2rem;
+  justify-content: center;
+  gap: .25rem;
+  min-width: 0;
 }
 .sp-vcard-row-name {
   font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: .78rem;
+  font-weight: 800;
+  font-size: .7rem;
   color: var(--light);
-  letter-spacing: .02em;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 .sp-vcard-row-role {
-  font-size: .6rem;
-  color: var(--dim);
+  font-size: .57rem;
+  color: rgba(255,255,255,.32);
   letter-spacing: .03em;
 }
 .sp-vcard-row-quote {
-  font-size: .65rem;
+  font-family: 'DM Serif Display', serif;
   font-style: italic;
-  color: rgba(255,255,255,.4);
-  margin-top: .1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: .72rem;
+  line-height: 1.5;
+  color: rgba(255,255,255,.52);
+  margin-top: .3rem;
 }
 
-/* Flèche discrète droite */
+/* Flèche discète */
 .sp-vcard-row-arr {
-  flex-shrink: 0;
-  color: rgba(255,255,255,.18);
+  position: absolute;
+  bottom: .85rem; right: .85rem;
+  color: rgba(255,255,255,.12);
   transition: color .25s, transform .25s;
+  width: 12px; height: 12px;
 }
 .sp-vcard-row:hover .sp-vcard-row-arr {
-  color: rgba(255,255,255,.55);
-  transform: translateX(3px);
+  color: rgba(255,255,255,.45);
+  transform: translateX(2px);
 }
 
-/* ── Lightbox (inchangée) ── */
+/* ══════════════════════════════
+   LIGHTBOX VIDÉO — FULLSCREEN
+   ══════════════════════════════ */
 #sp-video-lb {
   position: fixed;
   inset: 0;
-  z-index: 9000;
-  background: rgba(0,0,0,.92);
-  backdrop-filter: blur(12px);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .3s;
+  transition: opacity .38s cubic-bezier(.16,1,.3,1);
+}
+/* Fond noir + blur */
+#sp-video-lb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.94);
+  backdrop-filter: blur(18px) saturate(.6);
+  -webkit-backdrop-filter: blur(18px) saturate(.6);
 }
 #sp-video-lb.open {
   opacity: 1;
@@ -4404,47 +4452,137 @@ nav::before { display:none; }
 }
 #sp-video-lb-inner {
   position: relative;
-  width: min(840px, 92vw);
+  width: min(900px, 92vw);
   aspect-ratio: 16/9;
-  border-radius: 10px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 32px 80px rgba(0,0,0,.8);
-  transform: scale(.94);
-  transition: transform .35s cubic-bezier(.16,1,.3,1);
+  box-shadow: 0 40px 100px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.07);
+  transform: translateY(18px) scale(.96);
+  transition: transform .45s cubic-bezier(.16,1,.3,1);
+  z-index: 1;
 }
-#sp-video-lb.open #sp-video-lb-inner { transform: scale(1); }
+#sp-video-lb.open #sp-video-lb-inner {
+  transform: translateY(0) scale(1);
+}
+/* Iframe YT */
 #sp-video-lb iframe {
   width: 100%; height: 100%;
   border: none; display: block;
+  border-radius: 4px;
 }
+/* Poster pré-chargé dans le inner — swap au clic */
+#sp-video-lb-poster {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  width: 100%; height: 100%;
+  display: block;
+  z-index: 2;
+  transition: opacity .3s;
+}
+#sp-video-lb.loading #sp-video-lb-poster { opacity: 1; }
+#sp-video-lb:not(.loading) #sp-video-lb-poster { opacity: 0; pointer-events: none; }
+
+/* Spinner centré pendant le chargement */
+#sp-video-lb-spinner {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+}
+#sp-video-lb.loading #sp-video-lb-spinner { opacity: 1; }
+#sp-video-lb-spinner span {
+  width: 36px; height: 36px;
+  border: 2px solid rgba(255,255,255,.15);
+  border-top-color: rgba(255,255,255,.8);
+  border-radius: 50%;
+  animation: sp-spin .7s linear infinite;
+}
+@keyframes sp-spin { to { transform: rotate(360deg); } }
+
+/* Bouton fermer — en dehors du inner */
 #sp-video-lb-close {
   position: absolute;
-  top: -44px; right: 0;
-  width: 36px; height: 36px;
+  top: calc(50% - min(450px, 46vw) - 52px);
+  right: calc(50% - min(450px, 46vw));
+  z-index: 10;
+  width: 40px; height: 40px;
   border-radius: 50%;
-  background: rgba(255,255,255,.1);
-  border: 1px solid rgba(255,255,255,.15);
-  color: #fff;
-  font-size: 1rem;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.8);
+  font-size: .9rem;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: background .2s;
+  transition: background .2s, transform .2s;
   line-height: 1;
 }
-#sp-video-lb-close:hover { background: rgba(255,255,255,.2); }
+#sp-video-lb-close:hover { background: rgba(255,255,255,.18); transform: scale(1.08); }
+
+/* Label artiste + titre en bas du lightbox */
+#sp-video-lb-meta {
+  position: absolute;
+  bottom: calc(50% - min(253px, 25.9vw) - 54px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  opacity: 0;
+  transition: opacity .35s .2s;
+  white-space: nowrap;
+}
+#sp-video-lb.open #sp-video-lb-meta { opacity: 1; }
+#sp-video-lb-meta-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.65);
+}
+#sp-video-lb-meta-sep {
+  width: 1px; height: 10px;
+  background: rgba(255,255,255,.2);
+}
+#sp-video-lb-meta-role {
+  font-size: .6rem;
+  color: rgba(255,255,255,.28);
+  letter-spacing: .04em;
+}
 
 /* ── Responsive ── */
-@media(max-width:900px){
-  .sp-vcard-hero-body { padding: 1.25rem 1rem 1rem; }
-  .sp-vcard-hero-quote { font-size: clamp(.92rem, 4vw, 1.1rem); }
+@media(max-width: 900px) {
+  .sp-videos {
+    grid-template-columns: 1fr;
+    margin: 0 1.25rem;
+  }
+  .sp-vcard-hero-thumb { aspect-ratio: 16/9; }
+  .sp-vcard-hero-quote { font-size: clamp(.88rem, 4vw, 1.1rem); }
+  .sp-vcard-hero-play { width: 44px; height: 44px; }
+  .sp-videos-list { border-top: 1px solid rgba(255,255,255,.06); }
+  .sp-vcard-row { min-height: 88px; }
+  .sp-vcard-row-thumb { width: 36%; }
+  #sp-video-lb-close {
+    top: 1rem; right: 1rem;
+    position: fixed;
+  }
+  #sp-video-lb-meta { display: none; }
+  #sp-video-lb-inner {
+    width: 96vw;
+    border-radius: 3px;
+  }
 }
-@media(max-width:480px){
-  .sp-vcard-row-thumb { width: 80px; }
+@media(max-width: 480px) {
   .sp-vcard-row-quote { display: none; }
-  .sp-vcard-hero-play { width: 38px; height: 38px; }
+  .sp-vcard-row-info { padding: .75rem .75rem .75rem .65rem; }
 }
 
-/* Conserver les anciens sélecteurs pour ne pas casser le JS lightbox */
+/* Compatibilité anciens sélecteurs */
 .sp-vcard { display: contents; }
 .sp-vcard-thumb, .sp-vcard-footer, .sp-vcard-avatar,
 .sp-vcard-meta, .sp-vcard-name, .sp-vcard-role,
@@ -9307,13 +9445,17 @@ body,
     <!-- Vidéos témoignages — layout éditorial -->
     <div class="sp-videos" id="sp-audio-grid">
 
-      <!-- HERO CARD — ISS 814 (citation principale) -->
-      <div class="sp-vcard-hero reveal-up" data-yt-id="q8MD7X3gJLo" data-start="3552" role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
+      <!-- HERO CARD — ISS 814 -->
+      <div class="sp-vcard-hero reveal-up"
+           data-yt-id="q8MD7X3gJLo" data-start="3552" data-end="3600"
+           data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
+           role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
         <div class="sp-vcard-hero-thumb">
           <img decoding="async" loading="lazy"
             src="https://img.youtube.com/vi/q8MD7X3gJLo/maxresdefault.jpg"
             onerror="this.src='https://img.youtube.com/vi/q8MD7X3gJLo/hqdefault.jpg'"
             alt="ISS 814 — témoignage">
+          <span class="sp-vcard-ts">▶ Voir</span>
         </div>
         <div class="sp-vcard-hero-body">
           <span class="sp-vcard-hero-quote">« Son sérieux, son travail, ses qualités humaines — il en parle avec enthousiasme. »</span>
@@ -9323,75 +9465,91 @@ body,
               <span class="sp-vcard-hero-role">Producteur · Artiste · Sénégal · 6 ans</span>
             </div>
             <div class="sp-vcard-hero-play" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- LISTE COMPACTE — 3 cartes secondaires -->
+      <!-- COLONNE DROITE — 3 cartes compactes -->
       <div class="sp-videos-list reveal-up rd1">
 
-        <!-- Ligne 1 — ISS 814 bis -->
-        <div class="sp-vcard-row" data-yt-id="4hQRw6BqAQY" data-start="60" role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
+        <!-- Carte 1 — ISS 814 bis -->
+        <div class="sp-vcard-row"
+             data-yt-id="4hQRw6BqAQY" data-start="60" data-end="74"
+             data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
+             role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
           <div class="sp-vcard-row-thumb">
             <img decoding="async" loading="lazy"
               src="https://img.youtube.com/vi/4hQRw6BqAQY/maxresdefault.jpg"
               onerror="this.src='https://img.youtube.com/vi/4hQRw6BqAQY/hqdefault.jpg'"
               alt="ISS 814">
-            <div class="sp-vcard-row-play"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
           <div class="sp-vcard-row-info">
             <span class="sp-vcard-row-name">ISS 814</span>
             <span class="sp-vcard-row-role">Producteur · Artiste · Sénégal</span>
             <span class="sp-vcard-row-quote">« "Trop fort" — le mot sort naturellement. »</span>
           </div>
-          <svg class="sp-vcard-row-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
 
-        <!-- Ligne 2 — Key Em Ti -->
-        <div class="sp-vcard-row" data-yt-id="7LgPqfl02yU" data-start="1862" role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
+        <!-- Carte 2 — Key Em Ti -->
+        <div class="sp-vcard-row"
+             data-yt-id="7LgPqfl02yU" data-start="1862" data-end="1870"
+             data-name="Key Em Ti" data-role="Artiste · Sénégal"
+             role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
           <div class="sp-vcard-row-thumb">
             <img decoding="async" loading="lazy"
               src="https://img.youtube.com/vi/7LgPqfl02yU/maxresdefault.jpg"
               onerror="this.src='https://img.youtube.com/vi/7LgPqfl02yU/hqdefault.jpg'"
               alt="Key Em Ti">
-            <div class="sp-vcard-row-play"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
           <div class="sp-vcard-row-info">
             <span class="sp-vcard-row-name">Key Em Ti</span>
             <span class="sp-vcard-row-role">Artiste · Sénégal</span>
             <span class="sp-vcard-row-quote">« Il sort le nom de MDG sans qu'on le lui demande. »</span>
           </div>
-          <svg class="sp-vcard-row-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
 
-        <!-- Ligne 3 — Emza Young Boss -->
-        <div class="sp-vcard-row" data-yt-id="1Qaht5EYKds" data-start="988" role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
+        <!-- Carte 3 — Emza Young Boss -->
+        <div class="sp-vcard-row"
+             data-yt-id="1Qaht5EYKds" data-start="988" data-end="995"
+             data-name="Emza Young Boss" data-role="Artiste · Sénégal"
+             role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
           <div class="sp-vcard-row-thumb">
             <img decoding="async" loading="lazy"
               src="https://img.youtube.com/vi/1Qaht5EYKds/maxresdefault.jpg"
               onerror="this.src='https://img.youtube.com/vi/1Qaht5EYKds/hqdefault.jpg'"
               alt="Emza Young Boss">
-            <div class="sp-vcard-row-play"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="sp-vcard-row-play"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
           <div class="sp-vcard-row-info">
             <span class="sp-vcard-row-name">Emza Young Boss</span>
             <span class="sp-vcard-row-role">Artiste · Sénégal</span>
             <span class="sp-vcard-row-quote">« "Génie" — le mot sort naturellement. »</span>
           </div>
-          <svg class="sp-vcard-row-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg class="sp-vcard-row-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
 
       </div><!-- /.sp-videos-list -->
 
     </div><!-- /.sp-videos -->
 
-    <!-- Lightbox vidéo -->
+    <!-- Lightbox vidéo — fullscreen premium -->
     <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Vidéo témoignage">
+      <button id="sp-video-lb-close" aria-label="Fermer">&#10005;</button>
       <div id="sp-video-lb-inner">
-        <button id="sp-video-lb-close" aria-label="Fermer">&#10005;</button>
+        <img id="sp-video-lb-poster" src="" alt="" aria-hidden="true">
+        <div id="sp-video-lb-spinner"><span></span></div>
         <div id="sp-video-lb-frame"></div>
+      </div>
+      <div id="sp-video-lb-meta">
+        <span id="sp-video-lb-meta-name"></span>
+        <span id="sp-video-lb-meta-sep"></span>
+        <span id="sp-video-lb-meta-role"></span>
       </div>
     </div>
   </div>
@@ -11005,7 +11163,7 @@ body,
   .container { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
   section, #about, #services, #collabs, #press, #process, #pricing, #faq, #contact { overflow-x: hidden; }
   .sp-header, .sp-feature { padding-left: 1.25rem !important; padding-right: 1.25rem !important; margin-left: 0 !important; margin-right: 0 !important; }
-  .sp-videos { padding: 0 1.25rem !important; gap: .75rem !important; }
+  .sp-videos { margin-left: 1.25rem !important; margin-right: 1.25rem !important; }
   .proc-timeline { margin: 1.5rem 1.25rem 0 !important; }
   .proc-conds { margin: 1.5rem 1.25rem 0 !important; border-radius: 14px; }
   .port-header { padding: 2rem 1.25rem 1.25rem !important; }
@@ -19285,41 +19443,104 @@ function cqfGoBack() {
 </script>
 
 <script>
-/* ── VIDEO LIGHTBOX — témoignages ── */
+/* ── VIDEO LIGHTBOX PREMIUM — lazy iframe + iOS scroll-lock fix ── */
 (function(){
-  var lb    = document.getElementById('sp-video-lb');
-  var frame = document.getElementById('sp-video-lb-frame');
-  var close = document.getElementById('sp-video-lb-close');
-  if(!lb || !frame || !close) return;
+  var lb      = document.getElementById('sp-video-lb');
+  var frame   = document.getElementById('sp-video-lb-frame');
+  var closBtn = document.getElementById('sp-video-lb-close');
+  var poster  = document.getElementById('sp-video-lb-poster');
+  var metaN   = document.getElementById('sp-video-lb-meta-name');
+  var metaR   = document.getElementById('sp-video-lb-meta-role');
+  if(!lb || !frame || !closBtn) return;
 
   var cards = document.querySelectorAll('.sp-vcard-hero, .sp-vcard-row');
   if(!cards.length) return;
 
-  function openYtLb(ytId, start){
-    var t = parseInt(start)||0;
-    frame.innerHTML = '<iframe src="https://www.youtube.com/embed/'+ytId+'?autoplay=1&start='+t+'&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
+  /* iOS scroll-lock — body position:fixed trick */
+  var _scrollY = 0;
+  function lockScroll(){
+    _scrollY = window.scrollY || window.pageYOffset;
+    document.body.style.cssText +=
+      ';position:fixed;top:-' + _scrollY + 'px;left:0;right:0;overflow:hidden;';
+  }
+  function unlockScroll(){
+    document.body.style.position  = '';
+    document.body.style.top       = '';
+    document.body.style.left      = '';
+    document.body.style.right     = '';
+    document.body.style.overflow  = '';
+    window.scrollTo(0, _scrollY);
+  }
+
+  function openYtLb(ytId, start, end, name, role){
+    var t = parseInt(start) || 0;
+
+    /* Poster immédiat = thumbnail déjà chargée dans la card */
+    if(poster){
+      poster.src = 'https://img.youtube.com/vi/' + ytId + '/maxresdefault.jpg';
+      poster.onerror = function(){ this.src = 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg'; };
+    }
+
+    /* Metadata */
+    if(metaN) metaN.textContent = name || '';
+    if(metaR) metaR.textContent = role || '';
+
+    /* Ouvrir l'overlay AVANT l'iframe — poster visible tout de suite */
+    lb.classList.add('open', 'loading');
+    lockScroll();
+
+    /* Créer l'iframe avec un léger délai pour laisser l'animation se jouer */
+    setTimeout(function(){
+      var iframe = document.createElement('iframe');
+      var e = parseInt(end) || 0;
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + ytId
+        + '?autoplay=1&start=' + t
+        + (e > 0 ? '&end=' + e : '')
+        + '&rel=0&modestbranding=1&playsinline=1&color=white';
+      iframe.allow = 'autoplay; encrypted-media; fullscreen';
+      iframe.allowFullscreen = true;
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+
+      /* Retirer le spinner quand l'iframe est prête */
+      iframe.addEventListener('load', function(){
+        lb.classList.remove('loading');
+      });
+
+      /* Sécurité timeout — retirer spinner après 6s max */
+      var spTimer = setTimeout(function(){ lb.classList.remove('loading'); }, 6000);
+      iframe.addEventListener('load', function(){ clearTimeout(spTimer); });
+
+      frame.innerHTML = '';
+      frame.appendChild(iframe);
+    }, 120);
+
+    /* Focus trap */
+    setTimeout(function(){ closBtn.focus(); }, 180);
   }
 
   function closeYtLb(){
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-    setTimeout(function(){ frame.innerHTML = ''; }, 350);
+    lb.classList.remove('open', 'loading');
+    unlockScroll();
+    /* Détruire l'iframe après l'animation — stoppe la lecture audio */
+    setTimeout(function(){
+      frame.innerHTML = '';
+      if(poster) poster.src = '';
+    }, 420);
   }
 
+  /* Bind cards */
   cards.forEach(function(card){
-    card.addEventListener('click', function(){
-      openYtLb(card.dataset.ytId, card.dataset.start);
-    });
+    function open(){ openYtLb(card.dataset.ytId, card.dataset.start, card.dataset.end, card.dataset.name, card.dataset.role); }
+    card.addEventListener('click', open);
     card.addEventListener('keydown', function(e){
-      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openYtLb(card.dataset.ytId, card.dataset.start); }
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); }
     });
   });
 
-  close.addEventListener('click', closeYtLb);
+  closBtn.addEventListener('click', closeYtLb);
   lb.addEventListener('click', function(e){ if(e.target === lb) closeYtLb(); });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeYtLb(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && lb.classList.contains('open')) closeYtLb(); });
 })();
 </script>
 
