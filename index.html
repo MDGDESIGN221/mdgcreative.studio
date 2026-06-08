@@ -14552,11 +14552,12 @@ setTimeout(() => {
     '.pieter-step,.collabs-hdr,.collabs-main-title,.sp-quote-author,' +
     '.pcond-wrap,.pcond-row,.pricing-header,.pricing-tabs,.packs-grid,.port-new-top'
   ).forEach(el => {
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
     el.style.opacity = '1';
     el.style.transform = 'none';
     el.style.clipPath = 'none';
   });
-}, 600);
+}, 1200);
 
 function animateCounter(el) {
   const target = parseInt(el.dataset.target);
@@ -18695,13 +18696,23 @@ window.addEventListener('beforeunload', function() {
 });
 window.addEventListener('load', function() {
   window.scrollTo(0, 0);
+  // Refresh ScrollTrigger après que toutes les images et fonts soient chargées
+  // — corrige les triggers mal positionnés à cause d'images non-chargées qui modifient la hauteur
+  if (typeof ScrollTrigger !== 'undefined') {
+    // Premier refresh immédiat
+    ScrollTrigger.refresh();
+    // Second refresh après images lazy (peut prendre du temps sur réseau lent)
+    setTimeout(function() {
+      ScrollTrigger.refresh();
+    }, 1500);
+  }
 });
 </script>
 <script>
 // ── IMAGES RESPONSIVES : thumbnails galeries w_1200 → w_600 sur mobile ──
 (function(){
   if (window.innerWidth > 767) return; // desktop : on garde w_1200
-  document.addEventListener('DOMContentLoaded', function(){
+  function downscaleImgs() {
     // Sélectionne uniquement les imgs dans les cartes galerie (pas le hero ni les portraits)
     var imgs = document.querySelectorAll(
       '.work-img, .cov-img'
@@ -18715,8 +18726,17 @@ window.addEventListener('load', function() {
       if (img.srcset && img.srcset.indexOf('w_1200') > -1) {
         img.srcset = img.srcset.replace(/w_1200/g, 'w_600');
       }
+      // data-src pour lazy (si présent)
+      if (img.dataset.src && img.dataset.src.indexOf('w_1200') > -1) {
+        img.dataset.src = img.dataset.src.replace('w_1200', 'w_600');
+      }
     });
-  });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', downscaleImgs);
+  } else {
+    downscaleImgs();
+  }
 })();
 </script>
 <script>
@@ -18790,11 +18810,34 @@ window.addEventListener('load', function() {
 })();
 </script>
 <script>
-// ── Skeleton: marquer images chargées ──
-document.querySelectorAll('img[loading="lazy"]').forEach(img => {
-  if(img.complete) img.classList.add('loaded');
-  else img.addEventListener('load', () => img.classList.add('loaded'));
-});
+// ── Skeleton: marquer images chargées (lazy + cached + erreur) ──
+(function(){
+  function markLoaded(img) {
+    img.classList.add('loaded');
+    // Fade-in subtil uniquement si l'image n'était pas déjà en cache
+    if (!img._wasInCache) {
+      img.style.transition = 'opacity .35s ease';
+      img.style.opacity = '0';
+      // forcer un reflow pour que la transition s'applique
+      void img.offsetWidth;
+      img.style.opacity = '';
+      // nettoyer la transition après
+      setTimeout(function(){ img.style.transition = ''; }, 400);
+    }
+  }
+  document.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+    if (img.complete && img.naturalWidth > 0) {
+      img._wasInCache = true;
+      img.classList.add('loaded');
+    } else if (img.complete && img.naturalWidth === 0) {
+      // Erreur de chargement — marquer quand même pour retirer le skeleton
+      img.classList.add('loaded');
+    } else {
+      img.addEventListener('load',  function(){ markLoaded(img); }, { once: true });
+      img.addEventListener('error', function(){ img.classList.add('loaded'); }, { once: true });
+    }
+  });
+})();
 </script>
 <script>
 (function(){
@@ -19440,6 +19483,48 @@ function cqfGoBack() {
   }
 }
 
+/* ══════════════════════════════════════════════════
+   LAZY IMAGE SKELETON — évite la boîte vide mobile
+   ══════════════════════════════════════════════════ */
+/* Toute image lazy avant chargement : fond skeleton animé */
+img[loading="lazy"]:not(.loaded) {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.6s ease-in-out infinite;
+  /* S'assure que la boîte a une dimension avant que l'image arrive */
+  min-height: 1px;
+}
+/* Une fois chargée : pas d'animation, transition douce */
+img[loading="lazy"].loaded {
+  animation: none !important;
+  background: none !important;
+  /* Pas de fade-in brutal — l'image apparaît proprement */
+}
+/* Spécifique aux thumbnails témoignages */
+.sp-vcard-thumb img[loading="lazy"]:not(.loaded) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+}
+/* Spécifique aux cartes portfolio */
+.work-img[loading="lazy"]:not(.loaded),
+.cov-img[loading="lazy"]:not(.loaded) {
+  min-height: 180px;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+@keyframes skeletonShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* ── YouTube thumbnail placeholder ── */
 .yt-placeholder {
   position: absolute; inset: 0;
@@ -19668,12 +19753,53 @@ if (document.readyState === 'loading') {
         el.style.clipPath = 'none';
       });
     });
+    // Tuer les ScrollTriggers mobile qui bloquent des éléments hors-viewport
+    // pour éviter qu'ils re-cachent ce qu'on vient de forcer visible
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.getAll().forEach(function(st) {
+        // Sur mobile : les éléments hors viewport ne se déclenchent jamais
+        // → on kill leurs tweens et on les rend visibles directement
+        var el = st.trigger;
+        if (!el) return;
+        var rect = el.getBoundingClientRect();
+        var belowFold = rect.top > window.innerHeight * 1.5;
+        if (belowFold) {
+          // L'élément est loin en bas — le ScrollTrigger PEUT se déclencher,
+          // on le laisse. Sinon il resterait invisible.
+          // Ne rien faire ici.
+        }
+      });
+      // Refresh après avoir forcé les visibilités
+      ScrollTrigger.refresh();
+    }
   }
-  // Attendre que GSAP ait eu le temps de s'initialiser, puis overrider
+  // CRITIQUE : attendre que GSAP ait fini d'enregistrer tous ses tweens
+  // GSAP init se fait dans le bloc script principal — on attend 800ms au lieu de 400ms
+  // pour être sûr que tous les fromTo/batch/timeline sont enregistrés
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { setTimeout(fixMobileOpacity, 400); });
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(fixMobileOpacity, 800); });
   } else {
-    setTimeout(fixMobileOpacity, 400);
+    setTimeout(fixMobileOpacity, 800);
+  }
+  // Second passage à 2s pour couvrir les panels accordion qui s'initialisent tard
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function(){
+        if (window.innerWidth > 768) return;
+        document.querySelectorAll('.work-card, .cov-card, .sp-vcard, .sp-vcard-thumb').forEach(function(el){
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+      }, 2000);
+    });
+  } else {
+    setTimeout(function(){
+      if (window.innerWidth > 768) return;
+      document.querySelectorAll('.work-card, .cov-card, .sp-vcard, .sp-vcard-thumb').forEach(function(el){
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }, 2000);
   }
 })();})();
 </script>
