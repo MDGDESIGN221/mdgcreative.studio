@@ -11100,6 +11100,14 @@ body,
         <div class="proc-cond-expl">Tu reviens régulièrement ? Je t'offre 20% de réduction sur tous tes projets suivants. La fidélité, ça mérite d'être récompensée.</div>
       </div>
     </div>
+    <!-- Dots carousel mobile -->
+    <div class="proc-conds-dots" id="procCondsDots" style="display:none">
+      <span class="proc-conds-dot active"></span>
+      <span class="proc-conds-dot"></span>
+      <span class="proc-conds-dot"></span>
+      <span class="proc-conds-dot"></span>
+      <span class="proc-conds-dot"></span>
+    </div>
 
   </div>
 </section>
@@ -11333,8 +11341,52 @@ body,
   .proc-dot { margin-bottom: 0; flex-shrink: 0; width: 44px; height: 44px; }
   .proc-card { border-radius: 12px; }
 }
-@media(max-width:500px) {
-  .proc-conds { grid-template-columns: 1fr; }
+@media(max-width:600px) {
+  /* Carousel horizontal natif — scroll-snap */
+  .proc-conds {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0 !important;
+    margin: 1.5rem 0 0 !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+  .proc-conds::-webkit-scrollbar { display: none; }
+  .proc-cond {
+    flex: 0 0 78vw !important;
+    scroll-snap-align: start;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    margin-left: 1.25rem;
+    min-height: 0;
+    justify-content: flex-start;
+  }
+  .proc-cond:last-child { margin-right: 1.25rem; }
+  /* Dots indicator */
+  .proc-conds-dots {
+    display: flex !important;
+    justify-content: center;
+    gap: .4rem;
+    margin-top: .85rem;
+  }
+  .proc-conds-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    transition: background .25s, transform .25s;
+  }
+  .proc-conds-dot.active {
+    background: rgba(255,255,255,.7);
+    transform: scale(1.2);
+  }
 }
 </style>
 
@@ -19887,6 +19939,43 @@ if (document.readyState === 'loading') {
     setTimeout(fixMobileOpacity, 400);
   }
 })();})();
+</script>
+
+<script>
+/* ── PROC-CONDS CAROUSEL DOTS — mobile only ── */
+(function(){
+  var track = document.querySelector('.proc-conds');
+  var dotsWrap = document.getElementById('procCondsDots');
+  if(!track || !dotsWrap) return;
+
+  function init(){
+    if(window.innerWidth > 600){
+      dotsWrap.style.display = 'none';
+      return;
+    }
+    dotsWrap.style.display = 'flex';
+    var dots = dotsWrap.querySelectorAll('.proc-conds-dot');
+    var cards = track.querySelectorAll('.proc-cond');
+    if(!cards.length || !dots.length) return;
+
+    function update(){
+      var cardW = cards[0].getBoundingClientRect().width + 20; // width + margin
+      var idx = Math.round(track.scrollLeft / cardW);
+      idx = Math.max(0, Math.min(idx, dots.length - 1));
+      dots.forEach(function(d, i){ d.classList.toggle('active', i === idx); });
+    }
+
+    track.addEventListener('scroll', update, {passive: true});
+    update();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  window.addEventListener('resize', init);
+})();
 </script>
 </body>
 </html>
