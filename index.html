@@ -4234,173 +4234,189 @@ nav::before { display:none; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+  align-items: start;
 }
 
 /* Chaque slide = une carte */
-.sp-slide {
-  display: block;
-}
-.sp-slide-list {
-  display: contents;
-}
+.sp-slide { display: block; }
+.sp-slide-list { display: contents; }
+.sp-videos-list { display: contents; }
 
 /* Dots cachés sur desktop */
 .sp-videos-dots { display: none; }
 
-/* ── CARTE VIDÉO UNIFORME — style capture ── */
+/* ── CARTE VIDÉO — exactement comme la capture ── */
 .sp-vcard-hero {
   position: relative;
   cursor: pointer;
-  background: #0a0a0a;
+  background: #0d0d0d;
   overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.1);
   -webkit-tap-highlight-color: transparent;
-  transition: border-color .3s;
-  display: block;
+  transition: border-color .35s, box-shadow .35s;
+  display: flex;
+  flex-direction: column;
 }
-.sp-vcard-hero:hover { border-color: rgba(255,255,255,.18); }
+.sp-vcard-hero:hover {
+  border-color: rgba(255,255,255,.22);
+  box-shadow: 0 8px 40px rgba(0,0,0,.55);
+}
 
-/* Thumbnail plein fond — aspect 3/4 portrait */
+/* ZONE PHOTO — remplit le haut de la carte */
 .sp-vcard-hero-thumb {
   position: relative;
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 4/5;
   overflow: hidden;
   background: #060606;
+  flex-shrink: 0;
 }
 .sp-vcard-hero-thumb img {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
-  filter: grayscale(20%) brightness(.7) contrast(1.08);
-  transition: filter .6s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+  filter: brightness(.9) contrast(1.05);
+  transition: transform .8s cubic-bezier(.16,1,.3,1);
   will-change: transform;
 }
 .sp-vcard-hero:hover .sp-vcard-hero-thumb img {
-  filter: grayscale(0%) brightness(.82) contrast(1);
   transform: scale(1.04);
 }
-/* Gradient bas — laisse la photo respirer en haut */
-.sp-vcard-hero-thumb::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(6,6,6,.95) 0%, rgba(6,6,6,.55) 38%, rgba(6,6,6,.1) 65%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-}
 
-/* Badge top — style capture "DISPONIBLE · KAOLACK, SN" */
+/* Badge haut — nom artiste, collé en haut à gauche */
 .sp-vcard-badge {
-  position: absolute !important;
-  top: .85rem; left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  display: flex !important;
+  position: absolute;
+  top: .85rem; left: .85rem;
+  z-index: 4;
+  display: flex;
   align-items: center;
-  gap: .45rem;
-  background: rgba(10,10,10,.72);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,.12);
+  gap: .5rem;
+  background: rgba(8,8,8,.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.14);
   border-radius: 100px;
-  padding: .3rem .75rem .3rem .55rem;
+  padding: .32rem .85rem .32rem .6rem;
   white-space: nowrap;
 }
 .sp-vcard-badge-dot {
-  width: 6px; height: 6px;
+  width: 7px; height: 7px;
   border-radius: 50%;
   background: #4ade80;
   flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(74,222,128,.7);
+  box-shadow: 0 0 7px rgba(74,222,128,.8);
 }
 .sp-vcard-badge-text {
   font-family: 'Syne', sans-serif;
-  font-size: .52rem;
+  font-size: .56rem;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.75);
+  color: rgba(255,255,255,.82);
 }
 
-/* Timestamp discret coin bas-droit */
-.sp-vcard-ts {
+/* Dots de navigation — en bas à droite sur la photo */
+.sp-vcard-nav-dots {
   position: absolute;
-  bottom: 4.5rem; right: .85rem;
-  z-index: 3;
-  font-family: 'Syne', sans-serif;
-  font-size: .5rem;
-  font-weight: 700;
-  letter-spacing: .08em;
-  color: rgba(255,255,255,.4);
-  pointer-events: none;
-}
-
-/* Corps bas — nom + play */
-.sp-vcard-hero-body {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 1.1rem 1.1rem 1.3rem;
-  z-index: 2;
+  bottom: .85rem; right: .85rem;
+  z-index: 4;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: .5rem;
+  gap: 5px;
+  align-items: center;
 }
-.sp-vcard-hero-who {
+.sp-vcard-nav-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  flex-shrink: 0;
+}
+.sp-vcard-nav-dot.on {
+  background: #fff;
+}
+
+/* ZONE NOIRE BAS — séparée de la photo, pas un overlay */
+.sp-vcard-hero-body {
+  background: #0d0d0d;
+  padding: 1.1rem 1.2rem 1.3rem;
   display: flex;
   flex-direction: column;
-  gap: .1rem;
-  min-width: 0;
+  gap: .5rem;
+  position: relative;
 }
+/* Ligne séparatrice subtile entre photo et zone noire */
+.sp-vcard-hero-body::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 1.2rem; right: 1.2rem;
+  height: 1px;
+  background: rgba(255,255,255,.06);
+}
+
+/* Nom artiste — très grand comme la capture */
 .sp-vcard-hero-name {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
-  letter-spacing: -.02em;
-  color: var(--light);
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  letter-spacing: -.03em;
+  color: #fff;
   line-height: 1;
-}
-.sp-vcard-hero-role {
-  font-family: 'Syne', sans-serif;
-  font-size: .55rem;
-  font-weight: 500;
-  letter-spacing: .08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.4);
-  margin-top: .25rem;
 }
 
-/* Bouton play — cercle */
+/* Description — texte fin en dessous */
+.sp-vcard-hero-role {
+  font-family: 'Syne', sans-serif;
+  font-size: .6rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  line-height: 1.4;
+}
+
+/* Description longue — la phrase qui parle de MDG */
+.sp-vcard-desc {
+  font-size: .65rem;
+  color: rgba(255,255,255,.45);
+  font-weight: 400;
+  line-height: 1.55;
+  font-family: 'Inter', sans-serif;
+  margin-top: .1rem;
+}
+
+/* Rangée bas : play button */
+.sp-vcard-hero-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: .3rem;
+}
+
+/* Bouton play — cercle comme la capture */
 .sp-vcard-hero-play {
-  width: 40px; height: 40px;
+  width: 38px; height: 38px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.22);
-  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.06);
   backdrop-filter: blur(6px);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  transition: background .3s, border-color .3s, transform .35s cubic-bezier(.16,1,.3,1), box-shadow .3s;
+  transition: background .3s, border-color .3s, transform .35s cubic-bezier(.16,1,.3,1);
 }
 .sp-vcard-hero:hover .sp-vcard-hero-play {
-  background: rgba(255,255,255,.9);
+  background: rgba(255,255,255,.88);
   border-color: transparent;
-  transform: scale(1.08);
-  box-shadow: 0 0 22px rgba(255,255,255,.15);
+  transform: scale(1.1);
 }
 .sp-vcard-hero-play svg { fill: rgba(255,255,255,.85); margin-left: 2px; transition: fill .25s; }
 .sp-vcard-hero:hover .sp-vcard-hero-play svg { fill: #000; }
 
-/* Masquer les anciens éléments hero non utilisés */
+/* Masquer les anciens éléments inutilisés */
 .sp-vcard-hero-quote { display: none; }
 .sp-vcard-hero-meta { display: none; }
-
-/* ── COLONNE LISTE (desktop) — les 3 cartes sont dans .sp-slide-list ── */
-/* Sur desktop on les affiche en contents pour qu'elles rejoignent la grille */
-.sp-slide-list { display: contents; }
-.sp-videos-list { display: contents; }
-
-/* Cacher les anciens éléments row */
+.sp-vcard-hero-who { display: none; }
+.sp-vcard-ts { display: none; }
 .sp-vcard-row { display: none !important; }
 
 /* ══════════════════════════════
@@ -4573,93 +4589,23 @@ nav::before { display:none; }
     scrollbar-width: none;
     gap: 0;
     padding: 0 1.25rem;
-    padding-right: 3rem;
+    padding-right: 3.5rem;
     grid-template-columns: unset;
+    align-items: unset;
   }
   .sp-videos-track::-webkit-scrollbar { display: none; }
 
-  /* Sur mobile sp-slide-list perd display:contents — chaque vcard-hero est son propre slide */
-  .sp-slide-list { display: block; }
-  .sp-videos-list { display: flex; flex-direction: column; gap: .75rem; }
-
   .sp-slide {
     flex: 0 0 72vw;
-    max-width: 280px;
+    max-width: 260px;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     margin-right: .75rem;
   }
   .sp-slide:last-child { margin-right: 0; }
 
-  /* Les vcard-row dans le slide-list mobile deviennent aussi des cartes portrait */
-  .sp-vcard-row {
-    display: block !important;
-    position: relative;
-    cursor: pointer;
-    background: #0a0a0a;
-    overflow: hidden;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,.08);
-    -webkit-tap-highlight-color: transparent;
-    flex: 0 0 72vw;
-    max-width: 280px;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    margin-right: .75rem;
-  }
-  /* Thumbnail portrait pour les row cards sur mobile */
-  .sp-vcard-row-thumb {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3/4;
-    overflow: hidden;
-    background: #060606;
-  }
-  .sp-vcard-row-thumb img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: grayscale(20%) brightness(.7) contrast(1.08);
-  }
-  .sp-vcard-row-thumb::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(6,6,6,.95) 0%, rgba(6,6,6,.55) 38%, rgba(6,6,6,.1) 65%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-  }
-  .sp-vcard-row-play { display: none; }
-  /* Réutiliser le badge et body style — override row-info */
-  .sp-vcard-row-info {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 1.1rem 1.1rem 1.3rem;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: .1rem;
-    background: none;
-  }
-  .sp-vcard-row-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(1.1rem, 5vw, 1.3rem);
-    letter-spacing: -.02em;
-    color: var(--light);
-    line-height: 1;
-  }
-  .sp-vcard-row-role {
-    font-family: 'Syne', sans-serif;
-    font-size: .55rem;
-    font-weight: 500;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.4);
-    margin-top: .2rem;
-  }
-  .sp-vcard-row-quote { display: none; }
-  .sp-vcard-row-arr { display: none; }
+  /* Nom légèrement plus petit sur mobile */
+  .sp-vcard-hero-name { font-size: clamp(1.1rem, 5vw, 1.4rem); }
 
   /* Dots */
   .sp-videos-dots {
@@ -9559,18 +9505,23 @@ body,
               <img decoding="async" loading="lazy"
                 src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780964123/fais_la_premiere_image_que_202606090004_gdh7ky.jpg"
                 alt="ISS 814">
-            </div>
-            <div class="sp-vcard-badge">
-              <span class="sp-vcard-badge-dot"></span>
-              <span class="sp-vcard-badge-text">ISS 814</span>
+              <div class="sp-vcard-badge">
+                <span class="sp-vcard-badge-dot"></span>
+                <span class="sp-vcard-badge-text">ISS 814</span>
+              </div>
+              <div class="sp-vcard-nav-dots">
+                <span class="sp-vcard-nav-dot on"></span>
+                <span class="sp-vcard-nav-dot"></span>
+              </div>
             </div>
             <div class="sp-vcard-hero-body">
-              <div class="sp-vcard-hero-who">
-                <span class="sp-vcard-hero-name">ISS 814</span>
-                <span class="sp-vcard-hero-role">Producteur Artiste Sénégal</span>
-              </div>
-              <div class="sp-vcard-hero-play" aria-hidden="true">
-                <svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span class="sp-vcard-hero-name">ISS 814</span>
+              <span class="sp-vcard-hero-role">Producteur Artiste Sénégal</span>
+              <span class="sp-vcard-desc">ISS 814 parle de MDG avec enthousiasme. Il dit du bien de son travail, de son sérieux et de ses qualités humaines.</span>
+              <div class="sp-vcard-hero-foot">
+                <div class="sp-vcard-hero-play" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
               </div>
             </div>
           </div>
@@ -9586,18 +9537,19 @@ body,
               <img decoding="async" loading="lazy"
                 src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780963911/B_W_portrait_with_backlight_glow_znxcxz.png"
                 alt="ISS 814">
-            </div>
-            <div class="sp-vcard-badge">
-              <span class="sp-vcard-badge-dot"></span>
-              <span class="sp-vcard-badge-text">ISS 814</span>
+              <div class="sp-vcard-badge">
+                <span class="sp-vcard-badge-dot"></span>
+                <span class="sp-vcard-badge-text">ISS 814</span>
+              </div>
             </div>
             <div class="sp-vcard-hero-body">
-              <div class="sp-vcard-hero-who">
-                <span class="sp-vcard-hero-name">ISS 814</span>
-                <span class="sp-vcard-hero-role">Producteur Artiste Sénégal</span>
-              </div>
-              <div class="sp-vcard-hero-play" aria-hidden="true">
-                <svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span class="sp-vcard-hero-name">ISS 814</span>
+              <span class="sp-vcard-hero-role">Producteur Artiste Sénégal</span>
+              <span class="sp-vcard-desc">Le mot "trop fort" sort naturellement, en public. Pas de mise en scène.</span>
+              <div class="sp-vcard-hero-foot">
+                <div class="sp-vcard-hero-play" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
               </div>
             </div>
           </div>
@@ -9613,18 +9565,19 @@ body,
               <img decoding="async" loading="lazy"
                 src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780964421/fais_la_premiere_image_que_202606090020_taj0wy.jpg"
                 alt="Key Em Ti">
-            </div>
-            <div class="sp-vcard-badge">
-              <span class="sp-vcard-badge-dot"></span>
-              <span class="sp-vcard-badge-text">Key Em Ti</span>
+              <div class="sp-vcard-badge">
+                <span class="sp-vcard-badge-dot"></span>
+                <span class="sp-vcard-badge-text">Key Em Ti</span>
+              </div>
             </div>
             <div class="sp-vcard-hero-body">
-              <div class="sp-vcard-hero-who">
-                <span class="sp-vcard-hero-name">Key Em Ti</span>
-                <span class="sp-vcard-hero-role">Artiste Sénégal</span>
-              </div>
-              <div class="sp-vcard-hero-play" aria-hidden="true">
-                <svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span class="sp-vcard-hero-name">Key Em Ti</span>
+              <span class="sp-vcard-hero-role">Artiste Sénégal</span>
+              <span class="sp-vcard-desc">Sur le plateau, Key Em Ti sort le nom de MDG sans qu'on le lui demande.</span>
+              <div class="sp-vcard-hero-foot">
+                <div class="sp-vcard-hero-play" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
               </div>
             </div>
           </div>
@@ -9640,18 +9593,19 @@ body,
               <img decoding="async" loading="lazy"
                 src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780964691/fais_la_premiere_image_que_202606090024_lnr2gj.jpg"
                 alt="Emza Young Boss">
-            </div>
-            <div class="sp-vcard-badge">
-              <span class="sp-vcard-badge-dot"></span>
-              <span class="sp-vcard-badge-text">Emza Young Boss</span>
+              <div class="sp-vcard-badge">
+                <span class="sp-vcard-badge-dot"></span>
+                <span class="sp-vcard-badge-text">Emza Young Boss</span>
+              </div>
             </div>
             <div class="sp-vcard-hero-body">
-              <div class="sp-vcard-hero-who">
-                <span class="sp-vcard-hero-name">Emza Young Boss</span>
-                <span class="sp-vcard-hero-role">Artiste Sénégal</span>
-              </div>
-              <div class="sp-vcard-hero-play" aria-hidden="true">
-                <svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span class="sp-vcard-hero-name">Emza Young Boss</span>
+              <span class="sp-vcard-hero-role">Artiste Sénégal</span>
+              <span class="sp-vcard-desc">Le mot "génie" sort naturellement, pas pour faire plaisir.</span>
+              <div class="sp-vcard-hero-foot">
+                <div class="sp-vcard-hero-play" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
               </div>
             </div>
           </div>
