@@ -1394,12 +1394,31 @@ section+section::before,
 .work-card:hover .work-img{transform:scale(1.06);filter:brightness(.55)}
 .work-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.2) 50%,transparent 75%);opacity:.7;transition:opacity .45s}
 .work-card:hover::after{opacity:1}
-.work-meta{position:absolute;left:0;right:0;bottom:0;padding:1.5rem 1.35rem 1.35rem;z-index:2;display:flex;flex-direction:column;gap:.35rem;transform:translateY(4px);transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.work-card:hover .work-meta{transform:translateY(0)}
-.work-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.4) 40%, rgba(0,0,0,0) 70%);transition:opacity .35s;z-index:1;pointer-events:none;opacity:.85}
+/* ── WORK META — hover reveal desktop, caption mobile ── */
+.work-meta{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:1.75rem 1.35rem 1.35rem;
+  z-index:2;
+  display:flex;flex-direction:column;gap:.35rem;
+  /* caché au repos */
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .38s cubic-bezier(.16,1,.3,1), transform .38s cubic-bezier(.16,1,.3,1);
+}
+.work-card:hover .work-meta{
+  opacity:1;
+  transform:translateY(0);
+}
+/* overlay gradient — quasi invisible au repos, fort au hover */
+.work-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.45) 45%,transparent 75%);
+  transition:opacity .38s;
+  z-index:1;pointer-events:none;
+  opacity:0;
+}
 .work-card:hover .work-overlay{opacity:1}
-.work-card:hover .work-overlay{background:rgba(255,255,255,0.04)}
-.cov-card:hover .work-overlay{background:rgba(255,255,255,0.04)}
+.cov-card:hover .work-overlay{opacity:1}
 .work-card-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);z-index:3}
 .work-card:hover .work-card-bar{transform:scaleX(1)}
 .cov-card:hover .work-card-bar{transform:scaleX(1)}
@@ -1501,10 +1520,10 @@ section+section::before,
 .cov-card:hover{transform:translateY(-4px)}
 .cov-card .cov-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.16,1,.3,1),filter .5s}
 .cov-card:hover .cov-img{transform:scale(1.05);filter:brightness(.45)}
-.cov-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 45%,transparent 70%);opacity:.35;transition:opacity .4s}
+.cov-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 45%,transparent 70%);opacity:0;transition:opacity .38s}
 .cov-card:hover::after{opacity:1}
-.cov-meta{position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.15rem 1rem;z-index:2;display:flex;flex-direction:column;gap:.2rem;transform:translateY(0);opacity:.9;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .35s}
-.cov-card:hover .cov-meta{transform:translateY(0);opacity:1}
+.cov-meta{position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.15rem 1rem;z-index:2;display:flex;flex-direction:column;gap:.2rem;opacity:0;transform:translateY(8px);transition:opacity .38s cubic-bezier(.16,1,.3,1),transform .38s cubic-bezier(.16,1,.3,1)}
+.cov-card:hover .cov-meta{opacity:1;transform:translateY(0)}
 .cov-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-.015em;color:var(--light);line-height:1.1}
 .cov-artist{font-family:'Inter',sans-serif;font-size:.75rem;color:var(--off);font-weight:400;letter-spacing:.01em}
 .cov-artist::before{content:'— ';color:var(--accent)}
@@ -3429,10 +3448,55 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   .footer-bottom{padding:1rem 1.25rem}
 }
 
-/* Touch: work-meta toujours visible */
+/* Touch : work-meta en caption sous la card, pas en overlay */
 @media(hover:none){
-  .work-card::after{opacity:.7}
-  .work-meta{transform:translateY(0)}
+  /* La card elle-même ne doit pas avoir de gradient résiduel */
+  .work-card::after{ opacity:0 !important; }
+  .work-overlay{ opacity:0 !important; }
+
+  /* Remettre le track en flex-column pour chaque item */
+  .work-card{
+    display:flex;
+    flex-direction:column;
+    height:auto;
+    aspect-ratio:unset;
+    overflow:visible;
+    background:transparent;
+    box-shadow:none;
+    border:none;
+  }
+  /* L'image prend son propre aspect-ratio */
+  .work-card .work-img{
+    width:100%;
+    aspect-ratio:4/5;
+    object-fit:cover;
+    border-radius:var(--r);
+    display:block;
+    flex-shrink:0;
+  }
+  /* work-meta sort de l'absolu et devient une caption en dessous */
+  .work-meta{
+    position:static;
+    padding:.7rem .25rem .2rem;
+    opacity:1 !important;
+    transform:none !important;
+    flex-direction:column;
+    gap:.2rem;
+  }
+  .work-cat{
+    font-size:.5rem;
+    letter-spacing:.14em;
+  }
+  .work-title{
+    font-size:.88rem;
+  }
+  .work-title em{
+    font-size:.72em;
+    margin-top:.1rem;
+  }
+  /* card-bar inutile sur mobile */
+  .work-card-bar{ display:none; }
+
   .ac-ig{opacity:1;transform:translateY(0)}
 }
 
@@ -20121,6 +20185,37 @@ footer {
   .svc-card {
     transition: none !important;
   }
+
+  /* cov-card : meta en caption sous l'image */
+  .cov-card {
+    overflow: visible !important;
+    height: auto !important;
+    aspect-ratio: unset !important;
+    display: flex;
+    flex-direction: column;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .cov-card .cov-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: var(--r);
+    display: block;
+    flex-shrink: 0;
+  }
+  .cov-card::after { opacity: 0 !important; }
+  .cov-cat-tag { display: none; }
+  .cov-meta {
+    position: static !important;
+    padding: .55rem .2rem .1rem !important;
+    opacity: 1 !important;
+    transform: none !important;
+    gap: .15rem;
+  }
+  .cov-title { font-size: .92rem; }
+  .cov-artist { font-size: .7rem; }
 }
 
 /* ══════════════════════════════════════════════════════
