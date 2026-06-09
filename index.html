@@ -336,14 +336,24 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 0;
+    /* pan-x sur le track : permet le swipe horizontal du carousel */
     touch-action: pan-x;
   }
 
-  /* Les pieter-step sont des slides dans le carousel mobile → laisser pan-x */
-  #pieter-process-track .pieter-step,
-  #pieter-process-track .pieter-step-content,
-  #pieter-process-track .pieter-step-media {
+  /* Slide entier : pan-x pour le carousel */
+  #pieter-process-track .pieter-step {
     touch-action: pan-x;
+  }
+
+  /* Zone de texte : pan-y pour laisser l'utilisateur scroller la page
+     même depuis le milieu d'un slide — le scroll vertical reprend la main */
+  #pieter-process-track .pieter-step-content {
+    touch-action: pan-y;
+  }
+
+  /* Media : les deux directions passent */
+  #pieter-process-track .pieter-step-media {
+    touch-action: pan-x pan-y;
   }
   #pieter-process-track::-webkit-scrollbar { display: none; }
 
@@ -9011,6 +9021,15 @@ body,
           Glisse pour explorer
         </div>
       <div class="work-track" id="workTrack">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" data-lb-title="Sénégal vs Arabie Saoudite" data-lb-desc="Sports Key Visual · Direction Artistique">
+          <img decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite — Sports Key Visual">
+          <div class="work-meta">
+            <div class="work-cat">Sports Key Visual</div>
+            <div class="work-title">Sénégal vs Arabie Saoudite<em>Direction Artistique</em></div>
+          </div>
+          <div class="work-overlay"></div>
+          <div class="work-card-bar"></div>
+        </a>
         <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" data-lb-title="USA vs Sénégal" data-lb-desc="Sports Key Visual · Direction Artistique" class-trigger="lightbox">
           <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" alt="USA vs Sénégal — Sports Key Visual">
           <div class="work-meta">
@@ -14511,6 +14530,8 @@ function _mST(trigger) {
   return { scrollTrigger: { trigger, start: 'top 95%', once: true } };
 }
 function _mBatch(sel, fromVars, toVars, staggerIn) {
+  // Sur mobile : ne pas animer (CSS force déjà opacity:1)
+  if (_isMobile) return;
   ScrollTrigger.batch(sel, {
     start: 'top 95%', once: true,
     onEnter: els => gsap.fromTo(els, fromVars, { ...toVars, stagger: staggerIn }),
@@ -14518,14 +14539,19 @@ function _mBatch(sel, fromVars, toVars, staggerIn) {
 }
 
 if (_isMobile) {
-  // Éléments qui ne peuvent PAS être animés sur mobile (dans des panels display:none
-  // ou carousels overflow:hidden → ScrollTrigger ne calcule pas leur position)
-  // → forcer visible immédiatement
+  // Sur mobile : GSAP ne doit pas mettre d'éléments à opacity:0
+  // Le CSS @media(hover:none) force déjà tout visible — on skip les animations scroll
+  // pour éviter que GSAP override le CSS avec opacity:0 au moment du fromTo
   document.querySelectorAll(
     '.pack-card,.adv-card,.rollout-card,.addon-card,.addons-intro,' +
     '.port-new-top,.pack-price-display,.ppd-amount,.pcond-wrap,.pcond-row,' +
     '.pricing-header,.pricing-tabs,.pricing-scope-note,' +
-    '.work-card,.cov-card'  // dans panels accordion/carousel
+    '.work-card,.cov-card,' +
+    '.reveal-cinema,.reveal-up,.reveal-fade,.reveal-line,' +
+    '.sec-label,.svc-h2,.sec-sub,.port-h2,.port-extract-label,.port-count,' +
+    '.about-v2-photo,.about-v2-content,.svc-card,.pieter-step,.process-header,' +
+    '.sp-vcard,.sp-stage,.sp-card,.sp-detail,.collabs-hdr,.collabs-main-title,' +
+    '.collabs-main-sub,.collabs-marquee-wrap,.trust-strip'
   ).forEach(function(el){
     el.style.opacity = '1';
     el.style.transform = 'none';
@@ -14536,7 +14562,7 @@ if (_isMobile) {
 const _E  = 'power3.out';
 const _Eb = 'back.out(1.5)';
 
-// Helper : ScrollTrigger — mobile allégé (start 95%, once), desktop normal
+// Helper : ScrollTrigger — mobile skip (CSS gère la visibilité), desktop normal
 function _st(trigger, extra) {
   if (_isMobile) return { scrollTrigger: { trigger, start:'top 95%', once:true, ...(extra||{}) } };
   return {
@@ -14550,30 +14576,20 @@ function _st(trigger, extra) {
   };
 }
 
-// fromTo mobile-safe : réduit y, supprime x/rotate/skew, durée courte
+// fromTo mobile-safe : sur mobile, skip l'animation (CSS force déjà opacity:1)
 function _fromTo(el, from, to) {
   if (!el) return;
-  if (_isMobile) {
-    gsap.fromTo(el, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE, ..._mST(el) });
-    return;
-  }
+  if (_isMobile) return; // CSS @media(hover:none) gère ça, pas de ghost flash
   gsap.fromTo(el, from, to);
 }
 function _tl(trigger, fn) {
-  if (_isMobile) {
-    // Sur mobile : timeline simplifiée, trigger 95%, once
-    fn(gsap.timeline({ scrollTrigger: { trigger, start:'top 95%', once:true } }));
-    return;
-  }
+  if (_isMobile) return; // mobile : pas d'animation GSAP scroll, CSS suffit
   fn(gsap.timeline({ scrollTrigger: { trigger, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }));
 }
 
-// Batch : desktop normal, mobile allégé
+// Batch : desktop normal, mobile skip
 function _batch(sel, fromVars, toVars, staggerIn) {
-  if (_isMobile) {
-    _mBatch(sel, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE }, staggerIn * .6);
-    return;
-  }
+  if (_isMobile) return; // mobile : CSS gère opacity:1
   ScrollTrigger.batch(sel, {
     start: 'top 85%',
     once: true,
@@ -14581,17 +14597,13 @@ function _batch(sel, fromVars, toVars, staggerIn) {
   });
 }
 
-// Stagger groupé : desktop inchangé, mobile simplifié
+// Stagger groupé : desktop inchangé, mobile skip
 function _staggerTl(parentSel, childSel, fromVars, toVars, staggerVal) {
+  if (_isMobile) return; // mobile : CSS gère opacity:1
   const parent = document.querySelector(parentSel);
   if (!parent) return;
   const els = parent.querySelectorAll(childSel);
   if (!els.length) return;
-  if (_isMobile) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: parent, start:'top 95%', once:true } });
-    tl.fromTo(els, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE, stagger:(staggerVal ?? 0.08) * .6 });
-    return;
-  }
   const tl = gsap.timeline({
     scrollTrigger: { trigger:parent, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' }
   });
@@ -14602,9 +14614,9 @@ function _staggerTl(parentSel, childSel, fromVars, toVars, staggerVal) {
 
 // ── PORTFOLIO ──
 // Header groupé en timeline : label → h2 → count → tabs, trigger sur la section
-{
+if (!_isMobile) {
   const portHdr = document.querySelector('#portfolio') || document.querySelector('.port-h2')?.closest('section');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: portHdr || '.port-h2', start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: portHdr || '.port-h2', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   const _ph2 = document.querySelector('.port-h2');
   const _pLbl = document.querySelector('.port-extract-label');
   const _pCnt = document.querySelector('.port-count');
@@ -14614,7 +14626,7 @@ function _staggerTl(parentSel, childSel, fromVars, toVars, staggerVal) {
   if (_pCnt)  tl.fromTo(_pCnt,  { opacity:0, scale:.8 }, { opacity:1, scale:1, duration:.65, ease:_Eb }, '-=0.45');
   if (_pTabs) tl.fromTo(_pTabs, { opacity:0, y:20 },     { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
 }
-// Cards : batch sur le parent commun pour sync parfaite
+// Cards : batch desktop uniquement (_batch skippe sur mobile)
 _batch('.work-card',
   { opacity:0, y:50, scale:.95 },
   { opacity:1, y:0, scale:1, duration:.7, ease:_E },
@@ -14625,36 +14637,20 @@ _batch('.cov-card',
   { opacity:1, y:0, scale:1, duration:.65, ease:_E },
   .07, .04
 );
-// Sur mobile, les work-cards dans le panel actif (acc-motion) ne déclenchent pas ScrollTrigger
-// car elles sont en overflow:scroll horizontal → on les force visibles immédiatement
-if (window.innerWidth <= 900) {
-  setTimeout(function() {
-    var activePanel = document.querySelector('.acc-panel.active');
-    if (activePanel) {
-      activePanel.querySelectorAll('.work-card, .cov-card').forEach(function(el) {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
-    }
-  }, 200);
+// work-footer : skip mobile
+if (!_isMobile) {
+  gsap.fromTo('.work-footer', { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, ease:_E, ..._st('.work-footer') });
 }
-gsap.fromTo('.work-footer', { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, ease:_E, ..._st('.work-footer') });
 
 // ── ABOUT ──
 // photo + contenu liés → même timeline, trigger sur #about
 {
   const _aPhoto   = document.querySelector('.about-v2-photo');
   const _aContent = document.querySelector('.about-v2-content');
-  if (_aPhoto && _aContent) {
-    if (_isMobile) {
-      const tl = gsap.timeline({ scrollTrigger: { trigger:'#about', start:'top 95%', once:true } });
-      tl.fromTo(_aPhoto,   { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE })
-        .fromTo(_aContent, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE }, '-=0.3');
-    } else {
+  if (_aPhoto && _aContent && !_isMobile) {
       const tl = gsap.timeline({ scrollTrigger: { trigger:'#about', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
       tl.fromTo(_aPhoto,   { opacity:0, x:-60, rotate:-2 }, { opacity:1, x:0, rotate:0, duration:.95, ease:_E })
         .fromTo(_aContent, { opacity:0, x:60 },              { opacity:1, x:0, duration:.85, ease:_E }, '-=0.65');
-    }
   }
 }
 // Contenu textuel : sec-label → badge → h2 → intro → body, enchaîné depuis about-v2-content
@@ -14665,17 +14661,17 @@ gsap.fromTo('.work-footer', { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, 
   const _aIntro  = document.querySelector('.about-v2-intro');
   const _aBody   = document.querySelector('.about-v2-body');
   const anchor   = document.querySelector('.about-v2-h2') || document.querySelector('.about-v2-content');
-  if (anchor) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: anchor, start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  if (anchor && !_isMobile) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: anchor, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_aLabel) tl.fromTo(_aLabel, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.6, ease:_E });
     if (_ah2)    tl.fromTo(_ah2,    { opacity:0, y:24 }, { opacity:1, y:0, duration:.7, ease:_E }, '-=0.25');
     if (_aIntro) tl.fromTo(_aIntro, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.45');
     if (_aBody)  tl.fromTo(_aBody,  { opacity:0, y:14 }, { opacity:1, y:0, duration:.6, ease:_E }, '-=0.4');
   }
-  // badge "Disponible · Kaolack, SN" → animé avec la photo
-  if (_aBadge) {
+  // badge "Disponible · Kaolack, SN" → animé uniquement desktop
+  if (_aBadge && !_isMobile) {
     gsap.fromTo(_aBadge, { opacity:0, y:12, scale:.9 }, { opacity:1, y:0, scale:1, duration:.6, ease:_Eb,
-      scrollTrigger:{ trigger:'#about', start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+      scrollTrigger:{ trigger:'#about', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   }
 }
 _staggerTl('#about', '.sk',         { opacity:0, y:24, scale:.92 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, 0.07);
@@ -14689,15 +14685,15 @@ _staggerTl('#about', '.about-text', { opacity:0, y:16 },            { opacity:1,
   const _svcSub = document.querySelector('.svc-header .sec-sub');
   const _sSec   = document.querySelector('.svc-secondary');
   const svcAnchor = document.querySelector('#services') || document.querySelector('.svc-header');
-  if (svcAnchor) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: svcAnchor, start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  if (svcAnchor && !_isMobile) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: svcAnchor, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_svcLbl) tl.fromTo(_svcLbl, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
     if (_svcH2)  tl.fromTo(_svcH2,  { opacity:0, y:28 }, { opacity:1, y:0, duration:.8, ease:_E }, '-=0.3');
     if (_svcSub) tl.fromTo(_svcSub, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
   }
-  // svc-secondary : label + items en stagger depuis le conteneur
-  if (_sSec) {
-    const tl2 = gsap.timeline({ scrollTrigger: { trigger: _sSec, start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  // svc-secondary : label + items en stagger desktop uniquement
+  if (_sSec && !_isMobile) {
+    const tl2 = gsap.timeline({ scrollTrigger: { trigger: _sSec, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     const _sLabel = _sSec.querySelector('.svc-secondary-label');
     const _sItems = _sSec.querySelectorAll('.svc-secondary-item');
     if (_sLabel) tl2.fromTo(_sLabel, { opacity:0, y:16 }, { opacity:1, y:0, duration:.6, ease:_E });
@@ -14715,15 +14711,7 @@ _staggerTl('.svc-grid', '.svc-card', { opacity:0, y:50, scale:.93 }, { opacity:1
   const _cMq    = document.querySelector('.collabs-marquee-wrap');
   const _cSub2  = document.querySelector('.collabs-sub');
   const _cTrust = document.querySelector('.trust-strip');
-  if (_isMobile) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: collabsSec || '.collabs-hdr', start:'top 95%', once:true } });
-    if (_cHdr)   tl.fromTo(_cHdr,   { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE });
-    if (_cTitle) tl.fromTo(_cTitle, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE }, '-=0.3');
-    if (_cSub)   tl.fromTo(_cSub,   { opacity:0, y:14  }, { opacity:1, y:0, duration:_mDur, ease:_mE }, '-=0.25');
-    if (_cMq)    tl.fromTo(_cMq,    { opacity:0        }, { opacity:1,       duration:_mDur, ease:_mE }, '-=0.2');
-    if (_cSub2)  tl.fromTo(_cSub2,  { opacity:0, y:10  }, { opacity:1, y:0, duration:_mDur, ease:_mE }, '-=0.2');
-    if (_cTrust) tl.fromTo(_cTrust, { opacity:0, y:10  }, { opacity:1, y:0, duration:_mDur, ease:_mE }, '-=0.15');
-  } else {
+  if (!_isMobile) {
     const tl = gsap.timeline({ scrollTrigger: { trigger: collabsSec || '.collabs-hdr', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_cHdr)   tl.fromTo(_cHdr,   { opacity:0, x:-44 },    { opacity:1, x:0, duration:.8, ease:_E });
     if (_cTitle) tl.fromTo(_cTitle, { opacity:0, x:44 },     { opacity:1, x:0, duration:.8, ease:_E }, '-=0.65');
@@ -14743,30 +14731,27 @@ _staggerTl('.svc-grid', '.svc-card', { opacity:0, y:50, scale:.93 }, { opacity:1
   const _spSub = document.querySelector('.sp-header .sp-sub');
   const _spF   = document.querySelector('.sp-feature');
   const spAnchor = document.querySelector('.sp-header');
-  if (spAnchor) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: spAnchor, start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  if (spAnchor && !_isMobile) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: spAnchor, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_spLbl) tl.fromTo(_spLbl, { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
     if (_spH2)  tl.fromTo(_spH2,  { opacity:0, y:30 }, { opacity:1, y:0, duration:.8, ease:_E }, '-=0.35');
     if (_spSub) tl.fromTo(_spSub, { opacity:0, y:18 }, { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
   }
-  // sp-feature : glisse depuis la gauche comme un pieter-step
-  if (_spF) {
+  // sp-feature : glisse depuis la gauche — desktop uniquement
+  if (_spF && !_isMobile) {
     gsap.fromTo(_spF, { opacity:0, x:-60, y:16 }, { opacity:1, x:0, y:0, duration:.9, ease:_E,
-      scrollTrigger: { trigger: _spF, start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+      scrollTrigger: { trigger: _spF, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   }
 }
-// vcards : alternance gauche/droite desktop, simple fade-up mobile
+// vcards : alternance gauche/droite desktop, mobile skip
 document.querySelectorAll('.sp-vcard').forEach((el, i) => {
-  if (_isMobile) {
-    gsap.fromTo(el, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE, ..._mST(el) });
-  } else {
-    const dir = i % 2 === 0 ? -60 : 60;
-    gsap.fromTo(el,
-      { opacity:0, x: dir, y:20 },
-      { opacity:1, x:0, y:0, duration:.9, ease:_E,
-        scrollTrigger:{ trigger:el, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } }
-    );
-  }
+  if (_isMobile) return; // CSS gère opacity:1
+  const dir = i % 2 === 0 ? -60 : 60;
+  gsap.fromTo(el,
+    { opacity:0, x: dir, y:20 },
+    { opacity:1, x:0, y:0, duration:.9, ease:_E,
+      scrollTrigger:{ trigger:el, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } }
+  );
   // Contenu interne en cascade (thumb → source → artist → desc)
   const inner = [
     el.querySelector('.sp-vcard-thumb'),
@@ -14774,7 +14759,7 @@ document.querySelectorAll('.sp-vcard').forEach((el, i) => {
     el.querySelector('.sp-vcard-artist'),
     el.querySelector('.sp-vcard-desc'),
   ].filter(Boolean);
-  if(inner.length && !_isMobile){
+  if(inner.length){
     gsap.fromTo(inner,
       { opacity:0, y:16 },
       { opacity:1, y:0, duration:.6, ease:_E, stagger:.08, delay:.18,
@@ -14787,63 +14772,45 @@ document.querySelectorAll('.sp-vcard').forEach((el, i) => {
 // header puis steps en cascade depuis la section
 {
   const procSec = document.querySelector('#process') || document.querySelector('.process-header')?.closest('section');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: procSec || '.process-header', start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
-  const _pH = document.querySelector('.process-header');
-  if (_pH) tl.fromTo(_pH, { opacity:0, y:30 }, { opacity:1, y:0, duration:.75, ease:_E });
-}
-// Chaque step a son propre trigger (éléments distants verticalement, pas liés visuellement entre eux)
-document.querySelectorAll('.pieter-step').forEach((el, i) => {
-  if (_isMobile) {
-    gsap.fromTo(el, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE, ..._mST(el) });
-  } else {
-    gsap.fromTo(el,
-      { opacity:0, x: i%2===0 ? -60 : 60, y:20 },
-      { opacity:1, x:0, y:0, duration:.9, ease:_E,
-        scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
-    );
+  if (!_isMobile) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: procSec || '.process-header', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const _pH = document.querySelector('.process-header');
+    if (_pH) tl.fromTo(_pH, { opacity:0, y:30 }, { opacity:1, y:0, duration:.75, ease:_E });
   }
+}
+// Chaque step a son propre trigger — desktop seulement
+document.querySelectorAll('.pieter-step').forEach((el, i) => {
+  if (_isMobile) return; // CSS gère opacity:1
+  gsap.fromTo(el,
+    { opacity:0, x: i%2===0 ? -60 : 60, y:20 },
+    { opacity:1, x:0, y:0, duration:.9, ease:_E,
+      scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
+  );
 });
 _staggerTl('.proc-conds', '.proc-cond', { opacity:0, y:28, scale:.94 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, 0.08);
 
 // ── PRICING ──
 // pricing-header complet : sec-label → h2 → p → scope-note → pricing-tabs → tout enchaîné
-{
+if (!_isMobile) {
   const _pricLbl  = document.querySelector('.pricing-header .sec-label');
   const _pricH2   = document.querySelector('.pricing-header h2');
   const _pricP    = document.querySelector('.pricing-header p');
   const _pricNote = document.querySelector('.pricing-scope-note');
   const _pricTabs = document.querySelector('.pricing-tabs');
-  const tl = gsap.timeline({ scrollTrigger: { trigger:'#pricing', start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger:'#pricing', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   if (_pricLbl)  tl.fromTo(_pricLbl,  { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.65, ease:_E });
   if (_pricH2)   tl.fromTo(_pricH2,   { opacity:0, x:-44 }, { opacity:1, x:0, duration:.8, ease:_E }, '-=0.3');
   if (_pricP)    tl.fromTo(_pricP,    { opacity:0, y:20 },  { opacity:1, y:0, duration:.65, ease:_E }, '-=0.5');
   if (_pricNote) tl.fromTo(_pricNote, { opacity:0, y:14 },  { opacity:1, y:0, duration:.55, ease:_E }, '-=0.4');
   if (_pricTabs) tl.fromTo(_pricTabs, { opacity:0, y:18 },  { opacity:1, y:0, duration:.6,  ease:_E }, '-=0.35');
 }
-// Pack-cards (panel-primaires, toujours visible) : batch classique
+// Pack-cards (panel-primaires, toujours visible) : batch desktop uniquement
+// Sur mobile : CSS @media(hover:none) + gsap.set en haut du script → opacity:1 immédiate
 _batch('.pack-card',
   { opacity:0, y:60, rotation:2 },
   { opacity:1, y:0, rotation:0, duration:.75, ease:_E },
   .09, .05
 );
-// Sur mobile, les pack-cards sont en carousel scroll — ScrollTrigger ne se déclenche pas
-if (window.innerWidth <= 900) {
-  setTimeout(function() {
-    document.querySelectorAll('.pack-card, .adv-card, .rollout-card, .pricing-header, .pricing-tabs, .pricing-scope-note, .pcond-wrap, .pcond-row').forEach(function(el) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-      el.style.clipPath = 'none';
-    });
-  }, 300);
-  // Double-fire pour s'assurer que GSAP n'overwrite pas après
-  setTimeout(function() {
-    document.querySelectorAll('.pack-card, .adv-card, .rollout-card, .pricing-header, .pricing-tabs, .pricing-scope-note, .pcond-wrap, .pcond-row').forEach(function(el) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-      el.style.clipPath = 'none';
-    });
-  }, 800);
-}
 
 // ── PANELS CACHÉS (avancés, rollout, addons) ──
 // Les éléments dans pricing-panel display:none ne peuvent pas être animés par ScrollTrigger
@@ -14891,13 +14858,14 @@ gsap.set('.addon-card', { opacity:1, clearProps:'all' });
 gsap.set('.addons-intro', { opacity:1, clearProps:'all' });
 
 // ── FAQ ──
-// header → items, timeline depuis la section
-{
+// header → items, timeline depuis la section — desktop uniquement
+if (!_isMobile) {
   const faqSec = document.querySelector('#faq') || document.querySelector('.faq-header')?.closest('section');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: faqSec || '.faq-header', start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: faqSec || '.faq-header', start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
   const _fH = document.querySelector('.faq-header');
   if (_fH) tl.fromTo(_fH, { opacity:0, y:30 }, { opacity:1, y:0, duration:.75, ease:_E });
 }
+// _batch skippe mobile automatiquement
 _batch('.faq-item2',
   { opacity:0, y:20 },
   { opacity:1, y:0, duration:.65, ease:_E },
@@ -14906,19 +14874,19 @@ _batch('.faq-item2',
 
 // ── CONTACT ──
 // label → titre → info-list → liens directs → tout enchaîné, trigger sur #contact
-{
+if (!_isMobile) {
   const _cLbl  = document.querySelector('#contact .sec-label');
   const _cH2   = document.querySelector('.contact-h2');
   const _cInfo = document.querySelector('.info-list');
   const contactSec = document.querySelector('#contact');
   if (contactSec) {
-    const tl = gsap.timeline({ scrollTrigger: { trigger:contactSec, start:_isMobile?'top 95%':'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
+    const tl = gsap.timeline({ scrollTrigger: { trigger:contactSec, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } });
     if (_cLbl)  tl.fromTo(_cLbl,  { opacity:0, clipPath:'inset(0 100% 0 0)' }, { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.7, ease:_E });
     if (_cH2)   tl.fromTo(_cH2,   { opacity:0, y:36 },  { opacity:1, y:0, duration:.85, ease:_E }, '-=0.45');
     if (_cInfo) tl.fromTo(_cInfo, { opacity:0, x:-44 }, { opacity:1, x:0, duration:.8, ease:_E }, '-=0.5');
   }
 }
-// liens directs : batch (peuvent être hors vue au chargement initial de la section)
+// _batch skippe mobile automatiquement
 _batch('.contact-direct-link',
   { opacity:0, x:40, scale:.96 },
   { opacity:1, x:0, scale:1, duration:.65, ease:_E },
@@ -14927,64 +14895,49 @@ _batch('.contact-direct-link',
 
 
 // ── URANUS ──
-{
+if (!_isMobile) {
   const _uH = document.querySelector('.u-hero-copy');
   const _uV = document.querySelector('.u-box-visual');
   const _uO = document.querySelector('.u-order-card');
-  if (_isMobile) {
-    if (_uH) gsap.fromTo(_uH, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE, ..._mST(_uH) });
-    if (_uV) gsap.fromTo(_uV, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE, ..._mST(_uV) });
-    if (_uO) gsap.fromTo(_uO, { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE, ..._mST(_uO) });
-    _mBatch('.u-section-label', { opacity:0, y:14 }, { opacity:1, y:0, duration:_mDur, ease:_mE }, .05);
-    _mBatch('.u-assets-grid',   { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE }, .04);
-    _mBatch('.u-gallery-premium, .u-gal-premium', { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE }, .04);
-    _mBatch('.u-why-item', { opacity:0, y:_mY }, { opacity:1, y:0, duration:_mDur, ease:_mE }, .05);
-  } else {
-    if (_uH) gsap.fromTo(_uH, { opacity:0, y:36 }, { opacity:1, y:0, duration:.85, ease:_E,
-      scrollTrigger:{ trigger:_uH, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } });
-    if (_uV) gsap.fromTo(_uV, { opacity:0, scale:.92, rotate:3 }, { opacity:1, scale:1, rotate:0, duration:.9, ease:_Eb,
-      scrollTrigger:{ trigger:_uV, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } });
-    if (_uO) gsap.fromTo(_uO, { opacity:0, y:32 }, { opacity:1, y:0, duration:.75, ease:_E,
-      scrollTrigger:{ trigger:_uO, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } });
-    _batch('.u-section-label', { opacity:0, y:20 }, { opacity:1, y:0, duration:.65, ease:_E }, .08);
-    _batch('.u-assets-grid',   { opacity:0, y:24 }, { opacity:1, y:0, duration:.7,  ease:_E }, .05);
-    _batch('.u-gallery-premium, .u-gal-premium', { opacity:0, y:20, scale:.97 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, .06);
-    _batch('.u-why-item', { opacity:0, y:24, scale:.95 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, .08);
-  }
+  if (_uH) gsap.fromTo(_uH, { opacity:0, y:36 }, { opacity:1, y:0, duration:.85, ease:_E,
+    scrollTrigger:{ trigger:_uH, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } });
+  if (_uV) gsap.fromTo(_uV, { opacity:0, scale:.92, rotate:3 }, { opacity:1, scale:1, rotate:0, duration:.9, ease:_Eb,
+    scrollTrigger:{ trigger:_uV, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } });
+  if (_uO) gsap.fromTo(_uO, { opacity:0, y:32 }, { opacity:1, y:0, duration:.75, ease:_E,
+    scrollTrigger:{ trigger:_uO, start:'top 88%', end:'bottom -10%', toggleActions:'play none none none' } });
+  _batch('.u-section-label', { opacity:0, y:20 }, { opacity:1, y:0, duration:.65, ease:_E }, .08);
+  _batch('.u-assets-grid',   { opacity:0, y:24 }, { opacity:1, y:0, duration:.7,  ease:_E }, .05);
+  _batch('.u-gallery-premium, .u-gal-premium', { opacity:0, y:20, scale:.97 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, .06);
+  _batch('.u-why-item', { opacity:0, y:24, scale:.95 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E }, .08);
 }
 
-// ── Tous les sec-label restants (clip-path) ──
-// Ceux déjà animés dans leur section sont ignorés grâce au check ScrollTrigger
-document.querySelectorAll('.sec-label').forEach(el => {
-  const existing = ScrollTrigger.getAll().find(st => st.vars.trigger === el || st.trigger === el);
-  if (!existing) {
-    if (_isMobile) {
-      gsap.fromTo(el, { opacity:0, y:12 }, { opacity:1, y:0, duration:_mDur, ease:_mE, ..._mST(el) });
-    } else {
+// ── Tous les sec-label restants (clip-path) — desktop uniquement ──
+if (!_isMobile) {
+  document.querySelectorAll('.sec-label').forEach(el => {
+    const existing = ScrollTrigger.getAll().find(st => st.vars.trigger === el || st.trigger === el);
+    if (!existing) {
       gsap.fromTo(el,
         { opacity:0, clipPath:'inset(0 100% 0 0)' },
         { opacity:1, clipPath:'inset(0 0% 0 0)', duration:.7, ease:'power3.out',
           scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
       );
     }
-  }
-});
+  });
+}
 
-// ── Tous les sec-num restants ──
-document.querySelectorAll('.sec-num').forEach(el => {
-  const existing = ScrollTrigger.getAll().find(st => st.vars.trigger === el || st.trigger === el);
-  if (!existing) {
-    if (_isMobile) {
-      gsap.fromTo(el, { opacity:0, y:10 }, { opacity:1, y:0, duration:_mDur, ease:_mE, ..._mST(el) });
-    } else {
+// ── Tous les sec-num restants — desktop uniquement ──
+if (!_isMobile) {
+  document.querySelectorAll('.sec-num').forEach(el => {
+    const existing = ScrollTrigger.getAll().find(st => st.vars.trigger === el || st.trigger === el);
+    if (!existing) {
       gsap.fromTo(el,
         { opacity:0, x:-32 },
         { opacity:1, x:0, duration:.65, ease:_E,
           scrollTrigger:{ trigger:el, start:'top 85%', end:'bottom -10%', toggleActions:'play none none none' } }
       );
     }
-  }
-});
+  });
+}
 
 // ── GARDE-FOU UNIVERSEL (5s) ──
 // Si un élément animé reste à opacity:0 après 5s → forcer visible (filet de sécurité)
@@ -14997,24 +14950,8 @@ setTimeout(() => {
   });
 }, 5000);
 
-// ── GARDE-FOU MOBILE RAPIDE (600ms) ──
-// Éléments dans panels cachés ou carousels que ScrollTrigger ne calcule pas
-setTimeout(() => {
-  if (window.innerWidth > 900) return;
-  document.querySelectorAll(
-    '.work-card,.cov-card,.pack-card,.adv-card,.rollout-card,' +
-    '.sp-vcard,.sp-vcard-thumb,.sp-vcard-footer,' +
-    '.u-hero-copy,.u-box-visual,.u-order-card,.u-assets-grid,.u-asset-chip,' +
-    '.u-why-item,.u-why-num,.u-why-txt,.u-section-label,' +
-    '.contact-h2,.contact-sub,.contact-direct-link,' +
-    '.pieter-step,.collabs-hdr,.collabs-main-title,.sp-quote-author,' +
-    '.pcond-wrap,.pcond-row,.pricing-header,.pricing-tabs,.packs-grid,.port-new-top'
-  ).forEach(el => {
-    el.style.opacity = '1';
-    el.style.transform = 'none';
-    el.style.clipPath = 'none';
-  });
-}, 600);
+// Mobile : CSS @media(hover:none) gère opacity:1 immédiatement sur tous les éléments.
+// Plus besoin de setTimeout de rattrapage — supprimé pour éliminer les ghost flashes.
 
 function animateCounter(el) {
   const target = parseInt(el.dataset.target);
@@ -20071,6 +20008,81 @@ footer {
     transition: none !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════
+   MOBILE — SUPPRESSION COMPLÈTE DES GHOST FLASHES GSAP
+   Sur mobile, tous les éléments animés par GSAP sont
+   forcés visibles IMMÉDIATEMENT via CSS, avant que JS
+   ne s'exécute. Cela élimine le flash opacity:0 visible
+   pendant les 400-800ms d'initialisation GSAP.
+   Les animations scroll desktop ne sont pas affectées.
+   ══════════════════════════════════════════════════════ */
+@media (hover: none), (max-width: 900px) {
+  /* Tout élément qui pourrait être animé par GSAP en fromTo opacity:0 */
+  .reveal-cinema,
+  .reveal-up,
+  .reveal-fade,
+  .reveal-line,
+  .sec-label,
+  .sec-sub,
+  .svc-h2,
+  .port-h2,
+  .port-extract-label,
+  .port-count,
+  .port-tabs-wrap,
+  .port-new-top,
+  .port-new-left,
+  .port-new-eyebrow,
+  .port-new-h2,
+  .about-v2-photo,
+  .about-v2-content,
+  .about-v2-h2,
+  .about-v2-intro,
+  .about-v2-body,
+  .av2-badge,
+  .av2-badge-txt,
+  .sk,
+  .about-text,
+  .svc-header,
+  .svc-secondary,
+  .svc-secondary-item,
+  .svc-card,
+  .collabs-hdr,
+  .collabs-main-title,
+  .collabs-main-sub,
+  .collabs-marquee-wrap,
+  .collabs-sub,
+  .trust-strip,
+  .sp-header,
+  .sp-feature,
+  .sp-vcard,
+  .sp-stage,
+  .sp-card,
+  .sp-detail,
+  .process-header,
+  .pieter-step,
+  .pricing-header,
+  .pack-card,
+  .adv-card,
+  .rollout-card,
+  .addon-card,
+  .addons-intro,
+  .pcond-wrap,
+  .pcond-row,
+  .proc-cond,
+  .contact-h2,
+  .contact-sub,
+  .contact-direct-link,
+  .contact-grid,
+  .work-footer,
+  .work-card,
+  .cov-card {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}
 </style>
 
 <script>
@@ -20137,9 +20149,11 @@ if (document.readyState === 'loading') {
 }
 
 /* ── Fix mobile : forcer opacity:1 sur acc-work au chargement (panel actif par défaut) ── */
+/* NOTE : Le fix CSS dans @media (hover:none) prend en charge cela immédiatement.
+   Ce bloc JS est conservé uniquement comme sécurité pour les panels accordion. */
 (function(){
   function fixMobileOpacity() {
-    if (window.innerWidth > 768) return;
+    if (window.innerWidth > 900) return;
     // Forcer la visibilité de toutes les work-cards dans acc-work (panel actif par défaut)
     var workPanel = document.getElementById('pnl-work');
     if (workPanel) {
@@ -20148,40 +20162,12 @@ if (document.readyState === 'loading') {
         el.style.transform = 'none';
       });
     }
-    // Forcer la visibilité des éléments GSAP dans toutes les sections
-    // avec une transition douce pour garder un feeling animé
-    var selectors = [
-      '.sp-header', '.sp-h2', '.sp-sub', '.sp-feature',
-      '.svc-header', '.svc-h2', '.sec-sub',
-      '.svc-secondary', '.svc-secondary-item',
-      '.proc-cond', '.pricing-header', '.pricing-header h2', '.pricing-header p',
-      '.pricing-scope-note', '.pricing-tabs',
-      '.port-h2', '.port-extract-label', '.port-count',
-      '.port-new-top', '.port-new-left', '.port-new-eyebrow', '.port-new-h2',
-      '.pack-card', '.adv-card', '.rollout-card',
-      '.pcond-wrap', '.pcond-row',
-      '.contact-h2', '.contact-sub', '.contact-direct-link', '.contact-grid',
-      '.collabs-hdr', '.collabs-main-title', '.collabs-main-sub',
-      '.collabs-marquee-wrap', '.trust-strip',
-      '.pieter-step', '.process-header',
-      '.sp-quote-author', '.sp-vcard', '.sp-vcard-thumb', '.sp-vcard-footer',
-      '.sp-cards-row', '.sp-detail'
-    ];
-    selectors.forEach(function(sel) {
-      document.querySelectorAll(sel).forEach(function(el) {
-        // Transition douce — les éléments apparaissent progressivement
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-        el.style.clipPath = 'none';
-      });
-    });
   }
-  // Attendre que GSAP ait eu le temps de s'initialiser, puis overrider
+  // Exécution immédiate — sans délai pour éviter les ghost flashes
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { setTimeout(fixMobileOpacity, 400); });
+    document.addEventListener('DOMContentLoaded', fixMobileOpacity);
   } else {
-    setTimeout(fixMobileOpacity, 400);
+    fixMobileOpacity();
   }
 })();})();
 </script>
