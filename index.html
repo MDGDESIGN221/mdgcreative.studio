@@ -13709,32 +13709,39 @@ function copyWaveNumber(btn) {
 .faq-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 0;
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(0,0,0,.10);
   border-radius: 18px; overflow: hidden;
 }
 /* Séparateurs entre cellules */
-.faq-item2:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.08); }
-.faq-item2:nth-child(1),.faq-item2:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.08); }
-.faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid rgba(255,255,255,.08); }
+.faq-item2:nth-child(odd) { border-right: 1px solid rgba(0,0,0,.08); }
+.faq-item2:nth-child(1),.faq-item2:nth-child(2) { border-bottom: 1px solid rgba(0,0,0,.08); }
+.faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid rgba(0,0,0,.08); }
 
 .faq-item2 {
-  background: #0d0d0d;
+  background: #f0ede8;
   padding: 1.6rem 1.75rem;
   position: relative;
-  transition: background .25s;
+  transition: background .25s, color .25s;
   overflow: hidden;
 }
-/* État fermé : label blanc sur fond sombre */
+/* État fermé : fond clair, texte noir */
 .faq2-q {
   background: none; border: none; cursor: pointer;
   width: 100%; text-align: left;
   font-family: 'Syne', sans-serif; font-weight: 700;
   font-size: .88rem; letter-spacing: -.01em;
-  color: #ffffff; line-height: 1.45;
+  color: #0d0d0d; line-height: 1.45;
   padding: 0; padding-right: 3rem;
   transition: color .2s;
 }
-/* État ouvert : fond blanc, tout en noir */
+.faq2-num {
+  color: rgba(0,0,0,.06) !important;
+}
+.faq2-icon {
+  border-color: rgba(0,0,0,.18) !important;
+  color: rgba(0,0,0,.45) !important;
+}
+/* État ouvert : fond blanc pur, texte noir renforcé */
 .faq-item2.open {
   background: #ffffff;
 }
@@ -13744,8 +13751,8 @@ function copyWaveNumber(btn) {
 .faq-item2.open .faq2-a p a { color: #000000 !important; text-decoration: underline; }
 .faq-item2.open .faq2-num { color: rgba(0,0,0,.05) !important; }
 .faq-item2.open .faq2-icon {
-  background: #000000; border-color: #000000;
-  color: #ffffff; transform: rotate(180deg);
+  background: #000000 !important; border-color: #000000 !important;
+  color: #ffffff !important; transform: rotate(180deg);
 }
 
 .faq2-num {
@@ -13780,13 +13787,13 @@ function copyWaveNumber(btn) {
 .faq2-a p strong { color: var(--light); font-weight: 600; transition: color .25s; }
 
 /* Hover sur items fermés */
-.faq-item2:not(.open):hover { background: rgba(255,255,255,.03); }
+.faq-item2:not(.open):hover { background: #e8e5e0; }
 
 @media(max-width:700px) {
   .faq-grid { grid-template-columns: 1fr; border-radius: 14px; }
   .faq-item2:nth-child(odd) { border-right: none; }
   .faq-item2:nth-child(1),.faq-item2:nth-child(2),
-  .faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid rgba(255,255,255,.08); }
+  .faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid rgba(0,0,0,.08); }
   .faq-item2 { padding: 1.25rem 1.5rem; }
   .faq2-num { font-size: 2rem; top: .8rem; right: 1rem; }
   .faq2-q { padding-right: 3rem; }
