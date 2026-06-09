@@ -2696,138 +2696,137 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 .award-desc{font-size:.82rem;color:var(--dim);line-height:1.75;font-weight:300}
 @media(max-width:900px){.awards-grid{grid-template-columns:1fr;gap:1.5rem}#awards{padding:5rem 1.5rem}}
 
-footer{padding:0;border-top:none;background:#080808}
-/* ── COMPACT FOOTER ── */
-/* Ligne accent top */
+/* ══════════════════════════════════════
+   FOOTER — redesign propre desktop + mobile
+════════════════════════════════════════ */
+footer {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 0;
+}
 footer::before {
   content: '';
   display: block;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14) 35%, rgba(255,255,255,0.06) 65%, transparent);
-}
-.footer-main{
-  display:grid;
-  grid-template-columns:1.4fr 1.2fr;
-  gap:0;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.footer-main>*{padding:2.5rem 2rem;border-right:1px solid rgba(255,255,255,.05)}
-.footer-main>*:last-child{border-right:none}
-.footer-brand .f-bio{font-size:.72rem;color:var(--dim);line-height:1.7;margin:.6rem 0 1rem;font-weight:300;max-width:220px}
-.f-nav-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.1rem}
-.f-nav-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
-.f-nav-list a{font-size:.75rem;color:var(--dim);text-decoration:none;transition:color .2s;font-weight:300}
-.f-nav-list a:hover{color:var(--light)}
-.f-contact-list{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.4rem}
-.f-contact-item{display:flex;flex-direction:column;gap:.12rem;text-decoration:none;color:inherit}
-.f-contact-lbl{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:600}
-.f-contact-val{font-size:.72rem;color:var(--off);transition:color .2s;font-weight:300}
-.f-contact-item:hover .f-contact-val{color:var(--light)}
-.f-footer-cta{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
-.footer-bottom{
-  padding:1rem 2rem;
-  display:flex;align-items:center;justify-content:space-between;
-  font-size:.6rem;color:rgba(255,255,255,.2);gap:1rem;flex-wrap:wrap;
-  letter-spacing:.04em;
-}
-.footer-bottom a{color:rgba(255,255,255,.2);text-decoration:none;transition:color .2s}
-.footer-bottom a:hover{color:var(--accent)}
-/* Logo name dans footer */
-.footer-brand .f-logo-wrap{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
-.footer-brand .f-logo-img{height:20px;width:auto;display:block;opacity:.7;filter:brightness(1)}
-.footer-brand .f-logo-name{font-family:'Syne',sans-serif;font-weight:800;font-size:.75rem;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase}
-/* Dispo badge */
-.f-avail{display:inline-flex;align-items:center;gap:.4rem;padding:.26rem .72rem;border-radius:100px;background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.15);margin-bottom:1rem}
-.f-avail-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0}
-.f-avail-text{font-family:'Syne',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80}
-/* Socials */
-.footer-brand .f-socials{display:flex;gap:.4rem;margin-bottom:.9rem}
-.footer-brand .f-socials a{width:30px;height:30px;border-radius:7px;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.25);text-decoration:none;transition:all .2s}
-.footer-brand .f-socials a:hover{background:var(--accent);color:var(--black);border-color:var(--accent)}
-@media(max-width:768px){
-  .footer-main{grid-template-columns:1fr;border-bottom:none}
-  .footer-main>*{border-right:none;border-bottom:1px solid rgba(255,255,255,.05);padding:1.5rem}
-  .footer-main>*:last-child{border-bottom:none}
-  .footer-bottom{flex-direction:column;gap:.4rem;text-align:center;padding:.75rem 1.5rem}
-}
-/* ══ FOOTER — 4 colonnes desktop / centré mobile ══ */
-footer{background:#0a0a0a;border-top:1px solid var(--border);position:relative}
-.footer-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.1fr;border-bottom:1px solid var(--border)}
-.footer-top>*{padding:2.5rem 2rem;border-right:1px solid var(--border)}
-.footer-top>*:last-child{border-right:none}
-/* Brand */
-.footer-brand .f-logo-wrap{display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem}
-.footer-brand .f-logo-img{height:22px;width:auto;display:block;opacity:.85}
-.footer-brand .f-logo-name{font-family:'Syne',sans-serif;font-weight:800;font-size:.78rem;color:var(--light);letter-spacing:.1em;text-transform:uppercase}
-.footer-brand>p{font-size:.78rem;color:var(--dim);line-height:1.85;font-weight:300;max-width:240px;margin-bottom:1.1rem}
-.f-avail{display:inline-flex;align-items:center;gap:.4rem;padding:.28rem .75rem;border-radius:100px;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.18);margin-bottom:.9rem}
-.f-avail-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0}
-.f-avail-text{font-family:'Syne',sans-serif;font-size:.57rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4ade80}
-.footer-brand .f-socials{display:flex;gap:.45rem;margin-bottom:.9rem}
-.footer-brand .f-socials a{width:32px;height:32px;border-radius:7px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;color:var(--dim);text-decoration:none;transition:all .2s}
-.footer-brand .f-socials a:hover{background:var(--accent);color:var(--black);border-color:var(--accent)}
-/* Nav cols */
-.footer-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.1rem}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-.footer-col ul li a{font-size:.78rem;color:var(--dim);text-decoration:none;transition:color .15s;font-weight:300}
-.footer-col ul li a:hover{color:var(--light)}
-/* Contact col */
-.f-contact-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.1rem}
-.f-ci{display:flex;flex-direction:column;gap:.12rem;margin-bottom:.75rem}
-.f-ci-label{font-size:.54rem;color:var(--dim);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.f-ci-value{font-size:.78rem;color:var(--off);text-decoration:none;transition:color .15s;font-weight:300}
-a.f-ci-value:hover{color:var(--light)}
-/* CTA buttons in contact col */
-.f-col-cta{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.45rem}
-.f-cta-btn-primary{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.05em;color:var(--black);background:var(--accent);padding:.68rem 1rem;border-radius:100px;text-decoration:none;text-align:center;border:none;cursor:pointer;display:block;transition:opacity .18s,transform .18s;box-shadow:0 3px 14px rgba(255,255,255,0.12)}
-.f-cta-btn-primary:hover{opacity:.88;transform:translateY(-1px)}
-.f-cta-btn-secondary{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:600;color:var(--off);border:1px solid var(--border2);padding:.62rem 1rem;border-radius:100px;text-decoration:none;text-align:center;display:block;transition:all .18s}
-.f-cta-btn-secondary:hover{color:var(--light);border-color:rgba(255,255,255,.2)}
-/* Mini stats */
-.f-mini-stats{display:flex;gap:1.25rem;margin-top:1.25rem;padding-top:1.1rem;border-top:1px solid var(--border)}
-.f-mini-stat{display:flex;flex-direction:column;gap:.06rem}
-.f-mini-num{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:800;color:var(--accent)}
-.f-mini-lbl{font-size:.52rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-/* Bottom bar */
-.footer-bottom{padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.footer-bottom p,.footer-bottom a{font-size:.64rem;color:var(--dim);font-weight:300;text-decoration:none;transition:color .15s}
-.footer-bottom a:hover{color:var(--light)}
-/* Responsive */
-@media(max-width:1100px){.footer-top{grid-template-columns:1.3fr 1fr 1fr 1.1fr}.footer-top>*{padding:2rem 1.5rem}}
-@media(max-width:900px){
-  .footer-top{grid-template-columns:1fr 1fr}
-  .footer-brand{grid-column:1/-1;border-bottom:1px solid var(--border);border-right:none!important}
-  .footer-brand>p{max-width:100%}
-  .footer-top>.f-contact-col{border-right:none}
-  .footer-bottom{padding:.9rem 1.5rem;flex-direction:column;text-align:center;gap:.35rem}
-}
-@media(max-width:580px){
-  .footer-top{display:flex;flex-direction:column}
-  .footer-top>*{border-right:none!important;border-bottom:1px solid var(--border);padding:1.6rem 1.1rem}
-  .footer-top>*:last-child{border-bottom:none}
-  .footer-brand{display:flex;flex-direction:column;align-items:center;text-align:center}
-  .footer-brand .f-logo-wrap{justify-content:center}
-  .footer-brand>p{max-width:100%;font-size:.76rem}
-  .footer-brand .f-socials{justify-content:center}
-  .footer-brand .f-mini-stats{justify-content:center}
-  .f-col-cta{flex-direction:row;gap:.4rem}
-  .f-cta-btn-primary,.f-cta-btn-secondary{flex:1;font-size:.69rem;padding:.68rem .5rem}
-  .footer-bottom{padding:.75rem 1.1rem;gap:.3rem}
-  .footer-bottom p,.footer-bottom a{font-size:.6rem}
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.12) 40%, rgba(255,255,255,.04) 70%, transparent);
 }
 
-@media(max-width:900px){
-  .footer-top{grid-template-columns:1fr 1fr;gap:2rem;padding:3rem 1.5rem}
-  .footer-brand{grid-column:1/-1}
-  .footer-brand p{max-width:100%}
-  .footer-bottom{padding:1.25rem 1.5rem;flex-direction:column;text-align:center}
+/* GRILLE PRINCIPALE : 2 colonnes égales sur desktop */
+.footer-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(255,255,255,.06);
 }
-@media(max-width:480px){
-  .footer-top{grid-template-columns:1fr;gap:2rem;padding:2.5rem 1.25rem}
-  .footer-brand .f-socials a{width:42px;height:42px}
-  .footer-col h4{margin-bottom:1rem}
-  .footer-col ul{gap:.55rem}
-  .footer-bottom{padding:1rem 1.25rem;gap:.5rem}
+.footer-main > * {
+  padding: 2.5rem 2.5rem;
+}
+.footer-brand {
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+
+/* Logo */
+.footer-brand .f-logo-wrap {
+  display: flex; align-items: center; gap: .65rem;
+  margin-bottom: 1.4rem;
+}
+.footer-brand .f-logo-img {
+  height: 20px; width: auto; display: block;
+  opacity: .75; filter: brightness(1);
+}
+.footer-brand .f-logo-name {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: .72rem; color: rgba(255,255,255,.45);
+  letter-spacing: .12em; text-transform: uppercase;
+}
+
+/* Socials — icônes uniformes */
+.footer-brand .f-socials {
+  display: flex; gap: .45rem;
+}
+.footer-brand .f-socials a {
+  width: 34px; height: 34px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.09);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.4); text-decoration: none;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.footer-brand .f-socials a:hover {
+  background: #fff; color: #000;
+  border-color: #fff;
+}
+
+/* Colonne contact */
+.footer-contact-group { display: flex; flex-direction: column; justify-content: space-between; }
+
+.f-nav-title {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: .52rem; letter-spacing: .2em;
+  text-transform: uppercase; color: rgba(255,255,255,.35);
+  margin-bottom: 1.25rem;
+}
+
+.f-contact-list {
+  display: flex; flex-direction: column; gap: .85rem;
+  margin-bottom: 1.5rem; flex: 1;
+}
+.f-contact-item {
+  display: flex; flex-direction: column; gap: .15rem;
+  text-decoration: none; color: inherit;
+}
+.f-contact-lbl {
+  font-size: .48rem; letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.28); font-weight: 600;
+}
+.f-contact-val {
+  font-size: .78rem; color: rgba(255,255,255,.7);
+  font-weight: 300; transition: color .2s;
+}
+.f-contact-item:hover .f-contact-val { color: #fff; }
+
+/* CTA buttons */
+.f-footer-cta {
+  display: flex; gap: .5rem; flex-wrap: wrap;
+}
+
+/* Barre bottom */
+.footer-bottom {
+  padding: .85rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+}
+.footer-bottom p,
+.footer-bottom a {
+  font-size: .6rem; color: rgba(255,255,255,.22);
+  font-weight: 300; text-decoration: none;
+  letter-spacing: .04em; transition: color .2s;
+}
+.footer-bottom a:hover { color: rgba(255,255,255,.6); }
+
+/* ── MOBILE ── */
+@media(max-width:768px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+  }
+  .footer-main > * {
+    padding: 2rem 1.5rem;
+  }
+  .footer-brand {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .footer-contact-group {
+    gap: 1.5rem;
+  }
+  .f-footer-cta {
+    flex-direction: row;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: .35rem;
+    text-align: center;
+    padding: .85rem 1.5rem;
+  }
 }
 
 /* ── STAT COUNTER ── */
@@ -7507,11 +7506,12 @@ nav::before { display:none; }
 .contact-left-links{margin-top:2.5rem;display:flex;flex-direction:column;gap:.5rem}
 .contact-direct-link{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-decoration:none;transition:border-color .25s,background .25s}
 .contact-direct-link:hover{border-color:var(--accent);background:var(--surface2)}
-.contact-direct-link-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-direct-link-icon{width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:rgba(255,255,255,.7);transition:background .25s,color .25s}
 .contact-direct-link-text{display:flex;flex-direction:column;gap:.1rem;flex:1}
 .contact-direct-link-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--light);letter-spacing:.01em}
 .contact-direct-link-val{font-size:.72rem;color:var(--dim);font-weight:300}
 .contact-direct-link-arr{display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex-shrink:0;color:var(--dim);transition:transform .2s,color .2s}
+.contact-direct-link:hover .contact-direct-link-icon{background:rgba(255,255,255,.1);color:#fff}
 .contact-direct-link:hover .contact-direct-link-arr{transform:translate(2px,-2px);color:var(--accent)}
 @media(max-width:900px){
   .contact-grid{grid-template-columns:1fr;gap:2.5rem}
@@ -13630,7 +13630,7 @@ function copyWaveNumber(btn) {
 </section>
 
 <style>
-/* ── FAQ REDESIGN ── */
+/* ── FAQ REDESIGN v2 — labels blanc/noir ── */
 #faq { padding: 6rem 0; border-bottom: 1px solid var(--border); }
 .faq-header { margin-bottom: 3rem; }
 .faq-h2 {
@@ -13641,63 +13641,60 @@ function copyWaveNumber(btn) {
 }
 .faq-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 20px; overflow: hidden;
+  gap: 0;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px; overflow: hidden;
 }
+/* Séparateurs entre cellules */
+.faq-item2:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.08); }
+.faq-item2:nth-child(1),.faq-item2:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.08); }
+.faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid rgba(255,255,255,.08); }
+
 .faq-item2 {
-  background: var(--black);
-  padding: 1.75rem 2rem;
+  background: #0d0d0d;
+  padding: 1.6rem 1.75rem;
   position: relative;
   transition: background .25s;
   overflow: hidden;
 }
-/* Barre top accent au hover/open */
-.faq-item2::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 2px;
-  background: var(--accent);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .35s cubic-bezier(.16,1,.3,1);
+/* État fermé : label blanc, texte gris */
+.faq2-q {
+  background: none; border: none; cursor: pointer;
+  width: 100%; text-align: left;
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: .86rem; letter-spacing: -.01em;
+  color: var(--light); line-height: 1.45;
+  padding: 0; padding-right: 3rem;
+  transition: color .2s;
 }
-.faq-item2:hover { background: rgba(255,255,255,.02); }
-.faq-item2:hover::before { transform: scaleX(1); }
-.faq-item2.open { background: rgba(255,255,255,0.01); }
-.faq-item2.open::before { transform: scaleX(1); }
+/* État ouvert : fond blanc, tout en noir */
+.faq-item2.open {
+  background: #ffffff;
+}
+.faq-item2.open .faq2-q { color: #000; }
+.faq-item2.open .faq2-a p { color: #333; }
+.faq-item2.open .faq2-a p strong { color: #000; }
+.faq-item2.open .faq2-num { color: rgba(0,0,0,.06); }
+.faq-item2.open .faq2-icon {
+  background: #000; border-color: #000;
+  color: #fff; transform: rotate(180deg);
+}
+
 .faq2-num {
   font-family: 'Syne', sans-serif; font-weight: 800;
-  font-size: 2.8rem; letter-spacing: -.05em; line-height: 1;
+  font-size: 2.6rem; letter-spacing: -.05em; line-height: 1;
   color: rgba(255,255,255,.04);
-  position: absolute; top: 1rem; right: 1.5rem;
+  position: absolute; top: .9rem; right: 1.4rem;
   pointer-events: none; user-select: none;
   transition: color .3s;
 }
-.faq-item2.open .faq2-num { color: rgba(255,255,255,0.04); }
-.faq2-q {
-  background: none; border: none; cursor: pointer;
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
-  width: 100%; text-align: left;
-  font-family: 'Syne', sans-serif; font-weight: 700;
-  font-size: .88rem; letter-spacing: -.01em;
-  color: var(--off); line-height: 1.4;
-  padding: 0; padding-right: 3.5rem;
-  transition: color .2s;
-}
-.faq-item2:hover .faq2-q { color: var(--light); }
-.faq-item2.open .faq2-q { color: var(--accent); }
 .faq2-icon {
-  position: absolute; top: 1.75rem; right: 2rem;
+  position: absolute; top: 1.6rem; right: 1.75rem;
   width: 24px; height: 24px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; color: var(--dim);
-  transition: transform .3s cubic-bezier(.16,1,.3,1), background .25s, border-color .25s;
-}
-.faq-item2.open .faq2-icon {
-  background: var(--accent); border-color: var(--accent);
-  color: var(--black); transform: rotate(180deg);
+  flex-shrink: 0; color: rgba(255,255,255,.4);
+  transition: transform .3s cubic-bezier(.16,1,.3,1), background .25s, border-color .25s, color .25s;
 }
 .faq2-a {
   display: grid;
@@ -13706,16 +13703,24 @@ function copyWaveNumber(btn) {
   overflow: hidden;
 }
 .faq2-a > p { min-height: 0; overflow: hidden; }
-.faq-item2.open .faq2-a { grid-template-rows: 1fr; padding-top: .9rem; }
+.faq-item2.open .faq2-a { grid-template-rows: 1fr; padding-top: .85rem; }
 .faq2-a p {
-  font-size: .82rem; color: var(--off);
+  font-size: .81rem; color: var(--off);
   line-height: 1.75; font-weight: 300; margin: 0;
+  transition: color .25s;
 }
-.faq2-a p strong { color: var(--light); font-weight: 500; }
+.faq2-a p strong { color: var(--light); font-weight: 600; transition: color .25s; }
+
+/* Hover sur items fermés */
+.faq-item2:not(.open):hover { background: rgba(255,255,255,.03); }
+
 @media(max-width:700px) {
   .faq-grid { grid-template-columns: 1fr; border-radius: 14px; }
+  .faq-item2:nth-child(odd) { border-right: none; }
+  .faq-item2:nth-child(1),.faq-item2:nth-child(2),
+  .faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid rgba(255,255,255,.08); }
   .faq-item2 { padding: 1.25rem 1.5rem; }
-  .faq2-num { font-size: 2rem; top: .9rem; right: 1rem; }
+  .faq2-num { font-size: 2rem; top: .8rem; right: 1rem; }
   .faq2-q { padding-right: 3rem; }
   .faq2-icon { top: 1.25rem; right: 1.5rem; }
 }
@@ -13742,22 +13747,22 @@ function copyWaveNumber(btn) {
 
         <div class="contact-left-links">
           <a href="mailto:mdgdesign221@gmail.com" class="contact-direct-link">
-            <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
             <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val">mdgdesign221@gmail.com</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
-            <div class="contact-direct-link-icon" style="background:rgba(37,211,102,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+            <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
             <div class="contact-direct-link-text"><span class="contact-direct-link-name">WhatsApp</span><span class="contact-direct-link-val">+221 76 377 22 08</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="contact-direct-link">
-            <div class="contact-direct-link-icon" style="background:rgba(225,48,108,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#e1306c" stroke="none"/></svg></div>
+            <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
             <div class="contact-direct-link-text"><span class="contact-direct-link-name">Instagram</span><span class="contact-direct-link-val">@_its.mdg</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="contact-direct-link">
-            <div class="contact-direct-link-icon" style="background:rgba(18,93,245,.08)"><svg width="16" height="16" viewBox="0 0 24 24" fill="#125df5"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.670-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9zM5.906 15.125H2.833v2.964H5.82c1.218 0 2.053-.558 2.053-1.497 0-.948-.748-1.467-1.967-1.467zM2.833 9.938v2.65H5.52c1.095 0 1.883-.465 1.883-1.332 0-.876-.73-1.318-1.822-1.318H2.833zM11.275 17.25c0-2.234-1.644-3.484-4.014-3.484H0V7.5h6.88c2.358 0 3.96 1.121 3.96 3.07 0 1.34-.679 2.21-1.713 2.644C10.475 13.618 11.275 14.668 11.275 17.25z"/></svg></div>
+            <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.670-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9zM5.906 15.125H2.833v2.964H5.82c1.218 0 2.053-.558 2.053-1.497 0-.948-.748-1.467-1.967-1.467zM2.833 9.938v2.65H5.52c1.095 0 1.883-.465 1.883-1.332 0-.876-.73-1.318-1.822-1.318H2.833zM11.275 17.25c0-2.234-1.644-3.484-4.014-3.484H0V7.5h6.88c2.358 0 3.96 1.121 3.96 3.07 0 1.34-.679 2.21-1.713 2.644C10.475 13.618 11.275 14.668 11.275 17.25z"/></svg></div>
             <div class="contact-direct-link-text"><span class="contact-direct-link-name">Behance</span><span class="contact-direct-link-val">behance.net/itsmdg</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
