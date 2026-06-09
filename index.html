@@ -5333,7 +5333,7 @@ nav::before { display:none; }
   text-transform: uppercase;
   color: var(--dim);
   text-align: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5347,37 +5347,51 @@ nav::before { display:none; }
   height: 1px;
   background: var(--border2);
 }
+/* Grille desktop — toujours visible, pas de scroll caché */
 .trust-strip-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ts-item {
+  background: var(--dark);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding-bottom: 4px;
+  justify-content: center;
+  padding: 1.75rem 1.5rem;
+  min-height: 90px;
+  transition: background .25s;
 }
-.trust-strip-inner::-webkit-scrollbar { display: none; }
+.ts-item:hover { background: var(--surface2); }
 .ts-logo {
-  height: 24px;
+  height: 36px;
   width: auto;
-  max-width: 90px;
+  max-width: 130px;
   object-fit: contain;
-  opacity: .4;
+  opacity: .6;
   filter: grayscale(1);
-  transition: opacity .3s, filter .3s;
+  transition: opacity .3s, filter .3s, transform .3s;
   mix-blend-mode: screen;
-  flex-shrink: 0;
 }
-.ts-logo.ts-omzo { height: 48px; max-width: 155px; }
-.ts-logo.ts-invert { filter: grayscale(1) invert(1) brightness(1.4); }
-.ts-logo:hover { opacity: .75; filter: grayscale(0); }
-@media(max-width:900px) {
+.ts-logo.ts-omzo { height: 64px; max-width: 190px; }
+.ts-logo.ts-invert { filter: grayscale(1) invert(1) brightness(1.3); mix-blend-mode: normal; }
+.ts-item:hover .ts-logo { opacity: .95; filter: grayscale(0); transform: scale(1.06); }
+.ts-item:hover .ts-logo.ts-invert { filter: grayscale(0) invert(1) brightness(1.3); }
+
+@media(max-width: 900px) {
   .trust-strip { padding: 2rem 0 0; }
-  .trust-strip-inner { gap: 1rem 1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
-  .ts-logo { height: 20px; }
-  .ts-logo.ts-omzo { height: 30px; }
+  /* 2 colonnes sur mobile — tout visible, zero scroll */
+  .trust-strip-inner {
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 10px;
+  }
+  .ts-item { padding: 1.4rem 1rem; min-height: 78px; }
+  .ts-logo { height: 30px; max-width: 110px; opacity: .65; }
+  .ts-logo.ts-omzo { height: 52px; max-width: 155px; }
 }
 
 /* ── SERVICES SECONDAIRES — glassmorphisme ── */
@@ -11194,18 +11208,17 @@ body,
       <em>Et la liste continue de s'allonger.</em>
     </p>
 
-    <!-- Strip logos clients silencieux — remplace la section Trust -->
-    <div class="trust-strip reveal-fade rd4">
+    <!-- Strip logos clients silencieux — remplace la section Trust -->\n    <div class="trust-strip reveal-fade rd4">
       <div class="trust-strip-label">Ils ont fait confiance à MDG</div>
       <div class="trust-strip-inner">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" class="ts-logo ts-omzo">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" class="ts-logo ts-invert">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" class="ts-logo">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" class="ts-logo">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" class="ts-logo">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" class="ts-logo">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" class="ts-logo">
-        <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" class="ts-logo ts-invert">
+        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" class="ts-logo ts-omzo"></div>
+        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" class="ts-logo ts-invert"></div>
+        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" class="ts-logo ts-invert"></div>
       </div>
     </div>
 
@@ -11494,7 +11507,7 @@ body,
   .about-v2 { grid-template-columns: 1fr !important; gap: 2rem !important; }
   .about-v2-photo { max-width: 100% !important; }
   .trust-strip { padding: 2rem 0 0 !important; }
-  .trust-strip-inner { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+  .trust-strip-inner { border-radius: 8px; }
   .cqf-row { grid-template-columns: 1fr !important; }
   .cqf-chips { gap: .4rem; }
   .proc-step { padding: 0 0 1.25rem !important; }
@@ -15399,7 +15412,7 @@ window.enableDragScroll = function enableDragScroll(track){
 enableDragScroll(document.getElementById('workTrack'));
 enableDragScroll(document.getElementById('covTrack'));
 enableDragScroll(document.getElementById('motTrack'));
-enableDragScroll(document.querySelector('.trust-strip-inner'));
+// trust-strip-inner est maintenant une grille — drag scroll non nécessaire
 
 // ════════════════════════════════════════════════════════════════════
 // DIRECTION-AWARE TOUCH HANDLER — comportement app native mobile
@@ -15494,8 +15507,7 @@ enableDragScroll(document.querySelector('.trust-strip-inner'));
     var el = document.getElementById(id);
     if (el) attachDirectionAwareTouch(el);
   });
-  var trustStrip = document.querySelector('.trust-strip-inner');
-  if (trustStrip) attachDirectionAwareTouch(trustStrip);
+  // trust-strip-inner est une grille statique — pas de touch handler
 
   // ── Carrousels pricing (packs-grid, advanced-grid) — actifs sur mobile ──
   // Ces grids utilisent le scroll natif du browser (scroll-snap CSS).
