@@ -1258,11 +1258,33 @@ section+section::before,
 .collabs-marquee-wrap::before,.collabs-marquee-wrap::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
 .collabs-marquee-wrap::before{left:0;background:linear-gradient(to right,var(--dark),transparent)}
 .collabs-marquee-wrap::after{right:0;background:linear-gradient(to left,var(--dark),transparent)}
-.collabs-marquee{display:flex;align-items:center;gap:0;width:max-content;will-change:transform;animation:marquee 45s linear infinite}
-.collabs-marquee span{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(.85rem,1.4vw,1.1rem);color:var(--light);white-space:nowrap;padding:0 1.5rem;letter-spacing:-.01em;transition:color .3s;flex-shrink:0}
+/* ── Ligne statique collabs — message principal ── */
+.collabs-static-line {
+  display: flex; align-items: baseline; gap: .75rem;
+  margin-bottom: 1.25rem;
+}
+.collabs-static-count {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  color: var(--accent);
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+.collabs-static-txt {
+  font-family: 'Syne', sans-serif;
+  font-weight: 500;
+  font-size: clamp(.8rem, 1.4vw, 1rem);
+  color: var(--off);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+/* Marquee réduit — fond sonore, pas le message principal */
+.collabs-marquee{display:flex;align-items:center;gap:0;width:max-content;will-change:transform;animation:marquee 60s linear infinite}
+.collabs-marquee span{font-family:'Syne',sans-serif;font-weight:600;font-size:clamp(.72rem,1.1vw,.88rem);color:var(--dim);white-space:nowrap;padding:0 1.2rem;letter-spacing:-.01em;transition:color .3s;flex-shrink:0;opacity:.7}
 .collabs-marquee-wrap:hover .collabs-marquee{animation-play-state:paused}
-.collabs-marquee span:hover{color:var(--accent)}
-.collabs-marquee .sep{color:var(--accent);font-weight:800;padding:0 .25rem;font-size:.9em;flex-shrink:0}
+.collabs-marquee span:hover{color:var(--accent);opacity:1}
+.collabs-marquee .sep{color:var(--accent);font-weight:800;padding:0 .25rem;font-size:.8em;flex-shrink:0;opacity:.5}
 .collabs-sub{font-size:.82rem;color:var(--dim);margin-top:1.75rem;font-weight:300;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 @media(max-width:900px){
@@ -3497,6 +3519,10 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   }
   /* card-bar inutile sur mobile */
   .work-card-bar{ display:none; }
+  /* Barre jade permanente sur mobile — contexte sans survol */
+  @media(max-width:900px) {
+    .work-card-bar{ display:block; transform:scaleX(1) !important; }
+  }
 
   .ac-ig{opacity:1;transform:translateY(0)}
 }
@@ -5378,7 +5404,7 @@ nav::before { display:none; }
   transition: opacity .3s, filter .3s, transform .3s;
   mix-blend-mode: screen;
 }
-.ts-logo.ts-omzo { height: 64px; max-width: 190px; }
+.ts-logo.ts-omzo { height: 88px; max-width: 240px; }
 .ts-logo.ts-invert { filter: grayscale(1) invert(1) brightness(1.3); mix-blend-mode: normal; }
 .ts-item:hover .ts-logo { opacity: .95; filter: grayscale(0); transform: scale(1.06); }
 .ts-item:hover .ts-logo.ts-invert { filter: grayscale(0) invert(1) brightness(1.3); }
@@ -5392,7 +5418,7 @@ nav::before { display:none; }
   }
   .ts-item { padding: 1.4rem 1rem; min-height: 78px; }
   .ts-logo { height: 30px; max-width: 110px; opacity: .65; }
-  .ts-logo.ts-omzo { height: 52px; max-width: 155px; }
+  .ts-logo.ts-omzo { height: 72px; max-width: 200px; }
 }
 
 /* ── SERVICES SECONDAIRES — glassmorphisme ── */
@@ -9886,11 +9912,24 @@ body,
         <h1 class="about-main-title">Plus exigeant<br><em>que productif</em></h1>
         <h2 class="about-v2-h2">Creative Director<br><span>basé à Kaolack, Sénégal</span></h2>
 
+        <!-- Stat bar — ancrage identité -->
+        <div class="about-stat-bar">
+          <div class="about-stat-item">
+            <span class="about-stat-num">7</span>
+            <span class="about-stat-lbl">ans</span>
+          </div>
+          <div class="about-stat-sep"></div>
+          <div class="about-stat-item">
+            <span class="about-stat-num">Kaolack</span>
+            <span class="about-stat-lbl">→ international</span>
+          </div>
+        </div>
+
         <p class="about-v2-intro">Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web, et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.</p>
 
         <p class="about-v2-body">Avec ISS 814 j'ai même plus compté. Bicrave, Bonus Tracks, et ça s'arrête pas. Pareil avec Omzo Beatz, 808's God c'est un projet parmi d'autres. Dopeboy DMG, Road to Roots 2 X-Files. One Lyrical. Bientôt du merch avec VJ. Des noms connus ici, d'autres à l'international.</p>
 
-        <p class="about-v2-body">Chaque projet part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter. Pas de copier-coller. Pas de raccourci.</p>
+        <p class="about-v2-value">Chaque projet part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter.</p>
 
         <!-- Outils -->
         <div class="av2-tools-label">Outils</div>
@@ -10023,6 +10062,57 @@ body,
   font-size: .92rem; color: var(--off);
   line-height: 1.8; font-weight: 300;
   margin-bottom: 2rem;
+}
+/* Proposition de valeur isolée */
+.about-v2-value {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  color: var(--light);
+  line-height: 1.55;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  padding-top: .5rem;
+}
+/* Stat bar */
+.about-stat-bar {
+  display: flex; align-items: center; gap: 0;
+  margin: 1.25rem 0 2rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  width: fit-content;
+}
+.about-stat-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: .75rem 1.5rem;
+  gap: .15rem;
+}
+.about-stat-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  color: var(--light);
+  letter-spacing: -.03em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.about-stat-plus { color: var(--accent); }
+.about-stat-lbl {
+  font-size: .62rem; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+.about-stat-sep {
+  width: 1px; height: 2.5rem;
+  background: var(--border);
+  flex-shrink: 0;
+}
+@media(max-width:480px) {
+  .about-stat-bar { width: 100%; }
+  .about-stat-item { flex: 1; padding: .65rem .75rem; }
+  .about-stat-num { font-size: 1.1rem; }
 }
 .av2-tools-label {
   font-family: 'Syne', sans-serif;
@@ -11155,6 +11245,11 @@ body,
 
   <!-- MARQUEE -->
   <div class="container">
+    <!-- Ligne statique : le message principal -->
+    <div class="collabs-static-line reveal-fade rd2">
+      <span class="collabs-static-count">250<span style="color:var(--accent);font-size:.7em">+</span></span>
+      <span class="collabs-static-txt">projets livrés · Sénégal · international</span>
+    </div>
     <div class="collabs-marquee-wrap reveal-fade rd3">
       <div class="collabs-marquee" aria-hidden="true">
         <span>ISS 814</span><span class="sep">·</span>
