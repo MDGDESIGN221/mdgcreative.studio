@@ -336,17 +336,17 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 0;
-    /* pan-x sur le track : permet le swipe horizontal du carousel */
-    touch-action: pan-x;
+    /* pan-x pan-y : le browser choisit la direction dominant le geste
+       → swipe horizontal = slide, swipe vertical = scroll page */
+    touch-action: pan-x pan-y;
   }
 
-  /* Slide entier : pan-x pour le carousel */
+  /* Slide entier : idem, les deux axes ouverts */
   #pieter-process-track .pieter-step {
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
   }
 
-  /* Zone de texte : pan-y pour laisser l'utilisateur scroller la page
-     même depuis le milieu d'un slide — le scroll vertical reprend la main */
+  /* Zone de texte : priorité pan-y — scroll page en premier */
   #pieter-process-track .pieter-step-content {
     touch-action: pan-y;
   }
@@ -4571,6 +4571,54 @@ nav::before { display:none; }
   line-height: 1;
 }
 #sp-video-lb-close:hover { background: rgba(255,255,255,.18); transform: scale(1.08); }
+
+/* Boutons précédent / suivant */
+#sp-video-lb-prev,
+#sp-video-lb-next {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.8);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, transform .2s, opacity .2s;
+  line-height: 1;
+}
+#sp-video-lb-prev { left: max(12px, calc(50% - min(450px, 46vw) - 60px)); }
+#sp-video-lb-next { right: max(12px, calc(50% - min(450px, 46vw) - 60px)); }
+#sp-video-lb-prev:hover,
+#sp-video-lb-next:hover { background: rgba(255,255,255,.18); transform: translateY(-50%) scale(1.08); }
+#sp-video-lb-prev:disabled,
+#sp-video-lb-next:disabled { opacity: .25; cursor: default; pointer-events: none; }
+
+/* Counter ex: 2 / 4 */
+#sp-video-lb-counter {
+  position: fixed;
+  bottom: max(16px, calc(50% - min(253px, 25.9vw) - 44px));
+  right: max(12px, calc(50% - min(450px, 46vw)));
+  z-index: 10;
+  font-family: 'Syne', sans-serif;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+}
+
+@media(max-width: 900px) {
+  #sp-video-lb-prev { left: 8px; }
+  #sp-video-lb-next { right: 8px; }
+  #sp-video-lb-counter {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    position: fixed;
+  }
+}
 
 /* Label artiste + titre en bas du lightbox */
 #sp-video-lb-meta {
@@ -9697,7 +9745,13 @@ body,
 
     <!-- Lightbox vidéo — fullscreen premium -->
     <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Vidéo témoignage">
-      <button id="sp-video-lb-close" aria-label="Fermer">&#10005;</button>
+      <button id="sp-video-lb-close" aria-label="Fermer la vidéo">&#10005;</button>
+      <button id="sp-video-lb-prev" aria-label="Vidéo précédente">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button id="sp-video-lb-next" aria-label="Vidéo suivante">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
       <div id="sp-video-lb-inner">
         <img id="sp-video-lb-poster" src="" alt="" aria-hidden="true">
         <div id="sp-video-lb-spinner"><span></span></div>
@@ -9708,6 +9762,7 @@ body,
         <span id="sp-video-lb-meta-sep"></span>
         <span id="sp-video-lb-meta-role"></span>
       </div>
+      <div id="sp-video-lb-counter" aria-hidden="true"></div>
     </div>
   </div>
   </div>
@@ -19649,7 +19704,7 @@ function cqfGoBack() {
 </script>
 
 <script>
-/* ── VIDEO LIGHTBOX PREMIUM — lazy iframe + iOS scroll-lock fix ── */
+/* ── VIDEO LIGHTBOX PREMIUM — lazy iframe + iOS scroll-lock fix + nav prev/next ── */
 (function(){
   var lb      = document.getElementById('sp-video-lb');
   var frame   = document.getElementById('sp-video-lb-frame');
@@ -19657,10 +19712,15 @@ function cqfGoBack() {
   var poster  = document.getElementById('sp-video-lb-poster');
   var metaN   = document.getElementById('sp-video-lb-meta-name');
   var metaR   = document.getElementById('sp-video-lb-meta-role');
+  var prevBtn = document.getElementById('sp-video-lb-prev');
+  var nextBtn = document.getElementById('sp-video-lb-next');
+  var counter = document.getElementById('sp-video-lb-counter');
   if(!lb || !frame || !closBtn) return;
 
-  var cards = document.querySelectorAll('.sp-vcard-hero, .sp-vcard-row');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.sp-vcard-hero, .sp-vcard-row'));
   if(!cards.length) return;
+
+  var currentIdx = 0;
 
   /* iOS scroll-lock — body position:fixed trick */
   var _scrollY = 0;
@@ -19678,12 +19738,26 @@ function cqfGoBack() {
     window.scrollTo(0, _scrollY);
   }
 
-  function openYtLb(ytId, start, end, name, role){
+  function updateNav(){
+    if(prevBtn) prevBtn.disabled = currentIdx === 0;
+    if(nextBtn) nextBtn.disabled = currentIdx === cards.length - 1;
+    if(counter) counter.textContent = (currentIdx + 1) + ' / ' + cards.length;
+  }
+
+  function openYtLb(idx){
+    currentIdx = idx;
+    var card = cards[idx];
+    var ytId = card.dataset.ytId;
+    var start = card.dataset.start;
+    var end   = card.dataset.end;
+    var name  = card.dataset.name;
+    var role  = card.dataset.role;
     var t = parseInt(start) || 0;
 
     /* Poster immédiat = thumbnail déjà chargée dans la card */
     if(poster){
-      poster.src = 'https://img.youtube.com/vi/' + ytId + '/maxresdefault.jpg';
+      var thumbImg = card.querySelector('img');
+      poster.src = thumbImg ? thumbImg.src : ('https://img.youtube.com/vi/' + ytId + '/maxresdefault.jpg');
       poster.onerror = function(){ this.src = 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg'; };
     }
 
@@ -19694,6 +19768,7 @@ function cqfGoBack() {
     /* Ouvrir l'overlay AVANT l'iframe — poster visible tout de suite */
     lb.classList.add('open', 'loading');
     lockScroll();
+    updateNav();
 
     /* Créer l'iframe avec un léger délai pour laisser l'animation se jouer */
     setTimeout(function(){
@@ -19736,17 +19811,55 @@ function cqfGoBack() {
   }
 
   /* Bind cards */
-  cards.forEach(function(card){
-    function open(){ openYtLb(card.dataset.ytId, card.dataset.start, card.dataset.end, card.dataset.name, card.dataset.role); }
-    card.addEventListener('click', open);
+  cards.forEach(function(card, idx){
+    card.addEventListener('click', function(){ openYtLb(idx); });
     card.addEventListener('keydown', function(e){
-      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); }
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openYtLb(idx); }
     });
   });
 
-  closBtn.addEventListener('click', closeYtLb);
+  /* Bouton fermer — ne jamais fermer le navigateur/onglet
+     On intercepte et on ferme juste la lightbox */
+  closBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    closeYtLb();
+  });
+
+  /* Nav prev / next */
+  if(prevBtn){
+    prevBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(currentIdx > 0) openYtLb(currentIdx - 1);
+    });
+  }
+  if(nextBtn){
+    nextBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(currentIdx < cards.length - 1) openYtLb(currentIdx + 1);
+    });
+  }
+
+  /* Swipe gauche/droite dans la lightbox pour changer de vidéo */
+  var _touchStartX = 0;
+  lb.addEventListener('touchstart', function(e){ _touchStartX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - _touchStartX;
+    if(Math.abs(dx) < 50) return; /* trop court = pas un swipe */
+    if(dx < 0 && currentIdx < cards.length - 1) openYtLb(currentIdx + 1);
+    if(dx > 0 && currentIdx > 0) openYtLb(currentIdx - 1);
+  }, { passive: true });
+
+  /* Clic sur le fond = fermer */
   lb.addEventListener('click', function(e){ if(e.target === lb) closeYtLb(); });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && lb.classList.contains('open')) closeYtLb(); });
+
+  /* Clavier */
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key === 'Escape') closeYtLb();
+    if(e.key === 'ArrowLeft' && currentIdx > 0) openYtLb(currentIdx - 1);
+    if(e.key === 'ArrowRight' && currentIdx < cards.length - 1) openYtLb(currentIdx + 1);
+  });
 })();
 </script>
 
@@ -19756,6 +19869,7 @@ function cqfGoBack() {
   function initCarouselDots(trackId, dotsId) {
     var track = document.getElementById(trackId);
     var dotsWrap = document.getElementById(dotsId);
+
     if (!track || !dotsWrap) return;
     var dots = dotsWrap.querySelectorAll('[data-idx]');
     if (!dots.length) return;
