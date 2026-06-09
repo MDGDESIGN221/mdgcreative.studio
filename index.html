@@ -4624,13 +4624,13 @@ nav::before { display:none; }
   .sp-dot {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: rgba(255,255,255,.22);
+    background: rgba(255,255,255,.18);
     transition: background .25s, width .25s;
     cursor: pointer;
     flex-shrink: 0;
   }
   .sp-dot.active {
-    background: var(--accent);
+    background: rgba(255,255,255,.85);
     width: 18px;
     border-radius: 3px;
   }
@@ -5242,8 +5242,8 @@ nav::before { display:none; }
   cursor: pointer;
   position: relative;
   border-radius: 12px;
-  background: rgba(255,255,255,.92);
-  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: background .25s, border-color .25s, transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s;
@@ -5253,40 +5253,40 @@ nav::before { display:none; }
 .svc-secondary-item::before {
   content: '';
   position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, transparent 60%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.17) 0%, transparent 60%);
   opacity: 0;
   transition: opacity .3s;
 }
 .svc-secondary-item:hover {
-  background: #ffffff;
-  border-color: rgba(255,255,255,.25);
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.11);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.15);
+  box-shadow: 0 8px 24px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,0.04);
 }
 .svc-secondary-item:hover::before { opacity: 1; }
 .svc-secondary-num {
   font-family: 'Syne', sans-serif; font-size: .6rem; font-weight: 800;
-  color: rgba(0,0,0,.22); letter-spacing: .05em;
+  color: rgba(255,255,255,0.14); letter-spacing: .05em;
   flex-shrink: 0; line-height: 1;
   transition: color .2s;
 }
-.svc-secondary-item:hover .svc-secondary-num { color: rgba(0,0,0,.38); }
+.svc-secondary-item:hover .svc-secondary-num { color: rgba(255,255,255,0.28); }
 .svc-secondary-name {
   font-family: 'Syne', sans-serif; font-size: .82rem; font-weight: 700;
-  color: #0a0a0a; letter-spacing: -.01em; flex: 1;
+  color: var(--off); letter-spacing: -.01em; flex: 1;
   transition: color .2s;
   line-height: 1.2;
 }
-.svc-secondary-item:hover .svc-secondary-name { color: #000; }
+.svc-secondary-item:hover .svc-secondary-name { color: var(--light); }
 .svc-secondary-tags {
   font-size: .58rem; color: var(--dim); font-weight: 300;
   letter-spacing: .02em; display: none;
 }
 .svc-secondary-arr {
-  color: rgba(0,0,0,.25); font-size: .8rem; flex-shrink: 0;
+  color: rgba(255,255,255,0.17); font-size: .8rem; flex-shrink: 0;
   transition: transform .25s, color .2s;
 }
-.svc-secondary-item:hover .svc-secondary-arr { transform: translateX(3px); color: rgba(0,0,0,.7); }
+.svc-secondary-item:hover .svc-secondary-arr { transform: translateX(3px); color: var(--accent); }
 @media(max-width:640px) {
   .svc-secondary-list { grid-template-columns: 1fr; gap: .4rem; }
 }
@@ -9467,14 +9467,14 @@ body,
 
 
 
-<section id="social-proof" style="background:var(--dark);border-bottom:1px solid var(--border)">
+<section id="social-proof" style="background:#f5f5f3;border-bottom:1px solid rgba(0,0,0,.08)">
 <style>
-/* ── SOCIAL PROOF fond sombre — overrides ── */
-#social-proof .sec-label { color: var(--dim) !important; }
-#social-proof .sec-label::after { background: var(--border2) !important; }
-#social-proof .sp-h2 { color: var(--light) !important; }
-#social-proof .sp-h2 em { color: var(--off) !important; }
-#social-proof .reveal-line::before { background: var(--border2) !important; }
+/* ── SOCIAL PROOF fond blanc — overrides ── */
+#social-proof .sec-label { color: rgba(0,0,0,.45) !important; }
+#social-proof .sec-label::after { background: rgba(0,0,0,.2) !important; }
+#social-proof .sp-h2 { color: #0a0a0a !important; }
+#social-proof .sp-h2 em { color: rgba(0,0,0,.45) !important; }
+#social-proof .reveal-line::before { background: rgba(0,0,0,.18) !important; }
 </style>
   <!-- ── TÉMOIGNAGES — ce qu'ils disent ── -->
   <div class="container" style="padding:5rem clamp(1.25rem,4vw,3rem) 4rem">
@@ -9516,7 +9516,7 @@ body,
                data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
                role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
             <div class="sp-vcard-hero-thumb">
-              <img decoding="async"
+              <img decoding="async" loading="lazy"
                 src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964123/fais_la_premiere_image_que_202606090004_gdh7ky.jpg"
                 alt="ISS 814">
               <div class="sp-vcard-badge">
@@ -9548,7 +9548,7 @@ body,
                data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
                role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
             <div class="sp-vcard-hero-thumb">
-              <img decoding="async"
+              <img decoding="async" loading="lazy"
                 src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780963911/B_W_portrait_with_backlight_glow_znxcxz.png"
                 alt="ISS 814">
               <div class="sp-vcard-badge">
@@ -9576,7 +9576,7 @@ body,
                data-name="Key Em Ti" data-role="Artiste · Sénégal"
                role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
             <div class="sp-vcard-hero-thumb">
-              <img decoding="async"
+              <img decoding="async" loading="lazy"
                 src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964421/fais_la_premiere_image_que_202606090020_taj0wy.jpg"
                 alt="Key Em Ti">
               <div class="sp-vcard-badge">
@@ -9604,7 +9604,7 @@ body,
                data-name="Emza Young Boss" data-role="Artiste · Sénégal"
                role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
             <div class="sp-vcard-hero-thumb">
-              <img decoding="async"
+              <img decoding="async" loading="lazy"
                 src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964691/fais_la_premiere_image_que_202606090024_lnr2gj.jpg"
                 alt="Emza Young Boss">
               <div class="sp-vcard-badge">
@@ -10205,246 +10205,329 @@ body,
     </div>
   </div>
 
-  <!-- SPOTLIGHT ARTISTES -->
+  <!-- SPOTLIGHT ARTISTES — premium vcard style -->
   <style>
+  /* ── SPOTLIGHT STAGE ── */
   .sp-stage {
     margin: 0 3rem;
-    padding: 2.5rem 2rem 2rem;
-    background: #060606;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,.07);
+    padding: 0;
+    background: transparent;
+    border: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 2rem;
+    gap: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     opacity: 1 !important;
     transform: none !important;
   }
-  .sp-wm {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(7rem, 18vw, 16rem);
-    letter-spacing: -.04em;
-    white-space: nowrap;
-    color: #fff;
-    opacity: .055;
-    filter: blur(10px);
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
-    line-height: 1;
-  }
-  .sp-eyebrow,
-  .sp-cards-row,
-  .sp-detail { position: relative; z-index: 1; }
-  }
-  .sp-eyebrow {
-    font-family: 'Syne', sans-serif;
-    font-size: .52rem;
-    font-weight: 700;
-    letter-spacing: .28em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.25);
-    align-self: flex-start;
-  }
+
+  /* ── GRILLE CARTES — même ratio que les testimonials ── */
   .sp-cards-row {
-    display: flex;
-    gap: .75rem;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
     width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
   }
+
+  /* ── CARD — calquée sur sp-vcard-hero ── */
   .sp-card {
     position: relative;
-    width: 175px;
-    height: 230px;
-    border-radius: 16px;
     cursor: pointer;
-    transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s cubic-bezier(.16,1,.3,1);
-    flex-shrink: 0;
-    background: #1a1a1a;
-    border: 1px solid rgba(255,255,255,.08);
+    background: #0d0d0d;
     overflow: hidden;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .sp-card:hover {
-    transform: translateY(-8px) !important;
-    border-color: rgba(255,255,255,.18);
-    box-shadow: 0 20px 50px rgba(0,0,0,.5);
-  }
-  .sp-card.sp-active {
-    transform: translateY(-12px) !important;
-    border-color: rgba(255,255,255,.22);
-    box-shadow: 0 24px 60px rgba(0,0,0,.6);
-  }
-  .sp-card-photo {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    width: 100%;
-    height: 158px;
-    object-fit: cover;
-    display: block;
-    filter: grayscale(100%) contrast(1.05);
-    transition: filter .4s;
-  }
-  .sp-card.sp-active .sp-card-photo,
-  .sp-card:hover .sp-card-photo {
-    filter: grayscale(0%) contrast(1.02);
-  }
-  .sp-card-fade {
-    position: absolute;
-    top: 110px; left: 0; right: 0;
-    height: 60px;
-    background: linear-gradient(to bottom, transparent, #1a1a1a);
-    z-index: 1;
-  }
-  .sp-card-info {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 76px;
-    background: #1a1a1a;
-    padding: .65rem .85rem .6rem;
-    z-index: 2;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.09);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 3px;
-    border-top: 1px solid rgba(255,255,255,.06);
+    transition: border-color .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1), transform .4s cubic-bezier(.16,1,.3,1);
+    opacity: 1 !important;
+    transform: none !important;
+    -webkit-tap-highlight-color: transparent;
   }
+  .sp-card:hover {
+    border-color: rgba(255,255,255,.2);
+    box-shadow: 0 16px 48px rgba(0,0,0,.55);
+    transform: translateY(-6px) !important;
+  }
+  .sp-card.sp-active {
+    border-color: rgba(255,255,255,.28) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,.65) !important;
+    transform: translateY(-10px) !important;
+  }
+
+  /* ── ZONE PHOTO — grand ratio portrait ── */
+  .sp-card-thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: #080808;
+    flex-shrink: 0;
+  }
+  .sp-card-photo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%) brightness(.88) contrast(1.08);
+    transition: filter .5s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+    will-change: filter, transform;
+  }
+  .sp-card:hover .sp-card-photo,
+  .sp-card.sp-active .sp-card-photo {
+    filter: grayscale(0%) brightness(.92) contrast(1.04);
+    transform: scale(1.04);
+  }
+
+  /* Gradient bas sur la photo */
+  .sp-card-thumb::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,8,8,1) 0%, rgba(8,8,8,.35) 45%, transparent 75%);
+    pointer-events: none;
+  }
+
+  /* Badge index haut-gauche */
+  .sp-card-idx {
+    position: absolute;
+    top: .7rem; left: .7rem;
+    z-index: 3;
+    font-family: 'Syne', sans-serif;
+    font-size: .44rem; font-weight: 800;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+    background: rgba(6,6,6,.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 100px;
+    padding: .2rem .55rem;
+  }
+
+  /* Dot live haut-droit — s'allume sur actif */
+  .sp-card-live {
+    position: absolute;
+    top: .7rem; right: .7rem;
+    z-index: 3;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    transition: background .4s, box-shadow .4s;
+  }
+  .sp-card.sp-active .sp-card-live {
+    background: #4ade80;
+    box-shadow: 0 0 8px rgba(74,222,128,.8);
+    animation: livePulse 1.8s ease-in-out infinite;
+  }
+  @keyframes livePulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(74,222,128,.7); }
+    50%       { box-shadow: 0 0 14px rgba(74,222,128,1); }
+  }
+
+  /* ── ZONE NOIRE BAS — info artiste ── */
+  .sp-card-body {
+    background: #0d0d0d;
+    padding: .75rem .85rem .8rem;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,.05);
+    flex: 1;
+  }
+  /* Shimmer haut */
+  .sp-card-body::before {
+    content: '';
+    position: absolute; top: -1px; left: 12%; right: 12%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .sp-card.sp-active .sp-card-body::before,
+  .sp-card:hover .sp-card-body::before { opacity: 1; }
+
   .sp-card-name {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: .78rem;
-    color: #f0ede8;
+    font-size: clamp(.62rem, .9vw, .8rem);
+    color: var(--light);
     letter-spacing: -.02em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.1;
   }
   .sp-card-genre {
-    font-size: .52rem;
+    font-size: clamp(.42rem, .6vw, .52rem);
     font-weight: 400;
-    color: rgba(255,255,255,.3);
-    letter-spacing: .08em;
+    color: rgba(255,255,255,.28);
+    letter-spacing: .07em;
     text-transform: uppercase;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  /* Barres waveform */
   .sp-card-bar {
     display: flex;
     gap: 1.5px;
     align-items: flex-end;
-    margin-top: 5px;
+    margin-top: 4px;
+    height: 14px;
   }
   .sp-card-bar span {
     display: block;
-    width: 1.5px;
-    background: rgba(255,255,255,.12);
+    width: 2px;
+    background: rgba(255,255,255,.1);
     border-radius: 1px;
+    transition: background .4s;
   }
+  .sp-card.sp-active .sp-card-bar span,
+  .sp-card:hover .sp-card-bar span {
+    background: rgba(255,255,255,.28);
+  }
+  /* Barre active animée */
+  .sp-card.sp-active .sp-card-bar span {
+    animation: barPulse 1.2s ease-in-out infinite alternate;
+  }
+  .sp-card.sp-active .sp-card-bar span:nth-child(odd) { animation-delay: .15s; }
+  .sp-card.sp-active .sp-card-bar span:nth-child(3n) { animation-delay: .3s; }
+  @keyframes barPulse {
+    0%   { opacity: .3; }
+    100% { opacity: 1; }
+  }
+
+  /* ── DETAIL BAS — banner artiste actif ── */
   .sp-detail {
-    width: 100%;
-    max-width: 560px;
-    background: #1a1a1a;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 14px;
+    margin-top: 10px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 16px;
     padding: 1.25rem 1.5rem;
     display: flex;
     align-items: center;
     gap: 1.25rem;
+    position: relative;
+    overflow: hidden;
     opacity: 1 !important;
     transform: none !important;
+    transition: border-color .3s;
   }
+  /* Fond photo flou derrière le detail */
+  .sp-detail::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center top;
+    filter: blur(28px) brightness(.18) saturate(1.4);
+    transition: background-image .45s;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .sp-detail > * { position: relative; z-index: 1; }
+
   .sp-detail-avatar {
-    width: 52px; height: 52px;
+    width: 56px; height: 56px;
     border-radius: 50%;
     object-fit: cover;
-    filter: grayscale(100%);
     flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,.1);
-    transition: filter .4s;
+    border: 2px solid rgba(255,255,255,.12);
+    transition: filter .4s, border-color .4s;
+    filter: grayscale(30%);
   }
   .sp-detail-text { flex: 1; min-width: 0; }
   .sp-detail-name {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: 1rem;
-    color: #f0ede8;
+    font-size: clamp(.9rem, 1.4vw, 1.1rem);
+    color: var(--light);
     letter-spacing: -.03em;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
+    transition: color .3s;
   }
   .sp-detail-role {
-    font-size: .62rem;
+    font-size: .6rem;
     color: rgba(255,255,255,.35);
     letter-spacing: .1em;
     text-transform: uppercase;
   }
-  .sp-detail-ig {
-    display: flex; align-items: center; gap: .4rem;
-    font-size: .58rem; font-weight: 600;
-    letter-spacing: .1em; text-transform: uppercase;
-    padding: .45rem .9rem;
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 100px;
-    color: rgba(255,255,255,.6);
-    text-decoration: none;
-    background: transparent;
-    flex-shrink: 0;
-    transition: background .2s, border-color .2s;
+  /* Progressbar auto-rotation */
+  .sp-detail-progress {
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px;
+    background: rgba(255,255,255,.04);
   }
-  .sp-detail-ig:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); }
-  .sp-detail-ig svg { width: 11px; height: 11px; }
+  .sp-detail-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, rgba(255,255,255,.22), var(--accent), rgba(255,255,255,.44));
+    transition: width .12s linear;
+    box-shadow: 0 0 8px rgba(255,255,255,.28);
+  }
 
-  @media(max-width: 900px) {
-    .sp-stage { margin: 0 1.5rem; padding: 2rem 1.25rem 1.5rem; }
-    .sp-card { width: 140px; height: 200px; }
-    .sp-card-photo { height: 130px; }
-    .sp-card-fade { top: 85px; }
-    .sp-detail { flex-wrap: wrap; gap: .75rem; }
-    .sp-detail-ig { width: 100%; justify-content: center; }
+  .sp-detail-ig {
+    display: flex; align-items: center; gap: .45rem;
+    font-family: 'Syne', sans-serif;
+    font-size: .58rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: .55rem 1.1rem;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 100px;
+    color: rgba(255,255,255,.65);
+    text-decoration: none;
+    background: rgba(255,255,255,.04);
+    flex-shrink: 0;
+    transition: background .25s, border-color .25s, color .25s, box-shadow .25s;
+    white-space: nowrap;
   }
-  /* Mobile : grille 2 colonnes pour les cartes artistes */
+  .sp-detail-ig:hover {
+    background: rgba(255,255,255,.1);
+    border-color: rgba(255,255,255,.28);
+    color: var(--light);
+    box-shadow: 0 0 16px rgba(255,255,255,.08);
+  }
+  .sp-detail-ig svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  /* ── DOTS PROGRESS MOBILE ── */
+  .sp-mob-dots {
+    display: none;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 1rem;
+    padding: 0 1rem;
+  }
+  .sp-mob-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    transition: background .25s, width .25s;
+    cursor: pointer; flex-shrink: 0;
+  }
+  .sp-mob-dot.on {
+    background: var(--accent); width: 18px; border-radius: 3px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width: 900px) {
+    .sp-stage { margin: 0 1.5rem; }
+    .sp-cards-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .sp-detail { gap: 1rem; }
+  }
   @media(max-width: 600px) {
-    .sp-stage { margin: 0 1rem; padding: 1.5rem 1rem 1.25rem; }
+    .sp-stage { margin: 0 1rem; }
     .sp-cards-row {
-      display: grid !important;
       grid-template-columns: repeat(3, 1fr) !important;
-      justify-content: center !important;
-      overflow-x: unset !important;
-      flex-wrap: unset !important;
-      gap: .5rem !important;
-      padding-bottom: 0 !important;
+      gap: 6px !important;
     }
-    .sp-card {
-      width: 100% !important;
-      height: 155px !important;
-      flex-shrink: unset !important;
-      scroll-snap-align: unset !important;
-    }
-    .sp-card-photo { height: 102px !important; }
-    .sp-card-fade { top: 70px !important; }
-    .sp-card-info { height: 53px !important; padding: .4rem .65rem .35rem !important; }
-    .sp-card-name { font-size: .65rem !important; }
-    .sp-card-genre { font-size: .44rem !important; }
-    .sp-detail {
-      padding: 1rem 1.1rem !important;
-      gap: .65rem !important;
-    }
-    .sp-detail-name { font-size: .88rem !important; }
-    .sp-detail-role { font-size: .56rem !important; }
+    .sp-detail { flex-wrap: wrap; gap: .65rem; padding: 1rem 1.1rem; }
+    .sp-detail-ig { width: 100%; justify-content: center; }
+    .sp-mob-dots { display: flex; }
+  }
+  @media(max-width: 420px) {
+    .sp-cards-row { grid-template-columns: repeat(2, 1fr) !important; }
   }
   </style>
 
   <div class="sp-stage">
-    <div class="sp-wm" aria-hidden="true">COLLABORATIONS</div>
     <div class="sp-cards-row" id="spCardsRow"></div>
     <div class="sp-detail" id="spDetail">
       <img class="sp-detail-avatar" id="spDetailAvatar" src="" alt="">
@@ -10456,59 +10539,131 @@ body,
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         Instagram
       </a>
+      <div class="sp-detail-progress"><div class="sp-detail-bar" id="spDetailBar"></div></div>
     </div>
+    <div class="sp-mob-dots" id="spMobDots"></div>
   </div>
 
   <script>
   (function(){
     var ARTISTS = [
-      { name:'ISS 814',        role:'Rapper · Beatmaker · Producer', ig:'https://www.instagram.com/iss814beats/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184982/iss_814_v22_dtnhal.jpg',                                              pos:'center top'  },
-      { name:'One Lyrical',    role:'Artiste Rappeur',                ig:'https://www.instagram.com/onelyrical.sn/',      photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg',                                         pos:'center top'  },
-      { name:'Omzo Beatz',     role:'Beatmaker · Producer',           ig:'https://www.instagram.com/omzobeatz/',          photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182477/omzo_1_jkbnwn.jpg',                                                pos:'center top'  },
-      { name:'Dopeboy DMG',    role:'Artiste Rappeur',                ig:'https://www.instagram.com/dopeboydmg/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg',                                               pos:'center 20%'  },
-      { name:'Oothentik Zeus', role:'Artiste Rappeur',                ig:'https://www.instagram.com/oothentik_zeus_gb/', photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png', pos:'center top'  },
-      { name:'Gun Silent Beatz', role:'Beatmaker · Producer',         ig:'https://www.instagram.com/gunsilentbeatz/',    photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg',                                               pos:'center top'  }
+      { name:'ISS 814',          idx:'AR-01', role:'Rapper · Beatmaker · Producer', ig:'https://www.instagram.com/iss814beats/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777184982/iss_814_v22_dtnhal.jpg',                                              pos:'center top'  },
+      { name:'One Lyrical',      idx:'AR-02', role:'Artiste Rappeur',                ig:'https://www.instagram.com/onelyrical.sn/',      photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777184384/one_lyrical_33_s2iha2.jpg',                                         pos:'center top'  },
+      { name:'Omzo Beatz',       idx:'AR-03', role:'Beatmaker · Producer',           ig:'https://www.instagram.com/omzobeatz/',          photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777182477/omzo_1_jkbnwn.jpg',                                                pos:'center top'  },
+      { name:'Dopeboy DMG',      idx:'AR-04', role:'Artiste Rappeur',                ig:'https://www.instagram.com/dopeboydmg/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777184573/dopeboy_bdrzw6.jpg',                                               pos:'center 20%'  },
+      { name:'Oothentik Zeus',   idx:'AR-05', role:'Artiste Rappeur',                ig:'https://www.instagram.com/oothentik_zeus_gb/', photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png', pos:'center top'  },
+      { name:'Gun Silent Beatz', idx:'AR-06', role:'Beatmaker · Producer',           ig:'https://www.instagram.com/gunsilentbeatz/',    photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_400/v1777182558/GUN_SILE_socvwe.jpg',                                               pos:'center top'  }
     ];
 
     var barH = [14,9,12,7,14,10,8,13,7,11,14,8,10,7,13];
-    var row  = document.getElementById('spCardsRow');
+    var row        = document.getElementById('spCardsRow');
+    var detailEl   = document.getElementById('spDetail');
     var detailAvatar = document.getElementById('spDetailAvatar');
     var detailName   = document.getElementById('spDetailName');
     var detailRole   = document.getElementById('spDetailRole');
     var detailIg     = document.getElementById('spDetailIg');
+    var detailBar    = document.getElementById('spDetailBar');
+    var mobDots      = document.getElementById('spMobDots');
     var activeIdx    = 0;
     var cards        = [];
+    var DURATION     = 4000; /* ms par slide */
+    var timer, progTimer, progStart, progPause;
 
+    /* ── PRELOAD ── */
+    ARTISTS.forEach(function(a){ var img=new Image(); img.src=a.photo; });
+
+    /* ── BUILD CARDS ── */
     ARTISTS.forEach(function(a, i) {
       var card = document.createElement('div');
       card.className = 'sp-card' + (i === 0 ? ' sp-active' : '');
       var bars = barH.map(function(h){ return '<span style="height:'+h+'px"></span>'; }).join('');
       card.innerHTML =
-        '<img class="sp-card-photo" src="'+a.photo+'" alt="'+a.name+'" style="object-position:'+a.pos+'" onerror="this.style.display=\'none\'">' +
-        '<div class="sp-card-fade"></div>' +
-        '<div class="sp-card-info">' +
+        '<div class="sp-card-thumb">' +
+          '<img class="sp-card-photo" src="'+a.photo+'" alt="'+a.name+'" style="object-position:'+a.pos+'" loading="eager">' +
+          '<div class="sp-card-idx">'+a.idx+'</div>' +
+          '<div class="sp-card-live"></div>' +
+        '</div>' +
+        '<div class="sp-card-body">' +
           '<div class="sp-card-name">'+a.name+'</div>' +
           '<div class="sp-card-genre">'+a.role+'</div>' +
           '<div class="sp-card-bar">'+bars+'</div>' +
         '</div>';
-      card.addEventListener('click', function(){ clearInterval(timer); activate(i); });
+      card.addEventListener('click', function(){
+        stopAuto();
+        activate(i);
+      });
+      /* Hover pause auto-rotation */
+      card.addEventListener('mouseenter', pauseAuto);
+      card.addEventListener('mouseleave', function(){ if(activeIdx === i) resumeAuto(); });
       row.appendChild(card);
       cards.push(card);
     });
 
+    /* ── MOBILE DOTS ── */
+    ARTISTS.forEach(function(_, i){
+      var dot = document.createElement('span');
+      dot.className = 'sp-mob-dot' + (i === 0 ? ' on' : '');
+      dot.addEventListener('click', function(){ stopAuto(); activate(i); });
+      mobDots.appendChild(dot);
+    });
+    var dots = mobDots.querySelectorAll('.sp-mob-dot');
+
+    /* ── ACTIVATE ── */
     function activate(i) {
       activeIdx = i;
       var a = ARTISTS[i];
       cards.forEach(function(c, j){ c.classList.toggle('sp-active', j === i); });
+      dots.forEach(function(d, j){ d.classList.toggle('on', j === i); });
       detailAvatar.src = a.photo;
       detailAvatar.style.objectPosition = a.pos;
       detailName.textContent = a.name;
       detailRole.textContent = a.role;
       detailIg.href = a.ig;
+      /* Fond flou dans le detail */
+      detailEl.style.setProperty('--sp-bg', 'url('+a.photo+')');
+      detailEl.style.backgroundImage = 'none'; /* reset */
+      var before = window.getComputedStyle(detailEl, '::before');
+      detailEl.setAttribute('data-bg', a.photo);
+      /* Apply via inline style on a pseudo — workaround: use a real div */
+      var bgEl = detailEl.querySelector('.sp-detail-bg');
+      if(!bgEl){ bgEl=document.createElement('div'); bgEl.className='sp-detail-bg'; bgEl.style.cssText='position:absolute;inset:0;background-size:cover;background-position:center top;filter:blur(28px) brightness(.18) saturate(1.4);transition:background-image .45s;pointer-events:none;z-index:0;'; detailEl.insertBefore(bgEl, detailEl.firstChild); }
+      bgEl.style.backgroundImage = 'url('+a.photo+')';
+      resetProgress();
+    }
+
+    /* ── PROGRESS BAR ── */
+    function resetProgress(){
+      if(detailBar){ detailBar.style.transition='none'; detailBar.style.width='0%'; }
+      clearInterval(progTimer);
+      progStart = Date.now();
+      progTimer = setInterval(function(){
+        var pct = Math.min(100, (Date.now()-progStart)/DURATION*100);
+        if(detailBar){ detailBar.style.transition='none'; detailBar.style.width=pct+'%'; }
+        if(pct>=100) clearInterval(progTimer);
+      }, 40);
+    }
+
+    /* ── AUTO-ROTATION ── */
+    function startAuto(){
+      stopAuto();
+      timer = setInterval(function(){
+        activate((activeIdx+1) % ARTISTS.length);
+      }, DURATION);
+    }
+    function stopAuto(){ clearInterval(timer); clearInterval(progTimer); }
+    function pauseAuto(){ clearInterval(timer); clearInterval(progTimer); }
+    function resumeAuto(){ startAuto(); }
+
+    /* Pause si hors viewport */
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ e.isIntersecting ? startAuto() : stopAuto(); });
+      }, { threshold: 0.2 });
+      io.observe(row.closest('.sp-stage') || row);
     }
 
     activate(0);
-    var timer = setInterval(function(){ activate((activeIdx + 1) % ARTISTS.length); }, 3500);
+    startAuto();
   })();
   </script>
 
