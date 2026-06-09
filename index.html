@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776666026/NEW_LOGO_w_rxvoil.png" fetchpriority="high">
+  <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835363/about_5_jdxu46.jpg" fetchpriority="high" media="(min-width: 768px)">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835079/hero_mobile_vouizb.jpg" fetchpriority="high" media="(max-width: 767px)">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2699,123 +2700,152 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 /* ══════════════════════════════════════
    FOOTER — redesign propre desktop + mobile
 ════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   FOOTER REDESIGN — MDG Creative Studio
+   ═══════════════════════════════════════ */
 footer {
-  background: #0a0a0a;
-  border-top: 1px solid rgba(255,255,255,.08);
+  background: #080808;
+  border-top: 1px solid rgba(255,255,255,.07);
   padding: 0;
 }
+
+/* Ligne décorative top */
 footer::before {
   content: '';
   display: block;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.12) 40%, rgba(255,255,255,.04) 70%, transparent);
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.14) 35%, rgba(255,255,255,.06) 65%, transparent 100%);
 }
 
-/* GRILLE PRINCIPALE : 2 colonnes égales sur desktop */
+/* ── GRILLE : 3 colonnes desktop ── */
 .footer-main {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-.footer-main > * {
-  padding: 2.5rem 2.5rem;
-}
-.footer-brand {
-  border-right: 1px solid rgba(255,255,255,.06);
+  grid-template-columns: 1.4fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
 }
 
-/* Logo */
+.footer-brand {
+  padding: 3rem 3rem 2.5rem;
+  border-right: 1px solid rgba(255,255,255,.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.footer-contact-group {
+  padding: 3rem 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  justify-content: space-between;
+}
+
+/* ── LOGO ── */
 .footer-brand .f-logo-wrap {
-  display: flex; align-items: center; gap: .65rem;
-  margin-bottom: 1.4rem;
+  display: flex; align-items: center; gap: .7rem;
 }
 .footer-brand .f-logo-img {
-  height: 20px; width: auto; display: block;
-  opacity: .75; filter: brightness(1);
+  height: 18px; width: auto; display: block;
+  opacity: .6;
 }
 .footer-brand .f-logo-name {
   font-family: 'Syne', sans-serif; font-weight: 800;
-  font-size: .72rem; color: rgba(255,255,255,.45);
-  letter-spacing: .12em; text-transform: uppercase;
+  font-size: .68rem; color: rgba(255,255,255,.38);
+  letter-spacing: .14em; text-transform: uppercase;
 }
 
-/* Socials — icônes uniformes */
+/* ── Description brand ── */
+.footer-brand-desc {
+  font-size: .78rem;
+  color: rgba(255,255,255,.3);
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 340px;
+}
+
+/* ── Socials ── */
 .footer-brand .f-socials {
-  display: flex; gap: .45rem;
+  display: flex; gap: .4rem; flex-wrap: wrap;
 }
 .footer-brand .f-socials a {
-  width: 34px; height: 34px; border-radius: 8px;
+  width: 36px; height: 36px; border-radius: 9px;
   border: 1px solid rgba(255,255,255,.09);
   display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,.4); text-decoration: none;
+  color: rgba(255,255,255,.38); text-decoration: none;
   transition: background .2s, color .2s, border-color .2s;
 }
 .footer-brand .f-socials a:hover {
-  background: #fff; color: #000;
-  border-color: #fff;
+  background: #fff; color: #000; border-color: #fff;
 }
 
-/* Colonne contact */
-.footer-contact-group { display: flex; flex-direction: column; justify-content: space-between; }
-
+/* ── Contact labels ── */
 .f-nav-title {
   font-family: 'Syne', sans-serif; font-weight: 700;
-  font-size: .52rem; letter-spacing: .2em;
-  text-transform: uppercase; color: rgba(255,255,255,.35);
-  margin-bottom: 1.25rem;
+  font-size: .5rem; letter-spacing: .22em;
+  text-transform: uppercase; color: rgba(255,255,255,.25);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: .6rem;
+}
+.f-nav-title::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: rgba(255,255,255,.06);
+  max-width: 60px;
 }
 
 .f-contact-list {
-  display: flex; flex-direction: column; gap: .85rem;
-  margin-bottom: 1.5rem; flex: 1;
+  display: flex; flex-direction: column; gap: 1rem;
+  flex: 1; margin-bottom: 2rem;
 }
 .f-contact-item {
-  display: flex; flex-direction: column; gap: .15rem;
-  text-decoration: none; color: inherit;
+  display: flex; align-items: flex-start; flex-direction: column;
+  gap: .18rem; text-decoration: none; color: inherit;
 }
 .f-contact-lbl {
-  font-size: .48rem; letter-spacing: .16em;
+  font-family: 'Syne', sans-serif;
+  font-size: .44rem; letter-spacing: .2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.28); font-weight: 600;
+  color: rgba(255,255,255,.22); font-weight: 700;
 }
 .f-contact-val {
-  font-size: .78rem; color: rgba(255,255,255,.7);
-  font-weight: 300; transition: color .2s;
+  font-size: .82rem; color: rgba(255,255,255,.65);
+  font-weight: 300; transition: color .2s; letter-spacing: .01em;
 }
 .f-contact-item:hover .f-contact-val { color: #fff; }
 
-/* CTA buttons */
+/* ── CTA buttons ── */
 .f-footer-cta {
-  display: flex; gap: .5rem; flex-wrap: wrap;
+  display: flex; gap: .5rem; flex-wrap: nowrap;
 }
 
-/* Barre bottom */
+/* ── Bottom bar ── */
 .footer-bottom {
-  padding: .85rem 2.5rem;
+  padding: 1rem 3rem;
   display: flex; align-items: center; justify-content: space-between;
   gap: 1rem; flex-wrap: wrap;
 }
 .footer-bottom p,
 .footer-bottom a {
-  font-size: .6rem; color: rgba(255,255,255,.22);
+  font-size: .58rem; color: rgba(255,255,255,.18);
   font-weight: 300; text-decoration: none;
-  letter-spacing: .04em; transition: color .2s;
+  letter-spacing: .05em; transition: color .2s;
 }
-.footer-bottom a:hover { color: rgba(255,255,255,.6); }
+.footer-bottom a:hover { color: rgba(255,255,255,.55); }
 
 /* ── MOBILE ── */
 @media(max-width:768px) {
   .footer-main {
     grid-template-columns: 1fr;
   }
-  .footer-main > * {
-    padding: 2rem 1.5rem;
-  }
   .footer-brand {
+    padding: 2.25rem 1.5rem 2rem;
     border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    gap: 1.5rem;
   }
   .footer-contact-group {
+    padding: 2rem 1.5rem;
     gap: 1.5rem;
   }
   .f-footer-cta {
@@ -2823,10 +2853,11 @@ footer::before {
   }
   .footer-bottom {
     flex-direction: column;
-    gap: .35rem;
+    gap: .3rem;
     text-align: center;
-    padding: .85rem 1.5rem;
+    padding: .9rem 1.5rem;
   }
+  .footer-brand-desc { display: none; }
 }
 
 /* ── STAT COUNTER ── */
@@ -10309,34 +10340,53 @@ body,
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 76px;
-    background: #1a1a1a;
+    background: linear-gradient(to bottom, rgba(18,18,18,.92) 0%, rgba(10,10,10,.98) 100%);
     padding: .65rem .85rem .6rem;
     z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 3px;
-    border-top: 1px solid rgba(255,255,255,.06);
+    gap: 5px;
+    border-top: none;
   }
   .sp-card-name {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: .78rem;
+    font-size: .82rem;
     color: #f0ede8;
     letter-spacing: -.02em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.15;
   }
   .sp-card-genre {
-    font-size: .52rem;
-    font-weight: 400;
-    color: rgba(255,255,255,.3);
-    letter-spacing: .08em;
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    font-family: 'Syne', sans-serif;
+    font-size: .44rem;
+    font-weight: 700;
+    color: rgba(255,255,255,.95);
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 100px;
+    padding: .2rem .55rem;
     text-transform: uppercase;
+    letter-spacing: .1em;
+    width: fit-content;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .sp-card-genre::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.55);
+    flex-shrink: 0;
   }
   .sp-card-bar {
     display: flex;
@@ -10433,7 +10483,7 @@ body,
     .sp-card-fade { top: 70px !important; }
     .sp-card-info { height: 53px !important; padding: .4rem .65rem .35rem !important; }
     .sp-card-name { font-size: .65rem !important; }
-    .sp-card-genre { font-size: .44rem !important; }
+    .sp-card-genre { font-size: .38rem !important; padding: .18rem .42rem !important; }
     .sp-detail {
       padding: 1rem 1.1rem !important;
       gap: .65rem !important;
@@ -12301,10 +12351,15 @@ body,
   top:0; left:0;
   backface-visibility:hidden;
   overflow:hidden;
+  background: #0d0818;
 }
 .ub-face img{
   width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;
+  opacity:0;
+  transition:opacity .4s ease;
 }
+.ub-face img.loaded { opacity:1; }
+.ub-face img.error { opacity:0; }
 
 /* FRONT : face de référence, colle au plan */
 #ub-front{
@@ -12418,15 +12473,15 @@ body,
   <div id="uranus-box-wrap">
     <div id="uranus-box-inner">
       <div class="ub-face" id="ub-front">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt="URANUS GFX PACK">
+        <img id="uranusBoxImg" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" alt="URANUS GFX PACK">
         <div id="ub-ov"></div>
         <div id="ub-lbl"><div class="ubn">URANUS<br>GFX PACK</div><div class="ubs">by MDG Creative Studio</div></div>
       </div>
-      <div class="ub-face" id="ub-back"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
-      <div class="ub-face" id="ub-right"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
-      <div class="ub-face" id="ub-left"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
-      <div class="ub-face" id="ub-top"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
-      <div class="ub-face" id="ub-bot"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="low" alt=""></div>
+      <div class="ub-face" id="ub-back"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" alt=""></div>
+      <div class="ub-face" id="ub-right"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" alt=""></div>
+      <div class="ub-face" id="ub-left"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" alt=""></div>
+      <div class="ub-face" id="ub-top"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" alt=""></div>
+      <div class="ub-face" id="ub-bot"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1777373985/hf_20260424_215500_dc3ea877-d759-4469-b759-54ff423ce8b3_jgxyiu.jpg" loading="eager" fetchpriority="high" alt=""></div>
     </div>
     <div id="ub-hint">drag</div>
   </div>
@@ -12849,6 +12904,16 @@ body,
 
 /* ── Box image rotation ── */
 (function(){
+  /* Mark all ub-face images as loaded when they're ready */
+  document.querySelectorAll('.ub-face img').forEach(function(img){
+    function markLoaded(){ img.classList.add('loaded'); }
+    if(img.complete && img.naturalWidth){ markLoaded(); }
+    else {
+      img.addEventListener('load', markLoaded);
+      img.addEventListener('error', function(){ img.classList.add('error'); });
+    }
+  });
+
   var imgs = [
     'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/match-day-sadio_we5xzy.jpg',
     'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/gameday-gambie_men43y.jpg',
@@ -12862,9 +12927,11 @@ body,
   setInterval(function(){
     idx = (idx + 1) % imgs.length;
     el.classList.add('fading');
+    el.classList.remove('loaded');
     setTimeout(function(){
       el.src = imgs[idx];
-      el.classList.remove('fading');
+      el.onload = function(){ el.classList.add('loaded'); el.classList.remove('fading'); };
+      el.onerror = function(){ el.classList.remove('fading'); };
     }, 600);
   }, 3500);
 })();
@@ -13657,13 +13724,13 @@ function copyWaveNumber(btn) {
   transition: background .25s;
   overflow: hidden;
 }
-/* État fermé : label blanc, texte gris */
+/* État fermé : label blanc sur fond sombre */
 .faq2-q {
   background: none; border: none; cursor: pointer;
   width: 100%; text-align: left;
   font-family: 'Syne', sans-serif; font-weight: 700;
-  font-size: .86rem; letter-spacing: -.01em;
-  color: var(--light); line-height: 1.45;
+  font-size: .88rem; letter-spacing: -.01em;
+  color: #ffffff; line-height: 1.45;
   padding: 0; padding-right: 3rem;
   transition: color .2s;
 }
@@ -13671,13 +13738,14 @@ function copyWaveNumber(btn) {
 .faq-item2.open {
   background: #ffffff;
 }
-.faq-item2.open .faq2-q { color: #000; }
-.faq-item2.open .faq2-a p { color: #333; }
-.faq-item2.open .faq2-a p strong { color: #000; }
-.faq-item2.open .faq2-num { color: rgba(0,0,0,.06); }
+.faq-item2.open .faq2-q { color: #000000 !important; font-weight: 800; }
+.faq-item2.open .faq2-a p { color: #222222 !important; }
+.faq-item2.open .faq2-a p strong { color: #000000 !important; }
+.faq-item2.open .faq2-a p a { color: #000000 !important; text-decoration: underline; }
+.faq-item2.open .faq2-num { color: rgba(0,0,0,.05) !important; }
 .faq-item2.open .faq2-icon {
-  background: #000; border-color: #000;
-  color: #fff; transform: rotate(180deg);
+  background: #000000; border-color: #000000;
+  color: #ffffff; transform: rotate(180deg);
 }
 
 .faq2-num {
@@ -14250,6 +14318,7 @@ function submitPackForm(e) {
         <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" width="90" height="22" class="f-logo-img">
         <span class="f-logo-name">MDG Creative Studio</span>
       </div>
+      <p class="footer-brand-desc">Basé à Kaolack, Sénégal. Je travaille avec des artistes et des marques qui ont quelque chose à dire. Et je m'assure que ça se voit.</p>
       <div class="f-socials">
         <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" aria-label="Instagram">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
