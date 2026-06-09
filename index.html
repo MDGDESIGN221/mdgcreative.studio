@@ -336,6 +336,14 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 0;
+    touch-action: pan-x;
+  }
+
+  /* Les pieter-step sont des slides dans le carousel mobile → laisser pan-x */
+  #pieter-process-track .pieter-step,
+  #pieter-process-track .pieter-step-content,
+  #pieter-process-track .pieter-step-media {
+    touch-action: pan-x;
   }
   #pieter-process-track::-webkit-scrollbar { display: none; }
 
@@ -19968,9 +19976,9 @@ video,
 }
 
 /* ── Éléments fixes (jamais dans un carousel horizontal) : pan-y ── */
-.pieter-step,
-.pieter-step-content,
-.pieter-step-media,
+/* NOTE : .pieter-step/.pieter-step-content/.pieter-step-media sont retirés ici
+   car sur mobile (<768px) ils vivent dans un carousel horizontal (#pieter-process-track).
+   Le touch-action est géré par l'override @media ci-dessous. */
 .svc-card,
 .trust-item,
 .ac-card,
