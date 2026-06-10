@@ -5112,66 +5112,39 @@ nav::before { display:none; }
   .port-tab-num { font-size: 1.5rem; top: .75rem; right: .85rem; }
 }
 @media(max-width:500px) {
-  /* Sur petit écran : scroll horizontal au lieu de grid compressé */
   .port-tabs {
-    display: flex !important;
-    grid-template-columns: unset !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    gap: 7px;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    overflow-x: visible;
     margin: 0 1rem 0;
-    padding: 7px;
-    background: rgba(255,255,255,.028);
-    border: 1px solid rgba(255,255,255,.07);
-    border-radius: 14px;
+    padding: 5px;
+    gap: 5px;
+    border-radius: 12px;
   }
   .port-tabs::-webkit-scrollbar { display: none; }
   .port-tab {
-    flex: 0 0 auto;
-    min-width: 130px;
-    scroll-snap-align: start;
+    flex: unset;
+    min-width: 0;
+    scroll-snap-align: unset;
     border-right: 1px solid rgba(255,255,255,.06);
-    border-radius: 9px;
+    border-radius: 8px;
+    padding: .85rem .5rem .8rem;
+    gap: .25rem;
   }
   .port-tab:last-child {
-    padding-right: calc(50vw - 65px);
+    padding-right: .5rem;
     border-right: 1px solid rgba(255,255,255,.06);
   }
-  /* Indicateur scroll droite */
+  /* Supprimer fondu et indicateur de scroll */
   .port-tabs-wrap {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
-  .port-tabs-wrap::after {
-    content: '›';
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.1rem;
-    color: var(--dim);
-    pointer-events: none;
-    z-index: 3;
-    transition: opacity .3s;
-  }
-  .port-tabs-wrap.at-end::after { opacity: 0; }
-  .port-tabs-wrap::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: 44px;
-    background: linear-gradient(to left, var(--black) 30%, transparent);
-    pointer-events: none;
-    z-index: 2;
-    transition: opacity .3s;
-    border-radius: 0 100px 100px 0;
-  }
-  .port-tabs-wrap.at-end::before { opacity: 0; }
+  .port-tabs-wrap::after { display: none; }
+  .port-tabs-wrap::before { display: none; }
   .port-tab-icon { width: 26px; height: 26px; border-radius: 6px; }
   .port-tab-icon svg { width: 13px; height: 13px; }
-  .port-tab-name { font-size: .74rem; }
+  .port-tab-name { font-size: .68rem; letter-spacing: .04em; }
   .port-tab-num { font-size: 1.3rem; top: .65rem; right: .75rem; }
 }
 
