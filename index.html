@@ -10664,12 +10664,19 @@ body,
     position: relative;
     aspect-ratio: 3/4;
     border-radius: 14px;
-    overflow: hidden;
+    overflow: visible; /* ne pas clipper l'icône IG positionnée en absolute */
     background: #111;
     border: 1px solid rgba(255,255,255,.07);
-    text-decoration: none;
     display: block;
-    /* Aucun overflow-x, aucun touch handler JS */
+  }
+
+  /* Wrapper photo — clippe l'image sans toucher à l'icône IG */
+  .portrait-card-photo-wrap {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    z-index: 0;
   }
 
   .portrait-card-photo {
@@ -10685,8 +10692,8 @@ body,
     pointer-events: none;
   }
 
-  /* Gradient bas permanent */
-  .portrait-card::before {
+  /* Gradient bas permanent — sur le photo-wrap */
+  .portrait-card-photo-wrap::before {
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -10697,7 +10704,7 @@ body,
   }
 
   /* Ligne accent bas */
-  .portrait-card::after {
+  .portrait-card-photo-wrap::after {
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -10709,7 +10716,7 @@ body,
     z-index: 3;
   }
 
-  /* Info bas */
+  /* Info bas — au-dessus du photo-wrap */
   .portrait-card-info {
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -10766,7 +10773,7 @@ body,
       filter: grayscale(0%) brightness(.82);
       transform: scale(1.04);
     }
-    .portrait-card:hover::after { transform: scaleX(1); }
+    .portrait-card:hover .portrait-card-photo-wrap::after { transform: scaleX(1); }
     .portrait-card:hover .portrait-card-ig {
       opacity: 1;
       background: var(--accent);
@@ -10804,7 +10811,7 @@ body,
     <div class="portraits-grid" id="portraitsGrid">
       <!-- ISS 814 -->
       <div class="portrait-card">
-        <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184982/iss_814_v22_dtnhal.jpg" alt="ISS 814" loading="lazy" draggable="false" style="object-position:center top">
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184982/iss_814_v22_dtnhal.jpg" alt="ISS 814" loading="lazy" draggable="false" style="object-position:center top"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">ISS 814</span>
           <span class="portrait-card-role">Rapper · Beatmaker</span>
@@ -10815,7 +10822,7 @@ body,
       </div>
       <!-- One Lyrical -->
       <div class="portrait-card">
-        <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" draggable="false" style="object-position:center top">
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" draggable="false" style="object-position:center top"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">One Lyrical</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
@@ -10826,7 +10833,7 @@ body,
       </div>
       <!-- Omzo Beatz -->
       <div class="portrait-card">
-        <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182477/omzo_1_jkbnwn.jpg" alt="Omzo Beatz" loading="lazy" draggable="false" style="object-position:center top">
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182477/omzo_1_jkbnwn.jpg" alt="Omzo Beatz" loading="lazy" draggable="false" style="object-position:center top"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">Omzo Beatz</span>
           <span class="portrait-card-role">Beatmaker · Producer</span>
@@ -10837,7 +10844,7 @@ body,
       </div>
       <!-- Dopeboy DMG -->
       <div class="portrait-card">
-        <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" draggable="false" style="object-position:center 20%">
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" draggable="false" style="object-position:center 20%"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">Dopeboy DMG</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
@@ -10848,7 +10855,7 @@ body,
       </div>
       <!-- Oothentik Zeus -->
       <div class="portrait-card">
-        <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" draggable="false" style="object-position:center top">
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" draggable="false" style="object-position:center top"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">Oothentik Zeus</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
@@ -10859,7 +10866,7 @@ body,
       </div>
       <!-- Gun Silent Beatz -->
       <div class="portrait-card">
-        <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" draggable="false" style="object-position:center top">
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" draggable="false" style="object-position:center top"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">Gun Silent Beatz</span>
           <span class="portrait-card-role">Beatmaker · Producer</span>
