@@ -328,9 +328,10 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
     position: relative;
   }
 
-  /* Track horizontal scroll snap — scroll natif pur, aucun JS handler
-     touch-action:pan-x : le browser gère lui-même horizontal vs vertical.
-     Aucun conflit possible avec le scroll de page. */
+  /* Track horizontal scroll snap — scroll natif pur, aucun JS handler.
+     pan-x pan-y : le browser gère les deux directions nativement.
+     → swipe horizontal = slide, swipe vertical = scroll page.
+     Aucun conflit, aucun handler JS nécessaire. */
   #pieter-process-track {
     display: flex;
     overflow-x: auto;
@@ -338,23 +339,23 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 0;
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
     overscroll-behavior-x: contain;
   }
 
-  /* Slide entier : hériter pan-x du parent */
+  /* Slide entier : même règle que le track */
   #pieter-process-track .pieter-step {
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
   }
 
-  /* Zone de texte : autoriser pan-x aussi (sinon le doigt posé ici ne slide pas) */
+  /* Zone de texte : pan-x pan-y — le doigt sur du texte peut scroller */
   #pieter-process-track .pieter-step-content {
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
   }
 
-  /* Media : idem */
+  /* Media : idem — le doigt sur l'image peut scroller verticalement */
   #pieter-process-track .pieter-step-media {
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
   }
   #pieter-process-track::-webkit-scrollbar { display: none; }
 
@@ -14204,8 +14205,7 @@ function switchPricingTab(panel, btn) {
     const light = curtain.querySelector('.pack-curtain-light');
     if (!face) return;
 
-    let startX = 0, startY = 0, currentX = 0, isDragging = false, isOpened = false;
-    let curtainDir = null; // null | 'h' | 'v'
+    let startX = 0, currentX = 0, isDragging = false, isOpened = false;
     const THRESHOLD = 0.45; // 45% de la largeur pour ouvrir
 
     function getClientX(e) {
@@ -14215,9 +14215,7 @@ function switchPricingTab(panel, btn) {
     function onStart(e) {
       if (isOpened) return;
       isDragging = true;
-      curtainDir = null;
       startX = getClientX(e);
-      startY = e.touches ? e.touches[0].clientY : e.clientY;
       curtain.classList.add('dragging');
       curtain.classList.remove('snapping');
       face.style.transition = 'none';
@@ -14226,24 +14224,7 @@ function switchPricingTab(panel, btn) {
 
     function onMove(e) {
       if (!isDragging || isOpened) return;
-      var cx = getClientX(e);
-      var cy = e.touches ? e.touches[0].clientY : e.clientY;
-      var dx = cx - startX;
-      var dy = cy - startY;
-
-      /* Détecter la direction au premier déplacement significatif */
-      if (curtainDir === null) {
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 8) return;
-        curtainDir = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
-      }
-
-      /* Geste vertical → laisser la page scroller, ne rien faire */
-      if (curtainDir === 'v') { isDragging = false; return; }
-
-      /* Geste horizontal confirmé → prendre le contrôle */
-      e.preventDefault();
-      currentX = cx - startX;
+      currentX = getClientX(e) - startX;
       if (currentX < 0) { currentX = 0; }
       const ratio = Math.min(currentX / curtain.offsetWidth, 1);
 
@@ -14262,6 +14243,8 @@ function switchPricingTab(panel, btn) {
       // Blur + brightness qui s'atténuent au glissement
       const blurVal = Math.max(0, 12 * (1 - ratio * 1.5));
       face.style.filter = `blur(${blurVal}px) brightness(${0.7 + ratio * 0.3})`;
+
+      e.preventDefault();
     }
 
     function onEnd() {
@@ -20314,6 +20297,16 @@ video,
 .u-order-card,
 .u-gal-premium,
 .u-gallery-premium,
+.pack-card,
+.adv-card,
+.rollout-card,
+.addon-card,
+.pieter-step-num,
+.pieter-step-eyebrow,
+.pieter-step-title,
+.pieter-step-body,
+.collabs-avatar,
+.collab-item,
 #hero,
 .hero-photo-wrap,
 .hero-gradient-overlay,
@@ -20323,6 +20316,7 @@ video,
 #contact,
 #collabs,
 #trust,
+#pricing,
 footer {
   touch-action: pan-y;
 }
@@ -20372,7 +20366,7 @@ footer {
   #pieter-process-track .pieter-step,
   #pieter-process-track .pieter-step-content,
   #pieter-process-track .pieter-step-media {
-    touch-action: pan-x !important;
+    touch-action: pan-x pan-y !important;
   }
 }
 
