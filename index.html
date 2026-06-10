@@ -383,13 +383,13 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
   .process-dot {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: rgba(6,6,6,.25);
+    background: rgba(61,191,163,.3);
     transition: background .25s, width .25s;
     cursor: pointer;
     flex-shrink: 0;
   }
   .process-dot.active {
-    background: rgba(6,6,6,.75);
+    background: var(--accent);
     width: 18px;
     border-radius: 3px;
   }
@@ -1601,6 +1601,8 @@ section+section::before,
 }
 .svc-card:hover .svc-click-hint{opacity:1}
 .svc-click-hint svg{stroke:var(--accent);flex-shrink:0}
+.svc-card:nth-child(even) .svc-click-hint { color: var(--accent); }
+.svc-card:nth-child(even) .svc-click-hint svg { stroke: var(--accent); }
 @media(max-width:900px){.svc-click-hint{opacity:.75}}
 
 /* Numéro : grand filigrane en position absolue */
@@ -5123,10 +5125,11 @@ nav::before { display:none; }
     position: absolute;
     top: 0; right: 0; bottom: 0;
     width: 44px;
-    background: linear-gradient(to right, transparent, var(--black));
+    background: linear-gradient(to left, var(--black), transparent);
     pointer-events: none;
     z-index: 2;
     transition: opacity .3s;
+    border-radius: 0 100px 100px 0;
   }
   .port-tabs-wrap.at-end::before { opacity: 0; }
   .port-tab-icon { width: 26px; height: 26px; border-radius: 6px; }
@@ -5189,6 +5192,7 @@ nav::before { display:none; }
   to   { opacity: 1; transform: translateY(0); }
 }
 @media(max-width:900px){
+  #portfolio-accordion { padding: 4rem 0 3rem; }
   #portfolio-accordion .container { padding: 0 1.5rem; }
   .acc-header-wrap { gap: .25rem; padding: .3rem; }
   .acc-tab { padding: .5rem 1rem; font-size: .72rem; }
@@ -9293,10 +9297,10 @@ body,
     -webkit-overflow-scrolling: touch;
   }
   .port-tabs-wrap::-webkit-scrollbar { display: none; }
-  .port-tabs-wrap::after { display: block; }
+  .port-tabs-wrap::after { display: none; }
   .port-new-tabs-row {
     width: max-content;
-    min-width: 100%;
+    min-width: auto;
   }
   .port-new-tab-btn { flex-shrink: 0; padding: .5rem .9rem; font-size: .72rem; }
 }
@@ -15546,6 +15550,8 @@ enableDragScroll(document.getElementById('motTrack'));
     var el = document.getElementById(id);
     if (el) attachDirectionAwareTouch(el);
   });
+  // Expose publiquement pour pnlSwitch re-attach
+  window.attachDirectionAwareTouchPublic = attachDirectionAwareTouch;
   // trust-strip-inner est une grille statique — pas de touch handler
 
   // ── Carrousels pricing (packs-grid, advanced-grid) — actifs sur mobile ──
@@ -18568,6 +18574,23 @@ function pnlSwitch(panel, btn) {
       // Refresh ScrollTrigger si dispo
       if (typeof ScrollTrigger !== 'undefined') {
         setTimeout(function() { ScrollTrigger.refresh(); }, 60);
+      }
+      // Re-attach drag scroll on the newly visible track
+      var trackMap = { work: 'workTrack', covers: 'covTrack', motion: 'motTrack' };
+      var trackId = trackMap[panel];
+      if (trackId) {
+        var track = document.getElementById(trackId);
+        if (track) {
+          // Reset flag so touch handler can be re-attached
+          track._touchDirectionBound = false;
+          if (typeof attachDirectionAwareTouchPublic === 'function') {
+            attachDirectionAwareTouchPublic(track);
+          }
+          if (typeof enableDragScroll === 'function') {
+            track.style.cursor = '';
+            enableDragScroll(track);
+          }
+        }
       }
     });
   }
