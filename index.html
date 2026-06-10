@@ -10754,7 +10754,9 @@ body,
     z-index: 4;
     opacity: 0;
     transition: opacity .25s, background .25s, border-color .25s, color .25s;
-    pointer-events: none; /* géré sur la carte parente */
+    pointer-events: all;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
   }
   .portrait-card-ig svg { stroke: currentColor; display: block; }
 
@@ -10774,9 +10776,9 @@ body,
     .portrait-card:hover .portrait-card-name { color: #fff; }
   }
 
-  /* ── Mobile : toujours visible, couleur légèrement activée ── */
+  /* ── Mobile : icône IG toujours visible et cliquable ── */
   @media(hover: none) {
-    .portrait-card-ig { opacity: 1; pointer-events: all; }
+    .portrait-card-ig { opacity: 1; }
     .portrait-card-photo { filter: grayscale(10%) brightness(.75); }
   }
 
@@ -10801,71 +10803,71 @@ body,
   <div class="portraits-section">
     <div class="portraits-grid" id="portraitsGrid">
       <!-- ISS 814 -->
-      <a class="portrait-card" href="https://www.instagram.com/iss814beats/" target="_blank" rel="noopener" aria-label="ISS 814 — Instagram">
+      <div class="portrait-card">
         <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184982/iss_814_v22_dtnhal.jpg" alt="ISS 814" loading="lazy" draggable="false" style="object-position:center top">
         <div class="portrait-card-info">
           <span class="portrait-card-name">ISS 814</span>
           <span class="portrait-card-role">Rapper · Beatmaker</span>
         </div>
-        <div class="portrait-card-ig" aria-hidden="true">
+        <a class="portrait-card-ig" href="https://www.instagram.com/iss814beats/" target="_blank" rel="noopener" aria-label="ISS 814 sur Instagram">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </div>
-      </a>
+        </a>
+      </div>
       <!-- One Lyrical -->
-      <a class="portrait-card" href="https://www.instagram.com/onelyrical.sn/" target="_blank" rel="noopener" aria-label="One Lyrical — Instagram">
+      <div class="portrait-card">
         <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" draggable="false" style="object-position:center top">
         <div class="portrait-card-info">
           <span class="portrait-card-name">One Lyrical</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
         </div>
-        <div class="portrait-card-ig" aria-hidden="true">
+        <a class="portrait-card-ig" href="https://www.instagram.com/onelyrical.sn/" target="_blank" rel="noopener" aria-label="One Lyrical sur Instagram">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </div>
-      </a>
+        </a>
+      </div>
       <!-- Omzo Beatz -->
-      <a class="portrait-card" href="https://www.instagram.com/omzobeatz/" target="_blank" rel="noopener" aria-label="Omzo Beatz — Instagram">
+      <div class="portrait-card">
         <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182477/omzo_1_jkbnwn.jpg" alt="Omzo Beatz" loading="lazy" draggable="false" style="object-position:center top">
         <div class="portrait-card-info">
           <span class="portrait-card-name">Omzo Beatz</span>
           <span class="portrait-card-role">Beatmaker · Producer</span>
         </div>
-        <div class="portrait-card-ig" aria-hidden="true">
+        <a class="portrait-card-ig" href="https://www.instagram.com/omzobeatz/" target="_blank" rel="noopener" aria-label="Omzo Beatz sur Instagram">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </div>
-      </a>
+        </a>
+      </div>
       <!-- Dopeboy DMG -->
-      <a class="portrait-card" href="https://www.instagram.com/dopeboydmg/" target="_blank" rel="noopener" aria-label="Dopeboy DMG — Instagram">
+      <div class="portrait-card">
         <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" draggable="false" style="object-position:center 20%">
         <div class="portrait-card-info">
           <span class="portrait-card-name">Dopeboy DMG</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
         </div>
-        <div class="portrait-card-ig" aria-hidden="true">
+        <a class="portrait-card-ig" href="https://www.instagram.com/dopeboydmg/" target="_blank" rel="noopener" aria-label="Dopeboy DMG sur Instagram">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </div>
-      </a>
+        </a>
+      </div>
       <!-- Oothentik Zeus -->
-      <a class="portrait-card" href="https://www.instagram.com/oothentik_zeus_gb/" target="_blank" rel="noopener" aria-label="Oothentik Zeus — Instagram">
+      <div class="portrait-card">
         <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" draggable="false" style="object-position:center top">
         <div class="portrait-card-info">
           <span class="portrait-card-name">Oothentik Zeus</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
         </div>
-        <div class="portrait-card-ig" aria-hidden="true">
+        <a class="portrait-card-ig" href="https://www.instagram.com/oothentik_zeus_gb/" target="_blank" rel="noopener" aria-label="Oothentik Zeus sur Instagram">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </div>
-      </a>
+        </a>
+      </div>
       <!-- Gun Silent Beatz -->
-      <a class="portrait-card" href="https://www.instagram.com/gunsilentbeatz/" target="_blank" rel="noopener" aria-label="Gun Silent Beatz — Instagram">
+      <div class="portrait-card">
         <img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" draggable="false" style="object-position:center top">
         <div class="portrait-card-info">
           <span class="portrait-card-name">Gun Silent Beatz</span>
           <span class="portrait-card-role">Beatmaker · Producer</span>
         </div>
-        <div class="portrait-card-ig" aria-hidden="true">
+        <a class="portrait-card-ig" href="https://www.instagram.com/gunsilentbeatz/" target="_blank" rel="noopener" aria-label="Gun Silent Beatz sur Instagram">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
   </div>
 
