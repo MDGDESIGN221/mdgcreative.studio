@@ -1510,7 +1510,7 @@ section+section::before,
   /* Supprimer les rideaux noirs sur mobile — ils coupent les images sur les bords */
   .work-track-wrap::before,.work-track-wrap::after{display:none}
   .work-track{padding-left:1.5rem;padding-right:1.5rem}
-  .work-card{width:78vw}
+  .work-card{width:72vw;max-width:280px}
   .work-footer{margin:2rem 1.5rem 0}
   .work-nav{display:none}
   .work-card:hover{transform:none}
@@ -1562,7 +1562,7 @@ section+section::before,
   /* Supprimer les rideaux noirs sur mobile */
   .cov-track-wrap::before,.cov-track-wrap::after{display:none}
   .cov-track{padding-left:1.5rem;padding-right:1.5rem}
-  .cov-card{width:78vw}
+  .cov-card{width:72vw;max-width:280px}
   .cov-footer{margin:2rem 1.5rem 0}
   .cov-nav{display:none}
   .cov-card:hover{transform:none}
@@ -3489,8 +3489,8 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   #quick-nav-menu{min-width:170px;border-radius:14px}
   .qn-item{font-size:.75rem;padding:.55rem .8rem}
 
-  /* Work cards: better visible */
-  .work-card,.cov-card{width:82vw}
+  /* Work cards: mieux dimensionnés — image 4:5 sans zoom excessif */
+  .work-card,.cov-card{width:72vw;max-width:280px}
   .work-meta{padding:1rem 1rem .9rem}
   .work-title{font-size:1rem}
   .work-cat{font-size:.72rem}
@@ -3726,8 +3726,8 @@ nav.scrolled{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-ba
   /* Motion grid: single col */
   .motion-grid{grid-template-columns:1fr 1fr !important}
 
-  /* Work cards: better visible */
-  .work-card,.cov-card{width:82vw}
+  /* Work cards: mieux dimensionnés — image 4:5 sans zoom excessif */
+  .work-card,.cov-card{width:72vw;max-width:280px}
   .work-meta{padding:1rem 1rem .9rem}
   .work-title{font-size:1rem}
   .work-cat{font-size:.72rem}
@@ -5433,13 +5433,13 @@ nav::before { display:none; }
   width: auto;
   max-width: 130px;
   object-fit: contain;
-  opacity: .6;
+  opacity: .72;
   filter: grayscale(1);
   transition: opacity .3s, filter .3s, transform .3s;
   mix-blend-mode: screen;
 }
 .ts-logo.ts-omzo { height: 88px; max-width: 240px; }
-.ts-logo.ts-invert { filter: grayscale(1) invert(1) brightness(1.3); mix-blend-mode: normal; }
+.ts-logo.ts-invert { filter: grayscale(1) invert(1) brightness(1.6); mix-blend-mode: normal; opacity: .85; }
 .ts-item:hover .ts-logo { opacity: .95; filter: grayscale(0); transform: scale(1.06); }
 .ts-item:hover .ts-logo.ts-invert { filter: grayscale(0) invert(1) brightness(1.3); }
 
@@ -5451,8 +5451,9 @@ nav::before { display:none; }
     border-radius: 10px;
   }
   .ts-item { padding: 1.4rem 1rem; min-height: 78px; }
-  .ts-logo { height: 30px; max-width: 110px; opacity: .65; }
-  .ts-logo.ts-omzo { height: 72px; max-width: 200px; }
+  .ts-logo { height: 32px; max-width: 120px; opacity: .72; }
+  .ts-logo.ts-omzo { height: 80px; max-width: 220px; }
+  .ts-logo.ts-invert { opacity: .88; }
 }
 
 /* ── SERVICES SECONDAIRES — glassmorphisme ── */
@@ -8345,7 +8346,7 @@ nav::before { display:none; }
   .collabs-marquee span{font-size:.8rem !important;padding:0 .85rem !important}
 
   /* ── WORK / COVERS CAROUSELS ── */
-  .work-card,.cov-card{width:84vw !important}
+  .work-card,.cov-card{width:74vw !important;max-width:270px !important}
   .work-header,.cov-header{margin:0 1.1rem 1.75rem !important}
   .work-footer{margin:1.75rem 1.1rem 0 !important}
   .work-h2,.cov-h2{font-size:clamp(1.6rem,7vw,2.2rem) !important}
@@ -10674,6 +10675,7 @@ body,
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
     scrollbar-width: none;
     padding-bottom: .5rem;
     /* Centrer les cartes sur desktop, scroll si débordement */
@@ -10681,6 +10683,20 @@ body,
     max-width: 960px;
     margin-left: auto;
     margin-right: auto;
+  }
+  /* Sur mobile : aligner à gauche pour permettre le scroll natif */
+  @media(max-width: 900px) {
+    .sp-cards-row {
+      justify-content: flex-start;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media(max-width: 600px) {
+    .sp-cards-row {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
   .sp-cards-row::-webkit-scrollbar { display: none; }
 
@@ -12516,6 +12532,13 @@ body,
   .u-order-card { position: static; }
 }
 @media(max-width: 600px) {
+  /* Conteneur boîte : rester dans les marges de l'écran */
+  #uranus-visual {
+    max-width: 100%;
+    overflow: hidden;
+    padding: .5rem 1.25rem 1rem;
+    box-sizing: border-box;
+  }
   /* Banner */
   .u-drop-banner { padding: .55rem 1rem; gap: .4rem; flex-wrap: wrap; justify-content: center; }
   .u-banner-txt { font-size: .72rem; text-align: center; width: 100%; }
@@ -12822,9 +12845,14 @@ body,
 
 /* Mobile */
 @media(max-width:480px){
-  #uranus-visual{gap:.6rem;}
-  #uranus-box-wrap{width:clamp(160px,62vw,230px);}
-  #uranus-psd-stack{width:clamp(110px,38vw,160px);height:clamp(155px,54vw,225px);}
+  #uranus-visual{
+    gap:.4rem;
+    padding:.5rem 1rem 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #uranus-box-wrap{width:clamp(150px,54vw,210px);}
+  #uranus-psd-stack{width:clamp(95px,30vw,135px);height:clamp(135px,42vw,190px);}
 }
 </style>
 
@@ -12975,111 +13003,31 @@ body,
   <!-- LEFT: gallery + assets + why -->
   <div>
 
-    <!-- ── CE QUE CONTIENT LA BOX — accordéon + carousel ── -->
-    <style>
-    .u-box-acc {
-      margin-bottom: 1.25rem;
-      border: 1px solid var(--u-border);
-      border-radius: 16px;
-      overflow: hidden;
-      background: var(--u-surface);
-    }
-    .u-box-acc-trigger {
-      width: 100%; display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 1.1rem;
-      background: transparent; border: none; cursor: pointer;
-      color: var(--u-accent);
-      font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
-      letter-spacing: .24em; text-transform: uppercase;
-      transition: background .2s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .u-box-acc-trigger:hover { background: rgba(139,92,246,.04); }
-    .u-box-acc-trigger-left { display: flex; align-items: center; gap: .75rem; }
-    .u-box-acc-trigger-left::before {
-      content: ''; width: 40px; height: 1px;
-      background: linear-gradient(90deg, var(--u-border3), transparent);
-    }
-    .u-box-acc-chevron {
-      width: 18px; height: 18px; flex-shrink: 0;
-      transition: transform .32s cubic-bezier(.16,1,.3,1);
-      color: var(--u-accent); opacity: .7;
-    }
-    .u-box-acc.open .u-box-acc-chevron { transform: rotate(180deg); }
-
-    .u-box-acc-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .38s cubic-bezier(.16,1,.3,1);
-    }
-    .u-box-acc.open .u-box-acc-body { max-height: 120px; }
-
-    /* Carousel horizontal des chips */
-    .u-box-carousel {
-      display: flex;
-      gap: .55rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: .75rem 1.1rem 1.1rem;
-      touch-action: pan-x pan-y;
-    }
-    .u-box-carousel::-webkit-scrollbar { display: none; }
-
-    .u-asset-chip-h {
-      display: flex; align-items: center; gap: .55rem;
-      flex: 0 0 auto;
-      padding: .7rem .9rem;
-      background: var(--u-bg2); border: 1px solid var(--u-border);
-      border-radius: 14px;
-      scroll-snap-align: start;
-      transition: border-color .2s, background .2s;
-      white-space: nowrap;
-    }
-    .u-asset-chip-h:hover { border-color: var(--u-border2); background: rgba(139,92,246,.05); }
-    .u-asset-icon-h {
-      width: 32px; height: 32px; border-radius: 9px;
-      background: rgba(139,92,246,.1); border: 1px solid var(--u-border2);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; color: var(--u-accent);
-    }
-    .u-asset-name-h { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .8rem; color: var(--u-light); letter-spacing: -.01em; }
-    .u-asset-detail-h { font-size: .65rem; color: var(--u-muted); margin-top: 2px; }
-    </style>
-
-    <div class="u-box-acc reveal-up rd1" id="uBoxAcc">
-      <button class="u-box-acc-trigger" onclick="(function(){ var a=document.getElementById('uBoxAcc'); a.classList.toggle('open'); })()">
-        <span class="u-box-acc-trigger-left">Ce que contient la box</span>
-        <svg class="u-box-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="u-box-acc-body">
-        <div class="u-box-carousel">
-          <div class="u-asset-chip-h">
-            <div class="u-asset-icon-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-            <div><div class="u-asset-name-h">Fichiers PSD</div><div class="u-asset-detail-h">Calques organisés, éditables</div></div>
-          </div>
-          <div class="u-asset-chip-h">
-            <div class="u-asset-icon-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
-            <div><div class="u-asset-name-h">Mockups 3D</div><div class="u-asset-detail-h">Réalistes, haute résolution</div></div>
-          </div>
-          <div class="u-asset-chip-h">
-            <div class="u-asset-icon-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-            <div><div class="u-asset-name-h">Textures</div><div class="u-asset-detail-h">Grain, papier, métal, bruit</div></div>
-          </div>
-          <div class="u-asset-chip-h">
-            <div class="u-asset-icon-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
-            <div><div class="u-asset-name-h">Fonts premium</div><div class="u-asset-detail-h">Sélection exclusive</div></div>
-          </div>
-          <div class="u-asset-chip-h">
-            <div class="u-asset-icon-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg></div>
-            <div><div class="u-asset-name-h">Templates</div><div class="u-asset-detail-h">Covers, flyers, social media</div></div>
-          </div>
-          <div class="u-asset-chip-h">
-            <div class="u-asset-icon-h"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
-            <div><div class="u-asset-name-h">Presets PS</div><div class="u-asset-detail-h">Actions &amp; LUT Photoshop</div></div>
-          </div>
-        </div>
+    <div class="u-section-label reveal-up">Ce que contient la box</div>
+    <div class="u-assets-grid reveal-up rd1">
+      <div class="u-asset-chip">
+        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="u-asset-info"><div class="u-asset-name2">Fichiers PSD</div><div class="u-asset-detail2">Calques organisés, éditables</div></div>
+      </div>
+      <div class="u-asset-chip">
+        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        <div class="u-asset-info"><div class="u-asset-name2">Mockups 3D</div><div class="u-asset-detail2">Réalistes, haute résolution</div></div>
+      </div>
+      <div class="u-asset-chip">
+        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="u-asset-info"><div class="u-asset-name2">Textures</div><div class="u-asset-detail2">Grain, papier, métal, bruit</div></div>
+      </div>
+      <div class="u-asset-chip">
+        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+        <div class="u-asset-info"><div class="u-asset-name2">Fonts premium</div><div class="u-asset-detail2">Sélection exclusive</div></div>
+      </div>
+      <div class="u-asset-chip">
+        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg></div>
+        <div class="u-asset-info"><div class="u-asset-name2">Templates</div><div class="u-asset-detail2">Covers, flyers, social media</div></div>
+      </div>
+      <div class="u-asset-chip">
+        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <div class="u-asset-info"><div class="u-asset-name2">Presets PS</div><div class="u-asset-detail2">Actions &amp; LUT Photoshop</div></div>
       </div>
     </div>
 
@@ -13171,8 +13119,7 @@ body,
       position: relative;
       border-radius: 14px;
       overflow: hidden;
-      aspect-ratio: 3/4;
-      max-height: 220px;
+      aspect-ratio: 4/5;
       border: 1px solid rgba(109,40,217,.2);
       cursor: pointer;
       background: rgba(8,5,20,.8);
@@ -13180,8 +13127,7 @@ body,
     }
     .u-gal-premium.big {
       grid-column: span 1;
-      aspect-ratio: 3/4;
-      max-height: 220px;
+      aspect-ratio: 4/5;
     }
     .u-gal-premium:hover {
       border-color: rgba(167,139,250,.55);
@@ -13221,7 +13167,7 @@ body,
     }
     @media(max-width:600px){
       .u-gallery-premium { grid-template-columns: repeat(3, 1fr); gap: .3rem; }
-      .u-gal-premium, .u-gal-premium.big { grid-column: span 1; aspect-ratio: 3/4; max-height: 160px; }
+      .u-gal-premium.big { grid-column: span 1; aspect-ratio: 4/5; }
     }
     </style>
 
@@ -17722,14 +17668,14 @@ function applyComplexPatches(lang) {
   if(uPriceBadge) uPriceBadge.textContent=lang==='en'?'🔥 Limited price · final price will be higher':'🔥 Prix limité · tarif final plus élevé';
   var uBtnPrimary=document.querySelector('.u-btn-primary');
   if(uBtnPrimary) uBtnPrimary.textContent=lang==='en'?'Reserve my pack \u2192':'Réserver mon pack \u2192';
-  var uSectionLabel=document.querySelector('.u-box-acc-trigger-left');
-  if(uSectionLabel) uSectionLabel.textContent=lang==='en'?'What\'s inside the box':'Ce que contient la box';
+  var uSectionLabel=document.querySelector('#uranus .u-section-label');
+  if(uSectionLabel) uSectionLabel.childNodes[0].textContent=lang==='en'?'What\'s inside the box':'Ce que contient la box';
   var uAssetNamesFr=['Fichiers PSD','Mockups 3D','Textures','Fonts premium','Templates','Presets PS'];
   var uAssetNamesEn=['PSD Files','3D Mockups','Textures','Premium Fonts','Templates','PS Presets'];
   var uAssetDetailsFr=['Calques organisés, éditables','Réalistes, haute résolution','Grain, papier, métal, bruit','Sélection exclusive','Covers, flyers, social media','Actions & LUT Photoshop'];
   var uAssetDetailsEn=['Organized, editable layers','Realistic, high resolution','Grain, paper, metal, noise','Exclusive selection','Covers, flyers, social media','Actions & LUT Photoshop'];
-  document.querySelectorAll('.u-asset-name-h').forEach(function(el,i){if(uAssetNamesFr[i])el.textContent=lang==='en'?uAssetNamesEn[i]:uAssetNamesFr[i];});
-  document.querySelectorAll('.u-asset-detail-h').forEach(function(el,i){if(uAssetDetailsFr[i])el.textContent=lang==='en'?uAssetDetailsEn[i]:uAssetDetailsFr[i];});
+  document.querySelectorAll('#uranus .u-asset-name2').forEach(function(el,i){if(uAssetNamesFr[i])el.textContent=lang==='en'?uAssetNamesEn[i]:uAssetNamesFr[i];});
+  document.querySelectorAll('#uranus .u-asset-detail2').forEach(function(el,i){if(uAssetDetailsFr[i])el.textContent=lang==='en'?uAssetDetailsEn[i]:uAssetDetailsFr[i];});
   var uWhyFr=['<strong>Conçu par quelqu\'un qui crée vraiment</strong> — pas un pack générique assemblé pour vendre.','<strong>Orienté musique africaine</strong> — les templates sont taillés pour le rap, l\'afrobeats et le son local.','<strong>Assets sélectionnés à la main</strong> — chaque fichier est testé et validé. Pas de remplissage.','<strong>Un seul paiement, à vie</strong> — pas d\'abonnement, pas de tiers. La box t\'appartient.'];
   var uWhyEn=['<strong>Built by someone who actually creates</strong> — not a generic pack assembled to sell.','<strong>African music-oriented</strong> — templates tailored for rap, afrobeats and local sounds.','<strong>Hand-picked assets</strong> — every file is tested and validated. No filler.','<strong>One payment, lifetime access</strong> — no subscription, no third parties. The box is yours.'];
   document.querySelectorAll('.u-why-txt').forEach(function(el,i){if(uWhyFr[i])el.innerHTML=lang==='en'?uWhyEn[i]:uWhyFr[i];});
