@@ -20367,11 +20367,12 @@ footer {
   touch-action: pan-y;
 }
 
-/* Carousel horizontal dans #collabs : autoriser le glissement lateral */
-#collabs .sp-cards-row {
-  touch-action: pan-x pan-y;
+/* Carousel horizontal dans #collabs : scroll natif pan-x pan-y */
+#collabs .sp-cards-row,
+.sp-cards-row {
+  touch-action: pan-x pan-y !important;
 }
-/* sp-stage : pan-y — le handler direction-aware sur card prend le relais pour le horizontal */
+/* sp-stage : pan-y — le handler direction-aware sur the-card prend le relais pour le horizontal */
 #collabs .sp-stage {
   touch-action: pan-y;
 }
@@ -20391,10 +20392,9 @@ footer {
   touch-action: pan-y !important;
 }
 
-/* trust-strip-inner, port-tabs, sp-cards-row = scroll natif sans handler JS */
+/* trust-strip-inner, port-tabs = scroll natif sans handler JS */
 .trust-strip-inner,
-.port-tabs,
-.sp-cards-row {
+.port-tabs {
   touch-action: auto !important;
 }
 
