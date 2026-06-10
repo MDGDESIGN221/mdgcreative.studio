@@ -383,7 +383,7 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
   .process-dot {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: rgba(61,191,163,.28);
+    background: rgba(61,191,163,.3);
     transition: background .25s, width .25s;
     cursor: pointer;
     flex-shrink: 0;
@@ -1601,8 +1601,8 @@ section+section::before,
 }
 .svc-card:hover .svc-click-hint{opacity:1}
 .svc-click-hint svg{stroke:var(--accent);flex-shrink:0}
-.svc-card:nth-child(even) .svc-click-hint{color:var(--accent)}
-.svc-card:nth-child(even) .svc-click-hint svg{stroke:var(--accent)}
+.svc-card:nth-child(even) .svc-click-hint{color:var(--accent) !important}
+.svc-card:nth-child(even) .svc-click-hint svg{stroke:var(--accent) !important}
 @media(max-width:900px){.svc-click-hint{opacity:.75}}
 
 /* Numéro : grand filigrane en position absolue */
@@ -5125,7 +5125,7 @@ nav::before { display:none; }
     position: absolute;
     top: 0; right: 0; bottom: 0;
     width: 44px;
-    background: linear-gradient(to left, var(--black) 20%, transparent);
+    background: linear-gradient(to left, var(--black) 30%, transparent);
     pointer-events: none;
     z-index: 2;
     transition: opacity .3s;
@@ -5192,7 +5192,7 @@ nav::before { display:none; }
   to   { opacity: 1; transform: translateY(0); }
 }
 @media(max-width:900px){
-  #portfolio-accordion { padding: 4rem 0 3rem; }
+  #portfolio-accordion { padding: 4rem 0 2.5rem; }
   #portfolio-accordion .container { padding: 0 1.5rem; }
   .acc-header-wrap { gap: .25rem; padding: .3rem; }
   .acc-tab { padding: .5rem 1rem; font-size: .72rem; }
@@ -7200,7 +7200,7 @@ nav::before { display:none; }
 
 /* ── SECTION ── */
 #collabs{
-  padding:7rem 0 5rem;
+  padding:4rem 0 5rem;
   border-bottom:1px solid var(--border);
   background:var(--dark);
   position:relative;
@@ -15550,8 +15550,6 @@ enableDragScroll(document.getElementById('motTrack'));
     var el = document.getElementById(id);
     if (el) attachDirectionAwareTouch(el);
   });
-  // Expose pour re-attach depuis pnlSwitch
-  window.attachDirectionAwareTouchPublic = attachDirectionAwareTouch;
   // trust-strip-inner est une grille statique — pas de touch handler
 
   // ── Carrousels pricing (packs-grid, advanced-grid) — actifs sur mobile ──
@@ -15580,7 +15578,11 @@ enableDragScroll(document.getElementById('motTrack'));
     setTimeout(function() {
       carouselIds.forEach(function(id) {
         var el = document.getElementById(id);
-        if (el) attachDirectionAwareTouch(el);
+        if (el) {
+          // Reset le flag pour forcer le re-bind — sans ça attachDirectionAwareTouch ne fait rien
+          el._touchDirectionBound = false;
+          attachDirectionAwareTouch(el);
+        }
       });
       initPricingCarousels();
     }, 100);
@@ -18564,28 +18566,16 @@ function pnlSwitch(panel, btn) {
   var el = document.getElementById('pnl-' + panel);
   if (el) {
     el.classList.add('active');
+    // Force visibility sur toutes les cartes du panel — GSAP les a peut-être laissées à opacity:0
     requestAnimationFrame(function() {
       el.querySelectorAll('.work-card, .cov-card').forEach(function(card) {
         card.style.opacity = '1';
         card.style.transform = 'none';
         card.style.clipPath = 'none';
       });
+      // Refresh ScrollTrigger si dispo
       if (typeof ScrollTrigger !== 'undefined') {
         setTimeout(function() { ScrollTrigger.refresh(); }, 60);
-      }
-      // Re-attach swipe sur le track du panel affiché (fix bug récurrent)
-      var trackMap = { work: 'workTrack', covers: 'covTrack', motion: 'motTrack' };
-      var trackId = trackMap[panel];
-      if (trackId) {
-        var track = document.getElementById(trackId);
-        if (track && typeof window.attachDirectionAwareTouchPublic === 'function') {
-          track._touchDirectionBound = false;
-          window.attachDirectionAwareTouchPublic(track);
-        }
-        if (track && typeof enableDragScroll === 'function') {
-          track.style.cursor = '';
-          enableDragScroll(track);
-        }
       }
     });
   }
@@ -20489,112 +20479,6 @@ footer {
 }
 </style>
 
-<style>
-/* ══ MEDIA PROTECTION — anti-drag / anti-download ══ */
-img, video {
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-  user-drag: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  pointer-events: none;
-}
-/* Restituer pointer-events sur les conteneurs cliquables */
-.work-card, .cov-card, .ac-card, .about-photo-wrap,
-.collabs-avatar, .sp-vcard-hero, .nav-logo-wrap,
-.trust-item, a img, button img,
-.motion-play-overlay {
-  pointer-events: auto;
-}
-.work-card img, .cov-card img, .ac-card img,
-.about-photo-wrap img, .collabs-avatar img,
-.sp-vcard-hero img { pointer-events: none; }
-/* Overlay shield sur cartes — intercepte drag et clic droit */
-.work-card, .cov-card, .ac-card, .about-photo-wrap { position: relative; }
-.work-card .img-shield, .cov-card .img-shield,
-.ac-card .img-shield, .about-photo-wrap .img-shield {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: auto;
-  background: transparent;
-  cursor: pointer;
-  -webkit-user-drag: none;
-  user-drag: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-</style>
-
-<script>
-/* ══ MEDIA PROTECTION — JS ══ */
-(function() {
-  // Bloquer clic droit sur images/vidéos et leurs conteneurs
-  document.addEventListener('contextmenu', function(e) {
-    var t = e.target;
-    if (
-      t.tagName === 'IMG' || t.tagName === 'VIDEO' ||
-      t.closest && (
-        t.closest('.work-card') || t.closest('.cov-card') ||
-        t.closest('.ac-card') || t.closest('.about-photo-wrap') ||
-        t.closest('.collabs-avatar') || t.closest('.sp-vcard-hero') ||
-        t.closest('.img-shield')
-      )
-    ) { e.preventDefault(); return false; }
-  }, true);
-
-  // Bloquer drag natif image/vidéo
-  document.addEventListener('dragstart', function(e) {
-    if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
-      e.preventDefault(); return false;
-    }
-  }, true);
-
-  // Appliquer draggable=false + contextmenu=false sur tout le DOM
-  function protectMedia(root) {
-    (root || document).querySelectorAll('img, video').forEach(function(el) {
-      el.draggable = false;
-      el.setAttribute('draggable', 'false');
-      el.oncontextmenu = function(){ return false; };
-    });
-  }
-  // Injecter le shield div dans chaque card
-  function injectShields(root) {
-    var selectors = '.work-card, .cov-card, .ac-card, .about-photo-wrap';
-    (root || document).querySelectorAll(selectors).forEach(function(card) {
-      if (card.querySelector('.img-shield')) return;
-      var shield = document.createElement('div');
-      shield.className = 'img-shield';
-      shield.oncontextmenu = function(e){ e.preventDefault(); return false; };
-      shield.addEventListener('dragstart', function(e){ e.preventDefault(); }, true);
-      card.appendChild(shield);
-    });
-  }
-
-  protectMedia(); injectShields();
-
-  // Observer pour les images chargées dynamiquement (modal, lazy, tabs)
-  if (typeof MutationObserver !== 'undefined') {
-    var mo = new MutationObserver(function(muts) {
-      muts.forEach(function(m) {
-        m.addedNodes.forEach(function(n) {
-          if (n.nodeType !== 1) return;
-          protectMedia(n); injectShields(n);
-          if (n.tagName === 'IMG' || n.tagName === 'VIDEO') {
-            n.draggable = false;
-            n.oncontextmenu = function(){ return false; };
-          }
-        });
-      });
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
-  }
-})();
-</script>
-
 <script>
 (function(){
 
@@ -20725,6 +20609,60 @@ if (document.readyState === 'loading') {
     init();
   }
   window.addEventListener('resize', function(){ swiped = false; if(hint) hint.classList.remove('hidden'); init(); });
+})();
+</script>
+
+<!-- ══ MEDIA PROTECTION — front-end ══
+     Bloque clic droit, drag natif, et long-press sur images/vidéos.
+     Note sécurité Cloudinary : activer signed URLs dans ton dashboard
+     (Settings > Upload > Restricted media access) pour que les URLs
+     directes expirent. Ajouter ton domaine en Allowed fetch domains. -->
+<style>
+img,video{-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;pointer-events:none}
+.work-card,.cov-card,.ac-card,.about-photo-wrap,.collabs-avatar,.nav-logo-wrap,.trust-item,.motion-play-overlay,.sp-vcard-hero,.work-arrow,.cov-arrow{pointer-events:auto}
+.work-card img,.cov-card img,.ac-card img,.about-photo-wrap img,.collabs-avatar img,.sp-vcard-hero img{pointer-events:none}
+</style>
+<script>
+(function(){
+  /* Bloquer clic droit sur médias et leurs conteneurs */
+  document.addEventListener('contextmenu',function(e){
+    var t=e.target;
+    if(t.tagName==='IMG'||t.tagName==='VIDEO'||
+      (t.closest&&(t.closest('.work-card')||t.closest('.cov-card')||
+       t.closest('.ac-card')||t.closest('.about-photo-wrap')||
+       t.closest('.collabs-avatar')||t.closest('.sp-vcard-hero')))){
+      e.preventDefault();return false;
+    }
+  },true);
+  /* Bloquer le drag natif image/video */
+  document.addEventListener('dragstart',function(e){
+    if(e.target.tagName==='IMG'||e.target.tagName==='VIDEO'){
+      e.preventDefault();return false;
+    }
+  },true);
+  /* Appliquer draggable=false sur tout le DOM + images futures */
+  function lockMedia(root){
+    (root||document).querySelectorAll('img,video').forEach(function(el){
+      el.draggable=false;
+      el.setAttribute('draggable','false');
+      el.oncontextmenu=function(){return false;};
+    });
+  }
+  lockMedia();
+  if(typeof MutationObserver!=='undefined'){
+    new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        m.addedNodes.forEach(function(n){
+          if(n.nodeType!==1)return;
+          lockMedia(n);
+          if(n.tagName==='IMG'||n.tagName==='VIDEO'){
+            n.draggable=false;
+            n.oncontextmenu=function(){return false;};
+          }
+        });
+      });
+    }).observe(document.body,{childList:true,subtree:true});
+  }
 })();
 </script>
 </body>
