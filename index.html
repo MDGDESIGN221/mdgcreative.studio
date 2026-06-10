@@ -991,6 +991,12 @@ section{position:relative;z-index:1}
 .stat-label{font-family:'Syne',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--off);margin-top:.75rem}
 .stat-sub{font-size:.68rem;color:var(--off);margin-top:.3rem;line-height:1.4}
 
+/* ── FIX ESPACE VIDE MOBILE — hero-left padding-bottom ── */
+@media(max-width:767px) {
+  .hero-left {
+    padding-bottom: 2rem !important;
+  }
+}
 /* ── HERO 4-CORNER LAYOUT — desktop ≥768px uniquement */
 @media(min-width:768px){
   #hero{flex-direction:row !important}
@@ -10597,9 +10603,9 @@ body,
       padding: 2.5rem 1.5rem 1.5rem;
       gap: 0;
     }
-    .collabs-gem-wrap { height: 260px; order: -1; }
+    .collabs-gem-wrap { height: auto; order: -1; padding: 1rem 0 .5rem; }
     .collabs-gem-scene { width: 160px; height: 160px; }
-    .gem-counter { bottom: 12px; right: 12px; }
+    .gem-counter { position: relative; bottom: auto; right: auto; margin: 0; }
     .gem-counter-num { font-size: 2.2rem; }
   }
   </style>
@@ -12236,7 +12242,7 @@ body,
   position:relative;
   cursor:grab;
   user-select:none;
-  touch-action:none;
+  touch-action:pan-y;
   filter:drop-shadow(0 0 32px rgba(61,191,163,.45)) drop-shadow(0 8px 40px rgba(0,0,0,.8));
   transition:filter .4s ease;
 }
@@ -12263,7 +12269,9 @@ body,
 .ub-face img{
   width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;
   opacity:1;
+  transition:opacity .55s ease;
 }
+#uranusBoxImg.fading { opacity: 0; }
 
 /* FRONT : face de référence, colle au plan */
 #ub-front{
