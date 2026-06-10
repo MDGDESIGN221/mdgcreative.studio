@@ -10630,46 +10630,42 @@ body,
 
   <!-- SPOTLIGHT ARTISTES -->
   <style>
-  /* ── ARTISTES SPOTLIGHT — rangée scroll compacte ── */
+  /* ══ SPOTLIGHT — carousel natif, zéro JS touch ══
+     touch-action: pan-x sur la row = browser gère le swipe horizontal nativement.
+     Aucun handler JS touchstart/touchmove/touchend.
+     Aucun overflow:hidden sur les parents directs.
+  ══ */
   .sp-stage {
     margin: 0;
-    padding: 0 3rem 3rem;
-    opacity: 1 !important;
-    transform: none !important;
+    padding: 0 0 3rem;
     position: relative;
     z-index: 2;
   }
-  .sp-wm { display: none; }
-  .sp-eyebrow { display: none; }
 
-  /* Rangée scrollable — centrée sur desktop, scroll sur mobile */
+  /* Row = scroll container natif uniquement */
   .sp-cards-row {
     display: flex;
     gap: .75rem;
     overflow-x: auto;
+    overflow-y: visible;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pan-y;
+    touch-action: pan-x;
     scrollbar-width: none;
-    padding-bottom: .5rem;
-    /* Centrer les cartes sur desktop, scroll si débordement */
+    padding: 0 3rem .5rem;
+    /* desktop : centrer si pas de débordement */
     justify-content: center;
-    max-width: 960px;
-    margin-left: auto;
-    margin-right: auto;
   }
-  /* Sur mobile : aligner à gauche pour permettre le scroll natif */
+  .sp-cards-row::-webkit-scrollbar { display: none; }
+
   @media(max-width: 900px) {
+    .sp-stage { padding: 0 0 2.5rem; }
     .sp-cards-row {
       justify-content: flex-start;
-      max-width: none;
-      margin-left: 0;
-      margin-right: 0;
-      width: 100%;
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+      padding: 0 1.5rem .5rem;
       scroll-padding-left: 1.5rem;
     }
+    /* spacer de fin pour que la dernière carte soit visible */
     .sp-cards-row::after {
       content: '';
       flex: 0 0 1.5rem;
@@ -10677,18 +10673,15 @@ body,
     }
   }
   @media(max-width: 600px) {
+    .sp-stage { padding: 0 0 2rem; }
     .sp-cards-row {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding: 0 1rem .5rem;
       scroll-padding-left: 1rem;
     }
-    .sp-cards-row::after {
-      flex: 0 0 1rem;
-    }
+    .sp-cards-row::after { flex: 0 0 1rem; }
   }
-  .sp-cards-row::-webkit-scrollbar { display: none; }
 
-  /* Carte portrait compacte */
+  /* Carte portrait */
   .sp-card {
     position: relative;
     flex: 0 0 155px;
@@ -10700,124 +10693,112 @@ body,
     background: #111;
     border: 1px solid rgba(255,255,255,.07);
     scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* touch-action hérité de .sp-cards-row (pan-x) — ne pas écraser */
     transition: border-color .35s, box-shadow .35s, transform .35s cubic-bezier(.16,1,.3,1);
-    opacity: 1 !important;
   }
-  .sp-card:hover {
-    border-color: rgba(255,255,255,.2);
-    box-shadow: 0 16px 40px rgba(0,0,0,.55);
-    transform: translateY(-4px);
+  @media(max-width: 900px) { .sp-card { flex: 0 0 130px; width: 130px; height: 190px; } }
+  @media(max-width: 600px) { .sp-card { flex: 0 0 115px; width: 115px; height: 168px; } }
+
+  @media(hover: hover) {
+    .sp-card:hover {
+      border-color: rgba(255,255,255,.2);
+      box-shadow: 0 16px 40px rgba(0,0,0,.55);
+      transform: translateY(-4px);
+    }
   }
   .sp-card.sp-active {
     border-color: var(--accent);
     box-shadow: 0 16px 40px rgba(61,191,163,.15);
-    transform: translateY(-4px);
   }
-  /* Photo pleine hauteur */
+  @media(hover: hover) {
+    .sp-card.sp-active { transform: translateY(-4px); }
+  }
+
   .sp-card-photo {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
+    pointer-events: none;
     filter: grayscale(50%) brightness(.8);
     transition: filter .4s, transform .5s cubic-bezier(.16,1,.3,1);
   }
-  .sp-card:hover .sp-card-photo,
-  .sp-card.sp-active .sp-card-photo {
-    filter: grayscale(0%) brightness(.92);
-    transform: scale(1.05);
+  @media(hover: hover) {
+    .sp-card:hover .sp-card-photo,
+    .sp-card.sp-active .sp-card-photo {
+      filter: grayscale(0%) brightness(.92);
+      transform: scale(1.05);
+    }
   }
-  /* Dégradé bas */
+  @media(hover: none) {
+    .sp-card.sp-active .sp-card-photo {
+      filter: grayscale(0%) brightness(.88);
+    }
+  }
+
   .sp-card-fade {
     position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 100px;
+    bottom: 0; left: 0; right: 0; height: 100px;
     background: linear-gradient(to bottom, transparent, rgba(0,0,0,.92));
     z-index: 1;
+    pointer-events: none;
   }
-  /* Info en bas */
   .sp-card-info {
     position: absolute;
     bottom: 0; left: 0; right: 0;
     padding: .7rem .85rem .75rem;
     z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    height: auto;
-    background: none;
-    border-top: none;
+    pointer-events: none;
   }
   .sp-card-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: .8rem;
-    color: #f0ede8;
-    letter-spacing: -.02em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2;
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: .8rem; color: #f0ede8;
+    letter-spacing: -.02em; line-height: 1.2;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
+  @media(max-width: 600px) { .sp-card-name { font-size: .72rem; } }
   .sp-card-genre {
-    font-family: 'Inter', sans-serif;
-    font-size: .6rem;
-    font-weight: 400;
-    color: rgba(255,255,255,.45);
-    letter-spacing: .01em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    background: none; border: none; border-radius: 0;
-    padding: 0; text-transform: none;
+    font-family: 'Inter', sans-serif; font-size: .6rem; font-weight: 400;
+    color: rgba(255,255,255,.45); letter-spacing: .01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    padding: 0; background: none; border: none; border-radius: 0; text-transform: none;
   }
   .sp-card-genre::before { display: none; }
   .sp-card-bar { display: none; }
 
-  /* Panneau détail — barre sobre pleine largeur */
+  /* Panneau détail */
   .sp-detail {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+    margin: 1rem 3rem 0;
     padding: .85rem 1.25rem;
     background: rgba(255,255,255,.03);
     border: 1px solid rgba(255,255,255,.06);
     border-radius: 14px;
-    flex-wrap: nowrap;
-    position: relative;
-    z-index: 3;
     max-width: 960px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: auto; margin-right: auto;
+  }
+  @media(max-width: 900px) { .sp-detail { margin: 1rem 1.5rem 0; } }
+  @media(max-width: 600px) {
+    .sp-detail { margin: 1rem 1rem 0; flex-wrap: wrap; gap: .6rem; }
+    .sp-detail-ig { width: 100%; justify-content: center; }
   }
   .sp-detail-avatar {
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0;
+    width: 34px; height: 34px; border-radius: 50%;
+    object-fit: cover; flex-shrink: 0;
     border: 1px solid rgba(255,255,255,.1);
     filter: grayscale(20%);
+    pointer-events: none;
   }
   .sp-detail-text { flex: 1; min-width: 0; }
   .sp-detail-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: .85rem;
-    color: var(--light);
-    letter-spacing: -.02em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: .85rem; color: var(--light); letter-spacing: -.02em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .sp-detail-role {
-    font-size: .68rem;
-    color: var(--dim);
-    margin-top: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: .68rem; color: var(--dim); margin-top: 1px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .sp-detail-ig {
     display: inline-flex; align-items: center; gap: .4rem;
@@ -10827,37 +10808,20 @@ body,
     border: 1px solid rgba(255,255,255,.1);
     border-radius: 100px;
     color: rgba(255,255,255,.5);
-    text-decoration: none;
-    background: transparent;
-    flex-shrink: 0;
+    text-decoration: none; background: transparent;
+    flex-shrink: 0; white-space: nowrap;
     transition: background .2s, border-color .2s, color .2s;
-    white-space: nowrap;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
-  .sp-detail-ig:hover {
-    background: rgba(255,255,255,.06);
-    border-color: rgba(255,255,255,.22);
-    color: #fff;
-  }
+  .sp-detail-ig:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); color: #fff; }
   .sp-detail-ig svg { width: 11px; height: 11px; }
-
-  @media(max-width: 900px) {
-    .sp-stage { padding: 0 1.5rem 2.5rem; }
-    .sp-card { flex: 0 0 130px; width: 130px; height: 190px; }
-  }
-  @media(max-width: 600px) {
-    .sp-stage { padding: 0 1rem 2rem; }
-    .sp-card { flex: 0 0 115px; width: 115px; height: 168px; }
-    .sp-card-name { font-size: .72rem; }
-    .sp-detail { flex-wrap: wrap; gap: .6rem; }
-    .sp-detail-ig { width: 100%; justify-content: center; }
-  }
   </style>
 
   <div class="sp-stage">
-    <div class="sp-wm" aria-hidden="true">COLLABORATIONS</div>
     <div class="sp-cards-row" id="spCardsRow"></div>
     <div class="sp-detail" id="spDetail">
-      <img class="sp-detail-avatar" id="spDetailAvatar" src="" alt="">
+      <img class="sp-detail-avatar" id="spDetailAvatar" src="" alt="" draggable="false">
       <div class="sp-detail-text">
         <div class="sp-detail-name" id="spDetailName"></div>
         <div class="sp-detail-role" id="spDetailRole"></div>
@@ -10872,36 +10836,56 @@ body,
   <script>
   (function(){
     var ARTISTS = [
-      { name:'ISS 814',        role:'Rapper · Beatmaker · Producer', ig:'https://www.instagram.com/iss814beats/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184982/iss_814_v22_dtnhal.jpg',                                              pos:'center top'  },
-      { name:'One Lyrical',    role:'Artiste Rappeur',                ig:'https://www.instagram.com/onelyrical.sn/',      photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg',                                         pos:'center top'  },
-      { name:'Omzo Beatz',     role:'Beatmaker · Producer',           ig:'https://www.instagram.com/omzobeatz/',          photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182477/omzo_1_jkbnwn.jpg',                                                pos:'center top'  },
-      { name:'Dopeboy DMG',    role:'Artiste Rappeur',                ig:'https://www.instagram.com/dopeboydmg/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg',                                               pos:'center 20%'  },
-      { name:'Oothentik Zeus', role:'Artiste Rappeur',                ig:'https://www.instagram.com/oothentik_zeus_gb/', photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png', pos:'center top'  },
-      { name:'Gun Silent Beatz', role:'Beatmaker · Producer',         ig:'https://www.instagram.com/gunsilentbeatz/',    photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg',                                               pos:'center top'  }
+      { name:'ISS 814',          role:'Rapper · Beatmaker · Producer', ig:'https://www.instagram.com/iss814beats/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184982/iss_814_v22_dtnhal.jpg',                                              pos:'center top'  },
+      { name:'One Lyrical',      role:'Artiste Rappeur',                ig:'https://www.instagram.com/onelyrical.sn/',      photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg',                                         pos:'center top'  },
+      { name:'Omzo Beatz',       role:'Beatmaker · Producer',           ig:'https://www.instagram.com/omzobeatz/',          photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182477/omzo_1_jkbnwn.jpg',                                                pos:'center top'  },
+      { name:'Dopeboy DMG',      role:'Artiste Rappeur',                ig:'https://www.instagram.com/dopeboydmg/',         photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg',                                               pos:'center 20%'  },
+      { name:'Oothentik Zeus',   role:'Artiste Rappeur',                ig:'https://www.instagram.com/oothentik_zeus_gb/', photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png', pos:'center top'  },
+      { name:'Gun Silent Beatz', role:'Beatmaker · Producer',           ig:'https://www.instagram.com/gunsilentbeatz/',    photo:'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg',                                               pos:'center top'  }
     ];
 
-    var barH = [14,9,12,7,14,10,8,13,7,11,14,8,10,7,13];
-    var row  = document.getElementById('spCardsRow');
+    var row          = document.getElementById('spCardsRow');
     var detailAvatar = document.getElementById('spDetailAvatar');
     var detailName   = document.getElementById('spDetailName');
     var detailRole   = document.getElementById('spDetailRole');
     var detailIg     = document.getElementById('spDetailIg');
     var activeIdx    = 0;
     var cards        = [];
+    var autoTimer    = null;
 
+    /* Construire les cartes */
     ARTISTS.forEach(function(a, i) {
       var card = document.createElement('div');
       card.className = 'sp-card' + (i === 0 ? ' sp-active' : '');
-      var bars = barH.map(function(h){ return '<span style="height:'+h+'px"></span>'; }).join('');
       card.innerHTML =
-        '<img class="sp-card-photo" src="'+a.photo+'" alt="'+a.name+'" style="object-position:'+a.pos+'" onerror="this.style.display=\'none\'">' +
+        '<img class="sp-card-photo" src="' + a.photo + '" alt="' + a.name + '" draggable="false" style="object-position:' + a.pos + '" onerror="this.style.display=\'none\'">' +
         '<div class="sp-card-fade"></div>' +
         '<div class="sp-card-info">' +
-          '<div class="sp-card-name">'+a.name+'</div>' +
-          '<div class="sp-card-genre">'+a.role+'</div>' +
-          '<div class="sp-card-bar">'+bars+'</div>' +
+          '<div class="sp-card-name">' + a.name + '</div>' +
+          '<div class="sp-card-genre">' + a.role + '</div>' +
         '</div>';
-      card.addEventListener('click', function(){ clearInterval(timer); activate(i); });
+
+      /* Tap = activer l'artiste. On distingue tap vs swipe :
+         si le doigt a bougé de plus de 8px horizontalement → c'est un swipe, pas un tap. */
+      var tapStartX = 0;
+      var tapMoved  = false;
+      card.addEventListener('touchstart', function(e) {
+        tapStartX = e.touches[0].clientX;
+        tapMoved  = false;
+      }, { passive: true });
+      card.addEventListener('touchmove', function(e) {
+        if (Math.abs(e.touches[0].clientX - tapStartX) > 8) tapMoved = true;
+      }, { passive: true });
+      card.addEventListener('touchend', function() {
+        if (!tapMoved) { clearTimeout(autoTimer); activate(i); }
+      }, { passive: true });
+
+      /* Click souris desktop */
+      card.addEventListener('click', function() {
+        clearTimeout(autoTimer);
+        activate(i);
+      });
+
       row.appendChild(card);
       cards.push(card);
     });
@@ -10909,7 +10893,7 @@ body,
     function activate(i) {
       activeIdx = i;
       var a = ARTISTS[i];
-      cards.forEach(function(c, j){ c.classList.toggle('sp-active', j === i); });
+      cards.forEach(function(c, j) { c.classList.toggle('sp-active', j === i); });
       detailAvatar.src = a.photo;
       detailAvatar.style.objectPosition = a.pos;
       detailName.textContent = a.name;
@@ -10917,50 +10901,16 @@ body,
       detailIg.href = a.ig;
     }
 
+    /* Autoplay — avance toutes les 3,5 s */
+    function scheduleNext() {
+      autoTimer = setTimeout(function() {
+        activate((activeIdx + 1) % ARTISTS.length);
+        scheduleNext();
+      }, 3500);
+    }
+
     activate(0);
-    var timer = setInterval(function(){ activate((activeIdx + 1) % ARTISTS.length); }, 3500);
-  })();
-  </script>
-
-  <script>
-  /* Fix GSAP : forcer visibilité sp-stage et enfants après init */
-  (function(){
-    function fixSp() {
-      var stage = document.querySelector('.sp-stage');
-      if (!stage) return;
-      stage.style.opacity = '1';
-      stage.style.transform = 'none';
-      stage.querySelectorAll('.sp-card, .sp-detail').forEach(function(el){
-        el.style.opacity = '1';
-        el.style.transform = '';
-      });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function(){ setTimeout(fixSp, 100); setTimeout(fixSp, 600); });
-    } else {
-      setTimeout(fixSp, 100); setTimeout(fixSp, 600);
-    }
-
-    /* Animation d'entrée GSAP propre sur sp-stage */
-    function initSpAnim() {
-      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        setTimeout(initSpAnim, 200);
-        return;
-      }
-      var stage = document.querySelector('.sp-stage');
-      if (!stage) return;
-      gsap.set(stage, { opacity: 1, y: 0, clearProps: 'all' });
-      gsap.fromTo(stage,
-        { opacity: 0, y: 28 },
-        { opacity: 1, y: 0, duration: .8, ease: 'power3.out',
-          scrollTrigger: { trigger: stage, start: 'top 90%', once: true } }
-      );
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initSpAnim);
-    } else {
-      initSpAnim();
-    }
+    scheduleNext();
   })();
   </script>
 
@@ -20367,15 +20317,7 @@ footer {
   touch-action: pan-y;
 }
 
-/* Carousel horizontal dans #collabs : scroll natif pan-x pan-y */
-#collabs .sp-cards-row,
-.sp-cards-row {
-  touch-action: pan-x pan-y !important;
-}
-/* sp-stage : pan-y — le handler direction-aware sur the-card prend le relais pour le horizontal */
-#collabs .sp-stage {
-  touch-action: pan-y;
-}
+/* Carousel horizontal dans #collabs : géré directement dans le CSS inline de la section */
 
 /* ── NE PAS mettre pan-y sur pack-card/adv-card/rollout-card/work-card/cov-card
    car ils sont dans des carousels horizontaux — le JS direction-aware gère ── */
