@@ -18918,12 +18918,13 @@ function renderCard(dir){
     dot.classList.toggle('active', i===current);
   });
 
-  /* anim carte */
+  /* anim carte — rAF pour éviter le forced reflow (void offsetWidth) */
   var ac = dir==='right' ? 'anim-in-right' : 'anim-in-left';
   card.classList.remove('anim-in-right','anim-in-left');
-  void card.offsetWidth;
-  card.classList.add(ac);
-  setTimeout(function(){ card.classList.remove(ac); }, 700);
+  requestAnimationFrame(function(){
+    card.classList.add(ac);
+    setTimeout(function(){ card.classList.remove(ac); }, 700);
+  });
 
   /* glow pulse */
   card.style.boxShadow = '0 0 0 1px rgba(255,255,255,.04) inset,0 40px 100px rgba(0,0,0,.8),0 0 80px rgba(255,255,255,0.04)';
@@ -19025,6 +19026,8 @@ if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
    Principe : on attend DIRECTION_LOCK px avant de décider horizontal ou vertical.
    Une fois la direction lockée, elle ne change plus jusqu'au touchend.
    → jamais de conflit avec le scroll page, jamais de swipe raté.
+   Note : next()/prev() sont appelés via setTimeout(0) pour sortir
+   du contexte tactile avant le reflow DOM de renderCard().
 ── */
 (function(){
   var DIRECTION_LOCK = 8;
@@ -19056,12 +19059,17 @@ if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
   card.addEventListener('touchend', function(e) {
     if (!active) return;
     active = false;
-    if (direction !== 'h') { direction = null; return; }
+    var lockedDir = direction;
     direction = null;
+    if (lockedDir !== 'h') return;
     var dx = e.changedTouches[0].clientX - tsX;
     var dy = e.changedTouches[0].clientY - tsY;
     if (Math.abs(dx) > SWIPE_MIN && Math.abs(dx) > Math.abs(dy)) {
-      dx < 0 ? next() : prev();
+      /* setTimeout(0) : sort du contexte tactile avant le reflow DOM de renderCard */
+      var swipeDir = dx < 0 ? 'next' : 'prev';
+      setTimeout(function() {
+        swipeDir === 'next' ? next() : prev();
+      }, 0);
     }
   }, { passive: true });
 
