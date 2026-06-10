@@ -20353,5 +20353,207 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   }
 })();
 </script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   MDGRouter v2 — URLs propres & partageables, one-page stable
+   ── Stabilité : anti-boucle observer, loader-aware, Lenis-safe
+   ══════════════════════════════════════════════════════════════ */
+(function(){
+
+  /* ── 1. Mapping section ID → slug ── */
+  var ROUTES = {
+    'hero'                : '/home',
+    'portfolio-accordion' : '/work',
+    'about'               : '/about',
+    'services'            : '/services',
+    'collabs'             : '/collabs',
+    'process'             : '/process',
+    'uranus'              : '/uranus',
+    'pricing'             : '/tarifs',
+    'faq'                 : '/faq',
+    'contact'             : '/contact'
+  };
+
+  /* Inverse : slug → ID (supporte aussi les IDs directs en fallback) */
+  var SLUG_TO_ID = {};
+  Object.keys(ROUTES).forEach(function(id){
+    SLUG_TO_ID[ROUTES[id]] = id;
+    SLUG_TO_ID['/' + id] = id; // ex: /pricing → pricing (fallback)
+  });
+
+  /* ── 2. État interne ── */
+  var _lastSlug    = null;  // dernier slug pushé
+  var _scrolling   = false; // vrai pendant un scroll programmatique → bloque observer
+  var _scrollTimer = null;  // timer pour reset _scrolling
+
+  /* ── 3. Mettre à jour l'URL (pushState) ── */
+  function setURL(id, replace){
+    var slug = ROUTES[id];
+    if(!slug || slug === _lastSlug) return;
+    _lastSlug = slug;
+    try {
+      if(replace){
+        history.replaceState({section: id}, '', slug);
+      } else {
+        history.pushState({section: id}, '', slug);
+      }
+    } catch(e){}
+  }
+
+  /* ── 4. Scroll programmatique vers une section ──
+     Attend que le loader soit fini ET que Lenis soit prêt.
+     Bloque l'observer pendant la durée du scroll pour éviter
+     qu'il ne re-push des slugs intermédiaires. */
+  function scrollToSection(id, forPopstate){
+    var el = document.getElementById(id);
+    if(!el) return;
+
+    /* Flag anti-boucle : observer ignoré pendant le scroll */
+    _scrolling = true;
+    clearTimeout(_scrollTimer);
+
+    var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    function doScroll(){
+      if(typeof lenis !== 'undefined' && lenis && !isTouchDevice){
+        lenis.scrollTo(el, {
+          offset  : -80,
+          duration: 1.4,
+          onComplete: function(){
+            /* Reset flag après fin d'animation Lenis */
+            _scrollTimer = setTimeout(function(){ _scrolling = false; }, 200);
+          }
+        });
+      } else {
+        el.scrollIntoView({behavior: isTouchDevice ? 'smooth' : 'smooth', block: 'start'});
+        /* Sur mobile Lenis est absent → reset après durée estimée */
+        _scrollTimer = setTimeout(function(){ _scrolling = false; }, 1600);
+      }
+    }
+
+    /* Attendre que le loader soit terminé avant de scroller */
+    var loaderEl = document.getElementById('loader');
+    if(loaderEl && !loaderEl.classList.contains('done')){
+      /* Loader actif → attendre son signal + délai Lenis init */
+      var loaderWait = setInterval(function(){
+        if(loaderEl.classList.contains('done') || loaderEl.style.display === 'none'){
+          clearInterval(loaderWait);
+          setTimeout(doScroll, 500); // 500ms pour que Lenis soit initialisé
+        }
+      }, 50);
+      /* Failsafe : forcer après 4s max */
+      setTimeout(function(){ clearInterval(loaderWait); doScroll(); }, 4000);
+    } else {
+      /* Loader déjà fini ou absent */
+      var sinceLoader = window._loaderDoneAt ? Date.now() - window._loaderDoneAt : 9999;
+      var waitMs = Math.max(0, 400 - sinceLoader); // Lenis poll = 60×50ms = 3s max, mais souvent <400ms
+      setTimeout(doScroll, waitMs);
+    }
+  }
+
+  /* ── 5. Observer IntersectionObserver — lecture passive du scroll ──
+     rootMargin calibré : section considérée "active" quand elle
+     occupe la tranche 20%–60% du viewport (centre de lecture). */
+  var IO_OPTIONS = { threshold: 0, rootMargin: '-20% 0px -40% 0px' };
+
+  var observer = new IntersectionObserver(function(entries){
+    if(_scrolling) return; /* ← anti-boucle */
+    var best = null;
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        if(!best || e.intersectionRatio > best.intersectionRatio) best = e;
+      }
+    });
+    if(best) setURL(best.target.id, false);
+  }, IO_OPTIONS);
+
+  Object.keys(ROUTES).forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) observer.observe(el);
+  });
+
+  /* ── 6. Patcher lenisScroll ── */
+  var _origLenis = window.lenisScroll;
+  window.lenisScroll = function(id){
+    _scrolling = true;
+    clearTimeout(_scrollTimer);
+    _scrollTimer = setTimeout(function(){ _scrolling = false; }, 1800);
+    setURL(id, false);
+    if(_origLenis) _origLenis(id);
+  };
+
+  /* ── 7. Patcher qnGo (quick-nav) ── */
+  /* qnGo est défini plus tard dans le code — on patche en différé */
+  function patchQnGo(){
+    var _origQnGo = window.qnGo;
+    if(!_origQnGo){ setTimeout(patchQnGo, 100); return; }
+    window.qnGo = function(id){
+      _scrolling = true;
+      clearTimeout(_scrollTimer);
+      _scrollTimer = setTimeout(function(){ _scrolling = false; }, 1800);
+      setURL(id, false);
+      _origQnGo(id);
+    };
+  }
+  patchQnGo();
+
+  /* ── 8. Patcher cm() (menu mobile) ── */
+  function patchCm(){
+    var _origCm = window.cm;
+    if(!_origCm){ setTimeout(patchCm, 100); return; }
+    window.cm = function(href){
+      if(href){
+        var id = href.replace(/^#/, '');
+        _scrolling = true;
+        clearTimeout(_scrollTimer);
+        _scrollTimer = setTimeout(function(){ _scrolling = false; }, 1800);
+        setURL(id, false);
+      }
+      _origCm(href);
+    };
+  }
+  patchCm();
+
+  /* ── 9. Résoudre le slug au chargement (navigation directe) ── */
+  function resolveOnLoad(){
+    var path = window.location.pathname.replace(/\/$/, '');
+    if(!path || path === '/') path = '/home';
+    var id = SLUG_TO_ID[path];
+
+    if(id && id !== 'hero'){
+      /* URL directe vers une section : scroll différé post-loader */
+      scrollToSection(id, false);
+      /* Ne pas push (déjà dans l'URL), juste aligner l'état */
+      _lastSlug = ROUTES[id] || path;
+      try { history.replaceState({section: id}, '', ROUTES[id] || path); } catch(e){}
+    } else {
+      /* Accueil ou slug inconnu → normaliser sur /home sans scroll */
+      _lastSlug = '/home';
+      try { history.replaceState({section: 'hero'}, '', '/home'); } catch(e){}
+    }
+  }
+
+  /* ── 10. Bouton Retour / Avance du navigateur ── */
+  window.addEventListener('popstate', function(e){
+    var id = (e.state && e.state.section);
+    if(!id){
+      /* Tenter de déduire l'ID depuis le pathname */
+      var p = window.location.pathname.replace(/\/$/, '') || '/home';
+      id = SLUG_TO_ID[p] || 'hero';
+    }
+    _lastSlug = ROUTES[id] || '/home';
+    scrollToSection(id, true);
+  });
+
+  /* ── 11. Lancement ── */
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', resolveOnLoad);
+  } else {
+    resolveOnLoad();
+  }
+
+})();
+</script>
 </body>
 </html>
