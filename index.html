@@ -9303,17 +9303,22 @@ body,
   .port-tabs-wrap {
     display: block;
     width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
+    overflow-x: visible;
   }
   .port-tabs-wrap::-webkit-scrollbar { display: none; }
   .port-tabs-wrap::after { display: none; }
   .port-new-tabs-row {
-    width: max-content;
-    min-width: auto;
+    width: 100%;
+    min-width: 0;
+    justify-content: stretch;
   }
-  .port-new-tab-btn { flex-shrink: 0; padding: .5rem .9rem; font-size: .72rem; }
+  .port-new-tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: .5rem .4rem;
+    font-size: .65rem;
+    white-space: nowrap;
+  }
 }
 </style>
 
