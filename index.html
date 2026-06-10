@@ -1225,7 +1225,7 @@ section+section::before,
 .tool:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,255,255,0.03)}
 
 /* ── COLLABS PREMIUM ── */
-#collabs{padding:5rem 3rem;border-bottom:1px solid var(--border);background:var(--dark);position:relative;overflow:hidden}
+#collabs{padding:5rem 3rem;border-bottom:1px solid var(--border);background:var(--dark);position:relative;overflow:clip}
 #collabs::before{content:'';position:absolute;inset:-8%;background-image:url('https://res.cloudinary.com/djdkpihuz/image/upload/v1780836229/cette_image_en_16_9_sans_202606071242_ylerhm.jpg');background-size:cover;background-position:center 20%;opacity:.18;pointer-events:none;z-index:0;filter:grayscale(30%) contrast(1.1);animation:collab-drift 18s ease-in-out infinite alternate;transform-origin:center}
 @keyframes collab-drift{0%{transform:scale(1.0) translateY(0)}100%{transform:scale(1.06) translateY(-1%)}}
 #collabs::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,0.02) 0%,transparent 60%),linear-gradient(to bottom,rgba(14,14,14,.88) 0%,rgba(14,14,14,.6) 40%,rgba(14,14,14,.88) 100%);pointer-events:none;z-index:0}
@@ -11702,7 +11702,7 @@ body,
 /* ── MARGES MOBILES GLOBALES ── */
 @media(max-width:600px) {
   .container { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
-  section, #about, #services, #collabs, #press, #process, #pricing, #faq, #contact { overflow-x: hidden; }
+  section, #about, #services, #press, #process, #pricing, #faq, #contact { overflow-x: hidden; }
   .sp-header, .sp-feature { padding-left: 1.25rem !important; padding-right: 1.25rem !important; margin-left: 0 !important; margin-right: 0 !important; }
   .sp-videos { margin-left: 1.25rem !important; margin-right: 1.25rem !important; }
   .proc-timeline { margin: 1.5rem 1.25rem 0 !important; }
