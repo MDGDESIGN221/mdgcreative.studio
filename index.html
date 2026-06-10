@@ -10662,6 +10662,7 @@ body,
     opacity: 1 !important;
     transform: none !important;
     position: relative;
+    z-index: 2;
   }
   .sp-wm { display: none; }
   .sp-eyebrow { display: none; }
@@ -10677,6 +10678,9 @@ body,
     padding-bottom: .5rem;
     /* Centrer les cartes sur desktop, scroll si débordement */
     justify-content: center;
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .sp-cards-row::-webkit-scrollbar { display: none; }
 
@@ -10778,6 +10782,11 @@ body,
     border: 1px solid rgba(255,255,255,.06);
     border-radius: 14px;
     flex-wrap: nowrap;
+    position: relative;
+    z-index: 3;
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .sp-detail-avatar {
     width: 34px; height: 34px;
