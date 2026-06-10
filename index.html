@@ -1409,7 +1409,7 @@ section+section::before,
 .work-track-wrap::before,.work-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .work-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .work-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:auto;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .work-track::-webkit-scrollbar{display:none}
 /* ── WORK CARDS — design premium ── */
 .work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04)}
@@ -1538,7 +1538,7 @@ section+section::before,
 .cov-track-wrap::before,.cov-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .cov-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .cov-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:auto;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .cov-track::-webkit-scrollbar{display:none}
 .cov-card{position:relative;display:block;text-decoration:none;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(240px,26vw,320px);aspect-ratio:1/1;scroll-snap-align:start;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0)}
 .cov-card:hover{transform:translateY(-4px)}
@@ -12901,14 +12901,34 @@ body,
     lx=e.clientX;ly=e.clientY;applyT();
   });
   window.addEventListener('mouseup',function(){dragging=false;});
-  wrap.addEventListener('touchstart',function(e){e.preventDefault();dragging=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY;velX=0;velY=0;hint.style.opacity='0';},{passive:false});
-  window.addEventListener('touchmove',function(e){
-    if(!dragging)return;
-    var dx=e.touches[0].clientX-lx,dy=e.touches[0].clientY-ly;
-    rotY+=dx*.42;rotX-=dy*.42;velY=dx*.42;velX=-dy*.42;
-    lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyT();
+  /* Touch direction-aware : on attend 8px pour décider horizontal vs vertical.
+     Si horizontal → on prend le contrôle (rotateY). Si vertical → on laisse scroller.
+     preventDefault JAMAIS sur touchstart — passive:true pour ne pas bloquer le compositor. */
+  var _boxTsX=0,_boxTsY=0,_boxDir=null;
+  wrap.addEventListener('touchstart',function(e){
+    if(e.touches.length!==1)return;
+    dragging=false;_boxDir=null;
+    _boxTsX=e.touches[0].clientX;_boxTsY=e.touches[0].clientY;
+    velX=0;velY=0;
   },{passive:true});
-  window.addEventListener('touchend',function(){dragging=false;});
+  wrap.addEventListener('touchmove',function(e){
+    if(e.touches.length!==1)return;
+    var dx=e.touches[0].clientX-_boxTsX,dy=e.touches[0].clientY-_boxTsY;
+    if(_boxDir===null){
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<8)return;
+      _boxDir=Math.abs(dx)>=Math.abs(dy)?'h':'v';
+    }
+    if(_boxDir==='v')return; /* laisser scroller */
+    /* Direction horizontale : prendre le contrôle */
+    e.preventDefault();
+    if(!dragging){dragging=true;hint.style.opacity='0';lx=e.touches[0].clientX;ly=e.touches[0].clientY;}
+    var mdx=e.touches[0].clientX-lx,mdy=e.touches[0].clientY-ly;
+    rotY+=mdx*.42;rotX-=mdy*.42;velY=mdx*.42;velX=-mdy*.42;
+    lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyT();
+  },{passive:false});
+  wrap.addEventListener('touchend',function(){dragging=false;_boxDir=null;},{passive:true});
+  wrap.addEventListener('touchcancel',function(){dragging=false;_boxDir=null;},{passive:true});
 
   function animate(){
     requestAnimationFrame(animate);
@@ -14184,7 +14204,8 @@ function switchPricingTab(panel, btn) {
     const light = curtain.querySelector('.pack-curtain-light');
     if (!face) return;
 
-    let startX = 0, currentX = 0, isDragging = false, isOpened = false;
+    let startX = 0, startY = 0, currentX = 0, isDragging = false, isOpened = false;
+    let curtainDir = null; // null | 'h' | 'v'
     const THRESHOLD = 0.45; // 45% de la largeur pour ouvrir
 
     function getClientX(e) {
@@ -14194,7 +14215,9 @@ function switchPricingTab(panel, btn) {
     function onStart(e) {
       if (isOpened) return;
       isDragging = true;
+      curtainDir = null;
       startX = getClientX(e);
+      startY = e.touches ? e.touches[0].clientY : e.clientY;
       curtain.classList.add('dragging');
       curtain.classList.remove('snapping');
       face.style.transition = 'none';
@@ -14203,7 +14226,24 @@ function switchPricingTab(panel, btn) {
 
     function onMove(e) {
       if (!isDragging || isOpened) return;
-      currentX = getClientX(e) - startX;
+      var cx = getClientX(e);
+      var cy = e.touches ? e.touches[0].clientY : e.clientY;
+      var dx = cx - startX;
+      var dy = cy - startY;
+
+      /* Détecter la direction au premier déplacement significatif */
+      if (curtainDir === null) {
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 8) return;
+        curtainDir = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
+      }
+
+      /* Geste vertical → laisser la page scroller, ne rien faire */
+      if (curtainDir === 'v') { isDragging = false; return; }
+
+      /* Geste horizontal confirmé → prendre le contrôle */
+      e.preventDefault();
+      currentX = cx - startX;
       if (currentX < 0) { currentX = 0; }
       const ratio = Math.min(currentX / curtain.offsetWidth, 1);
 
@@ -14222,8 +14262,6 @@ function switchPricingTab(panel, btn) {
       // Blur + brightness qui s'atténuent au glissement
       const blurVal = Math.max(0, 12 * (1 - ratio * 1.5));
       face.style.filter = `blur(${blurVal}px) brightness(${0.7 + ratio * 0.3})`;
-
-      e.preventDefault();
     }
 
     function onEnd() {
@@ -20301,9 +20339,18 @@ footer {
    Le handler JS détecte la direction (dx vs dy) avant de décider si le geste
    est horizontal (→ slider) ou vertical (→ scroll page). CSS ne peut pas
    faire ça — d'où le besoin de laisser "auto" ici. */
+/* ── Carrousels JS direction-aware : touch-action:pan-y
+   Le handler attachDirectionAwareTouch détecte la direction et appelle
+   e.preventDefault() UNIQUEMENT si le geste est horizontal confirmé.
+   Le CSS pan-y dit au browser dès le départ que le scroll vertical est
+   autorisé → plus de gel pendant la phase de détection de 10px. */
 .work-track,
 .cov-track,
-.mot-track,
+.mot-track {
+  touch-action: pan-y !important;
+}
+
+/* trust-strip-inner, port-tabs, sp-cards-row = scroll natif sans handler JS */
 .trust-strip-inner,
 .port-tabs,
 .sp-cards-row {
