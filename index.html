@@ -6813,6 +6813,7 @@ nav::before { display:none; }
     border-radius: 20px !important;
     min-height: auto !important;
     transform: none !important;
+    touch-action: pan-x pan-y !important;
   }
 
   /* Tier + name bien espacés */
@@ -9910,7 +9911,7 @@ body,
     <!-- Vidéos témoignages — 4 cartes portrait uniformes -->
     <div class="sp-videos" id="sp-audio-grid">
 
-      <div class="sp-videos-track">
+      <div class="sp-videos-track" id="spVideosTrack">
 
         <!-- CARTE 1 — ISS 814 -->
         <div class="sp-slide">
@@ -15593,7 +15594,7 @@ enableDragScroll(document.getElementById('motTrack'));
   }
 
   // ── Carrousels principaux ──
-  var carouselIds = ['workTrack', 'covTrack', 'motTrack'];
+  var carouselIds = ['workTrack', 'covTrack', 'motTrack', 'spVideosTrack'];
   carouselIds.forEach(function(id) {
     var el = document.getElementById(id);
     if (el) attachDirectionAwareTouch(el);
@@ -20338,10 +20339,6 @@ video,
 .u-order-card,
 .u-gal-premium,
 .u-gallery-premium,
-.pack-card,
-.adv-card,
-.rollout-card,
-.addon-card,
 .pieter-step-num,
 .pieter-step-eyebrow,
 .pieter-step-title,
@@ -20366,18 +20363,14 @@ footer {
 #collabs .sp-cards-row {
   touch-action: pan-x pan-y;
 }
-/* Renforcement : sp-stage ne doit pas hériter pan-y de #collabs */
+/* sp-stage : pan-y — le handler direction-aware sur card prend le relais pour le horizontal */
 #collabs .sp-stage {
-  touch-action: auto;
+  touch-action: pan-y;
 }
 
 /* ── NE PAS mettre pan-y sur pack-card/adv-card/rollout-card/work-card/cov-card
    car ils sont dans des carousels horizontaux — le JS direction-aware gère ── */
 
-/* ── Carrousels : touch-action:auto — le JS direction-aware gère le reste ──
-   Le handler JS détecte la direction (dx vs dy) avant de décider si le geste
-   est horizontal (→ slider) ou vertical (→ scroll page). CSS ne peut pas
-   faire ça — d'où le besoin de laisser "auto" ici. */
 /* ── Carrousels JS direction-aware : touch-action:pan-y
    Le handler attachDirectionAwareTouch détecte la direction et appelle
    e.preventDefault() UNIQUEMENT si le geste est horizontal confirmé.
@@ -20385,7 +20378,8 @@ footer {
    autorisé → plus de gel pendant la phase de détection de 10px. */
 .work-track,
 .cov-track,
-.mot-track {
+.mot-track,
+.sp-videos-track {
   touch-action: pan-y !important;
 }
 
@@ -20749,7 +20743,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 /* ══ FIX TOUCH MOBILE — passage du scroll vertical garanti ══ */
 @media(hover:none){
-  .work-card,.cov-card,.ac-card,.sp-slide,.sp-vcard-hero{touch-action:pan-y!important}
+  .work-card,.cov-card,.ac-card{touch-action:pan-y!important}
   .work-card img,.cov-card img,.ac-card img{touch-action:pan-y!important}
   .motion-play-overlay,.work-overlay,.work-card-bar,.sp-vcard-hero-body,.sp-vcard-badge{pointer-events:none!important}
   .sp-vcard-hero{pointer-events:auto!important}
