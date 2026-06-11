@@ -222,11 +222,14 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 /* ── WATERMARK TEXTE GÉANT (inspiré pieterkoopt) ── */
 .wm-section { position: relative; overflow: hidden; isolation: isolate; }
 /* Sur mobile : overflow:clip + overflow-clip-margin permet au watermark d'être caché
-   sans couper les carousels horizontaux qui débordent légèrement sur les côtés */
+   sans couper les carousels horizontaux qui débordent légèrement sur les côtés.
+   isolation:isolate retiré sur mobile — crée trop de stacking contexts / composite layers
+   que le browser expulse de la mémoire GPU au scroll, causant un fond blanc au retour. */
 @media(max-width:900px){
   .wm-section {
     overflow-x: visible;
     overflow-y: hidden;
+    isolation: auto;
   }
 }
 .wm-section::before {
@@ -2032,11 +2035,12 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
 }
 
-/* ── Mobile : will-change limité, pas de couches GPU inutiles ── */
+/* ── Mobile : will-change désactivé complètement — évite la création de couches GPU
+   qui sont expulsées de la mémoire au scroll puis recréées (fond blanc au retour) ── */
 @media(max-width:900px) {
   .reveal,.reveal-up,.reveal-left,.reveal-right,
   .reveal-scale,.reveal-fade,.reveal-line,.reveal-cinema {
-    will-change: opacity;
+    will-change: auto;
   }
 }
 
@@ -4378,6 +4382,74 @@ nav::before { display:none; }
   /* Collabs */
   #collabs{padding:2rem 1rem 3rem !important}
   .collabs-marquee-wrap{margin:0 -1rem !important}
+}
+
+/* ══════════════════════════════════════════
+   FIX MOBILE SCROLL — backdrop-filter décoratifs désactivés
+   Chaque backdrop-filter force un repaint de tout ce qui est derrière.
+   Sur mobile (Android + iOS) ça déclenche des recompositions de layers
+   en cascade au scroll → fond blanc / rechargement visuel au retour.
+   On conserve uniquement nav + modals (fonctionnels).
+══════════════════════════════════════════ */
+@media(max-width:900px){
+  /* Tags sur les cover cards — purement décoratif */
+  .cov-cat-tag {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(0,0,0,.75) !important;
+  }
+  /* Flou bas de la photo about — décoratif */
+  .about-photo-blur {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: linear-gradient(to top, rgba(6,6,6,.85) 0%, rgba(6,6,6,.4) 50%, transparent 100%) !important;
+  }
+  /* Flèches carousel — décoratif */
+  .work-arrow, .cov-arrow {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* Footer social icons — décoratif */
+  .footer-brand .f-socials a {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* Award items — décoratif */
+  .award-item {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* Conditions items — décoratif */
+  .cond-item {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* Bouton secondaire hero — décoratif */
+  .hero-btn-secondary {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* hero-stats bar — garder un fond opaque à la place */
+  .hero-stats {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(6,6,6,.92) !important;
+  }
+  /* Back to top button — décoratif */
+  #backToTop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(18,18,18,.95) !important;
+  }
+  /* Contact form — opacifier le fond à la place */
+  .contact-quick-form {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(14,14,14,.98) !important;
+  }
+  /* Nav conservée : fonctionnelle — on NE désactive PAS nav backdrop-filter */
+  /* pack-modal-overlay conservé : fonctionnel */
+  /* modal-overlay conservé : fonctionnel */
 }
 </style>
 
