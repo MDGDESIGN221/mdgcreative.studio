@@ -10242,7 +10242,7 @@ body,
         <a href="#uranus" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined'){lenisScroll('uranus');}else{var el=document.getElementById('uranus');if(el)el.scrollIntoView({behavior:'smooth'});}" class="av2-for-creators" role="button" tabindex="0">
           <div class="av2-fc-top">
             <span class="av2-fc-label">For Creators</span>
-            <span class="av2-fc-price">19 900 FCFA</span>
+            <span class="av2-fc-price">19 900 FCFA<span class="av2-fc-price-usd">~$30</span></span>
           </div>
           <div class="av2-fc-body">
             <span class="av2-fc-name">URANUS GFX Pack</span>
@@ -11405,9 +11405,40 @@ body,
 /* ── PRIX AFFICHÉS SUR LES CARDS ── */
 .pack-price-display {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .1rem;
+  margin: .75rem 0;
+}
+.pack-price-display .price-row {
+  display: flex;
   align-items: baseline;
   gap: .4rem;
-  margin: .75rem 0;
+}
+/* Prix secondaire USD */
+.ppd-usd {
+  font-family: 'Inter', sans-serif;
+  font-size: .72rem;
+  font-weight: 400;
+  color: var(--dim);
+  letter-spacing: .03em;
+}
+.u-price-usd {
+  font-family: 'Inter', sans-serif;
+  font-size: .85rem;
+  font-weight: 400;
+  color: rgba(61,191,163,.5);
+  letter-spacing: .02em;
+  display: block;
+  margin-top: .15rem;
+}
+.av2-fc-price-usd {
+  font-family: 'Inter', sans-serif;
+  font-size: .6rem;
+  font-weight: 400;
+  color: var(--dim);
+  margin-left: .35rem;
+  opacity: .8;
 }
 .ppd-amount {
   font-family: 'Syne', sans-serif;
@@ -11783,8 +11814,11 @@ body,
           <div class="pack-name">Diamond</div>
           <div class="pack-sub">Pour album complet avec mini direction artistique offerte.</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">100.000</span>
-              <span class="ppd-unit">XOF</span>
+              <div class="price-row">
+                <span class="ppd-amount">100.000</span>
+                <span class="ppd-unit">XOF</span>
+              </div>
+              <span class="ppd-usd">~$150</span>
             </div>
           <div class="pack-divider"></div>
           <ul class="pack-features">
@@ -11827,8 +11861,11 @@ body,
           <div class="pack-name">Gold</div>
           <div class="pack-sub">Pour EP ou mixtape avec support réseaux sociaux inclus.</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">50.000</span>
-              <span class="ppd-unit">XOF</span>
+              <div class="price-row">
+                <span class="ppd-amount">50.000</span>
+                <span class="ppd-unit">XOF</span>
+              </div>
+              <span class="ppd-usd">~$75</span>
             </div>
           <div class="pack-divider"></div>
           <ul class="pack-features">
@@ -11873,8 +11910,11 @@ body,
           <div class="pack-name">Silver</div>
           <div class="pack-sub">Idéal pour un single ou projet rapide.</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">25.000</span>
-              <span class="ppd-unit">XOF</span>
+              <div class="price-row">
+                <span class="ppd-amount">25.000</span>
+                <span class="ppd-unit">XOF</span>
+              </div>
+              <span class="ppd-usd">~$40</span>
             </div>
           <div class="pack-divider"></div>
           <ul class="pack-features">
@@ -11899,8 +11939,11 @@ body,
           <div class="adv-title">Single Edition</div>
           <div class="adv-subtitle">Communication complète pour un single</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">175.000</span>
-              <span class="ppd-unit">XOF</span>
+              <div class="price-row">
+                <span class="ppd-amount">175.000</span>
+                <span class="ppd-unit">XOF</span>
+              </div>
+              <span class="ppd-usd">~$270</span>
             </div>
           <div class="adv-divider"></div>
           <ul class="adv-features">
@@ -11918,8 +11961,11 @@ body,
           <div class="adv-title">EP Edition</div>
           <div class="adv-subtitle">Pour un EP entre 2 et 7 titres</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">450.000</span>
-              <span class="ppd-unit">XOF</span>
+              <div class="price-row">
+                <span class="ppd-amount">450.000</span>
+                <span class="ppd-unit">XOF</span>
+              </div>
+              <span class="ppd-usd">~$690</span>
             </div>
           <div class="adv-divider"></div>
           <ul class="adv-features">
@@ -11939,8 +11985,11 @@ body,
           <div class="adv-title">Album Edition</div>
           <div class="adv-subtitle">L'arsenal complet pour un album</div>
           <div class="pack-price-display">
-              <span class="ppd-amount">800.000</span>
-              <span class="ppd-unit">XOF</span>
+              <div class="price-row">
+                <span class="ppd-amount">800.000</span>
+                <span class="ppd-unit">XOF</span>
+              </div>
+              <span class="ppd-usd">~$1,200</span>
             </div>
           <div class="adv-divider"></div>
           <ul class="adv-features">
@@ -11983,8 +12032,11 @@ body,
           </div>
           <div class="rollout-price-block">
             <div class="pack-price-display">
-              <span class="ppd-amount">1.200.000</span>
-              <span class="ppd-unit">XOF</span>
+              <div class="price-row">
+                <span class="ppd-amount">1.200.000</span>
+                <span class="ppd-unit">XOF</span>
+              </div>
+              <span class="ppd-usd">~$1,850</span>
             </div>
             <a href="javascript:void(0)" class="rollout-price-cta" onclick="openPackModal('rollout')">Lancer le projet →</a>
           </div>
@@ -13746,6 +13798,7 @@ function submitPackForm(e) {
           <span class="u-price-num" style="color:#ffffff;text-shadow:0 0 40px rgba(61,191,163,.5);">19 900</span>
           <div class="u-price-unit">Pack complet<br>paiement unique</div>
         </div>
+        <span class="u-price-usd">~$30</span>
       </div>
     </div>
     <p class="u-price-badge" style="background:rgba(61,191,163,.12);border-color:rgba(61,191,163,.3);color:#a8f0e4;">Un seul paiement · Accès à vie</p>
@@ -13753,7 +13806,7 @@ function submitPackForm(e) {
     <!-- CTA -->
     <div class="u-cta-row">
       <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Comment%20je%20proc%C3%A8de%20%3F" target="_blank" rel="noopener" class="u-btn-primary">
-        Obtenir le pack — 19 900 FCFA →
+        Obtenir le pack — 19 900 FCFA (~$30) →
       </a>
       <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="u-btn-secondary">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -13973,7 +14026,7 @@ function submitPackForm(e) {
 
 </div>
 
-<div class="u-orb-badge b2">19 900 FCFA</div>
+<div class="u-orb-badge b2">19 900 FCFA · ~$30</div>
 <div class="u-box-glow"></div>
 
 <script>
@@ -14263,7 +14316,7 @@ function submitPackForm(e) {
 
   <!-- ── ACCORDION 4 : Commander ── -->
   <button class="u-accordion-trigger" aria-expanded="false" onclick="uAccordion(this)" style="border-bottom-color:rgba(61,191,163,.22);">
-    <span class="u-accordion-trigger-left" style="color:var(--u-accent3);">Commander — 19 900 FCFA</span>
+    <span class="u-accordion-trigger-left" style="color:var(--u-accent3);">Commander — 19 900 FCFA <span style="font-size:.75em;opacity:.6;font-weight:400;">~$30</span></span>
     <svg class="u-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
   </button>
   <div class="u-accordion-panel">
@@ -16825,7 +16878,7 @@ var translations = {
   rollout_title: { fr: 'ROLLOUT', en: 'ROLLOUT' },
   rollout_sub: { fr: 'La campagne complète, du visuel à la rue.', en: 'The complete campaign, from visual to street.' },
   rollout_cta: { fr: 'Lancer le projet →', en: 'Launch the project →' },
-  rollout_unit: { fr: 'XOF — Full Campaign', en: 'XOF — Full Campaign' },
+  rollout_unit: { fr: 'XOF (~$1,850) — Full Campaign', en: 'XOF (~$1,850) — Full Campaign' },
 
   // Pricing note
   pricing_note_title: { fr: 'Conditions générales', en: 'General terms' },
@@ -18661,7 +18714,7 @@ function accSwitch(panel, btn) {
         unlockedBar.style.display = 'flex';
         err.style.display = 'none';
         // Mettre à jour les price-sealed pour afficher les vrais prix
-        var priceList = ['25.000 XOF', '50.000 XOF', '95.000 XOF', '175.000 XOF', '450.000 XOF', '800.000 XOF', '1.200.000 XOF', '250.000 XOF'];
+        var priceList = ['25.000 XOF (~$40)', '50.000 XOF (~$75)', '95.000 XOF (~$145)', '175.000 XOF (~$270)', '450.000 XOF (~$690)', '800.000 XOF (~$1,200)', '1.200.000 XOF (~$1,850)', '250.000 XOF (~$380)'];
         document.querySelectorAll('.price-sealed').forEach(function(el, i){
           var label = el.querySelector('.price-sealed-label');
           var hint = el.querySelector('.price-sealed-hint');
