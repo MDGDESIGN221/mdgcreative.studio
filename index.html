@@ -10245,28 +10245,28 @@ body,
         <!-- Covers Spotify -->
         <div class="av2-covers">
           <a href="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" target="_blank" rel="noopener" class="av2-cover-item" aria-label="Bicrave — ISS 814">
-            <img src="https://i.scdn.co/image/ab67616d00001e022ad7345c31ec148be177538b" alt="Bicrave — ISS 814" loading="lazy">
+            <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175569/BICRAVE_e6c5s0.jpg" alt="Bicrave — ISS 814" loading="lazy">
             <div class="av2-cover-info">
               <span class="av2-cover-title">Bicrave</span>
               <span class="av2-cover-artist">ISS 814</span>
             </div>
           </a>
           <a href="https://open.spotify.com/album/5PwbwXmsWtVMrwcy1RYSMK" target="_blank" rel="noopener" class="av2-cover-item" aria-label="Bonus Tracks — ISS 814">
-            <img src="https://i.scdn.co/image/ab67616d00001e02a984db24dc353196224ef648" alt="Bonus Tracks — ISS 814" loading="lazy">
+            <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659416/Iss_814_-_BONUS_TRACK_rgjtxv.jpg" alt="Bonus Tracks — ISS 814" loading="lazy">
             <div class="av2-cover-info">
               <span class="av2-cover-title">Bonus Tracks</span>
               <span class="av2-cover-artist">ISS 814</span>
             </div>
           </a>
           <a href="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" target="_blank" rel="noopener" class="av2-cover-item" aria-label="The 808's God — Omzo Beatz">
-            <img src="https://i.scdn.co/image/ab67616d00001e029cbc9e14fbe0e704a8bf9a7b" alt="The 808's God — Omzo Beatz" loading="lazy">
+            <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175561/2e_cover_T8G_kh7cug.jpg" alt="The 808's God — Omzo Beatz" loading="lazy">
             <div class="av2-cover-info">
               <span class="av2-cover-title">The 808's God</span>
               <span class="av2-cover-artist">Omzo Beatz</span>
             </div>
           </a>
           <a href="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" target="_blank" rel="noopener" class="av2-cover-item" aria-label="Road to Roots 2 — Dopeboy DMG">
-            <img src="https://i.scdn.co/image/ab67616d00001e02c730e6e0d15d301d605e7eb4" alt="Road to Roots 2 — Dopeboy DMG" loading="lazy">
+            <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659414/ROOTS_2_wgz71f.jpg" alt="Road to Roots 2 — Dopeboy DMG" loading="lazy">
             <div class="av2-cover-info">
               <span class="av2-cover-title">Road to Roots 2</span>
               <span class="av2-cover-artist">Dopeboy DMG</span>
@@ -14858,9 +14858,9 @@ function _mBatch(sel, fromVars, toVars, staggerIn) {
 }
 
 if (_isMobile) {
-  // Sur mobile : forcer TOUS les éléments animables visibles immédiatement
-  // pour éliminer tous les ghost flashes opacity:0 au scroll
-  document.querySelectorAll(
+  // ── SOLUTION DÉFINITIVE ghost flashes mobile ──
+  // 1. Forcer immédiatement tous les éléments visibles via style inline
+  const _mobileSelectors =
     '.pack-card,.adv-card,.rollout-card,.addon-card,.addons-intro,' +
     '.port-new-top,.pack-price-display,.ppd-amount,.pcond-wrap,.pcond-row,' +
     '.pricing-header,.pricing-tabs,.pricing-scope-note,.pricing-note,' +
@@ -14882,12 +14882,54 @@ if (_isMobile) {
     '.contact-h2,.contact-sub,.contact-direct-link,.contact-grid,' +
     '.portrait-card,' +
     '.section-cta-band,.scta-line,' +
-    '.uranus-header,.u-box,.u-box-visual,.u-order-card,.u-gal-premium'
-  ).forEach(function(el){
-    el.style.opacity = '1';
-    el.style.transform = 'none';
-    el.style.clipPath = 'none';
-  });
+    '.uranus-header,.u-box,.u-box-visual,.u-order-card,.u-gal-premium,' +
+    'h1,h2,h3,p';
+
+  function _forceVisible() {
+    document.querySelectorAll(_mobileSelectors).forEach(function(el){
+      el.style.setProperty('opacity', '1', 'important');
+      el.style.setProperty('transform', 'none', 'important');
+      el.style.setProperty('clip-path', 'none', 'important');
+      el.style.setProperty('visibility', 'visible', 'important');
+    });
+  }
+
+  // Forcer immédiatement
+  _forceVisible();
+
+  // 2. Intercepter GSAP pour qu'il ne puisse jamais mettre opacity<1 sur mobile
+  // On patche gsap.fromTo et gsap.set après que GSAP soit chargé
+  var _gsapPatchInterval = setInterval(function() {
+    if (typeof gsap === 'undefined') return;
+    clearInterval(_gsapPatchInterval);
+
+    var _origFromTo = gsap.fromTo.bind(gsap);
+    var _origFrom   = gsap.from.bind(gsap);
+    var _origSet    = gsap.set.bind(gsap);
+
+    // Sur mobile : fromTo → skip si les fromVars contiennent opacity<1
+    gsap.fromTo = function(targets, fromVars, toVars) {
+      if (fromVars && (fromVars.opacity === 0 || fromVars.opacity < 1)) return;
+      if (fromVars && (fromVars.clipPath || fromVars.clip_path)) return;
+      return _origFromTo(targets, fromVars, toVars);
+    };
+    gsap.from = function(targets, vars) {
+      if (vars && (vars.opacity === 0 || vars.opacity < 1)) return;
+      if (vars && (vars.clipPath || vars.clip_path)) return;
+      return _origFrom(targets, vars);
+    };
+    // gsap.set : autoriser seulement clearProps et opacity:1
+    gsap.set = function(targets, vars) {
+      if (vars && vars.opacity !== undefined && vars.opacity < 1) return;
+      return _origSet(targets, vars);
+    };
+
+    // 3. Re-forcer visible après patch (au cas où des fromTo se sont déclenchés avant)
+    _forceVisible();
+    setTimeout(_forceVisible, 200);
+    setTimeout(_forceVisible, 600);
+    setTimeout(_forceVisible, 1200);
+  }, 50);
 }
 
 const _E  = 'power3.out';
