@@ -972,7 +972,7 @@ section{position:relative;z-index:1}
 /* Mask reveal + glitch sur les wraps internes */
 .hero-name-wrap{
   position:relative;display:inline-block;overflow:hidden;
-  animation:maskRevealUp 1s .55s cubic-bezier(.77,0,.18,1) both;
+  animation:maskRevealUp 1s .55s cubic-bezier(.77,0,.18,1) forwards;
 }
 .hero-name-wrap::before{
   content:'Mouhamed';
@@ -992,7 +992,7 @@ section{position:relative;z-index:1}
 }
 .hero-name-sub-wrap{
   display:inline-block;overflow:hidden;
-  animation:maskRevealUp 1.1s .72s cubic-bezier(.77,0,.18,1) both;
+  animation:maskRevealUp 1.1s .72s cubic-bezier(.77,0,.18,1) forwards;
 }
 .hero-name-sub{
   font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
@@ -15081,6 +15081,33 @@ if (_isMobile) {
     setTimeout(_forceVisible, 1200);
   }, 50);
 }
+
+// ── FIX clip-path héro — s'assurer que les wraps sont visibles après animation ──
+// Problème : animation "maskRevealUp" utilise clip-path:inset(100%) au départ.
+// Sur reload depuis cache ou tab backgroundée, le browser peut figer l'état initial.
+// On force clip-path:none après la durée max de l'animation (0.72s delay + 1.1s dur ≈ 2s).
+(function(){
+  function _fixHeroClip(){
+    var sel = '.hero-name-wrap,.hero-name-sub-wrap,.hero-name,.hero-name-sub';
+    document.querySelectorAll(sel).forEach(function(el){
+      el.style.setProperty('clip-path','none','important');
+      el.style.setProperty('opacity','1','important');
+      el.style.setProperty('transform','none','important');
+    });
+  }
+  // Déclencher après la fin de l'animation la plus longue
+  setTimeout(_fixHeroClip, 2000);
+  // Failsafe supplémentaire — au cas où le loader dure plus longtemps
+  setTimeout(_fixHeroClip, 3500);
+  // Sur page restorée depuis bfcache (retour arrière navigateur)
+  window.addEventListener('pageshow', function(e){
+    if(e.persisted) setTimeout(_fixHeroClip, 100);
+  });
+  // Sur visibilitychange (onglet revenu au premier plan)
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) setTimeout(_fixHeroClip, 100);
+  });
+})();
 
 const _E  = 'power3.out';
 const _Eb = 'back.out(1.5)';
