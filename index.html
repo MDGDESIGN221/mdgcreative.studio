@@ -9132,7 +9132,7 @@ body,
   <div class="mob-divider"></div>
   <div class="mob-menu-bottom">
     <button class="mob-lang-toggle" id="mobLangToggle" onclick="toggleLang()" aria-label="Changer la langue / Switch language"><span id="mobLangLabel">EN</span></button>
-    <a href="#contact" class="mob-cta" onclick="cm('#contact')" data-i18n="nav_cta">Travaillons ensemble</a>
+    <a href="#contact" class="mob-cta" onclick="cm('#contact')" data-i18n="nav_cta">Lancer un projet</a>
   </div>
 </div>
 
@@ -9155,7 +9155,7 @@ body,
     <button class="lang-toggle" id="langToggle" aria-label="Changer la langue / Switch language" aria-pressed="false" onclick="toggleLang()">
       <span class="lang-toggle-inner" id="langLabel">EN</span>
     </button>
-    <a href="javascript:void(0)" class="nav-cta" data-i18n="nav_cta">Travaillons ensemble</a>
+    <a href="javascript:void(0)" class="nav-cta" data-i18n="nav_cta">Lancer un projet</a>
   </div>
   <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
 </nav>
@@ -9202,9 +9202,9 @@ body,
     <div class="hero-ctas">
       <a href="javascript:void(0)" class="hero-btn-primary" role="button">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        <span data-i18n="nav_cta">TRAVAILLONS ENSEMBLE</span>
+        <span data-i18n="nav_cta">LANCER UN PROJET</span>
       </a>
-      <a href="#portfolio-accordion" class="hero-btn-secondary">VOIR LES PROJETS</a>
+      <a href="#portfolio-accordion" class="hero-btn-secondary">7 ANS DE TRAVAIL →</a>
     </div>
     <div class="hero-portfolio-links">
       <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="hero-portfolio-link">
@@ -9376,28 +9376,45 @@ body,
   }
 }
 
-/* Behance / Instagram note sous le header portfolio */
-.port-gallery-note {
-  text-align: center;
-  padding: .9rem 1.5rem 0;
-  color: var(--dim);
-  font-size: .78rem;
-  font-weight: 300;
-  letter-spacing: .01em;
+/* ── Behance / Instagram — footer galerie ── */
+.port-gallery-footer {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem clamp(1.25rem, 4vw, 3rem);
   border-top: 1px solid var(--border);
   margin-top: 0;
 }
-.port-gallery-note-link {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: .2em;
-  transition: opacity .2s;
+.port-gallery-footer-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
-.port-gallery-note-link:hover { opacity: .75; }
+.port-gallery-footer-text {
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.port-gallery-footer-link {
+  color: var(--off);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.2);
+  padding-bottom: 1px;
+  transition: color .2s, border-color .2s;
+}
+.port-gallery-footer-link:hover {
+  color: var(--light);
+  border-color: var(--light);
+}
 @media(max-width:767px) {
-  .port-gallery-note { padding: .75rem 1.25rem 0; font-size: .75rem; }
+  .port-gallery-footer { padding: 1.5rem 1.25rem; gap: 1rem; }
+  .port-gallery-footer-text { font-size: .68rem; }
 }
-</style>
 
   <div class="container">
     <div class="port-new-top reveal-up">
@@ -9420,11 +9437,6 @@ body,
       </div>
     </div>
 
-    <!-- Behance / Instagram — global, visible peu importe l'onglet actif -->
-    <!-- Behance / Instagram — global, visible peu importe l'onglet actif -->
-    <div class="port-gallery-note">
-      Un aperçu. La discographie complète est sur <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="port-gallery-note-link">Behance</a> et <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="port-gallery-note-link">Instagram</a>.
-    </div>
     <!-- Panel Visuals -->
     <div class="pnl-acc active" id="pnl-work">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
@@ -9935,6 +9947,19 @@ body,
     </div>
   </div><!-- fin acc-motion -->
 
+  <!-- ── Behance / Instagram — footer galerie ── -->
+  <div class="port-gallery-footer">
+    <span class="port-gallery-footer-line"></span>
+    <p class="port-gallery-footer-text">
+      Un aperçu. La discographie complète est sur
+      <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="port-gallery-footer-link">Behance</a>
+      et
+      <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="port-gallery-footer-link">Instagram</a>.
+    </p>
+    <span class="port-gallery-footer-line"></span>
+  </div>
+
+
 
 
 
@@ -10143,8 +10168,8 @@ body,
 
 <!-- ── CTA BAND — après Portfolio ── -->
 <div class="section-cta-band">
-  <p class="scta-line">Le prochain projet sur cette page est le tien ou il n'y est pas.</p>
-  <a class="scta-link" href="#contact" onclick="lenisScroll('contact')">Déposer un brief <span class="scta-arr">→</span></a>
+  <p class="scta-line">Le prochain visuel sur cette page pourrait être le tien.</p>
+  <a class="scta-link" href="#contact" onclick="lenisScroll('contact')">Démarrer un projet <span class="scta-arr">→</span></a>
 </div>
 
 <section id="about" class="wm-section" data-wm="MDG">
@@ -10209,7 +10234,7 @@ body,
 
         <!-- Lien Behance -->
         <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="av2-cta">
-          Voir le travail sur Instagram
+          Voir les réalisations →
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
 
@@ -11372,8 +11397,8 @@ body,
 
 <!-- ── CTA BAND — après Process ── -->
 <div class="section-cta-band">
-  <p class="scta-line">4 étapes. Rien d'opaque.</p>
-  <a class="scta-link" href="#contact" onclick="lenisScroll('contact')">Lancer le process <span class="scta-arr">→</span></a>
+  <p class="scta-line">Chaque projet commence par une conversation.</p>
+  <a class="scta-link" href="#contact" onclick="lenisScroll('contact')">Prendre contact <span class="scta-arr">→</span></a>
 </div>
 
 <style>
@@ -13728,11 +13753,11 @@ function submitPackForm(e) {
     <!-- CTA -->
     <div class="u-cta-row">
       <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Comment%20je%20proc%C3%A8de%20%3F" target="_blank" rel="noopener" class="u-btn-primary">
-        Obtenir le pack →
+        Obtenir le pack — 19 900 FCFA →
       </a>
       <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="u-btn-secondary">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Questions
+        Une question ?
       </a>
     </div>
   </div>
@@ -14511,7 +14536,7 @@ function copyWaveNumber(btn) {
       <div class="f-footer-cta">
         <button class="f-cta-btn-primary" onclick="openContact()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          Start a project
+          Démarrer un projet
         </button>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-cta-btn-secondary">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -16554,7 +16579,7 @@ var translations = {
 
   // ─── NAV & TICKER ───────────────────────────────────
   nav_avail: { fr: 'Disponible', en: 'Available' },
-  nav_cta:   { fr: 'Travaillons ensemble', en: "Let's work together" },
+  nav_cta:   { fr: 'Lancer un projet', en: "Start a project" },
   nav_about: { fr: 'À propos', en: 'About' },
   nav_work:  { fr: 'Projets', en: 'Work' },
   nav_covers:{ fr: 'Covers', en: 'Covers' },
@@ -17564,7 +17589,7 @@ function applyComplexPatches(lang) {
   var aboutV2ToolsLabel = document.querySelector('.av2-tools-label');
   if (aboutV2ToolsLabel) aboutV2ToolsLabel.textContent = lang === 'en' ? 'Tools' : 'Outils';
   var aboutV2Cta = document.querySelector('.av2-cta');
-  if (aboutV2Cta) aboutV2Cta.innerHTML = (lang === 'en' ? 'See the work on Instagram' : 'Voir le travail sur Instagram') + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>';
+  if (aboutV2Cta) aboutV2Cta.innerHTML = (lang === 'en' ? 'See the work on Instagram' : 'Voir les réalisations →') + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>';
   var aboutBadgeTxt = document.querySelector('.av2-badge-txt');
   if (aboutBadgeTxt) aboutBadgeTxt.textContent = lang === 'en' ? 'Available · Kaolack, SN' : 'Disponible · Kaolack, SN';
   var sigName = document.querySelector('.av2-sig-name');
