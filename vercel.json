@@ -1,9 +1,16 @@
 {
-  "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/((?!_next|favicon|sitemap|robots|.*\\..*).*)",
       "destination": "/index.html"
     }
   ],
