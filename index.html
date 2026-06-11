@@ -90,6 +90,62 @@ html{scroll-behavior:smooth;overflow-x:hidden}
 #hero .hero-left { opacity: 1 !important; }
 
 
+/* ── SECTION CTA BAND ── */
+.section-cta-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem clamp(1.5rem, 4vw, 3rem);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--black);
+}
+.scta-line {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(.82rem, 1.1vw, .95rem);
+  letter-spacing: -.01em;
+  color: var(--off);
+  line-height: 1.3;
+  margin: 0;
+}
+.scta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--light);
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid var(--border2);
+  padding: .6rem 1.2rem;
+  border-radius: 100px;
+  transition: border-color .25s, color .25s, background .25s;
+}
+.scta-link:hover {
+  border-color: rgba(255,255,255,.3);
+  background: rgba(255,255,255,.04);
+  color: #fff;
+}
+.scta-arr {
+  transition: transform .25s cubic-bezier(.16,1,.3,1);
+  display: inline-block;
+}
+.scta-link:hover .scta-arr { transform: translateX(4px); }
+@media(max-width: 640px) {
+  .section-cta-band {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 1.25rem;
+  }
+}
+
 /* ── MODIF 6 : Instrument Serif assumé sur toutes les em d'accroche ── */
 h1 em, h2 em, h3 em {
   font-family: 'Instrument Serif', serif;
@@ -3908,7 +3964,7 @@ section + section::before{
         },
         "contactPoint": {
           "@type": "ContactPoint",
-          "email": "mdgdesign221@gmail.com",
+          "email": "contact@mdgcreative.studio",
           "contactType": "customer service",
           "availableLanguage": ["French", "Wolof"]
         },
@@ -4415,7 +4471,7 @@ nav::before { display:none; }
   font-family: 'Syne', sans-serif; font-weight: 800;
   font-size: .92rem; color: #0d0d0d;
 }
-.sp-quote-role { font-size: .68rem; color: rgba(0,0,0,.45); margin-top: .2rem; letter-spacing: .02em; }
+.sp-quote-role { font-size: .72rem; color: rgba(0,0,0,.55); margin-top: .2rem; letter-spacing: .04em; font-weight: 500; }
 /* Badge verified — responsive */
 @media(max-width: 600px) {
   .sp-quote-author {
@@ -4578,33 +4634,34 @@ nav::before { display:none; }
   color: #fff;
   line-height: 1.05;
   text-transform: uppercase;
-  /* Limiter à 2 lignes max pour aligner les cartes */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 2.2em;
 }
 
 /* Description — texte fin en dessous */
 .sp-vcard-hero-role {
   font-family: 'Syne', sans-serif;
-  font-size: .72rem;
-  font-weight: 500;
-  letter-spacing: .06em;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.38);
+  color: rgba(255,255,255,.45);
   line-height: 1.4;
+  margin-top: .15rem;
 }
 
 /* Description longue — la phrase qui parle de MDG */
 .sp-vcard-desc {
-  font-size: .65rem;
-  color: rgba(255,255,255,.45);
+  font-size: .72rem;
+  color: rgba(255,255,255,.58);
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.6;
   font-family: 'Inter', sans-serif;
   margin-top: .1rem;
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding-top: .5rem;
 }
 
 /* Rangée bas : play button */
@@ -9039,7 +9096,6 @@ body,
   <div class="scroll-dot" data-section="collabs" onclick="lenisScroll('collabs')"><span class="scroll-dot-label">Collabs</span></div>
   <div class="scroll-dot" data-section="services" onclick="lenisScroll('services')"><span class="scroll-dot-label">Services</span></div>
   <div class="scroll-dot" data-section="process" onclick="lenisScroll('process')"><span class="scroll-dot-label">Process</span></div>
-  <div class="scroll-dot" data-section="uranus" onclick="lenisScroll('uranus')"><span class="scroll-dot-label" style="color:#3DBFA3">URANUS</span></div>
   <div class="scroll-dot" data-section="pricing" onclick="lenisScroll('pricing')"><span class="scroll-dot-label">Tarifs</span></div>
   <div class="scroll-dot" data-section="faq" onclick="lenisScroll('faq')"><span class="scroll-dot-label">FAQ</span></div>
   <div class="scroll-dot" data-section="contact" onclick="lenisScroll('contact')"><span class="scroll-dot-label">Contact</span></div>
@@ -9068,7 +9124,6 @@ body,
     <a href="https://www.mdgcreative.studio/#collabs" onclick="cm('#collabs')" data-i18n="collabs_label"><span class="mob-num">04</span>Collabs</a>
     <a href="https://www.mdgcreative.studio/#process" onclick="cm('#process')" data-i18n="nav_process"><span class="mob-num">05</span>Process</a>
     <a href="https://www.mdgcreative.studio/#pricing" onclick="cm('#pricing')"><span class="mob-num">06</span>Tarifs &amp; Packs</a>
-    <a href="https://www.mdgcreative.studio/uranus" onclick="cm('#uranus')" style="color:#3DBFA3;font-weight:700"><span class="mob-num" style="color:#3DBFA3">✦</span>URANUS GFX</a>
     <div class="mob-divider"></div>
     <a href="https://www.mdgcreative.studio/#faq" onclick="cm('#faq')"><span class="mob-num">07</span>FAQ</a>
     <div class="mob-divider"></div>
@@ -9330,20 +9385,20 @@ body,
       </div>
       <div class="port-tabs-wrap">
       <div class="port-new-tabs-row">
-        <button class="port-new-tab-btn active" onclick="pnlSwitch('work',this)" data-panel="work" data-count="22" data-label="projets · Graphisme">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Graphisme
+        <button class="port-new-tab-btn active" onclick="pnlSwitch('work',this)" data-panel="work" data-count="22" data-label="projets · Visuals">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Visuals
         </button>
         <button class="port-new-tab-btn" onclick="pnlSwitch('covers',this)" data-panel="covers" data-count="14" data-label="covers · Cover Art">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/><path d="M21 15l-5-5L5 21"/></svg>Cover Art
         </button>
-        <button class="port-new-tab-btn" onclick="pnlSwitch('motion',this)" data-panel="motion" data-count="9" data-label="vidéos · In Motion">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>In Motion
+        <button class="port-new-tab-btn" onclick="pnlSwitch('motion',this)" data-panel="motion" data-count="9" data-label="vidéos · Motion">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>Motion
         </button>
       </div>
       </div>
     </div>
 
-    <!-- Panel Graphisme -->
+    <!-- Panel Visuals -->
     <div class="pnl-acc active" id="pnl-work">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
       <div class="work-nav">
@@ -9430,11 +9485,11 @@ body,
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/peuzzi-samba_aidgat.jpg" data-lb-title="Samba" data-lb-desc="Cover Art · Peuzzi · Cover fictionnelle" class-trigger="lightbox">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/peuzzi-samba_aidgat.jpg" data-lb-title="Samba" data-lb-desc="Cover Art · Peuzzi" class-trigger="lightbox">
           <img decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/peuzzi-samba_aidgat.jpg" alt="Peuzzi — Samba">
           <div class="work-meta">
             <div class="work-cat">Cover Art</div>
-            <div class="work-title">Samba<em>Peuzzi · Cover fictionnelle</em></div>
+            <div class="work-title">Samba<em>Peuzzi</em></div>
           </div>
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
@@ -9926,7 +9981,7 @@ body,
             <div class="sp-vcard-hero-body">
               <span class="sp-vcard-hero-name">ISS 814</span>
               <span class="sp-vcard-hero-role">Producteur Artiste Sénégal</span>
-              <span class="sp-vcard-desc">ISS 814 parle de MDG avec enthousiasme. Il dit du bien de son travail, de son sérieux et de ses qualités humaines.</span>
+              <span class="sp-vcard-desc">ISS 814 parle de MDG en public avec naturel. Sérieux, qualité du travail et relation humaine évoqués.</span>
               <div class="sp-vcard-hero-foot">
                 <div class="sp-vcard-hero-play" aria-hidden="true">
                   <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -10061,6 +10116,13 @@ body,
 
 
 <a href="https://www.mdgcreative.studio/a-propos" aria-hidden="true" style="display:none"></a>
+
+<!-- ── CTA BAND — après Portfolio ── -->
+<div class="section-cta-band">
+  <p class="scta-line">Le prochain projet sur cette page est le tien ou il n'y est pas.</p>
+  <a class="scta-link" href="#contact" onclick="lenisScroll('contact')">Déposer un brief <span class="scta-arr">→</span></a>
+</div>
+
 <section id="about" class="wm-section" data-wm="MDG">
   <div class="container">
     <div class="about-v2">
@@ -10126,6 +10188,17 @@ body,
           Voir le travail sur Instagram
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
+
+        <!-- For Creators — accès discret URANUS -->
+        <div class="av2-for-creators">
+          <span class="av2-fc-label">For Creators</span>
+          <span class="av2-fc-sep">—</span>
+          <span class="av2-fc-txt">Tools from the MDG workflow</span>
+          <a href="#uranus" onclick="if(typeof lenisScroll!=='undefined')lenisScroll('uranus')" class="av2-fc-link">
+            Explore URANUS
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </a>
+        </div>
       </div>
 
     </div>
@@ -10206,6 +10279,51 @@ body,
   color: var(--dim); font-weight: 300;
   letter-spacing: .15em; text-transform: uppercase;
   margin-top: .35rem;
+}
+
+/* For Creators — accès discret URANUS */
+.av2-for-creators {
+  margin-top: 2rem;
+  padding: .85rem 1.1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.02);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .4rem .6rem;
+}
+.av2-fc-label {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.av2-fc-sep { color: var(--border2); font-size: .72rem; }
+.av2-fc-txt {
+  font-size: .75rem;
+  font-weight: 300;
+  color: var(--dim);
+}
+.av2-fc-link {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: .62rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--off);
+  text-decoration: none;
+  transition: color .2s;
+}
+.av2-fc-link:hover { color: var(--accent); }
+@media(max-width:600px) {
+  .av2-fc-link { margin-left: 0; }
 }
 
 /* Contenu texte */
@@ -10983,7 +11101,6 @@ body,
   </div>
 </section>
 
-
 <!-- #testimonials supprimé — section vide retirée du DOM -->
 
 
@@ -11047,7 +11164,7 @@ body,
           <span class="pieter-step-num">01</span>
           <div class="pieter-step-badge">Étape 01</div>
           <h3 class="pieter-step-title">Brief & Échange</h3>
-          <p class="pieter-step-desc">On cadre le projet — univers, références, objectifs. Plus c'est précis, plus le résultat est juste.</p>
+          <p class="pieter-step-desc">Univers, références, contraintes. Cadrés avant le démarrage.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             Acompte 50% avant démarrage
@@ -11065,7 +11182,7 @@ body,
           <span class="pieter-step-num">02</span>
           <div class="pieter-step-badge">Étape 02</div>
           <h3 class="pieter-step-title">Concept & Direction</h3>
-          <p class="pieter-step-desc">Moodboard, palette, direction typo. Tu valides avant que la production commence — zéro surprise.</p>
+          <p class="pieter-step-desc">Direction posée sur table. Moodboard, palette, typo. Validée avant production.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             1 révision de direction incluse
@@ -11083,7 +11200,7 @@ body,
           <span class="pieter-step-num">03</span>
           <div class="pieter-step-badge">Étape 03</div>
           <h3 class="pieter-step-title">Production</h3>
-          <p class="pieter-step-desc">Photoshop, After Effects, Blender — le bon outil pour le bon projet. Preview intermédiaire avant le final.</p>
+          <p class="pieter-step-desc">L'outil varie selon ce que le projet exige. Preview intermédiaire avant le final.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             Délai tenu, toujours
@@ -11101,7 +11218,7 @@ body,
           <span class="pieter-step-num">04</span>
           <div class="pieter-step-badge">Livraison</div>
           <h3 class="pieter-step-title">Livraison & Suivi</h3>
-          <p class="pieter-step-desc">Fichiers haute résolution, tous formats. Dispo pour les retouches post-livraison — accès direct garanti.</p>
+          <p class="pieter-step-desc">Haute résolution, tous formats. Accès direct maintenu après livraison.</p>
           <div class="pieter-step-rule">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Solde à la livraison finale
@@ -11194,6 +11311,12 @@ body,
 
   </div>
 </section>
+
+<!-- ── CTA BAND — après Process ── -->
+<div class="section-cta-band">
+  <p class="scta-line">4 étapes. Rien d'opaque.</p>
+  <a class="scta-link" href="#contact" onclick="lenisScroll('contact')">Lancer le process <span class="scta-arr">→</span></a>
+</div>
 
 <style>
 /* ── PRIX AFFICHÉS SUR LES CARDS ── */
@@ -11510,1396 +11633,8 @@ body,
 
 <a href="https://www.mdgcreative.studio/tarifs" aria-hidden="true" style="display:none"></a>
 <!-- ══════════════════════════════════════════
-     URANUS GFX PACK — Précommande
+     PRICING / INVESTISSEMENT
 ══════════════════════════════════════════ -->
-<section id="uranus">
-
-<!-- ── TRANSITION MDG → URANUS ── -->
-<div style="background:linear-gradient(to bottom,var(--black) 0%,#040f0c 100%);padding:2.5rem 3rem 0;position:relative;z-index:2;overflow:hidden">
-  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
-    <div style="display:flex;align-items:center;gap:.75rem">
-      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3)">MDG Creative Studio</span>
-      <span style="color:rgba(255,255,255,.5);font-size:.9rem">→</span>
-      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#3DBFA3">URANUS GFX</span>
-    </div>
-    <div style="height:1px;flex:1;background:linear-gradient(to right,rgba(61,191,163,.2),transparent);min-width:40px"></div>
-    <p style="font-size:.75rem;color:rgba(255,255,255,.35);font-weight:300;line-height:1.5;max-width:380px">
-      Une extension créative de MDG — fichiers PSD pro, textures, fonts premium et presets Photoshop. Tout ce qu'il te faut pour des visuels qui claquent, sans commande sur-mesure.
-    </p>
-  </div>
-</div>
-
-<style>
-/* ══════════════════════════════════════════════════════
-   URANUS GFX PACK — ULTRA PREMIUM DROP 2.0
-   ══════════════════════════════════════════════════════ */
-
-#uranus {
-  --u-bg:      #010a08;
-  --u-bg2:     #030d0a;
-  --u-surface: rgba(255,255,255,.028);
-  --u-border:  rgba(61,191,163,.1);
-  --u-border2: rgba(61,191,163,.2);
-  --u-border3: rgba(61,191,163,.4);
-  --u-accent:  #3DBFA3;
-  --u-accent2: #2a9680;
-  --u-accent3: #a8f0e4;
-  --u-gold:    #f5c842;
-  --u-gold2:   #fde68a;
-  --u-dim:     #4a7068;
-  --u-mid:     #7ab5ac;
-  --u-light:   #e8f8f6;
-  background: var(--u-bg);
-  border-top: 1px solid rgba(61,191,163,.16);
-  border-bottom: 1px solid rgba(61,191,163,.16);
-  position: relative; overflow: visible; padding: 0;
-}
-
-/* ── Atmospheric background ── */
-#uranus::before {
-  content: '';
-  position: absolute; inset: 0; z-index: 0;
-  background:
-    radial-gradient(ellipse 120% 60% at 50% -8%,  rgba(14,77,65,.38) 0%, transparent 60%),
-    radial-gradient(ellipse 60%  80% at 95%  90%,  rgba(61,191,163,.12) 0%, transparent 55%),
-    radial-gradient(ellipse 40%  50% at 5%   85%,  rgba(14,77,65,.18) 0%, transparent 55%),
-    radial-gradient(ellipse 70%  45% at 50% 115%,  rgba(42,150,128,.22) 0%, transparent 60%),
-    radial-gradient(ellipse 35%  35% at 20%  20%,  rgba(14,77,65,.08) 0%, transparent 50%);
-  pointer-events: none;
-}
-/* Noise grain */
-#uranus::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px; opacity: .028; pointer-events: none;
-}
-
-/* ── Stars ── */
-.u-stars { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.u-stars span {
-  position: absolute; border-radius: 50%; background: #fff;
-  animation: u-twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);
-}
-@keyframes u-twinkle {
-  0%,100% { opacity: var(--lo,.12); transform: scale(1); }
-  50%      { opacity: var(--hi,.7);  transform: scale(1.5); }
-}
-
-/* ══ TOP BANNER — limited drop ══ */
-.u-drop-banner {
-  position: relative; z-index: 3;
-  background: linear-gradient(90deg, rgba(14,77,65,.3) 0%, rgba(61,191,163,.15) 50%, rgba(14,77,65,.3) 100%);
-  border-bottom: 1px solid rgba(61,191,163,.22);
-  padding: .6rem 1.5rem;
-  display: flex; align-items: center; justify-content: center; gap: 1.5rem;
-  overflow: hidden;
-}
-.u-drop-banner::before {
-  content: '';
-  position: absolute; top: 0; left: -100%;
-  width: 40%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(61,191,163,.08), transparent);
-  animation: u-sweep 4s linear infinite;
-}
-@keyframes u-sweep { to { left: 160%; } }
-.u-banner-badge {
-  font-family: 'Syne', sans-serif;
-  font-size: .72rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--u-gold);
-  background: rgba(245,200,66,.1);
-  border: 1px solid rgba(245,200,66,.3);
-  border-radius: 100px;
-  padding: .22rem .65rem;
-  white-space: nowrap;
-  animation: u-badge-pulse 2.5s ease-in-out infinite;
-}
-@keyframes u-badge-pulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(245,200,66,.25); }
-  50%      { box-shadow: 0 0 0 5px rgba(245,200,66,0); }
-}
-.u-banner-txt {
-  font-family: 'Syne', sans-serif;
-  font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--u-mid);
-}
-.u-banner-txt strong { color: var(--u-accent3); }
-
-/* ══ COUNTDOWN ══ */
-.u-countdown-wrap {
-  position: relative; z-index: 3;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: .6rem;
-  padding: 1.1rem 1.5rem 1.2rem;
-  background: rgba(0,0,0,.5);
-  border-bottom: 1px solid rgba(61,191,163,.15);
-}
-.u-cd-label {
-  font-family: 'Syne', sans-serif;
-  font-size: .72rem; font-weight: 900; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--u-accent); text-align: center;
-}
-.u-cd-units { display: flex; align-items: center; gap: .5rem; }
-.u-cd-unit {
-  display: flex; flex-direction: column; align-items: center; gap: .35rem;
-}
-.u-cd-num {
-  font-family: 'Syne', sans-serif;
-  font-size: 2.2rem; font-weight: 900; line-height: 1;
-  letter-spacing: -.04em; color: var(--u-light);
-  background: rgba(61,191,163,.1);
-  border: 1px solid rgba(61,191,163,.25);
-  border-radius: 12px;
-  min-width: 64px; text-align: center;
-  padding: .5rem .4rem;
-  transition: color .3s, background .3s;
-  box-shadow: 0 4px 20px rgba(14,77,65,.2), 0 0 0 1px rgba(61,191,163,.05) inset;
-}
-.u-cd-num.flash {
-  color: var(--u-accent3);
-  background: rgba(61,191,163,.2);
-}
-.u-cd-sub {
-  font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--u-dim); font-family: 'Syne', sans-serif; text-align: center;
-}
-.u-cd-sep {
-  font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 900;
-  color: rgba(61,191,163,.4); line-height: 1; margin-bottom: 1.4rem;
-}
-
-/* ══ HERO BAND ══ */
-.u-hero-band {
-  position: relative; z-index: 2;
-  padding: 4rem 3rem 3rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem; align-items: center;
-  max-width: 1200px; margin: 0 auto;
-}
-.u-eyebrow {
-  display: inline-flex; align-items: center; gap: .5rem;
-  padding: .28rem .85rem;
-  border-radius: 100px;
-  border: 1px solid var(--u-border3);
-  background: rgba(61,191,163,.07);
-  font-family: 'Syne', sans-serif;
-  font-size: .72rem; font-weight: 900; letter-spacing: .24em; text-transform: uppercase;
-  color: var(--u-accent); margin-bottom: 1.75rem;
-}
-.u-eyebrow-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--u-accent);
-  animation: pulse 2s infinite; flex-shrink: 0;
-}
-.u-hero-title {
-  font-family: 'Syne', sans-serif; font-weight: 900;
-  font-size: clamp(2rem, 10vw, 5.8rem);
-  line-height: .92; letter-spacing: -.04em;
-  color: var(--u-light); margin-bottom: 1.1rem;
-  word-break: keep-all; overflow-wrap: normal;
-}
-.u-hero-title .u-line2 {
-  display: block;
-  background: linear-gradient(118deg, #a8f0e4 0%, #3DBFA3 30%, #2a9680 60%, #a8f0e4 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; background-size: 200% auto;
-  animation: u-shimmer 5s linear infinite;
-}
-@keyframes u-shimmer {
-  0%   { background-position: 0%   center; }
-  100% { background-position: 200% center; }
-}
-.u-hero-desc {
-  font-size: .9rem; color: var(--u-mid); font-weight: 300;
-  line-height: 1.8; max-width: 420px; margin-bottom: 2rem;
-}
-/* ══ HERO COPY EXTRAS ══ */
-.u-asset-pills {
-  display: flex; flex-wrap: wrap; gap: .45rem;
-  margin-bottom: 1.5rem;
-}
-.u-pill {
-  font-family: 'Syne', sans-serif;
-  font-size: .72rem; font-weight: 800;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--u-accent);
-  background: rgba(61,191,163,.1);
-  border: 1px solid rgba(61,191,163,.3);
-  border-radius: 100px;
-  padding: .3rem .75rem;
-  white-space: nowrap;
-  transition: background .2s, border-color .2s;
-}
-.u-pill:hover {
-  background: rgba(61,191,163,.18);
-  border-color: rgba(61,191,163,.5);
-}
-.u-sep {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(61,191,163,.35) 0%, rgba(61,191,163,.08) 60%, transparent 100%);
-  margin: 1.5rem 0;
-}
-
-
-/* Price */
-.u-price-block { display: flex; align-items: flex-end; gap: .75rem; margin-bottom: .5rem; }
-.u-price-main  { display: flex; align-items: baseline; gap: .3rem; }
-.u-price-currency {
-  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: var(--u-dim);
-}
-.u-price-num {
-  font-family: 'Syne', sans-serif; font-size: clamp(2.8rem,5vw,3.8rem); font-weight: 900;
-  line-height: 1; letter-spacing: -.06em; color: var(--u-light); white-space: nowrap;
-}
-.u-price-unit { font-size: .68rem; color: var(--u-dim); font-weight: 300; line-height: 1.35; padding-bottom: .4rem; }
-.u-price-badge {
-  display: inline-flex; align-items: center; gap: .35rem;
-  padding: .25rem .7rem; border-radius: 100px;
-  background: rgba(245,200,66,.08); border: 1px solid rgba(245,200,66,.22);
-  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 800;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--u-gold);
-  margin-bottom: 2rem;
-}
-
-/* CTA */
-.u-cta-row { display: flex; align-items: center; gap: .85rem; flex-wrap: wrap; }
-.u-btn-primary {
-  font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 900;
-  letter-spacing: .07em; text-transform: uppercase; color: #fff;
-  background: linear-gradient(135deg, #1a7a65 0%, #3DBFA3 55%, #a8f0e4 100%);
-  border: none; border-radius: 100px; padding: .95rem 2rem;
-  cursor: pointer; position: relative; overflow: hidden;
-  transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s;
-  box-shadow: 0 8px 36px rgba(14,77,65,.55), 0 0 0 1px rgba(61,191,163,.12) inset;
-}
-.u-btn-primary::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,.16) 0%, transparent 55%);
-  opacity: 0; transition: opacity .2s;
-}
-.u-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 52px rgba(14,77,65,.7), 0 0 0 1px rgba(61,191,163,.18) inset; }
-.u-btn-primary:hover::before { opacity: 1; }
-.u-btn-primary:active { transform: translateY(0); }
-.u-btn-secondary {
-  font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase;
-  color: var(--u-mid); background: none;
-  border: 1px solid var(--u-border2); border-radius: 100px;
-  padding: .95rem 1.6rem; cursor: pointer;
-  transition: border-color .2s, color .2s; text-decoration: none;
-  display: inline-flex; align-items: center; gap: .5rem;
-}
-.u-btn-secondary:hover { border-color: var(--u-accent); color: var(--u-accent); }
-
-/* ══ BOX VISUAL ══ */
-.u-box-visual {
-  position: relative; display: flex;
-  align-items: center; justify-content: center;
-}
-.u-box-3d {
-  position: relative; width: 260px; height: 320px;
-  transform-style: preserve-3d;
-  animation: u-float 7s ease-in-out infinite;
-  margin: 4rem auto;
-}
-@keyframes u-float {
-  0%,100% { transform: rotateX(6deg) rotateY(-18deg) translateY(0); }
-  50%      { transform: rotateX(6deg) rotateY(-18deg) translateY(-20px); }
-}
-.u-box-front {
-  position: absolute; inset: 0; border-radius: 20px; overflow: hidden;
-  border: 1px solid rgba(61,191,163,.38);
-  box-shadow: 0 50px 120px rgba(0,0,0,.8), 0 0 0 1px rgba(61,191,163,.07) inset, 0 1px 0 rgba(255,255,255,.1) inset;
-  background: var(--u-bg2);
-}
-.u-box-front-img { width: 100%; height: 100%; object-fit: cover; opacity: .88; display: block; transition: opacity .6s ease; }
-.u-box-front-img.fading { opacity: 0; }
-.u-box-front-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(3,2,10,0) 35%, rgba(3,2,10,.97) 100%),
-              linear-gradient(135deg, rgba(14,77,65,.18) 0%, transparent 55%);
-}
-.u-box-front-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.4rem; }
-.u-box-front-label .u-box-name {
-  font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.3rem;
-  color: #fff; letter-spacing: -.03em; line-height: 1.05;
-}
-.u-box-front-label .u-box-sub {
-  font-size: .72rem; color: var(--u-accent); font-weight: 800;
-  letter-spacing: .22em; text-transform: uppercase; margin-top: .22rem;
-}
-.u-box-side {
-  position: absolute; top: 14px; right: -24px; bottom: 14px; width: 24px;
-  background: linear-gradient(90deg, rgba(14,100,80,.65), rgba(6,50,40,.45));
-  border-radius: 0 8px 8px 0;
-  border-right: 1px solid rgba(61,191,163,.22);
-  border-top: 1px solid rgba(61,191,163,.18);
-}
-.u-box-top {
-  position: absolute; top: -16px; left: 14px; right: -10px; height: 16px;
-  background: linear-gradient(180deg, rgba(61,191,163,.14), rgba(30,140,115,.2));
-  border-radius: 4px 8px 0 0;
-  border-top: 1px solid rgba(61,191,163,.28);
-  border-right: 1px solid rgba(61,191,163,.18);
-}
-.u-orb-badge {
-  position: absolute; padding: .38rem .8rem; border-radius: 100px;
-  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 800;
-  letter-spacing: .1em; text-transform: uppercase;
-  backdrop-filter: blur(14px); white-space: nowrap;
-  animation: u-bob var(--bd,4s) ease-in-out infinite var(--bdelay,0s);
-}
-@keyframes u-bob {
-  0%,100% { transform: translateY(0) rotate(var(--br,-2deg)); }
-  50%      { transform: translateY(-9px) rotate(var(--br,-2deg)); }
-}
-.u-orb-badge.b1 { top: 6%; right: -12%; background: rgba(14,77,65,.22); border: 1px solid rgba(61,191,163,.38); color: var(--u-accent3); --bd:5s;--bdelay:0s;--br:3deg; }
-.u-orb-badge.b2 { bottom: 24%; left: -16%; background: rgba(245,200,66,.08); border: 1px solid rgba(245,200,66,.28); color: var(--u-gold); --bd:4s;--bdelay:1s;--br:-3deg; }
-.u-orb-badge.b3 { top: 40%; right: -18%; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); color: var(--u-mid); --bd:6s;--bdelay:.5s;--br:1deg; }
-.u-box-glow {
-  position: absolute; bottom: -24px; left: 50%;
-  transform: translateX(-50%); width: 220px; height: 70px; border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(14,77,65,.5) 0%, transparent 70%);
-  filter: blur(18px);
-  animation: u-glow-pulse 7s ease-in-out infinite;
-}
-@keyframes u-glow-pulse {
-  0%,100% { opacity: .6; transform: translateX(-50%) scaleX(1); }
-  50%      { opacity: 1;  transform: translateX(-50%) scaleX(1.25); }
-}
-
-/* ══ CONTENT GRID ══ */
-.u-content {
-  position: relative; z-index: 2;
-  max-width: 1200px; margin: 0 auto;
-  padding: 0 3rem 7rem;
-  display: grid; grid-template-columns: 1fr 400px;
-  gap: 4rem; align-items: start;
-}
-
-/* ── Gallery ── */
-.u-section-label {
-  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
-  letter-spacing: .24em; text-transform: uppercase; color: var(--u-accent);
-  display: flex; align-items: center; gap: .75rem; margin-bottom: 1.4rem;
-}
-.u-section-label::after {
-  content: ''; flex: 1; height: 1px;
-  background: linear-gradient(90deg, var(--u-border3), transparent);
-}
-.u-gallery {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: .55rem; margin-bottom: 2.5rem;
-}
-.u-gal-item {
-  position: relative; border-radius: 12px; overflow: hidden;
-  aspect-ratio: 1; border: 1px solid var(--u-border);
-  cursor: pointer; background: var(--u-bg2);
-  transition: border-color .25s, transform .28s cubic-bezier(.16,1,.3,1);
-}
-.u-gal-item:hover { border-color: var(--u-border3); transform: scale(1.03); z-index: 2; }
-.u-gal-item img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .82; transition: transform .4s cubic-bezier(.16,1,.3,1), opacity .3s; }
-.u-gal-item:hover img { transform: scale(1.08); opacity: 1; }
-.u-gal-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(3,2,10,.7) 100%); pointer-events: none; }
-.u-gal-item.big { grid-column: span 2; aspect-ratio: 2/1; }
-
-/* ── Assets chips ── */
-.u-assets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: 2.5rem; }
-.u-asset-chip {
-  display: flex; align-items: center; gap: .65rem;
-  padding: .8rem .95rem;
-  background: var(--u-surface); border: 1px solid var(--u-border);
-  border-radius: 14px;
-  transition: border-color .2s, background .2s;
-}
-.u-asset-chip:hover { border-color: var(--u-border2); background: rgba(61,191,163,.05); }
-.u-asset-icon2 {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: rgba(61,191,163,.1); border: 1px solid var(--u-border2);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; color: var(--u-accent); font-size: .65rem;
-}
-.u-asset-name2 { font-family: 'Syne', sans-serif; font-size: .75rem; font-weight: 700; color: var(--u-light); }
-.u-asset-detail2 { font-size: .72rem; color: var(--u-dim); font-weight: 300; margin-top: .04rem; }
-
-/* ── Why preorder ── */
-.u-why-row {
-  display: flex; align-items: flex-start; gap: .75rem;
-  padding: .75rem 0; border-bottom: 1px solid rgba(61,191,163,.06);
-}
-.u-why-row:last-child { border-bottom: none; }
-.u-why-num {
-  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
-  color: var(--u-accent2); background: rgba(14,77,65,.12);
-  border: 1px solid rgba(14,77,65,.25); border-radius: 7px;
-  width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: .05rem;
-}
-.u-why-txt { font-size: .8rem; color: var(--u-dim); font-weight: 300; line-height: 1.7; }
-.u-why-txt strong { color: var(--u-light); font-weight: 600; }
-
-/* ══ ORDER CARD ══ */
-.u-order-card {
-  background: rgba(6,4,18,.98);
-  border: 1px solid rgba(61,191,163,.25);
-  border-radius: 26px; overflow: hidden;
-  position: sticky; top: 100px;
-  box-shadow: 0 0 0 1px rgba(61,191,163,.06) inset, 0 40px 90px rgba(0,0,0,.75), 0 0 100px rgba(14,77,65,.14), 0 0 200px rgba(14,77,65,.06);
-}
-.u-card-header {
-  padding: 1.75rem 1.75rem 1.5rem;
-  border-bottom: 1px solid var(--u-border);
-  background: linear-gradient(135deg, rgba(14,77,65,.2) 0%, rgba(61,191,163,.06) 100%);
-  position: relative;
-}
-.u-card-header::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, #2a9680, #a8f0e4, #a8f0e4, #a8f0e4, #2a9680, transparent);
-}
-.u-card-pack-name {
-  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
-  letter-spacing: .22em; text-transform: uppercase; color: var(--u-accent); margin-bottom: .5rem;
-}
-.u-card-price { display: flex; align-items: baseline; gap: .4rem; flex-wrap: nowrap; }
-.u-card-price-num {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(2rem, 7vw, 2.6rem); font-weight: 900;
-  letter-spacing: -.05em; color: var(--u-light); line-height: 1; white-space: nowrap;
-}
-.u-card-price-sub { font-size: .72rem; color: var(--u-dim); font-weight: 300; white-space: nowrap; }
-.u-card-tag {
-  display: inline-flex; align-items: center; gap: .3rem; margin-top: .65rem;
-  padding: .25rem .7rem; border-radius: 100px;
-  background: rgba(245,200,66,.08); border: 1px solid rgba(245,200,66,.2);
-  font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--u-gold);
-}
-
-/* Card body + form */
-.u-card-body { padding: 1.5rem 1.75rem; }
-.u-field2 { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
-.u-field2 label {
-  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--u-accent);
-}
-.u-field2 input {
-  background: rgba(255,255,255,.035); border: 1px solid var(--u-border2);
-  border-radius: 12px; padding: .8rem 1rem;
-  font-family: 'Inter', sans-serif; font-size: .85rem; color: var(--u-light);
-  outline: none; width: 100%;
-  transition: border-color .2s, box-shadow .2s; -webkit-appearance: none;
-}
-.u-field2 input::placeholder { color: var(--u-dim); opacity: .5; }
-.u-field2 input:focus { border-color: var(--u-accent); box-shadow: 0 0 0 3px rgba(61,191,163,.1); }
-
-.u-submit2 {
-  width: 100%; font-family: 'Syne', sans-serif;
-  font-size: .8rem; font-weight: 900; letter-spacing: .07em; text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #0e4d41 0%, #3DBFA3 50%, #3DBFA3 100%);
-  border: none; border-radius: 14px; padding: 1rem 1.5rem; cursor: pointer;
-  position: relative; overflow: hidden;
-  transition: transform .2s, box-shadow .2s;
-  box-shadow: 0 8px 30px rgba(10,60,50,.55); margin-bottom: .85rem;
-  display: flex; align-items: center; justify-content: center; gap: .5rem;
-}
-.u-submit2::before {
-  content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-  transition: left .55s;
-}
-.u-submit2:hover { transform: translateY(-1px); box-shadow: 0 14px 44px rgba(10,60,50,.7); }
-.u-submit2:hover::before { left: 150%; }
-.u-submit2:active { transform: translateY(0); }
-
-/* WhatsApp confirm btn */
-.u-wa-btn {
-  width: 100%; font-family: 'Syne', sans-serif;
-  font-size: .78rem; font-weight: 800; letter-spacing: .05em;
-  color: #fff;
-  background: linear-gradient(135deg, #1aad4a, #25d366);
-  border: none; border-radius: 14px; padding: 1rem 1.5rem; cursor: pointer;
-  display: none; align-items: center; justify-content: center; gap: .65rem;
-  text-decoration: none; margin-bottom: .75rem;
-  transition: transform .2s, box-shadow .2s;
-  box-shadow: 0 6px 24px rgba(37,211,102,.3);
-}
-.u-wa-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 36px rgba(37,211,102,.45); }
-.u-wa-hint {
-  display: none; margin-top: -.4rem; margin-bottom: .85rem;
-  background: rgba(37,211,102,.07); border: 1px solid rgba(37,211,102,.18);
-  border-radius: 10px; padding: .65rem .9rem;
-  font-size: .72rem; color: var(--u-dim); line-height: 1.55; text-align: center;
-}
-
-.u-card-note {
-  font-size: .72rem; color: var(--u-dim); text-align: center;
-  margin-top: .85rem; line-height: 1.55; font-weight: 300;
-}
-.u-card-note strong { color: var(--u-accent); }
-
-/* Trust row */
-.u-trust-row {
-  display: flex; justify-content: space-around;
-  padding-top: 1rem; border-top: 1px solid var(--u-border); margin-top: 1rem;
-}
-.u-trust-item { display: flex; flex-direction: column; align-items: center; gap: .3rem; }
-.u-trust-icon { font-size: .9rem; display:flex; align-items:center; justify-content:center; color: var(--u-accent, #c8fa64); }
-.u-trust-label {
-  font-size: .72rem; color: var(--u-dim); font-weight: 500;
-  letter-spacing: .06em; text-transform: uppercase; text-align: center;
-  font-family: 'Syne', sans-serif;
-}
-
-/* Success state */
-.u-success2 { display: none; text-align: center; padding: 2.5rem 1.5rem; }
-.u-success-ring {
-  width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 1.25rem;
-  background: linear-gradient(135deg, rgba(14,77,65,.2), rgba(61,191,163,.1));
-  border: 1px solid var(--u-border2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem;
-}
-.u-success2 h4 {
-  font-family: 'Syne', sans-serif; font-weight: 900;
-  font-size: 1.15rem; color: var(--u-light);
-  letter-spacing: -.02em; margin-bottom: .5rem;
-}
-.u-success2 p { font-size: .8rem; color: var(--u-dim); font-weight: 300; line-height: 1.65; }
-
-/* ══ RESPONSIVE ══ */
-@media(max-width: 1080px) {
-  .u-hero-band { grid-template-columns: 1fr; gap: 2rem; padding: 3.5rem 1.5rem 2.5rem; }
-  .u-box-visual { order: -1; }
-  .u-box-3d { width: 210px; height: 260px; }
-  .u-content { grid-template-columns: 1fr; padding: 0 2.5rem 5rem; }
-  .u-order-card { position: static; }
-}
-@media(max-width: 600px) {
-  /* Conteneur boîte : rester dans les marges de l'écran */
-  #uranus-visual {
-    max-width: 100%;
-    overflow: visible;
-    padding: .5rem 1.25rem 1rem;
-    box-sizing: border-box;
-  }
-  /* Banner */
-  .u-drop-banner { padding: .55rem 1rem; gap: .4rem; flex-wrap: wrap; justify-content: center; }
-  .u-banner-txt { font-size: .72rem; text-align: center; width: 100%; }
-
-  /* Countdown — grand et bien lisible */
-  .u-countdown-wrap { padding: 1rem 1rem 1.15rem; gap: .5rem; }
-  .u-cd-label { font-size: .72rem; }
-  .u-cd-units { gap: .3rem; }
-  .u-cd-num { font-size: 1.75rem !important; min-width: 52px !important; padding: .45rem .3rem !important; border-radius: 10px !important; }
-  .u-cd-sub { font-size: .72rem; }
-  .u-cd-sep { font-size: 1.4rem !important; margin-bottom: 1.2rem; }
-
-  /* Hero */
-  .u-hero-band { padding: 3.5rem 1.25rem 2.5rem; gap: 2rem; }
-  .u-hero-title { font-size: clamp(2.8rem, 13vw, 3.8rem); }
-  .u-hero-desc { font-size: .85rem; margin-bottom: 1.5rem; }
-  .u-price-num { font-size: 2.6rem !important; }
-  .u-box-3d { width: 160px; height: 200px; }
-  .u-orb-badge { font-size: .72rem; padding: .28rem .6rem; }
-  .u-orb-badge.b1 { right: -2%; }
-  .u-orb-badge.b2 { left: -3%; }
-  .u-cta-row { flex-direction: column; align-items: stretch; }
-  .u-btn-primary, .u-btn-secondary { text-align: center; justify-content: center; width: 100%; }
-
-  /* Content grid */
-  .u-content { padding: 0 1.25rem 4rem; gap: 2.5rem; }
-  .u-assets-grid { grid-template-columns: 1fr; }
-  .u-gallery { grid-template-columns: 1fr 1fr; gap: .4rem; }
-  .u-gal-item.big { grid-column: span 2; }
-  .u-asset-chip { padding: .7rem .8rem; }
-  .u-asset-name2 { font-size: .72rem; }
-  .u-asset-detail2 { font-size: .72rem; }
-  .u-why-txt { font-size: .78rem; }
-
-  /* Order card */
-  .u-order-card { border-radius: 20px; }
-  .u-card-header { padding: 1.25rem; }
-  .u-card-body { padding: 1.25rem; }
-  .u-card-price-num { font-size: 2rem !important; }
-  .u-field2 input { font-size: 16px !important; padding: .9rem 1rem; border-radius: 12px; }
-  .u-field2 label { font-size: .72rem; }
-  .u-submit2, .u-wa-btn { font-size: .9rem !important; min-height: 54px; }
-  .u-trust-row { gap: .2rem; }
-  .u-trust-label { font-size: .72rem; }
-  .u-trust-icon { font-size: .85rem; }
-  .u-success2 h4 { font-size: 1.05rem; }
-}
-</style>
-
-<!-- Stars particles -->
-<div class="u-stars" id="uranusStars" aria-hidden="true"></div>
-
-<!-- ── TOP BANNER ── -->
-<div class="u-drop-banner">
-  <span class="u-banner-badge" style="color:#a8f0e4;background:rgba(61,191,163,.12);border-color:rgba(61,191,163,.3);">URANUS GFX PACK</span>
-  <span class="u-banner-txt">PSD calqués · Actions PS · Textures · Fonts premium</span>
-  <span class="u-banner-badge" style="color:var(--u-accent3);background:rgba(61,191,163,.1);border-color:rgba(61,191,163,.25)">✦ Disponible maintenant</span>
-</div>
-
-<!-- ── LAUNCHED STATUS ── -->
-<div class="u-countdown-wrap" id="u-countdown-wrap" style="justify-content:center;padding:1rem 1.5rem;">
-  <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;justify-content:center;">
-    <span style="display:inline-flex;align-items:center;gap:.4rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--u-accent);">
-      <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--u-accent);box-shadow:0 0 8px var(--u-accent);animation:u-pulse 1.8s ease-in-out infinite;"></span>
-      PACK LANCÉ
-    </span>
-    <span style="font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--u-mid);">Le pack est disponible — commande maintenant</span>
-  </div>
-</div>
-
-<!-- ── HERO BAND ── -->
-<div class="u-hero-band">
-
-  <!-- Left: copy -->
-  <div class="u-hero-copy reveal-up">
-
-    <!-- Eyebrow -->
-    <div class="u-eyebrow">
-      <span class="u-eyebrow-dot"></span>
-      Disponible maintenant
-    </div>
-
-    <!-- Titre -->
-    <h2 class="u-hero-title">
-      URANUS
-      <span class="u-line2">GFX PACK</span>
-    </h2>
-
-    <!-- Description courte -->
-    <p class="u-hero-desc">
-      PSD calqués prêts à éditer, fonts premium, actions Photoshop et textures brutes grain, papier, métal, bruit. Tout ce qu'il faut pour des visuels qui claquent.
-    </p>
-
-    <!-- Pills assets -->
-    <div class="u-asset-pills">
-      <span class="u-pill">PSD calqués</span>
-      <span class="u-pill">Actions PS</span>
-      <span class="u-pill">Textures brutes</span>
-      <span class="u-pill">Fonts premium</span>
-    </div>
-
-    <!-- Séparateur -->
-    <div class="u-sep"></div>
-
-    <!-- Prix -->
-    <div class="u-price-block">
-      <div class="u-price-main" style="flex-direction:column;align-items:flex-start;gap:.25rem;">
-        <div style="display:flex;align-items:baseline;gap:.35rem;">
-          <span class="u-price-currency" style="color:#3DBFA3;">FCFA</span>
-          <span class="u-price-num" style="color:#ffffff;text-shadow:0 0 40px rgba(61,191,163,.5);">19 900</span>
-          <div class="u-price-unit">Pack complet<br>paiement unique</div>
-        </div>
-      </div>
-    </div>
-    <p class="u-price-badge" style="background:rgba(61,191,163,.12);border-color:rgba(61,191,163,.3);color:#a8f0e4;">Un seul paiement · Accès à vie</p>
-
-    <!-- CTA -->
-    <div class="u-cta-row">
-      <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Comment%20je%20proc%C3%A8de%20%3F" target="_blank" rel="noopener" class="u-btn-primary">
-        Obtenir le pack →
-      </a>
-      <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="u-btn-secondary">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Questions
-      </a>
-    </div>
-  </div>
-
-  <!-- Right: box + PSD cards -->
-  <div class="u-box-visual reveal-up rd1">
-
-<style>
-/* ══ URANUS BOX VISUAL ══ */
-#uranus-visual{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:clamp(.75rem,3vw,1.5rem);
-  padding:.5rem 0 1rem;
-  perspective:900px;
-}
-
-/* ── Boîte CSS 3D draggable ── */
-#uranus-box-wrap{
-  flex-shrink:0;
-  width:clamp(200px,34vw,310px);
-  position:relative;
-  cursor:grab;
-  user-select:none;
-  touch-action:none;
-  filter:drop-shadow(0 0 32px rgba(61,191,163,.45)) drop-shadow(0 8px 40px rgba(0,0,0,.8));
-  transition:filter .4s ease;
-}
-#uranus-box-wrap:hover{
-  filter:drop-shadow(0 0 48px rgba(61,191,163,.65)) drop-shadow(0 12px 50px rgba(0,0,0,.85));
-}
-#uranus-box-wrap:active{cursor:grabbing}
-
-#uranus-box-inner{
-  position:relative;
-  transform-style:preserve-3d;
-  will-change:transform;
-  transform:rotateX(-12deg) rotateY(28deg);
-}
-
-/* Toutes les faces */
-.ub-face{
-  position:absolute;
-  top:0; left:0;
-  backface-visibility:hidden;
-  overflow:hidden;
-  background: #040f0c;
-}
-.ub-face img{
-  width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;
-  opacity:1;
-  transition:opacity .55s ease;
-}
-#uranusBoxImg.fading { opacity: 0; }
-
-/* FRONT : face de référence, colle au plan */
-#ub-front{
-  /* positionné par JS : width, height, translateZ(D/2) */
-  border:1.5px solid rgba(61,191,163,.75);
-  box-shadow:0 20px 60px rgba(0,0,0,.9),0 0 0 1px rgba(168,240,228,.18) inset, 0 0 80px rgba(61,191,163,.25);
-  border-radius:4px;
-}
-/* BACK : charnière sur le bord gauche du front, pivote 180° vers l'arrière */
-#ub-back{
-  background:#040c09;
-  border:1px solid rgba(61,191,163,.2);
-  border-radius:2px;
-}
-/* RIGHT : charnière sur le bord droit du front, pivote 90° vers la droite */
-#ub-right{
-  background:#061410;
-  border:1px solid rgba(61,191,163,.25);
-}
-/* LEFT : charnière sur le bord gauche du front, pivote -90° vers la gauche */
-#ub-left{
-  background:#061410;
-  border:1px solid rgba(61,191,163,.25);
-}
-/* TOP : charnière sur le bord haut du front, pivote -90° vers le haut */
-#ub-top{
-  background:linear-gradient(180deg,rgba(61,191,163,.3) 0%,rgba(6,40,33,.8) 100%);
-  border:1px solid rgba(61,191,163,.35);
-}
-/* BOTTOM : charnière sur le bord bas du front, pivote 90° vers le bas */
-#ub-bot{
-  background:#06030e;
-  border:1px solid rgba(61,191,163,.1);
-}
-/* Overlay gradient front */
-#ub-ov{
-  position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(3,2,10,0) 45%,rgba(3,2,10,.88) 100%);
-}
-#ub-lbl{position:absolute;bottom:0;left:0;right:0;padding:.5rem .55rem;}
-#ub-lbl .ubn{
-  font-family:'Syne',sans-serif;font-weight:900;
-  font-size:clamp(.65rem,2.2vw,.88rem);
-  color:#fff;letter-spacing:.06em;line-height:1.1;
-  text-shadow: 0 1px 12px rgba(0,0,0,.9);
-}
-#ub-lbl .ubs{
-  font-size:.72rem;color:var(--u-accent3);font-weight:800;
-  letter-spacing:.2em;text-transform:uppercase;margin-top:.15rem;
-  text-shadow: 0 1px 8px rgba(0,0,0,.8);
-}
-/* Drag hint */
-#ub-hint{
-  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
-  font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;
-  letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(61,191,163,.28);pointer-events:none;white-space:nowrap;
-  transition:opacity .4s;
-}
-
-/* ── PSD Cards empilées ── */
-#uranus-psd-stack{
-  position:relative;
-  width:clamp(120px,24vw,200px);
-  height:clamp(170px,34vw,290px);
-  flex-shrink:0;
-}
-.upsd-card{
-  position:absolute;
-  width:100%;
-  aspect-ratio:3/4;
-  border-radius:6px;
-  overflow:hidden;
-  border:1px solid rgba(61,191,163,.22);
-  box-shadow:0 8px 24px rgba(0,0,0,.65);
-  transform-origin:bottom center;
-  transition:transform .4s cubic-bezier(.16,1,.3,1);
-  cursor:pointer;
-}
-.upsd-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:.88;}
-.upsd-badge{
-  position:absolute;top:5px;left:5px;
-  background:rgba(3,2,10,.85);color:#3DBFA3;
-  font-family:'Syne',sans-serif;font-size:7px;font-weight:900;
-  letter-spacing:.1em;padding:2px 5px;border-radius:3px;
-  border:1px solid rgba(61,191,163,.22);
-  pointer-events:none;
-}
-/* Stack fan positions — 5 cartes */
-#upsd-0{transform:rotate(-10deg) translateY(0px);z-index:1;}
-#upsd-1{transform:rotate(-5deg) translateY(-3px);z-index:2;}
-#upsd-2{transform:rotate(0deg) translateY(-6px);z-index:3;}
-#upsd-3{transform:rotate(5deg) translateY(-9px);z-index:4;}
-#upsd-4{transform:rotate(10deg) translateY(-12px);z-index:5;}
-/* Hover: fan out */
-#uranus-psd-stack:hover #upsd-0{transform:rotate(-20deg) translateY(10px);}
-#uranus-psd-stack:hover #upsd-1{transform:rotate(-10deg) translateY(2px);}
-#uranus-psd-stack:hover #upsd-2{transform:rotate(0deg) translateY(0px);}
-#uranus-psd-stack:hover #upsd-3{transform:rotate(10deg) translateY(2px);}
-#uranus-psd-stack:hover #upsd-4{transform:rotate(20deg) translateY(10px);}
-
-/* Mobile */
-@media(max-width:480px){
-  #uranus-visual{
-    gap:.4rem;
-    padding:.5rem 1rem 1rem;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-  #uranus-box-wrap{width:clamp(150px,54vw,210px);}
-  #uranus-psd-stack{width:clamp(95px,30vw,135px);height:clamp(135px,42vw,190px);}
-}
-</style>
-
-<div id="uranus-visual" style="--ubhd:36px">
-
-  <!-- BOÎTE 3D draggable -->
-  <div id="uranus-box-wrap">
-    <div id="uranus-box-inner">
-      <div class="ub-face" id="ub-front">
-        <img id="uranusBoxImg" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt="URANUS GFX PACK">
-        <div id="ub-ov"></div>
-        <div id="ub-lbl"><div class="ubn">URANUS<br>GFX PACK</div><div class="ubs">by MDG Creative Studio</div></div>
-      </div>
-      <div class="ub-face" id="ub-back"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
-      <div class="ub-face" id="ub-right"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
-      <div class="ub-face" id="ub-left"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
-      <div class="ub-face" id="ub-top"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
-      <div class="ub-face" id="ub-bot"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
-    </div>
-    <div id="ub-hint">drag</div>
-  </div>
-
-  <!-- CARTES PSD EMPILÉES EN ÉVENTAIL -->
-  <div id="uranus-psd-stack">
-    <div class="upsd-card" id="upsd-0">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659499/MIST_CASH_l34j9g.jpg" loading="lazy" alt="">
-      <span class="upsd-badge">PSD</span>
-    </div>
-    <div class="upsd-card" id="upsd-1">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659243/ISS_d77hnz.jpg" loading="lazy" alt="">
-      <span class="upsd-badge">PSD</span>
-    </div>
-    <div class="upsd-card" id="upsd-2">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" loading="lazy" alt="">
-      <span class="upsd-badge">PSD</span>
-    </div>
-    <div class="upsd-card" id="upsd-3">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776491317/match-day-sadio_we5xzy.jpg" loading="lazy" alt="">
-      <span class="upsd-badge">PSD</span>
-    </div>
-    <div class="upsd-card" id="upsd-4">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" loading="lazy" alt="">
-      <span class="upsd-badge">PSD</span>
-    </div>
-  </div>
-
-</div>
-
-<div class="u-orb-badge b2">19 900 FCFA</div>
-<div class="u-box-glow"></div>
-
-<script>
-(function(){
-  var wrap  = document.getElementById('uranus-box-wrap');
-  var inner = document.getElementById('uranus-box-inner');
-  var hint  = document.getElementById('ub-hint');
-  if(!inner) return;
-
-  var D = 40; /* profondeur de la boîte en px */
-
-  function buildFaces(){
-    var W = wrap.offsetWidth;
-    var H = Math.round(W * 4 / 3);
-    if(!W || !H) return;
-
-    inner.style.width  = W + 'px';
-    inner.style.height = H + 'px';
-
-    /* Front et Back : W x H, translateZ = D/2 */
-    var f = document.getElementById('ub-front');
-    f.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(0deg) translateZ('+(D/2)+'px);';
-
-    var b = document.getElementById('ub-back');
-    b.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(180deg) translateZ('+(D/2)+'px);';
-
-    /* Right et Left : D x H, centrés sur W/2, translateZ = W/2 */
-    var r = document.getElementById('ub-right');
-    r.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(90deg) translateZ('+(W/2)+'px);';
-
-    var l = document.getElementById('ub-left');
-    l.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(-90deg) translateZ('+(W/2)+'px);';
-
-    /* Top et Bottom : W x D, centrés sur H/2, translateZ = H/2 */
-    var t = document.getElementById('ub-top');
-    t.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(90deg) translateZ('+(H/2)+'px);';
-
-    var bt = document.getElementById('ub-bot');
-    bt.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(-90deg) translateZ('+(H/2)+'px);';
-  }
-
-  /* Build immédiatement + retry rapide pour garantir les dimensions */
-  var _boxBuilt = false;
-  function _buildOnce(){
-    if(_boxBuilt) return;
-    if(wrap.offsetWidth > 0){ _boxBuilt = true; buildFaces(); setTimeout(buildFaces, 150); }
-  }
-  /* Essai immédiat */
-  _buildOnce();
-  /* Double RAF pour le cas où le layout n'est pas encore calculé */
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){ _buildOnce(); }); });
-  /* IO en backup pour les cas où la section est loin du viewport */
-  if(!_boxBuilt && 'IntersectionObserver' in window){
-    var _boxObs = new IntersectionObserver(function(entries, obs){
-      if(entries[0].isIntersecting){ _buildOnce(); obs.disconnect(); }
-    },{ rootMargin:'400px' });
-    _boxObs.observe(wrap);
-  }
-  window.addEventListener('resize', buildFaces);
-
-  /* Rotation */
-  var rotX=-12, rotY=28, velX=0, velY=.18, dragging=false, lx=0, ly=0;
-
-  function applyT(){ inner.style.transform='rotateX('+rotX+'deg) rotateY('+rotY+'deg)'; }
-  applyT();
-
-  wrap.addEventListener('mousedown',function(e){dragging=true;lx=e.clientX;ly=e.clientY;velX=0;velY=0;hint.style.opacity='0';e.preventDefault();});
-  window.addEventListener('mousemove',function(e){
-    if(!dragging)return;
-    var dx=e.clientX-lx,dy=e.clientY-ly;
-    rotY+=dx*.42;rotX-=dy*.42;velY=dx*.42;velX=-dy*.42;
-    lx=e.clientX;ly=e.clientY;applyT();
-  });
-  window.addEventListener('mouseup',function(){dragging=false;});
-
-  /* Touch plein 360° — dès qu'on pose le doigt sur la boîte,
-     on prend le contrôle total : scroll bloqué, rotation X+Y libre. */
-  wrap.addEventListener('touchstart',function(e){
-    if(e.touches.length!==1)return;
-    dragging=true;
-    hint.style.opacity='0';
-    lx=e.touches[0].clientX;ly=e.touches[0].clientY;
-    velX=0;velY=0;
-    e.preventDefault();
-  },{passive:false});
-  wrap.addEventListener('touchmove',function(e){
-    if(!dragging||e.touches.length!==1)return;
-    e.preventDefault();
-    var mdx=e.touches[0].clientX-lx,mdy=e.touches[0].clientY-ly;
-    rotY+=mdx*.42;rotX-=mdy*.42;velY=mdx*.42;velX=-mdy*.42;
-    lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyT();
-  },{passive:false});
-  wrap.addEventListener('touchend',function(){dragging=false;},{passive:true});
-  wrap.addEventListener('touchcancel',function(){dragging=false;},{passive:true});
-
-  function animate(){
-    requestAnimationFrame(animate);
-    if(!dragging){
-      velX+=(0-velX)*.04;velY+=(.18-velY)*.02;
-      rotX+=velX;rotY+=velY;
-      rotX=Math.max(-35,Math.min(35,rotX));
-    }
-    applyT();
-  }
-  animate();
-})();
-</script>
-
-  </div>
-
-</div>
-
-<!-- ── CONTENT GRID ── -->
-<div class="u-content">
-
-  <!-- LEFT: gallery + assets + why -->
-  <div>
-
-    <div class="u-section-label reveal-up">Ce que contient le pack</div>
-    <div class="u-assets-grid reveal-up rd1">
-      <div class="u-asset-chip">
-        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <div class="u-asset-info"><div class="u-asset-name2">Fichiers PSD</div><div class="u-asset-detail2">5 templates calqués, prêts à éditer</div></div>
-      </div>
-      <div class="u-asset-chip">
-        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        <div class="u-asset-info"><div class="u-asset-name2">Textures</div><div class="u-asset-detail2">Grain, papier, métal, bruit</div></div>
-      </div>
-      <div class="u-asset-chip">
-        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
-        <div class="u-asset-info"><div class="u-asset-name2">Fonts premium</div><div class="u-asset-detail2">Sélection exclusive</div></div>
-      </div>
-      <div class="u-asset-chip">
-        <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
-        <div class="u-asset-info"><div class="u-asset-name2">Presets PS</div><div class="u-asset-detail2">Actions &amp; LUT Photoshop</div></div>
-      </div>
-    </div>
-
-    <!-- ── GALERIE PREMIUM ── -->
-    <div class="u-section-label reveal-up">Aperçu des visuels</div>
-    <div class="u-gallery-premium reveal-up rd1">
-      <!-- Image 1 : Sénégal vs Arabie Saoudite — grande, première position -->
-      <div class="u-gal-premium big" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg','Sénégal vs Arabie Saoudite')">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" loading="lazy">
-        <div class="u-gal-overlay">
-          <div class="u-gal-label">Sénégal vs Arabie Saoudite</div>
-          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        </div>
-      </div>
-      <!-- Image 2 : Match Day · Sadio Mané -->
-      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776491317/match-day-sadio_we5xzy.jpg','Match Day · Sadio Mané')">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio Mané" loading="lazy">
-        <div class="u-gal-overlay">
-          <div class="u-gal-label">Match Day · Sadio</div>
-          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        </div>
-      </div>
-      <!-- Image 3 : USA vs Sénégal -->
-      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg','USA vs Sénégal')">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" alt="USA vs Sénégal" loading="lazy">
-        <div class="u-gal-overlay">
-          <div class="u-gal-label">USA vs Sénégal</div>
-          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        </div>
-      </div>
-      <!-- Image 4 : ISS 814 -->
-      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659243/ISS_d77hnz.jpg','ISS 814')">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776659243/ISS_d77hnz.jpg" alt="ISS 814" loading="lazy">
-        <div class="u-gal-overlay">
-          <div class="u-gal-label">ISS 814</div>
-          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        </div>
-      </div>
-      <!-- Image 5 : Mist Cash -->
-      <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659499/MIST_CASH_l34j9g.jpg','Mist Cash')">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776659499/MIST_CASH_l34j9g.jpg" alt="Mist Cash" loading="lazy">
-        <div class="u-gal-overlay">
-          <div class="u-gal-label">Mist Cash</div>
-          <div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Lightbox galerie Uranus -->
-    <div id="u-gal-lb" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(3,2,10,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:none;align-items:center;justify-content:center;padding:1.5rem;" onclick="if(event.target===this)uGalClose()">
-      <button onclick="uGalClose()" style="position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">×</button>
-      <img id="u-gal-lb-img" src="" alt="" style="max-width:92vw;max-height:88vh;border-radius:14px;object-fit:contain;box-shadow:0 40px 120px rgba(0,0,0,.8),0 0 0 1px rgba(61,191,163,.08) inset;">
-      <div id="u-gal-lb-cap" style="position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(61,191,163,.6);white-space:nowrap;"></div>
-    </div>
-
-    <style>
-    /* ── GALERIE PREMIUM URANUS ── */
-    .u-gallery-premium {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: .5rem;
-      margin-bottom: 2.5rem;
-    }
-    .u-gal-premium {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      aspect-ratio: 4/5;
-      border: 1px solid rgba(14,77,65,.2);
-      cursor: pointer;
-      background: rgba(8,5,20,.8);
-      transition: border-color .3s, transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s;
-    }
-    .u-gal-premium.big {
-      grid-column: span 1;
-      aspect-ratio: 4/5;
-    }
-    .u-gal-premium:hover {
-      border-color: rgba(61,191,163,.55);
-      transform: scale(1.025);
-      z-index: 3;
-      box-shadow: 0 12px 48px rgba(14,77,65,.35), 0 0 0 1px rgba(61,191,163,.1) inset;
-    }
-    .u-gal-premium img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-      opacity: .85;
-      transition: transform .45s cubic-bezier(.16,1,.3,1), opacity .3s;
-    }
-    .u-gal-premium:hover img { transform: scale(1.07); opacity: 1; }
-    .u-gal-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 45%, rgba(3,2,10,.82) 100%);
-      display: flex; align-items: flex-end; justify-content: space-between;
-      padding: .75rem;
-      opacity: 0;
-      transition: opacity .25s;
-    }
-    .u-gal-premium:hover .u-gal-overlay { opacity: 1; }
-    .u-gal-label {
-      font-family: 'Syne', sans-serif;
-      font-size: .72rem; font-weight: 800;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: rgba(255,255,255,.9);
-    }
-    .u-gal-zoom {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: rgba(61,191,163,.22);
-      border: 1px solid rgba(61,191,163,.3);
-      display: flex; align-items: center; justify-content: center;
-      color: #a8f0e4; flex-shrink: 0;
-      backdrop-filter: blur(8px);
-    }
-    @media(max-width:600px){
-      .u-gallery-premium { grid-template-columns: repeat(3, 1fr); gap: .3rem; }
-      .u-gal-premium.big { grid-column: span 1; aspect-ratio: 4/5; }
-    }
-    </style>
-
-    <div class="u-section-label reveal-up">Pourquoi acheter</div>
-    <div class="reveal-up rd1">
-      <div class="u-why-row">
-        <span class="u-why-num">01</span>
-        <span class="u-why-txt"><strong>5 PSD sélectionnés à la main</strong> — chaque fichier est testé, calqué proprement. Pas de remplissage.</span>
-      </div>
-      <div class="u-why-row">
-        <span class="u-why-num">02</span>
-        <span class="u-why-txt"><strong>Livraison par WhatsApp</strong> — dès que le pack est prêt, tu reçois le lien en message personnel.</span>
-      </div>
-      <div class="u-why-row">
-        <span class="u-why-num">03</span>
-        <span class="u-why-txt"><strong>Un seul paiement, à vie</strong> — pas d'abonnement. Le pack t'appartient.</span>
-      </div>
-      <div class="u-why-row">
-        <span class="u-why-num">04</span>
-        <span class="u-why-txt"><strong>Textures + Fonts + Presets inclus</strong> — tout pour travailler sans chercher ailleurs.</span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- RIGHT: order card -->
-  <div class="u-order-card reveal-up rd2">
-    <div class="u-card-header">
-      <div class="u-card-pack-name">URANUS GFX PACK</div>
-      <div class="u-card-price">
-        <span class="u-card-price-num" style="color:#ffffff;text-shadow:0 0 30px rgba(61,191,163,.45);">19 900</span>
-        <span class="u-card-price-sub">FCFA<br>Pack complet</span>
-      </div>
-      <div class="u-card-tag" style="background:rgba(61,191,163,.12);border-color:rgba(61,191,163,.3);color:#a8f0e4;">Un seul paiement · Accès à vie</div>
-    </div>
-    <div class="u-card-body">
-      <div id="uranusForm2">
-        <div class="u-field2">
-          <label for="uName2">Prénom / pseudo</label>
-          <input type="text" id="uName2" placeholder="Ex : Mouhamed, MDG…" autocomplete="name">
-        </div>
-        <div class="u-field2">
-          <label for="uEmail2">Email</label>
-          <input type="email" id="uEmail2" placeholder="ton@email.com" autocomplete="email">
-        </div>
-        <div class="u-field2">
-          <label for="uPhone2">Numéro Wave / téléphone</label>
-          <input type="tel" id="uPhone2" placeholder="+221 7X XXX XX XX" autocomplete="tel">
-        </div>
-        <button class="u-submit2" onclick="uranusSubmit2()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Obtenir le pack
-        </button>
-        <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Je%20suis%20pr%C3%AAt%20%C3%A0%20payer%20les%2019%20900%20FCFA%20via%20Wave%20%F0%9F%92%9C" target="_blank" rel="noopener" class="u-wa-btn" id="uranusWaveBtn2">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.532 5.859L.057 23.571a.75.75 0 0 0 .921.921l5.712-1.475A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.698-.528-5.228-1.446l-.374-.224-3.892 1.004 1.004-3.892-.224-.374A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-          Confirmer sur WhatsApp
-        </a>
-        <div id="uranusWaveInstructions" class="u-wa-hint">
-          WhatsApp s'ouvre avec ton message prêt 👆<br>
-          MDG te répond et t'envoie la demande Wave directement.
-        </div>
-        <p class="u-card-note">Paiement par <strong>Wave</strong> · Livraison par WhatsApp · Tes infos sont privées</p>
-      </div>
-
-      <div class="u-success2" id="uranusSuccess2">
-        <div class="u-success-ring">✓</div>
-        <h4>Tu es dans la liste !</h4>
-        <p>Dernière étape — confirme sur WhatsApp pour finaliser ta réservation.</p>
-        <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Je%20suis%20pr%C3%AAt%20%C3%A0%20payer%20les%2019%20900%20FCFA%20via%20Wave%20%F0%9F%92%9C" target="_blank" rel="noopener" class="u-wa-btn" style="display:flex;margin-top:1.25rem">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.532 5.859L.057 23.571a.75.75 0 0 0 .921.921l5.712-1.475A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.698-.528-5.228-1.446l-.374-.224-3.892 1.004 1.004-3.892-.224-.374A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-          Confirmer sur WhatsApp
-        </a>
-        <p style="font-size:.72rem;color:var(--u-dim);margin-top:.75rem;text-align:center">MDG te répond et t'envoie le lien de téléchargement directement ✦</p>
-      </div>
-
-      <div class="u-trust-row">
-        <div class="u-trust-item">
-          <span class="u-trust-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-          <span class="u-trust-label">Données<br>privées</span>
-        </div>
-        <div class="u-trust-item">
-          <span class="u-trust-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10"/><path d="M1 6h22v4H1z"/><path d="M12 21V6"/></svg></span>
-          <span class="u-trust-label">Livraison<br>WhatsApp</span>
-        </div>
-        <div class="u-trust-item">
-          <span class="u-trust-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span>
-          <span class="u-trust-label">Accès<br>à vie</span>
-        </div>
-        <div class="u-trust-item">
-          <span class="u-trust-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
-          <span class="u-trust-label">Validé<br>par MDG</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<script>
-/* ── Stars ── */
-(function(){
-  var c = document.getElementById('uranusStars');
-  if (!c) return;
-  var h = '';
-  var stars = [
-    [15,20,1,3,.15,.6],[72,8,1,4,.1,.5],[88,35,1.5,5,.12,.55],
-    [32,70,1,3.5,.1,.7],[55,85,1,4,.08,.45],[10,60,1.5,6,.1,.5],
-    [93,75,1,3,.15,.65],[42,15,1,4.5,.1,.4],[67,50,1,5,.12,.5],
-    [25,45,2,3,.2,.8],[80,22,1,4,.1,.6],[48,65,1.5,5,.12,.7],
-    [18,80,1,3.5,.1,.5],[60,10,1,4,.08,.45],[35,55,1,6,.15,.6],
-    [77,40,1.5,3,.1,.55],[5,35,1,4.5,.12,.7],[90,55,1,3,.1,.6],
-    [50,30,1,5,.1,.5],[20,90,1,3.5,.12,.6],[70,25,1.5,4,.1,.55]
-  ];
-  stars.forEach(function(s){
-    h += '<span style="left:'+s[0]+'%;top:'+s[1]+'%;width:'+s[2]+'px;height:'+s[2]+'px;--lo:'+s[4]+';--hi:'+s[5]+';--d:'+s[3]+'s;--delay:'+(Math.random()*4).toFixed(1)+'s"></span>';
-  });
-  c.innerHTML = h;
-})();
-
-/* ── Box image rotation ── */
-(function(){
-
-  var imgs = [
-    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg',
-    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg',
-    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1776659499/MIST_CASH_l34j9g.jpg',
-    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1776659243/ISS_d77hnz.jpg',
-    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1776491253/SEN_VS_MAROC_go9pvs.jpg'
-  ];
-  /* Précharger */
-  imgs.forEach(function(src){ var i = new Image(); i.src = src; });
-  var idx = 0;
-  var el  = document.getElementById('uranusBoxImg');
-  if (!el) return;
-  setInterval(function(){
-    idx = (idx + 1) % imgs.length;
-    el.classList.add('fading');
-    el.classList.remove('loaded');
-    setTimeout(function(){
-      el.src = imgs[idx];
-      el.onload = function(){ el.classList.add('loaded'); el.classList.remove('fading'); };
-      el.onerror = function(){ el.classList.remove('fading'); };
-    }, 600);
-  }, 3500);
-})();
-(function(){
-  /* Countdown disabled — pack is live */
-})();
-
-/* ── Galerie Uranus : lightbox ── */
-function uGalOpen(src, cap) {
-  var lb = document.getElementById('u-gal-lb');
-  var img = document.getElementById('u-gal-lb-img');
-  var capEl = document.getElementById('u-gal-lb-cap');
-  if (!lb || !img) return;
-  img.src = src;
-  if (capEl) capEl.textContent = cap || '';
-  lb.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-function uGalClose() {
-  var lb = document.getElementById('u-gal-lb');
-  if (lb) lb.style.display = 'none';
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', function(e){ if(e.key==='Escape') uGalClose(); });
-
-/* ── Submit ── */
-function uranusSubmit2() {
-  var name  = document.getElementById('uName2').value.trim();
-  var email = document.getElementById('uEmail2').value.trim();
-  var phone = document.getElementById('uPhone2').value.trim();
-  if (!name)  { document.getElementById('uName2').focus(); return; }
-  if (!email || !email.includes('@')) { document.getElementById('uEmail2').focus(); return; }
-  if (!phone) { document.getElementById('uPhone2').focus(); return; }
-
-  var btn = document.querySelector('.u-submit2');
-  btn.textContent = '⏳ Envoi…';
-  btn.disabled = true;
-
-  /* Web3Forms */
-  var WEB3FORMS_KEY = '7db2eac5-7a46-40db-a864-8b99ea9f4b7b';
-  fetch('https://api.web3forms.com/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      access_key: WEB3FORMS_KEY,
-      subject: 'URANUS GFX PACK — Nouvelle précommande',
-      from_name: 'MDG Creative Studio',
-      name: name, email: email, phone: phone,
-      message: 'URANUS GFX PACK · 19 900 FCFA\n\nNom : ' + name + '\nEmail : ' + email + '\nTéléphone : ' + phone
-    })
-  }).then(function(res){ return res.json(); }).then(function(data){
-    if (data.success) {
-      btn.textContent = '✓ Enregistré !';
-      var waveBtn = document.getElementById('uranusWaveBtn2');
-      waveBtn.style.display = 'flex';
-      var hint = document.getElementById('uranusWaveInstructions');
-      if (hint) hint.style.display = 'block';
-      setTimeout(function() {
-        document.getElementById('uranusForm2').style.display = 'none';
-        document.getElementById('uranusSuccess2').style.display = 'block';
-      }, 1500);
-    } else {
-      btn.textContent = '✕ Erreur — réessaie';
-      btn.disabled = false;
-      setTimeout(function(){ btn.textContent = 'Enregistrer ma précommande →'; }, 3000);
-    }
-  }).catch(function(){
-    btn.textContent = '✕ Erreur réseau';
-    btn.disabled = false;
-    setTimeout(function(){ btn.textContent = 'Enregistrer ma précommande →'; }, 3000);
-  });
-}
-
-function copyWaveNumber(btn) {
-  navigator.clipboard.writeText('221763772208').then(function() {
-    btn.textContent = '✅ Copié !';
-    setTimeout(function(){ btn.textContent = '📋 Copier le numéro'; }, 2500);
-  }).catch(function(){});
-}
-</script>
-
-</section>
 
 
 <section id="pricing">
@@ -13620,9 +12355,9 @@ function copyWaveNumber(btn) {
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="mailto:mdgdesign221@gmail.com" class="contact-direct-link">
+          <a href="mailto:contact@mdgcreative.studio" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val">mdgdesign221@gmail.com</span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val">contact@mdgcreative.studio</span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -14109,8 +12844,1562 @@ function submitPackForm(e) {
         <button type="submit" class="pack-modal-submit">Envoyer la demande →</button>
       </form>
       <div class="pack-modal-alt">Ou contacte directement via <a href="https://wa.me/221763772208" target="_blank">WhatsApp</a> · <a href="https://instagram.com/_its.mdg" target="_blank">Instagram</a></div>
+    </div><!-- /pack-modal-body -->
+  </div><!-- /pack-modal -->
+</div><!-- /packModalOverlay -->
 <!-- script déplacé en fin de body -->
 
+
+
+<!-- ══════════════════════════════════════════════════
+     FOR CREATORS — Zone séparée, hors funnel client
+     URANUS GFX Pack by MDG Creative Studio
+══════════════════════════════════════════════════ -->
+<div id="for-creators" style="
+  background:var(--black);
+  border-top:2px solid rgba(61,191,163,.18);
+  position:relative;
+">
+
+  <!-- Gate header "For Creators" -->
+  <div style="
+    max-width:1200px;
+    margin:0 auto;
+    padding:4rem clamp(1.5rem,4vw,3rem) 2.5rem;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:2rem;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--border);
+  ">
+    <div>
+      <p style="
+        font-family:'Syne',sans-serif;
+        font-size:.62rem;
+        font-weight:700;
+        letter-spacing:.25em;
+        text-transform:uppercase;
+        color:var(--accent);
+        margin-bottom:.9rem;
+        display:flex;align-items:center;gap:.5rem;
+      ">✦ For Creators</p>
+      <h2 style="
+        font-family:'Syne',sans-serif;
+        font-weight:800;
+        font-size:clamp(1.6rem,3.5vw,2.6rem);
+        letter-spacing:-.04em;
+        line-height:.95;
+        color:var(--light);
+        margin-bottom:.75rem;
+      ">URANUS GFX Pack</h2>
+      <p style="
+        font-size:.9rem;
+        color:var(--off);
+        line-height:1.75;
+        max-width:480px;
+        font-weight:300;
+      ">Un pack d'assets pour les créatifs qui veulent travailler avec les mêmes ressources que MDG. Pas pour les clients — pour ceux qui font.</p>
+    </div>
+    <div style="flex-shrink:0">
+      <span style="
+        display:inline-flex;
+        align-items:center;
+        gap:.4rem;
+        font-family:'Syne',sans-serif;
+        font-size:.62rem;
+        font-weight:700;
+        letter-spacing:.16em;
+        text-transform:uppercase;
+        color:var(--dim);
+        border:1px solid var(--border);
+        border-radius:100px;
+        padding:.4rem .9rem;
+      ">Espace créatifs · Hors offre studio</span>
+    </div>
+  </div>
+
+<section id="uranus">
+
+<!-- ── TRANSITION MDG → URANUS ── -->
+<div style="background:linear-gradient(to bottom,var(--black) 0%,#040f0c 100%);padding:2.5rem 3rem 0;position:relative;z-index:2;overflow:hidden">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3)">MDG Creative Studio</span>
+      <span style="color:rgba(255,255,255,.5);font-size:.9rem">→</span>
+      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#3DBFA3">URANUS GFX</span>
+    </div>
+    <div style="height:1px;flex:1;background:linear-gradient(to right,rgba(61,191,163,.2),transparent);min-width:40px"></div>
+    <p style="font-size:.75rem;color:rgba(255,255,255,.35);font-weight:300;line-height:1.5;max-width:380px">
+      Outils issus du workflow MDG. Packagés pour une utilisation autonome.
+    </p>
+  </div>
+</div>
+
+<style>
+/* ══════════════════════════════════════════════════════
+   URANUS GFX PACK — ULTRA PREMIUM DROP 2.0
+   ══════════════════════════════════════════════════════ */
+
+#uranus {
+  --u-bg:      #010a08;
+  --u-bg2:     #030d0a;
+  --u-surface: rgba(255,255,255,.028);
+  --u-border:  rgba(61,191,163,.1);
+  --u-border2: rgba(61,191,163,.2);
+  --u-border3: rgba(61,191,163,.4);
+  --u-accent:  #3DBFA3;
+  --u-accent2: #2a9680;
+  --u-accent3: #a8f0e4;
+  --u-gold:    #f5c842;
+  --u-gold2:   #fde68a;
+  --u-dim:     #4a7068;
+  --u-mid:     #7ab5ac;
+  --u-light:   #e8f8f6;
+  background: var(--u-bg);
+  border-top: 1px solid rgba(61,191,163,.16);
+  border-bottom: 1px solid rgba(61,191,163,.16);
+  position: relative; overflow: visible; padding: 0;
+}
+
+/* ── Atmospheric background ── */
+#uranus::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -8%,  rgba(14,77,65,.38) 0%, transparent 60%),
+    radial-gradient(ellipse 60%  80% at 95%  90%,  rgba(61,191,163,.12) 0%, transparent 55%),
+    radial-gradient(ellipse 40%  50% at 5%   85%,  rgba(14,77,65,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 70%  45% at 50% 115%,  rgba(42,150,128,.22) 0%, transparent 60%),
+    radial-gradient(ellipse 35%  35% at 20%  20%,  rgba(14,77,65,.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+/* Noise grain */
+#uranus::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px; opacity: .028; pointer-events: none;
+}
+
+/* ── Stars ── */
+.u-stars { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.u-stars span {
+  position: absolute; border-radius: 50%; background: #fff;
+  animation: u-twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);
+}
+@keyframes u-twinkle {
+  0%,100% { opacity: var(--lo,.12); transform: scale(1); }
+  50%      { opacity: var(--hi,.7);  transform: scale(1.5); }
+}
+
+/* ══ TOP BANNER — limited drop ══ */
+.u-drop-banner {
+  position: relative; z-index: 3;
+  background: linear-gradient(90deg, rgba(14,77,65,.3) 0%, rgba(61,191,163,.15) 50%, rgba(14,77,65,.3) 100%);
+  border-bottom: 1px solid rgba(61,191,163,.22);
+  padding: .6rem 1.5rem;
+  display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+  overflow: hidden;
+}
+.u-drop-banner::before {
+  content: '';
+  position: absolute; top: 0; left: -100%;
+  width: 40%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(61,191,163,.08), transparent);
+  animation: u-sweep 4s linear infinite;
+}
+@keyframes u-sweep { to { left: 160%; } }
+.u-banner-badge {
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--u-gold);
+  background: rgba(245,200,66,.1);
+  border: 1px solid rgba(245,200,66,.3);
+  border-radius: 100px;
+  padding: .22rem .65rem;
+  white-space: nowrap;
+  animation: u-badge-pulse 2.5s ease-in-out infinite;
+}
+@keyframes u-badge-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(245,200,66,.25); }
+  50%      { box-shadow: 0 0 0 5px rgba(245,200,66,0); }
+}
+.u-banner-txt {
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--u-mid);
+}
+.u-banner-txt strong { color: var(--u-accent3); }
+
+/* ══ COUNTDOWN ══ */
+.u-countdown-wrap {
+  position: relative; z-index: 3;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: .6rem;
+  padding: 1.1rem 1.5rem 1.2rem;
+  background: rgba(0,0,0,.5);
+  border-bottom: 1px solid rgba(61,191,163,.15);
+}
+.u-cd-label {
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem; font-weight: 900; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--u-accent); text-align: center;
+}
+.u-cd-units { display: flex; align-items: center; gap: .5rem; }
+.u-cd-unit {
+  display: flex; flex-direction: column; align-items: center; gap: .35rem;
+}
+.u-cd-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.2rem; font-weight: 900; line-height: 1;
+  letter-spacing: -.04em; color: var(--u-light);
+  background: rgba(61,191,163,.1);
+  border: 1px solid rgba(61,191,163,.25);
+  border-radius: 12px;
+  min-width: 64px; text-align: center;
+  padding: .5rem .4rem;
+  transition: color .3s, background .3s;
+  box-shadow: 0 4px 20px rgba(14,77,65,.2), 0 0 0 1px rgba(61,191,163,.05) inset;
+}
+.u-cd-num.flash {
+  color: var(--u-accent3);
+  background: rgba(61,191,163,.2);
+}
+.u-cd-sub {
+  font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--u-dim); font-family: 'Syne', sans-serif; text-align: center;
+}
+.u-cd-sep {
+  font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 900;
+  color: rgba(61,191,163,.4); line-height: 1; margin-bottom: 1.4rem;
+}
+
+/* ══ HERO BAND ══ */
+.u-hero-band {
+  position: relative; z-index: 2;
+  padding: 4rem 3rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+}
+.u-eyebrow {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .28rem .85rem;
+  border-radius: 100px;
+  border: 1px solid var(--u-border3);
+  background: rgba(61,191,163,.07);
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem; font-weight: 900; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--u-accent); margin-bottom: 1.75rem;
+}
+.u-eyebrow-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--u-accent);
+  animation: pulse 2s infinite; flex-shrink: 0;
+}
+.u-hero-title {
+  font-family: 'Syne', sans-serif; font-weight: 900;
+  font-size: clamp(2rem, 10vw, 5.8rem);
+  line-height: .92; letter-spacing: -.04em;
+  color: var(--u-light); margin-bottom: 1.1rem;
+  word-break: keep-all; overflow-wrap: normal;
+}
+.u-hero-title .u-line2 {
+  display: block;
+  background: linear-gradient(118deg, #a8f0e4 0%, #3DBFA3 30%, #2a9680 60%, #a8f0e4 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200% auto;
+  animation: u-shimmer 5s linear infinite;
+}
+@keyframes u-shimmer {
+  0%   { background-position: 0%   center; }
+  100% { background-position: 200% center; }
+}
+.u-hero-desc {
+  font-size: .9rem; color: var(--u-mid); font-weight: 300;
+  line-height: 1.8; max-width: 420px; margin-bottom: 2rem;
+}
+/* ══ HERO COPY EXTRAS ══ */
+.u-asset-pills {
+  display: flex; flex-wrap: wrap; gap: .45rem;
+  margin-bottom: 1.5rem;
+}
+.u-pill {
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem; font-weight: 800;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--u-accent);
+  background: rgba(61,191,163,.1);
+  border: 1px solid rgba(61,191,163,.3);
+  border-radius: 100px;
+  padding: .3rem .75rem;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.u-pill:hover {
+  background: rgba(61,191,163,.18);
+  border-color: rgba(61,191,163,.5);
+}
+.u-sep {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(61,191,163,.35) 0%, rgba(61,191,163,.08) 60%, transparent 100%);
+  margin: 1.5rem 0;
+}
+
+
+/* Price */
+.u-price-block { display: flex; align-items: flex-end; gap: .75rem; margin-bottom: .5rem; }
+.u-price-main  { display: flex; align-items: baseline; gap: .3rem; }
+.u-price-currency {
+  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: var(--u-dim);
+}
+.u-price-num {
+  font-family: 'Syne', sans-serif; font-size: clamp(2.8rem,5vw,3.8rem); font-weight: 900;
+  line-height: 1; letter-spacing: -.06em; color: var(--u-light); white-space: nowrap;
+}
+.u-price-unit { font-size: .68rem; color: var(--u-dim); font-weight: 300; line-height: 1.35; padding-bottom: .4rem; }
+.u-price-badge {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .25rem .7rem; border-radius: 100px;
+  background: rgba(245,200,66,.08); border: 1px solid rgba(245,200,66,.22);
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--u-gold);
+  margin-bottom: 2rem;
+}
+
+/* CTA */
+.u-cta-row { display: flex; align-items: center; gap: .85rem; flex-wrap: wrap; }
+.u-btn-primary {
+  font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 900;
+  letter-spacing: .07em; text-transform: uppercase; color: #fff;
+  background: linear-gradient(135deg, #1a7a65 0%, #3DBFA3 55%, #a8f0e4 100%);
+  border: none; border-radius: 100px; padding: .95rem 2rem;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s;
+  box-shadow: 0 8px 36px rgba(14,77,65,.55), 0 0 0 1px rgba(61,191,163,.12) inset;
+}
+.u-btn-primary::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.16) 0%, transparent 55%);
+  opacity: 0; transition: opacity .2s;
+}
+.u-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 52px rgba(14,77,65,.7), 0 0 0 1px rgba(61,191,163,.18) inset; }
+.u-btn-primary:hover::before { opacity: 1; }
+.u-btn-primary:active { transform: translateY(0); }
+.u-btn-secondary {
+  font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--u-mid); background: none;
+  border: 1px solid var(--u-border2); border-radius: 100px;
+  padding: .95rem 1.6rem; cursor: pointer;
+  transition: border-color .2s, color .2s; text-decoration: none;
+  display: inline-flex; align-items: center; gap: .5rem;
+}
+.u-btn-secondary:hover { border-color: var(--u-accent); color: var(--u-accent); }
+
+/* ══ BOX VISUAL ══ */
+.u-box-visual {
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+}
+.u-box-3d {
+  position: relative; width: 260px; height: 320px;
+  transform-style: preserve-3d;
+  animation: u-float 7s ease-in-out infinite;
+  margin: 4rem auto;
+}
+@keyframes u-float {
+  0%,100% { transform: rotateX(6deg) rotateY(-18deg) translateY(0); }
+  50%      { transform: rotateX(6deg) rotateY(-18deg) translateY(-20px); }
+}
+.u-box-front {
+  position: absolute; inset: 0; border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(61,191,163,.38);
+  box-shadow: 0 50px 120px rgba(0,0,0,.8), 0 0 0 1px rgba(61,191,163,.07) inset, 0 1px 0 rgba(255,255,255,.1) inset;
+  background: var(--u-bg2);
+}
+.u-box-front-img { width: 100%; height: 100%; object-fit: cover; opacity: .88; display: block; transition: opacity .6s ease; }
+.u-box-front-img.fading { opacity: 0; }
+.u-box-front-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(3,2,10,0) 35%, rgba(3,2,10,.97) 100%),
+              linear-gradient(135deg, rgba(14,77,65,.18) 0%, transparent 55%);
+}
+.u-box-front-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.4rem; }
+.u-box-front-label .u-box-name {
+  font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.3rem;
+  color: #fff; letter-spacing: -.03em; line-height: 1.05;
+}
+.u-box-front-label .u-box-sub {
+  font-size: .72rem; color: var(--u-accent); font-weight: 800;
+  letter-spacing: .22em; text-transform: uppercase; margin-top: .22rem;
+}
+.u-box-side {
+  position: absolute; top: 14px; right: -24px; bottom: 14px; width: 24px;
+  background: linear-gradient(90deg, rgba(14,100,80,.65), rgba(6,50,40,.45));
+  border-radius: 0 8px 8px 0;
+  border-right: 1px solid rgba(61,191,163,.22);
+  border-top: 1px solid rgba(61,191,163,.18);
+}
+.u-box-top {
+  position: absolute; top: -16px; left: 14px; right: -10px; height: 16px;
+  background: linear-gradient(180deg, rgba(61,191,163,.14), rgba(30,140,115,.2));
+  border-radius: 4px 8px 0 0;
+  border-top: 1px solid rgba(61,191,163,.28);
+  border-right: 1px solid rgba(61,191,163,.18);
+}
+.u-orb-badge {
+  position: absolute; padding: .38rem .8rem; border-radius: 100px;
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  backdrop-filter: blur(14px); white-space: nowrap;
+  animation: u-bob var(--bd,4s) ease-in-out infinite var(--bdelay,0s);
+}
+@keyframes u-bob {
+  0%,100% { transform: translateY(0) rotate(var(--br,-2deg)); }
+  50%      { transform: translateY(-9px) rotate(var(--br,-2deg)); }
+}
+.u-orb-badge.b1 { top: 6%; right: -12%; background: rgba(14,77,65,.22); border: 1px solid rgba(61,191,163,.38); color: var(--u-accent3); --bd:5s;--bdelay:0s;--br:3deg; }
+.u-orb-badge.b2 { bottom: 24%; left: -16%; background: rgba(245,200,66,.08); border: 1px solid rgba(245,200,66,.28); color: var(--u-gold); --bd:4s;--bdelay:1s;--br:-3deg; }
+.u-orb-badge.b3 { top: 40%; right: -18%; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); color: var(--u-mid); --bd:6s;--bdelay:.5s;--br:1deg; }
+.u-box-glow {
+  position: absolute; bottom: -24px; left: 50%;
+  transform: translateX(-50%); width: 220px; height: 70px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(14,77,65,.5) 0%, transparent 70%);
+  filter: blur(18px);
+  animation: u-glow-pulse 7s ease-in-out infinite;
+}
+@keyframes u-glow-pulse {
+  0%,100% { opacity: .6; transform: translateX(-50%) scaleX(1); }
+  50%      { opacity: 1;  transform: translateX(-50%) scaleX(1.25); }
+}
+
+/* ══ CONTENT GRID ══ */
+.u-content {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 3rem 7rem;
+  display: grid; grid-template-columns: 1fr 400px;
+  gap: 4rem; align-items: start;
+}
+
+/* ── Gallery ── */
+.u-section-label {
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
+  letter-spacing: .24em; text-transform: uppercase; color: var(--u-accent);
+  display: flex; align-items: center; gap: .75rem; margin-bottom: 1.4rem;
+}
+.u-section-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--u-border3), transparent);
+}
+.u-gallery {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: .55rem; margin-bottom: 2.5rem;
+}
+.u-gal-item {
+  position: relative; border-radius: 12px; overflow: hidden;
+  aspect-ratio: 1; border: 1px solid var(--u-border);
+  cursor: pointer; background: var(--u-bg2);
+  transition: border-color .25s, transform .28s cubic-bezier(.16,1,.3,1);
+}
+.u-gal-item:hover { border-color: var(--u-border3); transform: scale(1.03); z-index: 2; }
+.u-gal-item img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .82; transition: transform .4s cubic-bezier(.16,1,.3,1), opacity .3s; }
+.u-gal-item:hover img { transform: scale(1.08); opacity: 1; }
+.u-gal-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(3,2,10,.7) 100%); pointer-events: none; }
+.u-gal-item.big { grid-column: span 2; aspect-ratio: 2/1; }
+
+/* ── Assets chips ── */
+.u-assets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: 2.5rem; }
+.u-asset-chip {
+  display: flex; align-items: center; gap: .65rem;
+  padding: .8rem .95rem;
+  background: var(--u-surface); border: 1px solid var(--u-border);
+  border-radius: 14px;
+  transition: border-color .2s, background .2s;
+}
+.u-asset-chip:hover { border-color: var(--u-border2); background: rgba(61,191,163,.05); }
+.u-asset-icon2 {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(61,191,163,.1); border: 1px solid var(--u-border2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--u-accent); font-size: .65rem;
+}
+.u-asset-name2 { font-family: 'Syne', sans-serif; font-size: .75rem; font-weight: 700; color: var(--u-light); }
+.u-asset-detail2 { font-size: .72rem; color: var(--u-dim); font-weight: 300; margin-top: .04rem; }
+
+/* ── Why preorder ── */
+.u-why-row {
+  display: flex; align-items: flex-start; gap: .75rem;
+  padding: .75rem 0; border-bottom: 1px solid rgba(61,191,163,.06);
+}
+.u-why-row:last-child { border-bottom: none; }
+.u-why-num {
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
+  color: var(--u-accent2); background: rgba(14,77,65,.12);
+  border: 1px solid rgba(14,77,65,.25); border-radius: 7px;
+  width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: .05rem;
+}
+.u-why-txt { font-size: .8rem; color: var(--u-dim); font-weight: 300; line-height: 1.7; }
+.u-why-txt strong { color: var(--u-light); font-weight: 600; }
+
+/* ══ GALERIE PREMIUM URANUS ══ */
+.u-gallery-premium {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+  margin-bottom: 2.5rem;
+}
+.u-gal-premium {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  border: 1px solid rgba(14,77,65,.2);
+  cursor: pointer;
+  background: rgba(8,5,20,.8);
+  transition: border-color .3s, transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s;
+}
+.u-gal-premium.big { grid-column: span 1; aspect-ratio: 4/5; }
+.u-gal-premium:hover {
+  border-color: rgba(61,191,163,.55);
+  transform: scale(1.025);
+  z-index: 3;
+  box-shadow: 0 12px 48px rgba(14,77,65,.35), 0 0 0 1px rgba(61,191,163,.1) inset;
+}
+.u-gal-premium img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  opacity: .85;
+  transition: transform .45s cubic-bezier(.16,1,.3,1), opacity .3s;
+}
+.u-gal-premium:hover img { transform: scale(1.07); opacity: 1; }
+.u-gal-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(3,2,10,.82) 100%);
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: .75rem;
+  opacity: 0;
+  transition: opacity .25s;
+}
+.u-gal-premium:hover .u-gal-overlay { opacity: 1; }
+.u-gal-label {
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.9);
+}
+.u-gal-zoom {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(61,191,163,.22);
+  border: 1px solid rgba(61,191,163,.3);
+  display: flex; align-items: center; justify-content: center;
+  color: #a8f0e4; flex-shrink: 0;
+  backdrop-filter: blur(8px);
+}
+@media(max-width:600px){
+  .u-gallery-premium { grid-template-columns: repeat(3, 1fr); gap: .3rem; }
+  .u-gal-premium.big { grid-column: span 1; aspect-ratio: 4/5; }
+}
+
+/* ══ ORDER CARD ══ */
+.u-order-card {
+  background: rgba(6,4,18,.98);
+  border: 1px solid rgba(61,191,163,.25);
+  border-radius: 26px; overflow: hidden;
+  position: sticky; top: 100px;
+  box-shadow: 0 0 0 1px rgba(61,191,163,.06) inset, 0 40px 90px rgba(0,0,0,.75), 0 0 100px rgba(14,77,65,.14), 0 0 200px rgba(14,77,65,.06);
+}
+.u-card-header {
+  padding: 1.75rem 1.75rem 1.5rem;
+  border-bottom: 1px solid var(--u-border);
+  background: linear-gradient(135deg, rgba(14,77,65,.2) 0%, rgba(61,191,163,.06) 100%);
+  position: relative;
+}
+.u-card-header::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #2a9680, #a8f0e4, #a8f0e4, #a8f0e4, #2a9680, transparent);
+}
+.u-card-pack-name {
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--u-accent); margin-bottom: .5rem;
+}
+.u-card-price { display: flex; align-items: baseline; gap: .4rem; flex-wrap: nowrap; }
+.u-card-price-num {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 7vw, 2.6rem); font-weight: 900;
+  letter-spacing: -.05em; color: var(--u-light); line-height: 1; white-space: nowrap;
+}
+.u-card-price-sub { font-size: .72rem; color: var(--u-dim); font-weight: 300; white-space: nowrap; }
+.u-card-tag {
+  display: inline-flex; align-items: center; gap: .3rem; margin-top: .65rem;
+  padding: .25rem .7rem; border-radius: 100px;
+  background: rgba(245,200,66,.08); border: 1px solid rgba(245,200,66,.2);
+  font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--u-gold);
+}
+
+/* Card body + form */
+.u-card-body { padding: 1.5rem 1.75rem; }
+.u-field2 { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+.u-field2 label {
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--u-accent);
+}
+.u-field2 input {
+  background: rgba(255,255,255,.035); border: 1px solid var(--u-border2);
+  border-radius: 12px; padding: .8rem 1rem;
+  font-family: 'Inter', sans-serif; font-size: .85rem; color: var(--u-light);
+  outline: none; width: 100%;
+  transition: border-color .2s, box-shadow .2s; -webkit-appearance: none;
+}
+.u-field2 input::placeholder { color: var(--u-dim); opacity: .5; }
+.u-field2 input:focus { border-color: var(--u-accent); box-shadow: 0 0 0 3px rgba(61,191,163,.1); }
+
+.u-submit2 {
+  width: 100%; font-family: 'Syne', sans-serif;
+  font-size: .8rem; font-weight: 900; letter-spacing: .07em; text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #0e4d41 0%, #3DBFA3 50%, #3DBFA3 100%);
+  border: none; border-radius: 14px; padding: 1rem 1.5rem; cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 8px 30px rgba(10,60,50,.55); margin-bottom: .85rem;
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+}
+.u-submit2::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+  transition: left .55s;
+}
+.u-submit2:hover { transform: translateY(-1px); box-shadow: 0 14px 44px rgba(10,60,50,.7); }
+.u-submit2:hover::before { left: 150%; }
+.u-submit2:active { transform: translateY(0); }
+
+/* WhatsApp confirm btn */
+.u-wa-btn {
+  width: 100%; font-family: 'Syne', sans-serif;
+  font-size: .78rem; font-weight: 800; letter-spacing: .05em;
+  color: #fff;
+  background: linear-gradient(135deg, #1aad4a, #25d366);
+  border: none; border-radius: 14px; padding: 1rem 1.5rem; cursor: pointer;
+  display: none; align-items: center; justify-content: center; gap: .65rem;
+  text-decoration: none; margin-bottom: .75rem;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 6px 24px rgba(37,211,102,.3);
+}
+.u-wa-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 36px rgba(37,211,102,.45); }
+.u-wa-hint {
+  display: none; margin-top: -.4rem; margin-bottom: .85rem;
+  background: rgba(37,211,102,.07); border: 1px solid rgba(37,211,102,.18);
+  border-radius: 10px; padding: .65rem .9rem;
+  font-size: .72rem; color: var(--u-dim); line-height: 1.55; text-align: center;
+}
+
+.u-card-note {
+  font-size: .72rem; color: var(--u-dim); text-align: center;
+  margin-top: .85rem; line-height: 1.55; font-weight: 300;
+}
+.u-card-note strong { color: var(--u-accent); }
+
+/* Trust row */
+.u-trust-row {
+  display: flex; justify-content: space-around;
+  padding-top: 1rem; border-top: 1px solid var(--u-border); margin-top: 1rem;
+}
+.u-trust-item { display: flex; flex-direction: column; align-items: center; gap: .3rem; }
+.u-trust-icon { font-size: .9rem; display:flex; align-items:center; justify-content:center; color: var(--u-accent, #c8fa64); }
+.u-trust-label {
+  font-size: .72rem; color: var(--u-dim); font-weight: 500;
+  letter-spacing: .06em; text-transform: uppercase; text-align: center;
+  font-family: 'Syne', sans-serif;
+}
+
+/* Success state */
+.u-success2 { display: none; text-align: center; padding: 2.5rem 1.5rem; }
+.u-success-ring {
+  width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 1.25rem;
+  background: linear-gradient(135deg, rgba(14,77,65,.2), rgba(61,191,163,.1));
+  border: 1px solid var(--u-border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+}
+.u-success2 h4 {
+  font-family: 'Syne', sans-serif; font-weight: 900;
+  font-size: 1.15rem; color: var(--u-light);
+  letter-spacing: -.02em; margin-bottom: .5rem;
+}
+.u-success2 p { font-size: .8rem; color: var(--u-dim); font-weight: 300; line-height: 1.65; }
+
+/* ══ RESPONSIVE ══ */
+@media(max-width: 1080px) {
+  .u-hero-band { grid-template-columns: 1fr; gap: 2rem; padding: 3.5rem 1.5rem 2.5rem; }
+  .u-box-visual { order: -1; }
+  .u-box-3d { width: 210px; height: 260px; }
+  .u-content { grid-template-columns: 1fr; padding: 0 2.5rem 5rem; }
+  .u-order-card { position: static; }
+}
+@media(max-width: 600px) {
+  /* Conteneur boîte : rester dans les marges de l'écran */
+  #uranus-visual {
+    max-width: 100%;
+    overflow: visible;
+    padding: .5rem 1.25rem 1rem;
+    box-sizing: border-box;
+  }
+  /* Banner */
+  .u-drop-banner { padding: .55rem 1rem; gap: .4rem; flex-wrap: wrap; justify-content: center; }
+  .u-banner-txt { font-size: .72rem; text-align: center; width: 100%; }
+
+  /* Countdown — grand et bien lisible */
+  .u-countdown-wrap { padding: 1rem 1rem 1.15rem; gap: .5rem; }
+  .u-cd-label { font-size: .72rem; }
+  .u-cd-units { gap: .3rem; }
+  .u-cd-num { font-size: 1.75rem !important; min-width: 52px !important; padding: .45rem .3rem !important; border-radius: 10px !important; }
+  .u-cd-sub { font-size: .72rem; }
+  .u-cd-sep { font-size: 1.4rem !important; margin-bottom: 1.2rem; }
+
+  /* Hero */
+  .u-hero-band { padding: 3.5rem 1.25rem 2.5rem; gap: 2rem; }
+  .u-hero-title { font-size: clamp(2.8rem, 13vw, 3.8rem); }
+  .u-hero-desc { font-size: .85rem; margin-bottom: 1.5rem; }
+  .u-price-num { font-size: 2.6rem !important; }
+  .u-box-3d { width: 160px; height: 200px; }
+  .u-orb-badge { font-size: .72rem; padding: .28rem .6rem; }
+  .u-orb-badge.b1 { right: -2%; }
+  .u-orb-badge.b2 { left: -3%; }
+  .u-cta-row { flex-direction: column; align-items: stretch; }
+  .u-btn-primary, .u-btn-secondary { text-align: center; justify-content: center; width: 100%; }
+
+  /* Content grid */
+  .u-content { padding: 0 1.25rem 4rem; gap: 2.5rem; }
+  .u-assets-grid { grid-template-columns: 1fr; }
+  .u-gallery { grid-template-columns: 1fr 1fr; gap: .4rem; }
+  .u-gal-item.big { grid-column: span 2; }
+  .u-asset-chip { padding: .7rem .8rem; }
+  .u-asset-name2 { font-size: .72rem; }
+  .u-asset-detail2 { font-size: .72rem; }
+  .u-why-txt { font-size: .78rem; }
+
+  /* Order card */
+  .u-order-card { border-radius: 20px; }
+  .u-card-header { padding: 1.25rem; }
+  .u-card-body { padding: 1.25rem; }
+  .u-card-price-num { font-size: 2rem !important; }
+  .u-field2 input { font-size: 16px !important; padding: .9rem 1rem; border-radius: 12px; }
+  .u-field2 label { font-size: .72rem; }
+  .u-submit2, .u-wa-btn { font-size: .9rem !important; min-height: 54px; }
+  .u-trust-row { gap: .2rem; }
+  .u-trust-label { font-size: .72rem; }
+  .u-trust-icon { font-size: .85rem; }
+  .u-success2 h4 { font-size: 1.05rem; }
+}
+</style>
+
+<!-- Stars particles -->
+<div class="u-stars" id="uranusStars" aria-hidden="true"></div>
+
+<!-- ── TOP BANNER ── -->
+<div class="u-drop-banner">
+  <span class="u-banner-badge" style="color:#a8f0e4;background:rgba(61,191,163,.12);border-color:rgba(61,191,163,.3);">URANUS GFX PACK</span>
+  <span class="u-banner-txt">PSD calqués · Actions PS · Textures · Fonts premium</span>
+  <span class="u-banner-badge" style="color:var(--u-accent3);background:rgba(61,191,163,.1);border-color:rgba(61,191,163,.25)">✦ Disponible maintenant</span>
+</div>
+
+<!-- ── LAUNCHED STATUS ── -->
+<div class="u-countdown-wrap" id="u-countdown-wrap" style="justify-content:center;padding:1rem 1.5rem;">
+  <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;justify-content:center;">
+    <span style="display:inline-flex;align-items:center;gap:.4rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--u-accent);">
+      <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--u-accent);box-shadow:0 0 8px var(--u-accent);animation:u-pulse 1.8s ease-in-out infinite;"></span>
+      PACK LANCÉ
+    </span>
+    <span style="font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--u-mid);">Le pack est disponible — commande maintenant</span>
+  </div>
+</div>
+
+<!-- ── HERO BAND ── -->
+<div class="u-hero-band">
+
+  <!-- Left: copy -->
+  <div class="u-hero-copy reveal-up">
+
+    <!-- Eyebrow -->
+    <div class="u-eyebrow">
+      <span class="u-eyebrow-dot"></span>
+      Disponible maintenant
+    </div>
+
+    <!-- Titre -->
+    <h2 class="u-hero-title">
+      URANUS
+      <span class="u-line2">GFX PACK</span>
+    </h2>
+
+    <!-- Description courte -->
+    <p class="u-hero-desc">
+      PSD calqués prêts à éditer, fonts premium, actions Photoshop et textures brutes grain, papier, métal, bruit.
+    </p>
+
+    <!-- Pills assets -->
+    <div class="u-asset-pills">
+      <span class="u-pill">PSD calqués</span>
+      <span class="u-pill">Actions PS</span>
+      <span class="u-pill">Textures brutes</span>
+      <span class="u-pill">Fonts premium</span>
+    </div>
+
+    <!-- Séparateur -->
+    <div class="u-sep"></div>
+
+    <!-- Prix -->
+    <div class="u-price-block">
+      <div class="u-price-main" style="flex-direction:column;align-items:flex-start;gap:.25rem;">
+        <div style="display:flex;align-items:baseline;gap:.35rem;">
+          <span class="u-price-currency" style="color:#3DBFA3;">FCFA</span>
+          <span class="u-price-num" style="color:#ffffff;text-shadow:0 0 40px rgba(61,191,163,.5);">19 900</span>
+          <div class="u-price-unit">Pack complet<br>paiement unique</div>
+        </div>
+      </div>
+    </div>
+    <p class="u-price-badge" style="background:rgba(61,191,163,.12);border-color:rgba(61,191,163,.3);color:#a8f0e4;">Un seul paiement · Accès à vie</p>
+
+    <!-- CTA -->
+    <div class="u-cta-row">
+      <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Comment%20je%20proc%C3%A8de%20%3F" target="_blank" rel="noopener" class="u-btn-primary">
+        Obtenir le pack →
+      </a>
+      <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="u-btn-secondary">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Questions
+      </a>
+    </div>
+  </div>
+
+  <!-- Right: box + PSD cards -->
+  <div class="u-box-visual reveal-up rd1">
+
+<style>
+/* ══ URANUS BOX VISUAL ══ */
+#uranus-visual{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(.75rem,3vw,1.5rem);
+  padding:.5rem 0 1rem;
+  perspective:900px;
+}
+
+/* ── Boîte CSS 3D draggable ── */
+#uranus-box-wrap{
+  flex-shrink:0;
+  width:clamp(200px,34vw,310px);
+  position:relative;
+  cursor:grab;
+  user-select:none;
+  touch-action:none;
+  filter:drop-shadow(0 0 32px rgba(61,191,163,.45)) drop-shadow(0 8px 40px rgba(0,0,0,.8));
+  transition:filter .4s ease;
+}
+#uranus-box-wrap:hover{
+  filter:drop-shadow(0 0 48px rgba(61,191,163,.65)) drop-shadow(0 12px 50px rgba(0,0,0,.85));
+}
+#uranus-box-wrap:active{cursor:grabbing}
+
+#uranus-box-inner{
+  position:relative;
+  transform-style:preserve-3d;
+  will-change:transform;
+  transform:rotateX(-12deg) rotateY(28deg);
+}
+
+/* Toutes les faces */
+.ub-face{
+  position:absolute;
+  top:0; left:0;
+  backface-visibility:hidden;
+  overflow:hidden;
+  background: #040f0c;
+}
+.ub-face img{
+  width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;
+  opacity:1;
+  transition:opacity .55s ease;
+}
+#uranusBoxImg.fading { opacity: 0; }
+
+/* FRONT : face de référence, colle au plan */
+#ub-front{
+  /* positionné par JS : width, height, translateZ(D/2) */
+  border:1.5px solid rgba(61,191,163,.75);
+  box-shadow:0 20px 60px rgba(0,0,0,.9),0 0 0 1px rgba(168,240,228,.18) inset, 0 0 80px rgba(61,191,163,.25);
+  border-radius:4px;
+}
+/* BACK : charnière sur le bord gauche du front, pivote 180° vers l'arrière */
+#ub-back{
+  background:#040c09;
+  border:1px solid rgba(61,191,163,.2);
+  border-radius:2px;
+}
+/* RIGHT : charnière sur le bord droit du front, pivote 90° vers la droite */
+#ub-right{
+  background:#061410;
+  border:1px solid rgba(61,191,163,.25);
+}
+/* LEFT : charnière sur le bord gauche du front, pivote -90° vers la gauche */
+#ub-left{
+  background:#061410;
+  border:1px solid rgba(61,191,163,.25);
+}
+/* TOP : charnière sur le bord haut du front, pivote -90° vers le haut */
+#ub-top{
+  background:linear-gradient(180deg,rgba(61,191,163,.3) 0%,rgba(6,40,33,.8) 100%);
+  border:1px solid rgba(61,191,163,.35);
+}
+/* BOTTOM : charnière sur le bord bas du front, pivote 90° vers le bas */
+#ub-bot{
+  background:#06030e;
+  border:1px solid rgba(61,191,163,.1);
+}
+/* Overlay gradient front */
+#ub-ov{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,2,10,0) 45%,rgba(3,2,10,.88) 100%);
+}
+#ub-lbl{position:absolute;bottom:0;left:0;right:0;padding:.5rem .55rem;}
+#ub-lbl .ubn{
+  font-family:'Syne',sans-serif;font-weight:900;
+  font-size:clamp(.65rem,2.2vw,.88rem);
+  color:#fff;letter-spacing:.06em;line-height:1.1;
+  text-shadow: 0 1px 12px rgba(0,0,0,.9);
+}
+#ub-lbl .ubs{
+  font-size:.72rem;color:var(--u-accent3);font-weight:800;
+  letter-spacing:.2em;text-transform:uppercase;margin-top:.15rem;
+  text-shadow: 0 1px 8px rgba(0,0,0,.8);
+}
+/* Drag hint */
+#ub-hint{
+  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+  font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(61,191,163,.28);pointer-events:none;white-space:nowrap;
+  transition:opacity .4s;
+}
+
+/* ── PSD Cards empilées ── */
+#uranus-psd-stack{
+  position:relative;
+  width:clamp(120px,24vw,200px);
+  height:clamp(170px,34vw,290px);
+  flex-shrink:0;
+}
+.upsd-card{
+  position:absolute;
+  width:100%;
+  aspect-ratio:3/4;
+  border-radius:6px;
+  overflow:hidden;
+  border:1px solid rgba(61,191,163,.22);
+  box-shadow:0 8px 24px rgba(0,0,0,.65);
+  transform-origin:bottom center;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+  cursor:pointer;
+}
+.upsd-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:.88;}
+.upsd-badge{
+  position:absolute;top:5px;left:5px;
+  background:rgba(3,2,10,.85);color:#3DBFA3;
+  font-family:'Syne',sans-serif;font-size:7px;font-weight:900;
+  letter-spacing:.1em;padding:2px 5px;border-radius:3px;
+  border:1px solid rgba(61,191,163,.22);
+  pointer-events:none;
+}
+/* Stack fan positions — 5 cartes */
+#upsd-0{transform:rotate(-10deg) translateY(0px);z-index:1;}
+#upsd-1{transform:rotate(-5deg) translateY(-3px);z-index:2;}
+#upsd-2{transform:rotate(0deg) translateY(-6px);z-index:3;}
+#upsd-3{transform:rotate(5deg) translateY(-9px);z-index:4;}
+#upsd-4{transform:rotate(10deg) translateY(-12px);z-index:5;}
+/* Hover: fan out */
+#uranus-psd-stack:hover #upsd-0{transform:rotate(-20deg) translateY(10px);}
+#uranus-psd-stack:hover #upsd-1{transform:rotate(-10deg) translateY(2px);}
+#uranus-psd-stack:hover #upsd-2{transform:rotate(0deg) translateY(0px);}
+#uranus-psd-stack:hover #upsd-3{transform:rotate(10deg) translateY(2px);}
+#uranus-psd-stack:hover #upsd-4{transform:rotate(20deg) translateY(10px);}
+
+/* Mobile */
+@media(max-width:480px){
+  #uranus-visual{
+    gap:.4rem;
+    padding:.5rem 1rem 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #uranus-box-wrap{width:clamp(150px,54vw,210px);}
+  #uranus-psd-stack{width:clamp(95px,30vw,135px);height:clamp(135px,42vw,190px);}
+}
+</style>
+
+<div id="uranus-visual" style="--ubhd:36px">
+
+  <!-- BOÎTE 3D draggable -->
+  <div id="uranus-box-wrap">
+    <div id="uranus-box-inner">
+      <div class="ub-face" id="ub-front">
+        <img id="uranusBoxImg" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt="URANUS GFX PACK">
+        <div id="ub-ov"></div>
+        <div id="ub-lbl"><div class="ubn">URANUS<br>GFX PACK</div><div class="ubs">by MDG Creative Studio</div></div>
+      </div>
+      <div class="ub-face" id="ub-back"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
+      <div class="ub-face" id="ub-right"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
+      <div class="ub-face" id="ub-left"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
+      <div class="ub-face" id="ub-top"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
+      <div class="ub-face" id="ub-bot"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781068568/Recolor_sky_and_planet_-_Upscaled_guncuf.jpg" loading="eager" fetchpriority="high" alt=""></div>
+    </div>
+    <div id="ub-hint">drag</div>
+  </div>
+
+  <!-- CARTES PSD EMPILÉES EN ÉVENTAIL -->
+  <div id="uranus-psd-stack">
+    <div class="upsd-card" id="upsd-0">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659499/MIST_CASH_l34j9g.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
+    </div>
+    <div class="upsd-card" id="upsd-1">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659243/ISS_d77hnz.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
+    </div>
+    <div class="upsd-card" id="upsd-2">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
+    </div>
+    <div class="upsd-card" id="upsd-3">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776491317/match-day-sadio_we5xzy.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
+    </div>
+    <div class="upsd-card" id="upsd-4">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" loading="lazy" alt="">
+      <span class="upsd-badge">PSD</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="u-orb-badge b2">19 900 FCFA</div>
+<div class="u-box-glow"></div>
+
+<script>
+(function(){
+  var wrap  = document.getElementById('uranus-box-wrap');
+  var inner = document.getElementById('uranus-box-inner');
+  var hint  = document.getElementById('ub-hint');
+  if(!inner) return;
+
+  var D = 40; /* profondeur de la boîte en px */
+
+  function buildFaces(){
+    var W = wrap.offsetWidth;
+    var H = Math.round(W * 4 / 3);
+    if(!W || !H) return;
+
+    inner.style.width  = W + 'px';
+    inner.style.height = H + 'px';
+
+    /* Front et Back : W x H, translateZ = D/2 */
+    var f = document.getElementById('ub-front');
+    f.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(0deg) translateZ('+(D/2)+'px);';
+
+    var b = document.getElementById('ub-back');
+    b.style.cssText = 'width:'+W+'px;height:'+H+'px;left:0;top:0;transform:rotateY(180deg) translateZ('+(D/2)+'px);';
+
+    /* Right et Left : D x H, centrés sur W/2, translateZ = W/2 */
+    var r = document.getElementById('ub-right');
+    r.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(90deg) translateZ('+(W/2)+'px);';
+
+    var l = document.getElementById('ub-left');
+    l.style.cssText = 'width:'+D+'px;height:'+H+'px;left:'+(W/2-D/2)+'px;top:0;transform:rotateY(-90deg) translateZ('+(W/2)+'px);';
+
+    /* Top et Bottom : W x D, centrés sur H/2, translateZ = H/2 */
+    var t = document.getElementById('ub-top');
+    t.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(90deg) translateZ('+(H/2)+'px);';
+
+    var bt = document.getElementById('ub-bot');
+    bt.style.cssText = 'width:'+W+'px;height:'+D+'px;left:0;top:'+(H/2-D/2)+'px;transform:rotateX(-90deg) translateZ('+(H/2)+'px);';
+  }
+
+  /* Build immédiatement + retry rapide pour garantir les dimensions */
+  var _boxBuilt = false;
+  function _buildOnce(){
+    if(_boxBuilt) return;
+    if(wrap.offsetWidth > 0){ _boxBuilt = true; buildFaces(); setTimeout(buildFaces, 150); }
+  }
+  /* Essai immédiat */
+  _buildOnce();
+  /* Double RAF pour le cas où le layout n'est pas encore calculé */
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ _buildOnce(); }); });
+  /* IO en backup pour les cas où la section est loin du viewport */
+  if(!_boxBuilt && 'IntersectionObserver' in window){
+    var _boxObs = new IntersectionObserver(function(entries, obs){
+      if(entries[0].isIntersecting){ _buildOnce(); obs.disconnect(); }
+    },{ rootMargin:'400px' });
+    _boxObs.observe(wrap);
+  }
+  window.addEventListener('resize', buildFaces);
+
+  /* Rotation */
+  var rotX=-12, rotY=28, velX=0, velY=.18, dragging=false, lx=0, ly=0;
+
+  function applyT(){ inner.style.transform='rotateX('+rotX+'deg) rotateY('+rotY+'deg)'; }
+  applyT();
+
+  wrap.addEventListener('mousedown',function(e){dragging=true;lx=e.clientX;ly=e.clientY;velX=0;velY=0;hint.style.opacity='0';e.preventDefault();});
+  window.addEventListener('mousemove',function(e){
+    if(!dragging)return;
+    var dx=e.clientX-lx,dy=e.clientY-ly;
+    rotY+=dx*.42;rotX-=dy*.42;velY=dx*.42;velX=-dy*.42;
+    lx=e.clientX;ly=e.clientY;applyT();
+  });
+  window.addEventListener('mouseup',function(){dragging=false;});
+
+  /* Touch plein 360° — dès qu'on pose le doigt sur la boîte,
+     on prend le contrôle total : scroll bloqué, rotation X+Y libre. */
+  wrap.addEventListener('touchstart',function(e){
+    if(e.touches.length!==1)return;
+    dragging=true;
+    hint.style.opacity='0';
+    lx=e.touches[0].clientX;ly=e.touches[0].clientY;
+    velX=0;velY=0;
+    e.preventDefault();
+  },{passive:false});
+  wrap.addEventListener('touchmove',function(e){
+    if(!dragging||e.touches.length!==1)return;
+    e.preventDefault();
+    var mdx=e.touches[0].clientX-lx,mdy=e.touches[0].clientY-ly;
+    rotY+=mdx*.42;rotX-=mdy*.42;velY=mdx*.42;velX=-mdy*.42;
+    lx=e.touches[0].clientX;ly=e.touches[0].clientY;applyT();
+  },{passive:false});
+  wrap.addEventListener('touchend',function(){dragging=false;},{passive:true});
+  wrap.addEventListener('touchcancel',function(){dragging=false;},{passive:true});
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if(!dragging){
+      velX+=(0-velX)*.04;velY+=(.18-velY)*.02;
+      rotX+=velX;rotY+=velY;
+      rotX=Math.max(-35,Math.min(35,rotX));
+    }
+    applyT();
+  }
+  animate();
+})();
+</script>
+
+  </div>
+
+</div>
+
+<!-- ── CONTENT ACCORDION ── -->
+<style>
+/* ══ URANUS ACCORDION ══ */
+.u-accordion {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 3rem 5rem;
+}
+.u-accordion-trigger {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.1rem 0;
+  border: none; border-bottom: 1px solid rgba(61,191,163,.14);
+  background: none; cursor: pointer;
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--u-accent);
+  transition: color .2s;
+}
+.u-accordion-trigger:hover { color: var(--u-accent3); }
+.u-accordion-trigger-left { display: flex; align-items: center; gap: .75rem; }
+.u-accordion-trigger-left::before {
+  content: ''; display: block;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--u-accent); flex-shrink: 0;
+}
+.u-accordion-chevron {
+  width: 20px; height: 20px; flex-shrink: 0;
+  color: var(--u-dim);
+  transition: transform .35s cubic-bezier(.16,1,.3,1), color .2s;
+}
+.u-accordion-trigger[aria-expanded="true"] .u-accordion-chevron {
+  transform: rotate(180deg);
+  color: var(--u-accent);
+}
+.u-accordion-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .5s cubic-bezier(.16,1,.3,1), opacity .35s ease;
+  opacity: 0;
+}
+.u-accordion-panel.open {
+  opacity: 1;
+}
+.u-accordion-panel-inner {
+  padding: 1.75rem 0 2rem;
+}
+
+/* order card inside accordion — full width, simpler */
+.u-order-card-inline {
+  background: rgba(61,191,163,.04);
+  border: 1px solid rgba(61,191,163,.18);
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 520px;
+}
+.u-order-card-inline .u-card-header {
+  padding: 1.5rem 1.75rem 1.25rem;
+  border-bottom: 1px solid rgba(61,191,163,.1);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;
+}
+.u-order-card-inline .u-card-pack-name {
+  font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 900;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--u-accent);
+}
+.u-order-card-inline .u-card-price {
+  display: flex; align-items: baseline; gap: .4rem;
+}
+.u-order-card-inline .u-card-price-num {
+  font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 900;
+  letter-spacing: -.04em; line-height: 1;
+}
+.u-order-card-inline .u-card-price-sub {
+  font-size: .68rem; color: var(--u-dim); font-weight: 300; line-height: 1.3;
+}
+.u-order-card-inline .u-card-tag {
+  font-family: 'Syne', sans-serif; font-size: .68rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: .22rem .65rem; border-radius: 100px; border: 1px solid;
+  white-space: nowrap;
+}
+.u-order-card-inline .u-card-body { padding: 1.5rem 1.75rem; }
+
+@media(max-width:900px){
+  .u-accordion { padding: 0 1.5rem 4rem; }
+  .u-order-card-inline { max-width: 100%; }
+}
+@media(max-width:600px){
+  .u-accordion { padding: 0 1.25rem 3.5rem; }
+}
+</style>
+
+<div class="u-accordion">
+
+  <!-- ── ACCORDION 1 : Ce que contient le pack ── -->
+  <button class="u-accordion-trigger" aria-expanded="false" onclick="uAccordion(this)">
+    <span class="u-accordion-trigger-left">Ce que contient le pack</span>
+    <svg class="u-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="u-accordion-panel">
+    <div class="u-accordion-panel-inner">
+      <div class="u-assets-grid">
+        <div class="u-asset-chip">
+          <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <div class="u-asset-info"><div class="u-asset-name2">Fichiers PSD</div><div class="u-asset-detail2">5 templates calqués, prêts à éditer</div></div>
+        </div>
+        <div class="u-asset-chip">
+          <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <div class="u-asset-info"><div class="u-asset-name2">Textures</div><div class="u-asset-detail2">Grain, papier, métal, bruit</div></div>
+        </div>
+        <div class="u-asset-chip">
+          <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+          <div class="u-asset-info"><div class="u-asset-name2">Fonts premium</div><div class="u-asset-detail2">Sélection exclusive</div></div>
+        </div>
+        <div class="u-asset-chip">
+          <div class="u-asset-icon2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+          <div class="u-asset-info"><div class="u-asset-name2">Presets PS</div><div class="u-asset-detail2">Actions &amp; LUT Photoshop</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACCORDION 2 : Aperçu des visuels ── -->
+  <button class="u-accordion-trigger" aria-expanded="false" onclick="uAccordion(this)">
+    <span class="u-accordion-trigger-left">Aperçu des visuels</span>
+    <svg class="u-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="u-accordion-panel">
+    <div class="u-accordion-panel-inner">
+      <div class="u-gallery-premium">
+        <div class="u-gal-premium big" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg','Sénégal vs Arabie Saoudite')">
+          <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" loading="lazy">
+          <div class="u-gal-overlay"><div class="u-gal-label">Sénégal vs Arabie Saoudite</div><div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+        </div>
+        <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776491317/match-day-sadio_we5xzy.jpg','Match Day · Sadio Mané')">
+          <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio Mané" loading="lazy">
+          <div class="u-gal-overlay"><div class="u-gal-label">Match Day · Sadio</div><div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+        </div>
+        <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg','USA vs Sénégal')">
+          <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" alt="USA vs Sénégal" loading="lazy">
+          <div class="u-gal-overlay"><div class="u-gal-label">USA vs Sénégal</div><div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+        </div>
+        <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659243/ISS_d77hnz.jpg','ISS 814')">
+          <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776659243/ISS_d77hnz.jpg" alt="ISS 814" loading="lazy">
+          <div class="u-gal-overlay"><div class="u-gal-label">ISS 814</div><div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+        </div>
+        <div class="u-gal-premium" onclick="uGalOpen('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659499/MIST_CASH_l34j9g.jpg','Mist Cash')">
+          <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1776659499/MIST_CASH_l34j9g.jpg" alt="Mist Cash" loading="lazy">
+          <div class="u-gal-overlay"><div class="u-gal-label">Mist Cash</div><div class="u-gal-zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+        </div>
+      </div>
+      <!-- Lightbox -->
+      <div id="u-gal-lb" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(3,2,10,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:1.5rem;" onclick="if(event.target===this)uGalClose()">
+        <button onclick="uGalClose()" style="position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">×</button>
+        <img id="u-gal-lb-img" src="" alt="" style="max-width:92vw;max-height:88vh;border-radius:14px;object-fit:contain;box-shadow:0 40px 120px rgba(0,0,0,.8),0 0 0 1px rgba(61,191,163,.08) inset;">
+        <div id="u-gal-lb-cap" style="position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(61,191,163,.6);white-space:nowrap;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACCORDION 3 : Pourquoi acheter ── -->
+  <button class="u-accordion-trigger" aria-expanded="false" onclick="uAccordion(this)">
+    <span class="u-accordion-trigger-left">Pourquoi acheter</span>
+    <svg class="u-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="u-accordion-panel">
+    <div class="u-accordion-panel-inner">
+      <div class="u-why-row"><span class="u-why-num">01</span><span class="u-why-txt"><strong>5 PSD sélectionnés à la main</strong> — chaque fichier est testé, calqué proprement. Pas de remplissage.</span></div>
+      <div class="u-why-row"><span class="u-why-num">02</span><span class="u-why-txt"><strong>Livraison par WhatsApp</strong> — dès que le pack est prêt, tu reçois le lien en message personnel.</span></div>
+      <div class="u-why-row"><span class="u-why-num">03</span><span class="u-why-txt"><strong>Un seul paiement, à vie</strong> — pas d'abonnement. Le pack t'appartient.</span></div>
+      <div class="u-why-row"><span class="u-why-num">04</span><span class="u-why-txt"><strong>Textures + Fonts + Presets inclus</strong> — tout pour travailler sans chercher ailleurs.</span></div>
+    </div>
+  </div>
+
+  <!-- ── ACCORDION 4 : Commander ── -->
+  <button class="u-accordion-trigger" aria-expanded="false" onclick="uAccordion(this)" style="border-bottom-color:rgba(61,191,163,.22);">
+    <span class="u-accordion-trigger-left" style="color:var(--u-accent3);">Commander — 19 900 FCFA</span>
+    <svg class="u-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="u-accordion-panel">
+    <div class="u-accordion-panel-inner">
+      <div class="u-order-card-inline">
+        <div class="u-card-header">
+          <div class="u-card-pack-name">URANUS GFX PACK</div>
+          <div class="u-card-price">
+            <span class="u-card-price-num" style="color:#ffffff;text-shadow:0 0 30px rgba(61,191,163,.45);">19 900</span>
+            <span class="u-card-price-sub">FCFA<br>Pack complet</span>
+          </div>
+          <div class="u-card-tag" style="background:rgba(61,191,163,.12);border-color:rgba(61,191,163,.3);color:#a8f0e4;">Un seul paiement · Accès à vie</div>
+        </div>
+        <div class="u-card-body">
+          <div id="uranusForm2">
+            <div class="u-field2"><label for="uName2">Prénom / pseudo</label><input type="text" id="uName2" placeholder="Ex : Mouhamed, MDG…" autocomplete="name"></div>
+            <div class="u-field2"><label for="uEmail2">Email</label><input type="email" id="uEmail2" placeholder="ton@email.com" autocomplete="email"></div>
+            <div class="u-field2"><label for="uPhone2">Numéro Wave / téléphone</label><input type="tel" id="uPhone2" placeholder="+221 7X XXX XX XX" autocomplete="tel"></div>
+            <button class="u-submit2" onclick="uranusSubmit2()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Obtenir le pack
+            </button>
+            <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Je%20suis%20pr%C3%AAt%20%C3%A0%20payer%20les%2019%20900%20FCFA%20via%20Wave%20%F0%9F%92%9C" target="_blank" rel="noopener" class="u-wa-btn" id="uranusWaveBtn2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.532 5.859L.057 23.571a.75.75 0 0 0 .921.921l5.712-1.475A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.698-.528-5.228-1.446l-.374-.224-3.892 1.004 1.004-3.892-.224-.374A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+              Confirmer sur WhatsApp
+            </a>
+            <div id="uranusWaveInstructions" class="u-wa-hint">WhatsApp s'ouvre avec ton message prêt 👆<br>MDG te répond et t'envoie la demande Wave directement.</div>
+            <p class="u-card-note">Paiement par <strong>Wave</strong> · Livraison par WhatsApp · Tes infos sont privées</p>
+          </div>
+          <div class="u-success2" id="uranusSuccess2">
+            <div class="u-success-ring">✓</div>
+            <h4>Tu es dans la liste !</h4>
+            <p>Dernière étape — confirme sur WhatsApp pour finaliser ta réservation.</p>
+            <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Je%20suis%20pr%C3%AAt%20%C3%A0%20payer%20les%2019%20900%20FCFA%20via%20Wave%20%F0%9F%92%9C" target="_blank" rel="noopener" class="u-wa-btn" style="display:flex;margin-top:1.25rem">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.532 5.859L.057 23.571a.75.75 0 0 0 .921.921l5.712-1.475A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.698-.528-5.228-1.446l-.374-.224-3.892 1.004 1.004-3.892-.224-.374A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+              Confirmer sur WhatsApp
+            </a>
+            <p style="font-size:.72rem;color:var(--u-dim);margin-top:.75rem;text-align:center">MDG te répond et t'envoie le lien de téléchargement directement ✦</p>
+          </div>
+          <div class="u-trust-row">
+            <div class="u-trust-item"><span class="u-trust-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span class="u-trust-label">Données<br>privées</span></div>
+            <div class="u-trust-item"><span class="u-trust-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10"/><path d="M1 6h22v4H1z"/><path d="M12 21V6"/></svg></span><span class="u-trust-label">Livraison<br>WhatsApp</span></div>
+            <div class="u-trust-item"><span class="u-trust-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span><span class="u-trust-label">Accès<br>à vie</span></div>
+            <div class="u-trust-item"><span class="u-trust-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span><span class="u-trust-label">Validé<br>par MDG</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function uAccordion(trigger) {
+  var panel = trigger.nextElementSibling;
+  var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+  if (isOpen) {
+    /* fermer */
+    trigger.setAttribute('aria-expanded', 'false');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+    requestAnimationFrame(function() {
+      panel.style.transition = 'max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease';
+      panel.style.maxHeight = '0';
+      panel.style.opacity = '0';
+    });
+    panel.addEventListener('transitionend', function handler() {
+      panel.classList.remove('open');
+      panel.removeEventListener('transitionend', handler);
+    });
+  } else {
+    /* ouvrir */
+    trigger.setAttribute('aria-expanded', 'true');
+    panel.classList.add('open');
+    panel.style.maxHeight = '0';
+    panel.style.opacity = '0';
+    panel.style.transition = 'max-height .5s cubic-bezier(.16,1,.3,1), opacity .35s ease';
+    requestAnimationFrame(function() {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      panel.style.opacity = '1';
+    });
+    panel.addEventListener('transitionend', function handler(e) {
+      if (e.propertyName === 'max-height') {
+        panel.style.maxHeight = 'none'; /* libère le panel si contenu dynamique */
+        panel.removeEventListener('transitionend', handler);
+      }
+    });
+  }
+}
+</script>
+
+<script>
+/* ── Stars ── */
+(function(){
+  var c = document.getElementById('uranusStars');
+  if (!c) return;
+  var h = '';
+  var stars = [
+    [15,20,1,3,.15,.6],[72,8,1,4,.1,.5],[88,35,1.5,5,.12,.55],
+    [32,70,1,3.5,.1,.7],[55,85,1,4,.08,.45],[10,60,1.5,6,.1,.5],
+    [93,75,1,3,.15,.65],[42,15,1,4.5,.1,.4],[67,50,1,5,.12,.5],
+    [25,45,2,3,.2,.8],[80,22,1,4,.1,.6],[48,65,1.5,5,.12,.7],
+    [18,80,1,3.5,.1,.5],[60,10,1,4,.08,.45],[35,55,1,6,.15,.6],
+    [77,40,1.5,3,.1,.55],[5,35,1,4.5,.12,.7],[90,55,1,3,.1,.6],
+    [50,30,1,5,.1,.5],[20,90,1,3.5,.12,.6],[70,25,1.5,4,.1,.55]
+  ];
+  stars.forEach(function(s){
+    h += '<span style="left:'+s[0]+'%;top:'+s[1]+'%;width:'+s[2]+'px;height:'+s[2]+'px;--lo:'+s[4]+';--hi:'+s[5]+';--d:'+s[3]+'s;--delay:'+(Math.random()*4).toFixed(1)+'s"></span>';
+  });
+  c.innerHTML = h;
+})();
+
+/* ── Box image rotation ── */
+(function(){
+
+  var imgs = [
+    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg',
+    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg',
+    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1776659499/MIST_CASH_l34j9g.jpg',
+    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1776659243/ISS_d77hnz.jpg',
+    'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1776491253/SEN_VS_MAROC_go9pvs.jpg'
+  ];
+  /* Précharger */
+  imgs.forEach(function(src){ var i = new Image(); i.src = src; });
+  var idx = 0;
+  var el  = document.getElementById('uranusBoxImg');
+  if (!el) return;
+  setInterval(function(){
+    idx = (idx + 1) % imgs.length;
+    el.classList.add('fading');
+    el.classList.remove('loaded');
+    setTimeout(function(){
+      el.src = imgs[idx];
+      el.onload = function(){ el.classList.add('loaded'); el.classList.remove('fading'); };
+      el.onerror = function(){ el.classList.remove('fading'); };
+    }, 600);
+  }, 3500);
+})();
+(function(){
+  /* Countdown disabled — pack is live */
+})();
+
+/* ── Galerie Uranus : lightbox ── */
+function uGalOpen(src, cap) {
+  var lb = document.getElementById('u-gal-lb');
+  var img = document.getElementById('u-gal-lb-img');
+  var capEl = document.getElementById('u-gal-lb-cap');
+  if (!lb || !img) return;
+  img.src = src;
+  if (capEl) capEl.textContent = cap || '';
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function uGalClose() {
+  var lb = document.getElementById('u-gal-lb');
+  if (lb) lb.style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') uGalClose(); });
+
+/* ── Submit ── */
+function uranusSubmit2() {
+  var name  = document.getElementById('uName2').value.trim();
+  var email = document.getElementById('uEmail2').value.trim();
+  var phone = document.getElementById('uPhone2').value.trim();
+  if (!name)  { document.getElementById('uName2').focus(); return; }
+  if (!email || !email.includes('@')) { document.getElementById('uEmail2').focus(); return; }
+  if (!phone) { document.getElementById('uPhone2').focus(); return; }
+
+  var btn = document.querySelector('.u-submit2');
+  btn.textContent = '⏳ Envoi…';
+  btn.disabled = true;
+
+  /* Web3Forms */
+  var WEB3FORMS_KEY = '7db2eac5-7a46-40db-a864-8b99ea9f4b7b';
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      access_key: WEB3FORMS_KEY,
+      subject: 'URANUS GFX PACK — Nouvelle précommande',
+      from_name: 'MDG Creative Studio',
+      name: name, email: email, phone: phone,
+      message: 'URANUS GFX PACK · 19 900 FCFA\n\nNom : ' + name + '\nEmail : ' + email + '\nTéléphone : ' + phone
+    })
+  }).then(function(res){ return res.json(); }).then(function(data){
+    if (data.success) {
+      btn.textContent = '✓ Enregistré !';
+      var waveBtn = document.getElementById('uranusWaveBtn2');
+      waveBtn.style.display = 'flex';
+      var hint = document.getElementById('uranusWaveInstructions');
+      if (hint) hint.style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('uranusForm2').style.display = 'none';
+        document.getElementById('uranusSuccess2').style.display = 'block';
+      }, 1500);
+    } else {
+      btn.textContent = '✕ Erreur — réessaie';
+      btn.disabled = false;
+      setTimeout(function(){ btn.textContent = 'Enregistrer ma précommande →'; }, 3000);
+    }
+  }).catch(function(){
+    btn.textContent = '✕ Erreur réseau';
+    btn.disabled = false;
+    setTimeout(function(){ btn.textContent = 'Enregistrer ma précommande →'; }, 3000);
+  });
+}
+
+function copyWaveNumber(btn) {
+  navigator.clipboard.writeText('221763772208').then(function() {
+    btn.textContent = '✅ Copié !';
+    setTimeout(function(){ btn.textContent = '📋 Copier le numéro'; }, 2500);
+  }).catch(function(){});
+}
+</script>
+
+</section>
+
+</div><!-- /#for-creators -->
 
 </main>
 
@@ -14145,9 +14434,9 @@ function submitPackForm(e) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="mailto:mdgdesign221@gmail.com" class="f-contact-item">
+        <a href="mailto:contact@mdgcreative.studio" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val">mdgdesign221@gmail.com</span>
+          <span class="f-contact-val">contact@mdgcreative.studio</span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -14177,7 +14466,10 @@ function submitPackForm(e) {
 
   <div class="footer-bottom" id="kaolackTimeWrap">
     <p>© 2026 MDG Creative Studio · All rights reserved</p>
-    <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">@_its.mdg</a>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+      <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">@_its.mdg</a>
+      <a href="#uranus" onclick="if(typeof lenisScroll!=='undefined')lenisScroll('uranus')" style="font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(61,191,163,.6);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#3DBFA3'" onmouseout="this.style.color='rgba(61,191,163,.6)'">✦ URANUS GFX</a>
+    </div>
   </div>
 </footer>
 
@@ -15906,13 +16198,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="mailto:mdgdesign221@gmail.com" class="cpop-link cpop-mail">
+    <a href="mailto:contact@mdgcreative.studio" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail">mdgdesign221@gmail.com</div>
+        <div class="cpop-link-detail">contact@mdgcreative.studio</div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -15981,7 +16273,10 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   var currentIndex = 0;
 
   function buildCardList(){
-    cards = Array.from(document.querySelectorAll('[data-lb-src]'));
+    // Scoper au panel actif — évite la navigation croisée entre VISUALS/COVERS
+    var activePanel = document.querySelector('.pnl-acc.active');
+    var scope = activePanel || document;
+    cards = Array.from(scope.querySelectorAll('[data-lb-src]'));
   }
 
   function openLb(src, title, desc, index){
@@ -16344,7 +16639,7 @@ var translations = {
   press_h2_em: { fr: '', en: '' },
   press_source: { fr: 'ISS 814 sur YouTube', en: 'ISS 814 on YouTube' },
   press_title: { fr: 'ISS 814 parle de son directeur créatif', en: 'ISS 814 talks about his creative director' },
-  press_desc: { fr: 'ISS 814 parle de MDG avec enthousiasme. Il dit du bien de son travail, de son sérieux et de ses qualités humaines.', en: 'ISS 814 speaks about MDG with enthusiasm. He praises his work, professionalism and human qualities.' },
+  press_desc: { fr: 'ISS 814 parle de MDG en public avec naturel. Sérieux, qualité du travail et relation humaine évoqués.', en: 'ISS 814 speaks about MDG with enthusiasm. He praises his work, professionalism and human qualities.' },
   press_timestamp: { fr: 'À partir de 59:12', en: 'Starting at 59:12' },
 
   // ─── TESTIMONIALS ────────────────────────────────────
@@ -16451,7 +16746,7 @@ var translations = {
 
   // Pricing note
   pricing_note_title: { fr: 'Conditions générales', en: 'General terms' },
-  pricing_note_body: { fr: '<strong>Acompte 50%</strong> avant démarrage de tout projet. Solde à la livraison finale. <strong>3 révisions</strong> incluses par projet. Au-delà, chaque correction est facturée selon le temps passé. Urgences : <strong>+10%</strong> sur le tarif. Projets longue durée : <strong>-20%</strong>. Disponible <strong>Lun à Sam, 09h à minuit</strong>. Contact : mdgdesign221@gmail.com', en: '<strong>50% deposit</strong> before any project starts. Balance due on final delivery. <strong>3 revisions</strong> included per project. Beyond that, each correction is billed by time spent. Rush jobs: <strong>+10%</strong>. Long-term projects: <strong>-20%</strong>. Available <strong>Mon to Sat, 9am to midnight</strong>. Contact: mdgdesign221@gmail.com' },
+  pricing_note_body: { fr: '<strong>Acompte 50%</strong> avant démarrage de tout projet. Solde à la livraison finale. <strong>3 révisions</strong> incluses par projet. Au-delà, chaque correction est facturée selon le temps passé. Urgences : <strong>+10%</strong> sur le tarif. Projets longue durée : <strong>-20%</strong>. Disponible <strong>Lun à Sam, 09h à minuit</strong>. Contact : contact@mdgcreative.studio', en: '<strong>50% deposit</strong> before any project starts. Balance due on final delivery. <strong>3 revisions</strong> included per project. Beyond that, each correction is billed by time spent. Rush jobs: <strong>+10%</strong>. Long-term projects: <strong>-20%</strong>. Available <strong>Mon to Sat, 9am to midnight</strong>. Contact: contact@mdgcreative.studio' },
 
   // Add-ons
   addon_lyrics_name: { fr: 'Lyrics Videos', en: 'Lyrics Videos' },
@@ -16930,8 +17225,8 @@ function applyComplexPatches(lang) {
   if (footerNavTitle) footerNavTitle.textContent = lang === 'en' ? 'Shortcuts' : 'Raccourcis';
   // Footer nav links
   var footerNavLinks = document.querySelectorAll('.footer-nav-group .f-nav-list li a');
-  var footerNavTextsFr = ['Projets','Services','Comment je travaille','Tarifs','Collaborations','✦ URANUS GFX','FAQ'];
-  var footerNavTextsEn = ['Work','Services','How I work','Pricing','Collaborations','✦ URANUS GFX','FAQ'];
+  var footerNavTextsFr = ['Projets','Services','Comment je travaille','Tarifs','Collaborations','FAQ'];
+  var footerNavTextsEn = ['Work','Services','How I work','Pricing','Collaborations','FAQ'];
   footerNavLinks.forEach(function(el, i){
     el.textContent = lang === 'en' ? (footerNavTextsEn[i] || el.textContent) : (footerNavTextsFr[i] || el.textContent);
   });
@@ -17073,7 +17368,7 @@ function applyComplexPatches(lang) {
   var uEyebrow=document.querySelector('.u-eyebrow');
   if(uEyebrow){var ueDot=uEyebrow.querySelector('.u-eyebrow-dot');uEyebrow.innerHTML='';if(ueDot)uEyebrow.appendChild(ueDot);uEyebrow.appendChild(document.createTextNode(' '+(lang==='en'?'Available now':'Disponible maintenant')));}
   var uHeroDesc=document.querySelector('.u-hero-desc');
-  if(uHeroDesc) uHeroDesc.textContent=lang==='en'?'Layered PSD files ready to edit, premium fonts, Photoshop actions and raw textures — grain, paper, metal, noise. Everything you need for visuals that hit.':'PSD calqués prêts à éditer, fonts premium, actions Photoshop et textures brutes grain, papier, métal, bruit. Tout ce qu\'il faut pour des visuels qui claquent.';
+  if(uHeroDesc) uHeroDesc.textContent=lang==='en'?'Layered PSD files ready to edit, premium fonts, Photoshop actions and raw textures — grain, paper, metal, noise.':'PSD calqués prêts à éditer, fonts premium, actions Photoshop et textures brutes grain, papier, métal, bruit.';
   var uPillsFr=['PSD calqués','Actions PS','Textures brutes','Fonts premium'];
   var uPillsEn=['Layered PSD','PS Actions','Raw Textures','Premium Fonts'];
   document.querySelectorAll('.u-pill').forEach(function(el,i){if(uPillsFr[i])el.textContent=lang==='en'?uPillsEn[i]:uPillsFr[i];});
@@ -17163,9 +17458,9 @@ function applyComplexPatches(lang) {
   // ── Portfolio tabs ──
   var portTabs = document.querySelectorAll('.port-tab');
   var portTabData = [
-    { name: lang === 'en' ? 'In Motion' : 'In Motion',   sub: lang === 'en' ? 'Motion · Video · Animation' : 'Motion · Vidéo · Animation' },
+    { name: lang === 'en' ? 'Motion' : 'Motion',   sub: lang === 'en' ? 'Motion · Video · Animation' : 'Motion · Vidéo · Animation' },
     { name: 'Cover Art',                                  sub: lang === 'en' ? 'Singles · EPs · Albums' : 'Singles · EP · Albums' },
-    { name: lang === 'en' ? 'Graphics' : 'Graphisme',    sub: lang === 'en' ? 'Posters · Editorial · Identity' : 'Affiches · Éditorial · Identité' }
+    { name: lang === 'en' ? 'Visuals' : 'Visuals',    sub: lang === 'en' ? 'Posters · Editorial · Identity' : 'Affiches · Éditorial · Identité' }
   ];
   portTabs.forEach(function(tab, i) {
     var nameEl = tab.querySelector('.port-tab-name');
@@ -17260,7 +17555,7 @@ function applyComplexPatches(lang) {
   var spSources = document.querySelectorAll('.sp-vcard-source');
   var spDescs = document.querySelectorAll('.sp-vcard-desc');
   var spDescsFr = [
-    'ISS 814 parle de MDG avec enthousiasme. Il dit du bien de son travail, de son sérieux et de ses qualités humaines.',
+    'ISS 814 parle de MDG en public avec naturel. Sérieux, qualité du travail et relation humaine évoqués.',
     'Le mot "trop fort" sort naturellement, en public. Pas de mise en scène.',
     'Sur le plateau, Key Em Ti sort le nom de MDG sans qu\'on le lui demande.',
     'Le mot "génie" sort naturellement, pas pour faire plaisir.'
@@ -17488,8 +17783,8 @@ function applyComplexPatches(lang) {
 
   // ── Burger menu nav links ──
   var mobMenuLinks = document.querySelectorAll('.mob-menu a:not(.mob-cta)');
-  var mobMenuFr = ['','Réalisations','À propos','Services','Collabs','Process','Tarifs & Packs','URANUS GFX','FAQ','Contact'];
-  var mobMenuEn = ['','Portfolio','About','Services','Collabs','Process','Pricing','URANUS GFX','FAQ','Contact'];
+  var mobMenuFr = ['','Réalisations','À propos','Services','Collabs','Process','Tarifs & Packs','FAQ','Contact'];
+  var mobMenuEn = ['','Portfolio','About','Services','Collabs','Process','Pricing','FAQ','Contact'];
   mobMenuLinks.forEach(function(el, i) {
     if (mobMenuFr[i]) el.textContent = lang === 'en' ? (mobMenuEn[i] || el.textContent) : (mobMenuFr[i] || el.textContent);
   });
@@ -17715,7 +18010,6 @@ document.addEventListener('DOMContentLoaded', function(){
     <a class="qn-item" onclick="qnGo('collabs')"><span class="qn-num">04</span>Collabs</a>
     <a class="qn-item" onclick="qnGo('process')"><span class="qn-num">05</span>Process</a>
     <a class="qn-item" onclick="qnGo('pricing')"><span class="qn-num">06</span>Tarifs &amp; Packs</a>
-    <a class="qn-item" onclick="qnGo('uranus')" style="color:#3DBFA3"><span class="qn-num" style="color:#3DBFA3">✦</span>URANUS GFX</a>
     <div class="qn-divider"></div>
     <a class="qn-item" onclick="qnGo('faq')"><span class="qn-num">07</span>FAQ</a>
     <div class="qn-divider"></div>
@@ -18142,7 +18436,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   initMotTrack();
 
   // Aussi au clic sur le tab (si l'utilisateur revient dessus)
-  document.querySelectorAll('.port-tab, .acc-tab').forEach(function(tab){
+  document.querySelectorAll('.port-new-tab-btn, .port-tab, .acc-tab').forEach(function(tab){
     tab.addEventListener('click', function(){
       if(tab.dataset.panel === 'motion'){
         initMotTrack();
@@ -18198,6 +18492,32 @@ function pnlSwitch(panel, btn) {
   var l = document.getElementById('portCountLabel');
   if (n && btn.dataset.count) n.textContent = btn.dataset.count;
   if (l && btn.dataset.label) l.textContent = btn.dataset.label;
+  // ── Recalibrer les flèches une fois le panel réellement affiché ──
+  setTimeout(function() { _refreshPanelNav(panel); }, 60);
+}
+// Recalibration des arrows prev/next après affichage d'un panel
+// Nécessaire car update() s'exécute à l'init quand les panels sont display:none
+// → getBoundingClientRect() = 0 → next.disabled = true incorrectement
+function _refreshPanelNav(panel) {
+  var cfg = {
+    work:   { track:'workTrack', prev:'workPrev', next:'workNext', cur:'workCur', sel:'.work-card' },
+    covers: { track:'covTrack',  prev:'covPrev',  next:'covNext',  cur:'covCur',  sel:'.cov-card'  },
+    motion: { track:'motTrack',  prev:'motPrev',  next:'motNext',  cur:'motCur',  sel:'.work-card' }
+  }[panel];
+  if (!cfg) return;
+  var track = document.getElementById(cfg.track);
+  var prev  = document.getElementById(cfg.prev);
+  var next  = document.getElementById(cfg.next);
+  var curEl = document.getElementById(cfg.cur);
+  if (!track || !prev || !next) return;
+  var cards = track.querySelectorAll(cfg.sel);
+  if (!cards.length) return;
+  var w = cards[0].getBoundingClientRect().width;
+  var step = (w > 0 ? w : 260) + 20;
+  var i = Math.round(track.scrollLeft / step);
+  if (curEl) curEl.textContent = String(Math.min(i + 1, cards.length)).padStart(2, '0');
+  prev.disabled = track.scrollLeft < 4;
+  next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
 }
 function accSwitch(panel, btn) {
   document.querySelectorAll('.acc-tab, .port-tab, .port-new-tab-btn').forEach(t => t.classList.remove('active'));
@@ -18974,16 +19294,16 @@ window.addEventListener('load', function() {
   });
 
   // Mettre à jour le label selon la section visible
-  var sections = ['hero','about','portfolio-accordion','collabs','services','process','uranus','pricing','faq','contact'];
+  var sections = ['hero','about','portfolio-accordion','collabs','services','process','pricing','faq','contact'];
   var sectionLabelsFr = {
     'hero':'Accueil', 'about':'À propos', 'portfolio-accordion':'Réalisations',
     'collabs':'Collabs', 'services':'Services', 'process':'Process',
-    'pricing':'Tarifs', 'uranus':'URANUS GFX', 'faq':'FAQ', 'contact':'Contact'
+    'pricing':'Tarifs', 'faq':'FAQ', 'contact':'Contact'
   };
   var sectionLabelsEn = {
     'hero':'Home', 'about':'About', 'portfolio-accordion':'Portfolio',
     'collabs':'Collabs', 'services':'Services', 'process':'Process',
-    'pricing':'Pricing', 'uranus':'URANUS GFX', 'faq':'FAQ', 'contact':'Contact'
+    'pricing':'Pricing', 'faq':'FAQ', 'contact':'Contact'
   };
   var sectionLabels = sectionLabelsFr;
 
@@ -20374,7 +20694,6 @@ main > section{margin-top:0!important;margin-bottom:0!important}
     'services'            : '/services',
     'collabs'             : '/collabs',
     'process'             : '/process',
-    'uranus'              : '/uranus',
     'pricing'             : '/tarifs',
     'faq'                 : '/faq',
     'contact'             : '/contact'
