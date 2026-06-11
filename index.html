@@ -19886,6 +19886,7 @@ video,
    car elle ne contient pas d'images ou d'éléments qui capturent le touch. */
 .svc-card,
 .trust-item,
+.ac-card,
 .sp-card,
 .sp-vcard,
 .process-step,
@@ -19898,6 +19899,10 @@ video,
 .u-order-card,
 .u-gal-premium,
 .u-gallery-premium,
+.pieter-step-num,
+.pieter-step-eyebrow,
+.pieter-step-title,
+.pieter-step-body,
 .collabs-avatar,
 .collab-item,
 #hero,
@@ -19913,9 +19918,6 @@ video,
 footer {
   touch-action: pan-y;
 }
-/* .ac-card retiré : carousel horizontal sur mobile (ac-grid) — pan-x pan-y déjà géré dans le media query dédié et @media(hover:none) */
-/* .pieter-step-num/.eyebrow/.title/.body retirés : ces enfants texte vivent dans #pieter-process-track (carousel mobile).
-   pan-y ici bloquerait le swipe si le doigt tombe sur du texte. Le track parent a déjà pan-x pan-y. */
 
 /* Carousel horizontal dans #collabs : géré directement dans le CSS inline de la section */
 
