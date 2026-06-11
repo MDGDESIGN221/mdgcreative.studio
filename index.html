@@ -9375,6 +9375,28 @@ body,
     white-space: nowrap;
   }
 }
+
+/* Behance / Instagram note sous le header portfolio */
+.port-gallery-note {
+  text-align: center;
+  padding: .9rem 1.5rem 0;
+  color: var(--dim);
+  font-size: .78rem;
+  font-weight: 300;
+  letter-spacing: .01em;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
+}
+.port-gallery-note-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: .2em;
+  transition: opacity .2s;
+}
+.port-gallery-note-link:hover { opacity: .75; }
+@media(max-width:767px) {
+  .port-gallery-note { padding: .75rem 1.25rem 0; font-size: .75rem; }
+}
 </style>
 
   <div class="container">
@@ -9399,10 +9421,10 @@ body,
     </div>
 
     <!-- Behance / Instagram — global, visible peu importe l'onglet actif -->
-    <div style="text-align:center;padding:.6rem 1.5rem 0;color:var(--dim);font-size:.8rem;font-weight:300;letter-spacing:.01em">
-      Un aperçu. La discographie complète est sur <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" style="color:var(--accent);text-underline-offset:.2em">Behance</a> et <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" style="color:var(--accent);text-underline-offset:.2em">Instagram</a>.
+    <!-- Behance / Instagram — global, visible peu importe l'onglet actif -->
+    <div class="port-gallery-note">
+      Un aperçu. La discographie complète est sur <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="port-gallery-note-link">Behance</a> et <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" class="port-gallery-note-link">Instagram</a>.
     </div>
-
     <!-- Panel Visuals -->
     <div class="pnl-acc active" id="pnl-work">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
@@ -10192,7 +10214,7 @@ body,
         </a>
 
         <!-- For Creators — raccourci URANUS -->
-        <a href="#uranus" onclick="if(typeof lenisScroll!=='undefined'){lenisScroll('uranus');return false;}" class="av2-for-creators">
+        <a href="#uranus" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined'){lenisScroll('uranus');}else{var el=document.getElementById('uranus');if(el)el.scrollIntoView({behavior:'smooth'});}" class="av2-for-creators" role="button" tabindex="0">
           <div class="av2-fc-top">
             <span class="av2-fc-label">For Creators</span>
             <span class="av2-fc-price">19 900 FCFA</span>
@@ -10302,6 +10324,8 @@ body,
   cursor: pointer;
   transition: border-color .22s, background .22s;
   position: relative;
+  z-index: 2;
+  pointer-events: all;
   overflow: hidden;
 }
 .av2-for-creators::before {
@@ -20766,6 +20790,16 @@ main > section{margin-top:0!important;margin-bottom:0!important}
     SLUG_TO_ID['/' + id] = id; // ex: /pricing → pricing (fallback)
   });
 
+  /* Alias supplémentaires : slugs alternatifs → même section */
+  SLUG_TO_ID['/pricing']    = 'pricing';      /* /pricing alias de /tarifs */
+  SLUG_TO_ID['/portfolio']  = 'portfolio-accordion';
+  SLUG_TO_ID['/realisations'] = 'portfolio-accordion';
+  SLUG_TO_ID['/process']    = 'process';
+  SLUG_TO_ID['/collab']     = 'collabs';
+  SLUG_TO_ID['/tarifs']     = 'pricing';      /* canonical */
+  SLUG_TO_ID['/uranus']     = 'uranus';
+
+
   /* ── 2. État interne ── */
   var _lastSlug    = null;  // dernier slug pushé
   var _scrolling   = false; // vrai pendant un scroll programmatique → bloque observer
@@ -20902,13 +20936,22 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   /* ── 9. Résoudre le slug au chargement (navigation directe) ── */
   function resolveOnLoad(){
     var path = window.location.pathname.replace(/\/$/, '');
+    var hash = window.location.hash.replace(/^#\/?/, '');
+
+    /* Cas : serveur a redirigé une URL inconnue → on relit le path depuis le hash (#/work) */
+    if(hash && !SLUG_TO_ID[path]){
+      var hashPath = '/' + hash.replace(/^\//, '');
+      if(SLUG_TO_ID[hashPath]){ path = hashPath; }
+      else if(SLUG_TO_ID['/' + hash]){ path = '/' + hash; }
+    }
+
     if(!path || path === '/') path = '/home';
     var id = SLUG_TO_ID[path];
 
     if(id && id !== 'hero'){
       /* URL directe vers une section : scroll différé post-loader */
       scrollToSection(id, false);
-      /* Ne pas push (déjà dans l'URL), juste aligner l'état */
+      /* Normaliser l'URL propre (enlève hash ou slug inconnu) */
       _lastSlug = ROUTES[id] || path;
       try { history.replaceState({section: id}, '', ROUTES[id] || path); } catch(e){}
     } else {
