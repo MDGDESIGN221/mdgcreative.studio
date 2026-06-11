@@ -8,15 +8,15 @@
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835079/hero_mobile_vouizb.jpg" fetchpriority="high" media="(max-width: 767px)">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
+  // scrollRestoration manual = on gère nous-mêmes
   if(history.scrollRestoration) history.scrollRestoration='manual';
+  // Forcer top immédiatement (avant que le browser restore)
   window.scrollTo(0,0);
   document.documentElement.scrollTop=0;
-  document.body&&(document.body.scrollTop=0);
+  // Lock scroll jusqu'au loader — déverrouillé par le loader
   window.__forceTop=true;
-  window.addEventListener('scroll',function _lockTop(){
-    if(window.__forceTop){window.scrollTo(0,0);}
-    else{window.removeEventListener('scroll',_lockTop);}
-  },{passive:false});
+  var _lockFn=function(){if(window.__forceTop){window.scrollTo(0,0);}else{window.removeEventListener('scroll',_lockFn);}};
+  window.addEventListener('scroll',_lockFn,{passive:false});
 </script>
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
 <meta name="theme-color" content="#060606">
@@ -16230,6 +16230,8 @@ function initLenis() {
     prevent: node => node.id === 'workTrack' || node.id === 'covTrack' || node.id === 'motTrack' || !!(node.closest && node.closest('.pack-modal-overlay')),
   });
   window.lenis = lenis;
+  // Toujours démarrer en haut — Lenis peut avoir une position interne résiduelle
+  lenis.scrollTo(0, { immediate: true });
   function raf(time) {
     lenis.raf(time);
     requestAnimationFrame(raf);
