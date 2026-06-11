@@ -7,7 +7,17 @@
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835363/about_5_jdxu46.jpg" fetchpriority="high" media="(min-width: 768px)">
   <link rel="preload" as="image" href="https://res.cloudinary.com/djdkpihuz/image/upload/v1780835079/hero_mobile_vouizb.jpg" fetchpriority="high" media="(max-width: 767px)">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>if(history.scrollRestoration)history.scrollRestoration='manual';window.scrollTo(0,0);</script>
+<script>
+  if(history.scrollRestoration) history.scrollRestoration='manual';
+  window.scrollTo(0,0);
+  document.documentElement.scrollTop=0;
+  document.body&&(document.body.scrollTop=0);
+  window.__forceTop=true;
+  window.addEventListener('scroll',function _lockTop(){
+    if(window.__forceTop){window.scrollTo(0,0);}
+    else{window.removeEventListener('scroll',_lockTop);}
+  },{passive:false});
+</script>
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
 <meta name="theme-color" content="#060606">
 <meta name="color-scheme" content="dark">
@@ -14807,7 +14817,7 @@ setTimeout(function(){
 // ── LOADER CINÉMATIQUE ──
 (function(){
   var loader = document.getElementById('loader');
-  if(!loader){ window._loaderDoneAt = Date.now(); return; }
+  if(!loader){ window._loaderDoneAt = Date.now(); window.__forceTop=false; window.scrollTo(0,0); if(window.lenis)window.lenis.scrollTo(0,{immediate:true}); return; }
 
   document.body.style.overflow = 'hidden';
 
@@ -14844,6 +14854,11 @@ setTimeout(function(){
             loader.classList.add('done');
             document.body.style.overflow = '';
             window._loaderDoneAt = Date.now();
+            // Débloquer le lock scroll et forcer le top
+            window.__forceTop = false;
+            window.scrollTo(0,0);
+            document.documentElement.scrollTop=0;
+            if(window.lenis) window.lenis.scrollTo(0,{immediate:true});
             setTimeout(function(){ loader.style.display='none'; }, 1400);
           }, 180);
         }
@@ -19593,28 +19608,8 @@ function cpopSend(){
 }
 </script>
 <script>
-// ── Toujours démarrer en haut de page au rechargement ──
-if ('scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
-}
-window.addEventListener('beforeunload', function() {
-  window.scrollTo(0, 0);
-});
-// Forcer le scroll en haut après que tout soit initialisé (Lenis inclus)
-window.addEventListener('load', function() {
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-  // Si Lenis est dispo, le forcer aussi
-  setTimeout(function() {
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    if (window.lenis) {
-      window.lenis.scrollTo(0, { immediate: true });
-    }
-  }, 100);
-});
+// beforeunload : reset position pour le prochain chargement
+window.addEventListener('beforeunload', function() { window.scrollTo(0,0); });
 </script>
 <script>
 // ── IMAGES RESPONSIVES : thumbnails galeries w_1200 → w_600 sur mobile ──
