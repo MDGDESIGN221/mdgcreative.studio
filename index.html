@@ -84,13 +84,19 @@
 html{scroll-behavior:smooth;overflow-x:hidden}
 
 /* ── MODIF 10 : Hero tagline immédiatement visible — indépendant de la vidéo ── */
+/* opacity:1 sur tous — mais transform:none UNIQUEMENT sur les wraps internes,
+   jamais sur .hero-name/.hero-name-sub (desktop a besoin de translate(-50%,-60%)) */
 .hero-name,
-.hero-name-wrap,
 .hero-name-sub,
-.hero-name-sub-wrap,
 .hero-eyebrow,
 .hero-sub,
 .hero-handle {
+  opacity: 1 !important;
+  animation-play-state: running !important;
+  will-change: auto !important;
+}
+.hero-name-wrap,
+.hero-name-sub-wrap {
   opacity: 1 !important;
   transform: none !important;
   animation-play-state: running !important;
