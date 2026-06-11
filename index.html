@@ -10919,7 +10919,7 @@ body,
   .portrait-card-name {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: clamp(.72rem, .85vw, .82rem);
+    font-size: clamp(.62rem, 2.2vw, .82rem);
     color: #f0ede8;
     letter-spacing: -.01em;
     line-height: 1.2;
@@ -14743,19 +14743,31 @@ function _mBatch(sel, fromVars, toVars, staggerIn) {
 }
 
 if (_isMobile) {
-  // Sur mobile : GSAP ne doit pas mettre d'éléments à opacity:0
-  // Le CSS @media(hover:none) force déjà tout visible — on skip les animations scroll
-  // pour éviter que GSAP override le CSS avec opacity:0 au moment du fromTo
+  // Sur mobile : forcer TOUS les éléments animables visibles immédiatement
+  // pour éliminer tous les ghost flashes opacity:0 au scroll
   document.querySelectorAll(
     '.pack-card,.adv-card,.rollout-card,.addon-card,.addons-intro,' +
     '.port-new-top,.pack-price-display,.ppd-amount,.pcond-wrap,.pcond-row,' +
-    '.pricing-header,.pricing-tabs,.pricing-scope-note,' +
-    '.work-card,.cov-card,' +
-    '.reveal-cinema,.reveal-up,.reveal-fade,.reveal-line,' +
+    '.pricing-header,.pricing-tabs,.pricing-scope-note,.pricing-note,' +
+    '.pack-price-wrap,.pack-price,' +
+    '.work-card,.cov-card,.cov-header,.work-footer,' +
+    '.reveal,.reveal-cinema,.reveal-up,.reveal-fade,.reveal-line,.reveal-scale,.reveal-left,.reveal-right,' +
     '.sec-label,.svc-h2,.sec-sub,.port-h2,.port-extract-label,.port-count,' +
-    '.about-v2-photo,.about-v2-content,.svc-card,.pieter-step,.process-header,' +
-    '.sp-vcard,.sp-stage,.sp-card,.sp-detail,.collabs-hdr,.collabs-main-title,' +
-    '.collabs-main-sub,.collabs-marquee-wrap,.trust-strip'
+    '.port-tabs-wrap,.port-new-left,.port-new-eyebrow,.port-new-h2,' +
+    '.about-v2-photo,.about-v2-content,.about-v2-h2,.about-v2-intro,.about-v2-body,' +
+    '.av2-badge,.av2-badge-txt,.sk,.about-text,' +
+    '.svc-card,.svc-header,.svc-secondary,.svc-secondary-item,' +
+    '.pieter-step,.process-header,' +
+    '.sp-vcard,.sp-stage,.sp-card,.sp-detail,.sp-header,.sp-feature,' +
+    '.collabs-hdr,.collabs-main-title,.collabs-main-sub,.collabs-marquee-wrap,.collabs-sub,' +
+    '.collabs-avatar,.collabs-avatars-row,' +
+    '.trust-strip,.trust-item,.trust-logo,' +
+    '.faq-header,.faq-item,.faq-q,' +
+    '.awards-grid,.awards-item,' +
+    '.contact-h2,.contact-sub,.contact-direct-link,.contact-grid,' +
+    '.portrait-card,' +
+    '.section-cta-band,.scta-line,' +
+    '.uranus-header,.u-box,.u-box-visual,.u-order-card,.u-gal-premium'
   ).forEach(function(el){
     el.style.opacity = '1';
     el.style.transform = 'none';
@@ -20526,65 +20538,52 @@ footer {
    Les animations scroll desktop ne sont pas affectées.
    ══════════════════════════════════════════════════════ */
 @media (hover: none), (max-width: 900px) {
-  /* Tout élément qui pourrait être animé par GSAP en fromTo opacity:0 */
-  .reveal-cinema,
-  .reveal-up,
-  .reveal-fade,
-  .reveal-line,
-  .sec-label,
-  .sec-sub,
-  .svc-h2,
-  .port-h2,
-  .port-extract-label,
-  .port-count,
-  .port-tabs-wrap,
-  .port-new-top,
-  .port-new-left,
-  .port-new-eyebrow,
-  .port-new-h2,
-  .about-v2-photo,
-  .about-v2-content,
-  .about-v2-h2,
-  .about-v2-intro,
-  .about-v2-body,
-  .av2-badge,
-  .av2-badge-txt,
-  .sk,
-  .about-text,
-  .svc-header,
-  .svc-secondary,
-  .svc-secondary-item,
-  .svc-card,
-  .collabs-hdr,
-  .collabs-main-title,
-  .collabs-main-sub,
-  .collabs-marquee-wrap,
-  .collabs-sub,
-  .trust-strip,
-  .sp-header,
-  .sp-feature,
-  .sp-vcard,
-  .sp-stage,
-  .sp-card,
-  .sp-detail,
-  .process-header,
-  .pieter-step,
-  .pricing-header,
-  .pack-card,
-  .adv-card,
-  .rollout-card,
-  .addon-card,
-  .addons-intro,
-  .pcond-wrap,
-  .pcond-row,
-  .proc-cond,
-  .contact-h2,
-  .contact-sub,
-  .contact-direct-link,
-  .contact-grid,
-  .work-footer,
-  .work-card,
-  .cov-card {
+  /* ── MOBILE : suppression totale des ghost flashes GSAP ──
+     Règle universelle : tout élément avec will-change opacity/transform
+     est forcé visible immédiatement, avant que GSAP s'initialise.
+     Les animations hover (.work-card:hover, etc.) ne sont pas affectées
+     car elles sont gérées par @media(hover:hover) séparément.
+     La règle *:not() exclut les éléments dont l'invisibilité est
+     intentionnelle (curseur, overlays, loaders). */
+  *:not(#loader):not(.cur):not(.cur-r):not(.hero-loader):not([aria-hidden="true"]) {
+    animation-play-state: paused !important;
+  }
+
+  /* Override ciblé : remettre en marche les animations légitimes sur mobile */
+  .collabs-marquee,
+  .hero-manifeste-ticker,
+  .nav-ticker-inner,
+  .card-grain,
+  .artist-cutout img,
+  #loader,
+  #loader *,
+  .loader-bar,
+  .loader-txt {
+    animation-play-state: running !important;
+  }
+
+  /* Forcer visible tous les éléments animés par GSAP en scroll */
+  .reveal-cinema, .reveal-up, .reveal-fade, .reveal-line, .reveal-scale, .reveal, .reveal-left, .reveal-right,
+  .sec-label, .sec-sub, .svc-h2, .port-h2, .port-extract-label, .port-count,
+  .port-tabs-wrap, .port-new-top, .port-new-left, .port-new-eyebrow, .port-new-h2,
+  .about-v2-photo, .about-v2-content, .about-v2-h2, .about-v2-intro, .about-v2-body,
+  .av2-badge, .av2-badge-txt, .sk, .about-text,
+  .svc-header, .svc-secondary, .svc-secondary-item, .svc-card,
+  .collabs-hdr, .collabs-main-title, .collabs-main-sub, .collabs-marquee-wrap, .collabs-sub,
+  .trust-strip, .trust-item, .trust-logo,
+  .sp-header, .sp-feature, .sp-vcard, .sp-stage, .sp-card, .sp-detail,
+  .process-header, .pieter-step,
+  .pricing-header, .pricing-tabs, .pricing-scope-note, .pricing-note,
+  .pack-card, .adv-card, .rollout-card, .addon-card, .addons-intro,
+  .pcond-wrap, .pcond-row, .proc-cond, .pack-price-wrap, .pack-price,
+  .contact-h2, .contact-sub, .contact-direct-link, .contact-grid,
+  .work-footer, .work-card, .cov-card, .cov-header,
+  .faq-header, .faq-item, .faq-q,
+  .awards-grid, .awards-item,
+  .uranus-header, .u-box, .u-box-visual, .u-order-card, .u-gal-premium,
+  .portrait-card, .collabs-avatar, .collabs-avatars-row,
+  .scta-line, .section-cta-band,
+  h1, h2, h3, h4, p, .sec-label {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
