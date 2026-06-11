@@ -16646,8 +16646,8 @@ var translations = {
   // ─── HERO ────────────────────────────────────────────
   hero_eyebrow: { fr: 'MDG CREATIVE STUDIO', en: 'MDG CREATIVE STUDIO' },
   hero_promise: { fr: "L'excellence, c'est mon seul standard.", en: "Excellence is my only standard." },
-  hero_btn_primary: { fr: 'Travaillons ensemble', en: "Let's work together" },
-  hero_btn_secondary: { fr: 'Voir les projets', en: 'View work' },
+  hero_btn_primary: { fr: 'Lancer un projet', en: 'Start a project' },
+  hero_btn_secondary: { fr: '7 ans de travail →', en: '7 years of work →' },
   stat_years_label: { fr: "Années d'expérience", en: 'Years of experience' },
   stat_years_sub: { fr: 'Depuis 2017', en: 'Since 2017' },
   stat_projects_label: { fr: 'Projets livrés', en: 'Projects delivered' },
@@ -17586,10 +17586,10 @@ function applyComplexPatches(lang) {
   var heroBtnPrimary = document.querySelector('.hero-btn-primary');
   if (heroBtnPrimary) {
     var btnSpan = heroBtnPrimary.querySelector('span');
-    if (btnSpan) btnSpan.textContent = lang === 'en' ? "Let's work together" : "Travaillons ensemble";
+    if (btnSpan) btnSpan.textContent = lang === 'en' ? 'Start a project' : 'Lancer un projet';
   }
   var heroBtnSecondary = document.querySelector('.hero-btn-secondary');
-  if (heroBtnSecondary) heroBtnSecondary.textContent = lang === 'en' ? 'See the work' : 'Voir les réalisations';
+  if (heroBtnSecondary) heroBtnSecondary.textContent = lang === 'en' ? '7 years of work →' : '7 ans de travail →';
 
   // ── Portfolio tabs ──
   var portTabs = document.querySelectorAll('.port-tab');
@@ -17642,7 +17642,7 @@ function applyComplexPatches(lang) {
   var aboutV2ToolsLabel = document.querySelector('.av2-tools-label');
   if (aboutV2ToolsLabel) aboutV2ToolsLabel.textContent = lang === 'en' ? 'Tools' : 'Outils';
   var aboutV2Cta = document.querySelector('.av2-cta');
-  if (aboutV2Cta) aboutV2Cta.innerHTML = (lang === 'en' ? 'See the work on Instagram' : 'Voir les réalisations →') + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>';
+  if (aboutV2Cta) aboutV2Cta.innerHTML = (lang === 'en' ? 'See the work →' : 'Voir les réalisations →') + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>';
   var aboutBadgeTxt = document.querySelector('.av2-badge-txt');
   if (aboutBadgeTxt) aboutBadgeTxt.textContent = lang === 'en' ? 'Available · Kaolack, SN' : 'Disponible · Kaolack, SN';
   var sigName = document.querySelector('.av2-sig-name');
@@ -17925,7 +17925,7 @@ function applyComplexPatches(lang) {
     if (mobMenuFr[i]) el.textContent = lang === 'en' ? (mobMenuEn[i] || el.textContent) : (mobMenuFr[i] || el.textContent);
   });
   var mobCta = document.querySelector('.mob-cta');
-  if (mobCta) mobCta.textContent = lang === 'en' ? "Let's work together" : 'Travaillons ensemble';
+  if (mobCta) mobCta.textContent = lang === 'en' ? 'Start a project' : 'Lancer un projet';
 
   // ── Quick-nav ──
   var qnData = [
@@ -19989,7 +19989,7 @@ function cqfGoBack() {
 </style>
 <div id="floating-cta">
   <a href="#contact" onclick="if(window.lenis)lenis.scrollTo('#contact')">
-    Travaillons ensemble
+    Lancer un projet
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
   </a>
 </div>
