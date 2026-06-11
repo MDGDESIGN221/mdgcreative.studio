@@ -1423,10 +1423,10 @@ section+section::before,
 .work-track-wrap::before,.work-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .work-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .work-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .work-track::-webkit-scrollbar{display:none}
 /* ── WORK CARDS — design premium ── */
-.work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04);touch-action:pan-y}
+.work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04);touch-action:pan-x pan-y}
 .work-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,0.08)}
 .work-card .work-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter .6s}
 .work-card:hover .work-img{transform:scale(1.06);filter:brightness(.55)}
@@ -1552,9 +1552,9 @@ section+section::before,
 .cov-track-wrap::before,.cov-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .cov-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .cov-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
 .cov-track::-webkit-scrollbar{display:none}
-.cov-card{position:relative;display:block;text-decoration:none;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(240px,26vw,320px);aspect-ratio:1/1;scroll-snap-align:start;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);touch-action:pan-y}
+.cov-card{position:relative;display:block;text-decoration:none;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(240px,26vw,320px);aspect-ratio:1/1;scroll-snap-align:start;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);touch-action:pan-x pan-y}
 .cov-card:hover{transform:translateY(-4px)}
 .cov-card .cov-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.16,1,.3,1),filter .5s}
 .cov-card:hover .cov-img{transform:scale(1.05);filter:brightness(.45)}
@@ -15065,7 +15065,7 @@ enableDragScroll(document.getElementById('motTrack'));
 // Le scroll vertical de la page n'est JAMAIS bloqué par un carrousel.
 // ════════════════════════════════════════════════════════════════════
 (function(){
-  var DIRECTION_THRESHOLD = 10; // px avant de décider la direction
+  var DIRECTION_THRESHOLD = 6; // px avant de décider la direction (6px = réactivité iOS)
 
   function attachDirectionAwareTouch(track) {
     if (!track || track._touchDirectionBound) return;
@@ -19924,16 +19924,17 @@ footer {
 /* ── NE PAS mettre pan-y sur pack-card/adv-card/rollout-card/work-card/cov-card
    car ils sont dans des carousels horizontaux — le JS direction-aware gère ── */
 
-/* ── Carrousels JS direction-aware : touch-action:pan-y
-   Le handler attachDirectionAwareTouch détecte la direction et appelle
-   e.preventDefault() UNIQUEMENT si le geste est horizontal confirmé.
-   Le CSS pan-y dit au browser dès le départ que le scroll vertical est
-   autorisé → plus de gel pendant la phase de détection de 10px. */
+/* ── Carrousels JS direction-aware : touch-action:pan-x pan-y
+   pan-x pan-y = le browser autorise les deux directions, sans décider à l'avance.
+   Le handler attachDirectionAwareTouch détecte l'intention (|dx|>|dy|) puis
+   appelle e.preventDefault() uniquement si le geste est clairement horizontal.
+   IMPORTANT : pan-y seul interdisait au compositing thread iOS de déléguer le
+   horizontal au JS → e.preventDefault() ignoré → swipe bloqué. */
 .work-track,
 .cov-track,
 .mot-track,
 .sp-videos-track {
-  touch-action: pan-y !important;
+  touch-action: pan-x pan-y !important;
 }
 
 /* trust-strip-inner, port-tabs = scroll natif sans handler JS */
@@ -20301,10 +20302,14 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   .collabs-hdr{margin-bottom:1.5rem!important}
 }
 
-/* ══ FIX TOUCH MOBILE — passage du scroll vertical garanti ══ */
+/* ══ FIX TOUCH MOBILE — détection d'intention tactile correcte ══
+   Les cards dans les carousels doivent laisser passer pan-x ET pan-y
+   pour que le JS direction-aware puisse détecter l'intention et appeler
+   e.preventDefault() sur le geste horizontal confirmé.
+   pan-y seul = le browser iOS ignore le preventDefault JS sur l'axe X. */
 @media(hover:none){
-  .work-card,.cov-card,.ac-card{touch-action:pan-y!important}
-  .work-card img,.cov-card img,.ac-card img{touch-action:pan-y!important}
+  .work-card,.cov-card,.ac-card{touch-action:pan-x pan-y!important}
+  .work-card img,.cov-card img,.ac-card img{touch-action:pan-x pan-y!important}
   .motion-play-overlay,.work-overlay,.work-card-bar,.sp-vcard-hero-body,.sp-vcard-badge{pointer-events:none!important}
   .sp-vcard-hero{pointer-events:auto!important}
   .cov-meta,.work-meta{pointer-events:none!important}
