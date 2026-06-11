@@ -9398,6 +9398,11 @@ body,
       </div>
     </div>
 
+    <!-- Behance / Instagram — global, visible peu importe l'onglet actif -->
+    <div style="text-align:center;padding:.6rem 1.5rem 0;color:var(--dim);font-size:.8rem;font-weight:300;letter-spacing:.01em">
+      Un aperçu. La discographie complète est sur <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" style="color:var(--accent);text-underline-offset:.2em">Behance</a> et <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" style="color:var(--accent);text-underline-offset:.2em">Instagram</a>.
+    </div>
+
     <!-- Panel Visuals -->
     <div class="pnl-acc active" id="pnl-work">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:1rem">
@@ -9814,9 +9819,6 @@ body,
         </a>
       </div>
     </div>
-      <div class="cov-footer " style="text-align:center;padding:2rem 1.5rem 0;color:var(--dim);font-size:.85rem;font-weight:300">
-      Un aperçu. La discographie complète est sur <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" style="color:var(--accent)">Behance</a> et <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" style="color:var(--accent)">Instagram</a>.
-    </div>
       <!-- ── MDG PLAYER — panel accordéon ── -->
   </div><!-- fin acc-covers -->
 
@@ -10189,16 +10191,21 @@ body,
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
 
-        <!-- For Creators — accès discret URANUS -->
-        <div class="av2-for-creators">
-          <span class="av2-fc-label">For Creators</span>
-          <span class="av2-fc-sep">—</span>
-          <span class="av2-fc-txt">Tools from the MDG workflow</span>
-          <a href="#uranus" onclick="if(typeof lenisScroll!=='undefined')lenisScroll('uranus')" class="av2-fc-link">
-            Explore URANUS
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-          </a>
-        </div>
+        <!-- For Creators — raccourci URANUS -->
+        <a href="#uranus" onclick="if(typeof lenisScroll!=='undefined'){lenisScroll('uranus');return false;}" class="av2-for-creators">
+          <div class="av2-fc-top">
+            <span class="av2-fc-label">For Creators</span>
+            <span class="av2-fc-price">19 900 FCFA</span>
+          </div>
+          <div class="av2-fc-body">
+            <span class="av2-fc-name">URANUS GFX Pack</span>
+            <span class="av2-fc-desc">PSD calqués · Textures · Fonts · Presets PS</span>
+          </div>
+          <div class="av2-fc-cta">
+            Voir le pack
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </div>
+        </a>
       </div>
 
     </div>
@@ -10284,47 +10291,74 @@ body,
 /* For Creators — accès discret URANUS */
 .av2-for-creators {
   margin-top: 2rem;
-  padding: .85rem 1.1rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.06);
-  background: rgba(255,255,255,.02);
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(61,191,163,.22);
+  background: rgba(61,191,163,.05);
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: .4rem .6rem;
+  flex-direction: column;
+  gap: .45rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .22s, background .22s;
+  position: relative;
+  overflow: hidden;
+}
+.av2-for-creators::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(61,191,163,.45), transparent);
+}
+.av2-for-creators:hover {
+  border-color: rgba(61,191,163,.45);
+  background: rgba(61,191,163,.09);
+}
+.av2-fc-top {
+  display: flex; align-items: center; justify-content: space-between;
 }
 .av2-fc-label {
   font-family: 'Syne', sans-serif;
-  font-weight: 700;
+  font-weight: 900;
   font-size: .62rem;
-  letter-spacing: .18em;
+  letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--accent);
 }
-.av2-fc-sep { color: var(--border2); font-size: .72rem; }
-.av2-fc-txt {
-  font-size: .75rem;
+.av2-fc-price {
+  font-family: 'Syne', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(61,191,163,.6);
+  letter-spacing: .05em;
+}
+.av2-fc-body {
+  display: flex; flex-direction: column; gap: .18rem;
+}
+.av2-fc-name {
+  font-family: 'Syne', sans-serif;
+  font-size: .82rem;
+  font-weight: 800;
+  color: var(--light);
+  letter-spacing: -.01em;
+}
+.av2-fc-desc {
+  font-size: .72rem;
   font-weight: 300;
   color: var(--dim);
+  letter-spacing: .01em;
 }
-.av2-fc-link {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: .3rem;
+.av2-fc-cta {
+  display: inline-flex; align-items: center; gap: .3rem;
   font-family: 'Syne', sans-serif;
   font-weight: 700;
-  font-size: .62rem;
+  font-size: .65rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--off);
-  text-decoration: none;
-  transition: color .2s;
+  color: var(--accent);
+  margin-top: .1rem;
+  transition: gap .2s;
 }
-.av2-fc-link:hover { color: var(--accent); }
-@media(max-width:600px) {
-  .av2-fc-link { margin-left: 0; }
-}
+.av2-for-creators:hover .av2-fc-cta { gap: .5rem; }
 
 /* Contenu texte */
 .about-v2-content { display: flex; flex-direction: column; gap: 0; }
@@ -11085,14 +11119,14 @@ body,
     <div class="trust-strip reveal-fade rd4">
       <div class="trust-strip-label">Ils ont fait confiance à MDG</div>
       <div class="trust-strip-inner">
-        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" class="ts-logo ts-omzo"></div>
-        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" class="ts-logo ts-invert"></div>
-        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" class="ts-logo ts-invert"></div>
+        <div class="ts-item"><img decoding="async" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" class="ts-logo ts-omzo"></div>
+        <div class="ts-item"><img decoding="async" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" class="ts-logo ts-invert"></div>
+        <div class="ts-item"><img decoding="async" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="async" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" class="ts-logo ts-invert"></div>
       </div>
     </div>
 
@@ -16336,8 +16370,8 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     }, { passive: true });
 
     card.addEventListener('touchmove', function(e){
-      if (Math.abs(e.touches[0].clientX - txStart) > 8 ||
-          Math.abs(e.touches[0].clientY - tyStart) > 8) {
+      if (Math.abs(e.touches[0].clientX - txStart) > 18 ||
+          Math.abs(e.touches[0].clientY - tyStart) > 18) {
         tMoved = true;
       }
     }, { passive: true });
@@ -19980,9 +20014,35 @@ function cqfGoBack() {
     }, 420);
   }
 
-  /* Bind cards */
+  /* Bind cards — touch guard : évite le déclenchement lors d'un swipe */
   cards.forEach(function(card, idx){
-    card.addEventListener('click', function(){ openYtLb(idx); });
+    var _txStart = 0, _tyStart = 0, _tMoved = false;
+
+    card.addEventListener('touchstart', function(e){
+      _txStart = e.touches[0].clientX;
+      _tyStart = e.touches[0].clientY;
+      _tMoved = false;
+    }, { passive: true });
+
+    card.addEventListener('touchmove', function(e){
+      if (Math.abs(e.touches[0].clientX - _txStart) > 18 ||
+          Math.abs(e.touches[0].clientY - _tyStart) > 18) {
+        _tMoved = true;
+      }
+    }, { passive: true });
+
+    card.addEventListener('touchend', function(e){
+      if (!_tMoved) {
+        e.preventDefault();
+        openYtLb(idx);
+      }
+    });
+
+    // Desktop — click natif uniquement si pas un device touch
+    card.addEventListener('click', function(){
+      if ('ontouchstart' in window) return;
+      openYtLb(idx);
+    });
     card.addEventListener('keydown', function(e){
       if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openYtLb(idx); }
     });
