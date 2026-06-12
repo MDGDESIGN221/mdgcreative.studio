@@ -5586,16 +5586,19 @@ nav::before { display:none; }
 }
 .ts-item:hover { background: var(--surface2); }
 .ts-logo {
-  height: 36px;
+  height: 44px;
   width: auto;
-  max-width: 130px;
+  max-width: 140px;
   object-fit: contain;
   opacity: .72;
   filter: grayscale(1);
   transition: opacity .3s, filter .3s, transform .3s;
   mix-blend-mode: screen;
 }
-.ts-logo.ts-omzo { height: 110px; max-width: 280px; }
+.ts-logo.ts-omzo     { height: 110px; max-width: 280px; }
+.ts-logo.ts-iss      { height: 56px;  max-width: 160px; }
+.ts-logo.ts-mprod    { height: 56px;  max-width: 160px; }
+.ts-logo.ts-skatepro { height: 52px;  max-width: 160px; }
 .ts-logo.ts-invert { filter: grayscale(1) invert(1) brightness(1.6); mix-blend-mode: normal; opacity: 0; }
 .ts-logo.ts-invert.ts-ready { opacity: .85; transition: opacity .25s ease; }
 .ts-item:hover .ts-logo { opacity: .95; filter: grayscale(0); transform: scale(1.06); }
@@ -5609,8 +5612,11 @@ nav::before { display:none; }
     border-radius: 10px;
   }
   .ts-item { padding: 1.4rem 1rem; min-height: 78px; }
-  .ts-logo { height: 32px; max-width: 120px; opacity: .72; }
-  .ts-logo.ts-omzo { height: 100px; max-width: 260px; }
+  .ts-logo { height: 38px; max-width: 130px; opacity: .72; }
+  .ts-logo.ts-omzo     { height: 100px; max-width: 260px; }
+  .ts-logo.ts-iss      { height: 48px;  max-width: 140px; }
+  .ts-logo.ts-mprod    { height: 48px;  max-width: 140px; }
+  .ts-logo.ts-skatepro { height: 46px;  max-width: 140px; }
   .ts-logo.ts-invert { opacity: 0; }
   .ts-logo.ts-invert.ts-ready { opacity: .88; }
 }
@@ -11365,15 +11371,15 @@ body,
 
     <!-- Strip logos clients silencieux — remplace la section Trust -->
     <div class="trust-strip reveal-fade rd4">
-      <div class="trust-strip-label">Ils ont fait confiance à MDG</div>
+      <div class="trust-strip-label">Ils m'ont confié leur image</div>
       <div class="trust-strip-inner">
         <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" class="ts-logo ts-omzo"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" class="ts-logo ts-invert"></div>
+        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" class="ts-logo ts-invert ts-iss"></div>
         <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" class="ts-logo ts-mprod"></div>
         <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" class="ts-logo"></div>
         <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" class="ts-logo"></div>
+        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" class="ts-logo ts-skatepro"></div>
         <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" class="ts-logo ts-invert"></div>
       </div>
     </div>
@@ -18456,6 +18462,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <a class="qn-item" onclick="qnGo('pricing')"><span class="qn-num">06</span>Tarifs &amp; Packs</a>
     <div class="qn-divider"></div>
     <a class="qn-item" onclick="qnGo('faq')"><span class="qn-num">07</span>FAQ</a>
+    <a class="qn-item" onclick="qnGo('uranus')"><span class="qn-num">08</span>URANUS GFX</a>
     <div class="qn-divider"></div>
     <a class="qn-item" onclick="qnGo('contact')"><span class="qn-num">→</span>Contact</a>
   </div>
