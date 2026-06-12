@@ -1048,22 +1048,13 @@ section{position:relative;z-index:1}
     padding-bottom: 2rem !important;
   }
 }
-/* ── HERO 4-CORNER LAYOUT — desktop ≥768px uniquement */
+/* ── HERO LAYOUT — desktop ≥768px : neutralisé, remplacé par le bloc patch §8 ── */
 @media(min-width:768px){
   #hero{flex-direction:row !important}
   .hero-stats{position:absolute !important;bottom:0 !important;left:0 !important;right:0 !important}
-  .hero-left{position:absolute !important;top:0;left:0;right:0;bottom:0;width:100% !important;max-width:none !important;padding:0 !important;display:grid !important;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;z-index:15;pointer-events:none}
-  .hero-left>*{pointer-events:none}
-  .hero-left .hero-ctas,.hero-left .hero-portfolio-links,.hero-left .hero-sub,.hero-left .hero-type-wrap{pointer-events:auto}
-  .hero-eyebrow{grid-column:1;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 1rem) 0 0 clamp(2rem,4vw,3.5rem);margin-bottom:0 !important}
-  .hero-name{grid-column:1/3;grid-row:1;align-self:start;padding:calc(var(--nav-h,80px) + 3rem) 0 0 clamp(2rem,4vw,3.5rem)}
   .hero-scroll-down{display:none !important}
-  .hero-sub{grid-column:1;grid-row:2;align-self:end;padding:0 0 12.5rem clamp(2rem,4vw,3.5rem);margin-bottom:0 !important;max-width:380px}
-  .hero-ctas{grid-column:1;grid-row:2;align-self:end;justify-self:start;padding:0 0 8rem clamp(2rem,4vw,3.5rem);margin-bottom:0 !important}
-  .hero-portfolio-links{grid-column:1;grid-row:2;align-self:end;padding:0 0 2rem clamp(2rem,4vw,3.5rem);margin:0 !important;opacity:0;animation:fu .9s 1.9s ease forwards}
   .hero-portfolio-link{font-size:.72rem;letter-spacing:.16em}
   .hero-handle{display:none !important}
-  .hero-type-wrap{grid-column:2;grid-row:2;align-self:end;justify-self:end;text-align:right;padding:0 clamp(2rem,4vw,3.5rem) 2rem 0;margin-bottom:0 !important;font-size:clamp(.75rem,1.1vw,.95rem) !important;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)}
 }
 
 /* ── ABOUT (fond légèrement plus clair pour alterner) ── */
@@ -8669,15 +8660,7 @@ nav::before { display:none; }
 
 /* 2. HERO-SUB COUPÉ À GAUCHE — le padding-left du grid manquait
       sur certaines breakpoints. On s'assure qu'il est toujours correct. */
-@media(min-width:768px) {
-  .hero-sub {
-    padding-left: clamp(2rem, 4vw, 3.5rem) !important;
-  }
-  /* Eyebrow : même correction */
-  .hero-eyebrow {
-    padding-left: clamp(2rem, 4vw, 3.5rem) !important;
-  }
-}
+/* padding-left hero-sub/eyebrow desktop — supprimé, géré par padding du parent .hero-left */
 
 /* 3. HUD BOTTOM — refait dans le style 9INE (ref)
       3 colonnes propres : label micro + valeur, séparées
@@ -8754,42 +8737,40 @@ body,
   font-family: 'Inter', sans-serif !important;
 }
 
-/* 8. H1 HERO desktop — H1 + tagline centrés au milieu de l'écran,
-      eyebrow haut gauche, CTAs + links bas gauche, type-wrap bas droite */
+/* 8. H1 HERO desktop — layout flex propre, dans le flux normal */
 @media(min-width:768px) {
   .hero-left {
     position: absolute !important;
-    top: 0 !important; left: 0 !important; right: 0 !important; bottom: 88px !important;
+    top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
     width: 100% !important;
     max-width: none !important;
-    padding: 0 !important;
+    padding: calc(var(--nav-h,80px) + 1rem) clamp(2rem,4vw,3.5rem) 0 !important;
     z-index: 15 !important;
     display: flex !important;
     flex-direction: column !important;
+    align-items: center !important;
     pointer-events: none !important;
+    box-sizing: border-box !important;
   }
   .hero-left > * { pointer-events: auto; }
 
-  /* Eyebrow — haut gauche fixe */
+  /* Eyebrow — haut gauche, dans le flux */
   .hero-eyebrow {
-    position: absolute !important;
-    top: calc(var(--nav-h,80px) + 1rem) !important;
-    left: clamp(2rem,4vw,3.5rem) !important;
+    align-self: flex-start !important;
+    position: static !important;
     padding: 0 !important;
-    margin: 0 !important;
-    pointer-events: none !important;
+    margin: 0 0 auto 0 !important;
   }
 
-  /* Bloc central — H1 + tagline — centré verticalement et horizontalement */
+  /* H1 — centré, pousse vers le milieu via margin auto sur l'eyebrow */
   .hero-name {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -60%) !important;
+    position: static !important;
+    transform: none !important;
     text-align: center !important;
-    width: 90% !important;
-    max-width: 900px !important;
+    width: 100% !important;
+    max-width: 860px !important;
     padding: 0 !important;
+    margin: auto 0 0 0 !important;
     font-size: clamp(2.4rem, 5vw, 6rem) !important;
     line-height: .93 !important;
     pointer-events: none !important;
@@ -8800,37 +8781,30 @@ body,
     display: block !important;
   }
 
-  /* CTAs — bas centré, ancre fixe */
-  .hero-ctas {
-    position: absolute !important;
-    bottom: 7rem !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-  }
-
-  /* Tagline — juste AU-DESSUS des CTAs, même ancrage bottom */
+  /* Tagline — sous le h1 */
   .hero-sub {
-    position: absolute !important;
-    bottom: calc(7rem + 56px + 1.4rem) !important;
-    top: auto !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    position: static !important;
+    transform: none !important;
     text-align: center !important;
-    width: auto !important;
-    max-width: 520px !important;
-    white-space: nowrap !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    margin: 1.5rem 0 0 0 !important;
     border-left: none !important;
-    font-size:clamp(.72rem,.8vw,.82rem) !important;
+    padding: 0 !important;
+    font-size: clamp(.72rem,.8vw,.82rem) !important;
     letter-spacing: .2em !important;
     pointer-events: none !important;
   }
 
-  /* Portfolio links — bas gauche sous CTAs */
+  /* CTAs — sous la tagline */
+  .hero-ctas {
+    position: static !important;
+    transform: none !important;
+    margin: 2rem 0 auto 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    justify-content: center !important;
+  }
+
+  /* Portfolio links — bas gauche */
   .hero-portfolio-links {
     position: absolute !important;
     bottom: 2rem !important;
@@ -9103,16 +9077,8 @@ body,
 }
 
 /* 2. hero-sub + hero-ctas : éviter le chevauchement sur desktop intermédiaire */
-@media(min-width:768px) and (max-width:1200px) {
-  .hero-sub {
-    bottom: calc(6.5rem + 52px + 1.2rem) !important;
-    top: auto !important;
-    font-size:clamp(.72rem,.72vw,.82rem) !important;
-  }
-  .hero-ctas {
-    bottom: 6.5rem !important;
-  }
-}
+/* @media(min-width:768px) and (max-width:1200px) — supprimé,
+   les CTAs sont dans le flux normal, pas en position:absolute */
 
 /* 3. sp-h2 — empêcher débordement sur mobile */
 @media(max-width:640px) {
