@@ -99,6 +99,29 @@ html{scroll-behavior:smooth;overflow-x:hidden}
 /* Fallback visible dès le premier paint */
 #hero .hero-left { opacity: 1 !important; }
 
+/* Sur mobile : tuer complètement les animations maskRevealUp sur le h1 hero.
+   L'animation démarre à clip-path:inset(100%)/opacity:0 — si elle est
+   interrompue ou pausée (bfcache, onglet en arrière-plan, changement de langue)
+   le texte reste invisible indéfiniment. */
+@media (hover: none), (max-width: 900px) {
+  .hero-name-wrap,
+  .hero-name-sub-wrap {
+    animation: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+  .hero-name,
+  .hero-name-sub {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    animation: none !important;
+    visibility: visible !important;
+  }
+}
+
 
 /* ── SECTION CTA BAND ── */
 .section-cta-band {
@@ -221,13 +244,12 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 /* ── WATERMARK TEXTE GÉANT (inspiré pieterkoopt) ── */
 .wm-section { position: relative; overflow: hidden; isolation: isolate; }
-/* Sur mobile : isolation:isolate retiré — crée des stacking contexts composites
-   que le browser expulse de la RAM au scroll → fond blanc au retour */
+/* Sur mobile : overflow:clip + overflow-clip-margin permet au watermark d'être caché
+   sans couper les carousels horizontaux qui débordent légèrement sur les côtés */
 @media(max-width:900px){
   .wm-section {
     overflow-x: visible;
     overflow-y: hidden;
-    isolation: auto;
   }
 }
 .wm-section::before {
@@ -251,7 +273,6 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 /* ── SCROLL-TRIGGERED CINEMATIC — fade sections ── */
 .reveal-cinema { will-change: opacity, transform; }
-@media(max-width:900px){ .reveal-cinema { will-change: auto; } }
 
 /* ── PROCESS REDESIGN — style pieterkoopt 01/02/03 ── */
 .pieter-process {
@@ -1142,19 +1163,6 @@ section{position:relative;z-index:1}
   filter:blur(6px) brightness(.85);
   will-change:opacity,transform,filter;
 }
-/* Mobile : simplifier morph-slide — filter:blur est très coûteux sur mobile */
-@media(max-width:900px){
-  .morph-slide{
-    will-change:auto;
-    filter:none !important;
-    transform:none !important;
-    transition:opacity .8s ease;
-  }
-  .morph-slide.leaving{
-    filter:none !important;
-    transform:none !important;
-  }
-}
 .morph-slide.active{
   opacity:1;
   transform:scale(1.0);
@@ -1613,10 +1621,6 @@ section+section::before,
   .work-card .work-img{transition:filter .3s}
   .work-card { will-change: auto; transform: none; }
   .cov-card  { will-change: auto; transform: none; }
-  /* will-change:scroll-position + contain forcent des composite layers
-     sur les carousels — inutiles sur mobile où le scroll est natif */
-  .work-track { will-change: auto; contain: none; }
-  .cov-track  { will-change: auto; contain: none; }
 }
 
 /* ── COVERS (carrousel horizontal) ── */
@@ -2051,11 +2055,11 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
 }
 
-/* ── Mobile : will-change désactivé — élimine les couches GPU expulsées au scroll ── */
+/* ── Mobile : will-change limité, pas de couches GPU inutiles ── */
 @media(max-width:900px) {
   .reveal,.reveal-up,.reveal-left,.reveal-right,
   .reveal-scale,.reveal-fade,.reveal-line,.reveal-cinema {
-    will-change: auto;
+    will-change: opacity;
   }
 }
 
@@ -2488,11 +2492,6 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
   .morph-slide,.artist-preview,.cursor-trail{will-change:auto}
   .ac-card,.svc-card,.trust-item,.sk,.soc-item a{transition:none !important}
   .work-card,.cov-card{will-change:auto;transform:none}
-  /* Retirer le hack GPU translateZ(0) des carousels — force un composite layer
-     que le browser expulse au scroll sur mobile */
-  .work-track,.cov-track{will-change:auto}
-  /* scroll-progress bar : pas besoin de GPU sur mobile */
-  .scroll-progress{will-change:auto}
 }
 
 /* Cards */
@@ -4402,108 +4401,6 @@ nav::before { display:none; }
   /* Collabs */
   #collabs{padding:2rem 1rem 3rem !important}
   .collabs-marquee-wrap{margin:0 -1rem !important}
-}
-
-/* ══════════════════════════════════════════
-   FIX MOBILE SCROLL — STABILITÉ TOTALE
-   backdrop-filter décoratifs supprimés sur mobile.
-   Chaque backdrop-filter = repaint de tout ce qui est derrière.
-   Sur Android/iOS ça déclenche des recompositions GPU en cascade au scroll.
-   Règle : on conserve UNIQUEMENT nav + modals (fonctionnels).
-══════════════════════════════════════════ */
-@media(max-width:900px){
-
-  /* ── backdrop-filter décoratifs → none ── */
-  .cov-cat-tag {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(0,0,0,.78) !important;
-  }
-  .about-photo-blur {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: linear-gradient(to top,rgba(6,6,6,.88) 0%,rgba(6,6,6,.45) 50%,transparent 100%) !important;
-  }
-  .work-arrow, .cov-arrow {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  .footer-brand .f-socials a {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  .award-item {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  .cond-item {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  .hero-btn-secondary {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  .hero-stats {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(6,6,6,.94) !important;
-  }
-  #backToTop {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(18,18,18,.96) !important;
-  }
-  .contact-quick-form {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(14,14,14,.99) !important;
-  }
-  /* hero-hud-bottom — décoratif, derrière le contenu hero */
-  .hero-hud-bottom {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(6,6,6,.88) !important;
-  }
-  /* rollout-card, press-card, faq-item — derrière le scroll */
-  .rollout-card, .press-card {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  /* cpop overlay — popup, opacifier le fond */
-  .cpop-overlay {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(0,0,0,.82) !important;
-  }
-
-  /* ── GPU translateZ(0) sur cards carousel → retiré ── */
-  /* translateZ(0) force un composite layer permanent que le browser
-     détruit + recrée au scroll quand la RAM est sous pression */
-  .work-card {
-    transform: none !important;
-  }
-  .cov-card {
-    transform: none !important;
-  }
-
-  /* ── will-change total cleanup sur mobile ── */
-  /* Tout ce qui a encore un will-change actif hors des éléments
-     qui en ont vraiment besoin (tab bar fixe) */
-  .morph-slide {
-    will-change: auto !important;
-  }
-  .reveal-cinema {
-    will-change: auto !important;
-  }
-  .magnetic {
-    will-change: auto !important;
-  }
-
-  /* Nav conservée : fonctionnelle */
-  /* #mob-tab-bar will-change:transform conservé : fixé en bas, iOS en a besoin */
-  /* .modal-overlay, .pack-modal-overlay conservés */
-  /* .lb-overlay, .cpop conservés */
 }
 </style>
 
@@ -15087,17 +14984,9 @@ if (_isMobile) {
     '.portrait-card,' +
     '.section-cta-band,.scta-line,' +
     '.uranus-header,.u-box,.u-box-visual,.u-order-card,.u-gal-premium,' +
-    /* éléments manquants — ajoutés pour couverture complète */
-    '.press-card,.press-grid,' +
-    '.hero-hud-tr,.hero-hud-bottom,.hero-stats,' +
-    '.about-split,.about-morph-wrap,' +
-    '.work-track,.cov-track,' +
-    '.footer-brand,.footer-nav,.footer-bottom,' +
-    '.contact-quick-form,.cqf-field,' +
-    '.award-item,.cond-item,' +
-    '.acc-item,.acc-visual,.acc-content,.acc-title,' +
-    'section,main' +
-    ',h1,h2,h3,p';
+    /* FIX L'ÉLITE SE REMARQUE : ces spans portent clip-path de maskRevealUp */
+    '.hero-name,.hero-name-wrap,.hero-name-sub,.hero-name-sub-wrap,.hero-eyebrow,.hero-sub,' +
+    'h1,h2,h3,p';
 
   function _forceVisible() {
     document.querySelectorAll(_mobileSelectors).forEach(function(el){
@@ -15105,7 +14994,7 @@ if (_isMobile) {
       el.style.setProperty('transform', 'none', 'important');
       el.style.setProperty('clip-path', 'none', 'important');
       el.style.setProperty('visibility', 'visible', 'important');
-      el.style.setProperty('filter', 'none', 'important');
+      el.style.setProperty('animation', 'none', 'important');
     });
   }
 
@@ -15144,20 +15033,24 @@ if (_isMobile) {
     setTimeout(_forceVisible, 200);
     setTimeout(_forceVisible, 600);
     setTimeout(_forceVisible, 1200);
-    // 4. Re-forcer visible quand l'onglet redevient visible (retour depuis une autre app/onglet)
-    //    C'est la cause des "disparitions au retour" non liées aux couches GPU.
+
+    // 4. Re-forcer au retour d'onglet / app en arrière-plan
+    //    C'est la cause principale des "disparitions quelques heures plus tard"
+    //    Safari iOS suspend la page et restaure depuis le bfcache —
+    //    les animations repartent de frame 0 (opacity:0/clip-path:inset(100%))
     document.addEventListener('visibilitychange', function() {
       if (!document.hidden) {
         _forceVisible();
-        setTimeout(_forceVisible, 150);
+        setTimeout(_forceVisible, 100);
+        setTimeout(_forceVisible, 400);
       }
     });
-    // 5. Re-forcer au retour bfcache (bouton retour iOS Safari)
+    // 5. pageshow bfcache — bouton retour iOS Safari
     window.addEventListener('pageshow', function(e) {
       if (e.persisted) {
         _forceVisible();
-        setTimeout(_forceVisible, 150);
-        setTimeout(_forceVisible, 500);
+        setTimeout(_forceVisible, 100);
+        setTimeout(_forceVisible, 400);
       }
     });
   }, 50);
@@ -17991,6 +17884,23 @@ function applyComplexPatches(lang) {
   var heroNameSub  = document.querySelector('.hero-name-sub .hero-name-sub-wrap');
   if (heroNameWrap) heroNameWrap.textContent = lang === 'en' ? "The elite" : "L'élite";
   if (heroNameSub)  heroNameSub.textContent  = lang === 'en' ? "stands out." : "se remarque.";
+  // FIX : après réécriture textContent, le browser peut invalider les styles
+  // et relancer maskRevealUp depuis frame 0 (clip-path:inset(100%)/opacity:0).
+  // Forcer immédiatement les valeurs finales en inline pour garantir la visibilité.
+  var _heroEls = [
+    document.querySelector('.hero-name'),
+    document.querySelector('.hero-name-wrap'),
+    document.querySelector('.hero-name-sub'),
+    document.querySelector('.hero-name-sub .hero-name-sub-wrap')
+  ];
+  _heroEls.forEach(function(el) {
+    if (!el) return;
+    el.style.setProperty('opacity', '1', 'important');
+    el.style.setProperty('transform', 'none', 'important');
+    el.style.setProperty('clip-path', 'none', 'important');
+    el.style.setProperty('animation', 'none', 'important');
+    el.style.setProperty('visibility', 'visible', 'important');
+  });
 
   // ── Hero sub ──
   var heroSub = document.querySelector('.hero-sub');
@@ -20945,7 +20855,33 @@ footer {
     animation-play-state: paused !important;
   }
 
-  /* Override ciblé : remettre en marche les animations légitimes sur mobile */
+  /* FIX DÉFINITIF — L'ÉLITE SE REMARQUE disparaît sur mobile
+     Cause : maskRevealUp démarre à clip-path:inset(100%)/opacity:0.
+     Avec animation-play-state:paused (règle universelle ci-dessus), l'animation
+     reste bloquée en frame 0 → texte invisible. On tue l'animation et force
+     les valeurs finales directement. Aucun impact visuel : sur mobile les
+     animations hero sont de toute façon imperceptibles. */
+  .hero-name-wrap,
+  .hero-name-sub-wrap {
+    animation: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+  .hero-name-wrap::before,
+  .hero-name-wrap::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  .hero-name,
+  .hero-name-sub {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    animation: none !important;
+    visibility: visible !important;
+  }
   .collabs-marquee,
   .hero-manifeste-ticker,
   .nav-ticker-inner,
@@ -20979,11 +20915,16 @@ footer {
   .uranus-header, .u-box, .u-box-visual, .u-order-card, .u-gal-premium,
   .portrait-card, .collabs-avatar, .collabs-avatars-row,
   .scta-line, .section-cta-band,
+  /* FIX L'ÉLITE SE REMARQUE — spans internes du h1 hero portent le clip-path de maskRevealUp.
+     Sans ces sélecteurs ici, animation-play-state:paused les laisse bloqués à opacity:0 / clip-path:inset(100%). */
+  .hero-name, .hero-name-wrap, .hero-name-sub, .hero-name-sub-wrap,
+  .hero-eyebrow, .hero-sub,
   h1, h2, h3, h4, p, .sec-label {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
     transition: none !important;
+    animation: none !important;
   }
 }
 </style>
