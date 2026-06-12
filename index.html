@@ -421,10 +421,9 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 0;
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
     overscroll-behavior-x: contain;
     scroll-behavior: smooth;
-    will-change: scroll-position;
   }
 
   /* Slide entier : même règle que le track */
@@ -5015,6 +5014,7 @@ nav::before { display:none; }
     scroll-snap-align: start;
     scroll-snap-stop: always;
     margin-right: .75rem;
+    touch-action: pan-x;
   }
   .sp-slide:last-child { margin-right: 0; }
 
@@ -17858,167 +17858,6 @@ function applyComplexPatches(lang) {
   var uTrustEn=['Private<br>data','Delivered<br>via WhatsApp','Lifetime<br>access','Validated<br>by MDG'];
   document.querySelectorAll('.u-trust-label').forEach(function(el,i){if(uTrustFr[i])el.innerHTML=lang==='en'?uTrustEn[i]:uTrustFr[i];});
 
-  // ── Scroll dots ──
-  var scrollDotLabels = document.querySelectorAll('.scroll-dot-label');
-  var scrollDotsFr = ['Accueil','À propos','Projets','Collabs','Services','Process','Tarifs','FAQ','Contact'];
-  var scrollDotsEn = ['Home','About','Work','Collabs','Services','Process','Pricing','FAQ','Contact'];
-  scrollDotLabels.forEach(function(el, i){
-    if(scrollDotsFr[i]) el.textContent = lang === 'en' ? scrollDotsEn[i] : scrollDotsFr[i];
-  });
-
-  // ── proc-cond (conditions de travail dans process) ──
-  var procCondsFr = [
-    { label:'Disponibilité', detail:'Lun à Sam, 09h à minuit', expl:"Tu peux m'écrire le matin ou le soir, je réponds toujours dans la journée, même le samedi." },
-    { label:'Retouches incluses', detail:'Corrections supplémentaires au temps passé', expl:'3 modifications offertes par projet. Au-delà, chaque correction est facturée selon le temps réel passé dessus.' },
-    { label:'Acompte au démarrage', detail:'Wave · Orange Money · Virement', expl:'La moitié est versée avant le début du travail. Le reste est payé à la livraison finale. Aucune surprise.' },
-    { label:'Projet urgent', detail:'Livraison en moins de 48h', expl:"Tu as besoin du résultat très vite ? C'est possible, mais je bloque tout pour toi. Une majoration de 30% s'applique. Sous 24h : +50%, soumis à disponibilité." },
-    { label:'Partenariat long terme', detail:'Pour les projets récurrents', expl:"Tu reviens régulièrement ? Je t'offre 20% de réduction sur tous tes projets suivants. La fidélité, ça mérite d'être récompensée." }
-  ];
-  var procCondsEn = [
-    { label:'Availability', detail:'Mon to Sat, 9am to midnight', expl:"You can reach me morning or evening — I always reply the same day, even on Saturdays." },
-    { label:'Revisions included', detail:'Extra corrections billed by time', expl:'3 revisions included per project. Beyond that, each extra correction is billed by actual time spent.' },
-    { label:'Deposit upfront', detail:'Wave · Orange Money · Transfer', expl:'Half is paid before work begins. The rest is paid on final delivery. No surprises.' },
-    { label:'Rush project', detail:'Delivery in under 48h', expl:"Need it fast? Possible, but I drop everything for you. A +30% surcharge applies. Under 24h: +50%, subject to availability." },
-    { label:'Long-term partnership', detail:'For recurring projects', expl:"Coming back regularly? I offer 20% off on all your next projects. Loyalty deserves to be rewarded." }
-  ];
-  var procConds = document.querySelectorAll('.proc-cond');
-  procConds.forEach(function(el, i) {
-    var data = lang === 'en' ? procCondsEn[i] : procCondsFr[i];
-    if (!data) return;
-    var lbl = el.querySelector('.proc-cond-label');
-    var det = el.querySelector('.proc-cond-detail');
-    var expl = el.querySelector('.proc-cond-expl');
-    if (lbl) lbl.textContent = data.label;
-    if (det) det.textContent = data.detail;
-    if (expl) expl.textContent = data.expl;
-  });
-  var procCondsHint = document.getElementById('procCondsHint');
-  if (procCondsHint) {
-    var hintSvg = procCondsHint.querySelector('svg');
-    procCondsHint.innerHTML = '';
-    if (hintSvg) procCondsHint.appendChild(hintSvg);
-    procCondsHint.appendChild(document.createTextNode(' ' + (lang === 'en' ? 'Slide' : 'Glisser')));
-  }
-
-  // ── CTA band après process ──
-  var sctaLine = document.querySelector('.scta-line');
-  if (sctaLine) sctaLine.textContent = lang === 'en' ? 'Every project starts with a conversation.' : 'Chaque projet commence par une conversation.';
-  var sctaLink = document.querySelector('.scta-link');
-  if (sctaLink) {
-    var sctaArr = sctaLink.querySelector('.scta-arr');
-    sctaLink.innerHTML = (lang === 'en' ? 'Get in touch ' : 'Prendre contact ');
-    var arrSpan = document.createElement('span');
-    arrSpan.className = 'scta-arr';
-    arrSpan.textContent = '→';
-    sctaLink.appendChild(arrSpan);
-  }
-
-  // ── Service cards click hint ──
-  document.querySelectorAll('.svc-click-hint').forEach(function(el) {
-    var svg = el.querySelector('svg');
-    el.innerHTML = '';
-    if (svg) el.appendChild(svg);
-    el.appendChild(document.createTextNode(' ' + (lang === 'en' ? 'Click to learn more' : 'Clique pour en savoir plus')));
-  });
-
-  // ── FAQ2 (section pricing) ──
-  var faq2Items = document.querySelectorAll('.faq-item2');
-  var faq2Fr = [
-    { q: 'Comment se passe le paiement ?', a: "<strong>50% d'acompte</strong> avant démarrage, le reste à la livraison. J'accepte <strong>Wave, Orange Money, Free Money</strong> et virements. Hors Sénégal : PayPal ou virement IBAN." },
-    { q: 'Quels sont les délais ?', a: "Single cover : <strong>2 à 4 jours.</strong> EP / mixtape : <strong>5 à 10 jours.</strong> Album complet : <strong>10 à 21 jours.</strong> Urgence sous 48h : <strong>+30%.</strong> Sous 24h : <strong>+50%</strong> (soumis à disponibilité). Le délai part à réception de l'acompte et du brief validé." },
-    { q: 'Tu travailles hors du Sénégal ?', a: "Oui. Mali, Côte d'Ivoire, Cameroun, France et au-delà. Tout se fait à distance via WhatsApp, email ou appel. <strong>La distance n'a jamais ralenti un projet.</strong>" },
-    { q: 'Qui est propriétaire des fichiers ?', a: "Toi, une fois le solde réglé. Tu es l'<strong>unique propriétaire</strong> des visuels finaux. Je garde le droit de les montrer dans mon portfolio. Fichiers sources disponibles sur demande." },
-    { q: 'Combien de révisions sont incluses ?', a: "<strong>3 révisions</strong> incluses par projet. Au-delà : facturé au temps (min 5 000 XOF). Une révision = ajustement ciblé, pas un changement de concept complet." },
-    { q: 'Tu travailles depuis des références ?', a: "Absolument, c'est même recommandé. Partage tes covers préférées, ambiances, artistes. Je m'en inspire sans copier. L'objectif : <strong>que ça te ressemble, pas à quelqu'un d'autre.</strong>" }
-  ];
-  var faq2En = [
-    { q: 'How does payment work?', a: "<strong>50% deposit</strong> before starting, balance on delivery. I accept <strong>Wave, Orange Money, Free Money</strong> and bank transfers. Outside Senegal: PayPal or IBAN." },
-    { q: 'What are the turnaround times?', a: "Single cover: <strong>2 to 4 days.</strong> EP / mixtape: <strong>5 to 10 days.</strong> Full album: <strong>10 to 21 days.</strong> Rush under 48h: <strong>+30%.</strong> Under 24h: <strong>+50%</strong> (subject to availability). Timeline starts on receipt of deposit and validated brief." },
-    { q: 'Do you work outside Senegal?', a: "Yes. Mali, Côte d'Ivoire, Cameroon, France and beyond. Everything is done remotely via WhatsApp, email or call. <strong>Distance has never slowed a project down.</strong>" },
-    { q: 'Who owns the files?', a: "You do, once the balance is paid. You are the <strong>sole owner</strong> of the final visuals. I retain the right to show them in my portfolio. Source files available on request." },
-    { q: 'How many revisions are included?', a: "<strong>3 revisions</strong> included per project. Beyond that: billed by time (min 5,000 XOF). One revision = targeted adjustment, not a full concept overhaul." },
-    { q: 'Do you work from references?', a: "Absolutely, it's even recommended. Share your favourite covers, moods, artists. I use them as inspiration without copying. The goal: <strong>it looks like you, not like someone else.</strong>" }
-  ];
-  faq2Items.forEach(function(item, i) {
-    var data = lang === 'en' ? faq2En[i] : faq2Fr[i];
-    if (!data) return;
-    var q = item.querySelector('.faq2-q');
-    var a = item.querySelector('.faq2-a p');
-    if (q) q.childNodes.forEach(function(node){ if(node.nodeType === 3) node.textContent = ' ' + data.q + ' '; });
-    if (a) a.innerHTML = data.a;
-  });
-
-  // ── Pack CTA buttons codés en dur ──
-  document.querySelectorAll('.pack-cta, .adv-cta').forEach(function(el){
-    el.textContent = lang === 'en' ? 'Start this pack →' : 'Démarrer ce pack →';
-  });
-
-  // ── Pack bottom sheet CTA ──
-  var pBsCta = document.getElementById('pack-bs-cta');
-  if (pBsCta) pBsCta.textContent = lang === 'en' ? 'Start this pack →' : 'Démarrer ce pack →';
-
-  // ── Pack mobile buttons (injectés dynamiquement) ──
-  document.querySelectorAll('.pack-mobile-detail-btn').forEach(function(el){
-    var svg = el.querySelector('svg');
-    el.innerHTML = '';
-    if (svg) el.appendChild(svg);
-    el.appendChild(document.createTextNode(' ' + (lang === 'en' ? 'See details' : 'Voir les détails')));
-  });
-  document.querySelectorAll('.pack-mobile-start-btn').forEach(function(el){
-    el.textContent = lang === 'en' ? 'Start this pack →' : 'Démarrer ce pack →';
-  });
-
-  // ── Pricing swipe hint ──
-  var pricingSwipeHint = document.querySelector('.pricing-swipe-hint');
-  if (pricingSwipeHint) {
-    var phSvg = pricingSwipeHint.querySelector('svg');
-    pricingSwipeHint.innerHTML = '';
-    if (phSvg) pricingSwipeHint.appendChild(phSvg);
-    pricingSwipeHint.appendChild(document.createTextNode(' ' + (lang === 'en' ? 'Swipe categories & packs' : 'Glisse les catégories & les packs')));
-  }
-
-  // ── Pricing mobile tabs ──
-  var pricingTabsFr = ['Packs Primaires','Packs Avancés','Rollout','Compléments'];
-  var pricingTabsEn = ['Primary Packs','Advanced Packs','Rollout','Add-ons'];
-  document.querySelectorAll('.pricing-mobile-tab').forEach(function(el, i){
-    if(pricingTabsFr[i]) el.textContent = lang === 'en' ? pricingTabsEn[i] : pricingTabsFr[i];
-  });
-
-  // ── Quick-nav label ──
-  var qnLabel = document.querySelector('#quick-nav-menu .qn-label');
-  if (qnLabel) qnLabel.textContent = lang === 'en' ? 'Quick navigation' : 'Navigation rapide';
-
-  // ── Popup contact tabs & form ──
-  var cpopTabForm = document.getElementById('cpopTabForm');
-  if (cpopTabForm) cpopTabForm.textContent = lang === 'en' ? 'Form' : 'Formulaire';
-  var cpopTabLinks = document.getElementById('cpopTabLinks');
-  if (cpopTabLinks) cpopTabLinks.textContent = lang === 'en' ? 'Direct contact' : 'Contact direct';
-  var cpopNameLabel = document.querySelector('.cpop-label-field');
-  if (cpopNameLabel) cpopNameLabel.textContent = lang === 'en' ? 'Your name' : 'Ton nom';
-  var cpopLabels = document.querySelectorAll('.cpop-label-field');
-  var cpopLabelsFr = ['Ton nom','Type de projet','Budget estimé','Ton message'];
-  var cpopLabelsEn = ['Your name','Project type','Estimated budget','Your message'];
-  cpopLabels.forEach(function(el, i){ if(cpopLabelsFr[i]) el.textContent = lang === 'en' ? cpopLabelsEn[i] : cpopLabelsFr[i]; });
-  var cpopMsgArea = document.getElementById('cpopMsg');
-  if (cpopMsgArea) cpopMsgArea.placeholder = lang === 'en' ? 'Describe your project in a few lines...' : 'Décris ton projet en quelques lignes...';
-  var cpopNameInput = document.getElementById('cpopName');
-  if (cpopNameInput) cpopNameInput.placeholder = lang === 'en' ? 'e.g. Mohamed, MDG...' : 'Ex: Mamadou Diallo';
-  var cpopBudgetLabel = document.getElementById('cpopBudgetLabel');
-  if (cpopBudgetLabel && cpopBudgetLabel.textContent.trim() === 'Choisir...') cpopBudgetLabel.textContent = lang === 'en' ? 'Choose...' : 'Choisir...';
-  var cpopChipsFr = ['Cover Art','✦ Branding','▶ Motion','⌨ Web','◻ Print','· · · Autre'];
-  var cpopChipsEn = ['Cover Art','✦ Branding','▶ Motion','⌨ Web','◻ Print','· · · Other'];
-  document.querySelectorAll('.cpop-chip-opt').forEach(function(el, i){ if(cpopChipsFr[i]) el.lastChild.textContent = lang === 'en' ? cpopChipsEn[i].replace(/^[✦▶⌨◻·\s]+/,'') : cpopChipsFr[i].replace(/^[✦▶⌨◻·\s]+/,''); });
-  var cpopDropItems = document.querySelectorAll('.cpop-drop-item');
-  var cpopDropFr = ['Moins de 50 000 FCFA','50 000 – 150 000 FCFA','150 000 – 500 000 FCFA','500 000 FCFA+','À discuter'];
-  var cpopDropEn = ['Under 50,000 FCFA','50,000 – 150,000 FCFA','150,000 – 500,000 FCFA','500,000 FCFA+','To be discussed'];
-  cpopDropItems.forEach(function(el, i){
-    if (!cpopDropFr[i]) return;
-    var span = el.querySelectorAll('span')[1];
-    if (span) span.textContent = lang === 'en' ? cpopDropEn[i] : cpopDropFr[i];
-  });
-  var cpopSubmitLabel = document.getElementById('cpopSubmitLabel');
-  if (cpopSubmitLabel) cpopSubmitLabel.textContent = lang === 'en' ? 'Send via WhatsApp' : 'Envoyer via WhatsApp';
-
   // ── html lang attr ──
   document.documentElement.lang = lang;
   // Mettre à jour sectionLabels selon la langue active
@@ -18109,36 +17948,16 @@ function applyComplexPatches(lang) {
     : "Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web, et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.";
   var aboutV2Bodies = document.querySelectorAll('.about-v2-body');
   var aboutBodyFr = [
-    "Avec <a href=\"#\" class=\"about-artist-link\" data-ig=\"iss814beats\">ISS 814</a> j'ai même plus compté. Bicrave, Bonus Tracks, et ça s'arrête pas. Pareil avec <a href=\"#\" class=\"about-artist-link\" data-ig=\"omzobeatz\">Omzo Beatz</a>, 808's God c'est un projet parmi d'autres. <a href=\"#\" class=\"about-artist-link\" data-ig=\"dopeboydmg\">Dopeboy DMG</a>, Road to Roots 2 X-Files. <a href=\"#\" class=\"about-artist-link\" data-ig=\"onelyrical.sn\">One Lyrical</a>. Bientôt du merch avec VJ. Des noms connus ici, d'autres à l'international.",
+    "Avec <button class=\"about-artist-btn\" data-ig=\"iss814beats\" data-name=\"ISS 814\">ISS 814</button> j'ai même plus compté. Bicrave, Bonus Tracks, et ça s'arrête pas. Pareil avec <button class=\"about-artist-btn\" data-ig=\"omzobeatz\" data-name=\"Omzo Beatz\">Omzo Beatz</button>, 808's God c'est un projet parmi d'autres. <button class=\"about-artist-btn\" data-ig=\"dopeboydmg\" data-name=\"Dopeboy DMG\">Dopeboy DMG</button>, Road to Roots 2 X-Files. <button class=\"about-artist-btn\" data-ig=\"onelyrical.sn\" data-name=\"One Lyrical\">One Lyrical</button>. Bientôt du merch avec VJ. Des noms connus ici, d'autres à l'international.",
     "Chaque projet part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter. Pas de copier-coller. Pas de raccourci."
   ];
   var aboutBodyEn = [
-    "With <a href=\"#\" class=\"about-artist-link\" data-ig=\"iss814beats\">ISS 814</a> I lost count. Bicrave, Bonus Tracks, and it keeps going. Same with <a href=\"#\" class=\"about-artist-link\" data-ig=\"omzobeatz\">Omzo Beatz</a>, 808's God is one project among others. <a href=\"#\" class=\"about-artist-link\" data-ig=\"dopeboydmg\">Dopeboy DMG</a>, Road to Roots 2 X-Files. <a href=\"#\" class=\"about-artist-link\" data-ig=\"onelyrical.sn\">One Lyrical</a>. Merch with VJ coming soon. Known names here, others internationally.",
+    "With <button class=\"about-artist-btn\" data-ig=\"iss814beats\" data-name=\"ISS 814\">ISS 814</button> I lost count. Bicrave, Bonus Tracks, and it keeps going. Same with <button class=\"about-artist-btn\" data-ig=\"omzobeatz\" data-name=\"Omzo Beatz\">Omzo Beatz</button>, 808's God is one project among others. <button class=\"about-artist-btn\" data-ig=\"dopeboydmg\" data-name=\"Dopeboy DMG\">Dopeboy DMG</button>, Road to Roots 2 X-Files. <button class=\"about-artist-btn\" data-ig=\"onelyrical.sn\" data-name=\"One Lyrical\">One Lyrical</button>. Merch with VJ coming soon. Known names here, others internationally.",
     "Every project starts from a genuine understanding of who you are, what you do, and what you want to project. No copy-paste. No shortcuts."
   ];
   aboutV2Bodies.forEach(function(el, i) {
     if (aboutBodyFr[i] !== undefined) el.innerHTML = lang === 'en' ? aboutBodyEn[i] : aboutBodyFr[i];
   });
-  /* Deep link Instagram — ouvre l'app, fallback navigateur */
-  if (!window._igDeepLinkBound) {
-    window._igDeepLinkBound = true;
-    document.addEventListener('click', function(e) {
-      var link = e.target.closest('.about-artist-link[data-ig]');
-      if (!link) return;
-      e.preventDefault();
-      var username = link.getAttribute('data-ig');
-      var appUrl = 'instagram://user?username=' + username;
-      var webUrl = 'https://www.instagram.com/' + username + '/';
-      var iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-      iframe.src = appUrl;
-      setTimeout(function() {
-        try { document.body.removeChild(iframe); } catch(e) {}
-        window.open(webUrl, '_blank', 'noopener');
-      }, 1500);
-    });
-  }
   var aboutV2ToolsLabel = document.querySelector('.av2-tools-label');
   if (aboutV2ToolsLabel) aboutV2ToolsLabel.textContent = lang === 'en' ? 'Tools' : 'Outils';
   var aboutV2Cta = document.querySelector('.av2-cta');
@@ -21539,6 +21358,270 @@ main > section{margin-top:0!important;margin-bottom:0!important}
     resolveOnLoad();
   }
 
+})();
+</script>
+
+<!-- ── INSTAGRAM ARTIST POPUP ── -->
+<div id="ig-artist-popup" role="dialog" aria-modal="true" aria-labelledby="ig-popup-title">
+  <div id="ig-popup-backdrop"></div>
+  <div id="ig-popup-card">
+    <div id="ig-popup-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+    <div id="ig-popup-label">Instagram</div>
+    <div id="ig-popup-title"></div>
+    <p id="ig-popup-sub"></p>
+    <div id="ig-popup-actions">
+      <button id="ig-popup-cancel">Annuler</button>
+      <button id="ig-popup-confirm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Ouvrir Instagram
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ── BOUTONS ARTISTES INLINE ── */
+.about-artist-btn {
+  display: inline;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s, opacity .2s;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+.about-artist-btn:hover {
+  border-color: var(--accent);
+  opacity: .85;
+}
+.about-artist-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── POPUP ── */
+#ig-artist-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s cubic-bezier(.16,1,.3,1);
+}
+#ig-artist-popup.open {
+  opacity: 1;
+  pointer-events: all;
+}
+#ig-popup-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+#ig-popup-card {
+  position: relative;
+  z-index: 1;
+  background: #181818;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  padding: 2rem 1.75rem 1.5rem;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+  transform: translateY(16px) scale(.97);
+  transition: transform .3s cubic-bezier(.16,1,.3,1);
+  box-shadow: 0 24px 64px rgba(0,0,0,.6);
+}
+#ig-artist-popup.open #ig-popup-card {
+  transform: translateY(0) scale(1);
+}
+#ig-popup-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  color: #fff;
+}
+#ig-popup-label {
+  font-family: 'Syne', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: .4rem;
+}
+#ig-popup-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--light);
+  margin-bottom: .65rem;
+  letter-spacing: -.01em;
+}
+#ig-popup-sub {
+  font-size: .82rem;
+  color: var(--off);
+  line-height: 1.65;
+  margin-bottom: 1.4rem;
+}
+#ig-popup-sub strong {
+  color: var(--light);
+  font-weight: 600;
+}
+#ig-popup-actions {
+  display: flex;
+  gap: .6rem;
+}
+#ig-popup-cancel {
+  flex: 1;
+  background: none;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: .7rem;
+  font-family: 'Syne', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--off);
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+#ig-popup-cancel:hover { border-color: rgba(255,255,255,.28); color: var(--light); }
+#ig-popup-confirm {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  background: linear-gradient(135deg, #e6683c, #dc2743, #bc1888);
+  border: none;
+  border-radius: 10px;
+  padding: .7rem 1rem;
+  font-family: 'Syne', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+#ig-popup-confirm:hover { opacity: .88; }
+
+@media(max-width: 480px) {
+  #ig-popup-card { padding: 1.5rem 1.25rem 1.25rem; border-radius: 16px; }
+  #ig-popup-title { font-size: 1.1rem; }
+}
+</style>
+
+<script>
+(function(){
+  var popup    = document.getElementById('ig-artist-popup');
+  var backdrop = document.getElementById('ig-popup-backdrop');
+  var titleEl  = document.getElementById('ig-popup-title');
+  var subEl    = document.getElementById('ig-popup-sub');
+  var cancelBtn= document.getElementById('ig-popup-cancel');
+  var confirmBtn=document.getElementById('ig-popup-confirm');
+  var currentIg = null;
+  var currentLang = (document.documentElement.lang || 'fr');
+
+  function igOpen(username, displayName) {
+    currentIg = username;
+    currentLang = (document.documentElement.lang || 'fr');
+    titleEl.textContent = '@' + username;
+    if (currentLang === 'en') {
+      subEl.innerHTML = "You're about to open <strong>" + displayName + "</strong>'s Instagram profile. The app will open if it's installed on your device.";
+      cancelBtn.textContent = 'Cancel';
+      var confirmSvg = confirmBtn.querySelector('svg');
+      confirmBtn.innerHTML = '';
+      if (confirmSvg) confirmBtn.appendChild(confirmSvg);
+      confirmBtn.appendChild(document.createTextNode(' Open Instagram'));
+    } else {
+      subEl.innerHTML = "Tu t'apprêtes à ouvrir le profil Instagram de <strong>" + displayName + "</strong>. L'application s'ouvrira si elle est installée sur ton appareil.";
+      cancelBtn.textContent = 'Annuler';
+      var confirmSvg2 = confirmBtn.querySelector('svg');
+      confirmBtn.innerHTML = '';
+      if (confirmSvg2) confirmBtn.appendChild(confirmSvg2);
+      confirmBtn.appendChild(document.createTextNode(' Ouvrir Instagram'));
+    }
+    popup.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ cancelBtn.focus(); }, 60);
+  }
+
+  function igClose() {
+    popup.classList.remove('open');
+    document.body.style.overflow = '';
+    currentIg = null;
+  }
+
+  function igConfirm() {
+    if (!currentIg) return;
+    var username = currentIg;
+    igClose();
+    /* Tenter deep link app, fallback web */
+    var appUrl = 'instagram://user?username=' + username;
+    var webUrl = 'https://www.instagram.com/' + username + '/';
+    var start = Date.now();
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    try { iframe.src = appUrl; } catch(e) {}
+    var timer = setTimeout(function() {
+      try { document.body.removeChild(iframe); } catch(e) {}
+      /* Si l'app n'a pas intercepté (visibilité page intacte), ouvrir le web */
+      if (Date.now() - start < 2000) {
+        window.open(webUrl, '_blank', 'noopener');
+      }
+    }, 1200);
+    document.addEventListener('visibilitychange', function onVis() {
+      if (document.hidden) {
+        clearTimeout(timer);
+        try { document.body.removeChild(iframe); } catch(e) {}
+        document.removeEventListener('visibilitychange', onVis);
+      }
+    });
+  }
+
+  /* Délégation sur tout le document pour attraper les boutons injectés par i18n */
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.about-artist-btn[data-ig]');
+    if (!btn) return;
+    e.preventDefault();
+    igOpen(btn.getAttribute('data-ig'), btn.getAttribute('data-name') || btn.textContent);
+  });
+
+  backdrop.addEventListener('click', igClose);
+  cancelBtn.addEventListener('click', igClose);
+  confirmBtn.addEventListener('click', igConfirm);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && popup.classList.contains('open')) igClose();
+  });
 })();
 </script>
 </body>
