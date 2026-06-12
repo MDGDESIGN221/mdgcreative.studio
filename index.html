@@ -83,7 +83,19 @@
 }
 html{scroll-behavior:smooth;overflow-x:hidden}
 
-/* ── MODIF 10 : Hero tagline immédiatement visible — indépendant de la vidéo ── */
+/* ══════════════════════════════════════════
+   FIX DÉFINITIF — L'ÉLITE SE REMARQUE
+   Desktop + Mobile — ne se reproduira plus jamais.
+
+   Cause : maskRevealUp démarre à clip-path:inset(100%)/opacity:0.
+   Si l'animation est interrompue (bfcache, onglet arrière-plan,
+   toggle de langue, suspension iOS, rechargement partiel),
+   fill-mode:both maintient l'état initial → texte invisible.
+
+   Solution : on tue l'animation sur les wraps et on force
+   directement les valeurs finales. Le glitch ::before/::after
+   est conservé — il ne fait que flash une couleur, il ne cache rien.
+══════════════════════════════════════════ */
 .hero-name,
 .hero-name-wrap,
 .hero-name-sub,
@@ -93,34 +105,13 @@ html{scroll-behavior:smooth;overflow-x:hidden}
 .hero-handle {
   opacity: 1 !important;
   transform: none !important;
-  animation-play-state: running !important;
+  clip-path: none !important;
+  animation: none !important;
+  visibility: visible !important;
   will-change: auto !important;
 }
 /* Fallback visible dès le premier paint */
 #hero .hero-left { opacity: 1 !important; }
-
-/* Sur mobile : tuer complètement les animations maskRevealUp sur le h1 hero.
-   L'animation démarre à clip-path:inset(100%)/opacity:0 — si elle est
-   interrompue ou pausée (bfcache, onglet en arrière-plan, changement de langue)
-   le texte reste invisible indéfiniment. */
-@media (hover: none), (max-width: 900px) {
-  .hero-name-wrap,
-  .hero-name-sub-wrap {
-    animation: none !important;
-    clip-path: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    overflow: visible !important;
-  }
-  .hero-name,
-  .hero-name-sub {
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
-    animation: none !important;
-    visibility: visible !important;
-  }
-}
 
 
 /* ── SECTION CTA BAND ── */
@@ -244,12 +235,14 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 /* ── WATERMARK TEXTE GÉANT (inspiré pieterkoopt) ── */
 .wm-section { position: relative; overflow: hidden; isolation: isolate; }
-/* Sur mobile : overflow:clip + overflow-clip-margin permet au watermark d'être caché
-   sans couper les carousels horizontaux qui débordent légèrement sur les côtés */
+/* Mobile : isolation:auto — isolation:isolate crée un stacking context composite par section.
+   Le browser mobile expulse ces layers GPU quand ils quittent le viewport
+   → espace noir + contenu qui réapparaît 1-2s après au retour. */
 @media(max-width:900px){
   .wm-section {
     overflow-x: visible;
     overflow-y: hidden;
+    isolation: auto;
   }
 }
 .wm-section::before {
@@ -529,45 +522,7 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 /* ── HERO HUD OVERLAY SYSTEM ── */
 
-/* HUD — coin haut droite */
-.hero-hud-tr {
-  position: absolute;
-  top: calc(var(--nav-h, 80px) + 1.25rem);
-  right: clamp(1.5rem, 3.5vw, 3rem);
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: .35rem;
-  opacity: 0;
-  animation: fu .9s 1s ease forwards;
-}
-.hero-hud-tag {
-  font-family: 'Inter', sans-serif;
-  font-size:clamp(.72rem,.75vw,.82rem);
-  font-weight: 700;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: #fff;
-}
-.hero-hud-neg {
-  font-family: 'Inter', sans-serif;
-  font-size:clamp(.72rem,.75vw,.82rem);
-  font-weight: 700;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  background: #fff;
-  color: #060606;
-  padding: .12rem .45rem;
-  line-height: 1.5;
-}
-.hero-hud-coord {
-  font-family: 'Inter', sans-serif;
-  font-size:clamp(.72rem,.65vw,.82rem);
-  font-weight: 400;
-  letter-spacing: .12em;
-  color: rgba(255,255,255,.65);
-}
+/* HUD coin haut droite — supprimé */
 
 /* HUD — bande bas (3 colonnes) */
 .hero-hud-bottom {
@@ -815,7 +770,6 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 /* ── HUD mobile adaptations ── */
 @media (max-width: 767px) {
-  .hero-hud-tr { right: 1.25rem; top: calc(var(--nav-h, 64px) + 1rem); }
   .hero-hud-bottom { padding: .9rem 1.25rem; }
   .hero-hud-label { font-size: .72rem; }
   .hero-hud-val { font-size: .72rem; }
@@ -2055,11 +2009,12 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
 }
 
-/* ── Mobile : will-change limité, pas de couches GPU inutiles ── */
+/* ── Mobile : will-change:auto — évite les couches GPU qui sont expulsées
+   au scroll puis recréées → espace noir + contenu qui réapparaît 1-2s ── */
 @media(max-width:900px) {
   .reveal,.reveal-up,.reveal-left,.reveal-right,
   .reveal-scale,.reveal-fade,.reveal-line,.reveal-cinema {
-    will-change: opacity;
+    will-change: auto;
   }
 }
 
@@ -2487,11 +2442,20 @@ a,button,.ac-card,.svc-card,.trust-item,.sk,.soc-item a,.tool,.work-card,.cov-ca
 
 /* Hover links fluides — propriétés ciblées (perf mobile) */
 a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubic-bezier(.16,1,.3,1),opacity .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1),box-shadow .3s cubic-bezier(.16,1,.3,1)}
-/* ── PERF MOBILE : désactiver will-change coûteux sur petits écrans ── */
+/* ── PERF MOBILE : désactiver will-change coûteux — évite layers GPU expulsés au scroll ── */
 @media(max-width:900px){
   .morph-slide,.artist-preview,.cursor-trail{will-change:auto}
   .ac-card,.svc-card,.trust-item,.sk,.soc-item a{transition:none !important}
   .work-card,.cov-card{will-change:auto;transform:none}
+  /* Carousels — will-change:scroll-position + contain créent des layers permanents inutiles */
+  .work-track,.cov-track{will-change:auto;contain:none}
+  /* Barre de progression — GPU inutile sur mobile */
+  .scroll-progress{will-change:auto}
+  /* morph-slide — filter:blur très coûteux sur mobile */
+  .morph-slide{will-change:auto;filter:none !important;transform:none !important;transition:opacity .7s ease}
+  .morph-slide.leaving{filter:none !important;transform:none !important}
+  /* reveal-cinema */
+  .reveal-cinema{will-change:auto}
 }
 
 /* Cards */
@@ -4401,6 +4365,83 @@ nav::before { display:none; }
   /* Collabs */
   #collabs{padding:2rem 1rem 3rem !important}
   .collabs-marquee-wrap{margin:0 -1rem !important}
+}
+
+/* ══════════════════════════════════════════════════════
+   FIX MOBILE SCROLL — STABILITÉ TOTALE
+   Éléments qui disparaissent + espace noir 1-2s au retour.
+
+   3 causes :
+   1. backdrop-filter décoratifs → repaint GPU en cascade au scroll
+   2. translateZ(0) sur cards carousel → layers composites expulsés
+   3. contain:layout style sur scroll containers → idem
+
+   On conserve nav + modals (fonctionnels).
+══════════════════════════════════════════════════════ */
+@media(max-width:900px){
+
+  /* ── backdrop-filter décoratifs → none ── */
+  .cov-cat-tag{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(0,0,0,.78) !important}
+  .about-photo-blur{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:linear-gradient(to top,rgba(6,6,6,.88) 0%,rgba(6,6,6,.45) 50%,transparent 100%) !important}
+  .work-arrow,.cov-arrow{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .footer-brand .f-socials a{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .award-item{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .cond-item{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .hero-btn-secondary{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .hero-stats{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(6,6,6,.94) !important}
+  .hero-hud-bottom{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(6,6,6,.90) !important}
+  #backToTop{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(18,18,18,.96) !important}
+  .contact-quick-form{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(14,14,14,.99) !important}
+  .cpop-overlay{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(0,0,0,.82) !important}
+  .rollout-card,.press-card{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+
+  /* ── translateZ(0) GPU hack retiré des cards ── */
+  /* translateZ(0) force un composite layer permanent que le browser
+     détruit + recrée quand la RAM est sous pression au scroll */
+  .work-card{transform:none !important;will-change:auto !important}
+  .cov-card{transform:none !important;will-change:auto !important}
+
+  /* ── Forcer visibilité immédiate — opacity:0 interdit ── */
+  /* Tous les éléments qui peuvent démarrer à opacity:0 via GSAP/CSS
+     sont forcés visibles. Animation:none évite tout recalcul de frame 0. */
+  .reveal,.reveal-up,.reveal-left,.reveal-right,
+  .reveal-scale,.reveal-fade,.reveal-line,.reveal-cinema,
+  .hero-name,.hero-name-wrap,.hero-name-sub,.hero-name-sub-wrap,
+  .hero-eyebrow,.hero-sub,
+  .sec-label,.svc-h2,.sec-sub,.port-h2,.port-extract-label,.port-count,
+  .port-tabs-wrap,.port-new-left,.port-new-eyebrow,.port-new-h2,.port-new-top,
+  .about-v2-photo,.about-v2-content,.about-v2-h2,.about-v2-intro,.about-v2-body,
+  .av2-badge,.av2-badge-txt,.sk,.about-text,
+  .svc-card,.svc-header,.svc-secondary,.svc-secondary-item,
+  .pieter-step,.process-header,
+  .pack-card,.adv-card,.rollout-card,.addon-card,.addons-intro,
+  .pack-price-display,.ppd-amount,.pcond-wrap,.pcond-row,
+  .pricing-header,.pricing-tabs,.pricing-scope-note,.pricing-note,
+  .pack-price-wrap,.pack-price,
+  .work-card,.cov-card,.cov-header,.work-footer,
+  .sp-vcard,.sp-stage,.sp-card,.sp-detail,.sp-header,.sp-feature,
+  .collabs-hdr,.collabs-main-title,.collabs-main-sub,.collabs-marquee-wrap,.collabs-sub,
+  .collabs-avatar,.collabs-avatars-row,
+  .trust-strip,.trust-item,.trust-logo,
+  .faq-header,.faq-item,.faq-q,
+  .awards-grid,.awards-item,
+  .contact-h2,.contact-sub,.contact-direct-link,.contact-grid,
+  .portrait-card,
+  .section-cta-band,.scta-line,
+  .uranus-header,.u-box,.u-box-visual,.u-order-card,.u-gal-premium,
+  .press-card,.press-grid,
+  .footer-brand,.footer-nav,.footer-bottom,
+  .award-item,.cond-item,
+  section,main,h1,h2,h3,p {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    visibility: visible !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Nav / modals / tab-bar : conservés (fonctionnels, pas animés au scroll) */
 }
 </style>
 
@@ -8671,24 +8712,9 @@ nav::before { display:none; }
   border-right: 1px solid rgba(255,255,255,.1) !important;
   padding: 0 clamp(1.5rem, 3vw, 2.5rem) !important;
 }
-/* Tag neg (KAOLACK, SÉNÉGAL) : juste un peu plus visible */
-.hero-hud-neg {
-  font-size:clamp(.72rem,.72vw,.82rem) !important;
-  letter-spacing: .2em !important;
-}
-/* Coord : identique ref */
-.hero-hud-coord {
-  font-size:clamp(.72rem,.6vw,.82rem) !important;
-  color: rgba(255,255,255,.4) !important;
-  letter-spacing: .1em !important;
-}
+/* Tag neg / coord — supprimés */
 
-/* 4. HUD-TR (coin haut droite) — léger ajust pour ne pas
-      se superposer à la zone lumineuse de la photo */
-.hero-hud-tr {
-  text-align: right !important;
-  text-shadow: 0 1px 8px rgba(0,0,0,.6) !important;
-}
+/* 4. HUD-TR (coin haut droite) — supprimé */
 
 /* 5. HERO-TYPE-WRAP (Brand Identity, bas droite) — renforcer le
       fond pour le rendre lisible sur toute photo */
@@ -8710,7 +8736,6 @@ nav::before { display:none; }
 
 /* 7. INTER — remplace Space Grotesk sur tous les éléments UI */
 body,
-.hero-hud-tag, .hero-hud-neg, .hero-hud-coord,
 .hero-hud-label, .hero-hud-val,
 .hero-eyebrow, .hero-sub, .hero-handle,
 .hero-btn-primary, .hero-btn-secondary,
@@ -8952,12 +8977,6 @@ body,
 
   /* Type-wrap — caché */
   .hero-type-wrap { display: none !important; }
-
-  /* HUD haut droite — très discret */
-  .hero-hud-tr {
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
 
   /* HUD bas — visible mais compact */
   .hero-hud-bottom {
@@ -9230,12 +9249,7 @@ body,
     </picture>
     <div class="grain" aria-hidden="true"></div>
     <div class="hero-gradient-overlay" aria-hidden="true"></div>
-    <!-- HUD — coin haut droite -->
-    <div class="hero-hud-tr" aria-hidden="true">
-      <span class="hero-hud-tag">MDG CREATIVE STUDIO</span>
-      <span class="hero-hud-neg">KAOLACK, SÉNÉGAL</span>
-      <span class="hero-hud-coord">14.1652° N / 16.0726° W</span>
-    </div>
+    <!-- HUD coin haut droite supprimé -->
     <!-- HUD — coin bas gauche / droite -->
     <div class="hero-hud-bottom" aria-hidden="true">
       <div class="hero-hud-col">
@@ -14984,9 +14998,11 @@ if (_isMobile) {
     '.portrait-card,' +
     '.section-cta-band,.scta-line,' +
     '.uranus-header,.u-box,.u-box-visual,.u-order-card,.u-gal-premium,' +
-    /* FIX L'ÉLITE SE REMARQUE : ces spans portent clip-path de maskRevealUp */
+    /* hero name — portent clip-path de maskRevealUp, doivent être ici */
     '.hero-name,.hero-name-wrap,.hero-name-sub,.hero-name-sub-wrap,.hero-eyebrow,.hero-sub,' +
-    'h1,h2,h3,p';
+    /* éléments supplémentaires */
+    '.press-card,.press-grid,.footer-brand,.footer-nav,.footer-bottom,.award-item,.cond-item,' +
+    'section,main,h1,h2,h3,p';
 
   function _forceVisible() {
     document.querySelectorAll(_mobileSelectors).forEach(function(el){
@@ -14995,6 +15011,7 @@ if (_isMobile) {
       el.style.setProperty('clip-path', 'none', 'important');
       el.style.setProperty('visibility', 'visible', 'important');
       el.style.setProperty('animation', 'none', 'important');
+      el.style.setProperty('filter', 'none', 'important');
     });
   }
 
@@ -15002,7 +15019,6 @@ if (_isMobile) {
   _forceVisible();
 
   // 2. Intercepter GSAP pour qu'il ne puisse jamais mettre opacity<1 sur mobile
-  // On patche gsap.fromTo et gsap.set après que GSAP soit chargé
   var _gsapPatchInterval = setInterval(function() {
     if (typeof gsap === 'undefined') return;
     clearInterval(_gsapPatchInterval);
@@ -15011,7 +15027,6 @@ if (_isMobile) {
     var _origFrom   = gsap.from.bind(gsap);
     var _origSet    = gsap.set.bind(gsap);
 
-    // Sur mobile : fromTo → skip si les fromVars contiennent opacity<1
     gsap.fromTo = function(targets, fromVars, toVars) {
       if (fromVars && (fromVars.opacity === 0 || fromVars.opacity < 1)) return;
       if (fromVars && (fromVars.clipPath || fromVars.clip_path)) return;
@@ -15022,35 +15037,34 @@ if (_isMobile) {
       if (vars && (vars.clipPath || vars.clip_path)) return;
       return _origFrom(targets, vars);
     };
-    // gsap.set : autoriser seulement clearProps et opacity:1
     gsap.set = function(targets, vars) {
       if (vars && vars.opacity !== undefined && vars.opacity < 1) return;
       return _origSet(targets, vars);
     };
 
-    // 3. Re-forcer visible après patch (au cas où des fromTo se sont déclenchés avant)
+    // 3. Re-forcer visible après patch
     _forceVisible();
     setTimeout(_forceVisible, 200);
     setTimeout(_forceVisible, 600);
     setTimeout(_forceVisible, 1200);
 
-    // 4. Re-forcer au retour d'onglet / app en arrière-plan
-    //    C'est la cause principale des "disparitions quelques heures plus tard"
-    //    Safari iOS suspend la page et restaure depuis le bfcache —
-    //    les animations repartent de frame 0 (opacity:0/clip-path:inset(100%))
+    // 4. Re-forcer au retour d'onglet / app arrière-plan
+    // C'est la cause des disparitions "quelques heures plus tard" :
+    // Safari iOS suspend la page et la restaure depuis le bfcache —
+    // les animations CSS repartent de frame 0 (opacity:0 / clip-path fermé)
     document.addEventListener('visibilitychange', function() {
       if (!document.hidden) {
         _forceVisible();
-        setTimeout(_forceVisible, 100);
-        setTimeout(_forceVisible, 400);
+        setTimeout(_forceVisible, 150);
+        setTimeout(_forceVisible, 500);
       }
     });
     // 5. pageshow bfcache — bouton retour iOS Safari
     window.addEventListener('pageshow', function(e) {
       if (e.persisted) {
         _forceVisible();
-        setTimeout(_forceVisible, 100);
-        setTimeout(_forceVisible, 400);
+        setTimeout(_forceVisible, 150);
+        setTimeout(_forceVisible, 500);
       }
     });
   }, 50);
@@ -17884,22 +17898,16 @@ function applyComplexPatches(lang) {
   var heroNameSub  = document.querySelector('.hero-name-sub .hero-name-sub-wrap');
   if (heroNameWrap) heroNameWrap.textContent = lang === 'en' ? "The elite" : "L'élite";
   if (heroNameSub)  heroNameSub.textContent  = lang === 'en' ? "stands out." : "se remarque.";
-  // FIX : après réécriture textContent, le browser peut invalider les styles
-  // et relancer maskRevealUp depuis frame 0 (clip-path:inset(100%)/opacity:0).
-  // Forcer immédiatement les valeurs finales en inline pour garantir la visibilité.
-  var _heroEls = [
-    document.querySelector('.hero-name'),
-    document.querySelector('.hero-name-wrap'),
-    document.querySelector('.hero-name-sub'),
-    document.querySelector('.hero-name-sub .hero-name-sub-wrap')
-  ];
-  _heroEls.forEach(function(el) {
+  // Forcer immédiatement visible après réécriture — textContent peut invalider
+  // les styles calculés et relancer maskRevealUp depuis frame 0 (opacity:0)
+  ['.hero-name','.hero-name-wrap','.hero-name-sub','.hero-name-sub .hero-name-sub-wrap'].forEach(function(sel){
+    var el = document.querySelector(sel);
     if (!el) return;
-    el.style.setProperty('opacity', '1', 'important');
-    el.style.setProperty('transform', 'none', 'important');
-    el.style.setProperty('clip-path', 'none', 'important');
-    el.style.setProperty('animation', 'none', 'important');
-    el.style.setProperty('visibility', 'visible', 'important');
+    el.style.setProperty('opacity','1','important');
+    el.style.setProperty('transform','none','important');
+    el.style.setProperty('clip-path','none','important');
+    el.style.setProperty('animation','none','important');
+    el.style.setProperty('visibility','visible','important');
   });
 
   // ── Hero sub ──
@@ -20855,33 +20863,7 @@ footer {
     animation-play-state: paused !important;
   }
 
-  /* FIX DÉFINITIF — L'ÉLITE SE REMARQUE disparaît sur mobile
-     Cause : maskRevealUp démarre à clip-path:inset(100%)/opacity:0.
-     Avec animation-play-state:paused (règle universelle ci-dessus), l'animation
-     reste bloquée en frame 0 → texte invisible. On tue l'animation et force
-     les valeurs finales directement. Aucun impact visuel : sur mobile les
-     animations hero sont de toute façon imperceptibles. */
-  .hero-name-wrap,
-  .hero-name-sub-wrap {
-    animation: none !important;
-    clip-path: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    overflow: visible !important;
-  }
-  .hero-name-wrap::before,
-  .hero-name-wrap::after {
-    animation: none !important;
-    opacity: 0 !important;
-  }
-  .hero-name,
-  .hero-name-sub {
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
-    animation: none !important;
-    visibility: visible !important;
-  }
+  /* Override ciblé : remettre en marche les animations légitimes sur mobile */
   .collabs-marquee,
   .hero-manifeste-ticker,
   .nav-ticker-inner,
@@ -20915,16 +20897,11 @@ footer {
   .uranus-header, .u-box, .u-box-visual, .u-order-card, .u-gal-premium,
   .portrait-card, .collabs-avatar, .collabs-avatars-row,
   .scta-line, .section-cta-band,
-  /* FIX L'ÉLITE SE REMARQUE — spans internes du h1 hero portent le clip-path de maskRevealUp.
-     Sans ces sélecteurs ici, animation-play-state:paused les laisse bloqués à opacity:0 / clip-path:inset(100%). */
-  .hero-name, .hero-name-wrap, .hero-name-sub, .hero-name-sub-wrap,
-  .hero-eyebrow, .hero-sub,
   h1, h2, h3, h4, p, .sec-label {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
     transition: none !important;
-    animation: none !important;
   }
 }
 </style>
