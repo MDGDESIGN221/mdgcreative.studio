@@ -20731,6 +20731,17 @@ footer {
   touch-action: pan-x pan-y !important;
 }
 
+/* ── Témoignages : les cartes et leurs images doivent hériter pan-x pan-y
+   du track — sans ça, le doigt posé sur la photo déclenche pan-y du parent
+   .sp-card et le compositing thread iOS ignore e.preventDefault() horizontal ── */
+.sp-slide,
+.sp-vcard-hero,
+.sp-vcard-hero-thumb,
+.sp-vcard-hero-thumb img,
+.sp-vcard-hero-body {
+  touch-action: pan-x pan-y !important;
+}
+
 /* trust-strip-inner, port-tabs = scroll natif sans handler JS */
 .trust-strip-inner,
 .port-tabs {
@@ -21583,25 +21594,18 @@ main > section{margin-top:0!important;margin-bottom:0!important}
     if (!currentIg) return;
     var username = currentIg;
     igClose();
-    /* Tenter deep link app, fallback web */
-    var appUrl = 'instagram://user?username=' + username;
+    /* Deep link app direct — technique iframe supprimée (bloquée iOS Safari / Android WebView).
+       Stratégie : ouvrir le profil web dans un nouvel onglet (synchrone dans le handler =
+       non bloqué par le pop-up blocker), puis tenter le deep link instagram://.
+       Si l'app prend la main, la page part en arrière-plan → on ferme l'onglet web.
+       Si l'app n'est pas installée, l'onglet web reste ouvert avec le bon profil. */
     var webUrl = 'https://www.instagram.com/' + username + '/';
-    var start = Date.now();
-    var iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-    try { iframe.src = appUrl; } catch(e) {}
-    var timer = setTimeout(function() {
-      try { document.body.removeChild(iframe); } catch(e) {}
-      /* Si l'app n'a pas intercepté (visibilité page intacte), ouvrir le web */
-      if (Date.now() - start < 2000) {
-        window.open(webUrl, '_blank', 'noopener');
-      }
-    }, 1200);
+    var appUrl = 'instagram://user?username=' + username;
+    var win = window.open(webUrl, '_blank', 'noopener');
+    try { window.location.href = appUrl; } catch(e) {}
     document.addEventListener('visibilitychange', function onVis() {
       if (document.hidden) {
-        clearTimeout(timer);
-        try { document.body.removeChild(iframe); } catch(e) {}
+        try { if (win && !win.closed) win.close(); } catch(e) {}
         document.removeEventListener('visibilitychange', onVis);
       }
     });
