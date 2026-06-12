@@ -17943,15 +17943,15 @@ function applyComplexPatches(lang) {
     : "Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web, et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.";
   var aboutV2Bodies = document.querySelectorAll('.about-v2-body');
   var aboutBodyFr = [
-    "Avec ISS 814 j'ai même plus compté. Bicrave, Bonus Tracks, et ça s'arrête pas. Pareil avec Omzo Beatz, 808's God c'est un projet parmi d'autres. Dopeboy DMG, Road to Roots 2 X-Files. One Lyrical. Bientôt du merch avec VJ. Des noms connus ici, d'autres à l'international.",
+    "Avec <a href=\"https://www.instagram.com/iss814beats/\" target=\"_blank\" rel=\"noopener\" class=\"about-artist-link\">ISS 814</a> j'ai même plus compté. Bicrave, Bonus Tracks, et ça s'arrête pas. Pareil avec <a href=\"https://www.instagram.com/omzobeatz/\" target=\"_blank\" rel=\"noopener\" class=\"about-artist-link\">Omzo Beatz</a>, 808's God c'est un projet parmi d'autres. <a href=\"https://www.instagram.com/dopeboydmg/\" target=\"_blank\" rel=\"noopener\" class=\"about-artist-link\">Dopeboy DMG</a>, Road to Roots 2 X-Files. <a href=\"https://www.instagram.com/onelyrical.sn/\" target=\"_blank\" rel=\"noopener\" class=\"about-artist-link\">One Lyrical</a>. Bientôt du merch avec VJ. Des noms connus ici, d'autres à l'international.",
     "Chaque projet part d'une vraie compréhension de qui tu es, de ce que tu fais, et de ce que tu veux projeter. Pas de copier-coller. Pas de raccourci."
   ];
   var aboutBodyEn = [
-    "With ISS 814 I lost count. Bicrave, Bonus Tracks, and it keeps going. Same with Omzo Beatz, 808's God is one project among others. Dopeboy DMG, Road to Roots 2 X-Files. One Lyrical. Merch with VJ coming soon. Known names here, others internationally.",
+    "With <a href=\"https://www.instagram.com/iss814beats/\" target=\"_blank\" rel=\"noopener\" class=\"about-artist-link\">ISS 814</a> I lost count. Bicrave, Bonus Tracks, and it keeps going. Same with <a href=\"https://www.instagram.com/omzobeatz/\" target=\"_blank\" rel=\"noopener\" class=\"about-artist-link\">Omzo Beatz</a>, 808's God is one project among others. <a href=\"https://www.instagram.com/dopeboydmg/\" target=\"_blank\" rel=\"noopener\" class=\"about-artist-link\">Dopeboy DMG</a>, Road to Roots 2 X-Files. <a href=\"https://www.instagram.com/onelyrical.sn/\" target=\"_blank\" rel=\"noopener\" class=\"about-artist-link\">One Lyrical</a>. Merch with VJ coming soon. Known names here, others internationally.",
     "Every project starts from a genuine understanding of who you are, what you do, and what you want to project. No copy-paste. No shortcuts."
   ];
   aboutV2Bodies.forEach(function(el, i) {
-    if (aboutBodyFr[i] !== undefined) el.textContent = lang === 'en' ? aboutBodyEn[i] : aboutBodyFr[i];
+    if (aboutBodyFr[i] !== undefined) el.innerHTML = lang === 'en' ? aboutBodyEn[i] : aboutBodyFr[i];
   });
   var aboutV2ToolsLabel = document.querySelector('.av2-tools-label');
   if (aboutV2ToolsLabel) aboutV2ToolsLabel.textContent = lang === 'en' ? 'Tools' : 'Outils';
