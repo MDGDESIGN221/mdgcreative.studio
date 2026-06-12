@@ -5001,7 +5001,7 @@ nav::before { display:none; }
     padding-right: 3.5rem;
     grid-template-columns: unset;
     align-items: unset;
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
     overscroll-behavior-x: contain;
     scroll-behavior: smooth;
     will-change: scroll-position;
@@ -5014,7 +5014,7 @@ nav::before { display:none; }
     scroll-snap-align: start;
     scroll-snap-stop: always;
     margin-right: .75rem;
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
   }
   .sp-slide:last-child { margin-right: 0; }
 
@@ -15879,7 +15879,9 @@ enableDragScroll(document.getElementById('motTrack'));
   }
 
   // ── Carrousels principaux ──
-  var carouselIds = ['workTrack', 'covTrack', 'motTrack', 'spVideosTrack'];
+  // spVideosTrack retiré — scroll natif CSS pur (scroll-snap + pan-x pan-y),
+  // même approche que le process carousel. Plus fluide, zéro conflit.
+  var carouselIds = ['workTrack', 'covTrack', 'motTrack'];
   carouselIds.forEach(function(id) {
     var el = document.getElementById(id);
     if (el) attachDirectionAwareTouch(el);
