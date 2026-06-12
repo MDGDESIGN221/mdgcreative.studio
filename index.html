@@ -221,10 +221,8 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 /* ── WATERMARK TEXTE GÉANT (inspiré pieterkoopt) ── */
 .wm-section { position: relative; overflow: hidden; isolation: isolate; }
-/* Sur mobile : overflow:clip + overflow-clip-margin permet au watermark d'être caché
-   sans couper les carousels horizontaux qui débordent légèrement sur les côtés.
-   isolation:isolate retiré sur mobile — crée trop de stacking contexts / composite layers
-   que le browser expulse de la mémoire GPU au scroll, causant un fond blanc au retour. */
+/* Sur mobile : isolation:isolate retiré — crée des stacking contexts composites
+   que le browser expulse de la RAM au scroll → fond blanc au retour */
 @media(max-width:900px){
   .wm-section {
     overflow-x: visible;
@@ -253,6 +251,7 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 
 /* ── SCROLL-TRIGGERED CINEMATIC — fade sections ── */
 .reveal-cinema { will-change: opacity, transform; }
+@media(max-width:900px){ .reveal-cinema { will-change: auto; } }
 
 /* ── PROCESS REDESIGN — style pieterkoopt 01/02/03 ── */
 .pieter-process {
@@ -1143,6 +1142,19 @@ section{position:relative;z-index:1}
   filter:blur(6px) brightness(.85);
   will-change:opacity,transform,filter;
 }
+/* Mobile : simplifier morph-slide — filter:blur est très coûteux sur mobile */
+@media(max-width:900px){
+  .morph-slide{
+    will-change:auto;
+    filter:none !important;
+    transform:none !important;
+    transition:opacity .8s ease;
+  }
+  .morph-slide.leaving{
+    filter:none !important;
+    transform:none !important;
+  }
+}
 .morph-slide.active{
   opacity:1;
   transform:scale(1.0);
@@ -1601,6 +1613,10 @@ section+section::before,
   .work-card .work-img{transition:filter .3s}
   .work-card { will-change: auto; transform: none; }
   .cov-card  { will-change: auto; transform: none; }
+  /* will-change:scroll-position + contain forcent des composite layers
+     sur les carousels — inutiles sur mobile où le scroll est natif */
+  .work-track { will-change: auto; contain: none; }
+  .cov-track  { will-change: auto; contain: none; }
 }
 
 /* ── COVERS (carrousel horizontal) ── */
@@ -2035,8 +2051,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   }
 }
 
-/* ── Mobile : will-change désactivé complètement — évite la création de couches GPU
-   qui sont expulsées de la mémoire au scroll puis recréées (fond blanc au retour) ── */
+/* ── Mobile : will-change désactivé — élimine les couches GPU expulsées au scroll ── */
 @media(max-width:900px) {
   .reveal,.reveal-up,.reveal-left,.reveal-right,
   .reveal-scale,.reveal-fade,.reveal-line,.reveal-cinema {
@@ -2473,6 +2488,11 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
   .morph-slide,.artist-preview,.cursor-trail{will-change:auto}
   .ac-card,.svc-card,.trust-item,.sk,.soc-item a{transition:none !important}
   .work-card,.cov-card{will-change:auto;transform:none}
+  /* Retirer le hack GPU translateZ(0) des carousels — force un composite layer
+     que le browser expulse au scroll sur mobile */
+  .work-track,.cov-track{will-change:auto}
+  /* scroll-progress bar : pas besoin de GPU sur mobile */
+  .scroll-progress{will-change:auto}
 }
 
 /* Cards */
@@ -4385,71 +4405,105 @@ nav::before { display:none; }
 }
 
 /* ══════════════════════════════════════════
-   FIX MOBILE SCROLL — backdrop-filter décoratifs désactivés
-   Chaque backdrop-filter force un repaint de tout ce qui est derrière.
-   Sur mobile (Android + iOS) ça déclenche des recompositions de layers
-   en cascade au scroll → fond blanc / rechargement visuel au retour.
-   On conserve uniquement nav + modals (fonctionnels).
+   FIX MOBILE SCROLL — STABILITÉ TOTALE
+   backdrop-filter décoratifs supprimés sur mobile.
+   Chaque backdrop-filter = repaint de tout ce qui est derrière.
+   Sur Android/iOS ça déclenche des recompositions GPU en cascade au scroll.
+   Règle : on conserve UNIQUEMENT nav + modals (fonctionnels).
 ══════════════════════════════════════════ */
 @media(max-width:900px){
-  /* Tags sur les cover cards — purement décoratif */
+
+  /* ── backdrop-filter décoratifs → none ── */
   .cov-cat-tag {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(0,0,0,.75) !important;
+    background: rgba(0,0,0,.78) !important;
   }
-  /* Flou bas de la photo about — décoratif */
   .about-photo-blur {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: linear-gradient(to top, rgba(6,6,6,.85) 0%, rgba(6,6,6,.4) 50%, transparent 100%) !important;
+    background: linear-gradient(to top,rgba(6,6,6,.88) 0%,rgba(6,6,6,.45) 50%,transparent 100%) !important;
   }
-  /* Flèches carousel — décoratif */
   .work-arrow, .cov-arrow {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  /* Footer social icons — décoratif */
   .footer-brand .f-socials a {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  /* Award items — décoratif */
   .award-item {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  /* Conditions items — décoratif */
   .cond-item {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  /* Bouton secondaire hero — décoratif */
   .hero-btn-secondary {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  /* hero-stats bar — garder un fond opaque à la place */
   .hero-stats {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(6,6,6,.92) !important;
+    background: rgba(6,6,6,.94) !important;
   }
-  /* Back to top button — décoratif */
   #backToTop {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(18,18,18,.95) !important;
+    background: rgba(18,18,18,.96) !important;
   }
-  /* Contact form — opacifier le fond à la place */
   .contact-quick-form {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(14,14,14,.98) !important;
+    background: rgba(14,14,14,.99) !important;
   }
-  /* Nav conservée : fonctionnelle — on NE désactive PAS nav backdrop-filter */
-  /* pack-modal-overlay conservé : fonctionnel */
-  /* modal-overlay conservé : fonctionnel */
+  /* hero-hud-bottom — décoratif, derrière le contenu hero */
+  .hero-hud-bottom {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(6,6,6,.88) !important;
+  }
+  /* rollout-card, press-card, faq-item — derrière le scroll */
+  .rollout-card, .press-card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* cpop overlay — popup, opacifier le fond */
+  .cpop-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(0,0,0,.82) !important;
+  }
+
+  /* ── GPU translateZ(0) sur cards carousel → retiré ── */
+  /* translateZ(0) force un composite layer permanent que le browser
+     détruit + recrée au scroll quand la RAM est sous pression */
+  .work-card {
+    transform: none !important;
+  }
+  .cov-card {
+    transform: none !important;
+  }
+
+  /* ── will-change total cleanup sur mobile ── */
+  /* Tout ce qui a encore un will-change actif hors des éléments
+     qui en ont vraiment besoin (tab bar fixe) */
+  .morph-slide {
+    will-change: auto !important;
+  }
+  .reveal-cinema {
+    will-change: auto !important;
+  }
+  .magnetic {
+    will-change: auto !important;
+  }
+
+  /* Nav conservée : fonctionnelle */
+  /* #mob-tab-bar will-change:transform conservé : fixé en bas, iOS en a besoin */
+  /* .modal-overlay, .pack-modal-overlay conservés */
+  /* .lb-overlay, .cpop conservés */
 }
 </style>
 
@@ -15033,7 +15087,17 @@ if (_isMobile) {
     '.portrait-card,' +
     '.section-cta-band,.scta-line,' +
     '.uranus-header,.u-box,.u-box-visual,.u-order-card,.u-gal-premium,' +
-    'h1,h2,h3,p';
+    /* éléments manquants — ajoutés pour couverture complète */
+    '.press-card,.press-grid,' +
+    '.hero-hud-tr,.hero-hud-bottom,.hero-stats,' +
+    '.about-split,.about-morph-wrap,' +
+    '.work-track,.cov-track,' +
+    '.footer-brand,.footer-nav,.footer-bottom,' +
+    '.contact-quick-form,.cqf-field,' +
+    '.award-item,.cond-item,' +
+    '.acc-item,.acc-visual,.acc-content,.acc-title,' +
+    'section,main' +
+    ',h1,h2,h3,p';
 
   function _forceVisible() {
     document.querySelectorAll(_mobileSelectors).forEach(function(el){
@@ -15041,6 +15105,7 @@ if (_isMobile) {
       el.style.setProperty('transform', 'none', 'important');
       el.style.setProperty('clip-path', 'none', 'important');
       el.style.setProperty('visibility', 'visible', 'important');
+      el.style.setProperty('filter', 'none', 'important');
     });
   }
 
@@ -15079,6 +15144,22 @@ if (_isMobile) {
     setTimeout(_forceVisible, 200);
     setTimeout(_forceVisible, 600);
     setTimeout(_forceVisible, 1200);
+    // 4. Re-forcer visible quand l'onglet redevient visible (retour depuis une autre app/onglet)
+    //    C'est la cause des "disparitions au retour" non liées aux couches GPU.
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        _forceVisible();
+        setTimeout(_forceVisible, 150);
+      }
+    });
+    // 5. Re-forcer au retour bfcache (bouton retour iOS Safari)
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted) {
+        _forceVisible();
+        setTimeout(_forceVisible, 150);
+        setTimeout(_forceVisible, 500);
+      }
+    });
   }, 50);
 }
 
