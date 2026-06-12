@@ -8737,43 +8737,48 @@ body,
   font-family: 'Inter', sans-serif !important;
 }
 
-/* 8. H1 HERO desktop — layout flex propre, dans le flux normal */
+/* 8. H1 HERO desktop — layout définitif */
 @media(min-width:768px) {
+  /* hero-left couvre tout le hero, flex colonne centré */
   .hero-left {
     position: absolute !important;
     top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
     width: 100% !important;
     max-width: none !important;
-    padding: calc(var(--nav-h,80px) + 1rem) clamp(2rem,4vw,3.5rem) 0 !important;
+    padding: calc(var(--nav-h,80px) + 2rem) 0 5rem 0 !important;
     z-index: 15 !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+    justify-content: center !important;
     pointer-events: none !important;
     box-sizing: border-box !important;
   }
   .hero-left > * { pointer-events: auto; }
 
-  /* Eyebrow — haut gauche, dans le flux */
+  /* Eyebrow — sorti du flux, ancré haut gauche */
   .hero-eyebrow {
-    align-self: flex-start !important;
-    position: static !important;
+    position: absolute !important;
+    top: calc(var(--nav-h,80px) + 1rem) !important;
+    left: clamp(2rem,4vw,3.5rem) !important;
+    margin: 0 !important;
     padding: 0 !important;
-    margin: 0 0 auto 0 !important;
+    pointer-events: none !important;
   }
 
-  /* H1 — centré, pousse vers le milieu via margin auto sur l'eyebrow */
+  /* H1 — dans le flux, centré par justify-content:center du parent */
   .hero-name {
     position: static !important;
     transform: none !important;
     text-align: center !important;
     width: 100% !important;
     max-width: 860px !important;
-    padding: 0 !important;
-    margin: auto 0 0 0 !important;
+    padding: 0 clamp(1rem,3vw,2rem) !important;
+    margin: 0 0 1.5rem 0 !important;
     font-size: clamp(2.4rem, 5vw, 6rem) !important;
     line-height: .93 !important;
     pointer-events: none !important;
+    box-sizing: border-box !important;
   }
   .hero-name-sub {
     font-size: clamp(2.2rem, 4.6vw, 5.6rem) !important;
@@ -8786,7 +8791,7 @@ body,
     position: static !important;
     transform: none !important;
     text-align: center !important;
-    margin: 1.5rem 0 0 0 !important;
+    margin: 0 0 2rem 0 !important;
     border-left: none !important;
     padding: 0 !important;
     font-size: clamp(.72rem,.8vw,.82rem) !important;
@@ -8794,14 +8799,16 @@ body,
     pointer-events: none !important;
   }
 
-  /* CTAs — sous la tagline */
+  /* CTAs — sous la tagline, toujours visibles */
   .hero-ctas {
     position: static !important;
-    transform: none !important;
-    margin: 2rem 0 auto 0 !important;
+    transform: translateY(0) !important;
+    margin: 0 !important;
     padding: 0 !important;
     white-space: nowrap !important;
     justify-content: center !important;
+    opacity: 1 !important;
+    animation: none !important;
   }
 
   /* Portfolio links — bas gauche */
