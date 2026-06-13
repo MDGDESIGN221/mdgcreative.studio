@@ -6887,6 +6887,8 @@ nav::before { display:none; }
     border: 1px solid var(--border2);
     border-radius: 14px;
     width: 100%;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   .pricing-mobile-tabs-wrap::-webkit-scrollbar { display: none; }
 
@@ -6917,6 +6919,9 @@ nav::before { display:none; }
     scroll-snap-align: unset;
     transition: all .25s cubic-bezier(.16,1,.3,1);
     line-height: 1.2;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
   .pricing-mobile-tab.active {
     background: var(--accent);
@@ -7087,6 +7092,9 @@ nav::before { display:none; }
     cursor: pointer; width: 100%;
     transition: border-color .2s, color .2s;
     line-height: 1.4;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
   .pack-mobile-detail-btn:hover { border-color: var(--accent); color: var(--accent); }
   .pack-mobile-start-btn {
@@ -7103,6 +7111,9 @@ nav::before { display:none; }
     cursor: pointer; width: 100%;
     transition: opacity .2s;
     line-height: 1.4;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
   .pack-mobile-start-btn:hover { opacity: .88; }
 
@@ -11710,10 +11721,10 @@ body,
 /* ── MARGES MOBILES GLOBALES ── */
 @media(max-width:600px) {
   .container { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
-  section, #about, #services, #press, #pricing, #faq, #contact { overflow-x: hidden; }
-  /* #process exclu : #pieter-process-track utilise overflow-x:auto + scroll-snap.
+  section, #about, #services, #press, #faq, #contact { overflow-x: hidden; }
+  /* #process et #pricing exclus : leurs enfants carousel utilisent overflow-x:auto + scroll-snap.
      Un parent overflow:hidden devient scroll-container implicite sur iOS → bloque les swipes. */
-  #process { overflow: visible; }
+  #process, #pricing { overflow: visible; }
   .sp-header, .sp-feature { padding-left: 1.25rem !important; padding-right: 1.25rem !important; margin-left: 0 !important; margin-right: 0 !important; }
   .sp-videos { margin-left: 1.25rem !important; margin-right: 1.25rem !important; }
   .proc-timeline { margin: 1.5rem 1.25rem 0 !important; }
@@ -18662,7 +18673,15 @@ document.addEventListener('DOMContentLoaded', function(){
       btn.className = 'pricing-mobile-tab' + (i === 0 ? ' active' : '');
       btn.textContent = t.label;
       btn.setAttribute('data-panel', t.value);
-      btn.addEventListener('click', function() {
+      btn.setAttribute('type', 'button');
+      btn.style.touchAction = 'manipulation';
+      // pointerup + détection drag pour fiabilité iOS
+      var _px = 0, _py = 0, _mv = false;
+      btn.addEventListener('pointerdown', function(e){ _px=e.clientX; _py=e.clientY; _mv=false; }, {passive:true});
+      btn.addEventListener('pointermove', function(e){ if(Math.abs(e.clientX-_px)>6||Math.abs(e.clientY-_py)>6)_mv=true; }, {passive:true});
+      btn.addEventListener('pointerup', function(e){
+        if(_mv) return;
+        e.preventDefault();
         document.querySelectorAll('.pricing-mobile-tab').forEach(function(b){ b.classList.remove('active'); });
         btn.classList.add('active');
         switchMobileTab(t.value);
@@ -18693,16 +18712,28 @@ document.addEventListener('DOMContentLoaded', function(){
       const packId = card.querySelector('[onclick*="openPackModal"]')
         ? card.querySelector('[onclick*="openPackModal"]').getAttribute('onclick').match(/'([^']+)'/)?.[1]
         : null;
+      if (!packId) return;
       const actions = document.createElement('div');
       actions.className = 'pack-mobile-actions';
-      actions.innerHTML = `
-        <button class="pack-mobile-detail-btn" onclick="bsOpen('${packId}')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Voir les détails
-        </button>
-        <button class="pack-mobile-start-btn" onclick="bsClose();if(window.openPackModal)openPackModal('${packId}')">
-          Démarrer ce pack →
-        </button>`;
+
+      const detailBtn = document.createElement('button');
+      detailBtn.className = 'pack-mobile-detail-btn';
+      detailBtn.setAttribute('type', 'button');
+      detailBtn.setAttribute('aria-label', 'Voir les détails de ce pack');
+      detailBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg> Voir les détails`;
+      detailBtn.style.touchAction = 'manipulation';
+      detailBtn.addEventListener('pointerup', function(e) { e.preventDefault(); if(window.bsOpen) window.bsOpen(packId); });
+
+      const startBtn = document.createElement('button');
+      startBtn.className = 'pack-mobile-start-btn';
+      startBtn.setAttribute('type', 'button');
+      startBtn.setAttribute('aria-label', 'Démarrer ce pack');
+      startBtn.textContent = 'Démarrer ce pack →';
+      startBtn.style.touchAction = 'manipulation';
+      startBtn.addEventListener('pointerup', function(e) { e.preventDefault(); if(window.bsClose) window.bsClose(); if(window.openPackModal) window.openPackModal(packId); });
+
+      actions.appendChild(detailBtn);
+      actions.appendChild(startBtn);
       card.appendChild(actions);
     });
 
@@ -18711,16 +18742,28 @@ document.addEventListener('DOMContentLoaded', function(){
       const packId = card.querySelector('[onclick*="openPackModal"]')
         ? card.querySelector('[onclick*="openPackModal"]').getAttribute('onclick').match(/'([^']+)'/)?.[1]
         : null;
+      if (!packId) return;
       const actions = document.createElement('div');
       actions.className = 'pack-mobile-actions';
-      actions.innerHTML = `
-        <button class="pack-mobile-detail-btn" onclick="bsOpen('${packId}')" aria-label="Voir les détails de ce pack">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Voir les détails
-        </button>
-        <button class="pack-mobile-start-btn" onclick="if(window.openPackModal)openPackModal('${packId}')" aria-label="Démarrer ce pack">
-          Démarrer →
-        </button>`;
+
+      const detailBtn = document.createElement('button');
+      detailBtn.className = 'pack-mobile-detail-btn';
+      detailBtn.setAttribute('type', 'button');
+      detailBtn.setAttribute('aria-label', 'Voir les détails de ce pack');
+      detailBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg> Voir les détails`;
+      detailBtn.style.touchAction = 'manipulation';
+      detailBtn.addEventListener('pointerup', function(e) { e.preventDefault(); if(window.bsOpen) window.bsOpen(packId); });
+
+      const startBtn = document.createElement('button');
+      startBtn.className = 'pack-mobile-start-btn';
+      startBtn.setAttribute('type', 'button');
+      startBtn.setAttribute('aria-label', 'Démarrer ce pack');
+      startBtn.textContent = 'Démarrer →';
+      startBtn.style.touchAction = 'manipulation';
+      startBtn.addEventListener('pointerup', function(e) { e.preventDefault(); if(window.openPackModal) window.openPackModal(packId); });
+
+      actions.appendChild(detailBtn);
+      actions.appendChild(startBtn);
       card.appendChild(actions);
     });
   }
@@ -18753,9 +18796,12 @@ document.addEventListener('DOMContentLoaded', function(){
         const dot = document.createElement('button');
         dot.className = 'pricing-dot' + (i === 0 ? ' active' : '');
         dot.setAttribute('aria-label', 'Pack ' + (i+1));
-        dot.onclick = () => {
-          cards[i].scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
-        };
+        dot.setAttribute('type', 'button');
+        dot.addEventListener('pointerup', function(e) {
+          e.preventDefault();
+          const cw = grid.offsetWidth;
+          grid.scrollTo({ left: i * cw * 0.78, behavior: 'auto' });
+        });
         dotsWrap.appendChild(dot);
       });
       grid.parentNode.insertBefore(dotsWrap, grid.nextSibling);
@@ -18775,11 +18821,7 @@ document.addEventListener('DOMContentLoaded', function(){
         counter.innerHTML = '<span>' + (idx+1) + '</span> / ' + cards.length;
       }, {passive:true});
 
-      // Première card : micro-animation peek au chargement
-      setTimeout(() => {
-        grid.scrollTo({left: 60, behavior:'smooth'});
-        setTimeout(() => grid.scrollTo({left: 0, behavior:'smooth'}), 500);
-      }, 800);
+      // Première card visible sans animation — le smooth combat le snap sur iOS
     });
   }
 
