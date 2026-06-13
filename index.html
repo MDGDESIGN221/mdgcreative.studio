@@ -6861,6 +6861,15 @@ nav::before { display:none; }
   .pricing-tabs {
     display: none !important;
   }
+  /* ── overflow:hidden sur #pricing clips le carousel mobile + bloque les touches aux bords ──
+     On passe à overflow:visible sur mobile ; les pseudo-éléments déco sont masqués. */
+  #pricing {
+    overflow: visible !important;
+  }
+  #pricing::before,
+  #pricing::after {
+    display: none !important;
+  }
   .pricing-mobile-select-wrap {
     display: none !important;
   }
@@ -13103,10 +13112,9 @@ function openPackModal(packId) {
   }
   // Stop lenis smooth scroll
   if (typeof lenis !== 'undefined' && lenis) lenis.stop();
-  // Lock body scroll — sans position:fixed pour éviter le jump mobile
+  // Lock body scroll — body.overflow cohérent avec bsOpen, évite les bugs iOS de height:100%
   const scrollY = window.scrollY;
-  document.documentElement.style.overflow = 'hidden';
-  document.documentElement.style.height = '100%';
+  document.body.style.overflow = 'hidden';
   document.body.dataset.scrollY = scrollY;
 }
 
@@ -13115,6 +13123,7 @@ function closePackModal() {
   overlay.classList.remove('open');
   // Restore body scroll
   const scrollY = parseInt(document.body.dataset.scrollY || '0');
+  document.body.style.overflow = '';
   document.documentElement.style.overflow = '';
   document.documentElement.style.height = '';
   window.scrollTo({top: scrollY, behavior: 'instant'});
@@ -20909,6 +20918,14 @@ footer {
     transform: none !important;
     clip-path: none !important;
     transition: none !important;
+  }
+
+  /* ── MODAL PACK : animation modalIn gelée par animation-play-state → modal invisible.
+     Fix : on annule l'animation et on force visible dès que l'overlay est ouvert. ── */
+  .pack-modal-overlay.open .pack-modal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 </style>
