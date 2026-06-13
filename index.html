@@ -16030,7 +16030,26 @@ document.querySelectorAll('[data-modal]').forEach(card => {
   card.setAttribute('tabindex','0');
   card.setAttribute('role','button');
   card.setAttribute('aria-haspopup','dialog');
-  card.addEventListener('click', () => openModal(card.dataset.modal));
+
+  // ── Mobile-proof tap : pointerdown + seuil drag ──
+  var _pdX = 0, _pdY = 0, _pdMoved = false;
+  card.addEventListener('pointerdown', function(e){
+    _pdX = e.clientX; _pdY = e.clientY; _pdMoved = false;
+  }, {passive: true});
+  card.addEventListener('pointermove', function(e){
+    if(Math.abs(e.clientX - _pdX) > 8 || Math.abs(e.clientY - _pdY) > 8) _pdMoved = true;
+  }, {passive: true});
+  card.addEventListener('pointerup', function(e){
+    if(_pdMoved) return;
+    // Éviter double-déclenchement si click suit pointerup
+    e.preventDefault();
+    openModal(card.dataset.modal);
+  });
+  // Fallback click pour souris desktop
+  card.addEventListener('click', function(e){
+    if(e.pointerType === 'touch') return; // déjà géré par pointerup
+    openModal(card.dataset.modal);
+  });
   card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){e.preventDefault();openModal(card.dataset.modal);} });
 });
 
@@ -19910,6 +19929,11 @@ if(typeof MutationObserver !== 'undefined'){
     );
     children.forEach(function(child, i){
       child.style.transitionDelay = (i * 0.055) + 's';
+      // ── FIX MOBILE : effacer le delay après l'animation pour ne pas bloquer les taps ──
+      child.addEventListener('transitionend', function clearDelay(){
+        child.style.transitionDelay = '0s';
+        child.removeEventListener('transitionend', clearDelay);
+      }, {once: true});
     });
   });
 
@@ -20106,11 +20130,31 @@ if(typeof MutationObserver !== 'undefined'){
 
 <script>
 /* ── SERVICES SECONDAIRES → ouvre modal existante ── */
+// openSvcModal = alias de openModal (n'existe pas séparément)
+if (typeof window.openSvcModal === 'undefined') {
+  window.openSvcModal = function(num) { if (typeof openModal === 'function') openModal(num); };
+}
 document.querySelectorAll('.svc-secondary-item').forEach(function(item){
-  item.addEventListener('click', function(){
+  item.style.cursor = 'pointer';
+  item.style.touchAction = 'manipulation';
+  item.setAttribute('role','button');
+  item.setAttribute('tabindex','0');
+  var _x=0,_y=0,_mv=false;
+  item.addEventListener('pointerdown', function(e){ _x=e.clientX; _y=e.clientY; _mv=false; },{passive:true});
+  item.addEventListener('pointermove', function(e){ if(Math.abs(e.clientX-_x)>8||Math.abs(e.clientY-_y)>8)_mv=true; },{passive:true});
+  item.addEventListener('pointerup', function(e){
+    if(_mv) return;
+    e.preventDefault();
     var modal = item.dataset.modal;
-    if (modal && typeof openSvcModal === 'function') openSvcModal(modal);
-    else if (modal && typeof openModal === 'function') openModal(modal);
+    if (modal) window.openSvcModal(modal);
+  });
+  item.addEventListener('click', function(e){
+    if(e.pointerType==='touch') return;
+    var modal = item.dataset.modal;
+    if (modal) window.openSvcModal(modal);
+  });
+  item.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); var modal=item.dataset.modal; if(modal) window.openSvcModal(modal); }
   });
 });
 </script>
