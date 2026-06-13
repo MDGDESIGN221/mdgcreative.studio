@@ -406,7 +406,7 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
    ══════════════════════════════════════ */
 @media(max-width: 768px) {
   #pieter-process-wrap {
-    overflow: hidden;
+    overflow: visible;
     position: relative;
   }
 
@@ -423,7 +423,7 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
     gap: 0;
     touch-action: pan-x pan-y;
     overscroll-behavior-x: contain;
-    scroll-behavior: smooth;
+    /* PAS de scroll-behavior:smooth — combat le snap natif sur iOS Safari → rebond/blocage */
   }
 
   /* Slide entier : même règle que le track */
@@ -2737,7 +2737,7 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 @media(max-width:1024px){.process-grid{grid-template-columns:repeat(2,1fr)}.process-conditions{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){
   .process-grid{grid-template-columns:1fr 1fr}
-  #process{padding:3rem 1.5rem}
+  #process{padding:3rem 1.5rem;overflow:visible}
   .process-header{margin-bottom:2rem}
   .process-step{padding:1.25rem 1rem}
   .step-num{font-size:2rem}
@@ -11710,7 +11710,10 @@ body,
 /* ── MARGES MOBILES GLOBALES ── */
 @media(max-width:600px) {
   .container { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
-  section, #about, #services, #press, #process, #pricing, #faq, #contact { overflow-x: hidden; }
+  section, #about, #services, #press, #pricing, #faq, #contact { overflow-x: hidden; }
+  /* #process exclu : #pieter-process-track utilise overflow-x:auto + scroll-snap.
+     Un parent overflow:hidden devient scroll-container implicite sur iOS → bloque les swipes. */
+  #process { overflow: visible; }
   .sp-header, .sp-feature { padding-left: 1.25rem !important; padding-right: 1.25rem !important; margin-left: 0 !important; margin-right: 0 !important; }
   .sp-videos { margin-left: 1.25rem !important; margin-right: 1.25rem !important; }
   .proc-timeline { margin: 1.5rem 1.25rem 0 !important; }
@@ -20606,7 +20609,8 @@ function cqfGoBack() {
       dot.addEventListener('click', function() {
         var idx = parseInt(this.dataset.idx);
         var slideW = getSlideWidth();
-        track.scrollTo({ left: idx * slideW, behavior: 'smooth' });
+        // behavior:'auto' sur les tracks scroll-snap : 'smooth' combat le snap natif sur iOS
+        track.scrollTo({ left: idx * slideW, behavior: 'auto' });
       });
     });
   }
