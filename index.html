@@ -16050,25 +16050,16 @@ function closeModal() {
   _modalTrigger = null;
 }
 
-// ── Détection globale de scroll/drag pour éviter l'ouverture
-//    accidentelle d'une modale pendant un swipe ──
-let _isScrolling = false;
-let _scrollEndTimer = null;
-window.addEventListener('touchmove', function(){
-  _isScrolling = true;
-  clearTimeout(_scrollEndTimer);
-  _scrollEndTimer = setTimeout(function(){ _isScrolling = false; }, 150);
-}, {passive: true});
-
 document.querySelectorAll('[data-modal]').forEach(card => {
   card.setAttribute('tabindex','0');
   card.setAttribute('role','button');
   card.setAttribute('aria-haspopup','dialog');
 
   // ── Tap/click universel : fonctionne de façon identique sur tous
-  //    les éléments (souris ET tactile), pas de calcul par-élément ──
+  //    les éléments (souris ET tactile). Le navigateur n'émet pas
+  //    de "click" si le doigt a scrollé/glissé, donc pas besoin
+  //    de détection de drag supplémentaire ──
   card.addEventListener('click', function(e){
-    if(_isScrolling) return;
     openModal(card.dataset.modal);
   });
   card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){e.preventDefault();openModal(card.dataset.modal);} });
