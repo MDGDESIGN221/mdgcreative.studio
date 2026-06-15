@@ -6895,7 +6895,6 @@ nav::before { display:none; }
   /* Grille 2x2 — indicateur scroll inutile */
   .pricing-tabs-outer {
     position: relative;
-    z-index: 5;
     margin-bottom: 2rem;
   }
   .pricing-tabs-outer .pricing-mobile-tabs-wrap {
@@ -6903,16 +6902,6 @@ nav::before { display:none; }
   }
   .pricing-tabs-outer::after { display: none; }
   .pricing-tabs-outer::before { display: none; }
-  /* ── Force opacity:1 sur les cards du panel actif — annule tout résidu GSAP ── */
-  .pricing-panel.active .pack-card,
-  .pricing-panel.active .adv-card,
-  .pricing-panel.active .rollout-card,
-  .pricing-panel.active .addon-card,
-  .pricing-panel.active .addons-intro {
-    opacity: 1 !important;
-    transform: none !important;
-    visibility: visible !important;
-  }
 
   .pricing-mobile-tab {
     font-family: 'Syne', sans-serif;
@@ -15377,15 +15366,7 @@ document.querySelectorAll('.pricing-panel:not(.active) .adv-card,\
     _origSwitch(panel, btn);
     const activePanel = document.getElementById('panel-' + panel);
     if (!activePanel) return;
-    // ── Mobile : pas d'animation GSAP — force opacity:1 immédiat pour éviter les cards bloquées ──
-    if (_isMobile) {
-      activePanel.querySelectorAll('.pack-card, .adv-card, .rollout-card, .addon-card, .addons-intro').forEach(function(el) {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
-      return;
-    }
-    // Desktop uniquement : animation d'entrée selon le panel
+    // Animation d'entrée selon le panel
     if (panel === 'avances') {
       const cards = activePanel.querySelectorAll('.adv-card');
       gsap.fromTo(cards, { opacity:0, y:40, scale:.95 }, { opacity:1, y:0, scale:1, duration:.65, ease:_E, stagger:.1, clearProps:'transform' });
@@ -16076,7 +16057,6 @@ document.querySelectorAll('[data-modal]').forEach(card => {
     if(_pdMoved) return;
     // Éviter double-déclenchement si click suit pointerup
     e.preventDefault();
-    e.stopPropagation();
     openModal(card.dataset.modal);
   });
   // Fallback click pour souris desktop
@@ -18742,7 +18722,7 @@ document.addEventListener('DOMContentLoaded', function(){
       detailBtn.setAttribute('aria-label', 'Voir les détails de ce pack');
       detailBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg> Voir les détails`;
       detailBtn.style.touchAction = 'manipulation';
-      detailBtn.addEventListener('pointerup', function(e) { e.preventDefault(); e.stopPropagation(); if(window.bsOpen) window.bsOpen(packId); });
+      detailBtn.addEventListener('pointerup', function(e) { e.preventDefault(); if(window.bsOpen) window.bsOpen(packId); });
 
       const startBtn = document.createElement('button');
       startBtn.className = 'pack-mobile-start-btn';
@@ -18750,7 +18730,7 @@ document.addEventListener('DOMContentLoaded', function(){
       startBtn.setAttribute('aria-label', 'Démarrer ce pack');
       startBtn.textContent = 'Démarrer ce pack →';
       startBtn.style.touchAction = 'manipulation';
-      startBtn.addEventListener('pointerup', function(e) { e.preventDefault(); e.stopPropagation(); if(window.bsClose) window.bsClose(); if(window.openPackModal) window.openPackModal(packId); });
+      startBtn.addEventListener('pointerup', function(e) { e.preventDefault(); if(window.bsClose) window.bsClose(); if(window.openPackModal) window.openPackModal(packId); });
 
       actions.appendChild(detailBtn);
       actions.appendChild(startBtn);
@@ -18772,7 +18752,7 @@ document.addEventListener('DOMContentLoaded', function(){
       detailBtn.setAttribute('aria-label', 'Voir les détails de ce pack');
       detailBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg> Voir les détails`;
       detailBtn.style.touchAction = 'manipulation';
-      detailBtn.addEventListener('pointerup', function(e) { e.preventDefault(); e.stopPropagation(); if(window.bsOpen) window.bsOpen(packId); });
+      detailBtn.addEventListener('pointerup', function(e) { e.preventDefault(); if(window.bsOpen) window.bsOpen(packId); });
 
       const startBtn = document.createElement('button');
       startBtn.className = 'pack-mobile-start-btn';
@@ -18780,7 +18760,7 @@ document.addEventListener('DOMContentLoaded', function(){
       startBtn.setAttribute('aria-label', 'Démarrer ce pack');
       startBtn.textContent = 'Démarrer →';
       startBtn.style.touchAction = 'manipulation';
-      startBtn.addEventListener('pointerup', function(e) { e.preventDefault(); e.stopPropagation(); if(window.openPackModal) window.openPackModal(packId); });
+      startBtn.addEventListener('pointerup', function(e) { e.preventDefault(); if(window.openPackModal) window.openPackModal(packId); });
 
       actions.appendChild(detailBtn);
       actions.appendChild(startBtn);
@@ -18853,18 +18833,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const target = document.getElementById('panel-' + panel);
     if (target) {
       target.classList.add('active');
-      // Reset scroll position
+      // Reset scroll position pour rollout et addons
       target.scrollTop = 0;
-      // ── Force opacity:1 sur toutes les cards du panel actif — évite les résidus GSAP opacity:0 ──
-      target.querySelectorAll('.pack-card, .adv-card, .rollout-card, .addon-card, .addons-intro').forEach(function(el) {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
       initCarouselDots();
       injectMobileButtons();
-      // Reset scroll carousel au début
-      var grid = target.querySelector('.packs-grid, .advanced-grid');
-      if (grid) grid.scrollLeft = 0;
     }
   };
 
@@ -20201,7 +20173,36 @@ if(typeof MutationObserver !== 'undefined'){
 .mob-tab-cta span { color: var(--light) !important; opacity: 1; font-size: 7.5px; }
 </style>
 
-<!-- Script services secondaires supprimé : déjà géré par le querySelectorAll('[data-modal]') principal -->
+<script>
+/* ── SERVICES SECONDAIRES → ouvre modal existante ── */
+// openSvcModal = alias de openModal (n'existe pas séparément)
+if (typeof window.openSvcModal === 'undefined') {
+  window.openSvcModal = function(num) { if (typeof openModal === 'function') openModal(num); };
+}
+document.querySelectorAll('.svc-secondary-item').forEach(function(item){
+  item.style.cursor = 'pointer';
+  item.style.touchAction = 'manipulation';
+  item.setAttribute('role','button');
+  item.setAttribute('tabindex','0');
+  var _x=0,_y=0,_mv=false;
+  item.addEventListener('pointerdown', function(e){ _x=e.clientX; _y=e.clientY; _mv=false; },{passive:true});
+  item.addEventListener('pointermove', function(e){ if(Math.abs(e.clientX-_x)>8||Math.abs(e.clientY-_y)>8)_mv=true; },{passive:true});
+  item.addEventListener('pointerup', function(e){
+    if(_mv) return;
+    e.preventDefault();
+    var modal = item.dataset.modal;
+    if (modal) window.openSvcModal(modal);
+  });
+  item.addEventListener('click', function(e){
+    if(e.pointerType==='touch') return;
+    var modal = item.dataset.modal;
+    if (modal) window.openSvcModal(modal);
+  });
+  item.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); var modal=item.dataset.modal; if(modal) window.openSvcModal(modal); }
+  });
+});
+</script>
 
 <script>
 /* ── UPLOAD RÉFÉRENCES CONTACT ── */
