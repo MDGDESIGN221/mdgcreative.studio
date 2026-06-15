@@ -16057,6 +16057,7 @@ document.querySelectorAll('[data-modal]').forEach(card => {
     if(_pdMoved) return;
     // Éviter double-déclenchement si click suit pointerup
     e.preventDefault();
+    e.stopPropagation();
     openModal(card.dataset.modal);
   });
   // Fallback click pour souris desktop
@@ -20173,36 +20174,7 @@ if(typeof MutationObserver !== 'undefined'){
 .mob-tab-cta span { color: var(--light) !important; opacity: 1; font-size: 7.5px; }
 </style>
 
-<script>
-/* ── SERVICES SECONDAIRES → ouvre modal existante ── */
-// openSvcModal = alias de openModal (n'existe pas séparément)
-if (typeof window.openSvcModal === 'undefined') {
-  window.openSvcModal = function(num) { if (typeof openModal === 'function') openModal(num); };
-}
-document.querySelectorAll('.svc-secondary-item').forEach(function(item){
-  item.style.cursor = 'pointer';
-  item.style.touchAction = 'manipulation';
-  item.setAttribute('role','button');
-  item.setAttribute('tabindex','0');
-  var _x=0,_y=0,_mv=false;
-  item.addEventListener('pointerdown', function(e){ _x=e.clientX; _y=e.clientY; _mv=false; },{passive:true});
-  item.addEventListener('pointermove', function(e){ if(Math.abs(e.clientX-_x)>8||Math.abs(e.clientY-_y)>8)_mv=true; },{passive:true});
-  item.addEventListener('pointerup', function(e){
-    if(_mv) return;
-    e.preventDefault();
-    var modal = item.dataset.modal;
-    if (modal) window.openSvcModal(modal);
-  });
-  item.addEventListener('click', function(e){
-    if(e.pointerType==='touch') return;
-    var modal = item.dataset.modal;
-    if (modal) window.openSvcModal(modal);
-  });
-  item.addEventListener('keydown', function(e){
-    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); var modal=item.dataset.modal; if(modal) window.openSvcModal(modal); }
-  });
-});
-</script>
+<!-- Script services secondaires supprimé : déjà géré par le querySelectorAll('[data-modal]') principal -->
 
 <script>
 /* ── UPLOAD RÉFÉRENCES CONTACT ── */
