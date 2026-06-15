@@ -1458,11 +1458,11 @@ section+section::before,
 .work-track-wrap::before,.work-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .work-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .work-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.work-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain}
 .work-track::-webkit-scrollbar{display:none}
 /* ── WORK CARDS — design premium ── */
-.work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04);touch-action:pan-x pan-y}
-.work-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,0.08)}
+.work-card{border-radius:12px;overflow:hidden;position:relative;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(260px,28vw,360px);aspect-ratio:4/5;scroll-snap-align:start;text-decoration:none;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s cubic-bezier(.16,1,.3,1);box-shadow:0 4px 24px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.04);touch-action:pan-x pan-y}
+.work-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,0.08);will-change:transform}
 .work-card .work-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter .6s}
 .work-card:hover .work-img{transform:scale(1.06);filter:brightness(.55)}
 .work-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.2) 50%,transparent 75%);opacity:.7;transition:opacity .45s}
@@ -1587,10 +1587,10 @@ section+section::before,
 .cov-track-wrap::before,.cov-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:3rem;z-index:2;pointer-events:none}
 .cov-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
 .cov-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;will-change:scroll-position;contain:layout style}
+.cov-track{display:flex;gap:1.25rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain}
 .cov-track::-webkit-scrollbar{display:none}
-.cov-card{position:relative;display:block;text-decoration:none;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(240px,26vw,320px);aspect-ratio:1/1;scroll-snap-align:start;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform;transform:translateZ(0);touch-action:pan-x pan-y}
-.cov-card:hover{transform:translateY(-4px)}
+.cov-card{position:relative;display:block;text-decoration:none;overflow:hidden;border-radius:var(--r);background:var(--surface);flex:0 0 auto;width:clamp(240px,26vw,320px);aspect-ratio:1/1;scroll-snap-align:start;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);touch-action:pan-x pan-y}
+.cov-card:hover{transform:translateY(-4px);will-change:transform}
 .cov-card .cov-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.16,1,.3,1),filter .5s}
 .cov-card:hover .cov-img{transform:scale(1.05);filter:brightness(.45)}
 .cov-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 45%,transparent 70%);opacity:0;transition:opacity .38s}
@@ -2438,9 +2438,7 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 @media(max-width:900px){
   .morph-slide,.artist-preview,.cursor-trail{will-change:auto}
   .ac-card,.svc-card,.trust-item,.sk,.soc-item a{transition:none !important}
-  .work-card,.cov-card{will-change:auto;transform:none}
-  /* Carousels — will-change:scroll-position + contain créent des layers permanents inutiles */
-  .work-track,.cov-track{will-change:auto;contain:none}
+  .work-card,.cov-card{transform:none}
   /* Barre de progression — GPU inutile sur mobile */
   .scroll-progress{will-change:auto}
   /* morph-slide — filter:blur très coûteux sur mobile */
@@ -4375,23 +4373,17 @@ nav::before { display:none; }
   /* ── backdrop-filter décoratifs → none ── */
   .cov-cat-tag{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(0,0,0,.78) !important}
   .about-photo-blur{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:linear-gradient(to top,rgba(6,6,6,.88) 0%,rgba(6,6,6,.45) 50%,transparent 100%) !important}
-  .work-arrow,.cov-arrow{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
   .footer-brand .f-socials a{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
-  .award-item{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
-  .cond-item{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
-  .hero-btn-secondary{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
   .hero-stats{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(6,6,6,.94) !important}
   .hero-hud-bottom{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(6,6,6,.90) !important}
   #backToTop{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(18,18,18,.96) !important}
   .contact-quick-form{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(14,14,14,.99) !important}
   .cpop-overlay{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(0,0,0,.82) !important}
-  .rollout-card,.press-card{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  /* .work-arrow/.cov-arrow/.award-item/.cond-item/.hero-btn-secondary/.rollout-card/.press-card
+     supprimés : aucun backdrop-filter dans leurs définitions CSS — ces neutralisations étaient CSS mort */
 
-  /* ── translateZ(0) GPU hack retiré des cards ── */
-  /* translateZ(0) force un composite layer permanent que le browser
-     détruit + recrée quand la RAM est sous pression au scroll */
-  .work-card{transform:none !important;will-change:auto !important}
-  .cov-card{transform:none !important;will-change:auto !important}
+  /* ── cards hover : will-change géré uniquement au :hover sur desktop ── */
+  .work-card,.cov-card{transform:none !important}
 
   /* ── Forcer visibilité immédiate — opacity:0 interdit ── */
   /* Tous les éléments qui peuvent démarrer à opacity:0 via GSAP/CSS
@@ -14868,13 +14860,14 @@ function copyWaveNumber(btn) {
 var _safetyDelay = window.innerWidth <= 900 ? 400 : 2500;
 setTimeout(function(){
   if(typeof gsap === 'undefined'){
+    // Fallback desktop si GSAP ne se charge pas (CDN down, réseau lent)
     document.querySelectorAll('.reveal-up,.reveal-line,.reveal-fade,.reveal-scale,.reveal-cinema,.reveal,.reveal-left,.reveal-right').forEach(function(el){
       el.style.opacity='1';el.style.transform='none';el.style.clipPath='none';
     });
   }
-  // Sur mobile : forcer visibilité même si GSAP est chargé (garde-fou contre opacity:0 bloqué)
+  // Sur mobile : sélecteurs Uranus non couverts par _forceVisible
   if(window.innerWidth <= 900){
-    document.querySelectorAll('.reveal-up,.reveal-line,.reveal-fade,.reveal-scale,.reveal-cinema,.reveal,.reveal-left,.reveal-right,.u-assets-grid,.u-gallery-premium,.u-gal-premium,.u-section-label,#uranus-visual').forEach(function(el){
+    document.querySelectorAll('.u-assets-grid,.u-gallery-premium,.u-gal-premium,.u-section-label,#uranus-visual').forEach(function(el){
       el.style.opacity='1';el.style.transform='none';el.style.clipPath='none';
     });
   }
@@ -14977,22 +14970,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ── MOBILE : animations légères au scroll (y réduit, pas de x/rotate, once) ── */
 const _isMobile = window.innerWidth <= 900;
-// Helpers mobile : valeurs réduites, déclenchement tôt, jamais de reverse
-const _mE   = 'power2.out';
-const _mDur = .55;
-const _mY   = 22; // vs 36-60 desktop
-
-function _mST(trigger) {
-  return { scrollTrigger: { trigger, start: 'top 95%', once: true } };
-}
-function _mBatch(sel, fromVars, toVars, staggerIn) {
-  // Sur mobile : ne pas animer (CSS force déjà opacity:1)
-  if (_isMobile) return;
-  ScrollTrigger.batch(sel, {
-    start: 'top 95%', once: true,
-    onEnter: els => gsap.fromTo(els, fromVars, { ...toVars, stagger: staggerIn }),
-  });
-}
 
 if (_isMobile) {
   // ── SOLUTION DÉFINITIVE ghost flashes mobile ──
@@ -15033,7 +15010,7 @@ if (_isMobile) {
       el.style.setProperty('clip-path', 'none', 'important');
       el.style.setProperty('visibility', 'visible', 'important');
       el.style.setProperty('animation', 'none', 'important');
-      el.style.setProperty('filter', 'none', 'important');
+      // filter:none supprimé — écrasait filter:invert(1) sur .trust-logo.iss et .trust-logo-svg
       el.style.setProperty('pointer-events', 'auto', 'important');
     });
   }
@@ -15042,8 +15019,12 @@ if (_isMobile) {
   _forceVisible();
 
   // 2. Intercepter GSAP pour qu'il ne puisse jamais mettre opacity<1 sur mobile
+  var _gsapAttempts = 0;
   var _gsapPatchInterval = setInterval(function() {
-    if (typeof gsap === 'undefined') return;
+    if (typeof gsap === 'undefined') {
+      if (++_gsapAttempts > 100) clearInterval(_gsapPatchInterval); // abandon après ~5s
+      return;
+    }
     clearInterval(_gsapPatchInterval);
 
     var _origFromTo = gsap.fromTo.bind(gsap);
@@ -15067,9 +15048,7 @@ if (_isMobile) {
 
     // 3. Re-forcer visible après patch
     _forceVisible();
-    setTimeout(_forceVisible, 200);
-    setTimeout(_forceVisible, 600);
-    setTimeout(_forceVisible, 1200);
+    // (les 3 setTimeout redondants supprimés — couverts par visibilitychange/pageshow ci-dessous)
 
     // 4. Re-forcer au retour d'onglet / app arrière-plan
     // C'est la cause des disparitions "quelques heures plus tard" :
@@ -15095,30 +15074,6 @@ if (_isMobile) {
 
 const _E  = 'power3.out';
 const _Eb = 'back.out(1.5)';
-
-// Helper : ScrollTrigger — mobile skip (CSS gère la visibilité), desktop normal
-function _st(trigger, extra) {
-  if (_isMobile) return { scrollTrigger: { trigger, start:'top 95%', once:true, ...(extra||{}) } };
-  return {
-    scrollTrigger: {
-      trigger,
-      start: 'top 88%',
-      once:  true,
-      ...(extra || {})
-    }
-  };
-}
-
-// fromTo mobile-safe : sur mobile, skip l'animation (CSS force déjà opacity:1)
-function _fromTo(el, from, to) {
-  if (!el) return;
-  if (_isMobile) return; // CSS @media(hover:none) gère ça, pas de ghost flash
-  gsap.fromTo(el, from, to);
-}
-function _tl(trigger, fn) {
-  if (_isMobile) return; // mobile : pas d'animation GSAP scroll, CSS suffit
-  fn(gsap.timeline({ scrollTrigger: { trigger, start:'top 88%', once:true } }));
-}
 
 // Batch : desktop normal, mobile skip
 function _batch(sel, fromVars, toVars, staggerIn) {
@@ -15175,7 +15130,8 @@ _batch('.cov-card',
 // work-footer : skip mobile
 if (!_isMobile) {
   const _wf = document.querySelector('.work-footer');
-  if (_wf) gsap.fromTo(_wf, { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, ease:_E, ..._st(_wf) });
+  if (_wf) gsap.fromTo(_wf, { opacity:0, x:40 }, { opacity:1, x:0, duration:.7, ease:_E,
+    scrollTrigger:{ trigger:_wf, start:'top 88%', once:true } });
 }
 
 // ── ABOUT ──
@@ -15288,30 +15244,6 @@ requestAnimationFrame(function() {
       scrollTrigger: { trigger: _spF, start:'top 88%', once:true } });
   }
 }
-// vcards : alternance gauche/droite desktop, mobile skip
-document.querySelectorAll('.sp-vcard').forEach((el, i) => {
-  if (_isMobile) return; // CSS gère opacity:1
-  const dir = i % 2 === 0 ? -60 : 60;
-  gsap.fromTo(el,
-    { opacity:0, x: dir, y:20 },
-    { opacity:1, x:0, y:0, duration:.9, ease:_E,
-      scrollTrigger:{ trigger:el, start:'top 88%', once:true } }
-  );
-  // Contenu interne en cascade (thumb → source → artist → desc)
-  const inner = [
-    el.querySelector('.sp-vcard-thumb'),
-    el.querySelector('.sp-vcard-source'),
-    el.querySelector('.sp-vcard-artist'),
-    el.querySelector('.sp-vcard-desc'),
-  ].filter(Boolean);
-  if(inner.length){
-    gsap.fromTo(inner,
-      { opacity:0, y:16 },
-      { opacity:1, y:0, duration:.6, ease:_E, stagger:.08, delay:.18,
-        scrollTrigger:{ trigger:el, start:'top 88%', once:true } }
-    );
-  }
-});
 
 // ── PROCESS ──
 // header puis steps en cascade depuis la section
@@ -15397,6 +15329,12 @@ document.querySelectorAll('.pricing-panel:not(.active) .adv-card,\
 
 // rollout-card dans le panel actif initial : on le laisse visible (ScrollTrigger ne peut pas y accéder)
 gsap.set('.pricing-panel:not(.active) .rollout-card', { opacity:1, clearProps:'all' });
+// pack-card du panel actif (primaires) + adv-card des panels non-actifs
+// protègent contre un chargement direct sur ancre profonde sans scroll vers #pricing
+const _pActivePacks = document.querySelectorAll('.pricing-panel.active .pack-card');
+if (_pActivePacks.length) gsap.set(_pActivePacks, { opacity:1, clearProps:'all' });
+const _pInactiveAdv = document.querySelectorAll('.pricing-panel:not(.active) .adv-card');
+if (_pInactiveAdv.length) gsap.set(_pInactiveAdv, { opacity:1, clearProps:'all' });
 
 // addon-cards visibles par défaut aussi
 gsap.set('.addon-card', { opacity:1, clearProps:'all' });
@@ -15459,8 +15397,14 @@ if (!_isMobile) {
 }
 
 // ── Tous les sec-label restants (clip-path) — desktop uniquement ──
+// Protection : les .sec-label dans un .pnl-acc non-actif (display:none) ne peuvent pas
+// être animés par ScrollTrigger (position incalculable). On les force visibles en amont.
+gsap.set('.pnl-acc:not(.active) .sec-label', { opacity:1, clearProps:'all' });
+
 if (!_isMobile) {
   document.querySelectorAll('.sec-label').forEach(el => {
+    // Exclure les éléments dans un panneau accordion non-actif (display:none)
+    if (el.closest('.pnl-acc') && !el.closest('.pnl-acc.active')) return;
     const existing = ScrollTrigger.getAll().find(st => st.vars.trigger === el || st.trigger === el);
     if (!existing) {
       gsap.fromTo(el,
@@ -15536,8 +15480,22 @@ const counterObs = new IntersectionObserver(entries => {
   });
 }, {threshold: .5});
 document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
-const sObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){document.querySelectorAll('.nav-links a').forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.nav-links a[href="#${x.target.id}"]`);if(a)a.classList.add('active')}});},{threshold:.3});
-document.querySelectorAll('section[id]').forEach(s=>sObs.observe(s));
+// sObs + dotObs fusionnés en un seul observer (même sections, même threshold)
+const dots = document.querySelectorAll('.scroll-dot');
+const navDotObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    // Nav links
+    document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+    const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+    if (a) a.classList.add('active');
+    // Scroll dots
+    dots.forEach(d => d.classList.remove('active'));
+    const dot = document.querySelector(`.scroll-dot[data-section="${e.target.id}"]`);
+    if (dot) dot.classList.add('active');
+  });
+}, { threshold: .3 });
+document.querySelectorAll('section[id]').forEach(s => navDotObs.observe(s));
 const burger=document.getElementById('burger'),mob=document.getElementById('mobMenu'),mobOv=document.getElementById('mobOverlay');
 function openMobMenu(){
   mob.classList.add('open');
@@ -15655,7 +15613,7 @@ function carouselScrollTo(track, targetLeft) {
   prev.addEventListener('click',()=>carouselScrollTo(track, track.scrollLeft - step()));
   next.addEventListener('click',()=>carouselScrollTo(track, track.scrollLeft + step()));
   track.addEventListener('scroll',update,{passive:true});
-  window.addEventListener('resize',update);
+  let _rsWork; window.addEventListener('resize',()=>{ clearTimeout(_rsWork); _rsWork=setTimeout(update,120); },{passive:true});
   update();
 })();
 // Covers carousel
@@ -15678,7 +15636,7 @@ function carouselScrollTo(track, targetLeft) {
   prev.addEventListener('click',()=>carouselScrollTo(track, track.scrollLeft - step()));
   next.addEventListener('click',()=>carouselScrollTo(track, track.scrollLeft + step()));
   track.addEventListener('scroll',update,{passive:true});
-  window.addEventListener('resize',update);
+  let _rsCov; window.addEventListener('resize',()=>{ clearTimeout(_rsCov); _rsCov=setTimeout(update,120); },{passive:true});
   update();
 })();
 
@@ -15708,7 +15666,7 @@ function carouselScrollTo(track, targetLeft) {
   // Stopper quand hors viewport
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if(e.isIntersecting) { animId = requestAnimationFrame(animate); }
+      if(e.isIntersecting) { cancelAnimationFrame(animId); animId = requestAnimationFrame(animate); }
       else { cancelAnimationFrame(animId); }
     });
   });
@@ -15727,34 +15685,8 @@ document.addEventListener('click', e => {
   el.style.position = el.style.position || 'relative';
   el.style.overflow = 'hidden';
   el.appendChild(r);
-  setTimeout(() => r.remove(), 700);
+  setTimeout(() => { if (r.parentNode) r.remove(); }, 700);
 });
-
-// ── PAGE TRANSITION FADE ──
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  if(a.closest('.mob-menu') || a.closest('#quick-nav')) return; // déjà gérés
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (!target) return;
-    e.preventDefault();
-    window.lenisScroll(target.id);
-  });
-});
-
-// ── REVEAL CINÉMATIQUE (scroll-triggered) — inspiré pieterkoopt ──
-(function(){
-  var els = document.querySelectorAll('.reveal-cinema');
-  if (!els.length) return;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-  els.forEach(function(el){ io.observe(el); });
-})();
 
 // ── DRAG TO SCROLL (souris desktop) — système unique propre ──
 window.enableDragScroll = function enableDragScroll(track){
@@ -15970,8 +15902,6 @@ enableDragScroll(document.getElementById('motTrack'));
   hookPnlSwitch();
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', hookPnlSwitch);
-  } else {
-    setTimeout(hookPnlSwitch, 200);
   }
   // Exposer globalement pour les hooks accSwitch/pnlSwitch
   window.attachDirectionAwareTouch = attachDirectionAwareTouch;
@@ -16246,18 +16176,7 @@ window.addEventListener('scroll', () => {
 }, {passive:true});
 
 // ── SCROLL INDICATOR DOTS ──
-const dots = document.querySelectorAll('.scroll-dot');
-const dotSections = Array.from(dots).map(d => document.getElementById(d.dataset.section)).filter(Boolean);
-const dotObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) {
-      dots.forEach(d => d.classList.remove('active'));
-      const dot = document.querySelector(`.scroll-dot[data-section="${e.target.id}"]`);
-      if(dot) dot.classList.add('active');
-    }
-  });
-}, {threshold:.3});
-dotSections.forEach(s => dotObs.observe(s));
+// dots déclaré et fusionné dans navDotObs (section counterObs ci-dessus)
 
 // ── MAGNETIC BUTTONS ──
 document.querySelectorAll('.nav-cta, .cta-btn, .modal-cta, .svc-cta, .hero-btn-primary, .hero-btn-secondary').forEach(btn => {
@@ -16289,7 +16208,7 @@ function fixHeroPadding(){
   }
 }
 fixHeroPadding();
-window.addEventListener('resize', fixHeroPadding, {passive:true});
+let _rsHero; window.addEventListener('resize', () => { clearTimeout(_rsHero); _rsHero = setTimeout(fixHeroPadding, 150); }, {passive:true});
 
 // ── DISPLAY ROTATIF — FADE DISCRET ──
 (function(){
@@ -19019,8 +18938,10 @@ function pnlSwitch(panel, btn) {
         card.style.transform = 'none';
         card.style.clipPath = 'none';
       });
-      // Refresh ScrollTrigger si dispo
-      if (typeof ScrollTrigger !== 'undefined') {
+      // Refresh ScrollTrigger uniquement à la première visite du panel
+      // (avec once:true, les ST déjà déclenchés sont détruits — le refresh est inutile au retour)
+      if (!el._stRefreshed && typeof ScrollTrigger !== 'undefined') {
+        el._stRefreshed = true;
         setTimeout(function() { ScrollTrigger.refresh(); }, 60);
       }
     });
@@ -21013,10 +20934,8 @@ function _hookAccSwitch() {
           if (typeof attachDirectionAwareTouch === 'function') attachDirectionAwareTouch(el);
         }
       });
-      if (typeof ScrollTrigger !== 'undefined') {
-        setTimeout(function(){ ScrollTrigger.refresh(); }, 60);
-      }
-    }, 100);
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+    }, 160); // délai total identique (100 + 60), une seule couche
   };
 }
 if (document.readyState === 'loading') {
