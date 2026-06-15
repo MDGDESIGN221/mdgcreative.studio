@@ -923,8 +923,9 @@ section{position:relative;z-index:1}
 .hero-eyebrow{
   font-family:'Syne',sans-serif;font-size:clamp(.65rem,1.1vw,.78rem);font-weight:700;letter-spacing:.16em;color:var(--off);
   text-transform:uppercase;margin-bottom:2.5rem;
+  /* opacity:0 + animation supprimés — couverts par FIX DÉFINITIF (lignes 99–112)
+     qui pose animation:none !important avant tout paint. Démarrer à opacity:1. */
   display:flex;align-items:center;gap:.75rem;
-  opacity:0;animation:maskRevealLeft 1s .3s cubic-bezier(.77,0,.18,1) forwards;
 }
 .hero-eyebrow::before{content:'';width:24px;height:1px;background:#fff;
   transform-origin:left;animation:lineGrow .6s .25s cubic-bezier(.77,0,.18,1) both;
@@ -981,7 +982,7 @@ section{position:relative;z-index:1}
   font-size:clamp(.82rem,1.3vw,1rem);color:var(--off);
   letter-spacing:.03em;margin-top:.65rem;margin-bottom:2.2rem;
   overflow:hidden;
-  opacity:0;animation:maskRevealUp .9s .95s cubic-bezier(.77,0,.18,1) forwards;
+  /* opacity:0 + animation supprimés — couverts par FIX DÉFINITIF */
 }
 /* Promesse courte, incisive */
 .hero-promise{
@@ -1003,7 +1004,7 @@ section{position:relative;z-index:1}
   font-style:italic;
   letter-spacing:.01em;
   margin-bottom:2.5rem;
-  opacity:0;animation:fadeBlur 1.1s 1.4s cubic-bezier(.16,1,.3,1) forwards;
+  /* opacity:0 + animation supprimés — couverts par FIX DÉFINITIF */
   border-left:2px solid rgba(255,255,255,.3);
   padding-left:1rem;
 }
@@ -1104,7 +1105,8 @@ section{position:relative;z-index:1}
              filter 1.2s cubic-bezier(.4,0,.2,1);
   transform:scale(1.05);
   filter:blur(6px) brightness(.85);
-  will-change:opacity,transform,filter;
+  /* will-change retiré du CSS — posé/retiré en JS juste avant/après la transition
+     pour éviter 2 couches GPU lourdes permanentes (filter:blur sur texture GPU) */
 }
 .morph-slide.active{
   opacity:1;
@@ -4047,8 +4049,8 @@ section + section::before{
   border: 1px solid rgba(255,255,255,0.95) !important;
   border-radius: 28px !important;
   box-shadow: 0 8px 48px rgba(0,0,0,.22), 0 2px 0 rgba(255,255,255,1) inset !important;
-  backdrop-filter: blur(32px) saturate(1.8) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(1.8) !important;
+  backdrop-filter: blur(16px) saturate(1.2) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.2) !important;
   position: relative; overflow: hidden;
   padding: 2rem !important;
   transition: box-shadow .4s, border-color .4s !important;
@@ -4341,6 +4343,7 @@ section + section::before{
   /* ── Forcer visibilité immédiate — opacity:0 interdit ── */
   /* Tous les éléments qui peuvent démarrer à opacity:0 via GSAP/CSS
      sont forcés visibles. Animation:none évite tout recalcul de frame 0. */
+  /* ── Éléments animés par GSAP au scroll — forcés visibles, animations supprimées ── */
   .reveal,.reveal-up,.reveal-left,.reveal-right,
   .reveal-scale,.reveal-fade,.reveal-line,.reveal-cinema,
   .hero-name,.hero-name-wrap,.hero-name-sub,.hero-name-sub-wrap,
@@ -4368,14 +4371,14 @@ section + section::before{
   .uranus-header,.u-box,.u-box-visual,.u-order-card,.u-gal-premium,
   .press-card,.press-grid,
   .footer-brand,.footer-nav,.footer-bottom,
-  .award-item,.cond-item,
-  section,main,h1,h2,h3,p {
+  .award-item,.cond-item {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
     visibility: visible !important;
     animation: none !important;
-    transition: none !important;
+    /* transition:none supprimé de h1/h2/h3/p/section — préserve les transitions UX
+       (ouverture FAQ, couleurs liens, focus states, hover cartes statiques) */
   }
 
   /* Nav / modals / tab-bar : conservés (fonctionnels, pas animés au scroll) */
@@ -14969,61 +14972,30 @@ if (_isMobile) {
     });
   }
 
-  // Forcer immédiatement
+  // Forcer immédiatement — nettoie ce que GSAP a pu poser avant que _forceVisible tourne
   _forceVisible();
 
-  // 2. Intercepter GSAP pour qu'il ne puisse jamais mettre opacity<1 sur mobile
-  var _gsapAttempts = 0;
-  var _gsapPatchInterval = setInterval(function() {
-    if (typeof gsap === 'undefined') {
-      if (++_gsapAttempts > 100) clearInterval(_gsapPatchInterval); // abandon après ~5s
-      return;
+  // Monkey-patch gsap.fromTo/from/set supprimé (4.6) :
+  // _forceVisible pose opacity/clip-path/animation en !important inline,
+  // qui l'emporte toujours sur les tweens GSAP non-!important.
+  // Plus besoin d'intercepter GSAP lui-même.
+
+  // Re-forcer au retour d'onglet / app arrière-plan (bfcache Safari iOS)
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+      _forceVisible();
+      setTimeout(_forceVisible, 150);
+      setTimeout(_forceVisible, 500);
     }
-    clearInterval(_gsapPatchInterval);
-
-    var _origFromTo = gsap.fromTo.bind(gsap);
-    var _origFrom   = gsap.from.bind(gsap);
-    var _origSet    = gsap.set.bind(gsap);
-
-    gsap.fromTo = function(targets, fromVars, toVars) {
-      if (fromVars && (fromVars.opacity === 0 || fromVars.opacity < 1)) return;
-      if (fromVars && (fromVars.clipPath || fromVars.clip_path)) return;
-      return _origFromTo(targets, fromVars, toVars);
-    };
-    gsap.from = function(targets, vars) {
-      if (vars && (vars.opacity === 0 || vars.opacity < 1)) return;
-      if (vars && (vars.clipPath || vars.clip_path)) return;
-      return _origFrom(targets, vars);
-    };
-    gsap.set = function(targets, vars) {
-      if (vars && vars.opacity !== undefined && vars.opacity < 1) return;
-      return _origSet(targets, vars);
-    };
-
-    // 3. Re-forcer visible après patch
-    _forceVisible();
-    // (les 3 setTimeout redondants supprimés — couverts par visibilitychange/pageshow ci-dessous)
-
-    // 4. Re-forcer au retour d'onglet / app arrière-plan
-    // C'est la cause des disparitions "quelques heures plus tard" :
-    // Safari iOS suspend la page et la restaure depuis le bfcache —
-    // les animations CSS repartent de frame 0 (opacity:0 / clip-path fermé)
-    document.addEventListener('visibilitychange', function() {
-      if (!document.hidden) {
-        _forceVisible();
-        setTimeout(_forceVisible, 150);
-        setTimeout(_forceVisible, 500);
-      }
-    });
-    // 5. pageshow bfcache — bouton retour iOS Safari
-    window.addEventListener('pageshow', function(e) {
-      if (e.persisted) {
-        _forceVisible();
-        setTimeout(_forceVisible, 150);
-        setTimeout(_forceVisible, 500);
-      }
-    });
-  }, 50);
+  });
+  // pageshow bfcache — bouton retour iOS Safari
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+      _forceVisible();
+      setTimeout(_forceVisible, 150);
+      setTimeout(_forceVisible, 500);
+    }
+  });
 }
 
 const _E  = 'power3.out';
@@ -16428,24 +16400,30 @@ setInterval(updateKaolackTime, 10000);
   
   let previewX = 0, previewY = 0;
   let targetX = 0, targetY = 0;
-  let _previewActive = false;
+  let _previewRafId = null;
   
   document.addEventListener('mousemove', e => {
     targetX = e.clientX + 24;
     targetY = e.clientY - 110;
   });
   
-  (function animPreview(){
+  function animPreview() {
     const isShown = preview.classList.contains('show');
     const dx = targetX - previewX, dy = targetY - previewY;
-    // Calcule seulement si visible ou encore en train de se déplacer
-    if(isShown || Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5){
+    if (isShown || Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
       previewX += dx * 0.1;
       previewY += dy * 0.1;
       preview.style.transform = `translate(${previewX}px, ${previewY}px) scale(${isShown ? 1 : 0.85}) rotate(${isShown ? -1 : -3}deg)`;
+      _previewRafId = requestAnimationFrame(animPreview);
+    } else {
+      // Mouvement terminé + preview caché → on arrête la boucle
+      _previewRafId = null;
     }
-    requestAnimationFrame(animPreview);
-  })();
+  }
+  
+  function _startPreviewRaf() {
+    if (!_previewRafId) _previewRafId = requestAnimationFrame(animPreview);
+  }
   
   // Hover sur les spans du marquee
   document.querySelectorAll('.collabs-marquee span:not(.sep)').forEach(span => {
@@ -16455,9 +16433,11 @@ setInterval(updateKaolackTime, 10000);
     span.addEventListener('mouseenter', () => {
       previewImg.src = artistPhotos[name];
       preview.classList.add('show');
+      _startPreviewRaf(); // démarrer le RAF uniquement au hover
     });
     span.addEventListener('mouseleave', () => {
       preview.classList.remove('show');
+      // Le RAF continue quelques frames jusqu'à ce que dx/dy < 0.5, puis s'arrête seul
     });
   });
 })();
@@ -16823,11 +16803,19 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   function goTo(idx){
     var prev = current;
     current = idx;
+    // Poser will-change juste avant la transition (évite 2 couches GPU permanentes)
+    slides[prev].style.willChange = 'opacity, transform, filter';
+    slides[current].style.willChange = 'opacity, transform, filter';
     slides[prev].classList.remove('active');
     slides[prev].classList.add('leaving');
     slides[current].classList.add('active');
     updateDots(current);
-    setTimeout(function(){ slides[prev].classList.remove('leaving'); }, 1400);
+    setTimeout(function(){
+      slides[prev].classList.remove('leaving');
+      // Retirer will-change après la fin de la transition (1.4s = durée max des transitions)
+      slides[prev].style.willChange = 'auto';
+      slides[current].style.willChange = 'auto';
+    }, 1400);
   }
 
   function next(){ goTo((current + 1) % total); }
@@ -20805,69 +20793,11 @@ footer {
   .cov-artist { font-size: .7rem; }
 }
 
-/* ══════════════════════════════════════════════════════
-   MOBILE — SUPPRESSION COMPLÈTE DES GHOST FLASHES GSAP
-   Sur mobile, tous les éléments animés par GSAP sont
-   forcés visibles IMMÉDIATEMENT via CSS, avant que JS
-   ne s'exécute. Cela élimine le flash opacity:0 visible
-   pendant les 400-800ms d'initialisation GSAP.
-   Les animations scroll desktop ne sont pas affectées.
-   ══════════════════════════════════════════════════════ */
+/* ── MODAL PACK mobile : animation modalIn gelée → modal invisible sans ce fix.
+   Couvert ici car le Système 2 (@media max-width:900px ~ligne 4324) pose
+   animation:none sur les éléments GSAP, ce qui gèle modalIn avant qu'elle commence.
+   ── */
 @media (hover: none), (max-width: 900px) {
-  /* ── MOBILE : suppression totale des ghost flashes GSAP ──
-     Règle universelle : tout élément avec will-change opacity/transform
-     est forcé visible immédiatement, avant que GSAP s'initialise.
-     Les animations hover (.work-card:hover, etc.) ne sont pas affectées
-     car elles sont gérées par @media(hover:hover) séparément.
-     La règle *:not() exclut les éléments dont l'invisibilité est
-     intentionnelle (curseur, overlays, loaders). */
-  *:not(#loader):not(.cur):not(.cur-r):not(.hero-loader):not([aria-hidden="true"]) {
-    animation-play-state: paused !important;
-  }
-
-  /* Override ciblé : remettre en marche les animations légitimes sur mobile */
-  .collabs-marquee,
-  .hero-manifeste-ticker,
-  .nav-ticker-inner,
-  .card-grain,
-  .artist-cutout img,
-  #loader,
-  #loader *,
-  .loader-bar,
-  .loader-txt {
-    animation-play-state: running !important;
-  }
-
-  /* Forcer visible tous les éléments animés par GSAP en scroll */
-  .reveal-cinema, .reveal-up, .reveal-fade, .reveal-line, .reveal-scale, .reveal, .reveal-left, .reveal-right,
-  .sec-label, .sec-sub, .svc-h2, .port-h2, .port-extract-label, .port-count,
-  .port-tabs-wrap, .port-new-top, .port-new-left, .port-new-eyebrow, .port-new-h2,
-  .about-v2-photo, .about-v2-content, .about-v2-h2, .about-v2-intro, .about-v2-body,
-  .av2-badge, .av2-badge-txt, .sk, .about-text,
-  .svc-header, .svc-secondary, .svc-secondary-item, .svc-card,
-  .collabs-hdr, .collabs-main-title, .collabs-main-sub, .collabs-marquee-wrap, .collabs-sub,
-  .trust-strip, .trust-item, .trust-logo,
-  .sp-header, .sp-feature, .sp-vcard, .sp-stage, .sp-card, .sp-detail,
-  .process-header, .pieter-step,
-  .pricing-header, .pricing-tabs, .pricing-scope-note, .pricing-note,
-  .pack-card, .adv-card, .rollout-card, .addon-card, .addons-intro,
-  .pcond-wrap, .pcond-row, .proc-cond, .pack-price-wrap, .pack-price,
-  .contact-h2, .contact-sub, .contact-direct-link, .contact-grid,
-  .work-footer, .work-card, .cov-card, .cov-header,
-  .faq-header, .faq-item, .faq-q,
-  .awards-grid, .awards-item,
-  .uranus-header, .u-box, .u-box-visual, .u-order-card, .u-gal-premium,
-  .portrait-card, .collabs-avatar, .collabs-avatars-row,
-  .scta-line, .section-cta-band,
-  h1, h2, h3, h4, p, .sec-label {
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
-    transition: none !important;
-  }
-
-  /* ── MODAL PACK : animation modalIn gelée par animation-play-state → modal invisible.
-     Fix : on annule l'animation et on force visible dès que l'overlay est ouvert. ── */
   .pack-modal-overlay.open .pack-modal {
     animation: none !important;
     opacity: 1 !important;
