@@ -16050,28 +16050,25 @@ function closeModal() {
   _modalTrigger = null;
 }
 
+// ── Détection globale de scroll/drag pour éviter l'ouverture
+//    accidentelle d'une modale pendant un swipe ──
+let _isScrolling = false;
+let _scrollEndTimer = null;
+window.addEventListener('touchmove', function(){
+  _isScrolling = true;
+  clearTimeout(_scrollEndTimer);
+  _scrollEndTimer = setTimeout(function(){ _isScrolling = false; }, 150);
+}, {passive: true});
+
 document.querySelectorAll('[data-modal]').forEach(card => {
   card.setAttribute('tabindex','0');
   card.setAttribute('role','button');
   card.setAttribute('aria-haspopup','dialog');
 
-  // ── Mobile-proof tap : pointerdown + seuil drag ──
-  var _pdX = 0, _pdY = 0, _pdMoved = false;
-  card.addEventListener('pointerdown', function(e){
-    _pdX = e.clientX; _pdY = e.clientY; _pdMoved = false;
-  }, {passive: true});
-  card.addEventListener('pointermove', function(e){
-    if(Math.abs(e.clientX - _pdX) > 8 || Math.abs(e.clientY - _pdY) > 8) _pdMoved = true;
-  }, {passive: true});
-  card.addEventListener('pointerup', function(e){
-    if(_pdMoved) return;
-    // Éviter double-déclenchement si click suit pointerup
-    e.preventDefault();
-    openModal(card.dataset.modal);
-  });
-  // Fallback click pour souris desktop
+  // ── Tap/click universel : fonctionne de façon identique sur tous
+  //    les éléments (souris ET tactile), pas de calcul par-élément ──
   card.addEventListener('click', function(e){
-    if(e.pointerType === 'touch') return; // déjà géré par pointerup
+    if(_isScrolling) return;
     openModal(card.dataset.modal);
   });
   card.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){e.preventDefault();openModal(card.dataset.modal);} });
