@@ -5586,65 +5586,103 @@ section + section::before{
 }
 .svc-secondary-label::before { content: ''; width: 18px; height: 1px; background: var(--accent); }
 .svc-secondary-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .5rem;
-}
-.svc-secondary-item {
-  display: flex; align-items: center; gap: .85rem;
-  padding: .9rem 1.1rem;
-  cursor: pointer;
-  position: relative;
-  border-radius: 12px;
-  background: rgba(255,255,255,.92);
-  border: 1px solid rgba(255,255,255,.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: background .25s, border-color .25s, transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border2);
+  border-radius: 14px;
   overflow: hidden;
+}
+/* ── Accordéon item ── */
+.svc-secondary-item {
+  border-bottom: 1px solid var(--border2);
+  background: var(--surface);
+  cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  transition: background .2s;
 }
-/* Glow accent coin haut-gauche */
-.svc-secondary-item::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity .3s;
+.svc-secondary-item:last-child { border-bottom: none; }
+.svc-secondary-item:hover { background: var(--surface2); }
+.svc-secondary-item.open { background: var(--surface2); }
+/* Ligne titre (trigger) */
+.svc-secondary-trigger {
+  display: flex; align-items: center; gap: .85rem;
+  padding: 1rem 1.25rem;
 }
-.svc-secondary-item:hover {
-  background: #ffffff;
-  border-color: rgba(255,255,255,.25);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.15);
-}
-.svc-secondary-item:hover::before { opacity: 1; }
 .svc-secondary-num {
   font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 800;
-  color: rgba(0,0,0,.22); letter-spacing: .05em;
+  color: var(--accent); letter-spacing: .05em;
   flex-shrink: 0; line-height: 1;
-  transition: color .2s;
 }
-.svc-secondary-item:hover .svc-secondary-num { color: rgba(0,0,0,.38); }
 .svc-secondary-name {
-  font-family: 'Syne', sans-serif; font-size: .82rem; font-weight: 700;
-  color: #0a0a0a; letter-spacing: -.01em; flex: 1;
-  transition: color .2s;
+  font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700;
+  color: var(--light); letter-spacing: -.01em; flex: 1;
   line-height: 1.2;
 }
-.svc-secondary-item:hover .svc-secondary-name { color: #000; }
 .svc-secondary-tags {
   font-size: .72rem; color: var(--dim); font-weight: 300;
-  letter-spacing: .02em; display: none;
+  letter-spacing: .02em;
+  display: none;
 }
 .svc-secondary-arr {
-  color: rgba(0,0,0,.25); font-size: .8rem; flex-shrink: 0;
-  transition: transform .25s, color .2s;
+  color: var(--dim); font-size: .85rem; flex-shrink: 0;
+  transition: transform .3s cubic-bezier(.16,1,.3,1), color .2s;
+  line-height: 1;
 }
-.svc-secondary-item:hover .svc-secondary-arr { transform: translateX(3px); color: rgba(0,0,0,.7); }
+.svc-secondary-item.open .svc-secondary-arr {
+  transform: rotate(45deg);
+  color: var(--accent);
+}
+/* Corps accordéon */
+.svc-secondary-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .38s cubic-bezier(.16,1,.3,1);
+}
+.svc-secondary-item.open .svc-secondary-body {
+  max-height: 500px;
+}
+.svc-secondary-inner {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  border-top: 1px solid var(--border2);
+}
+.svc-secondary-desc {
+  font-size: .88rem; color: var(--off); line-height: 1.75;
+  font-weight: 300; margin-bottom: 1rem;
+}
+.svc-secondary-includes {
+  list-style: none;
+  display: flex; flex-direction: column; gap: .45rem;
+  margin-bottom: 1rem;
+}
+.svc-secondary-includes li {
+  display: flex; align-items: flex-start; gap: .6rem;
+  font-size: .82rem; color: var(--dim); font-weight: 300; line-height: 1.5;
+}
+.svc-secondary-includes li::before {
+  content: ''; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0; margin-top: .6rem;
+}
+.svc-secondary-chips {
+  display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1rem;
+}
+.svc-secondary-chip {
+  font-size: .68rem; font-weight: 700; padding: .22rem .6rem;
+  border-radius: 4px; background: rgba(61,191,163,.1);
+  color: var(--accent); letter-spacing: .08em; text-transform: uppercase;
+}
+.svc-secondary-cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700;
+  color: var(--accent); text-decoration: none;
+  letter-spacing: .05em; text-transform: uppercase;
+  transition: gap .2s;
+}
+.svc-secondary-cta:hover { gap: .8rem; }
 @media(max-width:640px) {
-  .svc-secondary-list { grid-template-columns: 1fr; gap: .4rem; }
+  .svc-secondary-trigger { padding: .9rem 1rem; }
+  .svc-secondary-inner { padding: 0 1rem 1rem 1rem; }
 }
 
 /* ── RÉFÉRENCES VISUELLES — zone upload contact ── */
@@ -9423,8 +9461,10 @@ body,
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--dim);
-  white-space: nowrap;
-  flex-shrink: 0;
+  white-space: normal;
+  flex-shrink: 1;
+  text-align: center;
+  line-height: 1.6;
 }
 .port-gallery-footer-link {
   color: var(--off);
@@ -10817,36 +10857,142 @@ body,
     <div class="svc-secondary reveal-up rd3">
       <div class="svc-secondary-label">Aussi disponibles</div>
       <div class="svc-secondary-list">
-        <div class="svc-secondary-item" data-modal="04" role="button" tabindex="0">
-          <span class="svc-secondary-num">04</span>
-          <span class="svc-secondary-name">Web Design</span>
-          <span class="svc-secondary-tags">Site · Landing · Portfolio</span>
-          <span class="svc-secondary-arr">→</span>
+
+        <div class="svc-secondary-item" role="button" tabindex="0" aria-expanded="false">
+          <div class="svc-secondary-trigger">
+            <span class="svc-secondary-num">04</span>
+            <span class="svc-secondary-name">Web Design</span>
+            <span class="svc-secondary-arr">+</span>
+          </div>
+          <div class="svc-secondary-body" aria-hidden="true">
+            <div class="svc-secondary-inner">
+              <p class="svc-secondary-desc">Un site qui te représente vraiment, pas un template qu'on reconnaît de loin. Je conçois et développe des sites sur mesure, pensés pour convertir autant que pour impressionner.</p>
+              <ul class="svc-secondary-includes">
+                <li>Design UI/UX complet (wireframe vers maquette finale)</li>
+                <li>Développement HTML / CSS / JS optimisé</li>
+                <li>Responsive design (mobile, tablette, desktop)</li>
+                <li>Optimisation vitesse et SEO de base</li>
+                <li>Déploiement et mise en ligne inclus</li>
+              </ul>
+              <div class="svc-secondary-chips">
+                <span class="svc-secondary-chip">Site Web</span>
+                <span class="svc-secondary-chip">UI / UX</span>
+                <span class="svc-secondary-chip">Landing</span>
+                <span class="svc-secondary-chip">Responsive</span>
+              </div>
+              <a href="#contact" class="svc-secondary-cta" onclick="this.closest('.svc-secondary-item').classList.remove('open')">Discuter de ce projet →</a>
+            </div>
+          </div>
         </div>
-        <div class="svc-secondary-item" data-modal="05" role="button" tabindex="0">
-          <span class="svc-secondary-num">05</span>
-          <span class="svc-secondary-name">Design Éditorial &amp; Print</span>
-          <span class="svc-secondary-tags">Flyer · Affiche · Livret</span>
-          <span class="svc-secondary-arr">→</span>
+
+        <div class="svc-secondary-item" role="button" tabindex="0" aria-expanded="false">
+          <div class="svc-secondary-trigger">
+            <span class="svc-secondary-num">05</span>
+            <span class="svc-secondary-name">Design Éditorial &amp; Print</span>
+            <span class="svc-secondary-arr">+</span>
+          </div>
+          <div class="svc-secondary-body" aria-hidden="true">
+            <div class="svc-secondary-inner">
+              <p class="svc-secondary-desc">Ce qui se touche marque les esprits autrement. Affiches, flyers, programmes, livrets. Je conçois des supports print qui ont du caractère et qui tiennent à l'impression.</p>
+              <ul class="svc-secondary-includes">
+                <li>Conception d'affiches et flyers événementiels</li>
+                <li>Programmes et livrets (concert, festival, expo)</li>
+                <li>Magazines et zines indépendants</li>
+                <li>Suivi prépresse et validation des fichiers d'impression</li>
+                <li>Formats adaptés offset et numérique</li>
+              </ul>
+              <div class="svc-secondary-chips">
+                <span class="svc-secondary-chip">Affiche</span>
+                <span class="svc-secondary-chip">Flyer</span>
+                <span class="svc-secondary-chip">Print</span>
+                <span class="svc-secondary-chip">Prépresse</span>
+              </div>
+              <a href="#contact" class="svc-secondary-cta" onclick="this.closest('.svc-secondary-item').classList.remove('open')">Discuter de ce projet →</a>
+            </div>
+          </div>
         </div>
-        <div class="svc-secondary-item" data-modal="06" role="button" tabindex="0">
-          <span class="svc-secondary-num">06</span>
-          <span class="svc-secondary-name">Contenu Social Media</span>
-          <span class="svc-secondary-tags">Templates · Stories · Carrousel</span>
-          <span class="svc-secondary-arr">→</span>
+
+        <div class="svc-secondary-item" role="button" tabindex="0" aria-expanded="false">
+          <div class="svc-secondary-trigger">
+            <span class="svc-secondary-num">06</span>
+            <span class="svc-secondary-name">Contenu Social Media</span>
+            <span class="svc-secondary-arr">+</span>
+          </div>
+          <div class="svc-secondary-body" aria-hidden="true">
+            <div class="svc-secondary-inner">
+              <p class="svc-secondary-desc">Une présence cohérente sur les réseaux, ça ne s'improvise pas. Je crée des templates et contenus visuels qui gardent une ligne forte sur tous tes canaux. Chaque post doit ressembler à toi.</p>
+              <ul class="svc-secondary-includes">
+                <li>Templates personnalisés Instagram (posts, stories, carousels)</li>
+                <li>Carrousels éducatifs ou promotionnels</li>
+                <li>Visuels pour campagnes et sorties</li>
+                <li>Guides de style pour publication en autonomie</li>
+                <li>Formats adaptés TikTok, X, Facebook</li>
+              </ul>
+              <div class="svc-secondary-chips">
+                <span class="svc-secondary-chip">Instagram</span>
+                <span class="svc-secondary-chip">Templates</span>
+                <span class="svc-secondary-chip">Carrousel</span>
+                <span class="svc-secondary-chip">TikTok</span>
+              </div>
+              <a href="#contact" class="svc-secondary-cta" onclick="this.closest('.svc-secondary-item').classList.remove('open')">Discuter de ce projet →</a>
+            </div>
+          </div>
         </div>
-        <div class="svc-secondary-item" data-modal="07" role="button" tabindex="0">
-          <span class="svc-secondary-num">07</span>
-          <span class="svc-secondary-name">Merchandising</span>
-          <span class="svc-secondary-tags">Textile · Goodies · Production</span>
-          <span class="svc-secondary-arr">→</span>
+
+        <div class="svc-secondary-item" role="button" tabindex="0" aria-expanded="false">
+          <div class="svc-secondary-trigger">
+            <span class="svc-secondary-num">07</span>
+            <span class="svc-secondary-name">Merchandising</span>
+            <span class="svc-secondary-arr">+</span>
+          </div>
+          <div class="svc-secondary-body" aria-hidden="true">
+            <div class="svc-secondary-inner">
+              <p class="svc-secondary-desc">Ton merch, c'est ton identité portée par tes fans. Je conçois des visuels pour textile et goodies qui ont de la gueule. Du concept jusqu'au fichier prêt pour la production.</p>
+              <ul class="svc-secondary-includes">
+                <li>Concept et direction artistique du merch</li>
+                <li>Visuels pour t-shirts, hoodies, tote-bags, casquettes</li>
+                <li>Adaptation aux techniques d'impression (sérigraphie, DTF, broderie)</li>
+                <li>Mockups réalistes pour présentation ou vente en ligne</li>
+                <li>Fichiers techniques prêts pour impression</li>
+              </ul>
+              <div class="svc-secondary-chips">
+                <span class="svc-secondary-chip">Textile</span>
+                <span class="svc-secondary-chip">Goodies</span>
+                <span class="svc-secondary-chip">Production</span>
+                <span class="svc-secondary-chip">Sérigraphie</span>
+              </div>
+              <a href="#contact" class="svc-secondary-cta" onclick="this.closest('.svc-secondary-item').classList.remove('open')">Discuter de ce projet →</a>
+            </div>
+          </div>
         </div>
-        <div class="svc-secondary-item" data-modal="08" role="button" tabindex="0">
-          <span class="svc-secondary-num">08</span>
-          <span class="svc-secondary-name">Scénographie &amp; Événementiel</span>
-          <span class="svc-secondary-tags">Festival · Stand · Scène</span>
-          <span class="svc-secondary-arr">→</span>
+
+        <div class="svc-secondary-item" role="button" tabindex="0" aria-expanded="false">
+          <div class="svc-secondary-trigger">
+            <span class="svc-secondary-num">08</span>
+            <span class="svc-secondary-name">Scénographie &amp; Événementiel</span>
+            <span class="svc-secondary-arr">+</span>
+          </div>
+          <div class="svc-secondary-body" aria-hidden="true">
+            <div class="svc-secondary-inner">
+              <p class="svc-secondary-desc">Faire vivre une identité dans l'espace physique, c'est un autre niveau. Pour tes concerts, festivals ou événements, je conçois l'habillage visuel qui crée une vraie expérience.</p>
+              <ul class="svc-secondary-includes">
+                <li>Habillage scène et backdrop</li>
+                <li>Signalétique et fléchage festival / événement</li>
+                <li>Stands et espaces d'exposition</li>
+                <li>Projection mapping et supports LED (concept)</li>
+                <li>Direction artistique de l'espace complet</li>
+              </ul>
+              <div class="svc-secondary-chips">
+                <span class="svc-secondary-chip">Festival</span>
+                <span class="svc-secondary-chip">Stand</span>
+                <span class="svc-secondary-chip">Scène</span>
+                <span class="svc-secondary-chip">Événement</span>
+              </div>
+              <a href="#contact" class="svc-secondary-cta" onclick="this.closest('.svc-secondary-item').classList.remove('open')">Discuter de ce projet →</a>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -15925,6 +16071,37 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 
+// ── ACCORDÉON "AUSSI DISPONIBLES" ──
+(function(){
+  document.querySelectorAll('.svc-secondary-item').forEach(function(item) {
+    var trigger = item.querySelector('.svc-secondary-trigger');
+    var body    = item.querySelector('.svc-secondary-body');
+    if (!trigger || !body) return;
+
+    function toggle(e) {
+      // Laisser le clic sur le lien CTA propager normalement
+      if (e.target.closest('.svc-secondary-cta')) return;
+      var isOpen = item.classList.contains('open');
+      // Fermer tous les autres
+      document.querySelectorAll('.svc-secondary-item.open').forEach(function(other) {
+        if (other !== item) {
+          other.classList.remove('open');
+          other.setAttribute('aria-expanded', 'false');
+          other.querySelector('.svc-secondary-body').setAttribute('aria-hidden', 'true');
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      item.setAttribute('aria-expanded', String(!isOpen));
+      body.setAttribute('aria-hidden', String(isOpen));
+    }
+
+    item.addEventListener('click', toggle);
+    item.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); }
+    });
+  });
+})();
+
 // ── FORMULAIRE DEVIS ──
 // ══════════════════════════════════════════
 //  MOOD BOARD — logique interactive
@@ -16175,6 +16352,19 @@ function initLenis() {
   if (isTouchDevice) {
     // Sur mobile : scroll-behavior:smooth pour que lenisScroll (fallback natif) soit fluide
     document.documentElement.style.scrollBehavior = 'smooth';
+    // Fallback scroll ancres sur mobile — Lenis n'étant pas initialisé,
+    // les a[href^="#"] n'ont aucun listener actif. On leur ajoute scrollIntoView.
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+      if (a.closest('.mob-menu') || a.closest('#quick-nav')) return;
+      a.addEventListener('click', function(e) {
+        var href = a.getAttribute('href');
+        if (!href || href === '#' || href === 'javascript:void(0)') return;
+        var target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
     return;
   }
   lenis = new Lenis({
