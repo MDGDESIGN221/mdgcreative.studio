@@ -633,18 +633,7 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 /* ── HERO CTA BLOCK — voir définitions canoniques dans le bloc principal ci-dessous ── */
 
 /* ── HERO EYEBROW HUD ── */
-.hero-eyebrow {
-  font-family: 'Inter', sans-serif !important;
-  font-size:clamp(.72rem,.7vw,.82rem) !important;
-  font-weight: 700 !important;
-  letter-spacing: .25em !important;
-  color: rgba(255,255,255,.4) !important;
-  text-transform: uppercase !important;
-  margin-bottom: 1.5rem !important;
-}
-.hero-eyebrow::before {
-  background: rgba(255,255,255,.3) !important;
-}
+/* .hero-eyebrow HUD — supprimé, absorbé dans définition canonique L841 */
 
 /* ── HERO NAME HUD — majuscules, hiérarchie ── */
 .hero-name {
@@ -839,13 +828,13 @@ section{position:relative;z-index:1}
 }
 /* Eyebrow label */
 .hero-eyebrow{
-  font-family:'Syne',sans-serif;font-size:clamp(.65rem,1.1vw,.78rem);font-weight:700;letter-spacing:.16em;color:var(--off);
+  font-family:'Syne',sans-serif;font-size:clamp(.65rem,1.1vw,.78rem);font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.4);
   text-transform:uppercase;margin-bottom:2.5rem;
   /* opacity:0 + animation supprimés — couverts par FIX DÉFINITIF (lignes 99–112)
      qui pose animation:none !important avant tout paint. Démarrer à opacity:1. */
   display:flex;align-items:center;gap:.75rem;
 }
-.hero-eyebrow::before{content:'';width:24px;height:1px;background:#fff;
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:rgba(255,255,255,.3);
   transform-origin:left;animation:lineGrow .6s .25s cubic-bezier(.77,0,.18,1) both;
 }
 /* Nom principal */
@@ -3158,7 +3147,7 @@ nav.scrolled{background:rgba(10,10,10,.92)}
   .hero-mini-stats{display:none !important}
   .hero-portfolio-links{display:flex !important;opacity:.7}
 
-  .hero-eyebrow{font-size:.72rem !important;margin-bottom:.85rem !important}
+  .hero-eyebrow{font-size:.72rem !important;margin-bottom:.85rem !important;display:none !important}
   .hero-handle{font-size:.7rem;margin-bottom:.5rem !important}
   .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em;height:1.4em;overflow:hidden;contain:strict}
 
@@ -3337,8 +3326,7 @@ nav.scrolled{background:rgba(10,10,10,.92)}
     white-space:normal !important;
   }
 
-  /* Eyebrow compact */
-  .hero-eyebrow{font-size:.72rem !important;margin-bottom:1rem !important}
+  /* .hero-eyebrow @480px — couvert par @640px */
 
   /* Handle */
   .hero-handle{font-size:.72rem;margin-bottom:.6rem !important}
@@ -7981,8 +7969,7 @@ body,
     min-height: 100% !important;
   }
 
-  /* Eyebrow — caché sur mobile, redondant */
-  .hero-eyebrow { display: none !important; }
+  /* .hero-eyebrow display:none — absorbé dans @media 640px */
 
   /* H1 — ne déborde pas, taille fluide serrée */
   .hero-name {
