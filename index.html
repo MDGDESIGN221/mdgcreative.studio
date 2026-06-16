@@ -901,22 +901,8 @@ section{position:relative;z-index:1}
   opacity:0;animation:maskRevealUp 1s 1.15s cubic-bezier(.77,0,.18,1) forwards;
 }
 .hero-promise em{font-style:normal;color:var(--accent)}
-.hero-sub{
-  font-family:'Inter',sans-serif;
-  font-size:clamp(.9rem,1.4vw,1.1rem);
-  color:var(--off);
-  max-width:480px;
-  line-height:1.8;
-  font-weight:300;
-  font-style:italic;
-  letter-spacing:.01em;
-  margin-bottom:2.5rem;
-  /* opacity:0 + animation supprimés — couverts par FIX DÉFINITIF */
-  border-left:2px solid rgba(255,255,255,.3);
-  padding-left:1rem;
-}
-.hero-sub strong{color:#fff;font-weight:500;font-style:normal}
-.hero-sub .hl{color:var(--accent);font-weight:500}
+/* .hero-sub base ancienne supprimée — absorbée dans HUD L599 */
+/* .hero-sub strong + .hl — absorbés dans HUD L599 */
 .hero-stats{
   position:absolute;bottom:0;left:0;right:0;
   display:flex;gap:0;
@@ -2028,7 +2014,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   .hero-stats{gap:0;flex-wrap:nowrap;grid-template-columns:1fr 1fr 1fr}
   .stat{padding:.65rem .4rem 1rem;flex:0 0 33.333%}
   .stat-number{font-size:1.3rem}
-  .hero-sub{font-size:.82rem}
+  /* .hero-sub font-size @480px — couvert par @640px L3146 */
   .about-title{font-size:clamp(1.5rem,6vw,2rem)}
   .skills-grid{grid-template-columns:1fr}
   .collabs-h2{font-size:clamp(1.6rem,6vw,2.2rem)}
@@ -2069,8 +2055,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   .contact-grid{gap:2rem}
   .soc-list{margin-bottom:1.5rem}
   .info-list{gap:.7rem}
-  /* hero-sub border on mobile */
-  .hero-sub{border-left-color:rgba(255,255,255,0.11);padding-left:.75rem;display:block;font-size:.78rem;margin-bottom:1.25rem}
+  /* .hero-sub @480px border+padding — couverts par base HUD (border-left:none) et @640px */
   .hero-handle{font-size:.7rem;margin-bottom:.5rem !important}
 }
 
@@ -3143,7 +3128,8 @@ nav.scrolled{background:rgba(10,10,10,.92)}
   /* hero-btn-secondary @640px — consolidé dans le bloc @media 640px ci-dessous */
 
   /* hero-sub : visible sur mobile */
-  .hero-sub{display:block !important;font-size:.72rem !important;margin-bottom:1.25rem !important;line-height:1.9 !important;letter-spacing:.18em !important}
+  .hero-sub{display:block !important;font-size:.72rem !important;margin-bottom:1.25rem !important;line-height:1.9 !important;letter-spacing:.18em !important;text-align:center !important;max-width:260px !important;opacity:1 !important;animation:none !important;transform:none !important;border-left:none !important;padding-left:0 !important;}
+  .hero-sub .hero-sub-neg{display:none !important;}
   .hero-mini-stats{display:none !important}
   .hero-portfolio-links{display:flex !important;opacity:.7}
 
@@ -3335,7 +3321,7 @@ nav.scrolled{background:rgba(10,10,10,.92)}
   .hero-type-wrap{font-size:clamp(.85rem,3.8vw,1.1rem) !important;margin-bottom:.5rem !important;min-height:1.4em;height:1.4em;overflow:hidden;contain:strict}
 
   /* hero-sub : visible, taille réduite */
-  .hero-sub{display:block !important;font-size:.72rem !important;margin-bottom:1rem !important;line-height:1.9 !important;letter-spacing:.18em !important}
+  /* .hero-sub @480px — couvert par @640px */
 
   /* CTAs HUD — empilés, pas côte à côte */
   /* .hero-ctas @480px — couvert par @640px */
@@ -7876,17 +7862,7 @@ body,
   }
 
   /* Tagline — sous le h1 */
-  .hero-sub {
-    position: static !important;
-    transform: none !important;
-    text-align: center !important;
-    margin: 0 0 2rem 0 !important;
-    border-left: none !important;
-    padding: 0 !important;
-    font-size: clamp(.72rem,.8vw,.82rem) !important;
-    letter-spacing: .2em !important;
-    pointer-events: none !important;
-  }
+  /* .hero-sub @min-width:768px — position:static, border-left:none, padding:0 absorbés dans base HUD */
 
   /* CTAs — sous la tagline, toujours visibles */
   /* .hero-ctas @min-width:768px — position:static et white-space absorbés dans la base */
@@ -7992,21 +7968,8 @@ body,
   }
 
   /* Tagline — une ligne, centrée, compacte */
-  .hero-sub {
-    text-align: center !important;
-    border-left: none !important;
-    padding-left: 0 !important;
-    font-size: .72rem !important;
-    letter-spacing: .18em !important;
-    margin: .85rem 0 1.4rem !important;
-    max-width: 260px !important;
-    line-height: 1.8 !important;
-    opacity: 1 !important;
-    animation: none !important;
-    transform: none !important;
-  }
-  /* Cacher le neg-tag redondant */
-  .hero-sub .hero-sub-neg { display: none !important; }
+  /* .hero-sub @640px — absorbé dans @media 640px canonique */
+  /* .hero-sub .hero-sub-neg @640px — absorbé dans @media 640px canonique */
 
   /* CTAs — fit-content centré, pas pleine largeur */
   .hero-ctas {
