@@ -18721,17 +18721,8 @@ function applyComplexPatches(lang) {
   var heroNameSub  = document.querySelector('.hero-name-sub .hero-name-sub-wrap');
   if (heroNameWrap) heroNameWrap.textContent = lang === 'en' ? "The elite" : "L'élite";
   if (heroNameSub)  heroNameSub.textContent  = lang === 'en' ? "stands out." : "se remarque.";
-  // Forcer immédiatement visible après réécriture — textContent peut invalider
-  // les styles calculés et relancer maskRevealUp depuis frame 0 (opacity:0)
-  ['.hero-name','.hero-name-wrap','.hero-name-sub','.hero-name-sub .hero-name-sub-wrap'].forEach(function(sel){
-    var el = document.querySelector(sel);
-    if (!el) return;
-    el.style.setProperty('opacity','1','important');
-    el.style.setProperty('transform','none','important');
-    el.style.setProperty('clip-path','none','important');
-    el.style.setProperty('animation','none','important');
-    el.style.setProperty('visibility','visible','important');
-  });
+  // Fix i18n hero supprimé — couvert par le FIX DÉFINITIF CSS (opacity:1 !important, animation:none !important)
+  // sur .hero-name, .hero-name-wrap, .hero-name-sub, .hero-name-sub-wrap — priorité CSS > style inline post-textContent.
 
   // ── Hero sub ──
   var heroSub = document.querySelector('.hero-sub');
