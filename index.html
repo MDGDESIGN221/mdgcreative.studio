@@ -7783,6 +7783,12 @@ body,
     font-size: clamp(2.2rem, 4.6vw, 5.6rem) !important;
     text-align: center !important;
     display: block !important;
+    width: 100% !important;
+  }
+  .hero-name-sub-wrap {
+    display: block !important;
+    text-align: center !important;
+    white-space: nowrap !important;
   }
 
   /* Tagline — sous le h1, centrée */
@@ -12198,7 +12204,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         <span data-i18n="nav_cta">LANCER UN PROJET</span>
       </a>
-      <a href="#portfolio-accordion" class="hero-btn-secondary">7 ANS DE TRAVAIL →</a>
+      <a href="#portfolio-accordion" class="hero-btn-secondary" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})">7 ANS DE TRAVAIL →</a>
     </div>
     <div class="hero-portfolio-links">
       <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" class="hero-portfolio-link">
