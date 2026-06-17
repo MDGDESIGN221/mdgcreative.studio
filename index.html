@@ -7785,11 +7785,17 @@ body,
     display: block !important;
   }
 
-  /* Tagline — sous le h1 */
-  /* .hero-sub @min-width:768px — position:static, border-left:none, padding:0 absorbés dans base HUD */
+  /* Tagline — sous le h1, centrée */
+  .hero-sub {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 
-  /* CTAs — sous la tagline, toujours visibles */
-  /* .hero-ctas @min-width:768px — position:static et white-space absorbés dans la base */
+  /* CTAs — sous la tagline, centrés */
+  .hero-ctas {
+    justify-content: center !important;
+  }
 
   /* Portfolio links — bas gauche */
   .hero-portfolio-links {
