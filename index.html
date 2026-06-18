@@ -8125,92 +8125,52 @@ body,
         }
         .about-artist-link:hover { border-color: var(--accent); }
 
+        /* ── Covers Spotify — liste éditoriale (Proposition B) ── */
         .av2-covers {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          display: flex;
+          flex-direction: column;
           gap: .6rem;
           margin-bottom: 2rem;
         }
-        @media(max-width: 600px) {
-          .av2-covers { grid-template-columns: repeat(4, 1fr); gap: .4rem; }
-        }
         .av2-cover-item {
           display: flex;
-          flex-direction: column;
-          gap: .4rem;
+          align-items: center;
+          gap: 1rem;
+          padding: .7rem;
+          border-radius: 12px;
+          border: 1px solid var(--border);
+          background: var(--surface);
           text-decoration: none;
-          position: relative;
+          transition: background .25s, border-color .25s, transform .25s cubic-bezier(.16,1,.3,1);
+        }
+        .av2-cover-item:hover {
+          background: var(--surface2);
+          border-color: var(--border2);
+          transform: translateX(4px);
         }
         .av2-cover-item img {
-          width: 100%;
+          width: 64px;
+          height: 64px;
           aspect-ratio: 1/1;
           object-fit: cover;
           border-radius: 8px;
           display: block;
+          flex-shrink: 0;
           filter: grayscale(20%);
-          transition: filter .3s, transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s;
+          transition: filter .3s;
           border: 1px solid var(--border);
         }
-        .av2-cover-item:hover img {
-          filter: grayscale(0%);
-          transform: translateY(-3px);
-          box-shadow: 0 8px 24px rgba(0,0,0,.5), 0 0 0 1px var(--accent);
-        }
-        /* Badge Spotify — toujours visible */
-        .av2-cover-spotify {
-          position: absolute;
-          top: .4rem;
-          right: .4rem;
-          width: 22px;
-          height: 22px;
-          background: #1DB954;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: .85;
-          transition: opacity .2s, transform .2s;
-          flex-shrink: 0;
-        }
-        .av2-cover-item:hover .av2-cover-spotify {
-          opacity: 1;
-          transform: scale(1.1);
-        }
-        .av2-cover-spotify svg { display: block; }
-        /* Overlay "Écouter" au hover */
-        .av2-cover-overlay {
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          aspect-ratio: 1/1;
-          border-radius: 8px;
-          background: rgba(0,0,0,.55);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transition: opacity .25s;
-          pointer-events: none;
-        }
-        .av2-cover-item:hover .av2-cover-overlay { opacity: 1; }
-        .av2-cover-overlay span {
-          font-family: 'Syne', sans-serif;
-          font-size: .6rem;
-          font-weight: 700;
-          letter-spacing: .14em;
-          text-transform: uppercase;
-          color: #fff;
-          background: #1DB954;
-          padding: .25rem .6rem;
-          border-radius: 100px;
-        }
+        .av2-cover-item:hover img { filter: grayscale(0%); }
         .av2-cover-info {
           display: flex;
           flex-direction: column;
           gap: .1rem;
+          flex: 1;
+          min-width: 0;
         }
         .av2-cover-title {
           font-family: 'Syne', sans-serif;
-          font-size: clamp(.6rem, 1.8vw, .72rem);
+          font-size: 1rem;
           font-weight: 700;
           color: var(--light);
           white-space: nowrap;
@@ -8219,14 +8179,43 @@ body,
           line-height: 1.2;
         }
         .av2-cover-artist {
-          font-size: clamp(.55rem, 1.5vw, .65rem);
-          color: var(--accent);
+          font-size: .82rem;
+          color: var(--off);
           font-weight: 500;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           line-height: 1.2;
         }
+        /* Pastille Spotify à droite */
+        .av2-cover-spotify {
+          display: inline-flex;
+          align-items: center;
+          gap: .4rem;
+          flex-shrink: 0;
+          font-family: 'Inter', sans-serif;
+          font-size: .75rem;
+          font-weight: 500;
+          color: var(--dim);
+          padding: .4rem .8rem;
+          border: 1px solid var(--border);
+          border-radius: 100px;
+          transition: color .25s, border-color .25s;
+        }
+        .av2-cover-item:hover .av2-cover-spotify {
+          color: var(--accent);
+          border-color: var(--accent);
+        }
+        .av2-cover-spotify svg { display: block; flex-shrink: 0; }
+        .av2-cover-spotify-label { white-space: nowrap; }
+        @media(max-width: 600px) {
+          .av2-cover-item { gap: .75rem; padding: .6rem; }
+          .av2-cover-title { font-size: .9rem; }
+          .av2-cover-spotify-label { display: none; }
+          .av2-cover-spotify { padding: .45rem; }
+        }
+        /* Overlay obsolète (ancien design grille) — neutralisé */
+        .av2-cover-overlay { display: none; }
 
 /* ============================================================ */
 /* SECTION — Testimonials, SP, Social Proof */
@@ -12916,41 +12905,37 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
         <!-- Covers Spotify -->
         <div class="av2-covers">
-          <a href="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" target="_blank" rel="noopener" class="av2-cover-item" aria-label="Bicrave — ISS 814 sur Spotify">
+          <a href="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" target="_blank" rel="noopener" class="av2-cover-item" data-spotify="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" data-album="Bicrave" aria-label="Bicrave — ISS 814 sur Spotify">
             <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175569/BICRAVE_e6c5s0.jpg" alt="Bicrave — ISS 814" loading="lazy">
-            <div class="av2-cover-overlay"><span>Spotify</span></div>
-            <div class="av2-cover-spotify"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
             <div class="av2-cover-info">
               <span class="av2-cover-title">Bicrave</span>
-              <span class="av2-cover-artist">ISS 814</span>
+              <span class="av2-cover-artist">ISS 814 · Cover art + direction</span>
             </div>
+            <span class="av2-cover-spotify"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><span class="av2-cover-spotify-label">Spotify</span></span>
           </a>
-          <a href="https://open.spotify.com/album/5PwbwXmsWtVMrwcy1RYSMK" target="_blank" rel="noopener" class="av2-cover-item" aria-label="Bonus Tracks — ISS 814 sur Spotify">
+          <a href="https://open.spotify.com/album/5PwbwXmsWtVMrwcy1RYSMK" target="_blank" rel="noopener" class="av2-cover-item" data-spotify="https://open.spotify.com/album/5PwbwXmsWtVMrwcy1RYSMK" data-album="Bonus Tracks" aria-label="Bonus Tracks — ISS 814 sur Spotify">
             <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659416/Iss_814_-_BONUS_TRACK_rgjtxv.jpg" alt="Bonus Tracks — ISS 814" loading="lazy">
-            <div class="av2-cover-overlay"><span>Spotify</span></div>
-            <div class="av2-cover-spotify"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
             <div class="av2-cover-info">
               <span class="av2-cover-title">Bonus Tracks</span>
-              <span class="av2-cover-artist">ISS 814</span>
+              <span class="av2-cover-artist">ISS 814 · OST Cœurs Brisés</span>
             </div>
+            <span class="av2-cover-spotify"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><span class="av2-cover-spotify-label">Spotify</span></span>
           </a>
-          <a href="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" target="_blank" rel="noopener" class="av2-cover-item" aria-label="The 808's God — Omzo Beatz sur Spotify">
+          <a href="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" target="_blank" rel="noopener" class="av2-cover-item" data-spotify="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" data-album="The 808's God" aria-label="The 808's God — Omzo Beatz sur Spotify">
             <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175561/2e_cover_T8G_kh7cug.jpg" alt="The 808's God — Omzo Beatz" loading="lazy">
-            <div class="av2-cover-overlay"><span>Spotify</span></div>
-            <div class="av2-cover-spotify"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
             <div class="av2-cover-info">
               <span class="av2-cover-title">The 808's God</span>
               <span class="av2-cover-artist">Omzo Beatz</span>
             </div>
+            <span class="av2-cover-spotify"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><span class="av2-cover-spotify-label">Spotify</span></span>
           </a>
-          <a href="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" target="_blank" rel="noopener" class="av2-cover-item" aria-label="Road to Roots 2 — Dopeboy DMG sur Spotify">
-            <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659414/ROOTS_2_wgz71f.jpg" alt="Road to Roots 2 — Dopeboy DMG" loading="lazy">
-            <div class="av2-cover-overlay"><span>Spotify</span></div>
-            <div class="av2-cover-spotify"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></div>
+          <a href="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" target="_blank" rel="noopener" class="av2-cover-item" data-spotify="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" data-album="Road to Roots 2: X-Files" aria-label="Road to Roots 2: X-Files — Dopeboy DMG sur Spotify">
+            <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659414/ROOTS_2_wgz71f.jpg" alt="Road to Roots 2: X-Files — Dopeboy DMG" loading="lazy">
             <div class="av2-cover-info">
-              <span class="av2-cover-title">Road to Roots 2</span>
+              <span class="av2-cover-title">Road to Roots 2: X-Files</span>
               <span class="av2-cover-artist">Dopeboy DMG</span>
             </div>
+            <span class="av2-cover-spotify"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><span class="av2-cover-spotify-label">Spotify</span></span>
           </a>
         </div>
 
@@ -16142,7 +16127,7 @@ window.enableDragScroll = function enableDragScroll(track){
   function setSnap(on){ track.style.scrollSnapType = on ? '' : 'none'; }
 
   track.addEventListener('mousedown', function(e){
-    if(e.target.closest('button, a, input')) return;
+    if(e.target.closest('button, input')) return;  // 'a' retiré : les work-card/cov-card SONT des <a>, ce qui bloquait le drag (le clic réel reste géré par le handler click+moved)
     if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
     isDown = true; moved = false;
     startX = e.clientX;
@@ -21462,6 +21447,140 @@ if (document.readyState === 'loading') {
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && popup.classList.contains('open')) igClose();
+  });
+})();
+</script>
+
+<!-- ── MODALE AVERTISSEMENT REDIRECTION SPOTIFY ── -->
+<div id="spotifyWarn" class="spotify-warn-overlay" aria-hidden="true">
+  <div class="spotify-warn-box" role="dialog" aria-modal="true" aria-labelledby="spotifyWarnTitle">
+    <div class="spotify-warn-icon">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    </div>
+    <div class="spotify-warn-eyebrow">Lien externe</div>
+    <h3 id="spotifyWarnTitle" class="spotify-warn-title">Tu vas quitter le site</h3>
+    <p class="spotify-warn-text">Ce lien ouvre <strong id="spotifyWarnAlbum">cet album</strong> sur Spotify, dans un nouvel onglet. Tu veux continuer&nbsp;?</p>
+    <div class="spotify-warn-actions">
+      <button type="button" class="spotify-warn-stay" id="spotifyWarnStay">Rester sur le site</button>
+      <button type="button" class="spotify-warn-go" id="spotifyWarnGo">Continuer vers Spotify →</button>
+    </div>
+  </div>
+</div>
+<style>
+  .spotify-warn-overlay{
+    position:fixed; inset:0; z-index:99999;
+    background:rgba(4,4,4,.78);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    display:flex; align-items:center; justify-content:center;
+    padding:1.5rem;
+    opacity:0; pointer-events:none;
+    transition:opacity .28s cubic-bezier(.16,1,.3,1);
+  }
+  .spotify-warn-overlay.open{ opacity:1; pointer-events:auto; }
+  .spotify-warn-box{
+    width:100%; max-width:420px;
+    background:linear-gradient(160deg,rgba(20,20,20,.98) 0%,rgba(10,10,10,.99) 100%);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    box-shadow:0 24px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.03);
+    padding:2.25rem 2rem 1.75rem;
+    text-align:center;
+    transform:translateY(16px) scale(.98);
+    transition:transform .32s cubic-bezier(.16,1,.3,1);
+  }
+  .spotify-warn-overlay.open .spotify-warn-box{ transform:translateY(0) scale(1); }
+  .spotify-warn-icon{
+    width:60px; height:60px; margin:0 auto 1.1rem;
+    border-radius:50%;
+    background:rgba(29,185,84,.1);
+    border:1px solid rgba(29,185,84,.25);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .spotify-warn-eyebrow{
+    font-family:'Inter',sans-serif; font-size:.7rem; font-weight:600;
+    letter-spacing:.22em; text-transform:uppercase;
+    color:var(--dim); margin-bottom:.5rem;
+  }
+  .spotify-warn-title{
+    font-family:'Syne',sans-serif; font-weight:800;
+    font-size:1.4rem; color:var(--light);
+    margin:0 0 .65rem; line-height:1.15;
+  }
+  .spotify-warn-text{
+    font-family:'Inter',sans-serif; font-size:.9rem; line-height:1.6;
+    color:var(--off); margin:0 0 1.6rem;
+  }
+  .spotify-warn-text strong{ color:var(--light); font-weight:600; }
+  .spotify-warn-actions{ display:flex; flex-direction:column; gap:.6rem; }
+  .spotify-warn-go,
+  .spotify-warn-stay{
+    font-family:'Syne',sans-serif; font-weight:700;
+    font-size:.82rem; letter-spacing:.04em;
+    padding:.9rem 1.5rem; border-radius:100px;
+    cursor:pointer; transition:all .25s cubic-bezier(.16,1,.3,1);
+    width:100%;
+  }
+  .spotify-warn-go{
+    background:#1DB954; color:#062b14; border:1px solid #1DB954;
+  }
+  .spotify-warn-go:hover{ background:#1ed760; transform:translateY(-2px); box-shadow:0 8px 24px rgba(29,185,84,.3); }
+  .spotify-warn-stay{
+    background:transparent; color:var(--off);
+    border:1px solid var(--border2);
+  }
+  .spotify-warn-stay:hover{ color:var(--light); border-color:rgba(255,255,255,.3); background:rgba(255,255,255,.03); }
+  @media(max-width:600px){
+    .spotify-warn-box{ padding:1.9rem 1.4rem 1.5rem; border-radius:18px; }
+    .spotify-warn-title{ font-size:1.25rem; }
+  }
+</style>
+<script>
+(function(){
+  var overlay = document.getElementById('spotifyWarn');
+  if(!overlay) return;
+  var box = overlay.querySelector('.spotify-warn-box');
+  var albumEl = document.getElementById('spotifyWarnAlbum');
+  var goBtn = document.getElementById('spotifyWarnGo');
+  var stayBtn = document.getElementById('spotifyWarnStay');
+  var pendingUrl = null;
+  var lastFocus = null;
+
+  function openWarn(url, album){
+    pendingUrl = url;
+    albumEl.textContent = album || 'cet album';
+    lastFocus = document.activeElement;
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden','false');
+    setTimeout(function(){ stayBtn.focus(); }, 60);
+  }
+  function closeWarn(){
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden','true');
+    pendingUrl = null;
+    if(lastFocus && lastFocus.focus){ lastFocus.focus(); }
+  }
+
+  // Intercepter le clic sur chaque cover Spotify
+  document.querySelectorAll('.av2-cover-item[data-spotify]').forEach(function(item){
+    item.addEventListener('click', function(e){
+      e.preventDefault();
+      openWarn(item.getAttribute('data-spotify'), item.getAttribute('data-album'));
+    });
+  });
+
+  goBtn.addEventListener('click', function(){
+    if(pendingUrl){ window.open(pendingUrl, '_blank', 'noopener'); }
+    closeWarn();
+  });
+  stayBtn.addEventListener('click', closeWarn);
+
+  // Clic sur le fond = rester
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) closeWarn();
+  });
+  // Échap = rester
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeWarn();
   });
 })();
 </script>
