@@ -19337,10 +19337,17 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   initMotTrack();
 
   // Aussi au clic sur le tab (si l'utilisateur revient dessus)
+  // Visuals/Cover Art alignés sur Motion : on (ré)active le drag quand leur panel devient actif
   document.querySelectorAll('.port-new-tab-btn, .port-tab, .acc-tab').forEach(function(tab){
     tab.addEventListener('click', function(){
-      if(tab.dataset.panel === 'motion'){
+      var panel = tab.dataset.panel;
+      if(panel === 'motion'){
         initMotTrack();
+      } else if(panel === 'work' || panel === 'visuals'){
+        // léger délai pour laisser le panel passer en display:block avant de mesurer
+        setTimeout(function(){ if(typeof enableDragScroll==='function') enableDragScroll(document.getElementById('workTrack')); }, 50);
+      } else if(panel === 'covers' || panel === 'cover-art'){
+        setTimeout(function(){ if(typeof enableDragScroll==='function') enableDragScroll(document.getElementById('covTrack')); }, 50);
       }
     });
   });
@@ -19397,6 +19404,14 @@ function pnlSwitch(panel, btn) {
   if (l && btn.dataset.label) l.textContent = btn.dataset.label;
   // ── Recalibrer les flèches une fois le panel réellement affiché ──
   setTimeout(function() { _refreshPanelNav(panel); }, 60);
+  // ── Aligner Visuals/Cover Art/Motion : (ré)activer le drag du carrousel du panel actif ──
+  var trackId = { work:'workTrack', covers:'covTrack', motion:'motTrack' }[panel];
+  if (trackId) {
+    setTimeout(function() {
+      var tr = document.getElementById(trackId);
+      if (tr && typeof enableDragScroll === 'function') enableDragScroll(tr);
+    }, 60);
+  }
 }
 // Recalibration des arrows prev/next après affichage d'un panel
 // Nécessaire car update() s'exécute à l'init quand les panels sont display:none
@@ -21576,5 +21591,123 @@ if (document.readyState === 'loading') {
   if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', run); } else { run(); }
 })();
 </script>
+<!-- ── CURSEUR PERSONNALISÉ CONTEXTUEL (desktop only) ── -->
+<div id="mdgCursor" class="mdg-cursor" aria-hidden="true">
+  <span class="mdg-cursor-dot"></span>
+  <span class="mdg-cursor-ring"><span class="mdg-cursor-label"></span></span>
+</div>
+<style>
+  /* Actif uniquement sur appareils à pointeur fin (souris) */
+  @media (hover: hover) and (pointer: fine) {
+    .mdg-cursor{
+      position: fixed; top: 0; left: 0; z-index: 100000;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .mdg-cursor.ready{ opacity: 1; }
+    .mdg-cursor-dot{
+      position: fixed; top: 0; left: 0;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #fff;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+    }
+    .mdg-cursor-ring{
+      position: fixed; top: 0; left: 0;
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.6);
+      transform: translate(-50%, -50%);
+      display: flex; align-items: center; justify-content: center;
+      will-change: transform, width, height;
+      transition: width .3s cubic-bezier(.16,1,.3,1), height .3s cubic-bezier(.16,1,.3,1), border-color .3s, background .3s;
+    }
+    .mdg-cursor-label{
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+      color: #000; opacity: 0; transition: opacity .25s; white-space: nowrap;
+    }
+    /* État "VOIR" sur les cartes/covers */
+    .mdg-cursor.is-view .mdg-cursor-ring{
+      width: 76px; height: 76px;
+      background: var(--accent); border-color: var(--accent);
+    }
+    .mdg-cursor.is-view .mdg-cursor-label{ opacity: 1; }
+    .mdg-cursor.is-view .mdg-cursor-dot{ opacity: 0; }
+    /* État "DRAG" sur les carrousels */
+    .mdg-cursor.is-drag .mdg-cursor-ring{
+      width: 82px; height: 82px;
+      background: var(--accent); border-color: var(--accent);
+    }
+    .mdg-cursor.is-drag .mdg-cursor-label{ opacity: 1; }
+    .mdg-cursor.is-drag .mdg-cursor-dot{ opacity: 0; }
+    /* État "lien/bouton" : le ring grossit un peu */
+    .mdg-cursor.is-link .mdg-cursor-ring{
+      width: 54px; height: 54px;
+      border-color: rgba(255,255,255,.9);
+    }
+    /* Masquer le curseur système quand le custom est actif */
+    body.mdg-cursor-active, body.mdg-cursor-active *{ cursor: none !important; }
+  }
+</style>
+<script>
+(function(){
+  // N'activer que sur souris fine (pas mobile/tactile)
+  if(!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  var cursor = document.getElementById('mdgCursor');
+  var ring = cursor.querySelector('.mdg-cursor-ring');
+  var dot = cursor.querySelector('.mdg-cursor-dot');
+  var label = cursor.querySelector('.mdg-cursor-label');
+  if(!cursor) return;
+
+  document.body.classList.add('mdg-cursor-active');
+
+  var mx = window.innerWidth/2, my = window.innerHeight/2;   // souris réelle
+  var rx = mx, ry = my;                                       // position du ring (lissée)
+  var ready = false;
+
+  window.addEventListener('mousemove', function(e){
+    mx = e.clientX; my = e.clientY;
+    // le point central suit instantanément
+    dot.style.transform = 'translate('+mx+'px,'+my+'px) translate(-50%,-50%)';
+    if(!ready){ ready = true; cursor.classList.add('ready'); }
+  }, {passive:true});
+
+  // le ring suit avec un léger retard (effet premium)
+  function loop(){
+    rx += (mx - rx) * 0.18;
+    ry += (my - ry) * 0.18;
+    ring.style.transform = 'translate('+rx+'px,'+ry+'px) translate(-50%,-50%)';
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // Détection contextuelle via délégation
+  function setState(cls, text){
+    cursor.classList.remove('is-view','is-drag','is-link');
+    if(cls){ cursor.classList.add(cls); }
+    label.textContent = text || '';
+  }
+  document.addEventListener('mouseover', function(e){
+    var t = e.target;
+    if(t.closest('.work-card, .cov-card, .av2-cover-item, .ac-card')){
+      setState('is-view', 'Voir');
+    } else if(t.closest('.work-track, .cov-track')){
+      setState('is-drag', 'Drag →');
+    } else if(t.closest('a, button, .acc-tab, .port-new-tab-btn, [role=button]')){
+      setState('is-link', '');
+    } else {
+      setState(null, '');
+    }
+  }, {passive:true});
+
+  // cacher quand la souris quitte la fenêtre
+  document.addEventListener('mouseleave', function(){ cursor.classList.remove('ready'); });
+  document.addEventListener('mouseenter', function(){ cursor.classList.add('ready'); });
+})();
+</script>
+<!-- ── SPLIT-TEXT REVEAL : désactivé sur les titres de section (déjà animés par .reveal-up GSAP) pour éviter les conflits ── -->
 </body>
 </html>
