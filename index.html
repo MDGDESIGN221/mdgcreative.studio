@@ -3007,8 +3007,23 @@ footer::before {
 .footer-time .time-val{color:var(--light);font-weight:500;font-family:'Syne',sans-serif;font-size:.72rem}
 
 
-.nav-avail{display:flex;align-items:center;gap:.45rem;font-size:.72rem;font-weight:500;color:var(--muted);letter-spacing:.02em;margin-right:.5rem}
-.nav-avail-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 3px rgba(74,222,128,.14);flex-shrink:0}
+.nav-avail{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:500;color:var(--muted);letter-spacing:.02em;margin-right:.5rem}
+/* ── Indicateur de statut WAVEFORM (remplace le point rond — identité studio musique) ── */
+.wave-ind{display:inline-flex;align-items:flex-end;gap:2px;height:11px;flex-shrink:0;line-height:0}
+.wave-ind i{width:2px;background:var(--accent);border-radius:1px;display:block}
+.wave-ind i:nth-child(1){height:4px}
+.wave-ind i:nth-child(2){height:9px}
+.wave-ind i:nth-child(3){height:11px}
+.wave-ind i:nth-child(4){height:6px}
+.wave-ind i:nth-child(5){height:9px}
+/* version compacte pour petits contextes (heure, eyebrow) */
+.wave-ind.sm{height:9px;gap:1.5px}
+.wave-ind.sm i{width:1.5px}
+.wave-ind.sm i:nth-child(1){height:3px}
+.wave-ind.sm i:nth-child(2){height:7px}
+.wave-ind.sm i:nth-child(3){height:9px}
+.wave-ind.sm i:nth-child(4){height:5px}
+.wave-ind.sm i:nth-child(5){height:7px}
 nav.scrolled{background:rgba(10,10,10,.92)}
 
 
@@ -14084,7 +14099,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
       </div>
 
       <div class="info-list reveal-up rd3">
-        <div class="info-item"><span class="info-label">Localisation</span><span class="info-value" style="display:flex;align-items:center;gap:.5rem">Kaolack, Sénégal<span style="color:var(--dim)">·</span><span style="display:flex;align-items:center;gap:.3rem"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;flex-shrink:0"></span><span id="kaolackTimeContact">--:--</span></span></span></div>
+        <div class="info-item"><span class="info-label">Localisation</span><span class="info-value" style="display:flex;align-items:center;gap:.5rem">Kaolack, Sénégal<span style="color:var(--dim)">·</span><span style="display:flex;align-items:center;gap:.3rem"><span class="wave-ind sm"><i></i><i></i><i></i><i></i><i></i></span><span id="kaolackTimeContact">--:--</span></span></span></div>
         <div class="info-item"><span class="info-label">Langues</span><span class="info-value">Français · Wolof · Anglais</span></div>
         <div class="info-item"><span class="info-label">Réponse</span><span class="info-value">Moins de 24h</span></div>
       </div>
@@ -15234,7 +15249,7 @@ function copyWaveNumber(btn) {
         <div class="f-contact-item" style="cursor:default">
           <span class="f-contact-lbl">Local time</span>
           <span class="f-contact-val" style="display:flex;align-items:center;gap:.4rem">
-            <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;flex-shrink:0;display:inline-block;box-shadow:0 0 0 3px rgba(74,222,128,.14)"></span>
+            <span class="wave-ind"><i></i><i></i><i></i><i></i><i></i></span>
             <span id="kaolackTime">--:--</span>
           </span>
         </div>
@@ -16104,22 +16119,11 @@ window.enableDragScroll = function enableDragScroll(track){
     isDown = false;
     track.style.cursor = 'grab';
     track.style.userSelect = '';
-    // N'appliquer l'inertie QUE si un vrai drag a eu lieu (clic-maintien + déplacement).
-    // Un simple clic (moved=false) ne doit jamais lancer le glide → sinon le carrousel "part tout seul".
-    if(!moved){
-      velX = 0;
-      setSnap(true);
-      return;
-    }
-    var v = velX;
-    function glide(){
-      if(Math.abs(v) < 0.4){ setSnap(true); rafId = null; return; }
-      track.scrollLeft -= v;
-      v *= 0.94;
-      rafId = requestAnimationFrame(glide);
-    }
-    if(Math.abs(v) > 0.4) rafId = requestAnimationFrame(glide);
-    else setSnap(true);
+    velX = 0;
+    // Swipe net : aucune inertie. Au relâchement, on s'arrête immédiatement
+    // et on réactive le scroll-snap pour un recalage propre.
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    setSnap(true);
   }
 
   document.addEventListener('mouseup', endDrag);
@@ -21548,6 +21552,28 @@ if (document.readyState === 'loading') {
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape' && overlay.classList.contains('open')) closeWarn();
   });
+})();
+</script>
+<!-- ── WAVEFORM STATUS INDICATORS : remplace les points ronds (cliché IA) ── -->
+<script>
+(function(){
+  function bars(n){ var h=''; for(var i=0;i<(n||5);i++){ h+='<i></i>'; } return h; }
+  // Transforme un élément en waveform
+  function toWave(el, small){
+    if(!el || el._isWave) return;
+    el._isWave = true;
+    el.className = (el.className ? el.className + ' ' : '') + 'wave-ind' + (small ? ' sm' : '');
+    // reset styles inline éventuels (anciens points ronds)
+    el.style.width=''; el.style.height=''; el.style.borderRadius=''; el.style.background='none'; el.style.boxShadow='none'; el.style.display='inline-flex';
+    el.innerHTML = bars(5);
+  }
+  function run(){
+    // Statuts "Disponible" → waveform pleine taille
+    document.querySelectorAll('.nav-avail-dot, .f-status-dot, .about-badge .loc-dot, .u-eyebrow-dot, .av2-badge-dot').forEach(function(el){ toWave(el, false); });
+    // Indicateurs compacts (heure footer, contact) → waveform petite
+    document.querySelectorAll('.footer-time .time-dot, .qn-dot').forEach(function(el){ toWave(el, true); });
+  }
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', run); } else { run(); }
 })();
 </script>
 </body>
