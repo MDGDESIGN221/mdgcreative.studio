@@ -696,8 +696,9 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
 }
 
 /* ── CURSOR ── */
-.cur{position:fixed;width:8px;height:8px;background:#3DBFA3;border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);will-change:transform;transition:width .2s,height .2s;box-shadow:0 0 0 1.5px rgba(6,6,6,.5)}
-.cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(255,255,255,.25);border-radius:50%;pointer-events:none;z-index:9998;top:0;left:0;transform:translate(-50%,-50%);will-change:transform;transition:width .3s,height .3s,border-color .3s}
+.cur{position:fixed;width:8px;height:8px;background:#3DBFA3;border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);will-change:transform;transition:width .2s,height .2s;box-shadow:0 0 0 1.5px rgba(6,6,6,.5);display:none !important}
+/* curseur natif .cur/.cur-r masqué — remplacé par le curseur contextuel #mdgCursor (VOIR/DRAG) */
+.cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(255,255,255,.25);border-radius:50%;pointer-events:none;z-index:9998;top:0;left:0;transform:translate(-50%,-50%);will-change:transform;transition:width .3s,height .3s,border-color .3s;display:none !important}
 .cur.g{width:15px;height:15px}.cur-r.g{width:52px;height:52px;border-color:rgba(255,255,255,.08)}
 @media(hover:none){.cur,.cur-r{display:none}body{cursor:auto}}
 
@@ -2176,7 +2177,7 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 #loader.done{
   transform:translateY(-100%);
   pointer-events:none;
-  transition:transform 1.1s cubic-bezier(.76,0,.18,1);
+  transition:transform .55s cubic-bezier(.76,0,.18,1);
 }
 
 /* Contenu central */
@@ -11897,14 +11898,10 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   <div class="loader-scan" aria-hidden="true"></div>
   <div class="loader-inner">
     <img class="loader-logo-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" width="180" height="42">
-    <div class="loader-title">MDG Creative</div>
-    <div class="loader-subtitle">Studio — Kaolack, Sénégal</div>
     <div class="loader-progress-track">
       <div class="loader-progress-fill" id="loaderFill"></div>
     </div>
     <div class="loader-percent" id="loaderPct">000%</div>
-    <div class="loader-line"></div>
-    <div class="loader-label">Chargement de l'univers créatif</div>
   </div>
 </div>
 <div class="scroll-indicator" id="scrollIndicator">
@@ -15319,12 +15316,10 @@ setTimeout(function(){
   // Déclencher le reveal immédiatement
   setTimeout(function(){ loader.classList.add('ready'); }, 60);
 
-  // Progression rapide au début puis ralentit, puis 100 à la fin
+  // Progression rapide façon Vercel : pas de pauses artificielles, ~0.5s au total
   var phases = [
-    {end:40, speed:2.8, delay:0},
-    {end:72, speed:1.4, delay:300},
-    {end:91, speed:0.7, delay:600},
-    {end:100, speed:2.2, delay:1100}
+    {end:60, speed:5.0, delay:0},
+    {end:100, speed:6.0, delay:80}
   ];
 
   function runPhase(i){
@@ -15348,8 +15343,8 @@ setTimeout(function(){
             window.scrollTo(0,0);
             document.documentElement.scrollTop=0;
             if(window.lenis) window.lenis.scrollTo(0,{immediate:true});
-            setTimeout(function(){ loader.style.display='none'; }, 1400);
-          }, 180);
+            setTimeout(function(){ loader.style.display='none'; }, 450);
+          }, 60);
         }
       }, 22);
     }, ph.delay);
