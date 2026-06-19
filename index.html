@@ -594,8 +594,8 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--light);-
   }
   .stat-sub { display: none !important; }
 }
-/* HUD bottom caché sur desktop — hero-stats le remplace */
-@media(min-width:768px) { .hero-hud-bottom { display: none !important; } }
+/* HUD bottom remplacé par hero-stats partout (desktop ET mobile) — masqué pour éviter la superposition */
+.hero-hud-bottom { display: none !important; }
 
 /* ── HERO HUD — hero-sub redesign ── */
 .hero-sub {
@@ -953,7 +953,7 @@ section{position:relative;z-index:1}
 
 /* Setup gallery : petite portrait + 2 setups en dessous */
 .about-badge{display:inline-flex;align-items:center;gap:.75rem;background:var(--surface);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:.6rem 1.2rem;margin-bottom:2.5rem;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--off);box-shadow:0 0 20px rgba(255,255,255,0.02)}
-.about-badge .loc-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:.25rem;animation:pulse 2s infinite}
+.about-badge .loc-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:.25rem;box-shadow:0 0 0 3px rgba(74,222,128,.14)}
 .about-badge strong{color:#fff}
 /* About split layout */
 .about-split{display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:stretch}
@@ -1021,7 +1021,7 @@ section{position:relative;z-index:1}
   .about-photo-tag .apt-role{font-size:.95rem}
   .about-photo-tag .apt-city{font-size:.72rem}
 }
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* @keyframes pulse retiré — clignotement opacité des points "disponible" (tell IA) remplacé par anneau statique */
 
 /* ═══════════════════════════════════════════
    SECTION TRANSITIONS — visual separators
@@ -3003,12 +3003,12 @@ footer::before {
 
 /* ── HEURE KAOLACK ── */
 .footer-time{display:flex;align-items:center;gap:.5rem;font-size:.68rem;color:var(--dim);font-weight:300}
-.footer-time .time-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0}
+.footer-time .time-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0}
 .footer-time .time-val{color:var(--light);font-weight:500;font-family:'Syne',sans-serif;font-size:.72rem}
 
 
 .nav-avail{display:flex;align-items:center;gap:.45rem;font-size:.72rem;font-weight:500;color:var(--muted);letter-spacing:.02em;margin-right:.5rem}
-.nav-avail-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;flex-shrink:0}
+.nav-avail-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 3px rgba(74,222,128,.14);flex-shrink:0}
 nav.scrolled{background:rgba(10,10,10,.92)}
 
 
@@ -4475,48 +4475,9 @@ section + section::before{
 }
 
 /* ── GLOW TOURNANT sur Cover Art et In Motion ── */
+/* Halo conique rotatif (tab-glow-spin) retiré — effet "IA" indésirable sur les onglets de la nav rapide */
 .acc-tab.tab-glow {
   position: relative;
-  overflow: visible;
-  isolation: isolate;
-}
-.acc-tab.tab-glow::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 100px;
-  padding: 2px;
-  background: conic-gradient(
-    from var(--glow-angle, 0deg),
-    transparent 0deg,
-    transparent 60deg,
-    rgba(255,255,255,0.5) 120deg,
-    rgba(168,224,64,1) 150deg,
-    rgba(255,255,255,0.5) 180deg,
-    transparent 240deg,
-    transparent 360deg
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: tab-glow-spin 2.5s linear infinite;
-  opacity: 0.9;
-  pointer-events: none;
-  z-index: -1;
-}
-.acc-tab.tab-glow.active::before {
-  opacity: 0;
-}
-@keyframes tab-glow-spin {
-  from { --glow-angle: 0deg; }
-  to   { --glow-angle: 360deg; }
-}
-@property --glow-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
 }
 .acc-panel {
   display: none;
@@ -6890,7 +6851,7 @@ section + section::before{
 }
 .f-status-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: #4ade80; animation: pulse 2s infinite;
+  background: #4ade80; box-shadow: 0 0 0 3px rgba(74,222,128,.14);
 }
 .f-status-text { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #4ade80; }
 .f-last-project {
@@ -7125,7 +7086,6 @@ section + section::before{
 #quick-nav-toggle .qn-dot{
   width:6px;height:6px;border-radius:50%;
   background:var(--accent);flex-shrink:0;
-  animation:pulse 2s infinite;
 }
 #quick-nav-menu{
   position:absolute;bottom:calc(100% + .6rem);left:0;
@@ -8259,7 +8219,6 @@ body,
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 0 3px rgba(255,255,255,0.11);
-  animation: pulse 2s ease-in-out infinite;
   flex-shrink: 0;
 }
 .av2-badge-txt {
@@ -8600,7 +8559,7 @@ body,
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
-    animation: orb-pulse 4s ease-in-out infinite;
+    opacity: .7;
   }
   .gem-orb-1 {
     width: 300px; height: 300px;
@@ -9489,7 +9448,7 @@ body,
   border-radius: 100px;
   padding: .22rem .65rem;
   white-space: nowrap;
-  animation: u-badge-pulse 2.5s ease-in-out infinite;
+
 }
 @keyframes u-badge-pulse {
   0%,100% { box-shadow: 0 0 0 0 rgba(245,200,66,.25); }
@@ -9567,7 +9526,7 @@ body,
 .u-eyebrow-dot {
   width: 5px; height: 5px; border-radius: 50%;
   background: var(--u-accent);
-  animation: pulse 2s infinite; flex-shrink: 0;
+  flex-shrink: 0;
 }
 .u-hero-title {
   font-family: 'Syne', sans-serif; font-weight: 900;
@@ -9740,7 +9699,7 @@ body,
   transform: translateX(-50%); width: 220px; height: 70px; border-radius: 50%;
   background: radial-gradient(ellipse, rgba(14,77,65,.5) 0%, transparent 70%);
   filter: blur(18px);
-  animation: u-glow-pulse 7s ease-in-out infinite;
+  opacity: .7;
 }
 @keyframes u-glow-pulse {
   0%,100% { opacity: .6; transform: translateX(-50%) scaleX(1); }
@@ -14125,7 +14084,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
       </div>
 
       <div class="info-list reveal-up rd3">
-        <div class="info-item"><span class="info-label">Localisation</span><span class="info-value" style="display:flex;align-items:center;gap:.5rem">Kaolack, Sénégal<span style="color:var(--dim)">·</span><span style="display:flex;align-items:center;gap:.3rem"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite;flex-shrink:0"></span><span id="kaolackTimeContact">--:--</span></span></span></div>
+        <div class="info-item"><span class="info-label">Localisation</span><span class="info-value" style="display:flex;align-items:center;gap:.5rem">Kaolack, Sénégal<span style="color:var(--dim)">·</span><span style="display:flex;align-items:center;gap:.3rem"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;flex-shrink:0"></span><span id="kaolackTimeContact">--:--</span></span></span></div>
         <div class="info-item"><span class="info-label">Langues</span><span class="info-value">Français · Wolof · Anglais</span></div>
         <div class="info-item"><span class="info-label">Réponse</span><span class="info-value">Moins de 24h</span></div>
       </div>
@@ -14696,7 +14655,7 @@ function submitPackForm(e) {
 <div class="u-countdown-wrap" id="u-countdown-wrap" style="justify-content:center;padding:1rem 1.5rem;">
   <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;justify-content:center;">
     <span style="display:inline-flex;align-items:center;gap:.4rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--u-accent);">
-      <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--u-accent);box-shadow:0 0 8px var(--u-accent);animation:u-pulse 1.8s ease-in-out infinite;"></span>
+      <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--u-accent);box-shadow:0 0 8px var(--u-accent);"></span>
       PACK LANCÉ
     </span>
     <span style="font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--u-mid);">Le pack est disponible — commande maintenant</span>
@@ -15275,7 +15234,7 @@ function copyWaveNumber(btn) {
         <div class="f-contact-item" style="cursor:default">
           <span class="f-contact-lbl">Local time</span>
           <span class="f-contact-val" style="display:flex;align-items:center;gap:.4rem">
-            <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;flex-shrink:0;display:inline-block;animation:pulse 2s infinite"></span>
+            <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;flex-shrink:0;display:inline-block;box-shadow:0 0 0 3px rgba(74,222,128,.14)"></span>
             <span id="kaolackTime">--:--</span>
           </span>
         </div>
