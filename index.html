@@ -16080,7 +16080,7 @@ window.enableDragScroll = function enableDragScroll(track){
 
   var isDown = false, startX = 0, scrollLeft = 0, moved = false;
   var lastX = 0, lastT = 0, velX = 0, rafId = null;
-  var THRESHOLD = 5;
+  var THRESHOLD = 8;
 
   // Désactiver scroll-snap pendant le drag pour éviter le "retour de force"
   function setSnap(on){ track.style.scrollSnapType = on ? '' : 'none'; }
@@ -16104,6 +16104,13 @@ window.enableDragScroll = function enableDragScroll(track){
     isDown = false;
     track.style.cursor = 'grab';
     track.style.userSelect = '';
+    // N'appliquer l'inertie QUE si un vrai drag a eu lieu (clic-maintien + déplacement).
+    // Un simple clic (moved=false) ne doit jamais lancer le glide → sinon le carrousel "part tout seul".
+    if(!moved){
+      velX = 0;
+      setSnap(true);
+      return;
+    }
     var v = velX;
     function glide(){
       if(Math.abs(v) < 0.4){ setSnap(true); rafId = null; return; }
