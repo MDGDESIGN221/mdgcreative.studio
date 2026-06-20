@@ -21723,6 +21723,7 @@ if (document.readyState === 'loading') {
       transition: opacity .3s;
     }
     .mdg-cursor.ready{ opacity: 1; }
+    .mdg-cursor.is-hidden{ opacity: 0 !important; }
     .mdg-cursor-dot{
       position: fixed; top: 0; left: 0;
       width: 6px; height: 6px; border-radius: 50%;
@@ -21765,6 +21766,9 @@ if (document.readyState === 'loading') {
     }
     /* Masquer le curseur système quand le custom est actif */
     body.mdg-cursor-active, body.mdg-cursor-active *{ cursor: none !important; }
+    /* Exception : le slider before/after garde son curseur natif ew-resize */
+    body.mdg-cursor-active .work-card-ba,
+    body.mdg-cursor-active .work-card-ba *{ cursor: ew-resize !important; }
   }
 </style>
 <script>
@@ -21808,13 +21812,20 @@ if (document.readyState === 'loading') {
   }
   document.addEventListener('mouseover', function(e){
     var t = e.target;
-    if(t.closest('.work-card, .cov-card, .av2-cover-item, .ac-card')){
+    if(t.closest('.work-card-ba')){
+      setState(null, '');
+      cursor.classList.add('is-hidden');
+    } else if(t.closest('.work-card, .cov-card, .av2-cover-item, .ac-card')){
+      cursor.classList.remove('is-hidden');
       setState('is-view', 'Voir');
     } else if(t.closest('.work-track, .cov-track')){
+      cursor.classList.remove('is-hidden');
       setState('is-drag', 'Drag →');
     } else if(t.closest('a, button, .acc-tab, .port-new-tab-btn, [role=button]')){
+      cursor.classList.remove('is-hidden');
       setState('is-link', '');
     } else {
+      cursor.classList.remove('is-hidden');
       setState(null, '');
     }
   }, {passive:true});
