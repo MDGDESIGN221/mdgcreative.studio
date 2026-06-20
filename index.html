@@ -1341,7 +1341,7 @@ section+section::before,
 
 /* ── Before/After comparison slider (work-card-ba) ── */
 .work-card-ba{cursor:default}
-.ba-slider{position:absolute;inset:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;cursor:ew-resize}
+.ba-slider{position:absolute;inset:0;overflow:hidden;touch-action:pan-y;-webkit-user-select:none;user-select:none;cursor:ew-resize}
 .ba-slider .work-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;transform:none!important;filter:none!important;transition:none!important}
 .ba-img-after{z-index:1}
 .ba-img-before-wrap{position:absolute;inset:0;z-index:2;overflow:hidden;clip-path:inset(0 50% 0 0);will-change:clip-path}
@@ -1356,6 +1356,13 @@ section+section::before,
 .work-card-ba .work-meta{z-index:6;pointer-events:none}
 .work-card-ba .work-overlay{z-index:5;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.0) 28%)}
 .work-card:hover .ba-slider .work-img{transform:none!important;filter:none!important}
+/* ── Carte BA : aucun voile au survol, la comparaison reste toujours nette ── */
+.work-card-ba::after{opacity:0}
+.work-card-ba:hover::after{opacity:0}
+.work-card-ba:hover .work-overlay{opacity:0}
+.work-card-ba:hover .work-meta{opacity:0;transform:translateY(8px)}
+/* Crédit discret en haut, sans fond ni dégradé — juste lisible via text-shadow */
+.ba-credit{position:absolute;top:.92rem;left:50%;transform:translateX(-50%);z-index:5;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.55);pointer-events:none;white-space:nowrap}
 .work-cat{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.5rem}
 .work-cat::before{content:'';width:14px;height:1px;background:var(--accent);opacity:.6}
 .work-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-.01em;color:var(--light);line-height:1.15;display:flex;flex-direction:column;gap:.15rem}
@@ -3254,6 +3261,7 @@ nav.scrolled{background:rgba(10,10,10,.92)}
   }
   .ba-slider .work-img{ border-radius:0; }
   .ba-tag{ font-size:.58rem; padding:.28rem .55rem; }
+  .ba-credit{ display:none; } /* redondant : le nom est déjà dans la légende mobile sous l'image */
 
   .ac-ig{opacity:1;transform:translateY(0)}
 }
@@ -12142,6 +12150,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
             </div>
             <div class="ba-tag ba-tag-before">Raw</div>
             <div class="ba-tag ba-tag-after">Final</div>
+            <div class="ba-credit">Ibrahim Mbaye</div>
           </div>
           <div class="work-meta">
             <div class="work-cat">Rim Light Study</div>
@@ -16087,7 +16096,7 @@ function carouselScrollTo(track, targetLeft) {
     // ── Auto-play : oscillation douce gauche/droite, vitesse adéquate ──
     var AUTO_RESUME_DELAY = 3200;   // ms d'inactivité avant reprise
     var AUTO_PERIOD = 5200;         // ms pour un aller-retour complet
-    var AUTO_MIN = 0, AUTO_MAX = 100; // va jusqu'aux deux extrémités de l'image
+    var AUTO_MIN = 15, AUTO_MAX = 85; // marge aux bords : le handle reste visible, mouvement plus intentionnel
     var autoRafId = null;
     var autoStartTime = null;
     var autoPaused = false;
