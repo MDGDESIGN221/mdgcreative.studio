@@ -16250,8 +16250,6 @@ window.enableDragScroll = function enableDragScroll(track){
   track.style.cursor = 'grab';
 }
 
-enableDragScroll(document.getElementById('workTrack'));
-enableDragScroll(document.getElementById('covTrack'));
 enableDragScroll(document.getElementById('motTrack'));
 // trust-strip-inner est maintenant une grille — drag scroll non nécessaire
 
@@ -19443,11 +19441,6 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
       var panel = tab.dataset.panel;
       if(panel === 'motion'){
         initMotTrack();
-      } else if(panel === 'work' || panel === 'visuals'){
-        // léger délai pour laisser le panel passer en display:block avant de mesurer
-        setTimeout(function(){ if(typeof enableDragScroll==='function') enableDragScroll(document.getElementById('workTrack')); }, 50);
-      } else if(panel === 'covers' || panel === 'cover-art'){
-        setTimeout(function(){ if(typeof enableDragScroll==='function') enableDragScroll(document.getElementById('covTrack')); }, 50);
       }
     });
   });
@@ -19504,8 +19497,8 @@ function pnlSwitch(panel, btn) {
   if (l && btn.dataset.label) l.textContent = btn.dataset.label;
   // ── Recalibrer les flèches une fois le panel réellement affiché ──
   setTimeout(function() { _refreshPanelNav(panel); }, 60);
-  // ── Aligner Visuals/Cover Art/Motion : (ré)activer le drag du carrousel du panel actif ──
-  var trackId = { work:'workTrack', covers:'covTrack', motion:'motTrack' }[panel];
+  // ── Aligner Motion : (ré)activer le drag du carrousel du panel actif ──
+  var trackId = { motion:'motTrack' }[panel];
   if (trackId) {
     setTimeout(function() {
       var tr = document.getElementById(trackId);
