@@ -1341,7 +1341,7 @@ section+section::before,
 
 /* ── Before/After comparison slider (work-card-ba) ── */
 .work-card-ba{cursor:default}
-.ba-slider{position:absolute;inset:0;overflow:hidden;touch-action:pan-y;-webkit-user-select:none;user-select:none;cursor:ew-resize}
+.ba-slider{position:absolute;inset:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;cursor:ew-resize}
 .ba-slider .work-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;transform:none!important;filter:none!important;transition:none!important}
 .ba-img-after{z-index:1}
 .ba-img-before-wrap{position:absolute;inset:0;z-index:2;overflow:hidden;clip-path:inset(0 50% 0 0);will-change:clip-path}
@@ -10591,6 +10591,11 @@ footer {
   touch-action: pan-x pan-y !important;
 }
 
+/* ── BA slider : contrôle JS complet sur les deux axes (aucune délégation browser) ── */
+.ba-slider {
+  touch-action: none !important;
+}
+
 /* ── Process carousel : renforcement global (couvre tous les breakpoints) ── */
 /* Les règles media (768px) définissent déjà pan-x sur #pieter-process-track ;
    ce bloc garantit qu'aucun parent ne le réécrase en dehors du breakpoint. */
@@ -16122,8 +16127,9 @@ function carouselScrollTo(track, targetLeft) {
     function scheduleResume(d){ clearResume(); resumeTimer = setTimeout(startAuto, d); }
 
     // Survol souris : on calme l'oscillation pour saisir tranquillement
+    // + pré-mesure au pointerenter (avant la transition hover) → géométrie toujours juste
     slider.addEventListener('pointerenter', function(e){
-      if(e.pointerType === 'mouse'){ hovering = true; stopAuto(); clearResume(); }
+      if(e.pointerType === 'mouse'){ hovering = true; stopAuto(); clearResume(); measure(); }
     });
     slider.addEventListener('pointerleave', function(e){
       if(e.pointerType === 'mouse'){ hovering = false; if(!interacting) scheduleResume(700); }
@@ -16133,7 +16139,12 @@ function carouselScrollTo(track, targetLeft) {
     slider.addEventListener('pointerdown', function(e){
       interacting = true; moved = false; startX = e.clientX;
       stopAuto(); clearResume();
-      measure(); // mesure UNE fois : la carte est figée, donc valable tout le drag
+      // Mesure différée d'un rAF : évite de capturer une géométrie mid-transition
+      // (la carte applique transform:none au hover après une transition .5s).
+      // Sur desktop la pré-mesure au pointerenter a déjà été faite ; le rAF est un filet de sécurité.
+      // Sur mobile (pas de hover), c'est le seul moment où on mesure — le rAF garantit que
+      // le browser a finalisé son layout avant qu'on lise getBoundingClientRect().
+      requestAnimationFrame(function(){ measure(); });
       try{ slider.setPointerCapture(e.pointerId); }catch(err){}
       e.stopPropagation();
     }, true);
