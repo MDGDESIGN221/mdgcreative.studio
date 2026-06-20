@@ -16069,7 +16069,7 @@ function carouselScrollTo(track, targetLeft) {
   let _rsWork; window.addEventListener('resize',()=>{ clearTimeout(_rsWork); _rsWork=setTimeout(update,120); },{passive:true});
   update();
 })();
-// Before/After comparison slider (work-card-ba) — suivi DIRECT au survol (desktop) / glissement (mobile)
+// Before/After comparison slider (work-card-ba) — drag fluide (clic-glisser), throttlé 60fps
 (function(){
   var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -16078,15 +16078,17 @@ function carouselScrollTo(track, targetLeft) {
     var divider = slider.querySelector('.ba-divider');
     var card = slider.closest('.work-card-ba');
 
-    var AUTO_PERIOD = 5200;           // ms pour un aller-retour complet
-    var AUTO_MIN = 15, AUTO_MAX = 85; // marge aux bords : le handle reste visible
-    var autoRaf = null, autoStart = null, resumeTimer = null;
-    var interacting = false;   // glissement tactile en cours
-    var justInteracted = false; // bloque la lightbox juste après un drag tactile
-    var inView = false;
+    var AUTO_PERIOD = 5200;                 // ms aller-retour
+    var AUTO_MIN = 15, AUTO_MAX = 85;
+    var AMP = (AUTO_MAX - AUTO_MIN) / 2;
+    var autoRaf = null, autoStart = null, autoOffset = 0, resumeTimer = null;
+    var interacting = false, hovering = false, inView = false;
+    var moved = false, startX = 0, justInteracted = false;
+    var lastPct = 50, pendingX = null, moveRaf = null;
 
     function setPos(pct){
       pct = Math.max(0, Math.min(100, pct));
+      lastPct = pct;
       wrap.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
       divider.style.left = pct + '%';
       slider.setAttribute('aria-valuenow', Math.round(pct));
@@ -16097,87 +16099,88 @@ function carouselScrollTo(track, targetLeft) {
     }
     function clearResume(){ if(resumeTimer){ clearTimeout(resumeTimer); resumeTimer = null; } }
 
-    // ── Auto-play : oscillation douce (séparée du suivi manuel) ──
+    // ── Auto-play : oscillation douce, reprend depuis la position actuelle (aucun saut) ──
     function autoStep(ts){
-      if(autoStart === null) autoStart = ts - AUTO_PERIOD * 0.25;
+      if(autoStart === null) autoStart = ts - autoOffset;
       var t = ((ts - autoStart) % AUTO_PERIOD) / AUTO_PERIOD;
-      var wave = Math.sin(t * Math.PI * 2 - Math.PI / 2);
-      setPos(50 + wave * ((AUTO_MAX - AUTO_MIN) / 2));
+      setPos(50 + Math.sin(t * Math.PI * 2 - Math.PI / 2) * AMP);
       autoRaf = requestAnimationFrame(autoStep);
     }
     function startAuto(){
-      if(autoRaf || prefersReducedMotion || interacting || !inView) return;
+      if(autoRaf || prefersReducedMotion || interacting || hovering || !inView) return;
+      var ratio = Math.max(-1, Math.min(1, (lastPct - 50) / AMP));
+      autoOffset = ((Math.asin(ratio) + Math.PI / 2) / (Math.PI * 2)) * AUTO_PERIOD;
       autoStart = null;
       autoRaf = requestAnimationFrame(autoStep);
     }
     function stopAuto(){ if(autoRaf){ cancelAnimationFrame(autoRaf); autoRaf = null; } }
-    function scheduleResume(delay){ clearResume(); resumeTimer = setTimeout(startAuto, delay); }
+    function scheduleResume(d){ clearResume(); resumeTimer = setTimeout(startAuto, d); }
 
-    // ── DESKTOP : le curseur suit la souris DIRECTEMENT, aucun clic ──
+    // ── Drag throttlé : une seule mise à jour par frame ──
+    function applyPending(){ moveRaf = null; if(pendingX != null) setPos(pctFromX(pendingX)); }
+
+    // Survol souris : on calme l'oscillation pour saisir tranquillement (pas de suivi auto)
+    slider.addEventListener('pointerenter', function(e){
+      if(e.pointerType === 'mouse'){ hovering = true; stopAuto(); clearResume(); }
+    });
+    slider.addEventListener('pointerleave', function(e){
+      if(e.pointerType === 'mouse'){ hovering = false; if(!interacting) scheduleResume(700); }
+    });
+
+    // Clic-glisser (souris ET tactile), attrape n'importe où
+    slider.addEventListener('pointerdown', function(e){
+      interacting = true; moved = false; startX = e.clientX;
+      stopAuto(); clearResume();
+      try{ slider.setPointerCapture(e.pointerId); }catch(err){}
+      e.stopPropagation();
+    }, true);
+
     slider.addEventListener('pointermove', function(e){
-      if(e.pointerType === 'mouse'){
-        stopAuto(); clearResume();
-        setPos(pctFromX(e.clientX));
-      } else if(interacting){
-        setPos(pctFromX(e.clientX));
+      if(!interacting) return;
+      if(!moved && Math.abs(e.clientX - startX) > 4) moved = true;
+      if(moved){
+        pendingX = e.clientX;
+        if(!moveRaf) moveRaf = requestAnimationFrame(applyPending);
       }
       e.stopPropagation();
     }, true);
 
-    slider.addEventListener('pointerleave', function(e){
-      if(e.pointerType === 'mouse'){ scheduleResume(700); } // reprise auto douce après sortie souris
-    });
-
-    // ── MOBILE : glissement au doigt, attrape n'importe où ──
-    slider.addEventListener('pointerdown', function(e){
-      if(e.pointerType === 'mouse') return; // souris = survol, pas d'appui requis
-      interacting = true;
-      stopAuto(); clearResume();
-      try{ slider.setPointerCapture(e.pointerId); }catch(err){}
-      setPos(pctFromX(e.clientX));
-      e.stopPropagation();
-    }, true);
-
-    function endTouch(e){
+    function end(e){
       if(!interacting) return;
       interacting = false;
-      justInteracted = true;
       try{ slider.releasePointerCapture(e.pointerId); }catch(err){}
-      setTimeout(function(){ justInteracted = false; }, 250);
-      scheduleResume(1500);
+      if(moved){ justInteracted = true; setTimeout(function(){ justInteracted = false; }, 250); }
+      if(!hovering) scheduleResume(1200);
       e.stopPropagation();
     }
-    slider.addEventListener('pointerup', endTouch, true);
-    slider.addEventListener('pointercancel', endTouch, true);
+    slider.addEventListener('pointerup', end, true);
+    slider.addEventListener('pointercancel', end, true);
 
     // Empêcher le swipe du carousel de capter le geste démarré sur le slider
     slider.addEventListener('mousedown', function(e){ e.stopPropagation(); }, true);
     slider.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
     slider.addEventListener('touchmove', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
 
-    // Pause hors viewport (perf)
+    // Pause hors viewport
     if('IntersectionObserver' in window){
       new IntersectionObserver(function(entries){
-        entries.forEach(function(en){
-          inView = en.isIntersecting;
-          if(inView){ startAuto(); } else { stopAuto(); }
-        });
+        entries.forEach(function(en){ inView = en.isIntersecting; if(inView){ startAuto(); } else { stopAuto(); } });
       }, { threshold: 0.2 }).observe(slider);
     } else {
       inView = true; startAuto();
     }
 
-    // Filet de sécurité : ne pas ouvrir la lightbox juste après un drag tactile
+    // Clic simple (sans glissement) = ouvre la lightbox ; glissement = comparaison
     if(card){
       card.addEventListener('click', function(e){ if(justInteracted){ e.stopPropagation(); e.preventDefault(); } }, true);
       card.addEventListener('touchend', function(e){ if(justInteracted){ e.stopPropagation(); e.preventDefault(); } }, true);
     }
 
-    // Clavier : flèches gauche/droite (accessibilité)
+    // Clavier (accessibilité)
     slider.addEventListener('keydown', function(e){
       var cur = parseFloat(slider.getAttribute('aria-valuenow')) || 50;
-      if(e.key === 'ArrowLeft'){ stopAuto(); clearResume(); setPos(cur - 5); scheduleResume(2000); e.preventDefault(); }
-      else if(e.key === 'ArrowRight'){ stopAuto(); clearResume(); setPos(cur + 5); scheduleResume(2000); e.preventDefault(); }
+      if(e.key === 'ArrowLeft'){ stopAuto(); clearResume(); setPos(cur - 5); if(!hovering) scheduleResume(2000); e.preventDefault(); }
+      else if(e.key === 'ArrowRight'){ stopAuto(); clearResume(); setPos(cur + 5); if(!hovering) scheduleResume(2000); e.preventDefault(); }
     });
 
     setPos(50);
