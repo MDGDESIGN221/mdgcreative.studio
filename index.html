@@ -1357,6 +1357,7 @@ section+section::before,
 .work-card-ba .work-overlay{z-index:5;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.0) 28%)}
 .work-card:hover .ba-slider .work-img{transform:none!important;filter:none!important}
 /* ── Carte BA : aucun voile au survol, la comparaison reste toujours nette ── */
+.work-card-ba:hover{transform:none} /* géométrie figée : indispensable pour que le drag reste précis */
 .work-card-ba::after{opacity:0;pointer-events:none}
 .work-card-ba:hover::after{opacity:0}
 .work-card-ba:hover .work-overlay{opacity:0}
@@ -16962,6 +16963,7 @@ function initLenis() {
 
 // ── EFFET TILT 3D SUR LES CARDS ──
 document.querySelectorAll('.work-card,.cov-card,.svc-card,.process-step,.trust-card,.ac-card,.sk,.cond-item').forEach(function(card){
+  if(card.classList.contains('work-card-ba')) return; // PAS de tilt 3D sur le comparateur : la perspective fausse le calcul position souris → pourcentage du drag
   card.addEventListener('mousemove', function(e){
     var rect = card.getBoundingClientRect();
     var x = (e.clientX - rect.left) / rect.width - 0.5;
