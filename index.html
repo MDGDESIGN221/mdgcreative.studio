@@ -16087,7 +16087,7 @@ function carouselScrollTo(track, targetLeft) {
     // ── Auto-play : oscillation douce gauche/droite, vitesse adéquate ──
     var AUTO_RESUME_DELAY = 3200;   // ms d'inactivité avant reprise
     var AUTO_PERIOD = 5200;         // ms pour un aller-retour complet
-    var AUTO_MIN = 18, AUTO_MAX = 82; // bornes en % pour ne pas coller aux bords
+    var AUTO_MIN = 0, AUTO_MAX = 100; // va jusqu'aux deux extrémités de l'image
     var autoRafId = null;
     var autoStartTime = null;
     var autoPaused = false;
