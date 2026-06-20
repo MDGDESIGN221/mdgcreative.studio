@@ -16070,7 +16070,7 @@ function carouselScrollTo(track, targetLeft) {
   let _rsWork; window.addEventListener('resize',()=>{ clearTimeout(_rsWork); _rsWork=setTimeout(update,120); },{passive:true});
   update();
 })();
-// Before/After comparison slider (work-card-ba) — drag fluide (clic-glisser), throttlé 60fps
+// Before/After comparison slider (work-card-ba) — drag synchro (mesure mise en cache, application directe)
 (function(){
   var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -16079,13 +16079,14 @@ function carouselScrollTo(track, targetLeft) {
     var divider = slider.querySelector('.ba-divider');
     var card = slider.closest('.work-card-ba');
 
-    var AUTO_PERIOD = 5200;                 // ms aller-retour
+    var AUTO_PERIOD = 5200;
     var AUTO_MIN = 15, AUTO_MAX = 85;
     var AMP = (AUTO_MAX - AUTO_MIN) / 2;
     var autoRaf = null, autoStart = null, autoOffset = 0, resumeTimer = null;
     var interacting = false, hovering = false, inView = false;
     var moved = false, startX = 0, justInteracted = false;
-    var lastPct = 50, pendingX = null, moveRaf = null;
+    var lastPct = 50;
+    var dragLeft = 0, dragWidth = 1; // géométrie mise en cache au moment de la saisie
 
     function setPos(pct){
       pct = Math.max(0, Math.min(100, pct));
@@ -16094,9 +16095,12 @@ function carouselScrollTo(track, targetLeft) {
       divider.style.left = pct + '%';
       slider.setAttribute('aria-valuenow', Math.round(pct));
     }
-    function pctFromX(clientX){
+    function measure(){
       var r = slider.getBoundingClientRect();
-      return r.width ? ((clientX - r.left) / r.width) * 100 : 50;
+      dragLeft = r.left; dragWidth = r.width || 1;
+    }
+    function pctFromCachedX(clientX){
+      return ((clientX - dragLeft) / dragWidth) * 100;
     }
     function clearResume(){ if(resumeTimer){ clearTimeout(resumeTimer); resumeTimer = null; } }
 
@@ -16117,10 +16121,7 @@ function carouselScrollTo(track, targetLeft) {
     function stopAuto(){ if(autoRaf){ cancelAnimationFrame(autoRaf); autoRaf = null; } }
     function scheduleResume(d){ clearResume(); resumeTimer = setTimeout(startAuto, d); }
 
-    // ── Drag throttlé : une seule mise à jour par frame ──
-    function applyPending(){ moveRaf = null; if(pendingX != null) setPos(pctFromX(pendingX)); }
-
-    // Survol souris : on calme l'oscillation pour saisir tranquillement (pas de suivi auto)
+    // Survol souris : on calme l'oscillation pour saisir tranquillement
     slider.addEventListener('pointerenter', function(e){
       if(e.pointerType === 'mouse'){ hovering = true; stopAuto(); clearResume(); }
     });
@@ -16132,6 +16133,7 @@ function carouselScrollTo(track, targetLeft) {
     slider.addEventListener('pointerdown', function(e){
       interacting = true; moved = false; startX = e.clientX;
       stopAuto(); clearResume();
+      measure(); // mesure UNE fois : la carte est figée, donc valable tout le drag
       try{ slider.setPointerCapture(e.pointerId); }catch(err){}
       e.stopPropagation();
     }, true);
@@ -16139,10 +16141,7 @@ function carouselScrollTo(track, targetLeft) {
     slider.addEventListener('pointermove', function(e){
       if(!interacting) return;
       if(!moved && Math.abs(e.clientX - startX) > 4) moved = true;
-      if(moved){
-        pendingX = e.clientX;
-        if(!moveRaf) moveRaf = requestAnimationFrame(applyPending);
-      }
+      if(moved){ setPos(pctFromCachedX(e.clientX)); } // application DIRECTE, sans rAF (zéro frame de retard)
       e.stopPropagation();
     }, true);
 
@@ -16171,7 +16170,7 @@ function carouselScrollTo(track, targetLeft) {
       inView = true; startAuto();
     }
 
-    // Clic simple (sans glissement) = ouvre la lightbox ; glissement = comparaison
+    // Clic simple (sans glissement) = lightbox ; glissement = comparaison
     if(card){
       card.addEventListener('click', function(e){ if(justInteracted){ e.stopPropagation(); e.preventDefault(); } }, true);
       card.addEventListener('touchend', function(e){ if(justInteracted){ e.stopPropagation(); e.preventDefault(); } }, true);
