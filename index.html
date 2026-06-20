@@ -1338,6 +1338,23 @@ section+section::before,
 .work-card-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);z-index:3}
 .work-card:hover .work-card-bar{transform:scaleX(1)}
 .cov-card:hover .work-card-bar{transform:scaleX(1)}
+
+/* ── Before/After comparison slider (work-card-ba) ── */
+.work-card-ba{cursor:default}
+.ba-slider{position:absolute;inset:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+.ba-slider .work-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;transform:none!important;filter:none!important;transition:none!important}
+.ba-img-after{z-index:1}
+.ba-img-before-wrap{position:absolute;inset:0;z-index:2;overflow:hidden;clip-path:inset(0 50% 0 0);will-change:clip-path}
+.ba-img-before-wrap .ba-img-before{position:absolute;inset:0;width:100%;height:100%}
+.ba-divider{position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,.85);transform:translateX(-1px);z-index:4;pointer-events:none;box-shadow:0 0 12px rgba(0,0,0,.5)}
+.ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:rgba(10,10,10,.78);border:1.5px solid rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;gap:2px;color:#fff;backdrop-filter:blur(4px);box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.ba-tag{position:absolute;top:.9rem;z-index:5;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.32rem .65rem;border-radius:30px;background:rgba(10,10,10,.6);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);color:#fff;pointer-events:none;transition:opacity .3s}
+.ba-tag-before{left:.9rem}
+.ba-tag-after{right:.9rem}
+.work-card-ba:hover .ba-divider,.work-card-ba:hover .ba-handle{box-shadow:0 0 18px rgba(0,0,0,.65)}
+.work-card-ba .work-meta{z-index:6}
+.work-card-ba .work-overlay{z-index:5}
+.work-card:hover .ba-slider .work-img{transform:none!important;filter:none!important}
 .work-cat{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.5rem}
 .work-cat::before{content:'';width:14px;height:1px;background:var(--accent);opacity:.6}
 .work-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-.01em;color:var(--light);line-height:1.15;display:flex;flex-direction:column;gap:.15rem}
@@ -3223,7 +3240,19 @@ nav.scrolled{background:rgba(10,10,10,.92)}
   /* card-bar inutile sur mobile */
   .work-card-bar{ display:none; }
   /* Barre jade permanente sur mobile — contexte sans survol */
-  
+
+  /* Before/After slider : suit le même gabarit que .work-img en mode légende statique */
+  .ba-slider{
+    position:relative;
+    inset:auto;
+    width:100%;
+    height:auto;
+    max-height:340px;
+    aspect-ratio:4/5;
+    flex-shrink:0;
+  }
+  .ba-slider .work-img{ border-radius:0; }
+  .ba-tag{ font-size:.58rem; padding:.28rem .55rem; }
 
   .ac-ig{opacity:1;transform:translateY(0)}
 }
@@ -12099,6 +12128,27 @@ main > section{margin-top:0!important;margin-bottom:0!important}
           Glisse pour explorer
         </div>
       <div class="work-track" id="workTrack">
+        <div class="work-card work-card-ba" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" data-lb-title="Ibrahim Mbaye" data-lb-desc="Rim Light Study · Before / After">
+          <div class="ba-slider" role="slider" aria-label="Comparer avant et après retouche" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+            <img decoding="async" loading="eager" class="work-img ba-img-after" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Ibrahim Mbaye — Rim Light Study, version finale">
+            <div class="ba-img-before-wrap">
+              <img decoding="async" loading="eager" class="work-img ba-img-before" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Ibrahim Mbaye — Rim Light Study, image raw avant retouche">
+            </div>
+            <div class="ba-divider">
+              <div class="ba-handle">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 3 12 9 18"></polyline><polyline points="15 6 21 12 15 18"></polyline></svg>
+              </div>
+            </div>
+            <div class="ba-tag ba-tag-before">Raw</div>
+            <div class="ba-tag ba-tag-after">Final</div>
+          </div>
+          <div class="work-meta">
+            <div class="work-cat">Rim Light Study</div>
+            <div class="work-title">Ibrahim Mbaye<em>Before / After</em></div>
+          </div>
+          <div class="work-overlay"></div>
+          <div class="work-card-bar"></div>
+        </div>
         <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" data-lb-title="France vs Sénégal" data-lb-desc="Sports Key Visual · Direction Artistique">
           <img decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France vs Sénégal — Sports Key Visual">
           <div class="work-meta">
@@ -16008,6 +16058,61 @@ function carouselScrollTo(track, targetLeft) {
   track.addEventListener('scroll',update,{passive:true});
   let _rsWork; window.addEventListener('resize',()=>{ clearTimeout(_rsWork); _rsWork=setTimeout(update,120); },{passive:true});
   update();
+})();
+// Before/After comparison slider (work-card-ba)
+(function(){
+  document.querySelectorAll('.ba-slider').forEach(function(slider){
+    var wrap = slider.querySelector('.ba-img-before-wrap');
+    var divider = slider.querySelector('.ba-divider');
+    var dragging = false;
+
+    function setPos(pct){
+      pct = Math.max(0, Math.min(100, pct));
+      wrap.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      divider.style.left = pct + '%';
+      slider.setAttribute('aria-valuenow', Math.round(pct));
+    }
+
+    function pctFromX(clientX){
+      var rect = slider.getBoundingClientRect();
+      return ((clientX - rect.left) / rect.width) * 100;
+    }
+
+    slider.addEventListener('pointerdown', function(e){
+      dragging = true;
+      slider.setPointerCapture(e.pointerId);
+      setPos(pctFromX(e.clientX));
+      e.stopPropagation();
+    });
+
+    slider.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      setPos(pctFromX(e.clientX));
+      e.stopPropagation();
+    });
+
+    function release(e){
+      if(!dragging) return;
+      dragging = false;
+      try{ slider.releasePointerCapture(e.pointerId); }catch(err){}
+    }
+    slider.addEventListener('pointerup', release);
+    slider.addEventListener('pointercancel', release);
+
+    // Empêcher le drag-scroll du carousel de capter le geste qui démarre sur le slider
+    slider.addEventListener('mousedown', function(e){ e.stopPropagation(); });
+    slider.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true });
+    slider.addEventListener('touchmove', function(e){ e.stopPropagation(); }, { passive: true });
+
+    // Clavier : flèches gauche/droite pour ajuster (accessibilité)
+    slider.addEventListener('keydown', function(e){
+      var current = parseFloat(slider.getAttribute('aria-valuenow')) || 50;
+      if(e.key === 'ArrowLeft'){ setPos(current - 5); e.preventDefault(); }
+      else if(e.key === 'ArrowRight'){ setPos(current + 5); e.preventDefault(); }
+    });
+
+    setPos(50);
+  });
 })();
 // Covers carousel
 (function(){
