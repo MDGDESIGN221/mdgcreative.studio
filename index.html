@@ -1354,7 +1354,7 @@ section+section::before,
 .ba-tag-after{right:.9rem}
 .work-card-ba:hover .ba-divider,.work-card-ba:hover .ba-handle{box-shadow:0 0 18px rgba(0,0,0,.65)}
 .work-card-ba .work-meta{z-index:6;pointer-events:none}
-.work-card-ba .work-overlay{z-index:5}
+.work-card-ba .work-overlay{z-index:5;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.0) 28%)}
 .work-card:hover .ba-slider .work-img{transform:none!important;filter:none!important}
 .work-cat{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.5rem}
 .work-cat::before{content:'';width:14px;height:1px;background:var(--accent);opacity:.6}
@@ -16087,14 +16087,14 @@ function carouselScrollTo(track, targetLeft) {
       setPos(pctFromX(e.clientX));
       e.stopPropagation();
       e.preventDefault();
-    });
+    }, true);
 
     slider.addEventListener('pointermove', function(e){
       if(!dragging) return;
       setPos(pctFromX(e.clientX));
       e.stopPropagation();
       e.preventDefault();
-    });
+    }, true);
 
     function release(e){
       if(!dragging) return;
@@ -16106,13 +16106,14 @@ function carouselScrollTo(track, targetLeft) {
       // sans bloquer durablement un futur tap volontaire sur la card.
       setTimeout(function(){ justDragged = false; }, 250);
     }
-    slider.addEventListener('pointerup', release);
-    slider.addEventListener('pointercancel', release);
+    slider.addEventListener('pointerup', release, true);
+    slider.addEventListener('pointercancel', release, true);
 
-    // Empêcher le drag-scroll du carousel de capter le geste qui démarre sur le slider
-    slider.addEventListener('mousedown', function(e){ e.stopPropagation(); });
-    slider.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true });
-    slider.addEventListener('touchmove', function(e){ e.stopPropagation(); }, { passive: true });
+    // Empêcher le drag-scroll/swipe du carousel de capter le geste qui démarre sur le slider
+    // Phase de capture : s'exécute avant le handler du track, réponse garantie immédiate
+    slider.addEventListener('mousedown', function(e){ e.stopPropagation(); }, true);
+    slider.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
+    slider.addEventListener('touchmove', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
 
     // Filet de sécurité : si un click/touchend arrive quand même jusqu'à la card
     // juste après un drag sur le slider, on bloque l'ouverture de la lightbox.
@@ -16301,7 +16302,7 @@ enableDragScroll(document.getElementById('motTrack'));
     }
 
     track.addEventListener('touchstart', function(e) {
-      if (e.target.closest && e.target.closest('.ba-slider')) return;
+      if (e.target.closest && e.target.closest('.work-card-ba')) return;
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
       var t = e.touches[0];
       touchStartX = t.clientX;
@@ -16315,7 +16316,7 @@ enableDragScroll(document.getElementById('motTrack'));
     }, { passive: true });
 
     track.addEventListener('touchmove', function(e) {
-      if (e.target.closest && e.target.closest('.ba-slider')) return;
+      if (e.target.closest && e.target.closest('.work-card-ba')) return;
       var t = e.touches[0];
       var dx = t.clientX - touchStartX;
       var dy = t.clientY - touchStartY;
