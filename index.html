@@ -16139,6 +16139,8 @@ function carouselScrollTo(track, targetLeft) {
     slider.addEventListener('pointerdown', function(e){
       interacting = true; moved = false; startX = e.clientX;
       stopAuto(); clearResume();
+      // Stopper Lenis pendant le drag — son easing introduit un lag perceptible sur desktop
+      if(window.lenis) window.lenis.stop();
       // Mesure différée d'un rAF : évite de capturer une géométrie mid-transition
       // (la carte applique transform:none au hover après une transition .5s).
       // Sur desktop la pré-mesure au pointerenter a déjà été faite ; le rAF est un filet de sécurité.
@@ -16160,6 +16162,8 @@ function carouselScrollTo(track, targetLeft) {
       if(!interacting) return;
       interacting = false;
       try{ slider.releasePointerCapture(e.pointerId); }catch(err){}
+      // Relancer Lenis si on l'avait stoppé au pointerdown
+      if(window.lenis) window.lenis.start();
       if(moved){ justInteracted = true; setTimeout(function(){ justInteracted = false; }, 250); }
       if(!hovering) scheduleResume(1200);
       e.stopPropagation();
@@ -16879,7 +16883,7 @@ function initLenis() {
     gestureOrientation: 'vertical',
     smoothWheel: true,
     wheelMultiplier: 0.8,
-    prevent: node => node.id === 'workTrack' || node.id === 'covTrack' || node.id === 'motTrack' || !!(node.closest && node.closest('.pack-modal-overlay')),
+    prevent: node => node.id === 'workTrack' || node.id === 'covTrack' || node.id === 'motTrack' || !!(node.closest && node.closest('.pack-modal-overlay')) || !!(node.closest && node.closest('.ba-slider')),
   });
   window.lenis = lenis;
   // Toujours démarrer en haut — Lenis peut avoir une position interne résiduelle
