@@ -16064,7 +16064,9 @@ function carouselScrollTo(track, targetLeft) {
   document.querySelectorAll('.ba-slider').forEach(function(slider){
     var wrap = slider.querySelector('.ba-img-before-wrap');
     var divider = slider.querySelector('.ba-divider');
+    var card = slider.closest('.work-card-ba');
     var dragging = false;
+    var justDragged = false;
 
     function setPos(pct){
       pct = Math.max(0, Math.min(100, pct));
@@ -16083,18 +16085,25 @@ function carouselScrollTo(track, targetLeft) {
       slider.setPointerCapture(e.pointerId);
       setPos(pctFromX(e.clientX));
       e.stopPropagation();
+      e.preventDefault();
     });
 
     slider.addEventListener('pointermove', function(e){
       if(!dragging) return;
       setPos(pctFromX(e.clientX));
       e.stopPropagation();
+      e.preventDefault();
     });
 
     function release(e){
       if(!dragging) return;
       dragging = false;
+      justDragged = true;
       try{ slider.releasePointerCapture(e.pointerId); }catch(err){}
+      e.stopPropagation();
+      // Laisse passer un tick pour absorber le click synthétique qui suit le relâchement,
+      // sans bloquer durablement un futur tap volontaire sur la card.
+      setTimeout(function(){ justDragged = false; }, 250);
     }
     slider.addEventListener('pointerup', release);
     slider.addEventListener('pointercancel', release);
@@ -16103,6 +16112,17 @@ function carouselScrollTo(track, targetLeft) {
     slider.addEventListener('mousedown', function(e){ e.stopPropagation(); });
     slider.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true });
     slider.addEventListener('touchmove', function(e){ e.stopPropagation(); }, { passive: true });
+
+    // Filet de sécurité : si un click/touchend arrive quand même jusqu'à la card
+    // juste après un drag sur le slider, on bloque l'ouverture de la lightbox.
+    if(card){
+      card.addEventListener('click', function(e){
+        if(justDragged){ e.stopPropagation(); e.preventDefault(); }
+      }, true);
+      card.addEventListener('touchend', function(e){
+        if(justDragged){ e.stopPropagation(); e.preventDefault(); }
+      }, true);
+    }
 
     // Clavier : flèches gauche/droite pour ajuster (accessibilité)
     slider.addEventListener('keydown', function(e){
