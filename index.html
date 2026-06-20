@@ -1357,7 +1357,7 @@ section+section::before,
 .work-card-ba .work-overlay{z-index:5;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.0) 28%)}
 .work-card:hover .ba-slider .work-img{transform:none!important;filter:none!important}
 /* ── Carte BA : aucun voile au survol, la comparaison reste toujours nette ── */
-.work-card-ba::after{opacity:0}
+.work-card-ba::after{opacity:0;pointer-events:none}
 .work-card-ba:hover::after{opacity:0}
 .work-card-ba:hover .work-overlay{opacity:0}
 .work-card-ba:hover .work-meta{opacity:0;transform:translateY(8px)}
@@ -16069,7 +16069,7 @@ function carouselScrollTo(track, targetLeft) {
   let _rsWork; window.addEventListener('resize',()=>{ clearTimeout(_rsWork); _rsWork=setTimeout(update,120); },{passive:true});
   update();
 })();
-// Before/After comparison slider (work-card-ba) — suivi fluide au survol (desktop) / glissement (mobile)
+// Before/After comparison slider (work-card-ba) — suivi DIRECT au survol (desktop) / glissement (mobile)
 (function(){
   var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -16078,84 +16078,63 @@ function carouselScrollTo(track, targetLeft) {
     var divider = slider.querySelector('.ba-divider');
     var card = slider.closest('.work-card-ba');
 
-    var AUTO_PERIOD = 5200;          // ms pour un aller-retour complet
+    var AUTO_PERIOD = 5200;           // ms pour un aller-retour complet
     var AUTO_MIN = 15, AUTO_MAX = 85; // marge aux bords : le handle reste visible
-    var EASE = prefersReducedMotion ? 1 : 0.18; // lissage du suivi (1 = instantané)
-
-    var pos = 50;          // position affichée (lissée)
-    var target = 50;       // position visée
-    var mode = 'auto';     // 'auto' (oscillation) | 'user' (suit la souris/le doigt)
-    var rafId = null;
-    var autoStart = null;
-    var resumeTimer = null;
+    var autoRaf = null, autoStart = null, resumeTimer = null;
     var interacting = false;   // glissement tactile en cours
-    var justInteracted = false; // bloque l'ouverture lightbox juste après un drag tactile
-    var lastApplied = -1;
+    var justInteracted = false; // bloque la lightbox juste après un drag tactile
+    var inView = false;
 
-    function apply(p){
-      if(Math.abs(p - lastApplied) < 0.02) return; // évite les écritures de style redondantes
-      lastApplied = p;
-      wrap.style.clipPath = 'inset(0 ' + (100 - p) + '% 0 0)';
-      divider.style.left = p + '%';
-      slider.setAttribute('aria-valuenow', Math.round(p));
+    function setPos(pct){
+      pct = Math.max(0, Math.min(100, pct));
+      wrap.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      divider.style.left = pct + '%';
+      slider.setAttribute('aria-valuenow', Math.round(pct));
     }
-
     function pctFromX(clientX){
-      var rect = slider.getBoundingClientRect();
-      return Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+      var r = slider.getBoundingClientRect();
+      return r.width ? ((clientX - r.left) / r.width) * 100 : 50;
     }
+    function clearResume(){ if(resumeTimer){ clearTimeout(resumeTimer); resumeTimer = null; } }
 
-    function frame(ts){
-      if(mode === 'auto'){
-        if(prefersReducedMotion){
-          target = 50;
-        } else {
-          if(autoStart === null) autoStart = ts - AUTO_PERIOD * 0.25;
-          var t = ((ts - autoStart) % AUTO_PERIOD) / AUTO_PERIOD;
-          var wave = Math.sin(t * Math.PI * 2 - Math.PI / 2); // démarre à 50%, continu
-          target = 50 + wave * ((AUTO_MAX - AUTO_MIN) / 2);
-        }
-      }
-      pos += (target - pos) * EASE;
-      if(Math.abs(target - pos) < 0.05) pos = target; // snap quand très proche
-      apply(pos);
-      rafId = requestAnimationFrame(frame);
+    // ── Auto-play : oscillation douce (séparée du suivi manuel) ──
+    function autoStep(ts){
+      if(autoStart === null) autoStart = ts - AUTO_PERIOD * 0.25;
+      var t = ((ts - autoStart) % AUTO_PERIOD) / AUTO_PERIOD;
+      var wave = Math.sin(t * Math.PI * 2 - Math.PI / 2);
+      setPos(50 + wave * ((AUTO_MAX - AUTO_MIN) / 2));
+      autoRaf = requestAnimationFrame(autoStep);
     }
-
-    function run(){ if(rafId) return; autoStart = null; rafId = requestAnimationFrame(frame); }
-    function halt(){ if(rafId){ cancelAnimationFrame(rafId); rafId = null; } }
-
-    function toUser(){
-      mode = 'user';
-      if(resumeTimer){ clearTimeout(resumeTimer); resumeTimer = null; }
+    function startAuto(){
+      if(autoRaf || prefersReducedMotion || interacting || !inView) return;
+      autoStart = null;
+      autoRaf = requestAnimationFrame(autoStep);
     }
-    function scheduleAuto(delay){
-      if(resumeTimer) clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(function(){ autoStart = null; mode = 'auto'; }, delay);
-    }
+    function stopAuto(){ if(autoRaf){ cancelAnimationFrame(autoRaf); autoRaf = null; } }
+    function scheduleResume(delay){ clearResume(); resumeTimer = setTimeout(startAuto, delay); }
 
-    // ── Souris (desktop) : le curseur suit le survol, AUCUN clic requis ──
+    // ── DESKTOP : le curseur suit la souris DIRECTEMENT, aucun clic ──
     slider.addEventListener('pointermove', function(e){
       if(e.pointerType === 'mouse'){
-        toUser();
-        target = pctFromX(e.clientX);
-      } else if(interacting){ // doigt en cours de glissement
-        target = pctFromX(e.clientX);
+        stopAuto(); clearResume();
+        setPos(pctFromX(e.clientX));
+      } else if(interacting){
+        setPos(pctFromX(e.clientX));
       }
       e.stopPropagation();
     }, true);
 
     slider.addEventListener('pointerleave', function(e){
-      if(e.pointerType === 'mouse'){ scheduleAuto(900); } // reprise douce après sortie souris
+      if(e.pointerType === 'mouse'){ scheduleResume(700); } // reprise auto douce après sortie souris
     });
 
-    // ── Tactile (mobile) : glissement au doigt, attrape n'importe où ──
+    // ── MOBILE : glissement au doigt, attrape n'importe où ──
     slider.addEventListener('pointerdown', function(e){
-      if(e.pointerType === 'mouse') return; // souris = survol, pas d'appui
+      if(e.pointerType === 'mouse') return; // souris = survol, pas d'appui requis
       interacting = true;
-      toUser();
+      stopAuto(); clearResume();
       try{ slider.setPointerCapture(e.pointerId); }catch(err){}
-      target = pctFromX(e.clientX);
+      setPos(pctFromX(e.clientX));
       e.stopPropagation();
     }, true);
 
@@ -16165,7 +16144,7 @@ function carouselScrollTo(track, targetLeft) {
       justInteracted = true;
       try{ slider.releasePointerCapture(e.pointerId); }catch(err){}
       setTimeout(function(){ justInteracted = false; }, 250);
-      scheduleAuto(1600);
+      scheduleResume(1500);
       e.stopPropagation();
     }
     slider.addEventListener('pointerup', endTouch, true);
@@ -16178,12 +16157,14 @@ function carouselScrollTo(track, targetLeft) {
 
     // Pause hors viewport (perf)
     if('IntersectionObserver' in window){
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(en){ if(en.isIntersecting){ run(); } else { halt(); } });
-      }, { threshold: 0.2 });
-      io.observe(slider);
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          inView = en.isIntersecting;
+          if(inView){ startAuto(); } else { stopAuto(); }
+        });
+      }, { threshold: 0.2 }).observe(slider);
     } else {
-      run();
+      inView = true; startAuto();
     }
 
     // Filet de sécurité : ne pas ouvrir la lightbox juste après un drag tactile
@@ -16194,11 +16175,12 @@ function carouselScrollTo(track, targetLeft) {
 
     // Clavier : flèches gauche/droite (accessibilité)
     slider.addEventListener('keydown', function(e){
-      if(e.key === 'ArrowLeft'){ toUser(); target = Math.max(0, target - 5); scheduleAuto(2000); e.preventDefault(); }
-      else if(e.key === 'ArrowRight'){ toUser(); target = Math.min(100, target + 5); scheduleAuto(2000); e.preventDefault(); }
+      var cur = parseFloat(slider.getAttribute('aria-valuenow')) || 50;
+      if(e.key === 'ArrowLeft'){ stopAuto(); clearResume(); setPos(cur - 5); scheduleResume(2000); e.preventDefault(); }
+      else if(e.key === 'ArrowRight'){ stopAuto(); clearResume(); setPos(cur + 5); scheduleResume(2000); e.preventDefault(); }
     });
 
-    apply(50);
+    setPos(50);
   });
 })();
 // Covers carousel
