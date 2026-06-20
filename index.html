@@ -1341,18 +1341,19 @@ section+section::before,
 
 /* ── Before/After comparison slider (work-card-ba) ── */
 .work-card-ba{cursor:default}
-.ba-slider{position:absolute;inset:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+.ba-slider{position:absolute;inset:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;cursor:ew-resize}
 .ba-slider .work-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;transform:none!important;filter:none!important;transition:none!important}
 .ba-img-after{z-index:1}
 .ba-img-before-wrap{position:absolute;inset:0;z-index:2;overflow:hidden;clip-path:inset(0 50% 0 0);will-change:clip-path}
 .ba-img-before-wrap .ba-img-before{position:absolute;inset:0;width:100%;height:100%}
 .ba-divider{position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,.85);transform:translateX(-1px);z-index:4;pointer-events:none;box-shadow:0 0 12px rgba(0,0,0,.5)}
-.ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:rgba(10,10,10,.78);border:1.5px solid rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;gap:2px;color:#fff;backdrop-filter:blur(4px);box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:rgba(10,10,10,.78);border:1.5px solid rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;gap:3px;color:#fff;backdrop-filter:blur(4px);box-shadow:0 4px 16px rgba(0,0,0,.5);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s}
+.ba-slider:hover .ba-handle{transform:translate(-50%,-50%) scale(1.12)}
 .ba-tag{position:absolute;top:.9rem;z-index:5;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.32rem .65rem;border-radius:30px;background:rgba(10,10,10,.6);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);color:#fff;pointer-events:none;transition:opacity .3s}
 .ba-tag-before{left:.9rem}
 .ba-tag-after{right:.9rem}
 .work-card-ba:hover .ba-divider,.work-card-ba:hover .ba-handle{box-shadow:0 0 18px rgba(0,0,0,.65)}
-.work-card-ba .work-meta{z-index:6}
+.work-card-ba .work-meta{z-index:6;pointer-events:none}
 .work-card-ba .work-overlay{z-index:5}
 .work-card:hover .ba-slider .work-img{transform:none!important;filter:none!important}
 .work-cat{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.5rem}
@@ -16300,6 +16301,7 @@ enableDragScroll(document.getElementById('motTrack'));
     }
 
     track.addEventListener('touchstart', function(e) {
+      if (e.target.closest && e.target.closest('.ba-slider')) return;
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
       var t = e.touches[0];
       touchStartX = t.clientX;
@@ -16313,6 +16315,7 @@ enableDragScroll(document.getElementById('motTrack'));
     }, { passive: true });
 
     track.addEventListener('touchmove', function(e) {
+      if (e.target.closest && e.target.closest('.ba-slider')) return;
       var t = e.touches[0];
       var dx = t.clientX - touchStartX;
       var dy = t.clientY - touchStartY;
