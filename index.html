@@ -16062,6 +16062,8 @@ function carouselScrollTo(track, targetLeft) {
 })();
 // Before/After comparison slider (work-card-ba)
 (function(){
+  var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   document.querySelectorAll('.ba-slider').forEach(function(slider){
     var wrap = slider.querySelector('.ba-img-before-wrap');
     var divider = slider.querySelector('.ba-divider');
@@ -16074,6 +16076,7 @@ function carouselScrollTo(track, targetLeft) {
       wrap.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
       divider.style.left = pct + '%';
       slider.setAttribute('aria-valuenow', Math.round(pct));
+      return pct;
     }
 
     function pctFromX(clientX){
@@ -16081,8 +16084,55 @@ function carouselScrollTo(track, targetLeft) {
       return ((clientX - rect.left) / rect.width) * 100;
     }
 
+    // ── Auto-play : oscillation douce gauche/droite, vitesse adéquate ──
+    var AUTO_RESUME_DELAY = 3200;   // ms d'inactivité avant reprise
+    var AUTO_PERIOD = 5200;         // ms pour un aller-retour complet
+    var AUTO_MIN = 18, AUTO_MAX = 82; // bornes en % pour ne pas coller aux bords
+    var autoRafId = null;
+    var autoStartTime = null;
+    var autoPaused = false;
+    var resumeTimer = null;
+    var currentPct = 50;
+
+    function autoStep(ts){
+      if(autoPaused) return;
+      if(autoStartTime === null) autoStartTime = ts;
+      var elapsed = (ts - autoStartTime) % AUTO_PERIOD;
+      var t = elapsed / AUTO_PERIOD;                  // 0 → 1 sur la période
+      var wave = Math.sin(t * Math.PI * 2 - Math.PI/2); // -1 → 1 → -1, démarre à 50%, fluide en continu
+      var pct = 50 + wave * ((AUTO_MAX - AUTO_MIN) / 2);
+      currentPct = setPos(pct);
+      autoRafId = requestAnimationFrame(autoStep);
+    }
+
+    function startAuto(){
+      if(prefersReducedMotion || autoRafId) return;
+      autoPaused = false;
+      // Démarre le cycle au point correspondant à la position actuelle (50% au repos)
+      // pour éviter un saut visuel entre l'état fixe et la première frame animée.
+      autoStartTime = null;
+      autoRafId = requestAnimationFrame(function(ts){
+        autoStartTime = ts - AUTO_PERIOD * 0.25;
+        autoStep(ts);
+      });
+    }
+
+    function stopAuto(){
+      autoPaused = true;
+      if(autoRafId){ cancelAnimationFrame(autoRafId); autoRafId = null; }
+    }
+
+    function pauseAndScheduleResume(){
+      stopAuto();
+      if(resumeTimer) clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function(){
+        if(!dragging) startAuto();
+      }, AUTO_RESUME_DELAY);
+    }
+
     slider.addEventListener('pointerdown', function(e){
       dragging = true;
+      pauseAndScheduleResume();
       slider.setPointerCapture(e.pointerId);
       setPos(pctFromX(e.clientX));
       e.stopPropagation();
@@ -16105,6 +16155,9 @@ function carouselScrollTo(track, targetLeft) {
       // Laisse passer un tick pour absorber le click synthétique qui suit le relâchement,
       // sans bloquer durablement un futur tap volontaire sur la card.
       setTimeout(function(){ justDragged = false; }, 250);
+      // Relance le timer de reprise auto à partir du moment du relâchement
+      if(resumeTimer) clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function(){ startAuto(); }, AUTO_RESUME_DELAY);
     }
     slider.addEventListener('pointerup', release, true);
     slider.addEventListener('pointercancel', release, true);
@@ -16114,6 +16167,25 @@ function carouselScrollTo(track, targetLeft) {
     slider.addEventListener('mousedown', function(e){ e.stopPropagation(); }, true);
     slider.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
     slider.addEventListener('touchmove', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
+
+    // Survol souris desktop : pause immédiate, reprise au départ de la souris
+    slider.addEventListener('mouseenter', function(){ stopAuto(); if(resumeTimer) clearTimeout(resumeTimer); });
+    slider.addEventListener('mouseleave', function(){
+      if(!dragging) pauseAndScheduleResume();
+    });
+
+    // Mettre en pause quand la carte sort du viewport (perf + cohérence)
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){ if(!dragging) startAuto(); }
+          else { stopAuto(); }
+        });
+      }, { threshold: 0.2 });
+      io.observe(slider);
+    } else {
+      startAuto();
+    }
 
     // Filet de sécurité : si un click/touchend arrive quand même jusqu'à la card
     // juste après un drag sur le slider, on bloque l'ouverture de la lightbox.
@@ -16129,11 +16201,14 @@ function carouselScrollTo(track, targetLeft) {
     // Clavier : flèches gauche/droite pour ajuster (accessibilité)
     slider.addEventListener('keydown', function(e){
       var current = parseFloat(slider.getAttribute('aria-valuenow')) || 50;
-      if(e.key === 'ArrowLeft'){ setPos(current - 5); e.preventDefault(); }
-      else if(e.key === 'ArrowRight'){ setPos(current + 5); e.preventDefault(); }
+      if(e.key === 'ArrowLeft'){ stopAuto(); if(resumeTimer) clearTimeout(resumeTimer); setPos(current - 5); pauseAndScheduleResume(); e.preventDefault(); }
+      else if(e.key === 'ArrowRight'){ stopAuto(); if(resumeTimer) clearTimeout(resumeTimer); setPos(current + 5); pauseAndScheduleResume(); e.preventDefault(); }
     });
 
     setPos(50);
+    if(prefersReducedMotion){
+      // Pas d'auto-play : on laisse l'image au repos, contrôle manuel uniquement
+    }
   });
 })();
 // Covers carousel
