@@ -16096,7 +16096,7 @@ function carouselScrollTo(track, targetLeft) {
 
     function autoStep(ts){
       if(autoPaused) return;
-      if(autoStartTime === null) autoStartTime = ts;
+      if(autoStartTime === null) autoStartTime = ts - AUTO_PERIOD * 0.25;
       var elapsed = (ts - autoStartTime) % AUTO_PERIOD;
       var t = elapsed / AUTO_PERIOD;                  // 0 → 1 sur la période
       var wave = Math.sin(t * Math.PI * 2 - Math.PI/2); // -1 → 1 → -1, démarre à 50%, fluide en continu
@@ -16108,13 +16108,8 @@ function carouselScrollTo(track, targetLeft) {
     function startAuto(){
       if(prefersReducedMotion || autoRafId) return;
       autoPaused = false;
-      // Démarre le cycle au point correspondant à la position actuelle (50% au repos)
-      // pour éviter un saut visuel entre l'état fixe et la première frame animée.
       autoStartTime = null;
-      autoRafId = requestAnimationFrame(function(ts){
-        autoStartTime = ts - AUTO_PERIOD * 0.25;
-        autoStep(ts);
-      });
+      autoRafId = requestAnimationFrame(autoStep);
     }
 
     function stopAuto(){
@@ -16167,12 +16162,6 @@ function carouselScrollTo(track, targetLeft) {
     slider.addEventListener('mousedown', function(e){ e.stopPropagation(); }, true);
     slider.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
     slider.addEventListener('touchmove', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
-
-    // Survol souris desktop : pause immédiate, reprise au départ de la souris
-    slider.addEventListener('mouseenter', function(){ stopAuto(); if(resumeTimer) clearTimeout(resumeTimer); });
-    slider.addEventListener('mouseleave', function(){
-      if(!dragging) pauseAndScheduleResume();
-    });
 
     // Mettre en pause quand la carte sort du viewport (perf + cohérence)
     if('IntersectionObserver' in window){
