@@ -16069,7 +16069,7 @@ function carouselScrollTo(track, targetLeft) {
   let _rsWork; window.addEventListener('resize',()=>{ clearTimeout(_rsWork); _rsWork=setTimeout(update,120); },{passive:true});
   update();
 })();
-// Before/After comparison slider (work-card-ba)
+// Before/After comparison slider (work-card-ba) — suivi fluide au survol (desktop) / glissement (mobile)
 (function(){
   var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -16077,136 +16077,128 @@ function carouselScrollTo(track, targetLeft) {
     var wrap = slider.querySelector('.ba-img-before-wrap');
     var divider = slider.querySelector('.ba-divider');
     var card = slider.closest('.work-card-ba');
-    var dragging = false;
-    var justDragged = false;
 
-    function setPos(pct){
-      pct = Math.max(0, Math.min(100, pct));
-      wrap.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-      divider.style.left = pct + '%';
-      slider.setAttribute('aria-valuenow', Math.round(pct));
-      return pct;
+    var AUTO_PERIOD = 5200;          // ms pour un aller-retour complet
+    var AUTO_MIN = 15, AUTO_MAX = 85; // marge aux bords : le handle reste visible
+    var EASE = prefersReducedMotion ? 1 : 0.18; // lissage du suivi (1 = instantané)
+
+    var pos = 50;          // position affichée (lissée)
+    var target = 50;       // position visée
+    var mode = 'auto';     // 'auto' (oscillation) | 'user' (suit la souris/le doigt)
+    var rafId = null;
+    var autoStart = null;
+    var resumeTimer = null;
+    var interacting = false;   // glissement tactile en cours
+    var justInteracted = false; // bloque l'ouverture lightbox juste après un drag tactile
+    var lastApplied = -1;
+
+    function apply(p){
+      if(Math.abs(p - lastApplied) < 0.02) return; // évite les écritures de style redondantes
+      lastApplied = p;
+      wrap.style.clipPath = 'inset(0 ' + (100 - p) + '% 0 0)';
+      divider.style.left = p + '%';
+      slider.setAttribute('aria-valuenow', Math.round(p));
     }
 
     function pctFromX(clientX){
       var rect = slider.getBoundingClientRect();
-      return ((clientX - rect.left) / rect.width) * 100;
+      return Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
     }
 
-    // ── Auto-play : oscillation douce gauche/droite, vitesse adéquate ──
-    var AUTO_RESUME_DELAY = 3200;   // ms d'inactivité avant reprise
-    var AUTO_PERIOD = 5200;         // ms pour un aller-retour complet
-    var AUTO_MIN = 15, AUTO_MAX = 85; // marge aux bords : le handle reste visible, mouvement plus intentionnel
-    var autoRafId = null;
-    var autoStartTime = null;
-    var autoPaused = false;
-    var resumeTimer = null;
-    var currentPct = 50;
-
-    function autoStep(ts){
-      if(autoPaused) return;
-      if(autoStartTime === null) autoStartTime = ts - AUTO_PERIOD * 0.25;
-      var elapsed = (ts - autoStartTime) % AUTO_PERIOD;
-      var t = elapsed / AUTO_PERIOD;                  // 0 → 1 sur la période
-      var wave = Math.sin(t * Math.PI * 2 - Math.PI/2); // -1 → 1 → -1, démarre à 50%, fluide en continu
-      var pct = 50 + wave * ((AUTO_MAX - AUTO_MIN) / 2);
-      currentPct = setPos(pct);
-      autoRafId = requestAnimationFrame(autoStep);
+    function frame(ts){
+      if(mode === 'auto'){
+        if(prefersReducedMotion){
+          target = 50;
+        } else {
+          if(autoStart === null) autoStart = ts - AUTO_PERIOD * 0.25;
+          var t = ((ts - autoStart) % AUTO_PERIOD) / AUTO_PERIOD;
+          var wave = Math.sin(t * Math.PI * 2 - Math.PI / 2); // démarre à 50%, continu
+          target = 50 + wave * ((AUTO_MAX - AUTO_MIN) / 2);
+        }
+      }
+      pos += (target - pos) * EASE;
+      if(Math.abs(target - pos) < 0.05) pos = target; // snap quand très proche
+      apply(pos);
+      rafId = requestAnimationFrame(frame);
     }
 
-    function startAuto(){
-      if(prefersReducedMotion || autoRafId) return;
-      autoPaused = false;
-      autoStartTime = null;
-      autoRafId = requestAnimationFrame(autoStep);
-    }
+    function run(){ if(rafId) return; autoStart = null; rafId = requestAnimationFrame(frame); }
+    function halt(){ if(rafId){ cancelAnimationFrame(rafId); rafId = null; } }
 
-    function stopAuto(){
-      autoPaused = true;
-      if(autoRafId){ cancelAnimationFrame(autoRafId); autoRafId = null; }
+    function toUser(){
+      mode = 'user';
+      if(resumeTimer){ clearTimeout(resumeTimer); resumeTimer = null; }
     }
-
-    function pauseAndScheduleResume(){
-      stopAuto();
+    function scheduleAuto(delay){
       if(resumeTimer) clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(function(){
-        if(!dragging) startAuto();
-      }, AUTO_RESUME_DELAY);
+      resumeTimer = setTimeout(function(){ autoStart = null; mode = 'auto'; }, delay);
     }
 
-    slider.addEventListener('pointerdown', function(e){
-      dragging = true;
-      pauseAndScheduleResume();
-      slider.setPointerCapture(e.pointerId);
-      setPos(pctFromX(e.clientX));
-      e.stopPropagation();
-      e.preventDefault();
-    }, true);
-
+    // ── Souris (desktop) : le curseur suit le survol, AUCUN clic requis ──
     slider.addEventListener('pointermove', function(e){
-      if(!dragging) return;
-      setPos(pctFromX(e.clientX));
+      if(e.pointerType === 'mouse'){
+        toUser();
+        target = pctFromX(e.clientX);
+      } else if(interacting){ // doigt en cours de glissement
+        target = pctFromX(e.clientX);
+      }
       e.stopPropagation();
-      e.preventDefault();
     }, true);
 
-    function release(e){
-      if(!dragging) return;
-      dragging = false;
-      justDragged = true;
-      try{ slider.releasePointerCapture(e.pointerId); }catch(err){}
-      e.stopPropagation();
-      // Laisse passer un tick pour absorber le click synthétique qui suit le relâchement,
-      // sans bloquer durablement un futur tap volontaire sur la card.
-      setTimeout(function(){ justDragged = false; }, 250);
-      // Relance le timer de reprise auto à partir du moment du relâchement
-      if(resumeTimer) clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(function(){ startAuto(); }, AUTO_RESUME_DELAY);
-    }
-    slider.addEventListener('pointerup', release, true);
-    slider.addEventListener('pointercancel', release, true);
+    slider.addEventListener('pointerleave', function(e){
+      if(e.pointerType === 'mouse'){ scheduleAuto(900); } // reprise douce après sortie souris
+    });
 
-    // Empêcher le drag-scroll/swipe du carousel de capter le geste qui démarre sur le slider
-    // Phase de capture : s'exécute avant le handler du track, réponse garantie immédiate
+    // ── Tactile (mobile) : glissement au doigt, attrape n'importe où ──
+    slider.addEventListener('pointerdown', function(e){
+      if(e.pointerType === 'mouse') return; // souris = survol, pas d'appui
+      interacting = true;
+      toUser();
+      try{ slider.setPointerCapture(e.pointerId); }catch(err){}
+      target = pctFromX(e.clientX);
+      e.stopPropagation();
+    }, true);
+
+    function endTouch(e){
+      if(!interacting) return;
+      interacting = false;
+      justInteracted = true;
+      try{ slider.releasePointerCapture(e.pointerId); }catch(err){}
+      setTimeout(function(){ justInteracted = false; }, 250);
+      scheduleAuto(1600);
+      e.stopPropagation();
+    }
+    slider.addEventListener('pointerup', endTouch, true);
+    slider.addEventListener('pointercancel', endTouch, true);
+
+    // Empêcher le swipe du carousel de capter le geste démarré sur le slider
     slider.addEventListener('mousedown', function(e){ e.stopPropagation(); }, true);
     slider.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
     slider.addEventListener('touchmove', function(e){ e.stopPropagation(); }, { passive: true, capture: true });
 
-    // Mettre en pause quand la carte sort du viewport (perf + cohérence)
+    // Pause hors viewport (perf)
     if('IntersectionObserver' in window){
       var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if(entry.isIntersecting){ if(!dragging) startAuto(); }
-          else { stopAuto(); }
-        });
+        entries.forEach(function(en){ if(en.isIntersecting){ run(); } else { halt(); } });
       }, { threshold: 0.2 });
       io.observe(slider);
     } else {
-      startAuto();
+      run();
     }
 
-    // Filet de sécurité : si un click/touchend arrive quand même jusqu'à la card
-    // juste après un drag sur le slider, on bloque l'ouverture de la lightbox.
+    // Filet de sécurité : ne pas ouvrir la lightbox juste après un drag tactile
     if(card){
-      card.addEventListener('click', function(e){
-        if(justDragged){ e.stopPropagation(); e.preventDefault(); }
-      }, true);
-      card.addEventListener('touchend', function(e){
-        if(justDragged){ e.stopPropagation(); e.preventDefault(); }
-      }, true);
+      card.addEventListener('click', function(e){ if(justInteracted){ e.stopPropagation(); e.preventDefault(); } }, true);
+      card.addEventListener('touchend', function(e){ if(justInteracted){ e.stopPropagation(); e.preventDefault(); } }, true);
     }
 
-    // Clavier : flèches gauche/droite pour ajuster (accessibilité)
+    // Clavier : flèches gauche/droite (accessibilité)
     slider.addEventListener('keydown', function(e){
-      var current = parseFloat(slider.getAttribute('aria-valuenow')) || 50;
-      if(e.key === 'ArrowLeft'){ stopAuto(); if(resumeTimer) clearTimeout(resumeTimer); setPos(current - 5); pauseAndScheduleResume(); e.preventDefault(); }
-      else if(e.key === 'ArrowRight'){ stopAuto(); if(resumeTimer) clearTimeout(resumeTimer); setPos(current + 5); pauseAndScheduleResume(); e.preventDefault(); }
+      if(e.key === 'ArrowLeft'){ toUser(); target = Math.max(0, target - 5); scheduleAuto(2000); e.preventDefault(); }
+      else if(e.key === 'ArrowRight'){ toUser(); target = Math.min(100, target + 5); scheduleAuto(2000); e.preventDefault(); }
     });
 
-    setPos(50);
-    if(prefersReducedMotion){
-      // Pas d'auto-play : on laisse l'image au repos, contrôle manuel uniquement
-    }
+    apply(50);
   });
 })();
 // Covers carousel
