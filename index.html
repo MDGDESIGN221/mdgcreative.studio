@@ -11930,8 +11930,10 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   </svg>
 </template>
 <style id="mdg-mobile-redesign">
-.about-mob,.collabs-mob,.process-mob,.hero-mob,.sp-mob,.services-mob,.faq-mob{display:none}
+.about-mob,.collabs-mob,.process-mob,.hero-mob,.sp-mob,.services-mob,.faq-mob,.uranus-mob{display:none}
 @keyframes mdgMqScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes uFloatM{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes uTwinkleM{0%,100%{opacity:.25}50%{opacity:.9}}
 .svcm-body{display:none}
 .svcm-item.open .svcm-body{display:block}
 .svcm-sign::after{content:'+'}
@@ -11955,6 +11957,10 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   .sp-mob{display:block!important;background:#0e0e0e;position:relative;z-index:3}
   .services-mob{display:block!important;background:#060606;position:relative;z-index:3}
   .faq-mob{display:block!important;background:#f0ede8;position:relative;z-index:3}
+  #uranus{padding:0!important}
+  #uranus > *:not(.uranus-mob){display:none!important}
+  .uranus-mob{display:block!important;position:relative;z-index:3;background:radial-gradient(ellipse at 50% 16%,#063a30 0%,#021712 42%,#010806 100%)}
+  #hero,#about,#collabs,#process,#social-proof,#services,#faq,#uranus{overflow-x:hidden!important}
   .mdg-mq{animation:mdgMqScroll 26s linear infinite}
 }
 </style>
@@ -12064,10 +12070,12 @@ main > section{margin-top:0!important;margin-bottom:0!important}
       <p style="margin-top:14px;font:400 .8rem Inter;line-height:1.6;color:#9a958f;max-width:290px">L'excellence, c'est mon seul standard.<br><span style="color:#cfc9c2">Brand identity, cover art, motion.</span></p>
       <a href="#contact" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('contact');else document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})" style="margin-top:22px;width:100%;max-width:340px;display:flex;align-items:center;justify-content:center;gap:9px;padding:16px;background:#3DBFA3;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#060606;text-decoration:none">Lancer un projet →</a>
       <a href="#portfolio-accordion" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})" style="margin-top:12px;font-family:'Inter',sans-serif;font-weight:500;font-size:.72rem;letter-spacing:.04em;color:#9a958f;text-decoration:none">Voir 7 ans de travail</a>
-      <div style="display:flex;justify-content:center;gap:22px;margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);width:100%;max-width:340px">
-        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">7+</span><span style="font:400 .58rem Inter;letter-spacing:.06em;color:#7a7a75">ans</span></div>
-        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">50+</span><span style="font:400 .58rem Inter;letter-spacing:.06em;color:#7a7a75">artistes</span></div>
-        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">9+</span><span style="font:400 .58rem Inter;letter-spacing:.06em;color:#7a7a75">pays</span></div>
+      <div style="display:flex;justify-content:center;margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);width:100%;max-width:330px">
+        <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">7+</div><div style="font:500 .6rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:6px">ans</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.14)"></div>
+        <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">50+</div><div style="font:500 .6rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:6px">artistes</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.14)"></div>
+        <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">9+</div><div style="font:500 .6rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:6px">pays</div></div>
       </div>
     </div>
   </div>
@@ -12996,12 +13004,25 @@ main > section{margin-top:0!important;margin-bottom:0!important}
     </div>
     <div style="padding:28px 26px 46px">
       <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#7a7a75;margin-bottom:14px">Sélection</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175569/BICRAVE_e6c5s0.jpg" alt="Bicrave — ISS 814" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659416/Iss_814_-_BONUS_TRACK_rgjtxv.jpg" alt="Bonus Tracks — ISS 814" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175561/2e_cover_T8G_kh7cug.jpg" alt="The 808's God — Omzo Beatz" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659414/ROOTS_2_wgz71f.jpg" alt="Road to Roots 2 — Dopeboy DMG" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <a href="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" data-album="Bicrave" aria-label="Bicrave — ISS 814 sur Spotify" style="text-decoration:none;display:block">
+          <div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:1"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175569/BICRAVE_e6c5s0.jpg" alt="Bicrave — ISS 814" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;top:9px;right:9px;display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 7px;background:rgba(6,6,6,.62);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:100px"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><span style="font:600 .58rem Inter;color:#f0ede8">Spotify</span></span></div>
+          <div style="margin-top:9px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#f0ede8;line-height:1.2">Bicrave</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:2px">ISS 814</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/5PwbwXmsWtVMrwcy1RYSMK" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/5PwbwXmsWtVMrwcy1RYSMK" data-album="Bonus Tracks" aria-label="Bonus Tracks — ISS 814 sur Spotify" style="text-decoration:none;display:block">
+          <div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:1"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659416/Iss_814_-_BONUS_TRACK_rgjtxv.jpg" alt="Bonus Tracks — ISS 814" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;top:9px;right:9px;display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 7px;background:rgba(6,6,6,.62);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:100px"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><span style="font:600 .58rem Inter;color:#f0ede8">Spotify</span></span></div>
+          <div style="margin-top:9px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#f0ede8;line-height:1.2">Bonus Tracks</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:2px">ISS 814</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" data-album="The 808's God" aria-label="The 808's God — Omzo Beatz sur Spotify" style="text-decoration:none;display:block">
+          <div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:1"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175561/2e_cover_T8G_kh7cug.jpg" alt="The 808's God — Omzo Beatz" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;top:9px;right:9px;display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 7px;background:rgba(6,6,6,.62);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:100px"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><span style="font:600 .58rem Inter;color:#f0ede8">Spotify</span></span></div>
+          <div style="margin-top:9px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#f0ede8;line-height:1.2">The 808's God</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:2px">Omzo Beatz</div></div>
+        </a>
+        <a href="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" data-album="Road to Roots 2: X-Files" aria-label="Road to Roots 2: X-Files — Dopeboy DMG sur Spotify" style="text-decoration:none;display:block">
+          <div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:1"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659414/ROOTS_2_wgz71f.jpg" alt="Road to Roots 2 — Dopeboy DMG" style="width:100%;height:100%;object-fit:cover;display:block"><span style="position:absolute;top:9px;right:9px;display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 7px;background:rgba(6,6,6,.62);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:100px"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><span style="font:600 .58rem Inter;color:#f0ede8">Spotify</span></span></div>
+          <div style="margin-top:9px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#f0ede8;line-height:1.2">Road to Roots 2</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:2px">Dopeboy DMG</div></div>
+        </a>
       </div>
+      <div style="display:flex;align-items:center;gap:7px;margin-top:14px;font:400 .64rem Inter;color:#6c6a64"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Appuie sur une cover pour l'écouter sur Spotify</div>
       <a href="#portfolio-accordion" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})" style="display:flex;align-items:center;justify-content:space-between;margin-top:26px;padding:18px 22px;background:#f0ede8;border-radius:14px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#060606;text-decoration:none">Voir les réalisations <span>&rarr;</span></a>
     </div>
   </div>
@@ -14404,9 +14425,9 @@ main > section{margin-top:0!important;margin-bottom:0!important}
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#cba8a4a5bfaaa8bf8ba6afaca8b9aeaabfa2bdaee5b8bfbeafa2a4" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#b4d7dbdac0d5d7c0f4d9d0d3d7c6d1d5c0ddc2d19ac7c0c1d0dddb" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="94f7fbfae0f5f7e0d4f9f0f3f7e6f1f5e0fde2f1bae7e0e1f0fdfb">[email&#160;protected]</span></span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="96f5f9f8e2f7f5e2d6fbf2f1f5e4f3f7e2ffe0f3b8e5e2e3f2fff9">[email&#160;protected]</span></span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -14969,6 +14990,69 @@ function submitPackForm(e) {
   </div>
 
 <section id="uranus">
+
+  <!-- ══ URANUS MOBILE (≤767px) ══ -->
+  <div class="uranus-mob">
+    <div style="position:absolute;inset:0;pointer-events:none;z-index:0">
+      <span style="position:absolute;top:7%;left:18%;width:2px;height:2px;border-radius:50%;background:#bff3e8;animation:uTwinkleM 3s ease-in-out infinite"></span>
+      <span style="position:absolute;top:12%;left:72%;width:3px;height:3px;border-radius:50%;background:#bff3e8;animation:uTwinkleM 4s ease-in-out .5s infinite"></span>
+      <span style="position:absolute;top:26%;left:38%;width:2px;height:2px;border-radius:50%;background:#bff3e8;animation:uTwinkleM 3.5s ease-in-out 1s infinite"></span>
+      <span style="position:absolute;top:5%;left:50%;width:2px;height:2px;border-radius:50%;background:#7fe6d2;animation:uTwinkleM 4.5s ease-in-out .2s infinite"></span>
+      <span style="position:absolute;top:20%;left:9%;width:2px;height:2px;border-radius:50%;background:#bff3e8;animation:uTwinkleM 3s ease-in-out 1.4s infinite"></span>
+      <span style="position:absolute;top:33%;left:84%;width:2px;height:2px;border-radius:50%;background:#7fe6d2;animation:uTwinkleM 3.8s ease-in-out .8s infinite"></span>
+    </div>
+    <div style="position:relative;z-index:1">
+      <div style="text-align:center;padding:46px 20px 0">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.3);border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.18em;color:#7fe6d2"><span style="width:6px;height:6px;border-radius:50%;background:#3DBFA3;box-shadow:0 0 8px #3DBFA3"></span>PACK LANCÉ</span>
+        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.3rem,12vw,2.9rem);line-height:.9;letter-spacing:-.02em;margin-top:18px;color:transparent;-webkit-text-stroke:1.4px #cdf3ea">URANUS</h2>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.35rem,7vw,1.7rem);line-height:1;letter-spacing:.06em;color:#3DBFA3;margin-top:4px">GFX PACK</div>
+        <p style="font:400 .85rem 'Inter',sans-serif;line-height:1.5;color:#8fa8a1;margin:14px auto 0;max-width:300px">La boîte à outils signature de MDG. PSD calqués, fonts, actions PS et textures.</p>
+      </div>
+      <div style="position:relative;display:flex;justify-content:center;padding:30px 0 6px">
+        <div style="position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:236px;height:48px;background:radial-gradient(ellipse,rgba(61,191,163,.45),transparent 70%);filter:blur(10px)"></div>
+        <div style="position:relative;width:min(72vw,260px);animation:uFloatM 6s ease-in-out infinite;filter:drop-shadow(0 28px 60px rgba(0,0,0,.8)) drop-shadow(0 0 46px rgba(61,191,163,.4))">
+          <div style="position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(120,230,210,.25)">
+            <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_560/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Boîte URANUS GFX PACK" style="width:100%;display:block">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,12,10,.94) 2%,rgba(2,12,10,.12) 42%,rgba(2,12,10,.6) 100%)"></div>
+            <div style="position:absolute;top:11px;left:11px;display:inline-flex;align-items:center;gap:6px;padding:4px 9px;background:rgba(2,12,10,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);border-radius:100px;font:700 .5rem 'Inter',sans-serif;letter-spacing:.1em;color:#bff3e8">✦ PACK COMPLET</div>
+            <div style="position:absolute;left:0;right:0;bottom:18px;text-align:center">
+              <div style="font:500 .6rem 'Inter',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7fe6d2">by MDG Creative Studio</div>
+            </div>
+          </div>
+          <div style="position:absolute;top:-10px;right:-6px;background:#3DBFA3;color:#042019;font-family:'Syne',sans-serif;font-weight:800;font-size:.74rem;padding:8px 13px;border-radius:100px;box-shadow:0 8px 22px rgba(61,191,163,.5);transform:rotate(6deg)">19 900 F</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center;padding:18px 26px 0">
+        <span style="font:600 .64rem 'Inter',sans-serif;color:#a9c4bd;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:100px">PSD calqués</span>
+        <span style="font:600 .64rem 'Inter',sans-serif;color:#a9c4bd;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:100px">Actions PS</span>
+        <span style="font:600 .64rem 'Inter',sans-serif;color:#a9c4bd;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:100px">Textures brutes</span>
+        <span style="font:600 .64rem 'Inter',sans-serif;color:#a9c4bd;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:100px">Fonts premium</span>
+      </div>
+      <div style="display:flex;margin:26px 26px 0;border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02)">
+        <div style="flex:1;text-align:center;padding:16px 6px"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#f0fbf8">6</div><div style="font:500 .56rem 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#7fa89f;margin-top:3px">PSD</div></div>
+        <div style="flex:1;text-align:center;padding:16px 6px;border-left:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.1)"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#f0fbf8">4</div><div style="font:500 .56rem 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#7fa89f;margin-top:3px">familles</div></div>
+        <div style="flex:1;text-align:center;padding:16px 6px"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#3DBFA3">∞</div><div style="font:500 .56rem 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#7fa89f;margin-top:3px">à vie</div></div>
+      </div>
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:#7fa89f;padding:30px 26px 14px">Aperçu des PSD inclus <span style="color:#3DBFA3">· 6 exemples</span></div>
+      <div style="display:flex;gap:13px;overflow-x:auto;padding:0 26px 6px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch">
+        <div style="flex:none;width:152px;scroll-snap-align:start"><div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_320/v1776490991/DOPEBOY_DMG_II_o47civ.jpg" alt="Dopeboy DMG II" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)"></div><span style="position:absolute;top:9px;left:9px;font:700 .54rem 'Inter',sans-serif;letter-spacing:.08em;color:#042019;background:#3DBFA3;padding:3px 7px;border-radius:5px">PSD</span><div style="position:absolute;left:11px;bottom:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;color:#f0fbf8">Dopeboy DMG II</div></div></div>
+        <div style="flex:none;width:152px;scroll-snap-align:start"><div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_320/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)"></div><span style="position:absolute;top:9px;left:9px;font:700 .54rem 'Inter',sans-serif;letter-spacing:.08em;color:#042019;background:#3DBFA3;padding:3px 7px;border-radius:5px">PSD</span><div style="position:absolute;left:11px;bottom:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;color:#f0fbf8">Match Day</div></div></div>
+        <div style="flex:none;width:152px;scroll-snap-align:start"><div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_320/v1776659244/MIST_CASH_J24_xt1nzp.jpg" alt="Mist Cash" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)"></div><span style="position:absolute;top:9px;left:9px;font:700 .54rem 'Inter',sans-serif;letter-spacing:.08em;color:#042019;background:#3DBFA3;padding:3px 7px;border-radius:5px">PSD</span><div style="position:absolute;left:11px;bottom:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;color:#f0fbf8">Mist Cash</div></div></div>
+        <div style="flex:none;width:152px;scroll-snap-align:start"><div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_320/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France vs Sénégal" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)"></div><span style="position:absolute;top:9px;left:9px;font:700 .54rem 'Inter',sans-serif;letter-spacing:.08em;color:#042019;background:#3DBFA3;padding:3px 7px;border-radius:5px">PSD</span><div style="position:absolute;left:11px;bottom:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;color:#f0fbf8">France · Sénégal</div></div></div>
+        <div style="flex:none;width:152px;scroll-snap-align:start"><div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_320/v1780822667/USA_VS_SENEGAL_vkq9ol.jpg" alt="USA vs Sénégal" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)"></div><span style="position:absolute;top:9px;left:9px;font:700 .54rem 'Inter',sans-serif;letter-spacing:.08em;color:#042019;background:#3DBFA3;padding:3px 7px;border-radius:5px">PSD</span><div style="position:absolute;left:11px;bottom:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;color:#f0fbf8">USA · Sénégal</div></div></div>
+        <div style="flex:none;width:152px;scroll-snap-align:start"><div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_320/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)"></div><span style="position:absolute;top:9px;left:9px;font:700 .54rem 'Inter',sans-serif;letter-spacing:.08em;color:#042019;background:#3DBFA3;padding:3px 7px;border-radius:5px">PSD</span><div style="position:absolute;left:11px;bottom:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;color:#f0fbf8">Sénégal · KSA</div></div></div>
+      </div>
+      <div style="margin:30px 26px 0;padding:20px 22px;background:linear-gradient(135deg,rgba(61,191,163,.12),rgba(61,191,163,.03));border:1px solid rgba(61,191,163,.25);border-radius:18px">
+        <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:2.1rem;color:#fff;line-height:1">19 900</span><span style="font:600 .82rem 'Inter',sans-serif;color:#3DBFA3">FCFA</span><span style="font:400 .72rem 'Inter',sans-serif;color:#8fa8a1;margin-left:auto">~$30</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px;font:400 .72rem 'Inter',sans-serif;color:#a9c4bd"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Paiement unique, accès à vie</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:7px;font:400 .72rem 'Inter',sans-serif;color:#a9c4bd"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Wave · Orange Money · accès immédiat</div>
+      </div>
+      <div style="padding:22px 26px 44px">
+        <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20je%20veux%20l%27URANUS%20GFX%20PACK%20%E2%9C%A6%20Comment%20je%20proc%C3%A8de%20%3F" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:9px;padding:17px;background:#3DBFA3;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.84rem;color:#042019;text-decoration:none;box-shadow:0 10px 34px rgba(61,191,163,.4)"><svg width="16" height="16" viewBox="0 0 24 24" fill="#042019"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>Obtenir le pack — 19 900 FCFA</a>
+        <a href="https://wa.me/221763772208" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:11px;padding:14px;background:transparent;border:1px solid rgba(255,255,255,.16);border-radius:100px;font-family:'Syne',sans-serif;font-weight:600;font-size:.78rem;color:#cfeee7;text-decoration:none">Une question ? WhatsApp</a>
+      </div>
+    </div>
+  </div>
 
 <!-- ── TRANSITION MDG → URANUS ── -->
 <div style="background:linear-gradient(to bottom,var(--black) 0%,#040f0c 100%);padding:2.5rem 3rem 0;position:relative;z-index:2;overflow:hidden">
@@ -15572,9 +15656,9 @@ function copyWaveNumber(btn) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#c0a3afaeb4a1a3b480ada4a7a3b2a5a1b4a9b6a5eeb3b4b5a4a9af" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#13707c7d67727067537e777470617672677a65763d606766777a7c" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="3b5854554f5a584f7b565f5c58495e5a4f524d5e15484f4e5f5254">[email&#160;protected]</span></span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="6605090812070512260b020105140307120f100348151213020f09">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -17523,13 +17607,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#f89b97968c999b8cb8959c9f9b8a9d998c918e9dd68b8c8d9c9197" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#8deee2e3f9eceef9cde0e9eaeeffe8ecf9e4fbe8a3fef9f8e9e4e2" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="abc8c4c5dfcac8dfebc6cfccc8d9cecadfc2ddce85d8dfdecfc2c4">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="72111d1c06131106321f161511001713061b04175c010607161b1d">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -22007,7 +22091,7 @@ if (document.readyState === 'loading') {
   }
 
   // Intercepter le clic sur chaque cover Spotify
-  document.querySelectorAll('.av2-cover-item[data-spotify]').forEach(function(item){
+  document.querySelectorAll('[data-spotify]').forEach(function(item){
     item.addEventListener('click', function(e){
       e.preventDefault();
       openWarn(item.getAttribute('data-spotify'), item.getAttribute('data-album'));
