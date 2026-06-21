@@ -11922,16 +11922,39 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <!-- Styles déplacés pour rendu non-bloquant -->
 <body>
+<template id="__bundler_thumbnail" data-bg-color="#060606">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#060606"/>
+    <text x="600" y="430" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="180" letter-spacing="8" fill="#f0ede8">MDG</text>
+    <text x="600" y="510" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="34" letter-spacing="14" fill="#3DBFA3">CREATIVE STUDIO</text>
+  </svg>
+</template>
 <style id="mdg-mobile-redesign">
-.about-mob,.collabs-mob,.process-mob{display:none}
+.about-mob,.collabs-mob,.process-mob,.hero-mob,.sp-mob,.services-mob,.faq-mob{display:none}
 @keyframes mdgMqScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.svcm-body{display:none}
+.svcm-item.open .svcm-body{display:block}
+.svcm-sign::after{content:'+'}
+.svcm-item.open .svcm-sign::after{content:'\2013'}
+.faqm-a{display:none}
+.faqm-item.open .faqm-a{display:block}
+.faqm-sign::after{content:'+'}
+.faqm-item.open .faqm-sign::after{content:'\2013'}
 @media(max-width:767px){
   #about > .container{display:none!important}
   #collabs > .container,#collabs > .portraits-section{display:none!important}
   #process > .container{display:none!important}
+  #hero > .hero-photo-wrap,#hero > .hero-left,#hero > .hero-manifeste-line,#hero > .hero-stats{display:none!important}
+  #social-proof > .container{display:none!important}
+  #services > .sec-num,#services > .container{display:none!important}
+  #faq > .container{display:none!important}
   .about-mob{display:block!important;background:#060606;position:relative;z-index:3}
   .collabs-mob{display:block!important;background:#060606;position:relative;z-index:3}
   .process-mob{display:block!important;background:#1a1a1a;position:relative;z-index:3}
+  .hero-mob{display:flex!important;flex-direction:column;position:relative;min-height:100svh;background:#060606;overflow:hidden;z-index:3}
+  .sp-mob{display:block!important;background:#0e0e0e;position:relative;z-index:3}
+  .services-mob{display:block!important;background:#060606;position:relative;z-index:3}
+  .faq-mob{display:block!important;background:#f0ede8;position:relative;z-index:3}
   .mdg-mq{animation:mdgMqScroll 26s linear infinite}
 }
 </style>
@@ -12033,6 +12056,21 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
 </nav>
 <main id="main-content"><section id="hero">
+  <div class="hero-mob">
+    <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1780835363/about_5_jdxu46.jpg" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 12%;filter:grayscale(1) contrast(1.05) brightness(.74);z-index:0">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,#060606 6%,rgba(6,6,6,.15) 52%,rgba(6,6,6,.5) 100%);z-index:1"></div>
+    <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:104px 28px 72px">
+      <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:2.55rem;line-height:.96;letter-spacing:-.02em;color:#f0ede8">L'ÉLITE<br><em style="font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;font-size:2.05rem;color:#f0ede8">se remarque.</em></h1>
+      <p style="margin-top:14px;font:400 .8rem Inter;line-height:1.6;color:#9a958f;max-width:290px">L'excellence, c'est mon seul standard.<br><span style="color:#cfc9c2">Brand identity, cover art, motion.</span></p>
+      <a href="#contact" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('contact');else document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})" style="margin-top:22px;width:100%;max-width:340px;display:flex;align-items:center;justify-content:center;gap:9px;padding:16px;background:#3DBFA3;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#060606;text-decoration:none">Lancer un projet →</a>
+      <a href="#portfolio-accordion" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})" style="margin-top:12px;font-family:'Inter',sans-serif;font-weight:500;font-size:.72rem;letter-spacing:.04em;color:#9a958f;text-decoration:none">Voir 7 ans de travail</a>
+      <div style="display:flex;justify-content:center;gap:22px;margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);width:100%;max-width:340px">
+        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">7+</span><span style="font:400 .58rem Inter;letter-spacing:.06em;color:#7a7a75">ans</span></div>
+        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">50+</span><span style="font:400 .58rem Inter;letter-spacing:.06em;color:#7a7a75">artistes</span></div>
+        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">9+</span><span style="font:400 .58rem Inter;letter-spacing:.06em;color:#7a7a75">pays</span></div>
+      </div>
+    </div>
+  </div>
   <div class="hero-photo-wrap">
     <!-- Image hero responsive — une seule requête selon l'écran -->
     <picture>
@@ -12703,6 +12741,27 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 
 <section id="social-proof" style="background:var(--dark);border-bottom:1px solid var(--border)">
+  <div class="sp-mob">
+    <div style="padding:38px 28px 8px">
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;color:#3DBFA3">RÉFÉRENCES</span></div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.9rem;color:#f0ede8;margin-top:12px;letter-spacing:-.02em">Témoignages</h2>
+    </div>
+    <div style="margin:18px 26px 0;background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:26px 24px">
+      <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:3rem;line-height:.6;color:#3DBFA3;opacity:.5">”</div>
+      <blockquote style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.5rem;line-height:1.3;color:#f0ede8;margin-top:8px">C'est quelqu'un avec qui je bosse beaucoup. Il est hyper correct, hyper travailleur et trop fort.</blockquote>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_120/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814" style="width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(61,191,163,.5)">
+        <div style="flex:1"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">ISS 814</div><div style="font:400 .68rem Inter;color:#7a7a75">Producteur, artiste, 6 ans de collab</div></div>
+      </div>
+    </div>
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#7a7a75;padding:28px 26px 14px">Ils en parlent en vidéo</div>
+    <div style="display:flex;gap:14px;overflow-x:auto;padding:0 26px 26px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch">
+      <a href="https://www.youtube.com/watch?v=q8MD7X3gJLo&t=3552s" target="_blank" rel="noopener" style="flex:none;width:180px;scroll-snap-align:start;text-decoration:none"><div style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/4"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_360/v1780964123/fais_la_premiere_image_que_202606090004_gdh7ky.jpg" alt="ISS 814" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.85),transparent 50%)"></div><div style="position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:rgba(6,6,6,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><div style="position:absolute;left:12px;bottom:12px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;color:#f0ede8">ISS 814</div><div style="font:400 .6rem Inter;color:#aca7a2">Producteur, artiste</div></div></div></a>
+      <a href="https://www.youtube.com/watch?v=7LgPqfl02yU&t=1862s" target="_blank" rel="noopener" style="flex:none;width:180px;scroll-snap-align:start;text-decoration:none"><div style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/4"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_360/v1780964421/fais_la_premiere_image_que_202606090020_taj0wy.jpg" alt="Key Em Ti" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.85),transparent 50%)"></div><div style="position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:rgba(6,6,6,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><div style="position:absolute;left:12px;bottom:12px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;color:#f0ede8">Key Em Ti</div><div style="font:400 .6rem Inter;color:#aca7a2">Artiste</div></div></div></a>
+      <a href="https://www.youtube.com/watch?v=1Qaht5EYKds&t=988s" target="_blank" rel="noopener" style="flex:none;width:180px;scroll-snap-align:start;text-decoration:none"><div style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/4"><img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_360/v1780964691/fais_la_premiere_image_que_202606090024_lnr2gj.jpg" alt="Emza Young Boss" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.85),transparent 50%)"></div><div style="position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:rgba(6,6,6,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><div style="position:absolute;left:12px;bottom:12px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;color:#f0ede8">Emza Young Boss</div><div style="font:400 .6rem Inter;color:#aca7a2">Artiste</div></div></div></a>
+    </div>
+    <div style="padding:0 26px 38px"><div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1px solid rgba(61,191,163,.25);border-radius:100px;font:600 .68rem Inter;letter-spacing:.06em;color:#3DBFA3"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Témoignages publics vérifiés</div></div>
+  </div>
   <!-- ── TÉMOIGNAGES — ce qu'ils disent ── -->
   <div class="container" style="padding:5rem clamp(1.25rem,4vw,3rem) 4rem">
     <div class="sp-header reveal-up">
@@ -13072,6 +13131,39 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <a href="https://www.mdgcreative.studio/services" aria-hidden="true" style="display:none"></a>
 <section id="services" class="wm-section" data-wm="SERVICES">
+  <div class="services-mob">
+    <div style="padding:38px 28px 22px">
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;color:#3DBFA3">EXPERTISES</span></div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.85rem;color:#f0ede8;margin-top:12px;line-height:1.05;letter-spacing:-.02em">Ce que je fais</h2>
+      <p style="font:400 .85rem Inter;color:#7a7a75;margin-top:12px;line-height:1.55">Du logo à la scénographie. Je le fais jusqu'au bout.</p>
+    </div>
+    <div style="padding:0 28px 40px">
+      <div class="svcm-item open" style="border-top:1px solid rgba(255,255,255,.12);padding:20px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.58rem;letter-spacing:.16em;color:#3DBFA3">01</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:#f0ede8;margin-top:4px">Direction Artistique</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:3px">Cover, EP, album</div></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
+        <div class="svcm-body"><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:14px">La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Cover Art</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">EP / Album</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Press Kit</span></div></div>
+      </div>
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:20px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.58rem;letter-spacing:.16em;color:#7a7a75">02</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:#f0ede8;margin-top:4px">Identité de Marque</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:3px">Logo, charte, mockups</div></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
+        <div class="svcm-body"><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:14px">Un logo, oui. Mais surtout comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Logo</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Charte</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Mockups</span></div></div>
+      </div>
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:20px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.58rem;letter-spacing:.16em;color:#7a7a75">03</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:#f0ede8;margin-top:4px">Motion Design</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:3px">Animation, logo reveal, reels</div></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
+        <div class="svcm-body"><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:14px">Le mouvement retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Animation</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Logo Reveal</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Reels</span></div></div>
+      </div>
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:20px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.58rem;letter-spacing:.16em;color:#7a7a75">04</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:#f0ede8;margin-top:4px">Web Design</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:3px">UI / UX, site sur mesure</div></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
+        <div class="svcm-body"><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:14px">Un site qui te représente vraiment, pas un template. Je conçois et développe des sites sur mesure, pensés pour convertir.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Site Web</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">UI / UX</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Landing</span></div></div>
+      </div>
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:20px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.58rem;letter-spacing:.16em;color:#7a7a75">05</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:#f0ede8;margin-top:4px">Print &amp; Éditorial</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:3px">Affiche, flyer, prépresse</div></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
+        <div class="svcm-body"><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:14px">Ce qui se touche marque les esprits autrement. Affiches, flyers, programmes, livrets qui tiennent à l'impression.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Affiche</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Flyer</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Prépresse</span></div></div>
+      </div>
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:20px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.58rem;letter-spacing:.16em;color:#7a7a75">06</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;color:#f0ede8;margin-top:4px">Social Media</div><div style="font:400 .68rem Inter;color:#7a7a75;margin-top:3px">Templates, carrousels</div></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
+        <div class="svcm-body"><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:14px">Une présence cohérente sur les réseaux ne s'improvise pas. Templates et contenus visuels qui gardent une ligne forte.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Instagram</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Templates</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Carrousel</span></div></div>
+      </div>
+    </div>
+  </div>
   <div class="sec-num reveal-fade">04</div>
   <div class="container">
     <div class="svc-header reveal-up">
@@ -14195,6 +14287,38 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <a href="https://www.mdgcreative.studio/faq" aria-hidden="true" style="display:none"></a>
 <section id="faq">
+  <div class="faq-mob">
+    <div style="padding:38px 28px 24px">
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:1.5px;background:#1a8a72"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;color:#1a8a72">FAQ</span></div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.85rem;color:#1a1a18;margin-top:12px;letter-spacing:-.02em">Questions fréquentes</h2>
+    </div>
+    <div style="padding:0 28px 40px">
+      <div class="faqm-item open" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+        <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Comment se passe le paiement ?</h3><span class="faqm-sign" style="color:#1a8a72;font-size:1.3rem;flex-shrink:0"></span></div>
+        <div class="faqm-a"><p style="font:400 .82rem Inter;color:#5c5a54;line-height:1.6;margin-top:12px">50% d'acompte avant démarrage, le reste à la livraison. J'accepte Wave, Orange Money, Free Money et virements. Hors Sénégal : PayPal ou virement IBAN.</p></div>
+      </div>
+      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+        <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Quels sont les délais ?</h3><span class="faqm-sign" style="color:#1a8a72;font-size:1.3rem;flex-shrink:0"></span></div>
+        <div class="faqm-a"><p style="font:400 .82rem Inter;color:#5c5a54;line-height:1.6;margin-top:12px">Single cover, 2 à 4 jours. EP ou mixtape, 5 à 10 jours. Album complet, 10 à 21 jours. Urgence sous 48h, +30%. Sous 24h, +50% selon disponibilité.</p></div>
+      </div>
+      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+        <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Tu travailles hors du Sénégal ?</h3><span class="faqm-sign" style="color:#1a8a72;font-size:1.3rem;flex-shrink:0"></span></div>
+        <div class="faqm-a"><p style="font:400 .82rem Inter;color:#5c5a54;line-height:1.6;margin-top:12px">Oui. Mali, Côte d'Ivoire, Cameroun, France et au-delà. Tout se fait à distance via WhatsApp, email ou appel. La distance n'a jamais ralenti un projet.</p></div>
+      </div>
+      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+        <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Qui est propriétaire des fichiers ?</h3><span class="faqm-sign" style="color:#1a8a72;font-size:1.3rem;flex-shrink:0"></span></div>
+        <div class="faqm-a"><p style="font:400 .82rem Inter;color:#5c5a54;line-height:1.6;margin-top:12px">Toi, une fois le solde réglé. Tu es l'unique propriétaire des visuels finaux. Je garde le droit de les montrer dans mon portfolio. Sources sur demande.</p></div>
+      </div>
+      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+        <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Combien de révisions incluses ?</h3><span class="faqm-sign" style="color:#1a8a72;font-size:1.3rem;flex-shrink:0"></span></div>
+        <div class="faqm-a"><p style="font:400 .82rem Inter;color:#5c5a54;line-height:1.6;margin-top:12px">3 révisions incluses par projet. Au-delà, facturé au temps (min 5 000 XOF). Une révision est un ajustement ciblé, pas un changement de concept complet.</p></div>
+      </div>
+      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);border-bottom:1px solid rgba(0,0,0,.12);padding:22px 0">
+        <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Tu pars de références ?</h3><span class="faqm-sign" style="color:#1a8a72;font-size:1.3rem;flex-shrink:0"></span></div>
+        <div class="faqm-a"><p style="font:400 .82rem Inter;color:#5c5a54;line-height:1.6;margin-top:12px">Absolument, c'est recommandé. Partage tes covers préférées, ambiances, artistes. Je m'en inspire sans copier. L'objectif : que ça te ressemble.</p></div>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <div class="faq-header reveal-up">
       <div class="sec-label reveal-line">FAQ</div>
@@ -14280,9 +14404,9 @@ main > section{margin-top:0!important;margin-bottom:0!important}
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#7c1f1312081d1f083c11181b1f0e191d08150a19520f0809181513" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#cba8a4a5bfaaa8bf8ba6afaca8b9aeaabfa2bdaee5b8bfbeafa2a4" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="81e2eeeff5e0e2f5c1ece5e6e2f3e4e0f5e8f7e4aff2f5f4e5e8ee">[email&#160;protected]</span></span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="94f7fbfae0f5f7e0d4f9f0f3f7e6f1f5e0fde2f1bae7e0e1f0fdfb">[email&#160;protected]</span></span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -15448,9 +15572,9 @@ function copyWaveNumber(btn) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#b6d5d9d8c2d7d5c2f6dbd2d1d5c4d3d7c2dfc0d398c5c2c3d2dfd9" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#c0a3afaeb4a1a3b480ada4a7a3b2a5a1b4a9b6a5eeb3b4b5a4a9af" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="4f2c20213b2e2c3b0f222b282c3d2a2e3b26392a613c3b3a2b2620">[email&#160;protected]</span></span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="3b5854554f5a584f7b565f5c58495e5a4f524d5e15484f4e5f5254">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -17399,13 +17523,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#65060a0b110406112508010206170004110c13004b161110010c0a" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#f89b97968c999b8cb8959c9f9b8a9d998c918e9dd68b8c8d9c9197" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="5e3d31302a3f3d2a1e333a393d2c3b3f2a37283b702d2a2b3a3731">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="abc8c4c5dfcac8dfebc6cfccc8d9cecadfc2ddce85d8dfdecfc2c4">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
