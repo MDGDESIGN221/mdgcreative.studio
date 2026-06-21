@@ -11922,6 +11922,19 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <!-- Styles déplacés pour rendu non-bloquant -->
 <body>
+<style id="mdg-mobile-redesign">
+.about-mob,.collabs-mob,.process-mob{display:none}
+@keyframes mdgMqScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:767px){
+  #about > .container{display:none!important}
+  #collabs > .container,#collabs > .portraits-section{display:none!important}
+  #process > .container{display:none!important}
+  .about-mob{display:block!important;background:#060606;position:relative;z-index:3}
+  .collabs-mob{display:block!important;background:#060606;position:relative;z-index:3}
+  .process-mob{display:block!important;background:#1a1a1a;position:relative;z-index:3}
+  .mdg-mq{animation:mdgMqScroll 26s linear infinite}
+}
+</style>
 
 <div id="easter-egg">
   <div class="ee-particles" id="eeParticles"></div>
@@ -12888,6 +12901,51 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 </div>
 
 <section id="about" class="wm-section" data-wm="MDG">
+  <div class="about-mob">
+    <div style="position:relative;padding:54px 26px 40px">
+      <div style="position:absolute;top:24px;left:18px;font-family:'Instrument Serif',serif;font-style:italic;font-size:8rem;line-height:1;color:#3DBFA3;opacity:.12;pointer-events:none">&ldquo;</div>
+      <div style="position:relative">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.26em;color:#3DBFA3">À PROPOS</span></div>
+        <h2 style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(2.2rem,9vw,2.85rem);color:#f0ede8;line-height:1.1;letter-spacing:-.01em;margin-top:26px">L'exigence grandit plus vite que la production.</h2>
+        <div style="margin-top:24px;font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">Mouhamed Al Amine</div>
+        <div style="font:400 .78rem 'Inter',sans-serif;color:#7a7a75;margin-top:3px">Creative Director, Kaolack</div>
+      </div>
+    </div>
+    <div style="padding:0 26px">
+      <div style="position:relative;border-radius:18px;overflow:hidden;height:320px">
+        <img loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_700/v1780835363/about_5_jdxu46.jpg" alt="Mouhamed Al Amine, directeur créatif MDG Creative Studio" style="width:100%;height:100%;object-fit:cover;object-position:center 6%;display:block;filter:grayscale(1) contrast(1.08) brightness(.95)">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.8),transparent 50%)"></div>
+        <div style="position:absolute;left:18px;bottom:16px;display:inline-flex;align-items:center;gap:8px;padding:7px 13px;background:rgba(6,6,6,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);border-radius:100px">
+          <span style="width:6px;height:6px;border-radius:50%;background:#3DBFA3;box-shadow:0 0 8px #3DBFA3"></span>
+          <span style="font:600 .64rem 'Inter',sans-serif;letter-spacing:.03em;color:#f0ede8">Disponible, Kaolack SN</span>
+        </div>
+      </div>
+    </div>
+    <div style="padding:36px 26px 8px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.09)">
+        <span style="font:400 .8rem 'Inter',sans-serif;color:#7a7a75">Disciplines</span>
+        <span style="font-family:'Syne',sans-serif;font-weight:600;font-size:.82rem;color:#f0ede8;text-align:right">Cover art, branding,<br>motion, web</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.09)">
+        <span style="font:400 .8rem 'Inter',sans-serif;color:#7a7a75">Expérience</span>
+        <span style="font-family:'Syne',sans-serif;font-weight:600;font-size:.82rem;color:#f0ede8">Sept ans, depuis 2017</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.09)">
+        <span style="font:400 .8rem 'Inter',sans-serif;color:#7a7a75">Portée</span>
+        <span style="font-family:'Syne',sans-serif;font-weight:600;font-size:.82rem;color:#f0ede8">Kaolack vers l'international</span>
+      </div>
+    </div>
+    <div style="padding:28px 26px 46px">
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#7a7a75;margin-bottom:14px">Sélection</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175569/BICRAVE_e6c5s0.jpg" alt="Bicrave — ISS 814" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659416/Iss_814_-_BONUS_TRACK_rgjtxv.jpg" alt="Bonus Tracks — ISS 814" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1781175561/2e_cover_T8G_kh7cug.jpg" alt="The 808's God — Omzo Beatz" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1776659414/ROOTS_2_wgz71f.jpg" alt="Road to Roots 2 — Dopeboy DMG" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block">
+      </div>
+      <a href="#portfolio-accordion" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})" style="display:flex;align-items:center;justify-content:space-between;margin-top:26px;padding:18px 22px;background:#f0ede8;border-radius:14px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#060606;text-decoration:none">Voir les réalisations <span>&rarr;</span></a>
+    </div>
+  </div>
   <div class="container">
     <div class="about-v2">
 
@@ -13209,6 +13267,46 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <section id="collabs">
 
+  <div class="collabs-mob">
+    <div style="padding:46px 26px 12px">
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;color:#3DBFA3">COLLABORATIONS D'EXCEPTION</span></div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(5rem,26vw,7.4rem);line-height:.82;letter-spacing:-.04em;margin-top:20px;color:transparent;-webkit-text-stroke:1.5px #f0ede8">50+</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.3rem,6vw,1.6rem);color:#f0ede8;margin-top:10px;letter-spacing:-.015em">artistes accompagnés</div>
+      <p style="font-size:.88rem;color:#7a7a75;margin-top:16px;line-height:1.55">De la scène de Kaolack à l'international. Une image pour chaque son.</p>
+    </div>
+    <div style="display:flex;gap:14px;overflow-x:auto;padding:30px 26px 12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch">
+      <div style="flex:none;width:212px;scroll-snap-align:start;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/4">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777184982/iss_814_v22_dtnhal.jpg" alt="ISS 814" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:grayscale(1) contrast(1.06)">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.92),transparent 46%)"></div>
+        <div style="position:absolute;left:16px;bottom:16px"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:#f0ede8;line-height:1">ISS 814</div><div style="font:400 .68rem 'Inter',sans-serif;color:#3DBFA3;margin-top:4px">Rapper, beatmaker</div></div>
+      </div>
+      <div style="flex:none;width:212px;scroll-snap-align:start;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/4">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777182477/omzo_1_jkbnwn.jpg" alt="Omzo Beatz" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:grayscale(1) contrast(1.06)">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.92),transparent 46%)"></div>
+        <div style="position:absolute;left:16px;bottom:16px"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:#f0ede8;line-height:1">Omzo Beatz</div><div style="font:400 .68rem 'Inter',sans-serif;color:#3DBFA3;margin-top:4px">Beatmaker, producer</div></div>
+      </div>
+      <div style="flex:none;width:212px;scroll-snap-align:start;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/4">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;filter:grayscale(1) contrast(1.06)">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.92),transparent 46%)"></div>
+        <div style="position:absolute;left:16px;bottom:16px"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:#f0ede8;line-height:1">Dopeboy DMG</div><div style="font:400 .68rem 'Inter',sans-serif;color:#3DBFA3;margin-top:4px">Artiste rappeur</div></div>
+      </div>
+      <div style="flex:none;width:212px;scroll-snap-align:start;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/4">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:grayscale(1) contrast(1.06)">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.92),transparent 46%)"></div>
+        <div style="position:absolute;left:16px;bottom:16px"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:#f0ede8;line-height:1">One Lyrical</div><div style="font:400 .68rem 'Inter',sans-serif;color:#3DBFA3;margin-top:4px">Artiste rappeur</div></div>
+      </div>
+    </div>
+    <div style="margin-top:30px;padding:18px 0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);overflow:hidden">
+      <div class="mdg-mq" style="display:flex;width:max-content;font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.04em;color:#5c5a54;white-space:nowrap">
+        <span style="padding-right:2.4em">ISS 814</span><span style="padding-right:2.4em">Oothentik Zeus</span><span style="padding-right:2.4em">Gun Silent Beatz</span><span style="padding-right:2.4em">Dopeboy DMG</span><span style="padding-right:2.4em">One Lyrical</span><span style="padding-right:2.4em">Omzo Beatz</span><span style="padding-right:2.4em">Gaston Bandimic</span><span style="padding-right:2.4em">ISS 814</span><span style="padding-right:2.4em">Oothentik Zeus</span><span style="padding-right:2.4em">Gun Silent Beatz</span><span style="padding-right:2.4em">Dopeboy DMG</span><span style="padding-right:2.4em">One Lyrical</span><span style="padding-right:2.4em">Omzo Beatz</span><span style="padding-right:2.4em">Gaston Bandimic</span>
+      </div>
+    </div>
+    <div style="padding:30px 26px 44px;text-align:center">
+      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.7rem;color:#f0ede8">250+</span>
+      <span style="font:400 .82rem 'Inter',sans-serif;color:#7a7a75;display:block;margin-top:6px">projets livrés, Sénégal et international</span>
+    </div>
+  </div>
+
   <!-- HEADER -->
 
   <div class="container">
@@ -13428,6 +13526,49 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <a href="https://www.mdgcreative.studio/process" aria-hidden="true" style="display:none"></a>
 <section id="process" class="wm-section" data-wm="PROCESS" style="background:#1a1a1a;color:var(--light);border-top:1px solid var(--border)">
+  <div class="process-mob">
+    <div style="padding:42px 30px 28px">
+      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.24em;color:#3DBFA3">MÉTHODOLOGIE</span></div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.7rem,8vw,1.95rem);color:#f0ede8;line-height:1.05;margin-top:16px;letter-spacing:-.02em">Comment je <em style="font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;color:#3DBFA3">travaille</em></h2>
+      <p style="font-size:.86rem;color:#aca7a2;margin-top:14px;line-height:1.55">De la prise de contact à la livraison, voilà exactement comment ça se passe.</p>
+    </div>
+    <div style="padding:8px 30px 24px">
+      <div style="position:relative;margin-left:18px;border-left:1.5px solid transparent;border-image:linear-gradient(to bottom,#3DBFA3,rgba(61,191,163,.05)) 1;padding-left:48px">
+        <div style="position:relative;padding-bottom:34px">
+          <div style="position:absolute;left:-67px;top:-3px;width:36px;height:36px;border-radius:50%;background:#1a1a1a;border:1.5px solid #3DBFA3;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.8rem;color:#3DBFA3;box-shadow:0 0 0 5px #1a1a1a, 0 0 18px rgba(61,191,163,.35)">01</div>
+          <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#f0ede8">Brief et échange</h3>
+          <p style="font-size:.83rem;color:#aca7a2;margin-top:7px;line-height:1.5">Univers, références, contraintes. Cadrés avant le démarrage.</p>
+          <div style="display:inline-flex;align-items:center;gap:7px;margin-top:13px;padding:7px 12px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.2);border-radius:100px;font:600 .68rem 'Inter',sans-serif;color:#3DBFA3">Acompte 50% avant démarrage</div>
+        </div>
+        <div style="position:relative;padding-bottom:34px">
+          <div style="position:absolute;left:-67px;top:-3px;width:36px;height:36px;border-radius:50%;background:#1a1a1a;border:1.5px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.8rem;color:#f0ede8;box-shadow:0 0 0 5px #1a1a1a">02</div>
+          <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#f0ede8">Concept et direction</h3>
+          <p style="font-size:.83rem;color:#aca7a2;margin-top:7px;line-height:1.5">Moodboard, palette, typo. Validés avant production.</p>
+          <div style="display:inline-flex;align-items:center;gap:7px;margin-top:13px;padding:7px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:100px;font:600 .68rem 'Inter',sans-serif;color:#aca7a2">1 révision de direction incluse</div>
+        </div>
+        <div style="position:relative;padding-bottom:34px">
+          <div style="position:absolute;left:-67px;top:-3px;width:36px;height:36px;border-radius:50%;background:#1a1a1a;border:1.5px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.8rem;color:#f0ede8;box-shadow:0 0 0 5px #1a1a1a">03</div>
+          <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#f0ede8">Production</h3>
+          <p style="font-size:.83rem;color:#aca7a2;margin-top:7px;line-height:1.5">L'outil varie selon ce que le projet exige. Preview avant le final.</p>
+          <div style="display:inline-flex;align-items:center;gap:7px;margin-top:13px;padding:7px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:100px;font:600 .68rem 'Inter',sans-serif;color:#aca7a2">Délai tenu, toujours</div>
+        </div>
+        <div style="position:relative">
+          <div style="position:absolute;left:-67px;top:-3px;width:36px;height:36px;border-radius:50%;background:#3DBFA3;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.8rem;color:#060606;box-shadow:0 0 0 5px #1a1a1a, 0 0 20px rgba(61,191,163,.5)">04</div>
+          <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#f0ede8">Livraison et suivi</h3>
+          <p style="font-size:.83rem;color:#aca7a2;margin-top:7px;line-height:1.5">Haute résolution, tous formats. Accès direct maintenu après livraison.</p>
+          <div style="display:inline-flex;align-items:center;gap:7px;margin-top:13px;padding:7px 12px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.2);border-radius:100px;font:600 .68rem 'Inter',sans-serif;color:#3DBFA3">Solde à la livraison finale</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:14px 30px 44px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+        <div style="background:#111;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.3)"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#3DBFA3">6j/7</div><div style="font:600 .74rem 'Inter',sans-serif;color:#f0ede8;margin-top:5px">Disponibilité</div><div style="font:400 .64rem 'Inter',sans-serif;color:#7a7a75;margin-top:3px">Lun à Sam, 9h à minuit</div></div>
+        <div style="background:#111;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.3)"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#3DBFA3">×3</div><div style="font:600 .74rem 'Inter',sans-serif;color:#f0ede8;margin-top:5px">Retouches incluses</div><div style="font:400 .64rem 'Inter',sans-serif;color:#7a7a75;margin-top:3px">Au-delà, au temps passé</div></div>
+        <div style="background:#111;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.3)"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#3DBFA3">50%</div><div style="font:600 .74rem 'Inter',sans-serif;color:#f0ede8;margin-top:5px">Acompte</div><div style="font:400 .64rem 'Inter',sans-serif;color:#7a7a75;margin-top:3px">Wave, OM, virement</div></div>
+        <div style="background:#111;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.3)"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#3DBFA3">+30%</div><div style="font:600 .74rem 'Inter',sans-serif;color:#f0ede8;margin-top:5px">Projet urgent</div><div style="font:400 .64rem 'Inter',sans-serif;color:#7a7a75;margin-top:3px">Livraison en moins de 48h</div></div>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <div class="process-header reveal-up">
       <div class="sec-label reveal-line">Méthodologie</div>
@@ -14139,9 +14280,9 @@ main > section{margin-top:0!important;margin-bottom:0!important}
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="mailto:contact@mdgcreative.studio" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#7c1f1312081d1f083c11181b1f0e191d08150a19520f0809181513" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val">contact@mdgcreative.studio</span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="81e2eeeff5e0e2f5c1ece5e6e2f3e4e0f5e8f7e4aff2f5f4e5e8ee">[email&#160;protected]</span></span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -14285,7 +14426,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 <!-- script déplacé en fin de body -->
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── TABS ── */
 function switchPricingTab(panel, btn) {
   document.querySelectorAll('.pricing-tab').forEach(t => t.classList.remove('active'));
@@ -15307,9 +15448,9 @@ function copyWaveNumber(btn) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="mailto:contact@mdgcreative.studio" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#b6d5d9d8c2d7d5c2f6dbd2d1d5c4d3d7c2dfc0d398c5c2c3d2dfd9" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val">contact@mdgcreative.studio</span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="4f2c20213b2e2c3b0f222b282c3d2a2e3b26392a613c3b3a2b2620">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -15350,7 +15491,7 @@ function copyWaveNumber(btn) {
 
 
 <!-- GSAP placé ici (avant le code d'init, après le HTML) — non-bloquant au chargement initial -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 // Safety net : si GSAP ne se charge pas (réseau lent), on rend tous les éléments visibles
@@ -17258,13 +17399,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="mailto:contact@mdgcreative.studio" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#65060a0b110406112508010206170004110c13004b161110010c0a" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail">contact@mdgcreative.studio</div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="5e3d31302a3f3d2a1e333a393d2c3b3f2a37283b702d2a2b3a3731">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -17300,7 +17441,7 @@ setInterval(updateKaolackTime, 10000);
 
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── MOTION THUMBNAIL → PLAY ──
 document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   thumb.addEventListener('click', function(){
