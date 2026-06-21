@@ -11931,6 +11931,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 </template>
 <style id="mdg-mobile-redesign">
 .about-mob,.collabs-mob,.process-mob,.hero-mob,.sp-mob,.services-mob,.faq-mob,.uranus-mob,.pricing-mob{display:none}
+body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!important}
 @keyframes mdgMqScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes uFloatM{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes uTwinkleM{0%,100%{opacity:.25}50%{opacity:.9}}
@@ -13053,8 +13054,6 @@ main > section{margin-top:0!important;margin-bottom:0!important}
     var closeBtn = document.getElementById('aboutBioClose');
     if (!btn || !overlay || !sheet || !closeBtn) return;
     var savedScrollY = 0;
-    var quickNav = document.getElementById('quick-nav');
-    var tabBar = document.getElementById('mob-tab-bar');
 
     function blockOverlayTouch(e){ e.preventDefault(); }
 
@@ -13062,18 +13061,18 @@ main > section{margin-top:0!important;margin-bottom:0!important}
       savedScrollY = window.scrollY || window.pageYOffset || 0;
       overlay.style.display = 'block';
       sheet.style.display = 'block';
+      document.body.classList.add('bio-sheet-open');
       document.body.style.position = 'fixed';
       document.body.style.top = (-savedScrollY) + 'px';
       document.body.style.left = '0';
       document.body.style.right = '0';
       document.body.style.width = '100%';
       overlay.addEventListener('touchmove', blockOverlayTouch, { passive: false });
-      if (quickNav) quickNav.style.display = 'none';
-      if (tabBar) tabBar.style.display = 'none';
     }
     function close(){
       overlay.style.display = 'none';
       sheet.style.display = 'none';
+      document.body.classList.remove('bio-sheet-open');
       overlay.removeEventListener('touchmove', blockOverlayTouch);
       document.body.style.position = '';
       document.body.style.top = '';
@@ -13081,8 +13080,6 @@ main > section{margin-top:0!important;margin-bottom:0!important}
       document.body.style.right = '';
       document.body.style.width = '';
       window.scrollTo(0, savedScrollY);
-      if (quickNav) quickNav.style.display = '';
-      if (tabBar) tabBar.style.display = '';
     }
     btn.addEventListener('click', open);
     closeBtn.addEventListener('click', close);
