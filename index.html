@@ -8654,80 +8654,6 @@ body,
   /* legacy (masqués) */
   .collabs-hero-left { display: none; }
   .collabs-hero-stat { display: none; }
-  /* ── Objet 3D CSS ── */
-  .collabs-gem-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 360px;
-  }
-  .collabs-gem-scene {
-    width: 220px; height: 220px;
-    position: relative;
-    animation: gem-float 6s ease-in-out infinite;
-  }
-  @keyframes gem-float {
-    0%, 100% { transform: translateY(0px) rotateY(0deg); }
-    50%       { transform: translateY(-18px) rotateY(180deg); }
-  }
-  .collabs-gem-scene svg {
-    width: 100%; height: 100%;
-    filter: drop-shadow(0 0 40px rgba(61,191,163,.35)) drop-shadow(0 0 80px rgba(61,191,163,.15));
-    animation: gem-rotate 12s linear infinite;
-  }
-  @keyframes gem-rotate {
-    from { filter: drop-shadow(0 0 40px rgba(61,191,163,.35)) drop-shadow(0 0 80px rgba(61,191,163,.15)); }
-    to   { filter: drop-shadow(0 0 40px rgba(61,191,163,.35)) drop-shadow(0 0 80px rgba(61,191,163,.15)); }
-  }
-  /* Orbes ambiantes */
-  .gem-orb {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: .7;
-  }
-  .gem-orb-1 {
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(61,191,163,.12) 0%, transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    animation-delay: 0s;
-  }
-  .gem-orb-2 {
-    width: 180px; height: 180px;
-    background: radial-gradient(circle, rgba(61,191,163,.18) 0%, transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    animation-delay: -2s;
-  }
-  @keyframes orb-pulse {
-    0%, 100% { opacity: .6; transform: translate(-50%,-50%) scale(1); }
-    50%       { opacity: 1;  transform: translate(-50%,-50%) scale(1.15); }
-  }
-  /* Counter flottant */
-  .gem-counter {
-    position: absolute;
-    bottom: 24px; right: 24px;
-    display: flex; flex-direction: column;
-    align-items: flex-end;
-  }
-  .gem-counter-num {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 3.2rem;
-    color: var(--accent);
-    line-height: 1;
-    letter-spacing: -.06em;
-  }
-  .gem-counter-txt {
-    font-size: .72rem;
-    color: var(--dim);
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-top: .2rem;
-  }
 
   
 
@@ -14858,9 +14784,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
           <span class="cfm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="#042019"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg></span>
           <b>WhatsApp · +221 76 377 22 08</b>
         </a>
-        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#8ae7eeedeeeff9e3ede4b8b8bbcaede7ebe3e6a4e9e5e7">
+        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#1f727b787b7a6c7678712d2d2e5f78727e7673317c7072">
           <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
-          <b>Email</b><span><span class="__cf_email__" data-cfemail="cca1a8aba8a9bfa5aba2fefefd8caba1ada5a0e2afa3a1">[email&#160;protected]</span></span>
+          <b>Email</b><span><span class="__cf_email__" data-cfemail="472a23202322342e202975757607202a262e2b6924282a">[email&#160;protected]</span></span>
         </a>
         <a class="cfm-tile" href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">
           <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
@@ -14899,9 +14825,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#c1aca5a6a5a4b2a8a6aff3f3f081a6aca0a8adefa2aeac" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#402d242724253329272e72727100272d21292c6e232f2d" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="0d60696a69687e646a633f3f3c4d6a606c6461236e6260">[email&#160;protected]</span></span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="99f4fdfefdfceaf0fef7ababa8d9fef4f8f0f5b7faf6f4">[email&#160;protected]</span></span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -15045,7 +14971,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 <!-- script déplacé en fin de body -->
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── TABS ── */
 function switchPricingTab(panel, btn) {
   document.querySelectorAll('.pricing-tab').forEach(t => t.classList.remove('active'));
@@ -16323,9 +16249,9 @@ function copyWaveNumber(btn) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#90fdf4f7f4f5e3f9f7fea2a2a1d0f7fdf1f9fcbef3fffd" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#b2dfd6d5d6d7c1dbd5dc808083f2d5dfd3dbde9cd1dddf" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="177a73707372647e707925252657707a767e7b3974787a">[email&#160;protected]</span></span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="c1aca5a6a5a4b2a8a6aff3f3f081a6aca0a8adefa2aeac">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -16366,7 +16292,7 @@ function copyWaveNumber(btn) {
 
 
 <!-- GSAP placé ici (avant le code d'init, après le HTML) — non-bloquant au chargement initial -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 // Safety net : si GSAP ne se charge pas (réseau lent), on rend tous les éléments visibles
@@ -16387,7 +16313,7 @@ setTimeout(function(){
   }
 }, _safetyDelay);
 </script>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── LOADER CINÉMATIQUE ──
 (function(){
   var loader = document.getElementById('loader');
@@ -18276,13 +18202,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#adc0c9cac9c8dec4cac39f9f9cedcac0ccc4c183cec2c0" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#9cf1f8fbf8f9eff5fbf2aeaeaddcfbf1fdf5f0b2fff3f1" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="dcb1b8bbb8b9afb5bbb2eeeeed9cbbb1bdb5b0f2bfb3b1">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="553831323130263c323b676764153238343c397b363a38">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -18318,7 +18244,7 @@ setInterval(updateKaolackTime, 10000);
 
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── MOTION THUMBNAIL → PLAY ──
 document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   thumb.addEventListener('click', function(){
