@@ -11966,6 +11966,11 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   #hero,#about,#collabs,#process,#services,#faq,#uranus,#pricing{overflow-x:hidden!important}
   #social-proof{overflow-x:clip!important}
   .mdg-mq{animation:mdgMqScroll 26s linear infinite}
+  .mrev{opacity:0;transform:translateY(16px);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1);will-change:opacity,transform}
+  .mrev.in{opacity:1;transform:none}
+}
+@media(max-width:767px) and (prefers-reduced-motion:reduce){
+  .mrev,.mrev.in{opacity:1 !important;transform:none !important;transition:none !important}
 }
 </style>
 
@@ -22531,5 +22536,31 @@ if (document.readyState === 'loading') {
 })();
 </script>
 <!-- ── SPLIT-TEXT REVEAL : désactivé sur les titres de section (déjà animés par .reveal-up GSAP) pour éviter les conflits ── -->
+<!-- ── REVEAL D'ENTRÉE MOBILE (transform+opacity, one-shot, reduced-motion safe) ── -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    if (!window.matchMedia || !matchMedia('(max-width:767px)').matches) return;
+    if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    var blocks = document.querySelectorAll('.about-mob,.collabs-mob,.process-mob,.sp-mob,.services-mob,.faq-mob,.pricing-mob,.uranus-mob');
+    Array.prototype.forEach.call(blocks, function (block) {
+      var i = 0;
+      Array.prototype.forEach.call(block.children, function (el) {
+        var pos = getComputedStyle(el).position;
+        if (pos === 'sticky' || pos === 'absolute' || pos === 'fixed') return;
+        el.classList.add('mrev');
+        el.style.transitionDelay = Math.min(i * 55, 220) + 'ms';
+        io.observe(el);
+        i++;
+      });
+    });
+  } catch (err) {}
+});
+</script>
 </body>
 </html>
