@@ -14694,6 +14694,8 @@ function switchPricingTab(panel, btn) {
   const waHref = (name, tier) => WA_BASE + encodeURIComponent('Salut MDG, je veux le pack ' + name + ' (' + tier + '). Comment je procède ?');
 
   const labels = { single: 'Single', ep: 'EP', album: 'Album', campagne: 'Campagne' };
+  const tierColors = { Silver:'#cdd2e0', Gold:'#e9c14a', Diamond:'#c084fc', Spotlight:'#3DBFA3', Magnum:'#3DBFA3', Prestige:'#3DBFA3', Rollout:'#3DBFA3' };
+  const forWhom = { Silver:'Pour un single rapide', Spotlight:'Single — promo complète', Gold:'Pour un EP ou mixtape', Magnum:'EP — sortie complète', Diamond:"Album — l'essentiel", Prestige:"Album — l'arsenal complet", Rollout:'Sortie majeure / label' };
 
   const data = {
     single: {
@@ -14794,8 +14796,9 @@ function switchPricingTab(panel, btn) {
 
       card.innerHTML = badge
         + '<div style="font-family:\'Syne\',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:#7fa89f">' + escapeHtml(p.tier) + '</div>'
-        + '<div style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.5rem;color:#f0ede8;margin-top:5px">' + escapeHtml(p.name) + '</div>'
-        + '<div style="margin-top:12px"><div style="display:flex;align-items:baseline;gap:7px">'
+        + '<div style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.5rem;color:' + (tierColors[p.name] || '#f0ede8') + ';margin-top:5px">' + escapeHtml(p.name) + '</div>'
+        + '<div style="font:400 .72rem Inter,sans-serif;color:#8a8780;margin-top:3px">' + escapeHtml(forWhom[p.name] || '') + '</div>'
+        + '<div style="margin-top:14px"><div style="display:flex;align-items:baseline;gap:7px">'
         + '<span style="font-family:\'Syne\',sans-serif;font-weight:800;font-size:1.6rem;color:#fff;line-height:1">' + escapeHtml(p.price) + '</span>'
         + '<span style="font:600 .8rem Inter,sans-serif;color:#3DBFA3">XOF</span>'
         + '<span style="font:400 .72rem Inter,sans-serif;color:#7a7a75;margin-left:auto;align-self:flex-end">' + escapeHtml(p.usd) + '</span>'
@@ -15270,16 +15273,16 @@ function submitPackForm(e) {
         <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.35rem,7vw,1.7rem);line-height:1;letter-spacing:.06em;color:#3DBFA3;margin-top:4px">GFX PACK</div>
         <p style="font:400 .85rem 'Inter',sans-serif;line-height:1.5;color:#8fa8a1;margin:14px auto 0;max-width:300px">La boîte à outils signature de MDG. PSD calqués, fonts, actions PS et textures.</p>
       </div>
-      <div style="position:relative;display:flex;justify-content:center;padding:30px 0 6px">
-        <div style="position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:236px;height:48px;background:radial-gradient(ellipse,rgba(61,191,163,.45),transparent 70%);filter:blur(10px)"></div>
-        <div style="position:relative;width:min(72vw,260px);animation:uFloatM 6s ease-in-out infinite;filter:drop-shadow(0 28px 60px rgba(0,0,0,.8)) drop-shadow(0 0 46px rgba(61,191,163,.4))">
-          <div style="position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(120,230,210,.25)">
-            <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_560/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Boîte URANUS GFX PACK" style="width:100%;display:block">
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,12,10,.94) 2%,rgba(2,12,10,.12) 42%,rgba(2,12,10,.6) 100%)"></div>
-            <div style="position:absolute;top:11px;left:11px;display:inline-flex;align-items:center;gap:6px;padding:4px 9px;background:rgba(2,12,10,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);border-radius:100px;font:700 .5rem 'Inter',sans-serif;letter-spacing:.1em;color:#bff3e8">✦ PACK COMPLET</div>
-            <div style="position:absolute;left:0;right:0;bottom:18px;text-align:center">
-              <div style="font:500 .6rem 'Inter',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7fe6d2">by MDG Creative Studio</div>
-            </div>
+      <div style="position:relative;display:flex;justify-content:center;padding:28px 0 6px">
+        <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:236px;height:48px;background:radial-gradient(ellipse,rgba(61,191,163,.45),transparent 70%);filter:blur(10px)"></div>
+        <div style="position:relative;width:min(72vw,250px);filter:drop-shadow(0 28px 60px rgba(0,0,0,.8)) drop-shadow(0 0 46px rgba(61,191,163,.4))">
+          <div style="position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(120,230,210,.3)">
+            <video id="uTeaserMob" autoplay muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/djdkpihuz/video/upload/so_0/v1782069650/URANUS_GFX_TEASER_xypg2i.jpg" style="width:100%;display:block;background:#020a08">
+              <source src="https://res.cloudinary.com/djdkpihuz/video/upload/f_auto,q_auto/v1782069650/URANUS_GFX_TEASER_xypg2i.mp4" type="video/mp4">
+            </video>
+            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(2,12,10,.5) 0%,transparent 26%)"></div>
+            <div style="position:absolute;top:11px;left:11px;display:inline-flex;align-items:center;gap:6px;padding:4px 9px;background:rgba(2,12,10,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);border-radius:100px;font:700 .5rem 'Inter',sans-serif;letter-spacing:.1em;color:#bff3e8">✦ TEASER</div>
+            <button type="button" aria-label="Activer le son" onclick="var v=document.getElementById('uTeaserMob');if(v){v.muted=!v.muted;this.querySelector('span').textContent=v.muted?'Activer le son':'Couper le son';if(!v.muted){v.play();}}" style="position:absolute;bottom:11px;right:11px;display:inline-flex;align-items:center;gap:6px;padding:7px 11px;background:rgba(2,12,10,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);border-radius:100px;font:600 .58rem 'Inter',sans-serif;letter-spacing:.04em;color:#f0fbf8;cursor:pointer">♪ <span>Activer le son</span></button>
           </div>
           <div style="position:absolute;top:-10px;right:-6px;background:#3DBFA3;color:#042019;font-family:'Syne',sans-serif;font-weight:800;font-size:.74rem;padding:8px 13px;border-radius:100px;box-shadow:0 8px 22px rgba(61,191,163,.5);transform:rotate(6deg)">19 900 F</div>
         </div>
