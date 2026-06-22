@@ -8546,14 +8546,52 @@ body,
 /* ============================================================ */
 .collabs-hero {
     display: grid;
-    grid-template-columns: 1fr 420px;
-    align-items: center;
+    grid-template-columns: 1fr auto;
+    align-items: end;
     gap: 4rem;
     padding: 4rem 3rem 3rem;
     position: relative;
     z-index: 2;
   }
   .collabs-hero-left { display: flex; flex-direction: column; justify-content: center; }
+  /* ── Stat éditoriale desktop — chiffre contour, aligné à droite ── */
+  .collabs-hero-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    padding-bottom: .4rem;
+  }
+  .collabs-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(6rem, 12vw, 12.5rem);
+    line-height: .78;
+    letter-spacing: -.05em;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--light);
+  }
+  .collabs-stat-num span {
+    color: var(--accent);
+    -webkit-text-stroke: 2px var(--accent);
+  }
+  .collabs-stat-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+    color: var(--light);
+    letter-spacing: -.015em;
+    margin-top: .7rem;
+  }
+  .collabs-stat-desc {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(.85rem, 1.1vw, .95rem);
+    color: var(--dim);
+    line-height: 1.6;
+    max-width: 330px;
+    margin-top: .9rem;
+  }
   .collabs-hero-title {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
@@ -8836,29 +8874,14 @@ body,
 /* ============================================================ */
 /* SECTION — Overlays & Modals */
 /* ============================================================ */
-/* ── MODIF 7 : Process sur fond vert — overrides ── */
-#process { background: var(--accent) !important; }
-#process .sec-label { color: rgba(6,6,6,.55) !important; }
-#process .sec-label::after { background: rgba(6,6,6,.25) !important; }
-#process .svc-h2 { color: var(--black) !important; }
-#process .svc-h2 em { color: rgba(6,6,6,.6) !important; }
-#process .sec-sub { color: rgba(6,6,6,.65) !important; }
-#process .pieter-step-num { color: rgba(6,6,6,.18) !important; }
-#process .pieter-step-badge { background: rgba(6,6,6,.1) !important; color: rgba(6,6,6,.7) !important; border-color: rgba(6,6,6,.15) !important; }
-/* Overrides pour les step-content à fond noir */
-#process .pieter-step-content .pieter-step-num { color: rgba(255,255,255,0.08) !important; }
+/* ── Process : fond sombre unifié (cohérence avec le reste du site) ──
+   Anciennement fond vert (accent). Repassé en sombre : le teal redevient
+   l'accent (numéros, pills, traits) et les textes reprennent leur couleur
+   claire par défaut. Les panneaux .pieter-step-content sont déjà en var(--black). */
+#process { background: #1a1a1a !important; }
+/* Badge des étapes — teal sur les panneaux sombres */
 #process .pieter-step-content .pieter-step-badge { background: rgba(255,255,255,0.04) !important; color: var(--accent) !important; border-color: rgba(255,255,255,0.11) !important; }
-/* Titre/desc en noir seulement sur le fond vert (section), pas dans les step-content à fond noir */
-#process > *:not(.pieter-process) .pieter-step-title { color: var(--black) !important; }
-#process .pieter-step-content .pieter-step-title { color: var(--light) !important; }
-#process > *:not(.pieter-process) .pieter-step-desc { color: rgba(6,6,6,.7) !important; }
-#process .pieter-step-content .pieter-step-desc { color: var(--off) !important; }
-#process .pieter-step-rule { background: rgba(6,6,6,.12) !important; }
-#process .pieter-step-tag { background: rgba(6,6,6,.1) !important; color: rgba(6,6,6,.75) !important; border-color: rgba(6,6,6,.12) !important; }
-#process .pieter-step-media { border-color: rgba(6,6,6,.12) !important; background: rgba(6,6,6,.06) !important; }
-#process .pieter-step-duration { color: rgba(6,6,6,.55) !important; }
-#process .process-header { border-color: rgba(6,6,6,.08) !important; }
-#process .reveal-line::before { background: rgba(6,6,6,.25) !important; }
+#process .pieter-step-content .pieter-step-badge::before { background: var(--accent) !important; }
 
 #pieter-process-wrap { position: relative; }
 
@@ -13511,12 +13534,11 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
         </p>
       </div>
 
-      <!-- Compteur artistes -->
-      <div class="collabs-gem-wrap">
-        <div class="gem-counter">
-          <span class="gem-counter-num">50+</span>
-          <span class="gem-counter-txt">artistes</span>
-        </div>
+      <!-- Stat éditoriale — chiffre contour + description (desktop large) -->
+      <div class="collabs-hero-stat">
+        <div class="collabs-stat-num">50<span>+</span></div>
+        <div class="collabs-stat-label">artistes accompagnés</div>
+        <p class="collabs-stat-desc">De la scène de Kaolack à l'international. Une image pour chaque son.</p>
       </div>
     </div>
   </div>
@@ -13990,6 +14012,189 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     <div style="text-align:center;padding:30px 26px 40px;font:400 .74rem Inter,sans-serif;color:#6c6a64">Acompte 50% · Wave · Orange Money · 3 révisions incluses</div>
 
   </div>
+
+  <!-- ══ PRICING DESKTOP (≥768px) — adapté du mobile, layout large ══ -->
+  <style>
+  .pricing-desk{display:none}
+  @media(min-width:768px){
+    #pricing > .container, #pricing > .sec-num{display:none !important}
+    .pricing-desk{display:block;max-width:1200px;margin:0 auto;padding:1rem 3rem 2rem;position:relative;z-index:2}
+  }
+  .pd-eyebrow{display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.24em;color:var(--accent)}
+  .pd-eyebrow span{width:26px;height:1.5px;background:var(--accent)}
+  .pd-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.6rem,4vw,3.6rem);color:var(--light);text-align:center;margin-top:1.1rem;letter-spacing:-.03em;line-height:1}
+  .pd-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--accent)}
+  .pd-sub{text-align:center;color:var(--dim);font-size:1rem;margin-top:.85rem;font-weight:300}
+  .pd-scope{display:inline-flex;align-items:center;gap:.55rem;margin:1.4rem auto 0;padding:.6rem 1.1rem;border:1px solid var(--border);border-radius:100px;font-size:.76rem;color:var(--off);font-weight:300}
+  .pd-scope svg{stroke:var(--accent);flex-shrink:0}
+  .pd-scope-wrap{text-align:center}
+  .pd-format-bar{display:flex;align-items:center;justify-content:center;gap:1.4rem;margin:2.75rem 0 0;flex-wrap:wrap}
+  .pd-format-lead{font:600 .62rem 'Inter',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .pd-format-grid{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:center}
+  .pd-fbtn{padding:.85rem 1.7rem;border-radius:100px;font-family:'Syne',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;transition:background .2s,color .2s,border-color .2s;white-space:nowrap;background:transparent;color:var(--off);border:1px solid var(--border2)}
+  .pd-fbtn:hover{border-color:rgba(255,255,255,.32);color:var(--light)}
+  .pd-fbtn.active{background:var(--accent);color:#042019;border-color:var(--accent)}
+  .pd-packs{display:flex;justify-content:center;align-items:stretch;gap:1.6rem;flex-wrap:wrap;margin-top:2.75rem}
+  .pd-card{border-radius:22px;padding:36px 32px;position:relative;flex:0 1 400px;max-width:440px;display:flex;flex-direction:column}
+  .pd-card.solo{flex:0 1 620px;max-width:640px}
+  .pd-card-base{background:#0d0d0d;border:1px solid rgba(255,255,255,.08)}
+  .pd-card-feat{background:linear-gradient(160deg,rgba(61,191,163,.12),rgba(13,13,13,.6));border:1.5px solid var(--accent);box-shadow:0 24px 60px rgba(61,191,163,.16)}
+  .pd-card-badge{position:absolute;top:-13px;left:32px;background:var(--accent);color:#042019;font-family:'Syne',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:100px}
+  .pd-card-tier{font-family:'Syne',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:#7fa89f}
+  .pd-card-name{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;margin-top:.4rem;letter-spacing:-.02em;line-height:1}
+  .pd-card-for{font:400 .82rem 'Inter',sans-serif;color:var(--dim);margin-top:.45rem}
+  .pd-card-price{display:flex;align-items:baseline;gap:.5rem;margin-top:1.3rem}
+  .pd-card-amt{font-family:'Syne',sans-serif;font-weight:800;font-size:2.3rem;color:#fff;line-height:1;letter-spacing:-.03em}
+  .pd-card-xof{font:600 .95rem 'Inter',sans-serif;color:var(--accent)}
+  .pd-card-usd{font:400 .82rem 'Inter',sans-serif;color:var(--dim);margin-left:auto;align-self:flex-end}
+  .pd-card-div{height:1px;background:rgba(255,255,255,.1);margin:1.6rem 0}
+  .pd-card-feats{list-style:none;display:flex;flex-direction:column;gap:.9rem;margin:0;padding:0}
+  .pd-card-feats li{display:flex;gap:.7rem;font:400 .9rem/1.5 'Inter',sans-serif;color:var(--off)}
+  .pd-card-feats li svg{stroke:var(--accent);flex-shrink:0;margin-top:3px}
+  .pd-card-feats strong{color:var(--light);font-weight:600}
+  .pd-card-cta{margin-top:auto;padding-top:1.8rem}
+  .pd-card-cta a{display:block;text-align:center;text-decoration:none;padding:1rem;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;transition:transform .2s,box-shadow .2s,background .2s}
+  .pd-card-cta a:hover{transform:translateY(-2px)}
+  .pd-cta-feat{background:var(--accent);color:#042019}
+  .pd-cta-feat:hover{box-shadow:0 10px 30px rgba(61,191,163,.3)}
+  .pd-cta-base{background:transparent;color:var(--light);border:1px solid rgba(255,255,255,.22)}
+  .pd-cta-base:hover{border-color:var(--accent);color:var(--accent)}
+  .pd-compare{max-width:780px;margin:2.5rem auto 0}
+  .pd-compare-title{text-align:center;font-family:'Syne',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:1.1rem}
+  .pd-compare-table{border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden}
+  .pd-compare-head{display:grid;grid-template-columns:1.4fr 1fr 1fr;background:#0d0d0d}
+  .pd-compare-head > div{padding:1rem 1.1rem;font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;text-align:center;border-left:1px solid rgba(255,255,255,.08)}
+  .pd-compare-head > div:first-child{border-left:none}
+  .pd-compare-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;border-top:1px solid rgba(255,255,255,.07)}
+  .pd-compare-row > div{padding:.95rem 1.1rem;font:400 .85rem 'Inter',sans-serif;border-left:1px solid rgba(255,255,255,.06)}
+  .pd-compare-row > div:first-child{border-left:none;color:var(--off)}
+  .pd-compare-row > div:nth-child(2){text-align:center;color:var(--dim);font-weight:600}
+  .pd-compare-row > div:nth-child(3){text-align:center;color:#e9efee;font-weight:600;background:rgba(61,191,163,.05)}
+  .pd-addons-wrap{margin-top:4rem}
+  .pd-addons-label{font-family:'Syne',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:1.4rem}
+  .pd-addons{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:960px;margin:0 auto}
+  .pd-addon{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.4rem;transition:border-color .25s,transform .3s}
+  .pd-addon:hover{border-color:var(--border2);transform:translateY(-3px)}
+  .pd-addon-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--light)}
+  .pd-addon-price{font:400 .78rem 'Inter',sans-serif;color:var(--dim);margin-top:.4rem}
+  .pd-foot{text-align:center;color:var(--dim);font-size:.82rem;margin-top:3rem;font-weight:300}
+  </style>
+  <div class="pricing-desk">
+    <div class="pd-eyebrow"><span></span>Investissement<span></span></div>
+    <h2 class="pd-title">Tu sors <em>quoi ?</em></h2>
+    <p class="pd-sub">On te montre le pack adapté. Le reste sur devis.</p>
+    <div class="pd-scope-wrap">
+      <div class="pd-scope">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        Covers, affiches &amp; vidéos uniquement. Les autres domaines sont sur devis.
+      </div>
+    </div>
+    <div class="pd-format-bar">
+      <span class="pd-format-lead">Je sors un :</span>
+      <div class="pd-format-grid" id="pdFormatGrid"></div>
+    </div>
+    <div class="pd-packs" id="pdPacks"></div>
+    <div class="pd-compare" id="pdCompareWrap"></div>
+    <div class="pd-addons-wrap">
+      <div class="pd-addons-label">Ajoute à la carte</div>
+      <div class="pd-addons">
+        <div class="pd-addon"><div class="pd-addon-name">Lyrics Video</div><div class="pd-addon-price">dès 60K XOF</div></div>
+        <div class="pd-addon"><div class="pd-addon-name">Motion Cover</div><div class="pd-addon-price">dès 40K XOF</div></div>
+        <div class="pd-addon"><div class="pd-addon-name">Canvas</div><div class="pd-addon-price">dès 30K XOF</div></div>
+        <div class="pd-addon"><div class="pd-addon-name">Flyers &amp; Affiches</div><div class="pd-addon-price">dès 25K XOF</div></div>
+      </div>
+    </div>
+    <div class="pd-foot">Acompte 50% · Wave · Orange Money · 3 révisions incluses</div>
+  </div>
+  <script>
+  (function initPricingDesk(){
+    const grid = document.getElementById('pdFormatGrid');
+    const packsWrap = document.getElementById('pdPacks');
+    const compareWrap = document.getElementById('pdCompareWrap');
+    if (!grid || !packsWrap || !compareWrap) return;
+
+    const WA_BASE = 'https://wa.me/221763772208?text=';
+    const waHref = (name, tier) => WA_BASE + encodeURIComponent('Salut MDG, je veux le pack ' + name + ' (' + tier + '). Comment je procède ?');
+    const labels = { single:'Single', ep:'EP', album:'Album', campagne:'Campagne' };
+    const tierColors = { Silver:'#cdd2e0', Gold:'#e9c14a', Diamond:'#c084fc', Spotlight:'#3DBFA3', Magnum:'#3DBFA3', Prestige:'#3DBFA3', Rollout:'#3DBFA3' };
+    const forWhom = { Silver:'Pour un single rapide', Spotlight:'Single — promo complète', Gold:'Pour un EP ou mixtape', Magnum:'EP — sortie complète', Diamond:"Album — l'essentiel", Prestige:"Album — l'arsenal complet", Rollout:'Sortie majeure / label' };
+    const data = {
+      single:{ packs:[
+        { tier:'Cover seule', name:'Silver', price:'25.000', usd:'~$40', featured:false, feat:['1 concept graphique pour ta cover','2 révisions incluses','Livrables PNG / JPG haute résolution'] },
+        { tier:'Sortie complète', name:'Spotlight', price:'175.000', usd:'~$270', featured:true, feat:['Cover + motion cover simple (Canvas)','Visuels COMING SOON / OUT NOW','1 visualizer ou lyrics video au choix'] }
+      ], compare:{ a:'Silver', b:'Spotlight', rows:[
+        { label:'Concept cover', a:'1', b:'1' },
+        { label:'Motion + Canvas', a:'—', b:'✓' },
+        { label:'Visuels promo', a:'—', b:'Coming · Out Now' },
+        { label:'Visualizer / lyrics', a:'—', b:'1 au choix' }
+      ] } },
+      ep:{ packs:[
+        { tier:'Cover seule', name:'Gold', price:'50.000', usd:'~$75', featured:false, feat:['1 concept graphique pour ta cover','3 révisions incluses','Tracklist complète','Visuels COMING SOON & OUT NOW'] },
+        { tier:'Sortie complète', name:'Magnum', price:'450.000', usd:'~$690', featured:true, feat:['Cover EP niveau Gold + tracklist','Motion cover avancé + Canvas','Promo : Coming, Reveal, Pre-save, Out Now','Visualizer par titre + pack bannières'] }
+      ], compare:{ a:'Gold', b:'Magnum', rows:[
+        { label:'Cover + tracklist', a:'✓', b:'✓' },
+        { label:'Motion + Canvas', a:'—', b:'✓' },
+        { label:'Visuels promo', a:'2', b:'4 visuels' },
+        { label:'Visualizer / titre', a:'—', b:'✓' },
+        { label:'Bannières', a:'—', b:'✓' }
+      ] } },
+      album:{ packs:[
+        { tier:'Cover seule', name:'Diamond', price:'100.000', usd:'~$150', featured:false, feat:['1 concept graphique premium','4 révisions incluses','Tracklist pro + support réseaux','Bonus : mini direction artistique'] },
+        { tier:'Sortie complète', name:'Prestige', price:'800.000', usd:'~$1,200', featured:true, feat:['Cover premium + mini direction artistique','Tracklist pro + motion premium + Canvas','Visuels promo étendus + bannières','Visualizer par titre + template story'] }
+      ], compare:{ a:'Diamond', b:'Prestige', rows:[
+        { label:'Cover', a:'Premium', b:'Premium + DA' },
+        { label:'Révisions', a:'4', b:'4+' },
+        { label:'Motion + Canvas', a:'—', b:'✓' },
+        { label:'Promo étendue', a:'—', b:'✓' },
+        { label:'Visualizer / titre', a:'—', b:'✓' }
+      ] } },
+      campagne:{ packs:[
+        { tier:'Full Campaign', name:'Rollout', price:'1.200.000', usd:'~$1,850', featured:true, feat:['Direction artistique complète','Tout le pack Prestige inclus','Vidéo announcement + bannières YT/FB/X','Plan de diffusion 2 semaines (IG/FB/X/TikTok)'] }
+      ], compare:null }
+    };
+    let fmt = 'ep';
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+    function renderFormats(){
+      grid.innerHTML = '';
+      Object.keys(labels).forEach(k => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'pd-fbtn' + (k === fmt ? ' active' : '');
+        btn.textContent = labels[k];
+        btn.addEventListener('click', () => { if (fmt === k) return; fmt = k; renderFormats(); renderPacks(); renderCompare(); });
+        grid.appendChild(btn);
+      });
+    }
+    function renderPacks(){
+      const cur = data[fmt];
+      const solo = cur.packs.length === 1;
+      packsWrap.innerHTML = cur.packs.map(p => {
+        const badge = p.featured ? '<div class="pd-card-badge">Le + choisi</div>' : '';
+        const feats = p.feat.map(ft => '<li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.6"><polyline points="20 6 9 17 4 12"/></svg><span>' + esc(ft) + '</span></li>').join('');
+        return '<div class="pd-card ' + (p.featured ? 'pd-card-feat' : 'pd-card-base') + (solo ? ' solo' : '') + '">'
+          + badge
+          + '<div class="pd-card-tier">' + esc(p.tier) + '</div>'
+          + '<div class="pd-card-name" style="color:' + (tierColors[p.name] || '#f0ede8') + '">' + esc(p.name) + '</div>'
+          + '<div class="pd-card-for">' + esc(forWhom[p.name] || '') + '</div>'
+          + '<div class="pd-card-price"><span class="pd-card-amt">' + esc(p.price) + '</span><span class="pd-card-xof">XOF</span><span class="pd-card-usd">' + esc(p.usd) + '</span></div>'
+          + '<div class="pd-card-div"></div>'
+          + '<ul class="pd-card-feats">' + feats + '</ul>'
+          + '<div class="pd-card-cta"><a href="' + waHref(p.name, p.tier) + '" target="_blank" rel="noopener" class="' + (p.featured ? 'pd-cta-feat' : 'pd-cta-base') + '">Démarrer ce pack →</a></div>'
+          + '</div>';
+      }).join('');
+    }
+    function renderCompare(){
+      const cmp = data[fmt].compare;
+      if (!cmp) { compareWrap.innerHTML = ''; return; }
+      const rows = cmp.rows.map(r => '<div class="pd-compare-row"><div>' + esc(r.label) + '</div><div>' + esc(r.a) + '</div><div>' + esc(r.b) + '</div></div>').join('');
+      compareWrap.innerHTML = '<div class="pd-compare-title">Comparer les deux formules</div>'
+        + '<div class="pd-compare-table"><div class="pd-compare-head"><div></div><div style="color:#cdd2e0">' + esc(cmp.a) + '</div><div style="color:var(--accent)">' + esc(cmp.b) + '</div></div>' + rows + '</div>';
+    }
+    renderFormats(); renderPacks(); renderCompare();
+  })();
+  </script>
+
   <div class="sec-num reveal-fade">10</div>
   <div class="container">
 
