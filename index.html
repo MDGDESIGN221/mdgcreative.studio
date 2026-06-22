@@ -14800,7 +14800,89 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 
 <a href="https://www.mdgcreative.studio/contact" aria-hidden="true" style="display:none"></a>
 
+<style id="mdg-contact-footer-mob">
+.contact-mob, .footer-mob { display: none; }
+@media(max-width: 767px){
+  #contact > .contact-inner, #contact > .sec-num { display: none !important; }
+  #contact { padding: 0 !important; overflow: hidden; }
+  .contact-mob { display: block !important; position: relative; z-index: 3; }
+  footer > .footer-main, footer > .footer-bottom { display: none !important; }
+  .footer-mob { display: block !important; position: relative; z-index: 3; }
+}
+.contact-mob .cfm-wrap { padding: 46px 26px 0; text-align: center; }
+.contact-mob .cfm-eyebrow { display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Syne',sans-serif; font-weight: 700; font-size: .6rem; letter-spacing: .22em; color: #3DBFA3; text-transform: uppercase; }
+.contact-mob .cfm-eyebrow span { width: 24px; height: 1.5px; background: #3DBFA3; }
+.contact-mob .cfm-mark { font-family: 'Syne',sans-serif; font-weight: 800; font-size: clamp(2.5rem,16vw,3.6rem); line-height: .86; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.4px #f0ede8; margin-top: 20px; }
+.contact-mob .cfm-mark em { display: block; font-family: 'Instrument Serif',serif; -webkit-text-stroke: 0; color: #3DBFA3; font-style: italic; font-weight: 400; font-size: .6em; margin-top: 6px; }
+.contact-mob .cfm-sub { font-size: .82rem; color: #7a7a75; line-height: 1.55; margin: 16px auto 0; max-width: 280px; }
+.contact-mob .cfm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
+.contact-mob .cfm-tile { display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 20px 10px; border: 1px solid rgba(255,255,255,.1); border-radius: 16px; text-decoration: none; transition: border-color .2s, background .2s; }
+.contact-mob .cfm-tile:active { background: rgba(255,255,255,.03); }
+.contact-mob .cfm-tile .cfm-ico { width: 40px; height: 40px; border-radius: 50%; background: rgba(61,191,163,.1); border: 1px solid rgba(61,191,163,.28); color: #3DBFA3; display: grid; place-items: center; }
+.contact-mob .cfm-tile b { font-family: 'Syne',sans-serif; font-weight: 700; font-size: .8rem; color: #f0ede8; }
+.contact-mob .cfm-tile span { font-size: .68rem; color: #7a7a75; }
+.contact-mob .cfm-tile.wide { grid-column: 1/-1; flex-direction: row; justify-content: center; background: #3DBFA3; border-color: #3DBFA3; padding: 16px; }
+.contact-mob .cfm-tile.wide .cfm-ico { background: rgba(4,32,25,.18); border: none; color: #042019; width: 32px; height: 32px; }
+.contact-mob .cfm-tile.wide b { color: #042019; font-size: .86rem; }
+.contact-mob .cfm-info { margin-top: 22px; padding: 16px 18px; border: 1px solid rgba(255,255,255,.1); border-radius: 16px; display: flex; flex-direction: column; gap: 10px; }
+.contact-mob .cfm-info-row { display: flex; align-items: center; justify-content: space-between; font-size: .74rem; }
+.contact-mob .cfm-info-row .k { color: #7a7a75; letter-spacing: .04em; }
+.contact-mob .cfm-info-row .v { font-family: 'Syne',sans-serif; font-weight: 600; color: #cfcdc7; }
+.contact-mob .cfm-dot { display: inline-flex; align-items: center; gap: 6px; }
+.contact-mob .cfm-dot i { width: 6px; height: 6px; border-radius: 50%; background: #3DBFA3; box-shadow: 0 0 8px #3DBFA3; }
+/* Footer mobile (assorti B) */
+.footer-mob { margin-top: 0; padding: 38px 26px 30px; border-top: 1px solid rgba(255,255,255,.1); background: #040404; text-align: center; }
+.footer-mob .fm-logo { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.footer-mob .fm-logo img { height: 22px; width: auto; display: block; }
+.footer-mob .fm-logo b { font-family: 'Syne',sans-serif; font-weight: 700; font-size: .88rem; color: #f0ede8; }
+.footer-mob .fm-desc { font-size: .76rem; color: #7a7a75; line-height: 1.6; margin: 14px auto 0; max-width: 300px; }
+.footer-mob .fm-soc { display: flex; gap: 9px; justify-content: center; margin-top: 18px; }
+.footer-mob .fm-soc a { width: 42px; height: 42px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); display: grid; place-items: center; color: #cfcdc7; text-decoration: none; transition: border-color .2s, color .2s; }
+.footer-mob .fm-soc a:active { border-color: #3DBFA3; color: #3DBFA3; }
+.footer-mob .fm-uranus { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; padding: 14px 16px; border-radius: 14px; background: linear-gradient(135deg,rgba(61,191,163,.12),transparent); border: 1px solid rgba(61,191,163,.25); text-decoration: none; }
+.footer-mob .fm-uranus b { font-family: 'Syne',sans-serif; font-weight: 800; font-size: .72rem; letter-spacing: .1em; color: #3DBFA3; }
+.footer-mob .fm-uranus span { font-size: .66rem; color: #7a7a75; }
+.footer-mob .fm-bottom { margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.1); }
+.footer-mob .fm-bottom p { font-size: .66rem; color: rgba(255,255,255,.28); letter-spacing: .04em; }
+</style>
+
 <section id="contact">
+  <!-- ══ CONTACT MOBILE (≤767px) — direction B ══ -->
+  <div class="contact-mob">
+    <div class="cfm-wrap">
+      <div class="cfm-eyebrow"><span></span>Contact<span></span></div>
+      <h2 class="cfm-mark">ON CRÉE<em>quelque chose ?</em></h2>
+      <p class="cfm-sub">Décris ton projet — réponse concrète sous 24h.</p>
+      <div class="cfm-grid">
+        <a class="cfm-tile wide" href="https://wa.me/221763772208" target="_blank" rel="noopener">
+          <span class="cfm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="#042019"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg></span>
+          <b>WhatsApp · +221 76 377 22 08</b>
+        </a>
+        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#e38e87848786908a848dd1d1d2a3848e828a8fcd808c8e">
+          <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+          <b>Email</b><span><span class="__cf_email__" data-cfemail="167b72717273657f717824242756717b777f7a3875797b">[email&#160;protected]</span></span>
+        </a>
+        <a class="cfm-tile" href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">
+          <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
+          <b>Instagram</b><span>@_its.mdg</span>
+        </a>
+        <a class="cfm-tile" href="https://www.behance.net/itsmdg" target="_blank" rel="noopener">
+          <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.67-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9z"/></svg></span>
+          <b>Behance</b><span>itsmdg</span>
+        </a>
+        <a class="cfm-tile" href="https://tiktok.com/@_its.mdg" target="_blank" rel="noopener">
+          <span class="cfm-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.52V6.72a4.85 4.85 0 01-1.02-.03z"/></svg></span>
+          <b>TikTok</b><span>@_its.mdg</span>
+        </a>
+      </div>
+      <div class="cfm-info">
+        <div class="cfm-info-row"><span class="k">Localisation</span><span class="v">Kaolack, Sénégal</span></div>
+        <div class="cfm-info-row"><span class="k">Heure locale</span><span class="v cfm-dot"><i></i><span id="kaolackTimeMob">--:--</span></span></div>
+        <div class="cfm-info-row"><span class="k">Langues</span><span class="v">FR · Wolof · EN</span></div>
+      </div>
+    </div>
+  </div>
+
   <div class="contact-noise"></div>
   <div class="contact-glow"></div>
   <div class="sec-num reveal-fade">12</div>
@@ -14817,9 +14899,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#2645494852474552664b424145544347524f504308555253424f49" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#c0ada4a7a4a5b3a9a7aef2f2f180a7ada1a9aceea3afad" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="c2a1adacb6a3a1b682afa6a5a1b0a7a3b6abb4a7ecb1b6b7a6abad">[email&#160;protected]</span></span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="fb969f9c9f9e88929c95c9c9cabb9c969a9297d5989496">[email&#160;protected]</span></span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -14963,7 +15045,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 <!-- script déplacé en fin de body -->
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── TABS ── */
 function switchPricingTab(panel, btn) {
   document.querySelectorAll('.pricing-tab').forEach(t => t.classList.remove('active'));
@@ -16195,6 +16277,23 @@ function copyWaveNumber(btn) {
 
 <footer>
 
+  <!-- ══ FOOTER MOBILE (≤767px) — assorti direction B ══ -->
+  <div class="footer-mob">
+    <div class="fm-logo">
+      <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" width="90" height="22">
+      <b>MDG Creative Studio</b>
+    </div>
+    <p class="fm-desc">Des artistes et des marques qui ont quelque chose à dire. Et je m'assure que ça se voit.</p>
+    <div class="fm-soc">
+      <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://tiktok.com/@_its.mdg" target="_blank" rel="noopener" aria-label="TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.52V6.72a4.85 4.85 0 01-1.02-.03z"/></svg></a>
+      <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener" aria-label="Behance"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.094 1.884.829 0 1.399-.405 1.662-1.028L23.726 17zm-7.406-3h4.938c-.034-1.147-.67-1.9-2.252-1.9-1.461 0-2.368.725-2.686 1.9z"/></svg></a>
+      <a href="https://wa.me/221763772208" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg></a>
+    </div>
+    <a class="fm-uranus" href="#uranus"><b>✦ URANUS GFX</b><span>Le pack signature</span></a>
+    <div class="fm-bottom"><p>© 2026 MDG Creative Studio · All rights reserved</p></div>
+  </div>
+
   <div class="footer-main">
 
     <!-- Brand + socials -->
@@ -16224,9 +16323,9 @@ function copyWaveNumber(btn) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#40232f2e34212334002d242723322521342936256e33343524292f" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#b6dbd2d1d2d3c5dfd1d8848487f6d1dbd7dfda98d5d9db" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="4b2824253f2a283f0b262f2c28392e2a3f223d2e65383f3e2f2224">[email&#160;protected]</span></span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="48252c2f2c2d3b212f267a7a79082f25292124662b2725">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -16267,7 +16366,7 @@ function copyWaveNumber(btn) {
 
 
 <!-- GSAP placé ici (avant le code d'init, après le HTML) — non-bloquant au chargement initial -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 // Safety net : si GSAP ne se charge pas (réseau lent), on rend tous les éléments visibles
@@ -17932,8 +18031,10 @@ function updateKaolackTime() {
   const time = h + 'h' + m;
   const el = document.getElementById('kaolackTime');
   const el2 = document.getElementById('kaolackTimeContact');
+  const el3 = document.getElementById('kaolackTimeMob');
   if (el) el.textContent = time;
   if (el2) el2.textContent = time;
+  if (el3) el3.textContent = time;
 }
 updateKaolackTime();
 setInterval(updateKaolackTime, 10000);
@@ -18175,13 +18276,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#bdded2d3c9dcdec9fdd0d9dadecfd8dcc9d4cbd893cec9c8d9d4d2" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#7f121b181b1a0c1618114d4d4e3f18121e1613511c1012" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="51323e3f25303225113c353632233430253827347f22252435383e">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="80ede4e7e4e5f3e9e7eeb2b2b1c0e7ede1e9ecaee3efed">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -18217,7 +18318,7 @@ setInterval(updateKaolackTime, 10000);
 
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── MOTION THUMBNAIL → PLAY ──
 document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   thumb.addEventListener('click', function(){
