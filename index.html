@@ -167,7 +167,8 @@ html{scroll-behavior:smooth;overflow-x:hidden}
 @media(max-width: 640px) {
   .section-cta-band {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 1rem;
     padding: 1.5rem 1.25rem;
   }
@@ -11495,10 +11496,15 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   .f-status { margin-bottom: .75rem; }
 
   /* — layout bloc 45 — */
-  .port-new-top { padding: 2.5rem 1.5rem 1rem; }
-  .port-new-tabs-row { padding: 3px; }
-  .port-new-tab-btn { padding: .5rem 1rem; font-size: .72rem; }
+  .port-new-top { padding: 2.5rem 1.5rem 1rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .port-tabs-wrap { width: 100%; }
+  .port-new-tabs-row { padding: 3px; width: 100%; display: flex; gap: 0; }
+  .port-new-tab-btn { flex: 1 1 0; min-width: 0; justify-content: center; padding: .55rem .3rem; font-size: .62rem; letter-spacing: .04em; gap: .3em; }
+  .port-new-tab-btn svg { width: 10px; height: 10px; }
   .port-new-count-badge { display: none; }
+  /* Titre Réalisations : tient sur une ligne, sous-titre serif empilé dessous */
+  #portH2.port-new-h2 { font-size: clamp(1.25rem, 6vw, 1.7rem) !important; line-height: 1; white-space: nowrap; }
+  #portH2.port-new-h2 em { display: block !important; font-size: 46% !important; margin: .5rem 0 0 !important; white-space: nowrap; color: var(--dim); }
 
   /* — layout bloc 46 — */
   .about-v2 { grid-template-columns: 1fr; gap: 3rem; }
@@ -11616,13 +11622,17 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   }
 
   /* — composants bloc 12 — */
+  .work-footer{flex-direction:column !important;align-items:center !important;text-align:center;gap:1rem !important}
   .work-hint{
-    font-size:.72rem;
+    font-size:.55rem;
+    letter-spacing:.04em;
     color:var(--off);
     background:rgba(255,255,255,.04);
     border:1px solid rgba(255,255,255,.08);
     border-radius:100px;
-    padding:.4rem .9rem;
+    padding:.5rem 1rem;
+    justify-content:center;
+    white-space:nowrap;
     animation:swipeHintPulse 3s ease 0.8s 3;
   }
   @keyframes swipeHintPulse{
@@ -12093,9 +12103,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   <div class="hero-mob">
     <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1780835363/about_5_jdxu46.jpg" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 12%;filter:grayscale(1) contrast(1.05) brightness(.74);z-index:0">
     <div style="position:absolute;inset:0;background:linear-gradient(to top,#060606 6%,rgba(6,6,6,.15) 52%,rgba(6,6,6,.5) 100%);z-index:1"></div>
-    <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:104px 28px 72px">
+    <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:104px 28px 104px">
       <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.1rem,15vw,3.9rem);line-height:.86;letter-spacing:-.03em;color:#f0ede8;text-shadow:0 2px 30px rgba(0,0,0,.5)">L'ÉLITE<br><em style="font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;font-size:clamp(2.5rem,12.5vw,3.2rem);letter-spacing:0;color:#f0ede8">se remarque.</em></h1>
-      <p style="margin-top:14px;font:400 .8rem Inter;line-height:1.6;color:#9a958f;max-width:290px">L'excellence, c'est mon seul standard.<br><span style="color:#cfc9c2">Brand identity, cover art, motion.</span></p>
+      <p style="margin-top:14px;font:400 .8rem Inter;line-height:1.6;color:#9a958f;max-width:290px">L'excellence, c'est mon seul standard.</p>
       <a href="#contact" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('contact');else document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})" style="margin-top:22px;width:100%;max-width:340px;display:flex;align-items:center;justify-content:center;gap:9px;padding:16px;background:#3DBFA3;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#060606;text-decoration:none">Lancer un projet →</a>
       <a href="#portfolio-accordion" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})" style="margin-top:15px;font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;letter-spacing:.03em;color:#e6e1da;text-decoration:none;display:inline-flex;align-items:center;gap:7px"><span style="border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:2px;white-space:nowrap">Voir 7 ans de travail</span><span style="font-size:.92rem">→</span></a>
       <div style="display:flex;justify-content:center;margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);width:100%;max-width:330px">
@@ -13978,7 +13988,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     </div>
 
     <div id="pmFormatBar" style="position:sticky;top:0;z-index:6;background:#060606;padding:16px 26px 14px;margin-top:20px;border-bottom:1px solid rgba(255,255,255,.08)">
-      <div style="font:600 .6rem Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7a7a75;margin-bottom:9px">Je sors un :</div>
+      <div style="font:600 .6rem Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7a7a75;margin-bottom:10px;text-align:center">Je sors un :</div>
       <div id="pmFormatGrid" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px"></div>
     </div>
 
@@ -14784,9 +14794,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
           <span class="cfm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="#042019"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg></span>
           <b>WhatsApp · +221 76 377 22 08</b>
         </a>
-        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#234e47444746504a444d11111263444e424a4f0d404c4e">
+        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#553831323130263c323b676764153238343c397b363a38">
           <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
-          <b>Email</b><span><span class="__cf_email__" data-cfemail="eb868f8c8f8e98828c85d9d9daab8c868a8287c5888486">[email&#160;protected]</span></span>
+          <b>Email</b><span><span class="__cf_email__" data-cfemail="97faf3f0f3f2e4fef0f9a5a5a6d7f0faf6fefbb9f4f8fa">[email&#160;protected]</span></span>
         </a>
         <a class="cfm-tile" href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">
           <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
@@ -14825,9 +14835,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#660b02010203150f010854545726010b070f0a4805090b" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#cea3aaa9aaabbda7a9a0fcfcff8ea9a3afa7a2e0ada1a3" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="2b464f4c4f4e58424c4519191a6b4c464a424705484446">[email&#160;protected]</span></span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="d1bcb5b6b5b4a2b8b6bfe3e3e091b6bcb0b8bdffb2bebc">[email&#160;protected]</span></span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -15060,7 +15070,7 @@ function switchPricingTab(panel, btn) {
       btn.style.cssText = (active
         ? 'background:#3DBFA3;color:#042019;border:1px solid #3DBFA3'
         : 'background:transparent;color:#8a8780;border:1px solid rgba(255,255,255,.14)')
-        + ';padding:12px 4px;border-radius:100px;font-family:"Syne",sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;transition:all .2s;white-space:nowrap;text-align:center';
+        + ';padding:12px 4px;border-radius:100px;font-family:"Syne",sans-serif;font-weight:600;font-size:.72rem;cursor:pointer;transition:all .2s;white-space:nowrap;text-align:center;letter-spacing:.01em';
       btn.addEventListener('click', () => {
         if (fmt === k) return;
         fmt = k;
@@ -16249,9 +16259,9 @@ function copyWaveNumber(btn) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#b8d5dcdfdcddcbd1dfd68a8a89f8dfd5d9d1d496dbd7d5" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#ff929b989b9a8c969891cdcdcebf98929e9693d19c9092" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="91fcf5f6f5f4e2f8f6ffa3a3a0d1f6fcf0f8fdbff2fefc">[email&#160;protected]</span></span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="a3cec7c4c7c6d0cac4cd919192e3c4cec2cacf8dc0ccce">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -18202,13 +18212,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#c8a5acafacadbba1afa6fafaf988afa5a9a1a4e6aba7a5" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#3b565f5c5f5e48525c5509090a7b5c565a525715585456" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="ff929b989b9a8c969891cdcdcebf98929e9693d19c9092">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="d9b4bdbebdbcaab0beb7ebebe899beb4b8b0b5f7bab6b4">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
