@@ -1314,13 +1314,10 @@ section+section::before,
 /* ── WORK META — hover reveal desktop, caption mobile ── */
 .work-meta{
   position:absolute;left:0;right:0;bottom:0;
-  padding:1.75rem 1.35rem 1.35rem;
+  padding:1.4rem 1.35rem 1.3rem;
   z-index:2;
-  display:flex;flex-direction:column;gap:.35rem;
-  /* caché au repos */
-  opacity:0;
-  transform:translateY(8px);
-  transition:opacity .38s cubic-bezier(.16,1,.3,1), transform .38s cubic-bezier(.16,1,.3,1);
+  display:flex;flex-direction:column;gap:.3rem;
+  /* PEAUFINAGE : la catégorie reste visible au repos ; le titre se déploie au survol (desktop). Mobile = caption complète. */
 }
 .work-card:hover .work-meta{
   opacity:1;
@@ -1369,6 +1366,11 @@ section+section::before,
 .work-cat::before{content:'';width:14px;height:1px;background:var(--accent);opacity:.6}
 .work-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-.01em;color:var(--light);line-height:1.15;display:flex;flex-direction:column;gap:.15rem}
 .work-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--off);font-size:.78em;display:block;letter-spacing:0;margin-top:.2rem}
+/* PEAUFINAGE : sur desktop (pointeur), le titre est masqué au repos et se déploie au survol. Le mobile (hover:none) garde le titre en caption. */
+@media(hover:hover){
+  .work-card .work-title{max-height:0;opacity:0;overflow:hidden;transform:translateY(6px);margin-top:0;transition:max-height .42s cubic-bezier(.16,1,.3,1),opacity .36s,transform .36s,margin-top .42s}
+  .work-card:hover .work-title{max-height:80px;opacity:1;transform:none;margin-top:.15rem}
+}
 .work-index{position:absolute;top:1rem;left:1.2rem;font-family:'Syne',sans-serif;font-weight:800;font-size:.65rem;letter-spacing:.18em;color:var(--light);z-index:2;opacity:.8;mix-blend-mode:difference}
 
 .work-footer{margin:2.5rem 3rem 0;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
@@ -3957,6 +3959,8 @@ section + section::before{
 .sp-vcard-nav-dot.on {
   background: #fff;
 }
+/* SOBRE : retrait des badges verts clignotants et des dots décoratifs sur les cartes vidéo (desktop) */
+.sp-vcard-badge, .sp-vcard-nav-dots { display: none !important; }
 
 /* ZONE NOIRE BAS — séparée de la photo, pas un overlay */
 .sp-vcard-hero-body {
@@ -12824,23 +12828,20 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       <h2 class="sp-h2">Témoignages</h2>
     </div>
 
-    <!-- Citation forte en grand format -->
-    <div class="sp-feature reveal-up rd2" style="background:rgba(255,255,255,0.90);border:1px solid rgba(255,255,255,0.95);backdrop-filter:blur(32px) saturate(1.8);-webkit-backdrop-filter:blur(32px) saturate(1.8);box-shadow:0 8px 48px rgba(0,0,0,.18);">
+    <!-- Citation forte — version sobre (sombre, sans carte blanche ni étoile/pill) -->
+    <div class="sp-feature reveal-up rd2" style="background:transparent;border:none;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0 0 .5rem;">
 
       <!-- Contenu -->
       <div style="position:relative;z-index:1;">
-        <div class="sp-quote-mark">"</div>
-        <blockquote class="sp-quote-text">C'est quelqu'un avec qui je bosse beaucoup. Il est <strong>hyper correct</strong>, <strong>hyper travailleur</strong> et <strong>trop fort.</strong></blockquote>
-        <div class="sp-quote-author" style="border-top:1px solid rgba(0,0,0,0.10);">
-          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814" class="sp-quote-avatar" style="width:60px;height:60px;border:2px solid rgba(255,195,0,0.6);box-shadow:0 0 0 4px rgba(255,195,0,0.15);object-position:center top;">
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:3.6rem;line-height:.4;color:var(--accent);opacity:.5;margin-bottom:1.3rem">&ldquo;</div>
+        <blockquote style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.4;color:var(--light);margin:0 0 1.8rem;max-width:780px">C'est quelqu'un avec qui je bosse beaucoup. Il est <b style="font-style:normal;font-family:'Syne',sans-serif;font-weight:700;color:var(--accent)">hyper correct</b>, <b style="font-style:normal;font-family:'Syne',sans-serif;font-weight:700;color:var(--accent)">hyper travailleur</b> et <b style="font-style:normal;font-family:'Syne',sans-serif;font-weight:700;color:var(--accent)">trop fort.</b></blockquote>
+        <div style="display:flex;align-items:center;gap:.95rem;padding-top:1.4rem;border-top:1px solid var(--border);max-width:780px">
+          <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814" style="width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:center top;border:1px solid var(--border2);filter:grayscale(.3);flex-shrink:0">
           <div style="flex:1;">
-            <div style="display:flex;align-items:center;gap:.4rem;">
-              <div class="sp-quote-name">ISS 814</div>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Vérifié"><path d="M12 2l2.4 4.8 5.3.8-3.8 3.7.9 5.2L12 14l-4.8 2.5.9-5.2L4.3 7.6l5.3-.8z" fill="#FFD700" stroke="#E6A800" stroke-width="0.5"/><path d="M9.5 12l1.8 1.8 3.2-3.6" stroke="#7a4d00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="sp-quote-role">Producteur / Artiste · Sénégal · 6 ans de collaboration</div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:var(--light)">ISS 814</div>
+            <div style="font-size:.72rem;color:var(--dim);margin-top:.15rem">Producteur / Artiste · Sénégal</div>
           </div>
-          <div style="background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.14);border-radius:100px;padding:.35rem 1rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:rgba(0,0,0,0.55);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;">Verified collab</div>
+          <div style="font-size:.7rem;color:var(--dim);font-family:'Syne',sans-serif;letter-spacing:.04em;white-space:nowrap;flex-shrink:0"><b style="color:var(--off);font-weight:700">6 ans</b> de collaboration</div>
         </div>
       </div>
     </div>
@@ -14829,9 +14830,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
           <span class="cfm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="#042019"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg></span>
           <b>WhatsApp · +221 76 377 22 08</b>
         </a>
-        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#4b262f2c2f2e38222c2579797a0b2c262a222765282426">
+        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#761b12111213051f111844444736111b171f1a5815191b">
           <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
-          <b>Email</b><span><span class="__cf_email__" data-cfemail="96fbf2f1f2f3e5fff1f8a4a4a7d6f1fbf7fffab8f5f9fb">[email&#160;protected]</span></span>
+          <b>Email</b><span><span class="__cf_email__" data-cfemail="bcd1d8dbd8d9cfd5dbd28e8e8dfcdbd1ddd5d092dfd3d1">[email&#160;protected]</span></span>
         </a>
         <a class="cfm-tile" href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">
           <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
@@ -14870,9 +14871,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet — je reviens sous 24h avec une réponse concrète.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#274a43404342544e404915151667404a464e4b0944484a" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#9df0f9faf9f8eef4faf3afafacddfaf0fcf4f1b3fef2f0" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="0d60696a69687e646a633f3f3c4d6a606c6461236e6260">[email&#160;protected]</span></span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="8ee3eae9eaebfde7e9e0bcbcbfcee9e3efe7e2a0ede1e3">[email&#160;protected]</span></span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -16294,9 +16295,9 @@ function copyWaveNumber(btn) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#7f121b181b1a0c1618114d4d4e3f18121e1613511c1012" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#f19c959695948298969fc3c3c0b1969c90989ddf929e9c" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="afc2cbc8cbcadcc6c8c19d9d9eefc8c2cec6c381ccc0c2">[email&#160;protected]</span></span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="48252c2f2c2d3b212f267a7a79082f25292124662b2725">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -18247,13 +18248,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#9bf6fffcfffee8f2fcf5a9a9aadbfcf6faf2f7b5f8f4f6" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#036e67646766706a646d31313243646e626a6f2d606c6e" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="670a03000302140e000955555627000a060e0b4904080a">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="81ece5e6e5e4f2e8e6efb3b3b0c1e6ece0e8edafe2eeec">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
