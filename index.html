@@ -13278,37 +13278,204 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 <a href="https://www.mdgcreative.studio/services" aria-hidden="true" style="display:none"></a>
 <section id="services" class="wm-section" data-wm="SERVICES">
   <div class="services-mob" style="opacity:1!important;visibility:visible!important;transform:none!important">
-    <div style="padding:38px 28px 22px">
+
+    <!-- HEADER -->
+    <div style="padding:38px 22px 22px">
       <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;color:#3DBFA3">EXPERTISES</span></div>
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.85rem;color:#f0ede8;margin-top:12px;line-height:1.05;letter-spacing:-.02em">Ce que je fais</h2>
-      <p style="font:400 .85rem Inter;color:#7a7a75;margin-top:12px;line-height:1.55">Du logo à la scénographie. Je le fais jusqu'au bout.</p>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.85rem;color:#f0ede8;margin-top:12px;line-height:1.05;letter-spacing:-.02em">Ce que je fais.<em style="font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;font-size:1.6rem">De A jusqu'au bout.</em></h2>
+      <p style="font:400 .85rem/1.55 'Inter',sans-serif;color:#7a7a75;margin-top:12px">Du logo à la scénographie, en passant par le digital et le print. Ce que je fais, je le fais jusqu'au bout.</p>
     </div>
-    <div style="padding:6px 28px 16px;display:flex;align-items:center;gap:8px;font:400 .72rem Inter;color:#6c6a64"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>Touche une expertise pour les détails</div>
-    <div style="padding:0 28px 40px">
-      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:19px 0">
-        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div style="display:flex;align-items:baseline;gap:13px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.14em;color:#5f7d76">01</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:#f0ede8;line-height:1.1">Direction Artistique</span></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
-        <div class="svcm-body"><div style="font:600 .58rem Inter;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:14px">Cover · EP · album</div><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:9px">La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Cover Art</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">EP / Album</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Press Kit</span></div></div>
+
+    <!-- 3 CARTES PHARES -->
+    <div style="display:flex;flex-direction:column;gap:14px;padding:0 22px 10px">
+
+      <!-- Carte 01 -->
+      <div data-modal="01" role="button" tabindex="0" style="border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d);padding:24px 22px 20px;cursor:pointer;-webkit-tap-highlight-color:transparent">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <span style="width:42px;height:42px;border-radius:12px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">01</span>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .65rem">Direction Artistique Musicale</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.82rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.1rem">La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son, avant même que tu appuies sur play.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Cover Art</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">EP / Album</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Press Kit</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
-      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:19px 0">
-        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div style="display:flex;align-items:baseline;gap:13px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.14em;color:#5f5d57">02</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:#f0ede8;line-height:1.1">Identité de Marque</span></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
-        <div class="svcm-body"><div style="font:600 .58rem Inter;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:14px">Logo · charte · mockups</div><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:9px">Un logo, oui. Mais surtout comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Logo</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Charte</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Mockups</span></div></div>
+
+      <!-- Carte 02 -->
+      <div data-modal="02" role="button" tabindex="0" style="border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d);padding:24px 22px 20px;cursor:pointer;-webkit-tap-highlight-color:transparent">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <span style="width:42px;height:42px;border-radius:12px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">02</span>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .65rem">Identité de Marque</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.82rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.1rem">Un logo, oui. Mais surtout : comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir. On pose les bases une bonne fois pour toutes.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Logo</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Charte</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Mockups</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
-      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:19px 0">
-        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div style="display:flex;align-items:baseline;gap:13px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.14em;color:#5f5d57">03</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:#f0ede8;line-height:1.1">Motion Design</span></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
-        <div class="svcm-body"><div style="font:600 .58rem Inter;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:14px">Animation · reveal · reels</div><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:9px">Le mouvement retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Animation</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Logo Reveal</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Reels</span></div></div>
+
+      <!-- Carte 03 -->
+      <div data-modal="03" role="button" tabindex="0" style="border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d);padding:24px 22px 20px;cursor:pointer;-webkit-tap-highlight-color:transparent">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <span style="width:42px;height:42px;border-radius:12px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span>
+          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">03</span>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .65rem">Motion Design &amp; Vidéo</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.82rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.1rem">Le mouvement, c'est ce qui retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Animation</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Logo Reveal</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Reels</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
-      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:19px 0">
-        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div style="display:flex;align-items:baseline;gap:13px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.14em;color:#5f5d57">04</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:#f0ede8;line-height:1.1">Web Design</span></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
-        <div class="svcm-body"><div style="font:600 .58rem Inter;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:14px">UI / UX · site sur mesure</div><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:9px">Un site qui te représente vraiment, pas un template. Je conçois et développe des sites sur mesure, pensés pour convertir.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Site Web</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">UI / UX</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Landing</span></div></div>
+
+    </div>
+
+    <!-- AUSSI DISPONIBLES — accordéons 04-08 -->
+    <div style="padding:28px 22px 44px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+        <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.2em;color:#4a4a44;text-transform:uppercase">Aussi disponibles</span>
+        <span style="flex:1;height:1px;background:rgba(255,255,255,.08)"></span>
       </div>
-      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:19px 0">
-        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div style="display:flex;align-items:baseline;gap:13px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.14em;color:#5f5d57">05</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:#f0ede8;line-height:1.1">Print &amp; Éditorial</span></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
-        <div class="svcm-body"><div style="font:600 .58rem Inter;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:14px">Affiche · flyer · prépresse</div><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:9px">Ce qui se touche marque les esprits autrement. Affiches, flyers, programmes, livrets qui tiennent à l'impression.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Affiche</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Flyer</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Prépresse</span></div></div>
+
+      <!-- 04 Web Design -->
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:18px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer">
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.64rem;letter-spacing:.14em;color:#5f5d57">04</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:#f0ede8;line-height:1.1">Web Design</span></div>
+          <span class="svcm-sign" style="flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1rem"></span>
+        </div>
+        <div class="svcm-body">
+          <div style="font:600 .58rem 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:13px">UI / UX · site sur mesure</div>
+          <p style="font:400 .82rem/1.6 'Inter',sans-serif;color:#aca7a2;margin-top:8px">Un site qui te représente vraiment, pas un template qu'on reconnaît de loin. Je conçois et développe des sites sur mesure, pensés pour convertir autant que pour impressionner.</p>
+          <ul style="margin-top:12px;padding-left:1.1rem;display:flex;flex-direction:column;gap:5px">
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Design UI/UX complet (wireframe → maquette finale)</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Développement HTML / CSS / JS optimisé</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Responsive design (mobile, tablette, desktop)</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Optimisation vitesse et SEO de base</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Déploiement et mise en ligne inclus</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Site Web</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">UI / UX</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Landing</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Responsive</span>
+          </div>
+          <a href="#contact" onclick="this.closest('.svcm-item').classList.remove('open')" style="display:inline-block;margin-top:16px;font:700 .75rem 'Syne',sans-serif;color:#3DBFA3;letter-spacing:.04em;text-decoration:none">Discuter de ce projet →</a>
+        </div>
       </div>
-      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:19px 0">
-        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><div style="display:flex;align-items:baseline;gap:13px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.66rem;letter-spacing:.14em;color:#5f5d57">06</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:#f0ede8;line-height:1.1">Social Media</span></div><span class="svcm-sign" style="flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></span></div>
-        <div class="svcm-body"><div style="font:600 .58rem Inter;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:14px">Templates · carrousels</div><p style="font:400 .82rem Inter;color:#aca7a2;line-height:1.6;margin-top:9px">Une présence cohérente sur les réseaux ne s'improvise pas. Templates et contenus visuels qui gardent une ligne forte.</p><div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px"><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Instagram</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Templates</span><span style="font:600 .64rem Inter;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Carrousel</span></div></div>
+
+      <!-- 05 Design Éditorial & Print -->
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:18px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer">
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.64rem;letter-spacing:.14em;color:#5f5d57">05</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:#f0ede8;line-height:1.1">Design Éditorial &amp; Print</span></div>
+          <span class="svcm-sign" style="flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1rem"></span>
+        </div>
+        <div class="svcm-body">
+          <div style="font:600 .58rem 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:13px">Affiche · flyer · prépresse</div>
+          <p style="font:400 .82rem/1.6 'Inter',sans-serif;color:#aca7a2;margin-top:8px">Ce qui se touche marque les esprits autrement. Affiches, flyers, programmes, livrets. Je conçois des supports print qui ont du caractère et qui tiennent à l'impression.</p>
+          <ul style="margin-top:12px;padding-left:1.1rem;display:flex;flex-direction:column;gap:5px">
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Conception d'affiches et flyers événementiels</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Programmes et livrets (concert, festival, expo)</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Magazines et zines indépendants</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Suivi prépresse et validation des fichiers d'impression</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Formats adaptés offset et numérique</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Affiche</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Flyer</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Print</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Prépresse</span>
+          </div>
+          <a href="#contact" onclick="this.closest('.svcm-item').classList.remove('open')" style="display:inline-block;margin-top:16px;font:700 .75rem 'Syne',sans-serif;color:#3DBFA3;letter-spacing:.04em;text-decoration:none">Discuter de ce projet →</a>
+        </div>
       </div>
+
+      <!-- 06 Contenu Social Media -->
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:18px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer">
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.64rem;letter-spacing:.14em;color:#5f5d57">06</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:#f0ede8;line-height:1.1">Contenu Social Media</span></div>
+          <span class="svcm-sign" style="flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1rem"></span>
+        </div>
+        <div class="svcm-body">
+          <div style="font:600 .58rem 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:13px">Templates · carrousels</div>
+          <p style="font:400 .82rem/1.6 'Inter',sans-serif;color:#aca7a2;margin-top:8px">Une présence cohérente sur les réseaux, ça ne s'improvise pas. Je crée des templates et contenus visuels qui gardent une ligne forte sur tous tes canaux. Chaque post doit ressembler à toi.</p>
+          <ul style="margin-top:12px;padding-left:1.1rem;display:flex;flex-direction:column;gap:5px">
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Templates personnalisés Instagram (posts, stories, carousels)</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Carrousels éducatifs ou promotionnels</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Visuels pour campagnes et sorties</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Guides de style pour publication en autonomie</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Formats adaptés TikTok, X, Facebook</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Instagram</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Templates</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Carrousel</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">TikTok</span>
+          </div>
+          <a href="#contact" onclick="this.closest('.svcm-item').classList.remove('open')" style="display:inline-block;margin-top:16px;font:700 .75rem 'Syne',sans-serif;color:#3DBFA3;letter-spacing:.04em;text-decoration:none">Discuter de ce projet →</a>
+        </div>
+      </div>
+
+      <!-- 07 Merchandising -->
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);padding:18px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer">
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.64rem;letter-spacing:.14em;color:#5f5d57">07</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:#f0ede8;line-height:1.1">Merchandising</span></div>
+          <span class="svcm-sign" style="flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1rem"></span>
+        </div>
+        <div class="svcm-body">
+          <div style="font:600 .58rem 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:13px">Textile · goodies · production</div>
+          <p style="font:400 .82rem/1.6 'Inter',sans-serif;color:#aca7a2;margin-top:8px">Ton merch, c'est ton identité portée par tes fans. Je conçois des visuels pour textile et goodies qui ont de la gueule. Du concept jusqu'au fichier prêt pour la production.</p>
+          <ul style="margin-top:12px;padding-left:1.1rem;display:flex;flex-direction:column;gap:5px">
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Concept et direction artistique du merch</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Visuels pour t-shirts, hoodies, tote-bags, casquettes</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Adaptation aux techniques d'impression (sérigraphie, DTF, broderie)</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Mockups réalistes pour présentation ou vente en ligne</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Fichiers techniques prêts pour impression</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Textile</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Goodies</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Production</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Sérigraphie</span>
+          </div>
+          <a href="#contact" onclick="this.closest('.svcm-item').classList.remove('open')" style="display:inline-block;margin-top:16px;font:700 .75rem 'Syne',sans-serif;color:#3DBFA3;letter-spacing:.04em;text-decoration:none">Discuter de ce projet →</a>
+        </div>
+      </div>
+
+      <!-- 08 Scénographie & Événementiel -->
+      <div class="svcm-item" style="border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:18px 0">
+        <div onclick="var it=this.closest('.svcm-item');var op=it.classList.contains('open');this.closest('.services-mob').querySelectorAll('.svcm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer">
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.64rem;letter-spacing:.14em;color:#5f5d57">08</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:#f0ede8;line-height:1.1">Scénographie &amp; Événementiel</span></div>
+          <span class="svcm-sign" style="flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#aca7a2;display:flex;align-items:center;justify-content:center;font-size:1rem"></span>
+        </div>
+        <div class="svcm-body">
+          <div style="font:600 .58rem 'Inter',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7fa89f;margin-top:13px">Festival · scène · événement</div>
+          <p style="font:400 .82rem/1.6 'Inter',sans-serif;color:#aca7a2;margin-top:8px">Faire vivre une identité dans l'espace physique, c'est un autre niveau. Pour tes concerts, festivals ou événements, je conçois l'habillage visuel qui crée une vraie expérience.</p>
+          <ul style="margin-top:12px;padding-left:1.1rem;display:flex;flex-direction:column;gap:5px">
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Habillage scène et backdrop</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Signalétique et fléchage festival / événement</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Stands et espaces d'exposition</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Projection mapping et supports LED (concept)</li>
+            <li style="font:400 .78rem/1.5 'Inter',sans-serif;color:#7a7a75">Direction artistique de l'espace complet</li>
+          </ul>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:14px">
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Festival</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Stand</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Scène</span>
+            <span style="font:600 .64rem 'Inter',sans-serif;color:#3DBFA3;background:rgba(61,191,163,.1);padding:5px 11px;border-radius:100px">Événement</span>
+          </div>
+          <a href="#contact" onclick="this.closest('.svcm-item').classList.remove('open')" style="display:inline-block;margin-top:16px;font:700 .75rem 'Syne',sans-serif;color:#3DBFA3;letter-spacing:.04em;text-decoration:none">Discuter de ce projet →</a>
+        </div>
+      </div>
+
     </div>
   </div>
   <div class="sec-num reveal-fade">04</div>
