@@ -8689,23 +8689,24 @@ body,
   }
 
   /* Carte portrait */
+  /* ── OPTION B — galerie carrée, nom & rôle HORS de la photo ── */
   .portrait-card {
     position: relative;
-    aspect-ratio: 3/4;
-    border-radius: 14px;
-    overflow: visible; /* ne pas clipper l'icône IG positionnée en absolute */
-    background: #111;
-    border: 1px solid rgba(255,255,255,.07);
+    overflow: visible;
+    background: transparent;
+    border: none;
     display: block;
+    cursor: pointer;
   }
 
-  /* Wrapper photo — clippe l'image sans toucher à l'icône IG */
+  /* Plaque photo carrée */
   .portrait-card-photo-wrap {
-    position: absolute;
-    inset: 0;
-    border-radius: 14px;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
     overflow: hidden;
-    z-index: 0;
+    border: 1px solid rgba(255,255,255,.1);
+    background: #141414;
   }
 
   .portrait-card-photo {
@@ -8714,108 +8715,88 @@ body,
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 12%;
     display: block;
-    filter: grayscale(30%) brightness(.78);
-    transition: filter .45s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1);
+    filter: grayscale(1) contrast(1.05) brightness(.85);
+    transition: filter .5s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
     pointer-events: none;
   }
 
-  /* Gradient bas permanent — sur le photo-wrap */
-  .portrait-card-photo-wrap::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 75%;
-    background: linear-gradient(to top, rgba(6,6,6,.96) 0%, rgba(6,6,6,.3) 55%, transparent 100%);
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  /* Ligne accent bas */
+  /* Repères de coin (teal) — apparaissent au survol */
+  .portrait-card-photo-wrap::before,
   .portrait-card-photo-wrap::after {
     content: '';
     position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .4s cubic-bezier(.16,1,.3,1);
+    width: 13px; height: 13px;
+    border: 1.5px solid var(--accent);
     z-index: 3;
+    opacity: 0;
+    transition: opacity .3s;
+    pointer-events: none;
   }
+  .portrait-card-photo-wrap::before { top: 9px; left: 9px; border-right: 0; border-bottom: 0; }
+  .portrait-card-photo-wrap::after  { bottom: 9px; right: 9px; border-left: 0; border-top: 0; }
 
-  /* Info bas — au-dessus du photo-wrap */
+  /* Info SOUS la photo */
   .portrait-card-info {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: .65rem .8rem .75rem;
+    position: relative;
+    margin-top: .65rem;
+    padding-right: 22px;
     z-index: 2;
     pointer-events: none;
   }
   .portrait-card-name {
     font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(.6rem, 2.8vw, .82rem);
-    color: #f0ede8;
+    font-weight: 700;
+    font-size: clamp(.7rem, 1.1vw, .86rem);
+    color: var(--light);
     letter-spacing: -.01em;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.15;
     display: block;
   }
   .portrait-card-role {
-    font-size: .58rem;
-    color: rgba(255,255,255,.38);
+    font-size: .6rem;
+    color: var(--dim);
     letter-spacing: .01em;
     line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     display: block;
-    margin-top: .1rem;
+    margin-top: .15rem;
   }
 
-  /* Lien Instagram — icône haut droit */
+  /* Lien Instagram — icône texte alignée à droite de l'info */
   .portrait-card-ig {
     position: absolute;
-    top: .6rem; right: .6rem;
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    background: rgba(6,6,6,.72);
-    border: 1px solid rgba(255,255,255,.12);
+    top: auto;
+    bottom: 0;
+    right: 0;
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
     display: flex; align-items: center; justify-content: center;
     color: var(--dim);
     z-index: 4;
-    opacity: 0;
-    transition: opacity .25s, background .25s, border-color .25s, color .25s;
+    transition: color .25s, transform .25s;
     pointer-events: all;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
   }
-  .portrait-card-ig svg { stroke: currentColor; display: block; }
+  .portrait-card-ig svg { stroke: currentColor; display: block; width: 14px; height: 14px; }
 
   /* ── Hover desktop uniquement ── */
   @media(hover: hover) {
     .portrait-card:hover .portrait-card-photo {
-      filter: grayscale(0%) brightness(.82);
+      filter: none;
       transform: scale(1.04);
     }
-    .portrait-card:hover .portrait-card-photo-wrap::after { transform: scaleX(1); }
-    .portrait-card:hover .portrait-card-ig {
-      opacity: 1;
-      background: var(--accent);
-      border-color: var(--accent);
-      color: var(--black);
-    }
-    .portrait-card:hover .portrait-card-name { color: #fff; }
+    .portrait-card:hover .portrait-card-photo-wrap::before,
+    .portrait-card:hover .portrait-card-photo-wrap::after { opacity: 1; }
+    .portrait-card:hover .portrait-card-ig { color: var(--accent); }
   }
 
-  /* ── Mobile : icône IG toujours visible et cliquable ── */
+  /* ── Mobile : photo légèrement éclaircie, IG visible ── */
   @media(hover: none) {
-    .portrait-card-ig { opacity: 1; }
-    .portrait-card-photo { filter: grayscale(10%) brightness(.75); }
+    .portrait-card-photo { filter: grayscale(.55) brightness(.9); }
   }
 
   /* ── Reveal scroll — clip-path décalé par carte ── */
@@ -13604,7 +13585,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       </div>
       <!-- One Lyrical -->
       <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" draggable="false" style="object-position:center top"></div>
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" draggable="false" style="object-position:center 2%"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">One Lyrical</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
@@ -13626,7 +13607,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       </div>
       <!-- Dopeboy DMG -->
       <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" draggable="false" style="object-position:center 20%"></div>
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" draggable="false" style="object-position:center 30%"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">Dopeboy DMG</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
@@ -13637,7 +13618,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       </div>
       <!-- Oothentik Zeus -->
       <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" draggable="false" style="object-position:center top"></div>
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" draggable="false" style="object-position:center 34%"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">Oothentik Zeus</span>
           <span class="portrait-card-role">Artiste Rappeur</span>
@@ -13648,7 +13629,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       </div>
       <!-- Gun Silent Beatz -->
       <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" draggable="false" style="object-position:center top"></div>
+        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" draggable="false" style="object-position:center 34%"></div>
         <div class="portrait-card-info">
           <span class="portrait-card-name">Gun Silent Beatz</span>
           <span class="portrait-card-role">Beatmaker · Producer</span>
@@ -14082,7 +14063,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   .pd-fbtn:hover{border-color:rgba(255,255,255,.32);color:var(--light)}
   .pd-fbtn.active{background:var(--accent);color:#042019;border-color:var(--accent)}
   .pd-packs{display:flex;justify-content:center;align-items:stretch;gap:1.6rem;flex-wrap:wrap;margin-top:2.75rem}
-  .pd-card{border-radius:22px;padding:36px 32px;position:relative;flex:0 1 400px;max-width:440px;display:flex;flex-direction:column}
+  .pd-card{border-radius:16px;padding:36px 32px;position:relative;flex:0 1 400px;max-width:440px;display:flex;flex-direction:column}
   .pd-card.solo{flex:0 1 620px;max-width:640px}
   .pd-card-base{background:#0d0d0d;border:1px solid rgba(255,255,255,.08)}
   .pd-card-feat{background:linear-gradient(160deg,rgba(61,191,163,.12),rgba(13,13,13,.6));border:1.5px solid var(--accent);box-shadow:0 24px 60px rgba(61,191,163,.16)}
@@ -14120,7 +14101,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   .pd-addons-wrap{margin-top:4rem}
   .pd-addons-label{font-family:'Syne',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:1.4rem}
   .pd-addons{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:960px;margin:0 auto}
-  .pd-addon{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.4rem;transition:border-color .25s,transform .3s}
+  .pd-addon{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem 1.4rem;transition:border-color .25s,transform .3s}
   .pd-addon:hover{border-color:var(--border2);transform:translateY(-3px)}
   .pd-addon-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--light)}
   .pd-addon-price{font:400 .78rem 'Inter',sans-serif;color:var(--dim);margin-top:.4rem}
@@ -14853,9 +14834,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
           <span class="cfm-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="#042019"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg></span>
           <b>WhatsApp · +221 76 377 22 08</b>
         </a>
-        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#94f9f0f3f0f1e7fdf3faa6a6a5d4f3f9f5fdf8baf7fbf9">
+        <a class="cfm-tile" href="/cdn-cgi/l/email-protection#036e67646766706a646d31313243646e626a6f2d606c6e">
           <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
-          <b>Email</b><span><span class="__cf_email__" data-cfemail="cea3aaa9aaabbda7a9a0fcfcff8ea9a3afa7a2e0ada1a3">[email&#160;protected]</span></span>
+          <b>Email</b><span><span class="__cf_email__" data-cfemail="9df0f9faf9f8eef4faf3afafacddfaf0fcf4f1b3fef2f0">[email&#160;protected]</span></span>
         </a>
         <a class="cfm-tile" href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">
           <span class="cfm-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
@@ -14895,9 +14876,9 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
         <p class="contact-scarcity" style="display:flex;align-items:center;gap:.6rem;font-family:'Syne',sans-serif;font-size:.74rem;font-weight:600;color:var(--accent);letter-spacing:.01em;margin-top:1.1rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgba(61,191,163,.7);flex-shrink:0"></span>Je prends un nombre limité de projets à la fois, pour garder ce niveau d'exigence sur chacun.</p>
 
         <div class="contact-left-links">
-          <a href="/cdn-cgi/l/email-protection#b3ded7d4d7d6c0dad4dd818182f3d4ded2dadf9dd0dcde" class="contact-direct-link">
+          <a href="/cdn-cgi/l/email-protection#d2bfb6b5b6b7a1bbb5bce0e0e392b5bfb3bbbefcb1bdbf" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="09646d6e6d6c7a606e673b3b38496e64686065276a6664">[email&#160;protected]</span></span></div>
+            <div class="contact-direct-link-text"><span class="contact-direct-link-name">Email</span><span class="contact-direct-link-val"><span class="__cf_email__" data-cfemail="ec81888b88899f858b82dededdac8b818d8580c28f8381">[email&#160;protected]</span></span></div>
             <span class="contact-direct-link-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
           </a>
           <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="contact-direct-link">
@@ -16319,9 +16300,9 @@ function copyWaveNumber(btn) {
     <div class="footer-contact-group">
       <h4 class="f-nav-title">Contact</h4>
       <div class="f-contact-list">
-        <a href="/cdn-cgi/l/email-protection#bed3dad9dadbcdd7d9d08c8c8ffed9d3dfd7d290ddd1d3" class="f-contact-item">
+        <a href="/cdn-cgi/l/email-protection#046960636061776d636a363635446369656d682a676b69" class="f-contact-item">
           <span class="f-contact-lbl">Email</span>
-          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="f09d949794958399979ec2c2c1b0979d91999cde939f9d">[email&#160;protected]</span></span>
+          <span class="f-contact-val"><span class="__cf_email__" data-cfemail="254841424140564c424b171714654248444c490b464a48">[email&#160;protected]</span></span>
         </a>
         <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="f-contact-item">
           <span class="f-contact-lbl">WhatsApp</span>
@@ -18272,13 +18253,13 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="/cdn-cgi/l/email-protection#721f16151617011b151c40404332151f131b1e5c111d1f" class="cpop-link cpop-mail">
+    <a href="/cdn-cgi/l/email-protection#f69b92919293859f9198c4c4c7b6919b979f9ad895999b" class="cpop-link cpop-mail">
       <div class="cpop-link-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div class="cpop-link-info">
         <div class="cpop-link-name">Email</div>
-        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="d7bab3b0b3b2a4beb0b9e5e5e697b0bab6bebbf9b4b8ba">[email&#160;protected]</span></div>
+        <div class="cpop-link-detail"><span class="__cf_email__" data-cfemail="d1bcb5b6b5b4a2b8b6bfe3e3e091b6bcb0b8bdffb2bebc">[email&#160;protected]</span></div>
       </div>
       <svg class="cpop-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
