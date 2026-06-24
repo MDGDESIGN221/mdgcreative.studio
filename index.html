@@ -712,8 +712,10 @@ nav:not(#mob-tab-bar){position:fixed;top:0;left:0;right:0;z-index:100;display:fl
 .nav-links{display:flex;gap:2.5rem;list-style:none}
 .nav-links a{font-size:.75rem;color:var(--off);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;font-weight:500}
 .nav-links a:hover,.nav-links a.active{color:var(--light)}
-.nav-cta{font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;color:#060606;background:#fff;padding:.5rem 1.2rem;border-radius:100px;text-decoration:none;letter-spacing:.04em;transition:opacity .2s,transform .2s,box-shadow .2s;box-shadow:0 2px 12px rgba(255,255,255,.1)}
-.nav-cta:hover{opacity:.88;transform:scale(1.03);box-shadow:0 4px 20px rgba(255,255,255,.15)}
+.nav-links a::before{content:attr(data-num);margin-right:.55em;font-size:.62em;font-weight:700;letter-spacing:.05em;color:var(--accent);opacity:.6;vertical-align:1px;transition:opacity .2s}
+.nav-links a:hover::before,.nav-links a.active::before{opacity:1}
+.nav-cta{font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;color:var(--accent);background:transparent;padding:.5rem 1.2rem;border:1.5px solid var(--accent);border-radius:100px;text-decoration:none;letter-spacing:.04em;transition:color .2s,background .2s,transform .2s,box-shadow .2s}
+.nav-cta:hover{background:var(--accent);color:#042019;transform:scale(1.03);box-shadow:0 4px 20px rgba(61,191,163,.28)}
 .nav-right{display:flex;align-items:center;gap:1rem}
 /* ── LANG TOGGLE ── */
 .lang-toggle{background:none;border:1.5px solid var(--border2);border-radius:100px;padding:.3rem .75rem;font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.1em;color:var(--off);cursor:pointer;transition:border-color .2s,color .2s,background .2s;flex-shrink:0}
@@ -12068,15 +12070,15 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     <img decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" style="height:44px;width:auto;display:block;filter:brightness(1)">
   </a>
   <ul class="nav-links">
-    <li><a href="#portfolio-accordion" data-i18n="nav_work" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})">Projets</a></li>
-    <li><a href="#about" data-i18n="nav_about" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('about');else document.getElementById('about')?.scrollIntoView({behavior:'smooth'})">À propos</a></li>
-    <li><a href="#services" data-i18n="nav_services" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('services');else document.getElementById('services')?.scrollIntoView({behavior:'smooth'})">Services</a></li>
-    <li><a href="#collabs" data-i18n="collabs_label" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('collabs');else document.getElementById('collabs')?.scrollIntoView({behavior:'smooth'})">Collabs</a></li>
-    <li><a href="#pricing" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('pricing');else document.getElementById('pricing')?.scrollIntoView({behavior:'smooth'})">Investissement</a></li>
-    <li><a href="#contact" data-i18n="contact_label" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('contact');else document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})">Contact</a></li>
+    <li><a href="#portfolio-accordion" data-num="01" data-i18n="nav_work" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})">Projets</a></li>
+    <li><a href="#about" data-num="02" data-i18n="nav_about" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('about');else document.getElementById('about')?.scrollIntoView({behavior:'smooth'})">À propos</a></li>
+    <li><a href="#services" data-num="03" data-i18n="nav_services" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('services');else document.getElementById('services')?.scrollIntoView({behavior:'smooth'})">Services</a></li>
+    <li><a href="#collabs" data-num="04" data-i18n="collabs_label" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('collabs');else document.getElementById('collabs')?.scrollIntoView({behavior:'smooth'})">Collabs</a></li>
+    <li><a href="#pricing" data-num="05" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('pricing');else document.getElementById('pricing')?.scrollIntoView({behavior:'smooth'})">Investissement</a></li>
+    <li><a href="#contact" data-num="06" data-i18n="contact_label" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('contact');else document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <span class="nav-avail"><span class="nav-avail-dot"></span><span data-i18n="nav_avail">Disponible</span></span>
+    <span class="nav-avail" style="flex-direction:column;align-items:flex-end;gap:2px"><span style="display:inline-flex;align-items:center;gap:.5rem"><span class="nav-avail-dot"></span><span data-i18n="nav_avail" style="font-weight:700">Disponible</span></span><span style="font-size:.6rem;letter-spacing:.04em;color:var(--dim)">Kaolack · <span id="kaolackTimeNav">--h--</span></span></span>
     <button class="lang-toggle" id="langToggle" aria-label="Changer la langue / Switch language" aria-pressed="false" onclick="toggleLang()">
       <span class="lang-toggle-inner" id="langLabel">EN</span>
     </button>
@@ -12489,7 +12491,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     </div>
 
     <div class="work-footer reveal-fade rd2" style="margin:2.5rem 3rem 0;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap">
-      <div class="work-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:middle"><path d="M21 12H3M3 12l4-4M3 12l4 4M21 12l-4-4M21 12l-4 4"/></svg> Glisse pour explorer</div>
+      <div class="work-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:middle"><path d="M21 12H3M3 12l4-4M3 12l4 4M21 12l-4-4M21 12l-4 4"/></svg> Faites défiler ou utilisez les flèches</div>
       <a href="#contact" class="work-more">Envie de voir plus <span class="arr">→</span></a>
     </div>
   </div>
@@ -12971,7 +12973,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
       <div id="sp-video-lb-inner">
-        <img id="sp-video-lb-poster" src="" alt="" aria-hidden="true">
+        <img id="sp-video-lb-poster" alt="" aria-hidden="true">
         <div id="sp-video-lb-spinner"><span></span></div>
         <div id="sp-video-lb-frame"></div>
       </div>
@@ -13317,38 +13319,53 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     </div>
 
     <!-- 3 OFFRES PHARES -->
-    <div class="svc-grid" style="grid-template-columns:repeat(3,1fr)">
-      <div class="svc-card reveal-scale rd1" data-modal="01" role="button" tabindex="0">
-        <div class="svc-card-bg"></div>
-        <div class="svc-card-gradient"></div>
-        <div class="svc-num" aria-hidden="true">01</div>
-        <div class="svc-card-content">
-          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
-          <div class="svc-title">Direction Artistique Musicale</div>
-          <div class="svc-desc">La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son, avant même que tu appuies sur play.</div>
-          <div class="svc-tags"><span class="svc-tag">Cover Art</span><span class="svc-tag">EP / Album</span><span class="svc-tag">Press Kit</span></div>
+    <div class="svc-grid" style="grid-template-columns:repeat(3,1fr);gap:16px;background:transparent;border:none;border-radius:0;overflow:visible">
+      <div class="svc-card reveal-scale rd1" data-modal="01" role="button" tabindex="0" style="padding:0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d)">
+        <div class="svc-card-content" style="padding:28px 26px 24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:26px">
+            <span style="width:46px;height:46px;border-radius:13px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">01</span>
+          </div>
+          <div class="svc-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.32rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .7rem">Direction Artistique Musicale</div>
+          <div class="svc-desc" style="font-family:'Inter',sans-serif;font-size:.85rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.3rem">La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son, avant même que tu appuies sur play.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Cover Art</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">EP / Album</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Press Kit</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
         </div>
       </div>
-      <div class="svc-card reveal-scale rd2" data-modal="02" role="button" tabindex="0">
-        <div class="svc-card-bg"></div>
-        <div class="svc-card-gradient"></div>
-        <div class="svc-num" aria-hidden="true">02</div>
-        <div class="svc-card-content">
-          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
-          <div class="svc-title">Identité de Marque</div>
-          <div class="svc-desc">Un logo, oui. Mais surtout : comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir. On pose les bases une bonne fois pour toutes.</div>
-          <div class="svc-tags"><span class="svc-tag">Logo</span><span class="svc-tag">Charte</span><span class="svc-tag">Mockups</span></div>
+      <div class="svc-card reveal-scale rd2" data-modal="02" role="button" tabindex="0" style="padding:0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d)">
+        <div class="svc-card-content" style="padding:28px 26px 24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:26px">
+            <span style="width:46px;height:46px;border-radius:13px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">02</span>
+          </div>
+          <div class="svc-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.32rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .7rem">Identité de Marque</div>
+          <div class="svc-desc" style="font-family:'Inter',sans-serif;font-size:.85rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.3rem">Un logo, oui. Mais surtout : comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir. On pose les bases une bonne fois pour toutes.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Logo</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Charte</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Mockups</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
         </div>
       </div>
-      <div class="svc-card reveal-scale rd3" data-modal="03" role="button" tabindex="0">
-        <div class="svc-card-bg"></div>
-        <div class="svc-card-gradient"></div>
-        <div class="svc-num" aria-hidden="true">03</div>
-        <div class="svc-card-content">
-          <div class="svc-click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7"/></svg> Clique pour en savoir plus</div>
-          <div class="svc-title">Motion Design</div>
-          <div class="svc-desc">Le mouvement, c'est ce qui retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.</div>
-          <div class="svc-tags"><span class="svc-tag">Animation</span><span class="svc-tag">Logo Reveal</span><span class="svc-tag">Reels</span></div>
+      <div class="svc-card reveal-scale rd3" data-modal="03" role="button" tabindex="0" style="padding:0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d)">
+        <div class="svc-card-content" style="padding:28px 26px 24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:26px">
+            <span style="width:46px;height:46px;border-radius:13px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span>
+            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">03</span>
+          </div>
+          <div class="svc-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.32rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .7rem">Motion Design</div>
+          <div class="svc-desc" style="font-family:'Inter',sans-serif;font-size:.85rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.3rem">Le mouvement, c'est ce qui retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Animation</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Logo Reveal</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Reels</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
         </div>
       </div>
     </div>
@@ -13554,226 +13571,52 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     <div style="padding:8px 26px 46px">
       <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#7a7a75;text-align:center;margin-bottom:22px">Ils m'ont confié leur image</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px 14px;align-items:center;justify-items:center">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(0) invert(1)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(0) invert(1)">
+        <img loading="lazy" src="logos/omzo.png" alt="Omzo Beatz" style="height:24px;width:auto;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/iss.png" alt="ISS 814" style="height:24px;width:auto;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(0) invert(1)">
+        <img loading="lazy" src="logos/ssf.png" alt="Sine Saloum Festival" style="height:24px;width:auto;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/mprod.png" alt="Mpossible Prod" style="height:24px;width:auto;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/rwmr.png" alt="RWMR" style="height:24px;width:auto;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/onelyrical.png" alt="One Lyrical" style="height:24px;width:auto;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/skatepro.png" alt="SkatePro" style="height:24px;width:auto;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/oozeus.png" alt="OO. Zeus" style="height:24px;width:auto;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(0) invert(1)">
       </div>
     </div>
   </div>
 
-  <!-- HEADER -->
-
-  <div class="container">
-    <div class="collabs-hero reveal-up">
-      <div class="collabs-hero-top">
-        <div class="sec-label collabs-section-label">Collaborations d'exception</div>
-        <span class="collabs-hero-pill"><strong>250+</strong> projets livrés</span>
-      </div>
-      <h2 class="collabs-wordmark">COLLABORATIONS</h2>
-      <div class="collabs-hero-bottom">
-        <div class="collabs-figure">
-          <span class="collabs-figure-num">50<span>+</span></span>
-          <div class="collabs-figure-txt">
-            <span class="collabs-figure-label">artistes accompagnés</span>
-            <p class="collabs-figure-desc">De la scène de Kaolack à l'international. Une image pour chaque son.</p>
-          </div>
+  <!-- COLLABS DESKTOP — Registre éditorial (C2) -->
+  <div class="container" style="padding:78px 1.5rem 62px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:34px"><span style="width:30px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.22em;color:#3DBFA3">COLLABORATIONS D'EXCEPTION</span></div>
+    <div style="display:flex;gap:60px;align-items:flex-start">
+      <div style="flex:none;width:330px">
+        <div style="display:flex;flex-direction:column">
+          <div style="padding:20px 0;border-top:1px solid rgba(255,255,255,.1)"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:3.2rem;line-height:1;color:#f0ede8;letter-spacing:-.02em">50<span style="color:#3DBFA3;font-size:.5em">+</span></div><div style="font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.05em;color:#8b8b85;margin-top:7px;text-transform:uppercase">artistes accompagnés</div></div>
+          <div style="padding:20px 0;border-top:1px solid rgba(255,255,255,.1)"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:3.2rem;line-height:1;color:#f0ede8;letter-spacing:-.02em">250<span style="color:#3DBFA3;font-size:.5em">+</span></div><div style="font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.05em;color:#8b8b85;margin-top:7px;text-transform:uppercase">projets livrés</div></div>
+          <div style="padding:20px 0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:3.2rem;line-height:1;color:#f0ede8;letter-spacing:-.02em">9<span style="color:#3DBFA3;font-size:.5em">+</span></div><div style="font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.05em;color:#8b8b85;margin-top:7px;text-transform:uppercase">pays touchés</div></div>
         </div>
-        <p class="collabs-hero-names">
-          ISS 814 · Omzo Beatz · Dopeboy DMG · One Lyrical · Oothentik Zeus · Gun Silent Beatz
-          <em>… et la liste s'allonge.</em>
-        </p>
+        <p style="font-family:'Inter',sans-serif;font-size:.92rem;line-height:1.6;color:#7a7a75;margin:30px 0 0">De la scène de Kaolack à l'international.<br><em style="font-family:'Instrument Serif',serif;font-style:italic;color:#aca7a2;font-size:1.05rem">Une image pour chaque son.</em></p>
+      </div>
+      <div style="flex:1">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777184982/iss_814_v22_dtnhal.jpg" alt="ISS 814" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:#f0ede8;line-height:1">ISS 814</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Rapper · Beatmaker</div></div><a href="https://www.instagram.com/iss814beats/" target="_blank" rel="noopener" aria-label="ISS 814 sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 2%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:#f0ede8;line-height:1">One Lyrical</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/onelyrical.sn/" target="_blank" rel="noopener" aria-label="One Lyrical sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777182477/omzo_1_jkbnwn.jpg" alt="Omzo Beatz" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:#f0ede8;line-height:1">Omzo Beatz</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Beatmaker · Producer</div></div><a href="https://www.instagram.com/omzobeatz/" target="_blank" rel="noopener" aria-label="Omzo Beatz sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:#f0ede8;line-height:1">Dopeboy DMG</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/dopeboydmg/" target="_blank" rel="noopener" aria-label="Dopeboy DMG sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 34%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:#f0ede8;line-height:1">Oothentik Zeus</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/oothentik_zeus_gb/" target="_blank" rel="noopener" aria-label="Oothentik Zeus sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_420/v1777182558/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 34%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:#f0ede8;line-height:1">Gun Silent Beatz</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Beatmaker · Producer</div></div><a href="https://www.instagram.com/gunsilentbeatz/" target="_blank" rel="noopener" aria-label="Gun Silent Beatz sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- PORTRAITS ARTISTES — grille stable, zéro swipe -->
-
-  <div class="portraits-section">
-    <div class="portraits-grid" id="portraitsGrid">
-      <!-- ISS 814 -->
-      <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184982/iss_814_v22_dtnhal.jpg" alt="ISS 814" loading="lazy" draggable="false" style="object-position:center top"></div>
-        <div class="portrait-card-info">
-          <span class="portrait-card-name">ISS 814</span>
-          <span class="portrait-card-role">Rapper · Beatmaker</span>
-        </div>
-        <a class="portrait-card-ig" href="https://www.instagram.com/iss814beats/" target="_blank" rel="noopener" aria-label="ISS 814 sur Instagram">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
+    <div style="margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap">
+      <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#7a7a75;flex:none">Ils m'ont confié leur image</span>
+      <div style="display:flex;align-items:center;gap:40px;flex:1;justify-content:flex-end;flex-wrap:wrap">
+        <img loading="lazy" src="logos/omzo.png" alt="" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/iss.png" alt="" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(0) invert(1)">
+        <img loading="lazy" src="logos/ssf.png" alt="" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/mprod.png" alt="" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/rwmr.png" alt="" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/onelyrical.png" alt="" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
+        <img loading="lazy" src="logos/oozeus.png" alt="" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(0) invert(1)">
       </div>
-      <!-- One Lyrical -->
-      <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" draggable="false" style="object-position:center 2%"></div>
-        <div class="portrait-card-info">
-          <span class="portrait-card-name">One Lyrical</span>
-          <span class="portrait-card-role">Artiste Rappeur</span>
-        </div>
-        <a class="portrait-card-ig" href="https://www.instagram.com/onelyrical.sn/" target="_blank" rel="noopener" aria-label="One Lyrical sur Instagram">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
-      </div>
-      <!-- Omzo Beatz -->
-      <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182477/omzo_1_jkbnwn.jpg" alt="Omzo Beatz" loading="lazy" draggable="false" style="object-position:center top"></div>
-        <div class="portrait-card-info">
-          <span class="portrait-card-name">Omzo Beatz</span>
-          <span class="portrait-card-role">Beatmaker · Producer</span>
-        </div>
-        <a class="portrait-card-ig" href="https://www.instagram.com/omzobeatz/" target="_blank" rel="noopener" aria-label="Omzo Beatz sur Instagram">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
-      </div>
-      <!-- Dopeboy DMG -->
-      <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" draggable="false" style="object-position:center 30%"></div>
-        <div class="portrait-card-info">
-          <span class="portrait-card-name">Dopeboy DMG</span>
-          <span class="portrait-card-role">Artiste Rappeur</span>
-        </div>
-        <a class="portrait-card-ig" href="https://www.instagram.com/dopeboydmg/" target="_blank" rel="noopener" aria-label="Dopeboy DMG sur Instagram">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
-      </div>
-      <!-- Oothentik Zeus -->
-      <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" draggable="false" style="object-position:center 34%"></div>
-        <div class="portrait-card-info">
-          <span class="portrait-card-name">Oothentik Zeus</span>
-          <span class="portrait-card-role">Artiste Rappeur</span>
-        </div>
-        <a class="portrait-card-ig" href="https://www.instagram.com/oothentik_zeus_gb/" target="_blank" rel="noopener" aria-label="Oothentik Zeus sur Instagram">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
-      </div>
-      <!-- Gun Silent Beatz -->
-      <div class="portrait-card">
-        <div class="portrait-card-photo-wrap"><img class="portrait-card-photo" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_300/v1777182558/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" draggable="false" style="object-position:center 34%"></div>
-        <div class="portrait-card-info">
-          <span class="portrait-card-name">Gun Silent Beatz</span>
-          <span class="portrait-card-role">Beatmaker · Producer</span>
-        </div>
-        <a class="portrait-card-ig" href="https://www.instagram.com/gunsilentbeatz/" target="_blank" rel="noopener" aria-label="Gun Silent Beatz sur Instagram">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <script>
-  /* Reveal au scroll — aucun touch handler */
-  (function(){
-    var cards = document.querySelectorAll('#portraitsGrid .portrait-card');
-    if(!cards.length) return;
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      cards.forEach(function(c){ c.classList.add('pc-revealed'); });
-      return;
-    }
-    var done = false;
-    var io = new IntersectionObserver(function(entries){
-      if(done) return;
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          done = true;
-          cards.forEach(function(c, i){
-            setTimeout(function(){ c.classList.add('pc-revealed'); }, i * 70);
-          });
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.15 });
-    io.observe(document.getElementById('portraitsGrid'));
-  })();
-  </script>
-
-    <!-- MARQUEE -->
-  <div class="container">
-    <!-- Ligne statique : le message principal -->
-    <div class="collabs-static-line reveal-fade rd2">
-      <span class="collabs-static-count">250<span style="color:var(--accent);font-size:.7em">+</span></span>
-      <span class="collabs-static-txt">projets livrés · Sénégal · international</span>
-    </div>
-    <div class="collabs-marquee-wrap reveal-fade rd3">
-      <div class="collabs-marquee" aria-hidden="true">
-        <span>ISS 814</span><span class="sep">·</span>
-        <span>Oothentik Zeus</span><span class="sep">·</span>
-        <span>Gun Silent Beatz</span><span class="sep">·</span>
-        <span>Dopeboy DMG</span><span class="sep">·</span>
-        <span>Mgeey</span><span class="sep">·</span>
-        <span>Gideon</span><span class="sep">·</span>
-        <span>Ouse Zik Buzz</span><span class="sep">·</span>
-        <span>Thieuk</span><span class="sep">·</span>
-        <span>One Lyrical</span><span class="sep">·</span>
-        <span>Omzo Beatz</span><span class="sep">·</span>
-        <span>Mozbi</span><span class="sep">·</span>
-        <span>Zou Dollar</span><span class="sep">·</span>
-        <span>Gaston Bandimic</span><span class="sep">·</span>
-        <span>Key Em Ti</span><span class="sep">·</span>
-        <span>Trencch Kidd</span><span class="sep">·</span>
-        <span>Abdoubeatzz</span><span class="sep">·</span>
-        <span>Cab</span><span class="sep">·</span>
-        <span>Damnibra</span><span class="sep">·</span>
-        <span>Chefyersa</span><span class="sep">·</span>
-        <span>D. Faye</span><span class="sep">·</span>
-        <span>Kyusei</span><span class="sep">·</span>
-        <span>Zed SK</span><span class="sep">·</span>
-        <span>King Takha</span><span class="sep">·</span>
-        <span>Alone</span><span class="sep">·</span>
-        <span>Rich Waneh</span><span class="sep">·</span>
-        <span>Franck Baller'Z</span><span class="sep">·</span>
-        <span>ISS 814</span><span class="sep">·</span>
-        <span>Oothentik Zeus</span><span class="sep">·</span>
-        <span>Gun Silent Beatz</span><span class="sep">·</span>
-        <span>Dopeboy DMG</span><span class="sep">·</span>
-        <span>Mgeey</span><span class="sep">·</span>
-        <span>Gideon</span><span class="sep">·</span>
-        <span>Ouse Zik Buzz</span><span class="sep">·</span>
-        <span>Thieuk</span><span class="sep">·</span>
-        <span>One Lyrical</span><span class="sep">·</span>
-        <span>Omzo Beatz</span><span class="sep">·</span>
-        <span>Mozbi</span><span class="sep">·</span>
-        <span>Zou Dollar</span><span class="sep">·</span>
-        <span>Gaston Bandimic</span><span class="sep">·</span>
-        <span>Key Em Ti</span><span class="sep">·</span>
-        <span>Trencch Kidd</span><span class="sep">·</span>
-        <span>Abdoubeatzz</span><span class="sep">·</span>
-        <span>Cab</span><span class="sep">·</span>
-        <span>Damnibra</span><span class="sep">·</span>
-        <span>Chefyersa</span><span class="sep">·</span>
-        <span>D. Faye</span><span class="sep">·</span>
-        <span>Kyusei</span><span class="sep">·</span>
-        <span>Zed SK</span><span class="sep">·</span>
-        <span>King Takha</span><span class="sep">·</span>
-        <span>Alone</span><span class="sep">·</span>
-        <span>Rich Waneh</span><span class="sep">·</span>
-        <span>Franck Baller'Z</span><span class="sep">·</span>
-      </div>
-    </div>
-    <p class="collabs-sub reveal-fade rd4">
-      Artistes, labels et collectifs de la scène sénégalaise et africaine.
-      <em>Et la liste continue de s'allonger.</em>
-    </p>
-
-    <!-- Strip logos clients silencieux — remplace la section Trust -->
-    <div class="trust-strip reveal-fade rd4">
-      <div class="trust-strip-label">Ils m'ont confié leur image</div>
-      <div class="trust-strip-inner">
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" class="ts-logo ts-omzo"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" class="ts-logo ts-invert ts-iss"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" class="ts-logo ts-mprod"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" class="ts-logo"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" class="ts-logo ts-skatepro"></div>
-        <div class="ts-item"><img decoding="sync" loading="eager" fetchpriority="high" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" class="ts-logo ts-invert"></div>
-      </div>
-    </div>
-
-  </div>
     </div>
   </div>
 </section>
@@ -14907,6 +14750,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
         <p class="contact-sub">Brand identity, cover art, motion, web, print. Décris-moi ton projet, je reviens sous 24h avec une réponse concrète.</p>
         <p class="contact-scarcity" style="display:flex;align-items:center;gap:.6rem;font-family:'Syne',sans-serif;font-size:.74rem;font-weight:600;color:var(--accent);letter-spacing:.01em;margin-top:1.1rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgba(61,191,163,.7);flex-shrink:0"></span>Je prends un nombre limité de projets à la fois, pour garder ce niveau d'exigence sur chacun.</p>
 
+        <a href="https://wa.me/221763772208" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.9rem;margin-top:1.6rem;background:var(--accent);border-radius:14px;padding:1rem 1.2rem;text-decoration:none"><span style="width:36px;height:36px;border-radius:50%;background:#042019;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="#3DBFA3"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg></span><span style="flex:1"><span style="display:block;font-family:'Syne',sans-serif;font-weight:800;font-size:.92rem;color:#042019;line-height:1.1">Écris-moi sur WhatsApp</span><span style="display:block;font-family:'Inter',sans-serif;font-size:.74rem;color:#0a3c30;margin-top:2px">+221 76 377 22 08 · réponse rapide</span></span><span style="color:#042019;font-size:1.15rem">→</span></a>
         <div class="contact-left-links">
           <a href="/cdn-cgi/l/email-protection#157871727170667c727b272724557278747c793b767a78" class="contact-direct-link">
             <div class="contact-direct-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
@@ -16038,7 +15882,7 @@ function submitPackForm(e) {
       <!-- Lightbox -->
       <div id="u-gal-lb" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(3,2,10,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:1.5rem;" onclick="if(event.target===this)uGalClose()">
         <button onclick="uGalClose()" style="position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:50%;width:44px;height:44px;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">×</button>
-        <img id="u-gal-lb-img" src="" alt="" style="max-width:92vw;max-height:88vh;border-radius:14px;object-fit:contain;box-shadow:0 40px 120px rgba(0,0,0,.8),0 0 0 1px rgba(61,191,163,.08) inset;">
+        <img id="u-gal-lb-img" alt="" style="max-width:92vw;max-height:88vh;border-radius:14px;object-fit:contain;box-shadow:0 40px 120px rgba(0,0,0,.8),0 0 0 1px rgba(61,191,163,.08) inset;">
         <div id="u-gal-lb-cap" style="position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(61,191,163,.6);white-space:nowrap;"></div>
       </div>
     </div>
@@ -18041,9 +17885,11 @@ function updateKaolackTime() {
   const el = document.getElementById('kaolackTime');
   const el2 = document.getElementById('kaolackTimeContact');
   const el3 = document.getElementById('kaolackTimeMob');
+  const el4 = document.getElementById('kaolackTimeNav');
   if (el) el.textContent = time;
   if (el2) el2.textContent = time;
   if (el3) el3.textContent = time;
+  if (el4) el4.textContent = time;
 }
 updateKaolackTime();
 setInterval(updateKaolackTime, 10000);
@@ -19365,7 +19211,7 @@ function applyComplexPatches(lang) {
     var wSvg = workHint.querySelector('svg');
     workHint.innerHTML = '';
     if (wSvg) workHint.appendChild(wSvg);
-    workHint.appendChild(document.createTextNode(' ' + (lang === 'en' ? 'Drag or use the arrows' : 'Fais glisser ou utilise les flèches')));
+    workHint.appendChild(document.createTextNode(' ' + (lang === 'en' ? 'Scroll or use the arrows' : 'Faites défiler ou utilisez les flèches')));
   }
   var workMore = document.querySelector('.work-more');
   if (workMore) {
