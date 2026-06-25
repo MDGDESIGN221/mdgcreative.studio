@@ -12808,13 +12808,27 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   </div>
   <!-- ── TÉMOIGNAGES — ce qu'ils disent ── -->
   <div class="container" style="padding:5rem clamp(1.25rem,4vw,3rem) 4rem">
+    <style>
+      #social-proof .sp-header{padding-left:0!important;padding-right:0!important}
+      #social-proof .sp-feature::before,#social-proof .sp-feature::after{display:none!important}
+      #social-proof .sp-vcard-hero-thumb{aspect-ratio:16/10!important}
+      #social-proof .sp-vcard-hero-thumb img{filter:grayscale(1) contrast(1.05) brightness(.95)!important}
+      #social-proof .sp-slide:nth-child(1) .sp-vcard-hero-thumb img{object-position:center 20%}
+      #social-proof .sp-slide:nth-child(2) .sp-vcard-hero-thumb img{object-position:center 14%;filter:grayscale(1) contrast(1.02) brightness(1.18)!important}
+      #social-proof .sp-slide:nth-child(3) .sp-vcard-hero-thumb img{object-position:center top}
+      #social-proof .sp-slide:nth-child(4) .sp-vcard-hero-thumb img{object-position:center 12%}
+      @media(max-width:980px){#social-proof .sp-t1-split{flex-direction:column}#social-proof .sp-feature{max-width:none!important}}
+    </style>
     <div class="sp-header reveal-up">
       <div class="sec-label reveal-line">Références</div>
       <h2 class="sp-h2">Témoignages</h2>
     </div>
 
+    <!-- T1 — Citation héro (gauche) + bande vidéo (droite) -->
+    <div class="sp-t1-split" style="display:flex;flex-wrap:wrap;gap:clamp(2rem,4vw,3.5rem);align-items:flex-start">
+
     <!-- Citation forte — version sobre (sombre, sans carte blanche ni étoile/pill) -->
-    <div class="sp-feature reveal-up rd2" style="background:transparent;border:none;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0 0 .5rem;">
+    <div class="sp-feature reveal-up rd2" style="flex:1 1 380px;max-width:520px;min-width:340px;margin:0;background:transparent;border:none;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;">
 
       <!-- Contenu -->
       <div style="position:relative;z-index:1;">
@@ -12831,10 +12845,11 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       </div>
     </div>
 
-    <!-- Vidéos témoignages — 4 cartes portrait uniformes -->
-    <div class="sp-videos" id="sp-audio-grid">
+    <!-- Vidéos témoignages — 4 cartes, grille 2×2 -->
+    <div class="sp-videos" id="sp-audio-grid" style="flex:1 1 460px;min-width:0;margin:0">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.1rem"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#7a7a75">Ils en parlent en vidéo</span><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:#5c5a54">4 témoignages</span></div>
 
-      <div class="sp-videos-track" id="spVideosTrack">
+      <div class="sp-videos-track" id="spVideosTrack" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
 
         <!-- CARTE 1 — ISS 814 -->
         <div class="sp-slide">
@@ -12963,6 +12978,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       </div>
 
     </div><!-- /.sp-videos -->
+    </div><!-- /.sp-t1-split -->
 
     <!-- Lightbox vidéo — fullscreen premium -->
     <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Vidéo témoignage">
@@ -13308,33 +13324,33 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       <!-- Carte 02 -->
       <div data-modal="02" role="button" tabindex="0" style="border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d);padding:24px 22px 20px;cursor:pointer;-webkit-tap-highlight-color:transparent">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-          <span style="width:42px;height:42px;border-radius:12px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span>
-          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">02</span>
+          <span style="width:42px;height:42px;border-radius:12px;background:rgba(224,162,78,.1);border:1px solid rgba(224,162,78,.3);display:inline-flex;align-items:center;justify-content:center;color:#E0A24E;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;letter-spacing:.08em;color:rgba(224,162,78,.62)">02</span>
         </div>
         <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .65rem">Identité de Marque</div>
         <div style="font-family:'Inter',sans-serif;font-size:.82rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.1rem">Un logo, oui. Mais surtout : comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir. On pose les bases une bonne fois pour toutes.</div>
         <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
-          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Logo</span>
-          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Charte</span>
-          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Mockups</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(224,162,78,.1);border:1px solid rgba(224,162,78,.26);color:#eecb8c">Logo</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(224,162,78,.1);border:1px solid rgba(224,162,78,.26);color:#eecb8c">Charte</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(224,162,78,.1);border:1px solid rgba(224,162,78,.26);color:#eecb8c">Mockups</span>
         </div>
-        <div style="display:flex;align-items:center;gap:.5rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E0A24E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
 
       <!-- Carte 03 -->
       <div data-modal="03" role="button" tabindex="0" style="border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d);padding:24px 22px 20px;cursor:pointer;-webkit-tap-highlight-color:transparent">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-          <span style="width:42px;height:42px;border-radius:12px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span>
-          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">03</span>
+          <span style="width:42px;height:42px;border-radius:12px;background:rgba(232,118,90,.1);border:1px solid rgba(232,118,90,.3);display:inline-flex;align-items:center;justify-content:center;color:#E8765A;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span>
+          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;letter-spacing:.08em;color:rgba(232,118,90,.62)">03</span>
         </div>
         <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .65rem">Motion Design &amp; Vidéo</div>
         <div style="font-family:'Inter',sans-serif;font-size:.82rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.1rem">Le mouvement, c'est ce qui retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.</div>
         <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
-          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Animation</span>
-          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Logo Reveal</span>
-          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Reels</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(232,118,90,.1);border:1px solid rgba(232,118,90,.26);color:#f1a392">Animation</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(232,118,90,.1);border:1px solid rgba(232,118,90,.26);color:#f1a392">Logo Reveal</span>
+          <span style="font-family:'Inter',sans-serif;font-size:.66rem;font-weight:600;padding:.3rem .65rem;border-radius:100px;background:rgba(232,118,90,.1);border:1px solid rgba(232,118,90,.26);color:#f1a392">Reels</span>
         </div>
-        <div style="display:flex;align-items:center;gap:.5rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:1rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E8765A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
 
     </div>
@@ -13507,33 +13523,33 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
       <div class="svc-card reveal-scale rd2" data-modal="02" role="button" tabindex="0" style="padding:0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d)">
         <div class="svc-card-content" style="padding:28px 26px 24px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:26px">
-            <span style="width:46px;height:46px;border-radius:13px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span>
-            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">02</span>
+            <span style="width:46px;height:46px;border-radius:13px;background:rgba(224,162,78,.1);border:1px solid rgba(224,162,78,.3);display:inline-flex;align-items:center;justify-content:center;color:#E0A24E;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.08em;color:rgba(224,162,78,.62)">02</span>
           </div>
           <div class="svc-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.32rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .7rem">Identité de Marque</div>
           <div class="svc-desc" style="font-family:'Inter',sans-serif;font-size:.85rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.3rem">Un logo, oui. Mais surtout : comment ta marque va se tenir dans 5 ans, dans 10 médias différents, sans jamais se trahir. On pose les bases une bonne fois pour toutes.</div>
           <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
-            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Logo</span>
-            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Charte</span>
-            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Mockups</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(224,162,78,.1);border:1px solid rgba(224,162,78,.26);color:#eecb8c">Logo</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(224,162,78,.1);border:1px solid rgba(224,162,78,.26);color:#eecb8c">Charte</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(224,162,78,.1);border:1px solid rgba(224,162,78,.26);color:#eecb8c">Mockups</span>
           </div>
-          <div style="display:flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div style="display:flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E0A24E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
         </div>
       </div>
       <div class="svc-card reveal-scale rd3" data-modal="03" role="button" tabindex="0" style="padding:0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:linear-gradient(160deg,#171717,#0d0d0d)">
         <div class="svc-card-content" style="padding:28px 26px 24px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:26px">
-            <span style="width:46px;height:46px;border-radius:13px;background:rgba(61,191,163,.1);border:1px solid rgba(61,191,163,.26);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span>
-            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.08em;color:rgba(61,191,163,.55)">03</span>
+            <span style="width:46px;height:46px;border-radius:13px;background:rgba(232,118,90,.1);border:1px solid rgba(232,118,90,.3);display:inline-flex;align-items:center;justify-content:center;color:#E8765A;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span>
+            <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.08em;color:rgba(232,118,90,.62)">03</span>
           </div>
           <div class="svc-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.32rem;color:#f0ede8;letter-spacing:-.02em;line-height:1.12;margin:0 0 .7rem">Motion Design</div>
           <div class="svc-desc" style="font-family:'Inter',sans-serif;font-size:.85rem;color:#9a958f;line-height:1.65;font-weight:400;margin:0 0 1.3rem">Le mouvement, c'est ce qui retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.</div>
           <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.4rem">
-            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Animation</span>
-            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Logo Reveal</span>
-            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(61,191,163,.09);border:1px solid rgba(61,191,163,.22);color:#83d6c4">Reels</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(232,118,90,.1);border:1px solid rgba(232,118,90,.26);color:#f1a392">Animation</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(232,118,90,.1);border:1px solid rgba(232,118,90,.26);color:#f1a392">Logo Reveal</span>
+            <span style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.34rem .72rem;border-radius:100px;background:rgba(232,118,90,.1);border:1px solid rgba(232,118,90,.26);color:#f1a392">Reels</span>
           </div>
-          <div style="display:flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div style="display:flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.07);font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;color:#cfcac4">En savoir plus <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E8765A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
         </div>
       </div>
     </div>
@@ -13738,15 +13754,15 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     </div>
     <div style="padding:8px 26px 46px">
       <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#7a7a75;text-align:center;margin-bottom:22px">Ils m'ont confié leur image</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px 14px;align-items:center;justify-items:center">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(0) invert(1)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" style="max-width:80px;max-height:34px;object-fit:contain;opacity:.62;filter:grayscale(1) brightness(0) invert(1)">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px 14px;align-items:center;justify-items:center">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" style="height:24px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" style="height:30px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" style="height:18px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" style="height:27px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663723/RWMR_pse7dm.png" alt="RWMR" style="height:22px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" style="height:26px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663720/SKATEPRO_tqfxrn.png" alt="SkatePro" style="height:24px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" style="height:29px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
       </div>
     </div>
   </div>
@@ -13777,13 +13793,13 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     <div style="margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap">
       <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#7a7a75;flex:none">Ils m'ont confié leur image</span>
       <div style="display:flex;align-items:center;gap:40px;flex:1;justify-content:flex-end;flex-wrap:wrap">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(0) invert(1)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663723/RWMR_pse7dm.png" alt="RWMR" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(2.4)">
-        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" style="height:26px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1) brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663722/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" style="height:25px;width:auto;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663720/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" style="height:33px;width:auto;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663719/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" style="height:20px;width:auto;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663720/mprod_um5ng1.png" alt="Mpossible Prod" style="height:29px;width:auto;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663723/RWMR_pse7dm.png" alt="RWMR" style="height:23px;width:auto;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663721/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" style="height:27px;width:auto;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/e_trim,f_auto,q_auto/v1776663724/OO._ZEUS_f93qc3.png" alt="OO. Zeus" style="height:31px;width:auto;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
       </div>
     </div>
   </div>
