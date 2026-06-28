@@ -29,6 +29,27 @@
 <meta name="author" content="Mouhamed Al Amine — MDG Creative Studio">
 <link rel="canonical" href="https://www.mdgcreative.studio">
   <meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ProfessionalService",
+  "name":"MDG Creative Studio",
+  "alternateName":"MDG Creative",
+  "description":"Creative Director à Kaolack : cover art, brand identity, motion design & web pour artistes et marques africaines.",
+  "url":"https://www.mdgcreative.studio",
+  "image":"https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1776805814/Portrait_16_9_v2_xgfh5l.png",
+  "areaServed":"Worldwide",
+  "knowsLanguage":["fr","en"],
+  "address":{"@type":"PostalAddress","addressLocality":"Kaolack","addressCountry":"SN"},
+  "founder":{
+    "@type":"Person",
+    "name":"Mouhamed Al Amine",
+    "jobTitle":"Creative Director",
+    "sameAs":["https://twitter.com/_its.mdg"]
+  },
+  "knowsAbout":["Brand Identity","Cover Art","Motion Design","Direction Artistique","Web Design"]
+}
+</script>
 
 <!-- Open Graph (réseaux sociaux) -->
 <meta property="og:type" content="website">
@@ -12344,7 +12365,9 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 a:focus-visible,button:focus-visible,[role="button"]:focus-visible,
 input:focus-visible,textarea:focus-visible,select:focus-visible,
 .pricing-tab:focus-visible,.svc-card:focus-visible,.pack-cta:focus-visible,
-.lang-toggle:focus-visible,.nav-cta:focus-visible{
+.lang-toggle:focus-visible,.nav-cta:focus-visible,
+.work-arrow:focus-visible,.cov-arrow:focus-visible,.nav-burger:focus-visible,
+.faq-q:focus-visible,.mob-tab:focus-visible,.modal-close:focus-visible,.pack-modal-close:focus-visible{
   outline:2px solid var(--accent)!important;
   outline-offset:3px!important;
   border-radius:6px;
@@ -12427,6 +12450,9 @@ a{ transition:color .2s ease, opacity .2s ease; }
 .svc-grid{ grid-template-columns:repeat(3,1fr)!important; }
 @media(max-width:1100px){ .svc-grid{ grid-template-columns:repeat(2,1fr)!important; } }
 @media(max-width:700px){ .svc-grid{ grid-template-columns:1fr!important; } }
+
+/* ── Rayon des cartes de contenu unifié (cohérence visuelle) ── */
+.svc-card,.pack-card,.press-card,.tcard,.award-item,.process-step{ border-radius:20px!important; }
 </style>
 <main id="main-content"><section id="hero">
   <div class="hero-mob">
