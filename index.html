@@ -12195,6 +12195,18 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
   }
   .nav-cta::after,.hero-btn-secondary::after{animation:none!important;}
 }
+/* ── Mobile : barre du haut plus sobre (logo + traduction lisibles) ── */
+@media (max-width:900px){
+  nav:not(#mob-tab-bar){
+    background-color:rgba(6,7,9,.74)!important;
+    background-image:none!important;
+    -webkit-backdrop-filter:blur(16px) saturate(1.4)!important;
+    backdrop-filter:blur(16px) saturate(1.4)!important;
+    border-bottom:1px solid rgba(255,255,255,.07)!important;
+    box-shadow:0 1px 0 rgba(255,255,255,.05),0 6px 20px rgba(0,0,0,.4)!important;
+  }
+  nav:not(#mob-tab-bar)::after{display:none!important;}
+}
 </style>
 <script id="liquid-glass-js">
 (function(){
@@ -12263,7 +12275,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 <main id="main-content"><section id="hero">
   <div class="hero-mob">
     <img width="900" height="900" fetchpriority="high" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1780835363/about_5_jdxu46.jpg" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 12%;filter:grayscale(1) contrast(1.05) brightness(.74);z-index:0">
-    <div style="position:absolute;inset:0;background:linear-gradient(to top,#060606 6%,rgba(6,6,6,.15) 52%,rgba(6,6,6,.5) 100%);z-index:1"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,#060606 12%,rgba(6,6,6,.4) 46%,rgba(6,6,6,.64) 100%);z-index:1"></div>
     <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:96px 18px 96px">
       <div role="heading" aria-level="1" style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.1rem,15vw,3.9rem);line-height:.84;letter-spacing:-.03em;color:#f0ede8;text-shadow:0 2px 30px rgba(0,0,0,.5)">L'ÉLITE<br><em style="font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;font-size:clamp(2.5rem,12.5vw,3.2rem);letter-spacing:0;color:#f0ede8">se remarque.</em></div>
       <p style="margin-top:14px;font:400 .82rem Inter;line-height:1.6;color:#cfcac4;max-width:285px">L'excellence, c'est mon seul standard.</p>
