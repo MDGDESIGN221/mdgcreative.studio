@@ -12087,22 +12087,201 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   </div>
   <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
 </nav>
+<svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true">
+  <defs>
+    <filter id="lg-distort" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.011" numOctaves="2" seed="17" result="lgn"></feTurbulence>
+      <feGaussianBlur in="lgn" stdDeviation="1.1" result="lgs"></feGaussianBlur>
+      <feDisplacementMap in="SourceGraphic" in2="lgs" scale="70" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    </filter>
+  </defs>
+</svg>
+<style id="liquid-glass">
+/* ════════════════ LIQUID GLASS — intégration (renforcé) ════════════════ */
+@keyframes lgSheen{0%{transform:translateX(-140%) skewX(-20deg)}55%,100%{transform:translateX(280%) skewX(-20deg)}}
+
+/* ── NAV desktop ── */
+nav:not(#mob-tab-bar){
+  background-color:rgba(10,11,13,.30)!important;
+  background-image:radial-gradient(280px 170px at var(--gx,var(--lg-tiltx,50%)) var(--gy,var(--lg-tilty,-30%)),rgba(255,255,255,.18),transparent 62%)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(1.9)!important;
+  backdrop-filter:blur(22px) saturate(1.9) url(#lg-distort)!important;
+  border-bottom:1px solid rgba(255,255,255,.16)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 0 0 1px rgba(255,255,255,.08),inset 0 -14px 26px rgba(255,255,255,.05),0 22px 54px -16px rgba(0,0,0,.7)!important;
+  overflow:hidden;
+}
+nav:not(#mob-tab-bar)::after{
+  content:'';position:absolute;left:0;right:0;top:0;height:62%;
+  background:linear-gradient(180deg,rgba(255,255,255,.16),transparent);
+  pointer-events:none;z-index:0;
+}
+nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
+
+/* ── CTA nav (verre teinté accent) ── */
+.nav-cta{
+  position:relative;overflow:hidden;
+  background-color:rgba(61,191,163,.20)!important;
+  background-image:radial-gradient(120px 120px at var(--gx,50%) var(--gy,-10%),rgba(255,255,255,.42),transparent 60%)!important;
+  transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .3s,background-color .3s,border-color .3s;
+  -webkit-backdrop-filter:blur(10px) saturate(1.6)!important;
+  backdrop-filter:blur(10px) saturate(1.6) url(#lg-distort)!important;
+  border:1px solid rgba(120,235,210,.6)!important;
+  color:#dafff6!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 0 0 1px rgba(61,191,163,.25),0 10px 26px -8px rgba(61,191,163,.6)!important;
+}
+.nav-cta::after{content:'';position:absolute;top:0;left:0;width:42%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:lgSheen 5.5s ease-in-out 1.5s infinite;pointer-events:none;}
+.nav-cta:hover{background-color:rgba(61,191,163,.95)!important;color:#042019!important;border-color:rgba(61,191,163,.95)!important;}
+.nav-cta.lg-press{transform:scale(.95)}
+
+/* ── Bouton hero secondaire (verre neutre) ── */
+.hero-btn-secondary{
+  position:relative;overflow:hidden;
+  background-color:rgba(255,255,255,.10)!important;
+  background-image:radial-gradient(150px 130px at var(--gx,50%) var(--gy,-10%),rgba(255,255,255,.36),transparent 62%)!important;
+  transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .3s,background-color .3s;
+  -webkit-backdrop-filter:blur(14px) saturate(1.6)!important;
+  backdrop-filter:blur(14px) saturate(1.6) url(#lg-distort)!important;
+  border:1px solid rgba(255,255,255,.24)!important;border-left:none!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 0 0 1px rgba(255,255,255,.07)!important;
+}
+.hero-btn-secondary::after{content:'';position:absolute;top:0;left:0;width:38%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:lgSheen 6s ease-in-out 2.5s infinite;pointer-events:none;}
+.hero-btn-secondary.lg-press{transform:scale(.96)}
+.hero-btn-primary{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 12px 32px -12px rgba(0,0,0,.55)!important;}
+
+/* ── Cartes services ── */
+.svc-grid{background:radial-gradient(40% 55% at 20% 22%,rgba(61,191,163,.26),transparent 68%),radial-gradient(45% 60% at 84% 80%,rgba(96,82,168,.22),transparent 70%),radial-gradient(40% 50% at 60% 50%,rgba(176,108,66,.12),transparent 72%)!important;}
+.svc-card{
+  position:relative;z-index:1;
+  background-color:transparent!important;
+  background-image:radial-gradient(240px 240px at var(--gx,var(--lg-tiltx,50%)) var(--gy,var(--lg-tilty,0%)),rgba(255,255,255,.24),transparent 58%),linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.035))!important;
+  -webkit-backdrop-filter:blur(26px) saturate(1.7)!important;
+  backdrop-filter:blur(26px) saturate(1.7) url(#lg-distort)!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.6),inset 0 0 0 1px rgba(255,255,255,.06),inset 0 -22px 40px rgba(255,255,255,.04),0 38px 64px -28px rgba(0,0,0,.72)!important;
+}
+
+/* ── Cartes awards ── */
+.awards-grid{background:radial-gradient(42% 60% at 18% 26%,rgba(61,191,163,.24),transparent 68%),radial-gradient(46% 60% at 84% 74%,rgba(96,82,168,.2),transparent 70%)!important;}
+.award-item{
+  position:relative;z-index:1;
+  background-color:transparent!important;
+  background-image:radial-gradient(220px 220px at var(--gx,var(--lg-tiltx,50%)) var(--gy,var(--lg-tilty,0%)),rgba(255,255,255,.22),transparent 58%),linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.03))!important;
+  -webkit-backdrop-filter:blur(26px) saturate(1.7)!important;
+  backdrop-filter:blur(26px) saturate(1.7) url(#lg-distort)!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.58),inset 0 0 0 1px rgba(255,255,255,.05),0 34px 58px -26px rgba(0,0,0,.68)!important;
+}
+
+/* ── Cartes témoignages (rim verre marqué, lisibilité préservée) ── */
+.tcard{
+  border:1px solid rgba(255,255,255,.16)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.3),inset 0 0 0 1px rgba(255,255,255,.05),0 28px 50px -22px rgba(0,0,0,.62)!important;
+}
+
+/* ── Tab bar mobile ── */
+#mob-tab-bar{
+  background-color:rgba(10,11,13,.34)!important;
+  background-image:radial-gradient(170px 120px at var(--gx,var(--lg-tiltx,50%)) var(--gy,var(--lg-tilty,-20%)),rgba(255,255,255,.22),transparent 62%)!important;
+  -webkit-backdrop-filter:blur(26px) saturate(1.8)!important;
+  backdrop-filter:blur(26px) saturate(1.8) url(#lg-distort)!important;
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.4),inset 0 0 0 1px rgba(255,255,255,.06),0 -1px 0 rgba(255,255,255,.08),0 -20px 44px rgba(0,0,0,.55)!important;
+}
+
+/* ── Repli accessibilité / appareils faibles : verre dépoli renforcé sans réfraction ── */
+@media (prefers-reduced-motion: reduce){
+  nav:not(#mob-tab-bar),#mob-tab-bar,.nav-cta,.hero-btn-secondary,.svc-card,.award-item{
+    -webkit-backdrop-filter:blur(20px) saturate(1.7)!important;
+    backdrop-filter:blur(20px) saturate(1.7)!important;
+  }
+  .nav-cta::after,.hero-btn-secondary::after{animation:none!important;}
+}
+</style>
+<script id="liquid-glass-js">
+(function(){
+  var SEL = 'nav:not(#mob-tab-bar), .nav-cta, .hero-btn-secondary, .svc-card, .award-item, #mob-tab-bar, .hero-mob-glass';
+  function setGlow(el, x, y){
+    var r = el.getBoundingClientRect();
+    if(!r.width) return;
+    el.style.setProperty('--gx', (((x - r.left)/r.width)*100).toFixed(1)+'%');
+    el.style.setProperty('--gy', (((y - r.top)/r.height)*100).toFixed(1)+'%');
+  }
+  /* Reflet spéculaire qui suit le pointeur / le doigt */
+  var pend=false, lx=0, ly=0;
+  function onMove(e){
+    lx=e.clientX; ly=e.clientY;
+    if(pend) return; pend=true;
+    requestAnimationFrame(function(){
+      pend=false;
+      var t=document.elementFromPoint(lx,ly);
+      var g=t&&t.closest&&t.closest(SEL);
+      if(g) setGlow(g,lx,ly);
+    });
+  }
+  document.addEventListener('pointermove', onMove, {passive:true});
+  document.addEventListener('pointerdown', function(e){
+    var g=e.target.closest&&e.target.closest(SEL);
+    if(g){ setGlow(g,e.clientX,e.clientY); g.classList.add('lg-press'); }
+  }, {passive:true});
+  function clearPress(){ var p=document.querySelectorAll('.lg-press'); for(var i=0;i<p.length;i++) p[i].classList.remove('lg-press'); }
+  document.addEventListener('pointerup', clearPress, {passive:true});
+  document.addEventListener('pointercancel', clearPress, {passive:true});
+
+  /* Réfraction qui "ondule" selon la vitesse de scroll */
+  var map=document.querySelector('#lg-distort feDisplacementMap');
+  var base=70, lastY=window.scrollY||0, vel=0, ticking=false;
+  function relax(){
+    if(map) map.setAttribute('scale', Math.round(base+vel));
+    vel*=0.85;
+    if(vel>0.6){ requestAnimationFrame(relax); }
+    else { if(map) map.setAttribute('scale', base); ticking=false; }
+  }
+  window.addEventListener('scroll', function(){
+    var y=window.scrollY||0;
+    vel=Math.min(70, vel + Math.abs(y-lastY));
+    lastY=y;
+    if(!ticking){ ticking=true; requestAnimationFrame(relax); }
+  }, {passive:true});
+
+  /* Inclinaison de l'appareil -> le reflet se déplace (mobile, façon Apple) */
+  function onTilt(ev){
+    var g=ev.gamma||0, b=ev.beta||0;
+    if(g>30)g=30; if(g<-30)g=-30; if(b>60)b=60; if(b<0)b=0;
+    document.documentElement.style.setProperty('--lg-tiltx', (50 + g*1.2).toFixed(1)+'%');
+    document.documentElement.style.setProperty('--lg-tilty', (-25 + (b-30)*0.7).toFixed(1)+'%');
+  }
+  function enableTilt(){
+    if(typeof DeviceOrientationEvent==='undefined') return;
+    if(typeof DeviceOrientationEvent.requestPermission==='function'){
+      DeviceOrientationEvent.requestPermission().then(function(p){ if(p==='granted') window.addEventListener('deviceorientation', onTilt); }).catch(function(){});
+    } else {
+      window.addEventListener('deviceorientation', onTilt);
+    }
+  }
+  window.addEventListener('pointerdown', enableTilt, {once:true, passive:true});
+})();
+</script>
 <main id="main-content"><section id="hero">
   <div class="hero-mob">
     <img width="900" height="900" fetchpriority="high" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1780835363/about_5_jdxu46.jpg" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 12%;filter:grayscale(1) contrast(1.05) brightness(.74);z-index:0">
     <div style="position:absolute;inset:0;background:linear-gradient(to top,#060606 6%,rgba(6,6,6,.15) 52%,rgba(6,6,6,.5) 100%);z-index:1"></div>
-    <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:104px 28px 104px">
-      <div role="heading" aria-level="1" style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.1rem,15vw,3.9rem);line-height:.86;letter-spacing:-.03em;color:#f0ede8;text-shadow:0 2px 30px rgba(0,0,0,.5)">L'ÉLITE<br><em style="font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;font-size:clamp(2.5rem,12.5vw,3.2rem);letter-spacing:0;color:#f0ede8">se remarque.</em></div>
-      <p style="margin-top:14px;font:400 .8rem Inter;line-height:1.6;color:#9a958f;max-width:290px">L'excellence, c'est mon seul standard.</p>
-      <a href="#contact" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('contact');else document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})" style="margin-top:22px;width:100%;max-width:340px;display:flex;align-items:center;justify-content:center;gap:9px;padding:16px;background:#3DBFA3;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#060606;text-decoration:none">Postuler pour un projet →</a>
-      <div style="display:inline-flex;align-items:center;gap:8px;margin:16px 0 0;padding:6px 12px;border:1px solid rgba(255,255,255,.18);border-radius:100px;background:rgba(255,255,255,.04);font-family:'Inter',sans-serif;font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#d8d3cd"><span style="width:5px;height:5px;border-radius:50%;background:#3DBFA3;flex-shrink:0"></span><span data-i18n="hero_select">Sur sélection · Disponibilités limitées</span></div>
-      <a href="#portfolio-accordion" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})" style="margin-top:15px;font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;letter-spacing:.03em;color:#e6e1da;text-decoration:none;display:inline-flex;align-items:center;gap:7px"><span style="border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:2px;white-space:nowrap">Voir 7 ans de travail</span><span style="font-size:.92rem">→</span></a>
-      <div style="display:flex;justify-content:center;margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);width:100%;max-width:330px">
-        <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">7+</div><div style="font:500 .6rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:6px">ans</div></div>
-        <div style="width:1px;background:rgba(255,255,255,.14)"></div>
-        <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">50+</div><div style="font:500 .6rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:6px">artistes</div></div>
-        <div style="width:1px;background:rgba(255,255,255,.14)"></div>
-        <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">9+</div><div style="font:500 .6rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:6px">pays</div></div>
+    <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:96px 18px 96px">
+      <div role="heading" aria-level="1" style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.1rem,15vw,3.9rem);line-height:.84;letter-spacing:-.03em;color:#f0ede8;text-shadow:0 2px 30px rgba(0,0,0,.5)">L'ÉLITE<br><em style="font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;font-size:clamp(2.5rem,12.5vw,3.2rem);letter-spacing:0;color:#f0ede8">se remarque.</em></div>
+      <p style="margin-top:14px;font:400 .82rem Inter;line-height:1.6;color:#cfcac4;max-width:285px">L'excellence, c'est mon seul standard.</p>
+      <!-- ── Panneau liquid glass ── -->
+      <div class="hero-mob-glass" style="position:relative;overflow:hidden;margin-top:24px;width:100%;border-radius:26px;padding:18px 18px 16px;-webkit-backdrop-filter:blur(20px) saturate(1.7);backdrop-filter:blur(20px) saturate(1.7) url(#lg-distort);background-color:rgba(255,255,255,.06);background-image:radial-gradient(220px 160px at var(--gx,28%) var(--gy,0%),rgba(255,255,255,.26),transparent 58%)">
+        <span style="position:absolute;inset:0;border-radius:26px;box-shadow:inset 0 1.5px 1px rgba(255,255,255,.5),inset 0 0 0 1px rgba(255,255,255,.1),0 24px 50px -22px rgba(0,0,0,.6);pointer-events:none"></span>
+        <div style="position:relative;z-index:1">
+          <a href="#contact" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('contact');else document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})" style="display:flex;align-items:center;justify-content:center;gap:9px;padding:16px;background:linear-gradient(180deg,#4fd6b8,#37b39a);border-radius:16px;font-family:'Syne',sans-serif;font-weight:700;font-size:.84rem;color:#06140f;text-decoration:none;box-shadow:0 10px 26px -8px rgba(61,191,163,.6),inset 0 1px 1px rgba(255,255,255,.5)">Postuler pour un projet →</a>
+          <a href="#portfolio-accordion" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})" style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:11px;font-family:'Inter',sans-serif;font-weight:600;font-size:.78rem;letter-spacing:.03em;color:#e6e1da;text-decoration:none"><span style="border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:2px;white-space:nowrap">Voir 7 ans de travail</span><span style="font-size:.92rem">→</span></a>
+          <div style="display:flex;justify-content:center;margin-top:16px;padding-top:15px;border-top:1px solid rgba(255,255,255,.14)">
+            <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">7+</div><div style="font:500 .58rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:5px">ans</div></div>
+            <div style="width:1px;background:rgba(255,255,255,.14)"></div>
+            <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">50+</div><div style="font:500 .58rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:5px">artistes</div></div>
+            <div style="width:1px;background:rgba(255,255,255,.14)"></div>
+            <div style="flex:1;text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-.01em;color:#f0ede8;line-height:1">9+</div><div style="font:500 .58rem Inter;letter-spacing:.14em;text-transform:uppercase;color:#8a857f;margin-top:5px">pays</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:14px;font-family:'Inter',sans-serif;font-size:.56rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8f8a84"><span style="width:5px;height:5px;border-radius:50%;background:#3DBFA3;box-shadow:0 0 7px #3DBFA3;flex-shrink:0"></span><span data-i18n="hero_select">Sur sélection · Disponibilités limitées</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -22241,12 +22420,13 @@ function fixYT() {
     }
 
     img.onerror = next;
-    // Si déjà cassée au moment du scan
-    if (img.complete && img.naturalWidth === 0) next();
-    // Timeout filet de sécurité
-    setTimeout(function() {
-      if (!img.complete || img.naturalWidth === 0) next();
-    }, 5000);
+    // On ne bascule sur la miniature YouTube QUE si la vraie image (Cloudinary)
+    // a réellement échoué — jamais parce qu'elle n'est pas encore chargée (lazy).
+    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) {
+      var probe = new Image();
+      probe.onerror = next;
+      probe.src = img.currentSrc || img.src;
+    }
   });
 }
 
