@@ -12148,28 +12148,26 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 .hero-btn-secondary.lg-press{transform:scale(.96)}
 .hero-btn-primary{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 12px 32px -12px rgba(0,0,0,.55)!important;}
 
-/* ── Cartes services ── */
-.svc-grid{background:radial-gradient(40% 55% at 20% 22%,rgba(61,191,163,.26),transparent 68%),radial-gradient(45% 60% at 84% 80%,rgba(96,82,168,.22),transparent 70%),radial-gradient(40% 50% at 60% 50%,rgba(176,108,66,.12),transparent 72%)!important;}
+/* ── Cartes services : calmes et lisibles (pas de verre/réfraction) ── */
+.svc-grid{background:var(--border)!important;}
 .svc-card{
   position:relative;z-index:1;
-  background-color:transparent!important;
-  background-image:radial-gradient(240px 240px at var(--gx,var(--lg-tiltx,50%)) var(--gy,var(--lg-tilty,0%)),rgba(255,255,255,.24),transparent 58%),linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.035))!important;
-  -webkit-backdrop-filter:blur(26px) saturate(1.7)!important;
-  backdrop-filter:blur(26px) saturate(1.7) url(#lg-distort)!important;
-  border:1px solid rgba(255,255,255,.18)!important;
-  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.6),inset 0 0 0 1px rgba(255,255,255,.06),inset 0 -22px 40px rgba(255,255,255,.04),0 38px 64px -28px rgba(0,0,0,.72)!important;
+  background:linear-gradient(160deg,rgba(20,20,22,.94),rgba(12,12,14,.97))!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  box-shadow:0 20px 44px -26px rgba(0,0,0,.6)!important;
 }
 
-/* ── Cartes awards ── */
-.awards-grid{background:radial-gradient(42% 60% at 18% 26%,rgba(61,191,163,.24),transparent 68%),radial-gradient(46% 60% at 84% 74%,rgba(96,82,168,.2),transparent 70%)!important;}
+/* ── Cartes awards : calmes (pas de verre/réfraction) ── */
+.awards-grid{background:radial-gradient(42% 60% at 18% 26%,rgba(61,191,163,.10),transparent 70%)!important;}
 .award-item{
   position:relative;z-index:1;
-  background-color:transparent!important;
-  background-image:radial-gradient(220px 220px at var(--gx,var(--lg-tiltx,50%)) var(--gy,var(--lg-tilty,0%)),rgba(255,255,255,.22),transparent 58%),linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.03))!important;
-  -webkit-backdrop-filter:blur(26px) saturate(1.7)!important;
-  backdrop-filter:blur(26px) saturate(1.7) url(#lg-distort)!important;
-  border:1px solid rgba(255,255,255,.16)!important;
-  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.58),inset 0 0 0 1px rgba(255,255,255,.05),0 34px 58px -26px rgba(0,0,0,.68)!important;
+  background:linear-gradient(160deg,rgba(20,20,22,.94),rgba(12,12,14,.97))!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  box-shadow:0 20px 44px -26px rgba(0,0,0,.6)!important;
 }
 
 /* ── Cartes témoignages (rim verre marqué, lisibilité préservée) ── */
@@ -12189,7 +12187,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 
 /* ── Repli accessibilité / appareils faibles : verre dépoli renforcé sans réfraction ── */
 @media (prefers-reduced-motion: reduce){
-  nav:not(#mob-tab-bar),#mob-tab-bar,.nav-cta,.hero-btn-secondary,.svc-card,.award-item{
+  nav:not(#mob-tab-bar),#mob-tab-bar,.nav-cta,.hero-btn-secondary{
     -webkit-backdrop-filter:blur(20px) saturate(1.7)!important;
     backdrop-filter:blur(20px) saturate(1.7)!important;
   }
@@ -12213,15 +12211,15 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 }
 .pricing-tabs{
   position:relative;overflow:hidden;
-  -webkit-backdrop-filter:blur(14px) saturate(1.5)!important;
-  backdrop-filter:blur(14px) saturate(1.5) url(#lg-distort)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(1.4)!important;
+  backdrop-filter:blur(14px) saturate(1.4)!important;
   background-color:rgba(255,255,255,.05)!important;
   box-shadow:inset 0 1px 1px rgba(255,255,255,.4),inset 0 0 0 1px rgba(255,255,255,.08)!important;
 }
 .pack-card{
   position:relative;
-  -webkit-backdrop-filter:blur(22px) saturate(1.6)!important;
-  backdrop-filter:blur(22px) saturate(1.6) url(#lg-distort)!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
   transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .3s,border-color .3s!important;
 }
 .pack-card.lg-press{transform:scale(.985)!important;}
@@ -12230,14 +12228,14 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 .pack-card.diamond-card{--pk-tint:192,132,252;}
 .pack-card.silver-card,.pack-card.gold-card,.pack-card.diamond-card,.pack-card.featured.diamond-card{
   background:
-    radial-gradient(260px 210px at var(--gx,28%) var(--gy,0%),rgba(255,255,255,.22),transparent 56%),
-    radial-gradient(ellipse at 30% 0%,rgba(var(--pk-tint),.32),transparent 60%),
-    linear-gradient(150deg,rgba(var(--pk-tint),.15) 0%,rgba(14,15,18,.80) 60%)!important;
+    radial-gradient(120% 80% at 30% 0%,rgba(255,255,255,.08),transparent 55%),
+    radial-gradient(ellipse at 30% 0%,rgba(var(--pk-tint),.30),transparent 60%),
+    linear-gradient(150deg,rgba(var(--pk-tint),.16) 0%,rgba(13,14,17,.94) 62%)!important;
 }
 .packs-grid .pack-card:not(.silver-card):not(.gold-card):not(.diamond-card){
   background:
-    radial-gradient(260px 210px at var(--gx,28%) var(--gy,0%),rgba(255,255,255,.18),transparent 56%),
-    linear-gradient(160deg,rgba(255,255,255,.09) 0%,rgba(12,13,16,.82) 62%)!important;
+    radial-gradient(120% 80% at 30% 0%,rgba(255,255,255,.06),transparent 55%),
+    linear-gradient(160deg,rgba(22,23,26,.96) 0%,rgba(12,13,16,.98) 62%)!important;
 }
 /* ── Mobile : espacements "pro" cohérents pour Services + Tarifs ── */
 @media(max-width:700px){
@@ -12274,7 +12272,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 </style>
 <script id="liquid-glass-js">
 (function(){
-  var SEL = 'nav:not(#mob-tab-bar), .nav-cta, .hero-btn-secondary, .svc-card, .award-item, #mob-tab-bar, .hero-mob-glass, .pack-card';
+  var SEL = 'nav:not(#mob-tab-bar), .nav-cta, .hero-btn-secondary, #mob-tab-bar, .hero-mob-glass';
   function setGlow(el, x, y){
     var r = el.getBoundingClientRect();
     if(!r.width) return;
