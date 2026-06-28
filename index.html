@@ -12239,6 +12239,38 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
     radial-gradient(260px 210px at var(--gx,28%) var(--gy,0%),rgba(255,255,255,.18),transparent 56%),
     linear-gradient(160deg,rgba(255,255,255,.09) 0%,rgba(12,13,16,.82) 62%)!important;
 }
+/* ── Mobile : espacements "pro" cohérents pour Services + Tarifs ── */
+@media(max-width:700px){
+  /* Marges latérales régulières */
+  #services{padding:56px 20px 44px!important}
+  #pricing{padding:56px 0 56px!important}
+
+  /* Services : une colonne, cartes décollées et lisibles */
+  .svc-grid{
+    grid-template-columns:1fr!important;
+    gap:14px!important;
+    background:transparent!important;
+    border:none!important;
+    border-radius:0!important;
+    overflow:visible!important;
+  }
+  .svc-card{
+    min-height:0!important;
+    border-radius:16px!important;
+    overflow:hidden!important;
+    border:1px solid rgba(255,255,255,.10)!important;
+    padding:24px 20px!important;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.3),0 14px 34px -20px rgba(0,0,0,.55)!important;
+  }
+  .svc-title{font-size:1.18rem!important;margin-bottom:.55rem!important}
+  .svc-desc{font-size:.95rem!important;line-height:1.6!important;margin-bottom:1.1rem!important}
+
+  /* Tarifs : packs pleine largeur, contenu aéré */
+  .packs-grid{gap:16px!important}
+  .pack-card{padding:26px 22px!important;border-radius:18px!important}
+  .pack-features li{padding:.5rem 0!important;font-size:.92rem!important;line-height:1.5!important}
+  .pack-cta{margin-top:1.1rem!important}
+}
 </style>
 <script id="liquid-glass-js">
 (function(){
