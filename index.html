@@ -12085,7 +12085,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     </button>
     <a href="javascript:void(0)" class="nav-cta" data-i18n="nav_cta">Lancer un projet</a>
   </div>
-  <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
+  <button class="nav-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true">
   <defs>
@@ -12334,6 +12334,49 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
   window.addEventListener('pointerdown', enableTilt, {once:true, passive:true});
 })();
 </script>
+<style id="polish-90">
+/* ════════════════ FINITION 90% — accessibilité + premium (additif) ════════════════ */
+
+/* 1. Contraste : éclaircir le gris le plus faible pour la lisibilité (WCAG) */
+:root{ --dim:#9a9a92; }
+
+/* 2. Focus visible accessible (clavier) — anneau accent, sans gêner la souris */
+a:focus-visible,button:focus-visible,[role="button"]:focus-visible,
+input:focus-visible,textarea:focus-visible,select:focus-visible,
+.pricing-tab:focus-visible,.svc-card:focus-visible,.pack-cta:focus-visible,
+.lang-toggle:focus-visible,.nav-cta:focus-visible{
+  outline:2px solid var(--accent)!important;
+  outline-offset:3px!important;
+  border-radius:6px;
+}
+input,textarea,select{ accent-color:var(--accent); }
+
+/* 3. Ancres : ne plus passer SOUS la nav fixe au scroll (offset propre) */
+section[id]{ scroll-margin-top:88px; }
+@media(max-width:900px){ section[id]{ scroll-margin-top:72px; } }
+
+/* 4. Sélection de texte teintée accent */
+::selection{ background:rgba(61,191,163,.28); color:#fff; }
+
+/* 5. Scrollbar premium (desktop) */
+@media(hover:hover){
+  html{ scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.18) transparent; }
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.16);
+    border:2px solid var(--black);
+    border-radius:10px;
+  }
+  ::-webkit-scrollbar-thumb:hover{ background:rgba(61,191,163,.55); }
+}
+
+/* 6. Garde-fous : médias fluides */
+img,svg,video,iframe{ max-width:100%; }
+
+/* 7. Transition de couleur unifiée sur les liens */
+a{ transition:color .2s ease, opacity .2s ease; }
+</style>
 <main id="main-content"><section id="hero">
   <div class="hero-mob">
     <img width="900" height="900" fetchpriority="high" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_900/v1780835363/about_5_jdxu46.jpg" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 12%;filter:grayscale(1) contrast(1.05) brightness(.74);z-index:0">
@@ -15822,7 +15865,7 @@ function submitPackForm(e) {
 <!-- ── MODAL HTML ── -->
 <div id="packModalOverlay" class="pack-modal-overlay" onclick="if(event.target===this)closePackModal()">
   <div class="pack-modal" id="packModal">
-    <button class="pack-modal-close" onclick="closePackModal()">✕</button>
+    <button class="pack-modal-close" onclick="closePackModal()" aria-label="Fermer">✕</button>
     <div class="pack-modal-head">
       <div class="pack-modal-label"></div>
       <div class="pack-modal-name"></div>
@@ -17844,7 +17887,7 @@ enableDragScroll(document.getElementById('motTrack'));
 </script>
 
 <!-- MODALS SERVICES -->
-<div class="modal-overlay" id="modalOverlay" aria-hidden="true"><div class="modal-box" id="modalBox"><button class="modal-close" id="modalClose">✕</button><div id="modalContent"></div></div></div>
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true"><div class="modal-box" id="modalBox"><button class="modal-close" id="modalClose" aria-label="Fermer">✕</button><div id="modalContent"></div></div></div>
 <script>
 // ── MODAL SERVICES ──
 const servicesData = [{"num": "01", "title": "Direction Artistique Musicale", "desc": "La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son. Les gens doivent sentir ta musique avant même d'appuyer sur play.", "includes": ["Cover art pour single, EP ou album", "Direction artistique complète (concept, moodboard, palette)", "Déclinaisons réseaux (story, carré, bannière)", "Press kit visuel pour booking et médias", "Formats optimisés streaming (Spotify, Apple Music, Deezer)"], "tags": ["Cover Art", "EP / Album", "Press Kit", "Streaming"]}, {"num": "02", "title": "Identité de Marque", "desc": "Ton identité visuelle, c'est la première chose que les gens voient avant même que tu parles. Je construis des identités solides, cohérentes sur tous les supports, qu'on reconnaît au premier coup d'œil.", "includes": ["Recherche de direction artistique & moodboard", "Conception du logotype (variantes principale, secondaire, favicon)", "Charte graphique complète (couleurs, typographies, espacements)", "Déclinaisons sur supports (mockups réalistes)", "Fichiers livrés en tous formats (SVG, PNG, PDF)"], "tags": ["Logo", "Charte", "Mockups", "Branding"]}, {"num": "03", "title": "Motion Design", "desc": "Le mouvement donne vie à ce qui était statique. Logos animés, intros vidéo, transitions. Je crée des animations qui renforcent ton identité et retiennent l'attention sur les réseaux.", "includes": ["Logo reveal animé (After Effects)", "Intros et outros pour vidéos YouTube / Twitch", "Stories et Reels animés pour Instagram", "Transitions et overlays pour montages", "Export multi-formats (MP4, GIF, WebM)"], "tags": ["Animation", "Logo Reveal", "Reels", "After Effects"]}, {"num": "04", "title": "Web Design", "desc": "Un site qui te représente vraiment, pas un template qu'on reconnaît de loin. Je conçois et développe des sites sur mesure, pensés pour convertir autant que pour impressionner.", "includes": ["Design UI/UX complet (wireframe vers maquette finale)", "Développement HTML / CSS / JS optimisé", "Responsive design (mobile, tablette, desktop)", "Optimisation vitesse et SEO de base", "Déploiement et mise en ligne inclus"], "tags": ["Site Web", "UI / UX", "Landing", "Responsive"]}, {"num": "05", "title": "Design Éditorial & Print", "desc": "Ce qui se touche marque les esprits autrement. Affiches, flyers, programmes, livrets. Je conçois des supports print qui ont du caractère et qui tiennent à l'impression.", "includes": ["Conception d'affiches et flyers événementiels", "Programmes et livrets (concert, festival, expo)", "Magazines et zines indépendants", "Suivi prépresse et validation des fichiers d'impression", "Formats adaptés offset et numérique"], "tags": ["Affiche", "Flyer", "Print", "Prépresse"]}, {"num": "06", "title": "Contenu Social Media", "desc": "Une présence cohérente sur les réseaux, ça ne s'improvise pas. Je crée des templates et contenus visuels qui gardent une ligne forte sur tous tes canaux. Chaque post doit ressembler à toi.", "includes": ["Templates personnalisés Instagram (posts, stories, carousels)", "Carrousels éducatifs ou promotionnels", "Visuels pour campagnes et sorties", "Guides de style pour publication en autonomie", "Formats adaptés TikTok, X, Facebook"], "tags": ["Instagram", "Templates", "Carrousel", "TikTok"]}, {"num": "07", "title": "Merchandising", "desc": "Ton merch, c'est ton identité portée par tes fans. Je conçois des visuels pour textile et goodies qui ont de la gueule. Du concept jusqu'au fichier prêt pour la production.", "includes": ["Concept et direction artistique du merch", "Visuels pour t-shirts, hoodies, tote-bags, casquettes", "Adaptation aux techniques d'impression (sérigraphie, DTF, broderie)", "Mockups réalistes pour présentation ou vente en ligne", "Fichiers techniques prêts pour impression"], "tags": ["Textile", "Goodies", "Production", "Sérigraphie"]}, {"num": "08", "title": "Scénographie & Événementiel", "desc": "Faire vivre une identité dans l'espace physique, c'est un autre niveau. Pour tes concerts, festivals ou événements, je conçois l'habillage visuel qui crée une vraie expérience.", "includes": ["Habillage scène et backdrop", "Signalétique et fléchage festival / événement", "Stands et espaces d'exposition", "Projection mapping et supports LED (concept)", "Direction artistique de l'espace complet"], "tags": ["Festival", "Stand", "Scène", "Événement"]}];
