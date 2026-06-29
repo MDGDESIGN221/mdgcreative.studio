@@ -11980,11 +11980,32 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 .faqm-item.open .faqm-a{display:block}
 .faqm-sign::after{content:'+'}
 .faqm-item.open .faqm-sign::after{content:'\2013'}
-/* Taille des questions/réponses FAQ mobile — les h3 ont 1.5rem en inline,
-   on ramène à quelque chose de lisible sans être écrasant */
+/* ── TYPO MOBILE : corrections tailles sur tous les blocs mob ── */
+
+/* FAQ mob — questions h3 (1.5rem inline → 1rem) */
 .faq-mob .faqm-item h3{font-size:1rem!important;line-height:1.3!important}
 .faq-mob .faqm-sign{font-size:1rem!important}
 .faq-mob .faqm-a p{font-size:.8rem!important}
+/* Titre section "Questions fréquentes" (1.85rem → 1.45rem) */
+.faq-mob h2{font-size:1.45rem!important}
+
+/* Hero mob — titres cartes "Cover Art", "In Motion" (clamp 1.8rem → 1.35rem) */
+.hero-mob h2{font-size:1.35rem!important;line-height:1.1!important}
+
+/* Services mob — titre section (1.85rem → 1.45rem) et titres services (1.32rem → 1.05rem) */
+.services-mob>div>h2{font-size:1.45rem!important;line-height:1.05!important}
+.services-mob .svc-title{font-size:1.05rem!important}
+
+/* SP mob — blockquote témoignage (1.5rem → 1.1rem) */
+.sp-mob blockquote{font-size:1.1rem!important;line-height:1.4!important}
+
+/* About mob — bio italic (1.2rem → .92rem) */
+.about-mob p[style*="DM Serif Display"]{font-size:.92rem!important;line-height:1.5!important}
+
+/* Pricing mob — nom pack (2rem → 1.5rem) et prix (2.3rem → 1.8rem) */
+.pd-card-name{font-size:1.5rem!important}
+.pd-card-amt{font-size:1.8rem!important}
+
 @media(max-width:767px){
   #about > .container{display:none!important}
   #collabs > .container,#collabs > .portraits-section{display:none!important}
