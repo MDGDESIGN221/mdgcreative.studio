@@ -12293,6 +12293,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 </style>
 <script id="liquid-glass-js">
 (function(){
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var SEL = 'nav:not(#mob-tab-bar), .nav-cta, .hero-btn-secondary, #mob-tab-bar, .hero-mob-glass';
   function setGlow(el, x, y){
     var r = el.getBoundingClientRect();
@@ -12331,6 +12332,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
     else { if(map) map.setAttribute('scale', base); ticking=false; }
   }
   window.addEventListener('scroll', function(){
+    if(RM) return;
     var y=window.scrollY||0;
     vel=Math.min(70, vel + Math.abs(y-lastY));
     lastY=y;
@@ -12352,7 +12354,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
       window.addEventListener('deviceorientation', onTilt);
     }
   }
-  window.addEventListener('pointerdown', enableTilt, {once:true, passive:true});
+  if(!RM) window.addEventListener('pointerdown', enableTilt, {once:true, passive:true});
 })();
 </script>
 <style id="polish-90">
@@ -12453,6 +12455,14 @@ a{ transition:color .2s ease, opacity .2s ease; }
 
 /* ── Rayon des cartes de contenu unifié (cohérence visuelle) ── */
 .svc-card,.pack-card,.press-card,.tcard,.award-item,.process-step{ border-radius:20px!important; }
+
+/* ── Cibles tactiles ≥44px sur mobile (recommandation WCAG/Apple) ── */
+@media(hover:none),(max-width:900px){
+  .lang-toggle{ min-height:44px; display:inline-flex; align-items:center; }
+  .mob-lang-toggle{ min-height:44px; }
+  .nav-burger{ width:44px; height:44px; align-items:center; justify-content:center; }
+  .work-arrow,.cov-arrow{ min-width:44px; min-height:44px; }
+}
 </style>
 <main id="main-content"><section id="hero">
   <div class="hero-mob">
