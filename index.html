@@ -12484,14 +12484,15 @@ a[data-spotify] svg{ fill:#fff !important; }
 /* Overlay transition Atelier MDG */
 #atelierOverlay{position:fixed;inset:0;background:#fff;z-index:9999;opacity:0;pointer-events:none;transition:opacity .45s cubic-bezier(.4,0,.2,1)}
 #atelierOverlay.active{opacity:1;pointer-events:all}
-/* Mobile : cards empilées */
-@media(max-width:600px){
-  .hero-doors{flex-direction:column;max-width:100%}
-  .hero-door--artists{order:-1}
-  .hero-door+.hero-door{border-left:none;border-top:1px solid rgba(255,255,255,.16)}
-  .hd-k{font-size:.92rem}
-  .hd-v{font-size:.74rem}
-  .hero-door{padding:16px 18px}
+/* Mobile : cards empilées — patch robuste */
+@media(max-width:767px){
+  .hero-doors{display:flex!important;flex-direction:column!important;max-width:100%!important;width:100%!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;margin-bottom:.75rem!important}
+  .hero-door{display:flex!important;flex-direction:column!important;padding:18px 18px!important;pointer-events:auto!important;width:100%!important;visibility:visible!important;opacity:1!important}
+  .hero-door--artists{order:-1!important}
+  .hero-door+.hero-door{border-left:none!important;border-top:1px solid rgba(255,255,255,.16)!important}
+  .hd-eyebrow{display:block!important;font-size:.6rem!important;visibility:visible!important;opacity:.8!important}
+  .hd-k{font-size:.9rem!important;display:flex!important;visibility:visible!important}
+  .hd-v{font-size:.74rem!important;display:block!important;visibility:visible!important}
 }
 
 /* ── PASSERELLE ── */
@@ -23682,11 +23683,17 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   var btn = document.getElementById('doorBrands');
   var overlay = document.getElementById('atelierOverlay');
   if(!btn || !overlay) return;
-  btn.addEventListener('click', function(e){
+  // Force pointer-events sur le bouton et ses parents jusqu'au hero
+  btn.style.pointerEvents = 'auto';
+  btn.style.cursor = 'pointer';
+  function goAtelier(e){
     e.preventDefault();
+    e.stopPropagation();
     overlay.classList.add('active');
     setTimeout(function(){ window.location.href = 'atelier.html'; }, 480);
-  });
+  }
+  btn.addEventListener('click', goAtelier);
+  btn.addEventListener('touchend', goAtelier, {passive:false});
 })();
 </script>
 </body>
