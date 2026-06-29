@@ -12475,7 +12475,14 @@ a[data-spotify] svg{ fill:#fff !important; }
 .hero-door{flex:1;padding:16px 20px;text-decoration:none;display:flex;flex-direction:column;gap:4px;transition:background .25s;height:auto!important;min-height:0!important;position:relative}
 .hero-door+.hero-door{border-left:1px solid rgba(255,255,255,.16)}
 .hero-door:hover{background:rgba(61,191,163,.10)}
-.hero-door--brands:hover{background:rgba(255,255,255,.06)}
+/* ── Card Atelier MDG : fond blanc, contraste maximal ── */
+.hero-door--brands{background:#f0ede8;border-right:none}
+.hero-door--brands:hover{background:#ffffff}
+.hero-door--brands .hd-eyebrow{color:#060606;opacity:.45}
+.hero-door--brands .hd-k{color:#060606}
+.hero-door--brands .hd-k i{color:#060606}
+.hero-door--brands .hd-v{color:#5a5550}
+.hero-door+.hero-door{border-left:1px solid rgba(255,255,255,.16)}
 .hd-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);opacity:.8;display:block}
 .hd-k{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:#f0ede8}
 .hd-k i{color:#3DBFA3;font-style:normal;transition:transform .25s}
@@ -12489,6 +12496,7 @@ a[data-spotify] svg{ fill:#fff !important; }
   .hero-doors{display:flex!important;flex-direction:column!important;max-width:100%!important;width:100%!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;margin-bottom:.75rem!important}
   .hero-door{display:flex!important;flex-direction:column!important;padding:18px 18px!important;pointer-events:auto!important;width:100%!important;visibility:visible!important;opacity:1!important}
   .hero-door--artists{order:-1!important}
+  .hero-door--brands{background:#f0ede8!important}
   .hero-door+.hero-door{border-left:none!important;border-top:1px solid rgba(255,255,255,.16)!important}
   .hd-eyebrow{display:block!important;font-size:.6rem!important;visibility:visible!important;opacity:.8!important}
   .hd-k{font-size:.9rem!important;display:flex!important;visibility:visible!important}
@@ -12531,10 +12539,10 @@ a[data-spotify] svg{ fill:#fff !important; }
         <span style="position:absolute;inset:0;border-radius:26px;box-shadow:inset 0 1.5px 1px rgba(255,255,255,.5),inset 0 0 0 1px rgba(255,255,255,.1),0 24px 50px -22px rgba(0,0,0,.6);pointer-events:none"></span>
         <div style="position:relative;z-index:1">
           <div style="display:flex;border:1px solid rgba(255,255,255,.18);border-radius:14px;overflow:hidden">
-            <a href="atelier.html" id="doorBrandsMob" style="flex:1;padding:13px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.18)">
-              <div style="font-family:'Inter',sans-serif;font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#3DBFA3;opacity:.8;margin-bottom:4px">Atelier MDG</div>
-              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.84rem;color:#f0ede8;display:flex;align-items:center;justify-content:space-between;gap:6px">Pour les marques <span style="color:#3DBFA3">→</span></div>
-              <div style="font:400 .6rem Inter;color:#9a958f;margin-top:3px">Logo · identité · web</div>
+            <a href="atelier.html" id="doorBrandsMob" style="flex:1;padding:13px 14px;text-decoration:none;border-right:1px solid rgba(255,255,255,.18);background:#f0ede8;border-radius:13px 0 0 13px">
+              <div style="font-family:'Inter',sans-serif;font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#060606;opacity:.45;margin-bottom:4px">Atelier MDG</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.84rem;color:#060606;display:flex;align-items:center;justify-content:space-between;gap:6px">Pour les marques <span style="color:#060606">→</span></div>
+              <div style="font:400 .6rem Inter;color:#5a5550;margin-top:3px">Logo · identité · web</div>
             </a>
             <a href="#passerelle" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('passerelle');else document.getElementById('passerelle')?.scrollIntoView({behavior:'smooth'})" style="flex:1;padding:13px 14px;text-decoration:none">
               <div style="font-family:'Inter',sans-serif;font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#3DBFA3;opacity:.8;margin-bottom:4px">MDG Creative</div>
