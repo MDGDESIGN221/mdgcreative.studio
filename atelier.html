@@ -825,11 +825,81 @@ body{
         </div>
       </div>
 
+      <div class="work-card fade-up" data-project="rima" role="button" tabindex="0" aria-label="Voir le projet RIMA">
+        <div class="work-card-img">
+          <img
+            src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1782739655/RIMA_LOGO_rhv7vf.png"
+            alt="RIMA — Logo"
+            loading="lazy"
+          >
+        </div>
+        <div class="work-card-body">
+          <div class="work-card-cat">Branding · Logo & Identité</div>
+          <div class="work-card-name">RIMA</div>
+          <p class="work-card-desc">Identité visuelle pour RIMA. Logo, charte graphique et brand guidelines complets.</p>
+          <div class="work-card-tags">
+            <span class="work-card-tag">Logo</span>
+            <span class="work-card-tag">Charte graphique</span>
+            <span class="work-card-tag">Brand guidelines</span>
+          </div>
+        </div>
+        <div class="work-card-arrow">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ── Modal Case Study : Baobabs ── -->
+<!-- ── Modal Case Study : RIMA ── -->
+<div class="cs-overlay" id="csOverlayRima" role="dialog" aria-modal="true" aria-label="Case study RIMA">
+  <div class="cs-panel" id="csPanelRima">
+    <div class="cs-header">
+      <div class="cs-header-meta">
+        <div class="cs-header-cat">Branding · Logo & Identité</div>
+        <div class="cs-header-title">RIMA</div>
+      </div>
+      <button class="cs-close" id="csCloseRima" aria-label="Fermer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="cs-hero-img">
+      <img
+        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739655/RIMA_LOGO_rhv7vf.png"
+        alt="RIMA — Logo principal"
+      >
+    </div>
+
+    <div class="cs-intro">
+      <h2 class="cs-project-name"><em>RIMA</em></h2>
+      <p class="cs-project-desc">Conception de l'identité visuelle complète de RIMA — du logo principal à la charte graphique et aux brand guidelines.</p>
+      <div class="cs-meta-row">
+        <div class="cs-meta-item">
+          <span class="cs-meta-label">Discipline</span>
+          <span class="cs-meta-val">Brand Identity</span>
+        </div>
+        <div class="cs-meta-item">
+          <span class="cs-meta-label">Livrables</span>
+          <span class="cs-meta-val">Logo · Charte · Guidelines</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-slides">
+      <div class="cs-slides-title">Brand Guidelines</div>
+      <div class="cs-slides-grid">
+        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739655/Plan_de_travail_1_pspjx8.png" alt="Brand guidelines — page 1" loading="lazy"></div>
+        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739669/Plan_de_travail_2_dyls9z.png" alt="Brand guidelines — page 2" loading="lazy"></div>
+        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739670/Plan_de_travail_3_vyb4dq.png" alt="Brand guidelines — page 3" loading="lazy"></div>
+        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739658/Plan_de_travail_4_khzhn1.png" alt="Brand guidelines — page 4" loading="lazy"></div>
+        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739711/Plan_de_travail_5_itknh1.png" alt="Brand guidelines — page 5" loading="lazy"></div>
+        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739659/Plan_de_travail_6_xlli44.png" alt="Brand guidelines — page 6" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="cs-overlay" id="csOverlay" role="dialog" aria-modal="true" aria-label="Case study Baobabs Basket Club">
   <div class="cs-panel" id="csPanel">
     <div class="cs-header">
@@ -995,41 +1065,53 @@ window.addEventListener('load', function(){
   els.forEach(function(el){ io.observe(el); });
 })();
 
-// ── Case Study Modal ──
+// ── Case Study Modals ──
 (function(){
-  var overlay = document.getElementById('csOverlay');
-  var panel   = document.getElementById('csPanel');
-  var closeBtn= document.getElementById('csClose');
-  if(!overlay||!panel||!closeBtn) return;
+  var modals = {
+    'baobabs': { overlay: 'csOverlay',     panel: 'csPanel',     close: 'csClose'     },
+    'rima':    { overlay: 'csOverlayRima', panel: 'csPanelRima', close: 'csCloseRima' }
+  };
 
-  function openModal(){
+  function openModal(key){
+    var m = modals[key];
+    if(!m) return;
+    var overlay = document.getElementById(m.overlay);
+    var panel   = document.getElementById(m.panel);
+    var btn     = document.getElementById(m.close);
+    if(!overlay||!panel) return;
     overlay.classList.add('open');
     document.body.style.overflow='hidden';
     panel.scrollTop=0;
-    closeBtn.focus();
+    if(btn) btn.focus();
   }
-  function closeModal(){
-    overlay.classList.remove('open');
+
+  function closeAll(){
+    Object.values(modals).forEach(function(m){
+      var overlay = document.getElementById(m.overlay);
+      if(overlay) overlay.classList.remove('open');
+    });
     document.body.style.overflow='';
   }
 
-  // Carte projet
+  // Cartes projet
   document.querySelectorAll('[data-project]').forEach(function(card){
-    card.addEventListener('click', openModal);
+    card.addEventListener('click', function(){ openModal(card.dataset.project); });
     card.addEventListener('keydown', function(e){
-      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(); }
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(card.dataset.project); }
     });
   });
 
-  // Fermer
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', function(e){
-    if(e.target===overlay) closeModal();
+  // Boutons fermer
+  Object.values(modals).forEach(function(m){
+    var btn     = document.getElementById(m.close);
+    var overlay = document.getElementById(m.overlay);
+    if(btn)     btn.addEventListener('click', closeAll);
+    if(overlay) overlay.addEventListener('click', function(e){ if(e.target===overlay) closeAll(); });
   });
-  document.addEventListener('keydown', function(e){
-    if(e.key==='Escape') closeModal();
-  });
+
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
 })();
+
 
 
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
