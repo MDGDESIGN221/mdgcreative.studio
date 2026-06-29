@@ -11999,8 +11999,11 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 /* SP mob — blockquote témoignage (1.5rem → 1.1rem) */
 .sp-mob blockquote{font-size:1.1rem!important;line-height:1.4!important}
 
-/* About mob — bio italic (1.2rem → .92rem) */
-.about-mob p[style*="DM Serif Display"]{font-size:.92rem!important;line-height:1.5!important}
+/* About mob — h2 citation "L'exigence grandit..." (clamp 2.2rem → 1.55rem fixe) */
+.about-mob h2[style*="clamp(2.2rem"]{font-size:1.55rem!important;line-height:1.15!important}
+
+/* SP mob — "Témoignages" (1.9rem → 1.5rem + white-space:nowrap pour éviter le wrap du "s") */
+.sp-mob h2{font-size:1.5rem!important;white-space:nowrap}
 
 /* Pricing mob — nom pack (2rem → 1.5rem) et prix (2.3rem → 1.8rem) */
 .pd-card-name{font-size:1.5rem!important}
