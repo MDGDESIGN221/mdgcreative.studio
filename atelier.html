@@ -4,1275 +4,450 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#ffffff">
-<meta name="color-scheme" content="light">
 <title>Atelier MDG — Identité visuelle pour les marques</title>
 <meta name="description" content="Atelier MDG construit des identités visuelles durables pour les entreprises et marques ambitieuses. Logo, web, packaging, stratégie visuelle.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.mdgcreative.studio/atelier.html">
-
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="Atelier MDG — Identité visuelle pour les marques">
-<meta property="og:description" content="Logo, web, packaging, stratégie visuelle. Des identités qu'on ne confond pas.">
-<meta property="og:url" content="https://www.mdgcreative.studio/atelier.html">
-<meta property="og:site_name" content="Atelier MDG">
-
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_32,h_32,c_pad,b_rgb:ffffff/v1776666026/NEW_LOGO_w_rxvoil.png">
-<link rel="apple-touch-icon" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_180,h_180,c_pad,b_rgb:ffffff/v1776666026/NEW_LOGO_w_rxvoil.png">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-/* ── Reset & Base ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --white:#ffffff;
-  --black:#0a0a0a;
-  --gray-100:#f5f5f4;
-  --gray-200:#e8e7e4;
-  --gray-300:#d0ceca;
-  --gray-500:#888580;
-  --gray-700:#3a3935;
-  --border:rgba(10,10,10,.1);
-  --border-strong:rgba(10,10,10,.18);
-  --radius:14px;
-  --font-head:'Syne',sans-serif;
-  --font-body:'Inter',sans-serif;
-  --font-serif:'Instrument Serif',serif;
+  --white:#ffffff;--black:#0e0e0e;--gray-100:#f5f5f4;--gray-200:#e8e7e4;--gray-300:#d0ceca;
+  --gray-500:#8a8580;--gray-600:#6a655e;--gray-700:#3a3935;
+  --border:rgba(14,14,14,.1);--border-strong:rgba(14,14,14,.18);--radius:14px;
+  --font-head:'Syne',sans-serif;--font-body:'Inter',sans-serif;--font-serif:'DM Serif Display',serif;
   --transition:.35s cubic-bezier(.4,0,.2,1);
 }
-
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{
-  background:var(--white);
-  color:var(--black);
-  font-family:var(--font-body);
-  font-size:16px;
-  line-height:1.6;
-  overflow-x:hidden;
-}
-
-/* ── Intro overlay (arrive depuis le blanc de index.html) ── */
-#pageReveal{
-  position:fixed;inset:0;background:#fff;z-index:9000;
-  transition:opacity .5s .1s cubic-bezier(.4,0,.2,1);
-}
+body{background:var(--white);color:var(--black);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+#pageReveal{position:fixed;inset:0;background:#fff;z-index:9000;transition:opacity .5s .1s cubic-bezier(.4,0,.2,1)}
 #pageReveal.done{opacity:0;pointer-events:none}
-
-/* ── Nav ── */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:800;
-  background:rgba(255,255,255,.92);
-  -webkit-backdrop-filter:blur(16px);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  height:60px;
-  display:flex;align-items:center;
-}
-.nav-inner{
-  width:100%;max-width:1140px;margin:0 auto;
-  padding:0 32px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.nav-logo{
-  font-family:var(--font-head);font-weight:800;font-size:1rem;
-  letter-spacing:-.01em;color:var(--black);text-decoration:none;
-  display:flex;align-items:center;gap:10px;
-}
-.nav-logo-dot{
-  width:7px;height:7px;border-radius:50%;background:var(--black);
-  flex-shrink:0;
-}
-.nav-links{
-  display:flex;align-items:center;gap:32px;list-style:none;
-}
-.nav-links a{
-  font-family:var(--font-body);font-size:.82rem;font-weight:500;
-  color:var(--gray-700);text-decoration:none;letter-spacing:.01em;
-  transition:color var(--transition);
-}
+.nav{position:fixed;top:0;left:0;right:0;z-index:800;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center}
+.nav-inner{width:100%;max-width:1140px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.nav-logo img{height:26px;width:auto;display:block}
+.nav-logo-name{font-family:var(--font-head);font-weight:800;font-size:1rem;letter-spacing:-.01em;color:var(--black)}
+.nav-group{display:flex;align-items:center;gap:40px}
+.nav-links{display:flex;align-items:center;gap:30px;list-style:none}
+.nav-links a{font-size:.82rem;font-weight:500;color:var(--gray-700);text-decoration:none;letter-spacing:.01em;transition:color var(--transition)}
 .nav-links a:hover{color:var(--black)}
-.nav-cta{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--black);color:#fff;
-  font-family:var(--font-body);font-size:.8rem;font-weight:600;
-  letter-spacing:.04em;text-transform:uppercase;
-  padding:9px 20px;border-radius:100px;text-decoration:none;
-  transition:background var(--transition),transform .2s;
-}
+.nav-right{display:flex;align-items:center;gap:18px}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;background:var(--black);color:#fff;font-size:.78rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:9px 20px;border-radius:100px;text-decoration:none;transition:background var(--transition),transform .2s}
 .nav-cta:hover{background:var(--gray-700);transform:translateY(-1px)}
-.nav-back{
-  font-family:var(--font-body);font-size:.78rem;font-weight:500;
-  color:var(--gray-500);text-decoration:none;
-  display:flex;align-items:center;gap:6px;
-  transition:color var(--transition);
-}
+.nav-back{font-size:.78rem;font-weight:500;color:var(--gray-500);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color var(--transition)}
 .nav-back:hover{color:var(--black)}
 .nav-back svg{transition:transform var(--transition)}
 .nav-back:hover svg{transform:translateX(-3px)}
-
-/* Mobile nav */
-.nav-mobile-toggle{
-  display:none;width:36px;height:36px;
-  border:1px solid var(--border-strong);border-radius:8px;
-  background:none;cursor:pointer;
-  align-items:center;justify-content:center;flex-direction:column;gap:5px;
-  padding:0;
-}
-.nav-mobile-toggle span{
-  display:block;width:16px;height:1.5px;
-  background:var(--black);transition:all .3s;
-}
-.nav-mobile-menu{
-  display:none;position:fixed;top:60px;left:0;right:0;
-  background:var(--white);border-bottom:1px solid var(--border);
-  padding:20px 24px 28px;z-index:799;
-  flex-direction:column;gap:0;
-}
+.nav-mobile-toggle{display:none;width:38px;height:38px;border:1px solid var(--border-strong);border-radius:9px;background:none;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:0}
+.nav-mobile-toggle span{display:block;width:16px;height:1.5px;background:var(--black);transition:all .3s}
+.nav-mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--border);padding:14px 24px 26px;z-index:799;flex-direction:column}
 .nav-mobile-menu.open{display:flex}
-.nav-mobile-menu a{
-  font-family:var(--font-body);font-size:.92rem;font-weight:500;
-  color:var(--black);text-decoration:none;
-  padding:14px 0;border-bottom:1px solid var(--border);
-}
-.nav-mobile-menu a:last-child{border-bottom:none;margin-top:12px;padding-top:20px}
-.nav-mobile-cta{
-  display:inline-flex;align-items:center;justify-content:center;
-  background:var(--black);color:#fff !important;
-  border-radius:100px;padding:14px 20px !important;
-  font-weight:600 !important;letter-spacing:.04em;text-transform:uppercase;
-  font-size:.8rem !important;
-}
-
-@media(max-width:768px){
-  .nav-links,.nav-cta,.nav-back{display:none}
-  .nav-mobile-toggle{display:flex}
-  .nav-inner{padding:0 20px}
-}
-
-/* ── Hero ── */
-.hero{
-  min-height:100svh;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:100px 32px 60px;
-  position:relative;
-  overflow:hidden;
-}
-.hero::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;
-  height:1px;background:var(--border);
-}
-.hero-inner{
-  max-width:1140px;margin:0 auto;width:100%;
-}
-.hero-eyebrow{
-  font-family:var(--font-body);font-size:.72rem;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500);
-  margin-bottom:40px;display:flex;align-items:center;gap:12px;
-}
-.hero-eyebrow::before{
-  content:'';display:block;width:24px;height:1px;background:var(--gray-300);
-}
-.hero-title{
-  font-family:var(--font-head);font-weight:800;
-  font-size:clamp(3rem,7vw,7.5rem);
-  line-height:.96;letter-spacing:-.03em;
-  color:var(--black);
-  margin-bottom:40px;
-  max-width:900px;
-}
-.hero-title em{
-  font-family:var(--font-serif);font-style:italic;
-  font-weight:400;letter-spacing:-.01em;
-}
-.hero-bottom{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  gap:40px;flex-wrap:wrap;
-}
-.hero-desc{
-  font-family:var(--font-body);font-size:1.05rem;font-weight:400;
-  color:var(--gray-700);line-height:1.65;
-  max-width:480px;
-}
-.hero-actions{
-  display:flex;align-items:center;gap:16px;flex-shrink:0;
-}
-.btn-primary{
-  display:inline-flex;align-items:center;gap:10px;
-  background:var(--black);color:#fff;
-  font-family:var(--font-body);font-size:.82rem;font-weight:600;
-  letter-spacing:.06em;text-transform:uppercase;
-  padding:16px 28px;border-radius:100px;text-decoration:none;
-  transition:background var(--transition),transform .2s;
-}
+.nav-mobile-menu a{font-size:.95rem;font-weight:500;color:var(--black);text-decoration:none;padding:14px 0;border-bottom:1px solid var(--border)}
+.nav-mobile-menu a:last-child{border-bottom:none;margin-top:14px}
+.nav-mobile-cta{display:inline-flex;align-items:center;justify-content:center;background:var(--black);color:#fff !important;border-radius:100px;padding:14px 20px !important;font-weight:600 !important;letter-spacing:.04em;text-transform:uppercase;font-size:.8rem !important}
+@media(max-width:768px){.nav-group{display:none}.nav-mobile-toggle{display:flex}.nav-inner{padding:0 20px}}
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(110px,14vh,150px) clamp(20px,5vw,32px) 64px;overflow:hidden;background:var(--white);border-bottom:1px solid var(--border)}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.05;filter:grayscale(1);pointer-events:none}
+.hero-bg-fade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.5),rgba(255,255,255,.92));pointer-events:none}
+.hero-inner{position:relative;max-width:1140px;margin:0 auto;width:100%}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:clamp(26px,4vw,40px);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500)}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--black)}
+.hero-rule{display:flex;align-items:center;gap:clamp(14px,2vw,24px);margin-bottom:clamp(26px,4vw,40px)}
+.hero-rule-word{font-family:var(--font-head);font-weight:700;font-size:clamp(.58rem,1vw,.72rem);letter-spacing:.42em;text-transform:uppercase;color:var(--black);white-space:nowrap}
+.hero-rule-word.dim{color:#b0ada8}
+.hero-rule-line{flex:1;height:7px;background:repeating-linear-gradient(90deg,var(--black) 0 1px,transparent 1px 8px);opacity:.4}
+.hero-title{font-family:var(--font-head);font-weight:800;font-size:clamp(3rem,7vw,7.5rem);line-height:.96;letter-spacing:-.03em;color:var(--black);margin-bottom:clamp(32px,4vw,44px);max-width:920px}
+.hero-title em{font-family:var(--font-serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.hero-desc{font-size:1.05rem;font-weight:400;color:var(--gray-700);line-height:1.65;max-width:480px}
+.hero-actions{display:flex;align-items:center;gap:16px;flex-shrink:0;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--black);color:#fff;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:16px 28px;border-radius:100px;text-decoration:none;transition:background var(--transition),transform .2s}
 .btn-primary:hover{background:var(--gray-700);transform:translateY(-2px)}
 .btn-primary svg{transition:transform .25s}
 .btn-primary:hover svg{transform:translateX(3px)}
-.btn-ghost{
-  font-family:var(--font-body);font-size:.82rem;font-weight:500;
-  color:var(--gray-500);text-decoration:none;
-  display:inline-flex;align-items:center;gap:6px;
-  transition:color var(--transition);
-}
+.btn-ghost{font-size:.82rem;font-weight:500;color:var(--gray-500);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color var(--transition)}
 .btn-ghost:hover{color:var(--black)}
-
-/* Hero scroll indicator */
-.hero-scroll{
-  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-}
-.hero-scroll-line{
-  width:1px;height:40px;background:var(--gray-300);
-  animation:scrollPulse 2s ease-in-out infinite;
-}
-@keyframes scrollPulse{
-  0%,100%{transform:scaleY(1);opacity:.4}
-  50%{transform:scaleY(.6);opacity:1}
-}
-.hero-scroll-label{
-  font-size:.6rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gray-500);
-}
-
-@media(max-width:768px){
-  .hero{padding:90px 20px 80px}
-  .hero-title{font-size:clamp(2.6rem,12vw,4.5rem);margin-bottom:32px}
-  .hero-bottom{flex-direction:column;align-items:flex-start;gap:24px}
-  .hero-desc{font-size:.95rem;max-width:100%}
-  .hero-scroll{display:none}
-}
-
-/* ── Section base ── */
-.section{padding:100px 32px}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero-scroll-line{width:1px;height:40px;background:var(--gray-300);transform-origin:top;animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{transform:scaleY(1);opacity:.35}50%{transform:scaleY(.55);opacity:1}}
+.hero-scroll-label{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500)}
+@media(max-width:768px){.hero-bottom{flex-direction:column;align-items:flex-start;gap:24px}.hero-desc{font-size:.95rem;max-width:100%}.hero-scroll{display:none}}
+.section{padding:clamp(72px,9vw,110px) clamp(20px,5vw,32px)}
 .section-inner{max-width:1140px;margin:0 auto;width:100%}
-.section-header{margin-bottom:64px}
-.section-eyebrow{
-  font-family:var(--font-body);font-size:.68rem;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500);
-  margin-bottom:16px;display:flex;align-items:center;gap:10px;
-}
-.section-eyebrow::before{
-  content:'';display:block;width:20px;height:1px;background:var(--gray-300);
-}
-.section-title{
-  font-family:var(--font-head);font-weight:800;
-  font-size:clamp(2rem,4vw,3.5rem);
-  line-height:1.05;letter-spacing:-.025em;color:var(--black);
-  max-width:700px;
-}
-.section-title em{
-  font-family:var(--font-serif);font-style:italic;font-weight:400;
-}
-
-@media(max-width:768px){
-  .section{padding:72px 20px}
-  .section-header{margin-bottom:44px}
-}
-
-/* ── Services ── */
+.section-header{margin-bottom:clamp(44px,6vw,64px)}
+.section-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500)}
+.section-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--black)}
+.section-title{font-family:var(--font-head);font-weight:800;font-size:clamp(2rem,4vw,3.4rem);line-height:1.05;letter-spacing:-.025em;color:var(--black);max-width:700px}
+.section-title em{font-family:var(--font-serif);font-style:italic;font-weight:400}
 #services{background:var(--gray-100)}
-.services-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:2px;
-}
-.svc-card{
-  background:var(--white);
-  padding:44px 40px;
-  display:flex;flex-direction:column;gap:16px;
-  transition:background var(--transition);
-  cursor:default;
-  position:relative;overflow:hidden;
-}
-.svc-card::after{
-  content:'';position:absolute;bottom:0;left:40px;right:40px;
-  height:1px;background:var(--border);
-}
+.svc-rows{display:flex;flex-direction:column;gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.svc-row{display:flex;flex-wrap:wrap;gap:2px}
+.svc-card{background:var(--white);padding:clamp(32px,4vw,48px) clamp(28px,3.5vw,44px);display:flex;flex-direction:column;gap:16px;transition:background var(--transition)}
+.svc-card.wide{flex:1 1 58%;min-width:300px}
+.svc-card.narrow{flex:1 1 38%;min-width:260px}
 .svc-card:hover{background:#fafaf9}
-.svc-num{
-  font-family:var(--font-body);font-size:.68rem;font-weight:600;
-  letter-spacing:.15em;color:var(--gray-300);
-}
-.svc-icon{
-  width:40px;height:40px;border-radius:10px;
-  border:1px solid var(--border-strong);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--black);
-}
-.svc-name{
-  font-family:var(--font-head);font-weight:700;
-  font-size:1.4rem;letter-spacing:-.02em;color:var(--black);
-}
-.svc-desc{
-  font-size:.88rem;color:var(--gray-500);line-height:1.6;
-  max-width:340px;
-}
-.svc-tags{
-  display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;
-}
-.svc-tag{
-  font-size:.68rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--gray-700);
-  background:var(--gray-100);border-radius:100px;
-  padding:4px 10px;
-}
-
-@media(max-width:768px){
-  .services-grid{grid-template-columns:1fr}
-  .svc-card{padding:32px 24px}
-  .svc-name{font-size:1.2rem}
-}
-
-/* ── Pourquoi ── */
-#pourquoi{background:var(--white)}
-.why-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-  margin-top:64px;
-}
-.why-card{
-  padding:48px 36px;
-  background:var(--white);
-  display:flex;flex-direction:column;gap:16px;
-  transition:background var(--transition);
-}
-.why-card:hover{background:var(--gray-100)}
-.why-num{
-  font-family:var(--font-head);font-weight:800;
-  font-size:3rem;letter-spacing:-.04em;
-  color:var(--gray-200);line-height:1;
-}
-.why-title{
-  font-family:var(--font-head);font-weight:700;
-  font-size:1.15rem;letter-spacing:-.015em;color:var(--black);
-}
-.why-desc{
-  font-size:.88rem;color:var(--gray-500);line-height:1.65;
-}
-
-@media(max-width:900px){
-  .why-grid{grid-template-columns:1fr;margin-top:44px}
-  .why-card{padding:36px 28px}
-  .why-num{font-size:2.2rem}
-}
-
-/* ── CTA Final ── */
-#contact{
-  background:var(--black);
-  padding:120px 32px;
-}
-.cta-inner{
-  max-width:1140px;margin:0 auto;
-  display:flex;flex-direction:column;align-items:flex-start;gap:48px;
-}
-.cta-label{
-  font-size:.68rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:rgba(255,255,255,.35);
-  display:flex;align-items:center;gap:10px;
-}
-.cta-label::before{content:'';display:block;width:20px;height:1px;background:rgba(255,255,255,.2)}
-.cta-title{
-  font-family:var(--font-head);font-weight:800;
-  font-size:clamp(2.4rem,5vw,5rem);
-  line-height:.98;letter-spacing:-.03em;
-  color:#fff;max-width:700px;
-}
-.cta-title em{
-  font-family:var(--font-serif);font-style:italic;font-weight:400;
-}
-.cta-actions{
-  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
-}
-.cta-btn{
-  display:inline-flex;align-items:center;gap:10px;
-  background:#fff;color:var(--black);
-  font-family:var(--font-body);font-size:.82rem;font-weight:700;
-  letter-spacing:.06em;text-transform:uppercase;
-  padding:18px 32px;border-radius:100px;text-decoration:none;
-  transition:background .25s,transform .2s;
-}
+.svc-num{font-size:.68rem;font-weight:700;letter-spacing:.15em;color:var(--black)}
+.svc-icon{width:42px;height:42px;border-radius:11px;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--black)}
+.svc-name{font-family:var(--font-head);font-weight:700;font-size:1.5rem;letter-spacing:-.02em;color:var(--black)}
+.svc-desc{font-size:.92rem;color:var(--gray-600);line-height:1.6;max-width:420px}
+.svc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.svc-tag{font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-700);background:var(--gray-100);border-radius:100px;padding:4px 10px}
+#realisations{background:var(--white)}
+.work-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.work-card{background:var(--white);cursor:pointer;position:relative;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background var(--transition)}
+.work-card:hover{background:#fafaf9}
+.work-card-img{width:100%;aspect-ratio:4/3;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;padding:clamp(20px,4%,36px)}
+.work-card-img img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.work-card:hover .work-card-img img{transform:scale(1.04)}
+.work-card-body{padding:28px 28px 32px;display:flex;flex-direction:column;gap:10px;flex:1}
+.work-card-cat{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-500);display:flex;align-items:center;gap:8px}
+.work-card-cat::before{content:'';display:block;width:14px;height:1px;background:var(--black)}
+.work-card-name{font-family:var(--font-head);font-weight:800;font-size:1.3rem;letter-spacing:-.02em;color:var(--black);line-height:1.1}
+.work-card-desc{font-size:.84rem;color:var(--gray-600);line-height:1.55;margin-top:2px}
+.work-card-arrow{position:absolute;bottom:28px;right:28px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--gray-500);transition:all var(--transition)}
+.work-card:hover .work-card-arrow{background:var(--black);border-color:var(--black);color:#fff;transform:translate(2px,-2px)}
+#pourquoi{background:var(--gray-100)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:clamp(44px,6vw,64px)}
+.why-card{padding:clamp(36px,4vw,48px) clamp(28px,3vw,36px);background:var(--white);display:flex;flex-direction:column;gap:16px;transition:background var(--transition)}
+.why-card:hover{background:#fafaf9}
+.why-num{font-family:var(--font-head);font-weight:800;font-size:3rem;letter-spacing:-.04em;color:var(--gray-200);line-height:1}
+.why-title{font-family:var(--font-head);font-weight:700;font-size:1.15rem;letter-spacing:-.015em;color:var(--black)}
+.why-desc{font-size:.88rem;color:var(--gray-600);line-height:1.65}
+#contact{background:var(--black);padding:clamp(80px,11vw,120px) clamp(20px,5vw,32px)}
+.cta-inner{max-width:1140px;margin:0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:clamp(32px,5vw,48px)}
+.cta-label{display:flex;align-items:center;gap:10px;font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.cta-label::before{content:'';display:block;width:20px;height:1px;background:rgba(255,255,255,.4)}
+.cta-title{font-family:var(--font-head);font-weight:800;font-size:clamp(2.4rem,5vw,5rem);line-height:.98;letter-spacing:-.03em;color:#fff;max-width:780px}
+.cta-title em{font-family:var(--font-serif);font-style:italic;font-weight:400}
+.cta-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--black);font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:18px 32px;border-radius:100px;text-decoration:none;transition:background .25s,transform .2s}
 .cta-btn:hover{background:var(--gray-200);transform:translateY(-2px)}
 .cta-btn svg{transition:transform .25s}
 .cta-btn:hover svg{transform:translateX(3px)}
-.cta-sub{
-  font-size:.82rem;color:rgba(255,255,255,.4);
-  line-height:1.5;
-}
-.cta-sub a{color:rgba(255,255,255,.6);text-decoration:none;transition:color .25s}
+.cta-sub{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.5}
+.cta-sub a{color:rgba(255,255,255,.65);text-decoration:none;transition:color .25s}
 .cta-sub a:hover{color:#fff}
-
-@media(max-width:768px){
-  #contact{padding:80px 20px}
-  .cta-title{font-size:clamp(2rem,9vw,3.5rem)}
-  .cta-actions{flex-direction:column;align-items:flex-start}
-  .cta-btn{width:100%;justify-content:center}
-}
-
-/* ── Footer ── */
-.footer{
-  background:var(--black);
-  border-top:1px solid rgba(255,255,255,.08);
-  padding:32px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
-}
-.footer-copy{
-  font-size:.74rem;color:rgba(255,255,255,.25);
-  font-family:var(--font-body);
-}
-.footer-back{
-  font-size:.74rem;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:rgba(255,255,255,.35);
-  text-decoration:none;display:flex;align-items:center;gap:8px;
-  transition:color .25s;
-}
+@media(max-width:768px){.cta-actions{flex-direction:column;align-items:flex-start}.cta-btn{width:100%;justify-content:center}}
+.footer{background:var(--black);border-top:1px solid rgba(255,255,255,.08);padding:clamp(24px,3vw,32px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-copy{font-size:.74rem;color:rgba(255,255,255,.28)}
+.footer-back{font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .25s}
 .footer-back:hover{color:rgba(255,255,255,.7)}
 .footer-back svg{transition:transform .25s}
 .footer-back:hover svg{transform:translateX(-3px)}
-
-@media(max-width:768px){
-  .footer{padding:24px 20px;flex-direction:column;align-items:flex-start}
-}
-
-/* ── Réalisations ── */
-#realisations{background:var(--white);border-top:1px solid var(--border)}
-.work-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:2px;
-  background:var(--border);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-}
-.work-card{
-  background:var(--white);
-  cursor:pointer;
-  position:relative;
-  overflow:hidden;
-  display:flex;flex-direction:column;
-  transition:background var(--transition);
-  text-decoration:none;color:inherit;
-}
-.work-card:hover{background:#fafaf9}
-.work-card-img{
-  width:100%;aspect-ratio:4/3;
-  overflow:hidden;
-  background:var(--gray-100);
-  position:relative;
-}
-.work-card-img img{
-  width:100%;height:100%;object-fit:cover;
-  transition:transform .55s cubic-bezier(.4,0,.2,1);
-  display:block;
-}
-.work-card:hover .work-card-img img{transform:scale(1.04)}
-.work-card-body{
-  padding:28px 28px 32px;
-  display:flex;flex-direction:column;gap:10px;
-  flex:1;
-}
-.work-card-cat{
-  font-size:.62rem;font-weight:700;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--gray-500);
-  display:flex;align-items:center;gap:8px;
-}
-.work-card-cat::before{
-  content:'';display:block;width:14px;height:1px;background:var(--gray-300);
-}
-.work-card-name{
-  font-family:var(--font-head);font-weight:800;
-  font-size:1.3rem;letter-spacing:-.02em;color:var(--black);
-  line-height:1.1;
-}
-.work-card-desc{
-  font-size:.84rem;color:var(--gray-500);line-height:1.55;
-  margin-top:2px;
-}
-.work-card-tags{
-  display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;
-}
-.work-card-tag{
-  font-size:.62rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--gray-700);
-  background:var(--gray-100);border-radius:100px;
-  padding:3px 9px;
-}
-.work-card-arrow{
-  position:absolute;bottom:28px;right:28px;
-  width:32px;height:32px;border-radius:50%;
-  border:1px solid var(--border-strong);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--gray-500);
-  transition:all var(--transition);
-}
-.work-card:hover .work-card-arrow{
-  background:var(--black);border-color:var(--black);color:#fff;
-  transform:translate(2px,-2px);
-}
-
-@media(max-width:900px){
-  .work-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:600px){
-  .work-grid{grid-template-columns:1fr}
-  .work-card-body{padding:22px 20px 26px}
-}
-
-/* ── Modal Case Study ── */
-.cs-overlay{
-  position:fixed;inset:0;z-index:2000;
-  background:rgba(10,10,10,.0);
-  display:flex;align-items:stretch;justify-content:flex-end;
-  pointer-events:none;
-  transition:background .4s cubic-bezier(.4,0,.2,1);
-}
-.cs-overlay.open{
-  background:rgba(10,10,10,.65);
-  pointer-events:all;
-}
-.cs-panel{
-  width:min(820px,100vw);
-  background:var(--white);
-  height:100dvh;
-  overflow-y:auto;
-  overscroll-behavior:contain;
-  transform:translateX(100%);
-  transition:transform .5s cubic-bezier(.4,0,.2,1);
-  display:flex;flex-direction:column;
-  position:relative;
-}
+@media(max-width:768px){.footer{flex-direction:column;align-items:flex-start}}
+.cs-overlay{position:fixed;inset:0;z-index:2000;background:rgba(14,14,14,0);display:flex;align-items:stretch;justify-content:flex-end;pointer-events:none;transition:background .4s cubic-bezier(.4,0,.2,1)}
+.cs-overlay.open{background:rgba(14,14,14,.62);pointer-events:all}
+.cs-panel{width:min(820px,100vw);background:var(--white);height:100dvh;overflow-y:auto;overscroll-behavior:contain;transform:translateX(100%);transition:transform .5s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;position:relative}
 .cs-overlay.open .cs-panel{transform:translateX(0)}
-
-.cs-header{
-  position:sticky;top:0;z-index:10;
-  background:rgba(255,255,255,.95);
-  -webkit-backdrop-filter:blur(12px);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-  padding:18px 32px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-shrink:0;
-}
-.cs-header-meta{display:flex;flex-direction:column;gap:2px}
-.cs-header-cat{
-  font-size:.6rem;font-weight:700;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gray-500);
-}
-.cs-header-title{
-  font-family:var(--font-head);font-weight:800;
-  font-size:1.1rem;letter-spacing:-.02em;color:var(--black);
-}
-.cs-close{
-  width:36px;height:36px;border-radius:50%;
-  border:1px solid var(--border-strong);background:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  color:var(--gray-700);transition:all .25s;flex-shrink:0;
-}
+.cs-header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:18px clamp(20px,4vw,32px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.cs-header-cat{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500)}
+.cs-header-title{font-family:var(--font-head);font-weight:800;font-size:1.1rem;letter-spacing:-.02em;color:var(--black)}
+.cs-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gray-700);transition:all .25s;flex-shrink:0}
 .cs-close:hover{background:var(--black);border-color:var(--black);color:#fff}
-
-.cs-hero-img{
-  width:100%;background:var(--gray-100);
-  flex-shrink:0;
-  aspect-ratio:16/9;
-  overflow:hidden;
-}
+.cs-hero-img{width:100%;background:var(--gray-100);flex-shrink:0;aspect-ratio:16/9;overflow:hidden}
 .cs-hero-img img{width:100%;height:100%;object-fit:cover;display:block}
-
-.cs-intro{
-  padding:48px 40px 32px;
-  border-bottom:1px solid var(--border);
-}
-.cs-project-name{
-  font-family:var(--font-head);font-weight:800;
-  font-size:clamp(2rem,4vw,3rem);
-  letter-spacing:-.03em;line-height:.98;
-  color:var(--black);margin-bottom:20px;
-}
-.cs-project-name em{
-  font-family:var(--font-serif);font-style:italic;font-weight:400;
-}
-.cs-project-desc{
-  font-size:.95rem;color:var(--gray-500);line-height:1.65;
-  max-width:520px;margin-bottom:28px;
-}
-.cs-meta-row{
-  display:flex;gap:40px;flex-wrap:wrap;
-}
+.cs-intro{padding:clamp(32px,4vw,48px) clamp(24px,4vw,40px) 32px;border-bottom:1px solid var(--border)}
+.cs-project-name{font-family:var(--font-head);font-weight:800;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.03em;line-height:.98;color:var(--black);margin-bottom:20px}
+.cs-project-name em{font-family:var(--font-serif);font-style:italic;font-weight:400}
+.cs-project-desc{font-size:.95rem;color:var(--gray-600);line-height:1.65;max-width:520px;margin-bottom:28px}
+.cs-meta-row{display:flex;gap:40px;flex-wrap:wrap}
 .cs-meta-item{display:flex;flex-direction:column;gap:4px}
-.cs-meta-label{
-  font-size:.6rem;font-weight:700;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gray-300);
-}
-.cs-meta-val{
-  font-family:var(--font-head);font-weight:700;
-  font-size:.92rem;letter-spacing:-.01em;color:var(--black);
-}
-
-.cs-slides{padding:40px 40px 60px}
-.cs-slides-title{
-  font-size:.62rem;font-weight:700;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gray-500);
-  margin-bottom:28px;display:flex;align-items:center;gap:10px;
-}
-.cs-slides-title::before{content:'';display:block;width:16px;height:1px;background:var(--gray-300)}
+.cs-meta-label{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#b0ada8}
+.cs-meta-val{font-family:var(--font-head);font-weight:700;font-size:.92rem;letter-spacing:-.01em;color:var(--black)}
+.cs-slides{padding:clamp(28px,4vw,40px) clamp(24px,4vw,40px) 60px}
+.cs-slides-title{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500);margin-bottom:28px;display:flex;align-items:center;gap:10px}
+.cs-slides-title::before{content:'';display:block;width:16px;height:1px;background:var(--black)}
 .cs-slides-grid{display:flex;flex-direction:column;gap:3px}
-.cs-slide{
-  width:100%;border-radius:8px;
-  overflow:hidden;
-  background:var(--gray-100);
-}
-.cs-slide img{
-  width:100%;height:auto;display:block;
-}
-
-@media(max-width:768px){
-  .cs-intro{padding:32px 24px 24px}
-  .cs-slides{padding:28px 24px 48px}
-  .cs-header{padding:16px 20px}
-  .cs-meta-row{gap:24px}
-}
-
-.fade-up{
-  opacity:0;transform:translateY(28px);
-  transition:opacity .6s var(--transition),transform .6s var(--transition);
-}
+.cs-slide{width:100%;border-radius:8px;overflow:hidden;background:var(--gray-100)}
+.cs-slide img{width:100%;height:auto;display:block}
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
 .fade-up.visible{opacity:1;transform:translateY(0)}
-.fade-up:nth-child(2){transition-delay:.1s}
-.fade-up:nth-child(3){transition-delay:.2s}
-.fade-up:nth-child(4){transition-delay:.3s}
 </style>
 </head>
 <body>
 
-<!-- Page reveal -->
 <div id="pageReveal"></div>
 
-<!-- ── Nav ── -->
 <nav class="nav" role="navigation">
   <div class="nav-inner">
     <a href="atelier.html" class="nav-logo">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1776666025/New_logo_black_yig2o7.png" alt="Atelier MDG" width="120" height="28" style="height:26px;width:auto;display:block">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1776666025/New_logo_black_yig2o7.png" alt="Atelier MDG">
+      <span class="nav-logo-name">Atelier MDG</span>
     </a>
-    <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#realisations">Réalisations</a></li>
-      <li><a href="#pourquoi">Notre approche</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div style="display:flex;align-items:center;gap:20px">
-      <a href="index.html" class="nav-back" id="navBack">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
-        MDG Creative
-      </a>
-      <a href="#contact" class="nav-cta">Démarrer un projet</a>
+    <div class="nav-group">
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#pourquoi">Notre approche</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="index.html" class="nav-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+          MDG Creative
+        </a>
+        <a href="#contact" class="nav-cta">Confier un projet</a>
+      </div>
     </div>
-    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">
-      <span></span><span></span>
-    </button>
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu"><span></span><span></span></button>
   </div>
 </nav>
 
-<!-- Mobile menu -->
 <div class="nav-mobile-menu" id="mobileMenu">
-  <a href="#services" class="nav-mobile-link">Services</a>
-  <a href="#pourquoi" class="nav-mobile-link">Notre approche</a>
-  <a href="index.html" class="nav-mobile-link">← MDG Creative</a>
-  <a href="#contact" class="nav-mobile-cta">Démarrer un projet</a>
+  <a href="#services">Services</a>
+  <a href="#realisations">Réalisations</a>
+  <a href="#pourquoi">Notre approche</a>
+  <a href="index.html">← MDG Creative</a>
+  <a href="#contact" class="nav-mobile-cta">Confier un projet</a>
 </div>
 
-<!-- ── Hero ── -->
 <section class="hero" id="top">
+  <img class="hero-bg" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1400/v1782735670/BAOBABS_BASKET_CLUB_j9wdmd.png" alt="" aria-hidden="true">
+  <div class="hero-bg-fade"></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Atelier MDG · Kaolack, Sénégal</div>
-    <h1 class="hero-title">
-      Des identités<br>
-      qu'on ne<br>
-      <em>confond pas.</em>
-    </h1>
+    <div class="hero-rule">
+      <span class="hero-rule-word">Identité</span>
+      <span class="hero-rule-line"></span>
+      <span class="hero-rule-word dim">Durable</span>
+    </div>
+    <h1 class="hero-title">Des identités<br>qu'on ne<br><em>confond pas.</em></h1>
     <div class="hero-bottom">
-      <p class="hero-desc">
-        Nous construisons l'image visuelle des entreprises et marques qui veulent être prises au sérieux. Logo, web, packaging, du travail fait pour durer.
-      </p>
+      <p class="hero-desc">Nous façonnons l'image des entreprises qui veulent être prises au sérieux. Logo, web, packaging : un travail pensé pour durer, pas pour suivre la mode.</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn-primary">
-          Démarrer un projet
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-        </a>
-        <a href="#services" class="btn-ghost">
-          Voir les services
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-        </a>
+        <a href="#contact" class="btn-primary">Confier votre marque<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+        <a href="#realisations" class="btn-ghost">Voir notre travail<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
       </div>
     </div>
   </div>
-  <div class="hero-scroll">
-    <div class="hero-scroll-line"></div>
-    <span class="hero-scroll-label">Scroll</span>
-  </div>
+  <div class="hero-scroll"><span class="hero-scroll-line"></span><span class="hero-scroll-label">Scroll</span></div>
 </section>
 
-<!-- ── Services ── -->
 <section class="section" id="services">
   <div class="section-inner">
     <div class="section-header">
       <div class="section-eyebrow">Ce que nous faisons</div>
       <h2 class="section-title">Un métier. <em>Quatre disciplines.</em></h2>
     </div>
-    <div class="services-grid">
-
-      <div class="svc-card fade-up">
-        <span class="svc-num">01</span>
-        <div class="svc-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+    <div class="svc-rows">
+      <div class="svc-row">
+        <div class="svc-card wide fade-up">
+          <span class="svc-num">01</span>
+          <div class="svc-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+          <div class="svc-name">Logo & Identité</div>
+          <p class="svc-desc">Un logo qui tient aussi bien sur une carte de visite que sur une façade. Une identité qui reste cohérente partout où votre marque apparaît.</p>
+          <div class="svc-tags"><span class="svc-tag">Logo</span><span class="svc-tag">Charte graphique</span><span class="svc-tag">Brand book</span><span class="svc-tag">Déclinaisons</span></div>
         </div>
-        <div class="svc-name">Logo & Identité</div>
-        <p class="svc-desc">Un logo qui tient sur une carte de visite comme sur un panneau. Une identité cohérente sur tous vos supports.</p>
-        <div class="svc-tags">
-          <span class="svc-tag">Logo</span>
-          <span class="svc-tag">Charte graphique</span>
-          <span class="svc-tag">Brand book</span>
-          <span class="svc-tag">Déclinaisons</span>
-        </div>
-      </div>
-
-      <div class="svc-card fade-up">
-        <span class="svc-num">02</span>
-        <div class="svc-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        </div>
-        <div class="svc-name">Web Design</div>
-        <p class="svc-desc">Des sites qui représentent votre marque avec sérieux. Design sur mesure, mobile-first, pensé pour convertir.</p>
-        <div class="svc-tags">
-          <span class="svc-tag">Site vitrine</span>
-          <span class="svc-tag">Landing page</span>
-          <span class="svc-tag">UI/UX</span>
-          <span class="svc-tag">Intégration</span>
+        <div class="svc-card narrow fade-up">
+          <span class="svc-num">02</span>
+          <div class="svc-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <div class="svc-name">Web Design</div>
+          <p class="svc-desc">Des sites qui donnent à votre marque le sérieux qu'elle mérite. Sur mesure, pensés mobile d'abord, conçus pour transformer le visiteur en client.</p>
+          <div class="svc-tags"><span class="svc-tag">Site vitrine</span><span class="svc-tag">Landing page</span><span class="svc-tag">UI/UX</span></div>
         </div>
       </div>
-
-      <div class="svc-card fade-up">
-        <span class="svc-num">03</span>
-        <div class="svc-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <div class="svc-row">
+        <div class="svc-card narrow fade-up">
+          <span class="svc-num">03</span>
+          <div class="svc-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+          <div class="svc-name">Packaging</div>
+          <p class="svc-desc">L'emballage parle avant vous. Nous en faisons le premier argument de votre marque, du rayon jusqu'aux mains du client.</p>
+          <div class="svc-tags"><span class="svc-tag">Étiquettes</span><span class="svc-tag">Boîtes</span><span class="svc-tag">Print-ready</span></div>
         </div>
-        <div class="svc-name">Packaging</div>
-        <p class="svc-desc">L'emballage est le premier contact physique avec votre client. Il doit raconter votre marque avant même l'ouverture.</p>
-        <div class="svc-tags">
-          <span class="svc-tag">Étiquettes</span>
-          <span class="svc-tag">Boîtes</span>
-          <span class="svc-tag">Sachets</span>
-          <span class="svc-tag">Print-ready</span>
-        </div>
-      </div>
-
-      <div class="svc-card fade-up">
-        <span class="svc-num">04</span>
-        <div class="svc-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20h20M6 20V10l6-6 6 6v10"/><path d="M10 20v-6h4v6"/></svg>
-        </div>
-        <div class="svc-name">Stratégie visuelle</div>
-        <p class="svc-desc">Avant de créer, on pense. Direction artistique, positionnement, cohérence entre tous vos points de contact.</p>
-        <div class="svc-tags">
-          <span class="svc-tag">Direction artistique</span>
-          <span class="svc-tag">Moodboard</span>
-          <span class="svc-tag">Supports com</span>
+        <div class="svc-card wide fade-up">
+          <span class="svc-num">04</span>
+          <div class="svc-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20h20M6 20V10l6-6 6 6v10"/><path d="M10 20v-6h4v6"/></svg></div>
+          <div class="svc-name">Stratégie visuelle</div>
+          <p class="svc-desc">Avant de dessiner, on réfléchit. Direction artistique, positionnement, cohérence sur chacun de vos points de contact, pour que tout raconte la même histoire.</p>
+          <div class="svc-tags"><span class="svc-tag">Direction artistique</span><span class="svc-tag">Moodboard</span><span class="svc-tag">Supports com</span></div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ── Réalisations ── -->
 <section class="section" id="realisations">
   <div class="section-inner">
     <div class="section-header">
       <div class="section-eyebrow">Nos réalisations</div>
       <h2 class="section-title">Du travail <em>concret.</em></h2>
     </div>
-    <div class="work-grid">
-
-      <div class="work-card fade-up" data-project="baobabs" role="button" tabindex="0" aria-label="Voir le projet Baobabs Basket Club">
-        <div class="work-card-img">
-          <img
-            src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1782735670/BAOBABS_BASKET_CLUB_j9wdmd.png"
-            alt="Baobabs Basket Club — Logo"
-            loading="lazy"
-          >
-        </div>
-        <div class="work-card-body">
-          <div class="work-card-cat">Branding · Logo & Identité</div>
-          <div class="work-card-name">Baobabs Basket Club</div>
-          <p class="work-card-desc">Identité visuelle complète pour un club de basketball. Logo, charte graphique, déclinaisons.</p>
-          <div class="work-card-tags">
-            <span class="work-card-tag">Logo</span>
-            <span class="work-card-tag">Charte graphique</span>
-            <span class="work-card-tag">Brand guidelines</span>
-            <span class="work-card-tag">Sport</span>
-          </div>
-        </div>
-        <div class="work-card-arrow">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-        </div>
-      </div>
-
-      <div class="work-card fade-up" data-project="rima" role="button" tabindex="0" aria-label="Voir le projet RIMA">
-        <div class="work-card-img">
-          <img
-            src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1782739655/RIMA_LOGO_rhv7vf.png"
-            alt="RIMA — Logo"
-            loading="lazy"
-          >
-        </div>
-        <div class="work-card-body">
-          <div class="work-card-cat">Branding · Logo & Identité</div>
-          <div class="work-card-name">RIMA</div>
-          <p class="work-card-desc">Identité visuelle pour RIMA. Logo, charte graphique et brand guidelines complets.</p>
-          <div class="work-card-tags">
-            <span class="work-card-tag">Logo</span>
-            <span class="work-card-tag">Charte graphique</span>
-            <span class="work-card-tag">Brand guidelines</span>
-          </div>
-        </div>
-        <div class="work-card-arrow">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-        </div>
-      </div>
-
-      <div class="work-card fade-up" data-project="ovp" role="button" tabindex="0" aria-label="Voir le projet OWL VISION PRODUCTION STUDIO">
-        <div class="work-card-img">
-          <img
-            src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1782740145/Plan_de_travail_1_x0tefo.png"
-            alt="OWL VISION PRODUCTION STUDIO — Logo"
-            loading="lazy"
-          >
-        </div>
-        <div class="work-card-body">
-          <div class="work-card-cat">Branding · Logo & Identité</div>
-          <div class="work-card-name">OVP Studio</div>
-          <p class="work-card-desc">Identité visuelle complète pour Owl Vision Production Studio. Logo, charte graphique et brand guidelines.</p>
-          <div class="work-card-tags">
-            <span class="work-card-tag">Logo</span>
-            <span class="work-card-tag">Charte graphique</span>
-            <span class="work-card-tag">Brand guidelines</span>
-            <span class="work-card-tag">Studio</span>
-          </div>
-        </div>
-        <div class="work-card-arrow">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-        </div>
-      </div>
-
-      <div class="work-card fade-up" data-project="sinesaloum" role="button" tabindex="0" aria-label="Voir le projet Sine Saloum Festival">
-        <div class="work-card-img">
-          <img
-            src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1782742073/SINE_SALOUM_FESTIVAL_mhucop.png"
-            alt="Sine Saloum Festival — Logo"
-            loading="lazy"
-          >
-        </div>
-        <div class="work-card-body">
-          <div class="work-card-cat">Branding · Logo & Identité</div>
-          <div class="work-card-name">Sine Saloum Festival</div>
-          <p class="work-card-desc">Identité visuelle complète pour le Sine Saloum Festival. Logo, charte graphique et brand guidelines.</p>
-          <div class="work-card-tags">
-            <span class="work-card-tag">Logo</span>
-            <span class="work-card-tag">Charte graphique</span>
-            <span class="work-card-tag">Brand guidelines</span>
-            <span class="work-card-tag">Événementiel</span>
-          </div>
-        </div>
-        <div class="work-card-arrow">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-        </div>
-      </div>
-
-    </div>
+    <div class="work-grid" id="workGrid"></div>
   </div>
 </section>
 
-<!-- ── Modal Case Study : SINE SALOUM FESTIVAL ── -->
-<div class="cs-overlay" id="csOverlaySine" role="dialog" aria-modal="true" aria-label="Case study Sine Saloum Festival">
-  <div class="cs-panel" id="csPanelSine">
-    <div class="cs-header">
-      <div class="cs-header-meta">
-        <div class="cs-header-cat">Branding · Logo & Identité</div>
-        <div class="cs-header-title">Sine Saloum Festival</div>
-      </div>
-      <button class="cs-close" id="csCloseSine" aria-label="Fermer">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <div class="cs-hero-img">
-      <img
-        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742073/SINE_SALOUM_FESTIVAL_mhucop.png"
-        alt="Sine Saloum Festival — Logo principal"
-      >
-    </div>
-
-    <div class="cs-intro">
-      <h2 class="cs-project-name"><em>Sine Saloum Festival</em></h2>
-      <p class="cs-project-desc">Conception de l'identité visuelle complète du Sine Saloum Festival, du logo principal à la charte graphique et aux brand guidelines.</p>
-      <div class="cs-meta-row">
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Discipline</span>
-          <span class="cs-meta-val">Brand Identity</span>
-        </div>
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Livrables</span>
-          <span class="cs-meta-val">Logo · Charte · Guidelines</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="cs-slides">
-      <div class="cs-slides-title">Brand Guidelines</div>
-      <div class="cs-slides-grid">
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742360/Plan_de_travail_1_gx2njo.png" alt="Sine Saloum — guidelines page 1" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742357/Plan_de_travail_2_gsghfk.png" alt="Sine Saloum — guidelines page 2" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742356/Plan_de_travail_3_r0varw.png" alt="Sine Saloum — guidelines page 3" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742355/Plan_de_travail_4_gvjlko.png" alt="Sine Saloum — guidelines page 4" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742261/Plan_de_travail_5_gmgrce.png" alt="Sine Saloum — guidelines page 5" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742253/Plan_de_travail_6_knqqr6.png" alt="Sine Saloum — guidelines page 6" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742229/Plan_de_travail_7_cdrukc.png" alt="Sine Saloum — guidelines page 7" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742183/Plan_de_travail_8_bu8jmp.png" alt="Sine Saloum — guidelines page 8" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782742131/Plan_de_travail_9_hetyx3.png" alt="Sine Saloum — guidelines page 9" loading="lazy"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── Modal Case Study : OVP STUDIO ── -->
-<div class="cs-overlay" id="csOverlayOvp" role="dialog" aria-modal="true" aria-label="Case study OWL VISION PRODUCTION STUDIO">
-  <div class="cs-panel" id="csPanelOvp">
-    <div class="cs-header">
-      <div class="cs-header-meta">
-        <div class="cs-header-cat">Branding · Logo & Identité</div>
-        <div class="cs-header-title">OVP Studio</div>
-      </div>
-      <button class="cs-close" id="csCloseOvp" aria-label="Fermer">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <div class="cs-hero-img">
-      <img
-        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740145/Plan_de_travail_1_x0tefo.png"
-        alt="OWL VISION PRODUCTION STUDIO — Logo principal"
-      >
-    </div>
-
-    <div class="cs-intro">
-      <h2 class="cs-project-name"><em>Owl Vision Production Studio</em></h2>
-      <p class="cs-project-desc">Conception de l'identité visuelle complète d'OVP Studio, du logo principal à la charte graphique et aux brand guidelines.</p>
-      <div class="cs-meta-row">
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Discipline</span>
-          <span class="cs-meta-val">Brand Identity</span>
-        </div>
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Livrables</span>
-          <span class="cs-meta-val">Logo · Charte · Guidelines</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="cs-slides">
-      <div class="cs-slides-title">Brand Guidelines</div>
-      <div class="cs-slides-grid">
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740145/Plan_de_travail_1_x0tefo.png" alt="OVP — guidelines page 1" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740153/Plan_de_travail_2_gb8p3a.png" alt="OVP — guidelines page 2" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740136/Plan_de_travail_3_xkig0h.png" alt="OVP — guidelines page 3" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740100/Plan_de_travail_4_oxwotb.png" alt="OVP — guidelines page 4" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740151/Plan_de_travail_5_uquc9u.png" alt="OVP — guidelines page 5" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740211/Plan_de_travail_6_wcflcx.png" alt="OVP — guidelines page 6" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740200/Plan_de_travail_7_mkw8dk.png" alt="OVP — guidelines page 7" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782740134/Plan_de_travail_8_g8rxpq.png" alt="OVP — guidelines page 8" loading="lazy"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── Modal Case Study : RIMA ── -->
-<div class="cs-overlay" id="csOverlayRima" role="dialog" aria-modal="true" aria-label="Case study RIMA">
-  <div class="cs-panel" id="csPanelRima">
-    <div class="cs-header">
-      <div class="cs-header-meta">
-        <div class="cs-header-cat">Branding · Logo & Identité</div>
-        <div class="cs-header-title">RIMA</div>
-      </div>
-      <button class="cs-close" id="csCloseRima" aria-label="Fermer">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <div class="cs-hero-img">
-      <img
-        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739655/RIMA_LOGO_rhv7vf.png"
-        alt="RIMA — Logo principal"
-      >
-    </div>
-
-    <div class="cs-intro">
-      <h2 class="cs-project-name"><em>RIMA</em></h2>
-      <p class="cs-project-desc">Conception de l'identité visuelle complète de RIMA — du logo principal à la charte graphique et aux brand guidelines.</p>
-      <div class="cs-meta-row">
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Discipline</span>
-          <span class="cs-meta-val">Brand Identity</span>
-        </div>
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Livrables</span>
-          <span class="cs-meta-val">Logo · Charte · Guidelines</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="cs-slides">
-      <div class="cs-slides-title">Brand Guidelines</div>
-      <div class="cs-slides-grid">
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739655/Plan_de_travail_1_pspjx8.png" alt="Brand guidelines — page 1" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739669/Plan_de_travail_2_dyls9z.png" alt="Brand guidelines — page 2" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739670/Plan_de_travail_3_vyb4dq.png" alt="Brand guidelines — page 3" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739658/Plan_de_travail_4_khzhn1.png" alt="Brand guidelines — page 4" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739711/Plan_de_travail_5_itknh1.png" alt="Brand guidelines — page 5" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782739659/Plan_de_travail_6_xlli44.png" alt="Brand guidelines — page 6" loading="lazy"></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="cs-overlay" id="csOverlay" role="dialog" aria-modal="true" aria-label="Case study Baobabs Basket Club">
-  <div class="cs-panel" id="csPanel">
-    <div class="cs-header">
-      <div class="cs-header-meta">
-        <div class="cs-header-cat">Branding · Logo & Identité</div>
-        <div class="cs-header-title">Baobabs Basket Club</div>
-      </div>
-      <button class="cs-close" id="csClose" aria-label="Fermer">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <div class="cs-hero-img">
-      <img
-        src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735670/BAOBABS_BASKET_CLUB_j9wdmd.png"
-        alt="Baobabs Basket Club — Logo principal"
-      >
-    </div>
-
-    <div class="cs-intro">
-      <h2 class="cs-project-name">Baobabs<br><em>Basket Club</em></h2>
-      <p class="cs-project-desc">Conception de l'identité visuelle complète d'un club de basketball — du logo principal à la charte graphique, en passant par les déclinaisons et les guidelines.</p>
-      <div class="cs-meta-row">
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Discipline</span>
-          <span class="cs-meta-val">Brand Identity</span>
-        </div>
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Livrables</span>
-          <span class="cs-meta-val">Logo · Charte · Guidelines</span>
-        </div>
-        <div class="cs-meta-item">
-          <span class="cs-meta-label">Secteur</span>
-          <span class="cs-meta-val">Sport</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="cs-slides">
-      <div class="cs-slides-title">Brand Guidelines</div>
-      <div class="cs-slides-grid">
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735456/Plan_de_travail_1_zo5kn4.png" alt="Brand guidelines — page 1" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735450/Plan_de_travail_2_hxsvbf.png" alt="Brand guidelines — page 2" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735452/Plan_de_travail_3_mv887z.png" alt="Brand guidelines — page 3" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735532/Plan_de_travail_4_z8arg4.png" alt="Brand guidelines — page 4" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735461/Plan_de_travail_5_aut73t.png" alt="Brand guidelines — page 5" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735457/Plan_de_travail_6_dznpfn.png" alt="Brand guidelines — page 6" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735467/Plan_de_travail_7_cz8v8b.png" alt="Brand guidelines — page 7" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735475/Plan_de_travail_8_fwsxct.png" alt="Brand guidelines — page 8" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735666/Plan_de_travail_9_bsw1sn.png" alt="Brand guidelines — page 9" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735619/Plan_de_travail_10_hidyx9.png" alt="Brand guidelines — page 10" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782736229/Plan_de_travail_11_foahki.jpg" alt="Brand guidelines — page 11" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782736316/Plan_de_travail_12_ha691v.jpg" alt="Brand guidelines — page 12" loading="lazy"></div>
-        <div class="cs-slide"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782735486/Plan_de_travail_13_vkiiip.png" alt="Brand guidelines — page 13" loading="lazy"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── Pourquoi ── -->
 <section class="section" id="pourquoi">
   <div class="section-inner">
-    <div class="section-header">
+    <div class="section-header" style="margin-bottom:0">
       <div class="section-eyebrow">Notre approche</div>
-      <h2 class="section-title">Pourquoi <em>Atelier MDG</em></h2>
+      <h2 class="section-title">Pourquoi <em>l'Atelier MDG</em></h2>
     </div>
     <div class="why-grid">
-      <div class="why-card fade-up">
-        <div class="why-num">7+</div>
-        <div class="why-title">Années d'expérience terrain</div>
-        <p class="why-desc">Depuis 2019, nous travaillons avec des marques et artistes à travers 9 pays. Ce recul, ça se voit dans chaque décision créative.</p>
-      </div>
-      <div class="why-card fade-up">
-        <div class="why-num">01</div>
-        <div class="why-title">Un interlocuteur unique</div>
-        <p class="why-desc">Pas d'équipe intermédiaire. Vous travaillez directement avec le directeur créatif du début à la livraison. Réactivité et clarté garanties.</p>
-      </div>
-      <div class="why-card fade-up">
-        <div class="why-num">∞</div>
-        <div class="why-title">Exigence sans compromis</div>
-        <p class="why-desc">Nous ne livrons pas ce qui est "assez bien". Nous livrons ce qui est juste. Chaque projet est traité comme s'il était notre propre marque.</p>
-      </div>
+      <div class="why-card fade-up"><div class="why-num">7+</div><div class="why-title">Sept ans sur le terrain</div><p class="why-desc">Depuis 2019, nous accompagnons des marques et des artistes dans neuf pays. Ce recul se lit dans chaque choix créatif.</p></div>
+      <div class="why-card fade-up"><div class="why-num">01</div><div class="why-title">Un seul interlocuteur</div><p class="why-desc">Pas d'intermédiaire. Vous échangez directement avec le directeur créatif, du premier brief jusqu'à la livraison. Clair et réactif.</p></div>
+      <div class="why-card fade-up"><div class="why-num">∞</div><div class="why-title">Aucun compromis</div><p class="why-desc">Nous ne livrons pas ce qui « passe ». Nous livrons ce qui est juste, chaque projet traité comme s'il s'agissait de notre propre marque.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ── CTA ── -->
 <section id="contact">
   <div class="cta-inner">
-    <div class="cta-label">Travaillons ensemble</div>
-    <h2 class="cta-title">
-      Vous avez<br>
-      un projet ?<br>
-      <em>Parlons-en.</em>
-    </h2>
+    <div class="cta-label">La suite vous appartient</div>
+    <h2 class="cta-title">Donnons à votre marque<br>une image <em>qu'on n'oublie pas.</em></h2>
     <div class="cta-actions">
-      <a href="/cdn-cgi/l/email-protection#cba8a4a5bfaaa8bf8ba6afaca8b9aeaabfa2bdaee5b8bfbeafa2a4" class="cta-btn">
-        Envoyer un message
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
-      </a>
+      <a href="/cdn-cgi/l/email-protection#d4b7bbbaa0b5b7a094b9b0b3b7a6b1b5a0bda2b1faa7a0a1b0bdbb" class="cta-btn">Écrire à l'atelier<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
     </div>
-    <p class="cta-sub">
-      Ou retrouvez-nous sur <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener">Behance</a>
-    </p>
+    <p class="cta-sub">Le brief tient parfois en trois lignes. Envoyez-les, on vous répond avec un vrai point de vue, pas un devis automatique. Aussi sur <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener">Behance</a></p>
   </div>
 </section>
 
-<!-- ── Footer ── -->
 <footer class="footer">
   <span class="footer-copy">© 2025 Atelier MDG · Kaolack, Sénégal</span>
-  <a href="index.html" class="footer-back" id="footerBack">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
-    Retour MDG Creative
-  </a>
+  <a href="index.html" class="footer-back"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>Retour MDG Creative</a>
 </footer>
 
+<div class="cs-overlay" id="csOverlay">
+  <div class="cs-panel" id="csPanel">
+    <div class="cs-header">
+      <div>
+        <div class="cs-header-cat" id="csHeaderCat"></div>
+        <div class="cs-header-title" id="csHeaderTitle"></div>
+      </div>
+      <button class="cs-close" id="csClose" aria-label="Fermer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="cs-hero-img"><img id="csHeroImg" alt=""></div>
+    <div class="cs-intro">
+      <h2 class="cs-project-name"><em id="csProjectName"></em></h2>
+      <p class="cs-project-desc" id="csProjectDesc"></p>
+      <div class="cs-meta-row" id="csMetaRow"></div>
+    </div>
+    <div class="cs-slides">
+      <div class="cs-slides-title">Brand Guidelines</div>
+      <div class="cs-slides-grid" id="csSlidesGrid"></div>
+    </div>
+  </div>
+</div>
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── Page reveal (arrive depuis le blanc de index.html) ──
-window.addEventListener('load', function(){
-  var el = document.getElementById('pageReveal');
-  if(el) setTimeout(function(){ el.classList.add('done'); }, 80);
-});
-
-// ── Transition retour vers index.html ──
 (function(){
-  function goBack(e){
-    e.preventDefault();
-    var overlay = document.createElement('div');
-    overlay.style.cssText='position:fixed;inset:0;background:#060606;z-index:9999;opacity:0;transition:opacity .45s cubic-bezier(.4,0,.2,1);pointer-events:all';
-    document.body.appendChild(overlay);
-    requestAnimationFrame(function(){ overlay.style.opacity='1'; });
-    setTimeout(function(){ window.location.href='index.html'; }, 480);
+  var C = function(id){ return 'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/' + id; };
+  var T = function(id){ return 'https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/' + id; };
+  var META = [
+    { label:'Discipline', val:'Brand Identity' },
+    { label:'Livrables', val:'Logo · Charte · Guidelines' }
+  ];
+  var PROJECTS = {
+    baobabs:{
+      cat:'Branding · Logo & Identité', name:'Baobabs Basket Club',
+      cardDesc:'Identité visuelle complète pour un club de basketball. Logo, charte graphique, déclinaisons.',
+      longDesc:"Conception de l'identité visuelle complète d'un club de basketball : du logo principal à la charte graphique, en passant par les déclinaisons et les guidelines.",
+      thumb:T('v1782735670/BAOBABS_BASKET_CLUB_j9wdmd.png'), hero:C('v1782735670/BAOBABS_BASKET_CLUB_j9wdmd.png'),
+      meta:[META[0],META[1],{label:'Secteur',val:'Sport'}],
+      slides:['v1782735456/Plan_de_travail_1_zo5kn4.png','v1782735450/Plan_de_travail_2_hxsvbf.png','v1782735452/Plan_de_travail_3_mv887z.png','v1782735532/Plan_de_travail_4_z8arg4.png','v1782735461/Plan_de_travail_5_aut73t.png','v1782735457/Plan_de_travail_6_dznpfn.png','v1782735467/Plan_de_travail_7_cz8v8b.png','v1782735475/Plan_de_travail_8_fwsxct.png','v1782735666/Plan_de_travail_9_bsw1sn.png','v1782735619/Plan_de_travail_10_hidyx9.png','v1782736229/Plan_de_travail_11_foahki.jpg','v1782736316/Plan_de_travail_12_ha691v.jpg','v1782735486/Plan_de_travail_13_vkiiip.png'].map(C)
+    },
+    rima:{
+      cat:'Branding · Logo & Identité', name:'RIMA',
+      cardDesc:'Identité visuelle pour RIMA. Logo, charte graphique et brand guidelines complets.',
+      longDesc:"Conception de l'identité visuelle complète de RIMA : du logo principal à la charte graphique et aux brand guidelines.",
+      thumb:T('v1782739655/RIMA_LOGO_rhv7vf.png'), hero:C('v1782739655/RIMA_LOGO_rhv7vf.png'), meta:META,
+      slides:['v1782739655/Plan_de_travail_1_pspjx8.png','v1782739669/Plan_de_travail_2_dyls9z.png','v1782739670/Plan_de_travail_3_vyb4dq.png','v1782739658/Plan_de_travail_4_khzhn1.png','v1782739711/Plan_de_travail_5_itknh1.png','v1782739659/Plan_de_travail_6_xlli44.png'].map(C)
+    },
+    ovp:{
+      cat:'Branding · Logo & Identité', name:'OVP Studio',
+      cardDesc:'Identité visuelle complète pour Owl Vision Production Studio. Logo, charte graphique et brand guidelines.',
+      longDesc:"Conception de l'identité visuelle complète d'OVP Studio, du logo principal à la charte graphique et aux brand guidelines.",
+      thumb:T('v1782740145/Plan_de_travail_1_x0tefo.png'), hero:C('v1782740145/Plan_de_travail_1_x0tefo.png'), meta:META,
+      slides:['v1782740145/Plan_de_travail_1_x0tefo.png','v1782740153/Plan_de_travail_2_gb8p3a.png','v1782740136/Plan_de_travail_3_xkig0h.png','v1782740100/Plan_de_travail_4_oxwotb.png','v1782740151/Plan_de_travail_5_uquc9u.png','v1782740211/Plan_de_travail_6_wcflcx.png','v1782740200/Plan_de_travail_7_mkw8dk.png','v1782740134/Plan_de_travail_8_g8rxpq.png'].map(C)
+    },
+    sinesaloum:{
+      cat:'Branding · Logo & Identité', name:'Sine Saloum Festival',
+      cardDesc:'Identité visuelle complète pour le Sine Saloum Festival. Logo, charte graphique et brand guidelines.',
+      longDesc:"Conception de l'identité visuelle complète du Sine Saloum Festival, du logo principal à la charte graphique et aux brand guidelines.",
+      thumb:T('v1782742073/SINE_SALOUM_FESTIVAL_mhucop.png'), hero:C('v1782742073/SINE_SALOUM_FESTIVAL_mhucop.png'), meta:META,
+      slides:['v1782742360/Plan_de_travail_1_gx2njo.png','v1782742357/Plan_de_travail_2_gsghfk.png','v1782742356/Plan_de_travail_3_r0varw.png','v1782742355/Plan_de_travail_4_gvjlko.png','v1782742261/Plan_de_travail_5_gmgrce.png','v1782742253/Plan_de_travail_6_knqqr6.png','v1782742229/Plan_de_travail_7_cdrukc.png','v1782742183/Plan_de_travail_8_bu8jmp.png','v1782742131/Plan_de_travail_9_hetyx3.png'].map(C)
+    }
+  };
+  var ORDER = ['baobabs','rima','ovp','sinesaloum'];
+
+  // build cards
+  var grid = document.getElementById('workGrid');
+  ORDER.forEach(function(key){
+    var p = PROJECTS[key];
+    var card = document.createElement('div');
+    card.className = 'work-card fade-up';
+    card.setAttribute('data-project', key);
+    card.setAttribute('role','button');
+    card.setAttribute('tabindex','0');
+    card.setAttribute('aria-label','Voir le projet ' + p.name);
+    card.innerHTML =
+      '<div class="work-card-img"><img src="'+p.thumb+'" alt="'+p.name+'" loading="lazy"></div>'+
+      '<div class="work-card-body">'+
+        '<div class="work-card-cat">'+p.cat+'</div>'+
+        '<div class="work-card-name">'+p.name+'</div>'+
+        '<p class="work-card-desc">'+p.cardDesc+'</p>'+
+      '</div>'+
+      '<div class="work-card-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></div>';
+    card.addEventListener('click', function(){ openProject(key); });
+    card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openProject(key); } });
+    grid.appendChild(card);
+  });
+
+  // modal
+  var overlay = document.getElementById('csOverlay');
+  function openProject(key){
+    var p = PROJECTS[key];
+    document.getElementById('csHeaderCat').textContent = p.cat;
+    document.getElementById('csHeaderTitle').textContent = p.name;
+    document.getElementById('csProjectName').textContent = p.name;
+    document.getElementById('csProjectDesc').textContent = p.longDesc;
+    var heroImg = document.getElementById('csHeroImg');
+    heroImg.src = p.hero; heroImg.alt = p.name;
+    var metaRow = document.getElementById('csMetaRow');
+    metaRow.innerHTML = '';
+    p.meta.forEach(function(m){
+      var item = document.createElement('div');
+      item.className = 'cs-meta-item';
+      item.innerHTML = '<span class="cs-meta-label">'+m.label+'</span><span class="cs-meta-val">'+m.val+'</span>';
+      metaRow.appendChild(item);
+    });
+    var slidesGrid = document.getElementById('csSlidesGrid');
+    slidesGrid.innerHTML = '';
+    p.slides.forEach(function(src){
+      var s = document.createElement('div');
+      s.className = 'cs-slide';
+      s.innerHTML = '<img src="'+src+'" alt="Brand guidelines" loading="lazy">';
+      slidesGrid.appendChild(s);
+    });
+    document.getElementById('csPanel').scrollTop = 0;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
-  var backLinks = document.querySelectorAll('#navBack,#footerBack');
-  backLinks.forEach(function(l){ l.addEventListener('click', goBack); });
-})();
+  function closeProject(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('csClose').addEventListener('click', closeProject);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeProject(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeProject(); });
 
-// ── Mobile nav ──
-(function(){
+  // mobile menu
   var toggle = document.getElementById('mobileToggle');
   var menu = document.getElementById('mobileMenu');
-  if(!toggle||!menu) return;
-  toggle.addEventListener('click', function(){
-    menu.classList.toggle('open');
-  });
-  menu.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(){ menu.classList.remove('open'); });
-  });
-})();
+  toggle.addEventListener('click', function(){ menu.classList.toggle('open'); });
+  menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ menu.classList.remove('open'); }); });
 
-// ── Scroll fade-up ──
-(function(){
-  var els = document.querySelectorAll('.fade-up');
-  if(!els.length) return;
+  // fade-up on scroll
   var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
-      }
-    });
-  },{threshold:.15});
-  els.forEach(function(el){ io.observe(el); });
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(function(el){ io.observe(el); });
+
+  // page reveal
+  window.addEventListener('load', function(){
+    requestAnimationFrame(function(){ document.getElementById('pageReveal').classList.add('done'); });
+  });
+  setTimeout(function(){ document.getElementById('pageReveal').classList.add('done'); }, 700);
 })();
-
-// ── Case Study Modals ──
-(function(){
-  var modals = {
-    'baobabs': { overlay: 'csOverlay',     panel: 'csPanel',     close: 'csClose'     },
-    'rima':    { overlay: 'csOverlayRima', panel: 'csPanelRima', close: 'csCloseRima' },
-    'ovp':     { overlay: 'csOverlayOvp',  panel: 'csPanelOvp',  close: 'csCloseOvp'  },
-    'sinesaloum': { overlay: 'csOverlaySine', panel: 'csPanelSine', close: 'csCloseSine' }
-  };
-
-  function openModal(key){
-    var m = modals[key];
-    if(!m) return;
-    var overlay = document.getElementById(m.overlay);
-    var panel   = document.getElementById(m.panel);
-    var btn     = document.getElementById(m.close);
-    if(!overlay||!panel) return;
-    overlay.classList.add('open');
-    document.body.style.overflow='hidden';
-    panel.scrollTop=0;
-    if(btn) btn.focus();
-  }
-
-  function closeAll(){
-    Object.values(modals).forEach(function(m){
-      var overlay = document.getElementById(m.overlay);
-      if(overlay) overlay.classList.remove('open');
-    });
-    document.body.style.overflow='';
-  }
-
-  // Cartes projet
-  document.querySelectorAll('[data-project]').forEach(function(card){
-    card.addEventListener('click', function(){ openModal(card.dataset.project); });
-    card.addEventListener('keydown', function(e){
-      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(card.dataset.project); }
-    });
-  });
-
-  // Boutons fermer
-  Object.values(modals).forEach(function(m){
-    var btn     = document.getElementById(m.close);
-    var overlay = document.getElementById(m.overlay);
-    if(btn)     btn.addEventListener('click', closeAll);
-    if(overlay) overlay.addEventListener('click', function(e){ if(e.target===overlay) closeAll(); });
-  });
-
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
-})();
-
-
-
-document.querySelectorAll('a[href^="#"]').forEach(function(a){
-  a.addEventListener('click', function(e){
-    var id = this.getAttribute('href').slice(1);
-    var target = document.getElementById(id);
-    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
-  });
-});
 </script>
 </body>
 </html>
