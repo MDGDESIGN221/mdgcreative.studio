@@ -131,39 +131,39 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
 .why-title{font-family:var(--font-head);font-weight:700;font-size:1.15rem;letter-spacing:-.015em;color:var(--black)}
 .why-desc{font-size:.88rem;color:var(--gray-600);line-height:1.65}
 #contact{background:var(--black);padding:clamp(72px,10vw,110px) clamp(20px,5vw,32px)}
-.cta-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,6vw,80px);align-items:start}
-.cta-left{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(22px,3vw,30px)}
+.cta-head{max-width:680px;margin:0 auto clamp(34px,4vw,48px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(16px,2vw,22px)}
 .cta-label{display:inline-flex;align-items:center;gap:.62em;font-size:.64rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:#fff;padding:7px 14px 7px 12px;border-radius:100px}
 .cta-label::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--accent-bright)}
-.cta-title{font-family:var(--font-head);font-weight:700;font-size:clamp(1.9rem,3.4vw,3rem);line-height:1.06;letter-spacing:-.025em;color:#fff;max-width:14ch;text-wrap:balance}
-.cta-title em{font-family:var(--font-serif);font-style:italic;font-weight:400}
-.cta-sub{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.65;max-width:380px}
-.cta-socials{display:flex;align-items:center;gap:18px;margin-top:4px;font-size:.74rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
-.cta-socials a{color:rgba(255,255,255,.55);text-decoration:none;transition:color .25s}
+.cta-title{font-family:var(--font-head);font-weight:700;font-size:clamp(1.9rem,3.4vw,3rem);line-height:1.06;letter-spacing:-.025em;color:#fff;max-width:16ch;text-wrap:balance}
+.cta-title em{font-family:var(--font-serif);font-style:italic;font-weight:400;color:var(--accent-bright)}
+.cta-sub{font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.65;max-width:460px}
+.cta-socials{display:flex;align-items:center;gap:18px;margin-top:2px;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.cta-socials a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .25s}
 .cta-socials a:hover{color:#fff}
 .cta-socials .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.3)}
-.cform{display:flex;flex-direction:column;gap:22px}
-.cform-block-label{font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:12px}
+.cform-wrap{max-width:680px;margin:0 auto;background:#f4f2ed;border-radius:24px;padding:clamp(26px,3.4vw,42px);box-shadow:0 40px 90px rgba(0,0,0,.5)}
+.cform{display:flex;flex-direction:column;gap:20px}
+.cform-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cform-block-label{font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-600);margin-bottom:12px}
 .ptypes{display:flex;flex-wrap:wrap;gap:8px}
 .ptype{position:relative}
 .ptype input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
-.ptype span{display:block;font-size:.8rem;font-weight:500;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:9px 16px;transition:all .2s;cursor:pointer;white-space:nowrap}
-.ptype input:checked + span{background:#fff;color:var(--black);border-color:#fff}
-.ptype input:focus-visible + span{outline:2px solid rgba(255,255,255,.5);outline-offset:2px}
-.field{display:flex;flex-direction:column;gap:8px}
-.field label{font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45)}
-.field input,.field textarea{background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.22);color:#fff;font-family:var(--font-body);font-size:.95rem;padding:10px 0;transition:border-color .25s;resize:none}
-.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.3)}
-.field input:focus,.field textarea:focus{outline:none;border-bottom-color:#fff}
-.send-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
-.send-mail,.send-wa{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-size:.8rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:15px 26px;border-radius:100px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:all .25s;flex:1;min-width:150px}
-.send-mail{background:#fff;color:var(--black)}
-.send-mail:hover{background:var(--gray-200);transform:translateY(-2px)}
-.send-wa{background:transparent;color:#fff;border-color:rgba(255,255,255,.3)}
-.send-wa:hover{border-color:#fff;background:rgba(255,255,255,.06);transform:translateY(-2px)}
+.ptype span{display:block;font-size:.78rem;font-weight:500;color:var(--gray-700);background:#fff;border:1px solid var(--border);border-radius:100px;padding:8px 15px;transition:all .2s;cursor:pointer;white-space:nowrap}
+.ptype input:checked + span{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ptype input:focus-visible + span{outline:2px solid var(--ink);outline-offset:2px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-600)}
+.field input,.field textarea{background:#fff;border:1px solid var(--border);border-radius:12px;color:var(--ink);font-family:var(--font-body);font-size:.92rem;padding:13px 15px;transition:border-color .25s,box-shadow .25s;resize:none}
+.field input::placeholder,.field textarea::placeholder{color:#b3aea7}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.send-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.send-mail,.send-wa{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-size:.8rem;font-weight:600;letter-spacing:.02em;padding:15px 26px;border-radius:100px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:all .25s}
+.send-mail{background:var(--ink);color:#fff;flex:1;min-width:180px}
+.send-mail:hover{background:#000;transform:translateY(-2px)}
+.send-wa{background:#fff;color:var(--gray-700);border-color:var(--border)}
+.send-wa:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-2px)}
 .send-mail svg,.send-wa svg{flex-shrink:0}
-@media(max-width:860px){.cta-inner{grid-template-columns:1fr;gap:clamp(40px,8vw,56px)}.cta-title{max-width:18ch}}
-@media(max-width:768px){.send-row{flex-direction:column}.send-mail,.send-wa{width:100%}}
+@media(max-width:560px){.cform-row{grid-template-columns:1fr}.send-row{flex-direction:column}.send-mail,.send-wa{width:100%}}
 .footer{background:var(--black);border-top:1px solid rgba(255,255,255,.08);padding:clamp(24px,3vw,32px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .footer-copy{font-size:.74rem;color:rgba(255,255,255,.28)}
 .footer-back{font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .25s}
@@ -211,17 +211,17 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
 #pourquoi .why-title{color:#fff}
 #pourquoi .why-desc{color:rgba(255,255,255,.56)}
 /* ── Formulaire réel (Web3Forms) ── */
-.cform-wrap{display:flex;flex-direction:column}
+.cform-wrap.sent{display:flex;flex-direction:column}
 .hp{display:none !important}
-.cform-status{font-size:.8rem;line-height:1.5;color:#ff8a8a;min-height:1em}
+.cform-status{font-size:.8rem;line-height:1.5;color:#c0392b;min-height:1em}
 .cform button.send-mail{font-family:var(--font-body);font-size:.8rem}
 .cform button.send-mail:disabled{opacity:.6;cursor:default;transform:none}
-.cform-success{display:none;flex-direction:column;align-items:flex-start;gap:16px;padding:6px 0}
+.cform-success{display:none;flex-direction:column;align-items:flex-start;gap:14px;padding:14px 4px}
 .cform-wrap.sent .cform{display:none}
 .cform-wrap.sent .cform-success{display:flex}
 .cform-success-icon{width:48px;height:48px;border-radius:50%;background:var(--accent-bright);display:flex;align-items:center;justify-content:center;color:#042019}
-.cform-success h3{font-family:var(--font-head);font-weight:700;font-size:1.4rem;letter-spacing:-.02em;color:#fff}
-.cform-success p{font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.65;max-width:360px}
+.cform-success h3{font-family:var(--font-head);font-weight:700;font-size:1.4rem;letter-spacing:-.02em;color:var(--ink)}
+.cform-success p{font-size:.9rem;color:var(--gray-600);line-height:1.65;max-width:380px}
 /* ── Réalisations : séparation logos + affordance ── */
 .work-card-img{background:#fff;border-bottom:1px solid var(--border)}
 .work-card-name{font-weight:700;letter-spacing:-.01em}
@@ -385,19 +385,18 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
 </section>
 
 <section id="contact">
-  <div class="cta-inner">
-    <div class="cta-left">
-      <div class="cta-label">Parlons de votre projet</div>
-      <h2 class="cta-title">Donnons à votre marque une image <em>qu'on n'oublie pas.</em></h2>
-      <p class="cta-sub">Le brief tient parfois en trois lignes. Dites-nous l'essentiel, on revient vers vous avec un vrai point de vue, pas un devis automatique.</p>
-      <div class="cta-socials">
-        <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">Instagram</a>
-        <span class="dot"></span>
-        <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener">Behance</a>
-      </div>
+  <div class="cta-head">
+    <div class="cta-label">Parlons de votre projet</div>
+    <h2 class="cta-title">Votre marque mérite mieux qu'un <em>à-peu-près.</em></h2>
+    <p class="cta-sub">Le brief tient parfois en trois lignes. Dites-nous l'essentiel, on revient vers vous avec un vrai point de vue, pas un devis automatique.</p>
+    <div class="cta-socials">
+      <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener">Instagram</a>
+      <span class="dot"></span>
+      <a href="https://www.behance.net/itsmdg" target="_blank" rel="noopener">Behance</a>
     </div>
+  </div>
 
-    <div class="cform-wrap" id="cformWrap">
+  <div class="cform-wrap" id="cformWrap">
     <form class="cform" id="contactForm" novalidate>
       <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div>
@@ -410,13 +409,15 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
           <label class="ptype"><input type="radio" name="ptype" value="Autre"><span>Autre</span></label>
         </div>
       </div>
-      <div class="field">
-        <label for="cf-name">Votre nom ou marque</label>
-        <input type="text" id="cf-name" name="name" placeholder="Ex. Baobabs Basket Club" autocomplete="name">
-      </div>
-      <div class="field">
-        <label for="cf-email">Votre email</label>
-        <input type="email" id="cf-email" name="email" placeholder="vous@exemple.com" autocomplete="email" required>
+      <div class="cform-row">
+        <div class="field">
+          <label for="cf-name">Votre nom ou marque</label>
+          <input type="text" id="cf-name" name="name" placeholder="Ex. Baobabs Basket Club" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="cf-email">Votre email</label>
+          <input type="email" id="cf-email" name="email" placeholder="vous@exemple.com" autocomplete="email" required>
+        </div>
       </div>
       <div class="field">
         <label for="cf-msg">Votre projet en quelques lignes</label>
@@ -434,7 +435,6 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
       <p>Merci, votre demande est bien arrivée. On revient vers vous très vite — souvent sous 24 h ouvrées.</p>
     </div>
     </div>
-  </div>
 </section>
 
 <footer class="footer">
