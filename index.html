@@ -11893,6 +11893,23 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 // Nav scrolled
 (function(){const nav=document.querySelector('nav');if(!nav)return;window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40)},{passive:true});})();
 </script>
+<script>
+// Nav adaptatif : .nav-on-light quand une zone claire (ex: hero blanc) est derrière le nav
+(function(){
+  var nav = document.querySelector('nav:not(#mob-tab-bar)');
+  var hero = document.getElementById('hero');
+  if(!nav || !hero) return;
+  function updateNavOnLight(){
+    var navH = nav.offsetHeight || 0;
+    var heroBottom = hero.getBoundingClientRect().bottom;
+    var onLight = heroBottom > (navH + 8);
+    nav.classList.toggle('nav-on-light', onLight);
+  }
+  window.addEventListener('scroll', updateNavOnLight, {passive:true});
+  window.addEventListener('resize', updateNavOnLight, {passive:true});
+  updateNavOnLight();
+})();
+</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -11959,6 +11976,30 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <!-- Styles déplacés pour rendu non-bloquant -->
 <body>
+<!-- ── GOOGLE TRANSLATE, traduction automatique du site (pilotée par #langToggle) ── -->
+<style id="goog-translate-css">
+  body{top:0!important;position:static!important;}
+  .goog-te-banner-frame.skiptranslate,
+  .goog-te-banner-frame{display:none!important;visibility:hidden!important;height:0!important;}
+  #goog-gt-tt, .goog-te-balloon-frame{display:none!important;}
+  .goog-text-highlight{background:none!important;box-shadow:none!important;}
+  .goog-te-gadget{height:0;overflow:hidden;position:absolute;left:-9999px;}
+  .goog-te-gadget .goog-te-combo{display:none!important;}
+  #google_translate_element{position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden;}
+  iframe.goog-te-banner-frame{display:none!important;}
+  .skiptranslate iframe{display:none!important;}
+</style>
+<div id="google_translate_element" aria-hidden="true"></div>
+<script>
+function googleTranslateElementInit(){
+  new google.translate.TranslateElement({
+    pageLanguage: 'fr',
+    includedLanguages: 'en,fr',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 <template id="__bundler_thumbnail" data-bg-color="#060606">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
     <rect width="1200" height="800" fill="#060606"/>
@@ -12601,7 +12642,7 @@ a[data-spotify] svg{ fill:#fff !important; }
 #hero.nhero .nh-plinks .nh-badge .dot{width:6px;height:6px;border-radius:50%;background:#3DBFA3;box-shadow:0 0 0 3px rgba(61,191,163,.16)}
 @media(max-width:767px){
   #hero.nhero{justify-content:center;text-align:center;padding:calc(var(--nav-h,70px) + 2rem) 24px 3rem!important}
-  #hero.nhero .nh-portrait-pic{top:-40px;width:120%;max-width:none}
+  #hero.nhero .nh-portrait-pic{top:-90px;width:120%;max-width:none}
   #hero.nhero .nh-portrait{-webkit-mask-image:linear-gradient(250deg,#000 26%,transparent 84%),linear-gradient(#000 56%,transparent 92%);mask-image:linear-gradient(250deg,#000 26%,transparent 84%),linear-gradient(#000 56%,transparent 92%)}
   #hero.nhero .nh-in{align-items:center}
   #hero.nhero .nh-chip{background:none;color:#6a655e;padding:0;margin-bottom:18px;font-size:.62rem;letter-spacing:.2em}
@@ -12611,21 +12652,25 @@ a[data-spotify] svg{ fill:#fff !important; }
   #hero.nhero .nh-sub{justify-content:center;text-transform:none;font-weight:400;letter-spacing:0;color:#3a3935;font-size:.9rem;margin-top:14px}
   #hero.nhero .nh-sub::before{display:none}
   #hero.nhero .nh-doors{grid-template-columns:1fr;gap:10px;margin-top:28px;text-align:left}
-  #hero.nhero .nh-plinks{display:none}
+  #hero.nhero .nh-plinks{display:flex;justify-content:center;margin-top:24px}
+  #hero.nhero .nh-plinks a,
+  #hero.nhero .nh-plinks .sep{display:none}
+  #hero.nhero .nh-plinks .nh-badge{margin-left:0}
 }
-/* Nav épuré au-dessus du hero : logo + dispo + langue seulement, le reste réapparaît au scroll */
-nav:not(#mob-tab-bar):not(.scrolled) .nav-links,
-nav:not(#mob-tab-bar):not(.scrolled) .nav-cta{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease}
-nav:not(#mob-tab-bar).scrolled .nav-links,
-nav:not(#mob-tab-bar).scrolled .nav-cta{opacity:1;visibility:visible;transition:opacity .35s ease}
-/* Au-dessus du hero blanc : nav transparent, logo + texte en noir. Au scroll, retour au nav sombre. */
-nav:not(#mob-tab-bar):not(.scrolled){background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border-bottom-color:transparent!important;transition:background .35s ease}
-nav:not(#mob-tab-bar):not(.scrolled) .nav-logo img{filter:brightness(0)!important;transition:filter .35s ease}
-nav:not(#mob-tab-bar):not(.scrolled) .nav-logo,
-nav:not(#mob-tab-bar):not(.scrolled) .nav-logo-sub{color:#0e0e0e!important}
-nav:not(#mob-tab-bar):not(.scrolled) .nav-avail{color:#3a3935!important}
-nav:not(#mob-tab-bar):not(.scrolled) .lang-toggle{color:#0e0e0e!important;border-color:rgba(14,14,14,.28)!important}
-nav:not(#mob-tab-bar):not(.scrolled) .nav-burger span{background:#0e0e0e!important}
+/* Nav adaptatif : par défaut nav sombre + logo blanc + menu visible.
+   Quand le hero blanc (ou toute zone claire) est derrière le nav -> .nav-on-light :
+   nav transparent, logo/texte en noir, menu + CTA masqués. */
+nav:not(#mob-tab-bar).nav-on-light .nav-links,
+nav:not(#mob-tab-bar).nav-on-light .nav-cta{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease}
+nav:not(#mob-tab-bar):not(.nav-on-light) .nav-links,
+nav:not(#mob-tab-bar):not(.nav-on-light) .nav-cta{opacity:1;visibility:visible;transition:opacity .35s ease}
+nav:not(#mob-tab-bar).nav-on-light{background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border-bottom-color:transparent!important;transition:background .35s ease}
+nav:not(#mob-tab-bar).nav-on-light .nav-logo img{filter:brightness(0)!important;transition:filter .35s ease}
+nav:not(#mob-tab-bar).nav-on-light .nav-logo,
+nav:not(#mob-tab-bar).nav-on-light .nav-logo-sub{color:#0e0e0e!important}
+nav:not(#mob-tab-bar).nav-on-light .nav-avail{color:#3a3935!important}
+nav:not(#mob-tab-bar).nav-on-light .lang-toggle{color:#0e0e0e!important;border-color:rgba(14,14,14,.28)!important}
+nav:not(#mob-tab-bar).nav-on-light .nav-burger span{background:#0e0e0e!important}
 </style>
 <section id="hero" class="nhero">
   <picture class="nh-portrait-pic">
@@ -12638,15 +12683,15 @@ nav:not(#mob-tab-bar):not(.scrolled) .nav-burger span{background:#0e0e0e!importa
     <h1 class="nh-title">L'ÉLITE<em>se remarque.</em></h1>
     <p class="nh-sub">L'excellence, c'est mon seul standard</p>
     <div class="nh-doors">
-      <a class="nh-door nh-door--artists" href="#passerelle" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('passerelle');else document.getElementById('passerelle')?.scrollIntoView({behavior:'smooth'})">
-        <span class="eyebrow">Le studio</span>
-        <span class="k">Pour les artistes <i>&rarr;</i></span>
-        <span class="v">Cover art &middot; direction &middot; visuels</span>
-      </a>
       <a class="nh-door nh-door--brands" href="atelier.html" id="doorBrands">
         <span class="eyebrow">Atelier MDG</span>
         <span class="k">Pour les marques <i>&rarr;</i></span>
         <span class="v">Logo &middot; identit&eacute; &middot; web &middot; packaging</span>
+      </a>
+      <a class="nh-door nh-door--artists" href="#passerelle" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('passerelle');else document.getElementById('passerelle')?.scrollIntoView({behavior:'smooth'})">
+        <span class="eyebrow">Le studio</span>
+        <span class="k">Pour les artistes <i>&rarr;</i></span>
+        <span class="v">Cover art &middot; direction &middot; visuels</span>
       </a>
     </div>
     <div class="nh-plinks">
@@ -20513,12 +20558,40 @@ window.openModal = function(num) {
   document.body.style.overflow = 'hidden';
 };
 
+// ─── Pont Google Translate (remplace le dictionnaire manuel) ──
+function getGoogTransCookie() {
+  var m = document.cookie.match(/(?:^|;\s*)googtrans=([^;]*)/);
+  return m ? decodeURIComponent(m[1]) : '';
+}
+function setGoogleLang(lang) {
+  // lang: 'en' pour traduire, 'fr' pour restaurer le texte original
+  var combo = document.querySelector('.goog-te-combo');
+  if (combo) {
+    if (combo.value !== lang) {
+      combo.value = lang;
+      combo.dispatchEvent(new Event('change'));
+    }
+    return;
+  }
+  // Le widget Google n'est pas encore monté : on passe par le cookie + reload
+  var hostname = window.location.hostname;
+  var current = getGoogTransCookie();
+  var desired = (lang === 'fr') ? '' : ('/fr/' + lang);
+  if (current === desired) return; // déjà dans l'état voulu, pas de reload inutile
+  if (lang === 'fr') {
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + hostname;
+  } else {
+    document.cookie = 'googtrans=/fr/' + lang + '; path=/;';
+    document.cookie = 'googtrans=/fr/' + lang + '; path=/; domain=' + hostname;
+  }
+  window.location.reload();
+}
+
 // ─── Fonction principale de traduction ───────────────
 function applyLang(lang) {
   currentLang = lang;
-  applyDataI18n(lang);
-  applyPatches(lang);
-  applyComplexPatches(lang);
+  setGoogleLang(lang);
 
   // Toggle button state, nav desktop
   var btn = document.getElementById('langToggle');
