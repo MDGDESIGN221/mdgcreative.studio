@@ -17,6 +17,7 @@
   --border:rgba(14,14,14,.1);--border-strong:rgba(14,14,14,.18);--radius:14px;
   --font-head:'Syne',sans-serif;--font-body:'Inter',sans-serif;--font-serif:'DM Serif Display',serif;
   --transition:.35s cubic-bezier(.4,0,.2,1);
+  --ink:#0e0e0e;--accent:#0f6e57;--accent-bright:#3DBFA3;--accent-soft:rgba(15,110,87,.07);
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
 body{background:var(--white);color:var(--black);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden}
@@ -49,8 +50,9 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
 @media(max-width:768px){.nav-group{display:none}.nav-mobile-toggle{display:flex}.nav-inner{padding:0 20px}}
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(104px,13vh,140px) clamp(20px,5vw,64px) clamp(28px,4vw,40px);overflow:hidden;background:var(--white);border-bottom:1px solid var(--border)}
 .hero-inner{position:relative;max-width:1180px;margin:0 auto;width:100%;display:flex;flex-direction:column;justify-content:center;flex:1}
-.hero-meta{display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:clamp(40px,7vw,72px);font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-500)}
-.hero-meta b{font-weight:600;color:var(--black)}
+.hero-meta{display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:clamp(40px,7vw,72px);font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gray-600)}
+.hero-meta b{display:inline-flex;align-items:center;gap:.55em;font-weight:700;color:#fff;background:var(--ink);padding:6px 13px 6px 11px;border-radius:100px;letter-spacing:.1em}
+.hero-meta b::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent-bright)}
 .hero-meta span.sep{width:18px;height:1px;background:var(--gray-300)}
 .hero-meta .loc{margin-left:auto;color:var(--gray-500)}
 .hero-title{font-family:var(--font-head);font-weight:700;font-size:clamp(1.9rem,4.3vw,3.85rem);line-height:1.08;letter-spacing:-.022em;color:var(--black);margin-bottom:clamp(34px,4.5vw,52px);max-width:18ch;text-wrap:balance}
@@ -70,23 +72,24 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
 .hero-scroll-line{width:1px;height:40px;background:var(--gray-300);transform-origin:top;animation:scrollPulse 2s ease-in-out infinite}
 @keyframes scrollPulse{0%,100%{transform:scaleY(1);opacity:.35}50%{transform:scaleY(.55);opacity:1}}
 .hero-scroll-label{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500)}
-@media(max-width:768px){.hero-bottom{flex-direction:column;align-items:flex-start;gap:24px}.hero-desc{font-size:.95rem;max-width:100%}.hero-scroll{display:none}.hero-title{font-size:clamp(2.2rem,9.5vw,3.6rem)}}
+@media(max-width:768px){.hero{min-height:72svh;padding:104px 22px 44px}.hero-bottom{flex-direction:column;align-items:flex-start;gap:22px}.hero-desc{display:none}.hero-scroll{display:none}.hero-title{font-size:clamp(1.95rem,8.4vw,2.8rem);line-height:1.12;margin-bottom:26px}.hero-meta{gap:11px;margin-bottom:26px}.hero-meta .sep,.hero-meta .role{display:none}.hero-meta .loc{margin-left:0}.hero-foot{display:none}}
 .section{padding:clamp(72px,9vw,110px) clamp(20px,5vw,32px)}
 .section-inner{max-width:1140px;margin:0 auto;width:100%}
 .section-header{margin-bottom:clamp(44px,6vw,64px)}
-.section-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-500)}
-.section-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--black)}
+.section-eyebrow{display:inline-flex;align-items:center;gap:.62em;margin-bottom:20px;font-size:.64rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--ink);padding:7px 14px 7px 12px;border-radius:100px}
+.section-eyebrow::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--accent-bright);box-shadow:0 0 0 3px rgba(61,191,163,.2)}
 .section-title{font-family:var(--font-head);font-weight:700;font-size:clamp(1.7rem,3.2vw,2.7rem);line-height:1.1;letter-spacing:-.02em;color:var(--black);max-width:700px}
 .section-title em{font-family:var(--font-serif);font-style:italic;font-weight:400}
-#services{background:var(--gray-100)}
+#services{background:#f2f0eb}
 .svc-rows{display:flex;flex-direction:column;gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .svc-row{display:flex;flex-wrap:wrap;gap:2px}
 .svc-card{background:var(--white);padding:clamp(32px,4vw,48px) clamp(28px,3.5vw,44px);display:flex;flex-direction:column;gap:16px;transition:background var(--transition)}
 .svc-card.wide{flex:1 1 58%;min-width:300px}
 .svc-card.narrow{flex:1 1 38%;min-width:260px}
 .svc-card:hover{background:#fafaf9}
-.svc-num{font-size:.68rem;font-weight:700;letter-spacing:.15em;color:var(--black)}
-.svc-icon{width:42px;height:42px;border-radius:11px;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--black)}
+.svc-num{font-size:.68rem;font-weight:700;letter-spacing:.15em;color:var(--accent)}
+.svc-icon{width:42px;height:42px;border-radius:11px;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--black);transition:border-color var(--transition),color var(--transition),background var(--transition)}
+.svc-card:hover .svc-icon{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
 .svc-name{font-family:var(--font-head);font-weight:700;font-size:1.5rem;letter-spacing:-.02em;color:var(--black)}
 .svc-desc{font-size:.92rem;color:var(--gray-600);line-height:1.6;max-width:420px}
 .svc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
@@ -99,13 +102,13 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
 .work-card-img img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;transition:transform .5s cubic-bezier(.4,0,.2,1)}
 .work-card:hover .work-card-img img{transform:scale(1.04)}
 .work-card-body{padding:28px 28px 32px;display:flex;flex-direction:column;gap:10px;flex:1}
-.work-card-cat{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-500);display:flex;align-items:center;gap:8px}
-.work-card-cat::before{content:'';display:block;width:14px;height:1px;background:var(--black)}
+.work-card-cat{display:inline-flex;align-items:center;gap:.5em;width:fit-content;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-700);background:var(--gray-100);border:1px solid var(--border);padding:6px 11px 6px 10px;border-radius:100px}
+.work-card-cat::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--accent-bright)}
 .work-card-name{font-family:var(--font-head);font-weight:800;font-size:1.3rem;letter-spacing:-.02em;color:var(--black);line-height:1.1}
 .work-card-desc{font-size:.84rem;color:var(--gray-600);line-height:1.55;margin-top:2px}
 .work-card-arrow{position:absolute;bottom:28px;right:28px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--gray-500);transition:all var(--transition)}
 .work-card:hover .work-card-arrow{background:var(--black);border-color:var(--black);color:#fff;transform:translate(2px,-2px)}
-#pourquoi{background:var(--gray-100)}
+#pourquoi{background:#141312}
 .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:clamp(44px,6vw,64px)}
 .why-card{padding:clamp(36px,4vw,48px) clamp(28px,3vw,36px);background:var(--white);display:flex;flex-direction:column;gap:16px;transition:background var(--transition)}
 .why-card:hover{background:#fafaf9}
@@ -115,8 +118,8 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
 #contact{background:var(--black);padding:clamp(72px,10vw,110px) clamp(20px,5vw,32px)}
 .cta-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,6vw,80px);align-items:start}
 .cta-left{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(22px,3vw,30px)}
-.cta-label{display:flex;align-items:center;gap:10px;font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.cta-label::before{content:'';display:block;width:20px;height:1px;background:rgba(255,255,255,.4)}
+.cta-label{display:inline-flex;align-items:center;gap:.62em;font-size:.64rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:#fff;padding:7px 14px 7px 12px;border-radius:100px}
+.cta-label::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--accent-bright)}
 .cta-title{font-family:var(--font-head);font-weight:700;font-size:clamp(1.9rem,3.4vw,3rem);line-height:1.06;letter-spacing:-.025em;color:#fff;max-width:14ch;text-wrap:balance}
 .cta-title em{font-family:var(--font-serif);font-style:italic;font-weight:400}
 .cta-sub{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.65;max-width:380px}
@@ -180,6 +183,36 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
 .cs-slide img{width:100%;height:auto;display:block}
 .fade-up{opacity:0;transform:translateY(28px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
 .fade-up.visible{opacity:1;transform:translateY(0)}
+/* ── Film grain léger (rappel de l'index) ── */
+body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.045;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:120px 120px}
+/* ── Section « Notre approche » en sombre (acte final premium) ── */
+#pourquoi .section-title{color:#fff}
+#pourquoi .section-title em{color:var(--accent-bright)}
+#pourquoi .section-eyebrow{background:#fff;color:var(--ink)}
+#pourquoi .why-grid{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1)}
+#pourquoi .why-card{background:#1b1a18}
+#pourquoi .why-card:hover{background:#242220}
+#pourquoi .why-num{color:rgba(255,255,255,.13)}
+#pourquoi .why-title{color:#fff}
+#pourquoi .why-desc{color:rgba(255,255,255,.56)}
+/* ── Formulaire réel (Web3Forms) ── */
+.cform-wrap{display:flex;flex-direction:column}
+.hp{display:none !important}
+.cform-status{font-size:.8rem;line-height:1.5;color:#ff8a8a;min-height:1em}
+.cform button.send-mail{font-family:var(--font-body);font-size:.8rem}
+.cform button.send-mail:disabled{opacity:.6;cursor:default;transform:none}
+.cform-success{display:none;flex-direction:column;align-items:flex-start;gap:16px;padding:6px 0}
+.cform-wrap.sent .cform{display:none}
+.cform-wrap.sent .cform-success{display:flex}
+.cform-success-icon{width:48px;height:48px;border-radius:50%;background:var(--accent-bright);display:flex;align-items:center;justify-content:center;color:#042019}
+.cform-success h3{font-family:var(--font-head);font-weight:700;font-size:1.4rem;letter-spacing:-.02em;color:#fff}
+.cform-success p{font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.65;max-width:360px}
+/* ── Réalisations : séparation logos + affordance ── */
+.work-card-img{background:#fff;border-bottom:1px solid var(--border)}
+.work-card-name{font-weight:700;letter-spacing:-.01em}
+.work-card-link{display:inline-flex;align-items:center;gap:7px;margin-top:auto;padding-top:16px;font-family:var(--font-head);font-weight:700;font-size:.74rem;letter-spacing:.03em;color:var(--accent);transition:gap .25s}
+.work-card:hover .work-card-link{gap:11px}
+.section-hint{margin-top:14px;font-size:.92rem;color:var(--gray-600);line-height:1.6;max-width:520px}
 </style>
 </head>
 <body>
@@ -224,12 +257,12 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
     <div class="hero-meta">
       <b>Atelier MDG</b>
       <span class="sep"></span>
-      Studio d'identité de marque
+      <span class="role">Studio d'identité de marque</span>
       <span class="loc">Kaolack, Sénégal</span>
     </div>
     <h1 class="hero-title">Nous façonnons des identités <em>que l'on ne confond pas.</em></h1>
     <div class="hero-bottom">
-      <p class="hero-desc">Logo, web, packaging, stratégie. Pour les entreprises qui veulent une image à la hauteur de leurs ambitions, pensée pour durer plutôt que pour suivre la mode.</p>
+      <p class="hero-desc">Logo, site, packaging, direction artistique. On construit pour les entreprises une image nette, cohérente d'un support à l'autre, et pensée pour tenir bien au-delà de la tendance du moment.</p>
       <div class="hero-actions">
         <a href="#contact" class="btn-primary">Confier votre marque<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
         <a href="#realisations" class="btn-ghost">Voir notre travail<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
@@ -261,7 +294,7 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
           <span class="svc-num">02</span>
           <div class="svc-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
           <div class="svc-name">Web Design</div>
-          <p class="svc-desc">Des sites qui donnent à votre marque le sérieux qu'elle mérite. Sur mesure, pensés mobile d'abord, conçus pour transformer le visiteur en client.</p>
+          <p class="svc-desc">Un site sur mesure, rapide et lisible d'abord sur mobile, qui inspire confiance dès la première seconde et donne envie d'aller plus loin que la page d'accueil.</p>
           <div class="svc-tags"><span class="svc-tag">Site vitrine</span><span class="svc-tag">Landing page</span><span class="svc-tag">UI/UX</span></div>
         </div>
       </div>
@@ -290,6 +323,7 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
     <div class="section-header">
       <div class="section-eyebrow">Nos réalisations</div>
       <h2 class="section-title">Du travail <em>concret.</em></h2>
+      <p class="section-hint">Chaque projet ouvre une étude de cas complète — logo, charte et déclinaisons. Cliquez sur une carte pour l'explorer.</p>
     </div>
     <div class="work-grid" id="workGrid"></div>
   </div>
@@ -302,9 +336,9 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
       <h2 class="section-title">Pourquoi <em>l'Atelier MDG</em></h2>
     </div>
     <div class="why-grid">
-      <div class="why-card fade-up"><div class="why-num">7+</div><div class="why-title">Sept ans sur le terrain</div><p class="why-desc">Depuis 2019, nous accompagnons des marques et des artistes dans neuf pays. Ce recul se lit dans chaque choix créatif.</p></div>
+      <div class="why-card fade-up"><div class="why-num">7+</div><div class="why-title">Sept ans sur le terrain</div><p class="why-desc">Depuis 2019, on a habillé des marques et des artistes dans neuf pays. Ce recul, on le met au service de décisions qui tiennent la route.</p></div>
       <div class="why-card fade-up"><div class="why-num">01</div><div class="why-title">Un seul interlocuteur</div><p class="why-desc">Pas d'intermédiaire. Vous échangez directement avec le directeur créatif, du premier brief jusqu'à la livraison. Clair et réactif.</p></div>
-      <div class="why-card fade-up"><div class="why-num">∞</div><div class="why-title">Aucun compromis</div><p class="why-desc">Nous ne livrons pas ce qui « passe ». Nous livrons ce qui est juste, chaque projet traité comme s'il s'agissait de notre propre marque.</p></div>
+      <div class="why-card fade-up"><div class="why-num">∞</div><div class="why-title">Jamais à moitié</div><p class="why-desc">On ne rend pas un travail tant qu'il n'est pas juste. Chaque projet reçoit le soin qu'on mettrait à notre propre marque, détail compris.</p></div>
     </div>
   </div>
 </section>
@@ -322,7 +356,9 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
       </div>
     </div>
 
+    <div class="cform-wrap" id="cformWrap">
     <form class="cform" id="contactForm" novalidate>
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div>
         <div class="cform-block-label">Type de projet</div>
         <div class="ptypes" id="ptypes">
@@ -338,19 +374,30 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
         <input type="text" id="cf-name" name="name" placeholder="Ex. Baobabs Basket Club" autocomplete="name">
       </div>
       <div class="field">
+        <label for="cf-email">Votre email</label>
+        <input type="email" id="cf-email" name="email" placeholder="vous@exemple.com" autocomplete="email" required>
+      </div>
+      <div class="field">
         <label for="cf-msg">Votre projet en quelques lignes</label>
         <textarea id="cf-msg" name="message" rows="3" placeholder="Ce que vous voulez créer, le contexte, l'échéance…"></textarea>
       </div>
       <div class="send-row">
-        <a href="#" class="send-mail" id="sendMail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Envoyer par mail</a>
+        <button type="submit" class="send-mail" id="cfSubmit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg><span id="cfSubmitLabel">Envoyer la demande</span></button>
         <a href="#" class="send-wa" id="sendWa" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.93-.26-.1-.46-.15-.65.15-.2.3-.74.93-.9 1.12-.17.2-.34.22-.63.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.34.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.65-1.57-.9-2.15-.23-.56-.47-.48-.65-.49h-.55c-.2 0-.5.07-.77.37-.26.3-1 .98-1 2.4 0 1.4 1.03 2.76 1.17 2.95.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.27-.19-.56-.34z"/><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-2.85.9.9-2.78-.2-.31A8.2 8.2 0 1 1 12 20.2z"/></svg>WhatsApp</a>
       </div>
+      <p class="cform-status" id="cfStatus" role="status" aria-live="polite"></p>
     </form>
+    <div class="cform-success" id="cformSuccess">
+      <div class="cform-success-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h3>Message reçu.</h3>
+      <p>Merci, votre demande est bien arrivée. On revient vers vous très vite — souvent sous 24 h ouvrées.</p>
+    </div>
+    </div>
   </div>
 </section>
 
 <footer class="footer">
-  <span class="footer-copy">© 2025 Atelier MDG · Kaolack, Sénégal</span>
+  <span class="footer-copy">© 2026 Atelier MDG · Kaolack, Sénégal</span>
   <a href="index.html" class="footer-back"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>Retour MDG Creative</a>
 </footer>
 
@@ -386,7 +433,7 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
   ];
   var PROJECTS = {
     baobabs:{
-      cat:'Branding · Logo & Identité', name:'Baobabs Basket Club',
+      cat:'Identité de marque', name:'Baobabs Basket Club',
       cardDesc:'Identité visuelle complète pour un club de basketball. Logo, charte graphique, déclinaisons.',
       longDesc:"Conception de l'identité visuelle complète d'un club de basketball : du logo principal à la charte graphique, en passant par les déclinaisons et les guidelines.",
       thumb:T('v1782735670/BAOBABS_BASKET_CLUB_j9wdmd.png'), hero:C('v1782735670/BAOBABS_BASKET_CLUB_j9wdmd.png'),
@@ -394,21 +441,21 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
       slides:['v1782735456/Plan_de_travail_1_zo5kn4.png','v1782735450/Plan_de_travail_2_hxsvbf.png','v1782735452/Plan_de_travail_3_mv887z.png','v1782735532/Plan_de_travail_4_z8arg4.png','v1782735461/Plan_de_travail_5_aut73t.png','v1782735457/Plan_de_travail_6_dznpfn.png','v1782735467/Plan_de_travail_7_cz8v8b.png','v1782735475/Plan_de_travail_8_fwsxct.png','v1782735666/Plan_de_travail_9_bsw1sn.png','v1782735619/Plan_de_travail_10_hidyx9.png','v1782736229/Plan_de_travail_11_foahki.jpg','v1782736316/Plan_de_travail_12_ha691v.jpg','v1782735486/Plan_de_travail_13_vkiiip.png'].map(C)
     },
     rima:{
-      cat:'Branding · Logo & Identité', name:'RIMA',
+      cat:'Identité de marque', name:'RIMA',
       cardDesc:'Identité visuelle pour RIMA. Logo, charte graphique et brand guidelines complets.',
       longDesc:"Conception de l'identité visuelle complète de RIMA : du logo principal à la charte graphique et aux brand guidelines.",
       thumb:T('v1782739655/RIMA_LOGO_rhv7vf.png'), hero:C('v1782739655/RIMA_LOGO_rhv7vf.png'), meta:META,
       slides:['v1782739655/Plan_de_travail_1_pspjx8.png','v1782739669/Plan_de_travail_2_dyls9z.png','v1782739670/Plan_de_travail_3_vyb4dq.png','v1782739658/Plan_de_travail_4_khzhn1.png','v1782739711/Plan_de_travail_5_itknh1.png','v1782739659/Plan_de_travail_6_xlli44.png'].map(C)
     },
     ovp:{
-      cat:'Branding · Logo & Identité', name:'OVP Studio',
+      cat:'Identité de marque', name:'OVP Studio',
       cardDesc:'Identité visuelle complète pour Owl Vision Production Studio. Logo, charte graphique et brand guidelines.',
       longDesc:"Conception de l'identité visuelle complète d'OVP Studio, du logo principal à la charte graphique et aux brand guidelines.",
       thumb:T('v1782740145/Plan_de_travail_1_x0tefo.png'), hero:C('v1782740145/Plan_de_travail_1_x0tefo.png'), meta:META,
       slides:['v1782740145/Plan_de_travail_1_x0tefo.png','v1782740153/Plan_de_travail_2_gb8p3a.png','v1782740136/Plan_de_travail_3_xkig0h.png','v1782740100/Plan_de_travail_4_oxwotb.png','v1782740151/Plan_de_travail_5_uquc9u.png','v1782740211/Plan_de_travail_6_wcflcx.png','v1782740200/Plan_de_travail_7_mkw8dk.png','v1782740134/Plan_de_travail_8_g8rxpq.png'].map(C)
     },
     sinesaloum:{
-      cat:'Branding · Logo & Identité', name:'Sine Saloum Festival',
+      cat:'Identité de marque', name:'Sine Saloum Festival',
       cardDesc:'Identité visuelle complète pour le Sine Saloum Festival. Logo, charte graphique et brand guidelines.',
       longDesc:"Conception de l'identité visuelle complète du Sine Saloum Festival, du logo principal à la charte graphique et aux brand guidelines.",
       thumb:T('v1782742073/SINE_SALOUM_FESTIVAL_mhucop.png'), hero:C('v1782742073/SINE_SALOUM_FESTIVAL_mhucop.png'), meta:META,
@@ -433,8 +480,8 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
         '<div class="work-card-cat">'+p.cat+'</div>'+
         '<div class="work-card-name">'+p.name+'</div>'+
         '<p class="work-card-desc">'+p.cardDesc+'</p>'+
-      '</div>'+
-      '<div class="work-card-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></div>';
+        '<span class="work-card-link">Voir le projet<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>'+
+      '</div>';
     card.addEventListener('click', function(){ openProject(key); });
     card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openProject(key); } });
     grid.appendChild(card);
@@ -495,34 +542,60 @@ body{background:var(--white);color:var(--black);font-family:var(--font-body);fon
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(function(el){ io.observe(el); });
 
-  // ===== CONTACT — À PERSONNALISER =====
-  // Remplace par ton vrai email et ton numéro WhatsApp (format international, sans + ni espaces)
-  var ATELIER_EMAIL = 'mdgdesign221@gmail.com';
+  // ===== CONTACT — Web3Forms (même boîte que MDG Creative) =====
   var ATELIER_WHATSAPP = '221763772208'; // +221 76 377 22 08
-  // =====================================
+  var WEB3FORMS_KEY = '7db2eac5-7a46-40db-a864-8b99ea9f4b7b';
+  // =============================================================
 
   var cfForm = document.getElementById('contactForm');
-  function buildMessage(){
-    var type = (cfForm.querySelector('input[name="ptype"]:checked') || {}).value || '';
-    var name = document.getElementById('cf-name').value.trim();
-    var msg = document.getElementById('cf-msg').value.trim();
-    var lines = [];
-    lines.push('Type de projet : ' + type);
-    if(name) lines.push('Nom / marque : ' + name);
-    lines.push('');
-    lines.push(msg || 'Bonjour, je souhaite discuter d\u2019un projet avec l\u2019Atelier MDG.');
-    return { type:type, name:name, body:lines.join('\n') };
+  function cfVals(){
+    return {
+      type:(cfForm.querySelector('input[name="ptype"]:checked')||{}).value||'',
+      name:document.getElementById('cf-name').value.trim(),
+      email:document.getElementById('cf-email').value.trim(),
+      msg:document.getElementById('cf-msg').value.trim()
+    };
   }
-  document.getElementById('sendMail').addEventListener('click', function(e){
+  var cfStatus = document.getElementById('cfStatus');
+  function setStatus(t){ cfStatus.textContent = t || ''; }
+
+  cfForm.addEventListener('submit', function(e){
     e.preventDefault();
-    var m = buildMessage();
-    var subject = 'Projet ' + m.type + (m.name ? ' — ' + m.name : '') + ' · Atelier MDG';
-    window.location.href = 'mailto:' + ATELIER_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(m.body);
+    var v = cfVals();
+    if(!v.name || !v.email || !v.msg){ setStatus('Nom, email et message sont requis.'); return; }
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email)){ setStatus('Vérifiez votre adresse email.'); return; }
+    setStatus('');
+    var btn = document.getElementById('cfSubmit');
+    var lbl = document.getElementById('cfSubmitLabel');
+    btn.disabled = true; lbl.textContent = 'Envoi…';
+    function fail(){ btn.disabled = false; lbl.textContent = 'Envoyer la demande'; setStatus('Envoi impossible. Réessayez ou écrivez-nous sur WhatsApp.'); }
+    fetch('https://api.web3forms.com/submit', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: 'Atelier MDG, projet ' + v.type + (v.name ? ' — ' + v.name : ''),
+        from_name: 'Atelier MDG',
+        name: v.name,
+        email: v.email,
+        botcheck: cfForm.querySelector('input[name="botcheck"]').checked,
+        message: 'Type de projet : ' + v.type + '\nNom / marque : ' + v.name + '\nEmail : ' + v.email + '\n\nMessage :\n' + v.msg + '\n\nSource : atelier.html'
+      })
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if(d && d.success){ document.getElementById('cformWrap').classList.add('sent'); }
+      else { fail(); }
+    }).catch(fail);
   });
+
   document.getElementById('sendWa').addEventListener('click', function(e){
     e.preventDefault();
-    var m = buildMessage();
-    var text = 'Bonjour Atelier MDG,\n\n' + m.body;
+    var v = cfVals();
+    var lines = ['Type de projet : ' + v.type];
+    if(v.name) lines.push('Nom / marque : ' + v.name);
+    if(v.email) lines.push('Email : ' + v.email);
+    lines.push('');
+    lines.push(v.msg || 'Bonjour, je souhaite discuter d\u2019un projet avec l\u2019Atelier MDG.');
+    var text = 'Bonjour Atelier MDG,\n\n' + lines.join('\n');
     window.open('https://wa.me/' + ATELIER_WHATSAPP + '?text=' + encodeURIComponent(text), '_blank');
   });
 
