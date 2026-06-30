@@ -20563,37 +20563,52 @@ function getGoogTransCookie() {
   var m = document.cookie.match(/(?:^|;\s*)googtrans=([^;]*)/);
   return m ? decodeURIComponent(m[1]) : '';
 }
+// Attend que le <select> .goog-te-combo soit monté par le widget Google
+// (chargement async du script), pour pouvoir traduire SANS recharger la page.
+function waitForGoogCombo(timeoutMs, cb) {
+  var combo = document.querySelector('.goog-te-combo');
+  if (combo) { cb(combo); return; }
+  var start = Date.now();
+  var iv = setInterval(function(){
+    var c = document.querySelector('.goog-te-combo');
+    if (c) {
+      clearInterval(iv);
+      cb(c);
+    } else if (Date.now() - start > timeoutMs) {
+      clearInterval(iv);
+      cb(null);
+    }
+  }, 100);
+}
 function setGoogleLang(lang) {
   // lang: 'en' pour traduire, 'fr' pour restaurer le texte original
-  var combo = document.querySelector('.goog-te-combo');
-  if (combo) {
-    if (combo.value !== lang) {
-      combo.value = lang;
-      combo.dispatchEvent(new Event('change'));
+  waitForGoogCombo(5000, function(combo){
+    if (combo) {
+      if (combo.value !== lang) {
+        combo.value = lang;
+        combo.dispatchEvent(new Event('change'));
+      }
+      return;
     }
-    return;
-  }
-  // Le widget Google n'est pas encore monté : on passe par le cookie + reload
-  var hostname = window.location.hostname;
-  var current = getGoogTransCookie();
-  var desired = (lang === 'fr') ? '' : ('/fr/' + lang);
-  if (current === desired) return; // déjà dans l'état voulu, pas de reload inutile
-  if (lang === 'fr') {
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + hostname;
-  } else {
-    document.cookie = 'googtrans=/fr/' + lang + '; path=/;';
-    document.cookie = 'googtrans=/fr/' + lang + '; path=/; domain=' + hostname;
-  }
-  window.location.reload();
+    // Vraiment indisponible après l'attente (réseau lent/bloqué) : fallback cookie + reload
+    var hostname = window.location.hostname;
+    var current = getGoogTransCookie();
+    var desired = (lang === 'fr') ? '' : ('/fr/' + lang);
+    if (current === desired) return; // déjà dans l'état voulu, pas de reload inutile
+    if (lang === 'fr') {
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + hostname;
+    } else {
+      document.cookie = 'googtrans=/fr/' + lang + '; path=/;';
+      document.cookie = 'googtrans=/fr/' + lang + '; path=/; domain=' + hostname;
+    }
+    window.location.reload();
+  });
 }
 
-// ─── Fonction principale de traduction ───────────────
-function applyLang(lang) {
+// ─── Synchronise uniquement l'état visuel du bouton (pas de traduction déclenchée) ──
+function syncLangUI(lang) {
   currentLang = lang;
-  setGoogleLang(lang);
-
-  // Toggle button state, nav desktop
   var btn = document.getElementById('langToggle');
   var lbl = document.getElementById('langLabel');
   if (btn && lbl) {
@@ -20607,7 +20622,6 @@ function applyLang(lang) {
       btn.title = 'Switch to English';
     }
   }
-  // Toggle button state, menu mobile
   var mobBtn = document.getElementById('mobLangToggle');
   var mobLbl = document.getElementById('mobLangLabel');
   if (mobBtn && mobLbl) {
@@ -20619,9 +20633,12 @@ function applyLang(lang) {
       mobBtn.classList.remove('active');
     }
   }
+}
 
-  // Ne pas sauvegarder dans localStorage, évite la contamination entre sessions
-  // try { localStorage.setItem('mdg_lang', lang); } catch(e){}
+// ─── Fonction principale de traduction (action utilisateur) ──
+function applyLang(lang) {
+  syncLangUI(lang);
+  setGoogleLang(lang);
 }
 
 // ─── Toggle public ────────────────────────────────────
@@ -20630,17 +20647,36 @@ window.toggleLang = function() {
   // pour éviter toute désynchronisation entre sessions.
   var btn = document.getElementById('langToggle');
   var activeLang = (btn && btn.classList.contains('active')) ? 'en' : 'fr';
-  currentLang = activeLang; // resync interne
   applyLang(activeLang === 'fr' ? 'en' : 'fr');
 };
 
 // ─── Init au chargement ───────────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
-  // Détecte la langue du navigateur uniquement, pas de localStorage
-  // pour éviter qu'une session précédente affecte les nouveaux visiteurs.
+  // Si une traduction est déjà active (cookie googtrans posé lors d'une visite
+  // précédente / après un reload), on se contente de resynchroniser l'UI du
+  // bouton SANS redéclencher de traduction, sinon ça entre en conflit avec
+  // la détection navigateur ci-dessous et ça boucle les reloads.
+  var existing = getGoogTransCookie(); // ex: "/fr/en" ou ""
+  if (existing) {
+    var parts = existing.split('/');
+    var activeLang = parts[2] || 'fr';
+    syncLangUI(activeLang);
+    // Le widget Google traduit déjà tout seul depuis le cookie au chargement ;
+    // on s'assure juste que le <select> reflète bien le même état une fois monté.
+    waitForGoogCombo(6000, function(combo){
+      if (combo && combo.value !== activeLang) {
+        combo.value = activeLang;
+        combo.dispatchEvent(new Event('change'));
+      }
+    });
+    return;
+  }
+  // Première visite (pas de cookie) : on détecte la langue du navigateur,
+  // sans localStorage, pour ne pas contaminer les sessions suivantes.
   var browserLang = (navigator.language || navigator.userLanguage || 'fr').slice(0, 2).toLowerCase();
   var initLang = browserLang === 'en' ? 'en' : 'fr';
-  applyLang(initLang);
+  syncLangUI(initLang);
+  if (initLang === 'en') applyLang('en');
 });
 
 })();
