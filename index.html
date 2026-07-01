@@ -11893,23 +11893,6 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 // Nav scrolled
 (function(){const nav=document.querySelector('nav');if(!nav)return;window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40)},{passive:true});})();
 </script>
-<script>
-// Nav adaptatif : .nav-on-light quand une zone claire (ex: hero blanc) est derrière le nav
-(function(){
-  var nav = document.querySelector('nav:not(#mob-tab-bar)');
-  var hero = document.getElementById('hero');
-  if(!nav || !hero) return;
-  function updateNavOnLight(){
-    var navH = nav.offsetHeight || 0;
-    var heroBottom = hero.getBoundingClientRect().bottom;
-    var onLight = heroBottom > (navH + 8);
-    nav.classList.toggle('nav-on-light', onLight);
-  }
-  window.addEventListener('scroll', updateNavOnLight, {passive:true});
-  window.addEventListener('resize', updateNavOnLight, {passive:true});
-  updateNavOnLight();
-})();
-</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -11976,30 +11959,6 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <!-- Styles déplacés pour rendu non-bloquant -->
 <body>
-<!-- ── GOOGLE TRANSLATE, traduction automatique du site (pilotée par #langToggle) ── -->
-<style id="goog-translate-css">
-  body{top:0!important;position:static!important;}
-  .goog-te-banner-frame.skiptranslate,
-  .goog-te-banner-frame{display:none!important;visibility:hidden!important;height:0!important;}
-  #goog-gt-tt, .goog-te-balloon-frame{display:none!important;}
-  .goog-text-highlight{background:none!important;box-shadow:none!important;}
-  .goog-te-gadget{height:0;overflow:hidden;position:absolute;left:-9999px;}
-  .goog-te-gadget .goog-te-combo{display:none!important;}
-  #google_translate_element{position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden;}
-  iframe.goog-te-banner-frame{display:none!important;}
-  .skiptranslate iframe{display:none!important;}
-</style>
-<div id="google_translate_element" aria-hidden="true"></div>
-<script>
-function googleTranslateElementInit(){
-  new google.translate.TranslateElement({
-    pageLanguage: 'fr',
-    includedLanguages: 'en,fr',
-    autoDisplay: false
-  }, 'google_translate_element');
-}
-</script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 <template id="__bundler_thumbnail" data-bg-color="#060606">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
     <rect width="1200" height="800" fill="#060606"/>
@@ -12642,7 +12601,7 @@ a[data-spotify] svg{ fill:#fff !important; }
 #hero.nhero .nh-plinks .nh-badge .dot{width:6px;height:6px;border-radius:50%;background:#3DBFA3;box-shadow:0 0 0 3px rgba(61,191,163,.16)}
 @media(max-width:767px){
   #hero.nhero{justify-content:center;text-align:center;padding:calc(var(--nav-h,70px) + 2rem) 24px 3rem!important}
-  #hero.nhero .nh-portrait-pic{top:-90px;width:120%;max-width:none}
+  #hero.nhero .nh-portrait-pic{top:-40px;width:120%;max-width:none}
   #hero.nhero .nh-portrait{-webkit-mask-image:linear-gradient(250deg,#000 26%,transparent 84%),linear-gradient(#000 56%,transparent 92%);mask-image:linear-gradient(250deg,#000 26%,transparent 84%),linear-gradient(#000 56%,transparent 92%)}
   #hero.nhero .nh-in{align-items:center}
   #hero.nhero .nh-chip{background:none;color:#6a655e;padding:0;margin-bottom:18px;font-size:.62rem;letter-spacing:.2em}
@@ -12652,25 +12611,21 @@ a[data-spotify] svg{ fill:#fff !important; }
   #hero.nhero .nh-sub{justify-content:center;text-transform:none;font-weight:400;letter-spacing:0;color:#3a3935;font-size:.9rem;margin-top:14px}
   #hero.nhero .nh-sub::before{display:none}
   #hero.nhero .nh-doors{grid-template-columns:1fr;gap:10px;margin-top:28px;text-align:left}
-  #hero.nhero .nh-plinks{display:flex;justify-content:center;margin-top:24px}
-  #hero.nhero .nh-plinks a,
-  #hero.nhero .nh-plinks .sep{display:none}
-  #hero.nhero .nh-plinks .nh-badge{margin-left:0}
+  #hero.nhero .nh-plinks{display:none}
 }
-/* Nav adaptatif : par défaut nav sombre + logo blanc + menu visible.
-   Quand le hero blanc (ou toute zone claire) est derrière le nav -> .nav-on-light :
-   nav transparent, logo/texte en noir, menu + CTA masqués. */
-nav:not(#mob-tab-bar).nav-on-light .nav-links,
-nav:not(#mob-tab-bar).nav-on-light .nav-cta{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease}
-nav:not(#mob-tab-bar):not(.nav-on-light) .nav-links,
-nav:not(#mob-tab-bar):not(.nav-on-light) .nav-cta{opacity:1;visibility:visible;transition:opacity .35s ease}
-nav:not(#mob-tab-bar).nav-on-light{background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border-bottom-color:transparent!important;transition:background .35s ease}
-nav:not(#mob-tab-bar).nav-on-light .nav-logo img{filter:brightness(0)!important;transition:filter .35s ease}
-nav:not(#mob-tab-bar).nav-on-light .nav-logo,
-nav:not(#mob-tab-bar).nav-on-light .nav-logo-sub{color:#0e0e0e!important}
-nav:not(#mob-tab-bar).nav-on-light .nav-avail{color:#3a3935!important}
-nav:not(#mob-tab-bar).nav-on-light .lang-toggle{color:#0e0e0e!important;border-color:rgba(14,14,14,.28)!important}
-nav:not(#mob-tab-bar).nav-on-light .nav-burger span{background:#0e0e0e!important}
+/* Nav épuré au-dessus du hero : logo + dispo + langue seulement, le reste réapparaît au scroll */
+nav:not(#mob-tab-bar):not(.scrolled) .nav-links,
+nav:not(#mob-tab-bar):not(.scrolled) .nav-cta{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease}
+nav:not(#mob-tab-bar).scrolled .nav-links,
+nav:not(#mob-tab-bar).scrolled .nav-cta{opacity:1;visibility:visible;transition:opacity .35s ease}
+/* Au-dessus du hero blanc : nav transparent, logo + texte en noir. Au scroll, retour au nav sombre. */
+nav:not(#mob-tab-bar):not(.scrolled){background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border-bottom-color:transparent!important;transition:background .35s ease}
+nav:not(#mob-tab-bar):not(.scrolled) .nav-logo img{filter:brightness(0)!important;transition:filter .35s ease}
+nav:not(#mob-tab-bar):not(.scrolled) .nav-logo,
+nav:not(#mob-tab-bar):not(.scrolled) .nav-logo-sub{color:#0e0e0e!important}
+nav:not(#mob-tab-bar):not(.scrolled) .nav-avail{color:#3a3935!important}
+nav:not(#mob-tab-bar):not(.scrolled) .lang-toggle{color:#0e0e0e!important;border-color:rgba(14,14,14,.28)!important}
+nav:not(#mob-tab-bar):not(.scrolled) .nav-burger span{background:#0e0e0e!important}
 </style>
 <section id="hero" class="nhero">
   <picture class="nh-portrait-pic">
@@ -12683,15 +12638,15 @@ nav:not(#mob-tab-bar).nav-on-light .nav-burger span{background:#0e0e0e!important
     <h1 class="nh-title">L'ÉLITE<em>se remarque.</em></h1>
     <p class="nh-sub">L'excellence, c'est mon seul standard</p>
     <div class="nh-doors">
-      <a class="nh-door nh-door--brands" href="atelier.html" id="doorBrands">
-        <span class="eyebrow">Atelier MDG</span>
-        <span class="k">Pour les marques <i>&rarr;</i></span>
-        <span class="v">Logo &middot; identit&eacute; &middot; web &middot; packaging</span>
-      </a>
       <a class="nh-door nh-door--artists" href="#passerelle" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('passerelle');else document.getElementById('passerelle')?.scrollIntoView({behavior:'smooth'})">
         <span class="eyebrow">Le studio</span>
         <span class="k">Pour les artistes <i>&rarr;</i></span>
         <span class="v">Cover art &middot; direction &middot; visuels</span>
+      </a>
+      <a class="nh-door nh-door--brands" href="atelier.html" id="doorBrands">
+        <span class="eyebrow">Atelier MDG</span>
+        <span class="k">Pour les marques <i>&rarr;</i></span>
+        <span class="v">Logo &middot; identit&eacute; &middot; web &middot; packaging</span>
       </a>
     </div>
     <div class="nh-plinks">
@@ -19401,6 +19356,359 @@ var translations = {
 };
 
 // ─── Éléments à patcher directement par sélecteur ────
+// ═══════════════════════════════════════════════════════
+//  FILET GÉNÉRIQUE FR↔EN PAR TEXTE (robuste aux changements
+//  de structure : ne dépend d'AUCUN sélecteur / classe).
+//  Construit deux tables depuis le dictionnaire, puis échange
+//  le contenu des nœuds texte dont la valeur correspond.
+//  → toute section qui perd ses classes reste traduite,
+//    et les futures modifs restent couvertes tant que le
+//    texte FR a un équivalent connu.
+// ═══════════════════════════════════════════════════════
+var __frToEn = {}, __enToFr = {};
+function __normTxt(s){ return (s || '').replace(/\s+/g, ' ').trim(); }
+function __addPair(fr, en){
+  if (typeof fr !== 'string' || typeof en !== 'string') return;
+  if (/[<>]/.test(fr) || /[<>]/.test(en)) return; // les valeurs HTML sont gérées par innerHTML
+  var f = __normTxt(fr), e = __normTxt(en);
+  if (!f || !e) return;
+  if (__frToEn[f] === undefined) __frToEn[f] = e;
+  if (__enToFr[e] === undefined) __enToFr[e] = f;
+}
+function __addPairs(pairs){ pairs.forEach(function(p){ __addPair(p[0], p[1]); }); }
+// Amorçage depuis le dictionnaire principal (nav, labels, about, skills, awards, packs…)
+Object.keys(translations).forEach(function(k){
+  var t = translations[k];
+  if (t && typeof t === 'object') __addPair(t.fr, t.en);
+});
+
+// ─── Traductions EN des sections auparavant non câblées ───
+//  (bio, services mobile, process mobile, FAQ, packs, contact,
+//   URANUS, modales…). UN SEUL endroit à maintenir : ajoute
+//   ici toute nouvelle phrase FR avec sa version EN.
+__addPairs([
+[`Lancer un projet`,`Start a project`],
+[`L'excellence, c'est mon seul standard`,`Excellence is my only standard`],
+[`Le studio`,`The studio`],
+[`Je donne une image`,`I give an image`],
+[`à la musique.`,`to music.`],
+[`7 ans d'exigence, 50 artistes accompagnés, 9 pays. Cover art, univers de sortie, affiches, identité d'artiste, chaque sortie mérite une image à la hauteur du son.`,`7 years of demanding work, 50 artists, 9 countries. Cover art, release worlds, posters, artist identity, every release deserves an image worthy of the sound.`],
+[`Ce que je produis`,`What I create`],
+[`C'est quelqu'un avec qui je bosse beaucoup. Il est hyper correct, hyper travailleur et trop fort.`,`He's someone I work with a lot. Super straight, super hardworking and seriously talented.`],
+[`ISS 814 parle de MDG en public avec naturel. Sérieux, qualité du travail et relation humaine évoqués.`,`ISS 814 speaks about MDG in public, naturally. Seriousness, quality of work and a real human bond.`],
+[`Le mot "trop fort" sort naturellement, en public. Pas de mise en scène.`,`The words "seriously good" come out naturally, in public. No staging.`],
+[`Sur le plateau, Key Em Ti sort le nom de MDG sans qu'on le lui demande.`,`On set, Key Em Ti brings up MDG's name unprompted.`],
+[`Le mot "génie" sort naturellement, pas pour faire plaisir.`,`The word "genius" comes out naturally, not to please anyone.`],
+[`Le prochain visuel sur cette page pourrait être le tien.`,`The next visual on this page could be yours.`],
+[`L'exigence grandit plus vite que la production.`,`The standard grows faster than the output.`],
+[`Le studio derrière l'image`,`The studio behind the image`],
+[`Je suis un cas d'école, un perfectionniste désordonné. 7 ans de cover art, branding, motion et web, et je n'ai jamais été pleinement satisfait d'un seul projet. Pas par manque de résultat, mais parce que l'exigence grandit plus vite que la production.`,`I'm a textbook case, a messy perfectionist. 7 years of cover art, branding, motion and web, and I've never been fully satisfied with a single project. Not for lack of results, but because the standard grows faster than the output.`],
+[`Avec ISS 814 j'ai même plus compté. Bicrave, Bonus Tracks, et ça s'arrête pas. Pareil avec Omzo Beatz, 808's God c'est un projet parmi d'autres. Dopeboy DMG, Road to Roots 2 X-Files. One Lyrical. Bientôt du merch avec VJ. Des noms connus ici, d'autres à l'international.`,`With ISS 814 I lost count. Bicrave, Bonus Tracks, and it doesn't stop. Same with Omzo Beatz, 808's God is just one project among many. Dopeboy DMG, Road to Roots 2 X-Files. One Lyrical. Merch coming soon with VJ. Names known here, others internationally.`],
+[`Covers, affiches, vidéos, identités. Tout ce qui donne une image à un son, je le fais. Et je le refais jusqu'à ce que ça tienne.`,`Covers, posters, videos, identities. Anything that gives a sound an image, I do it. And I redo it until it holds.`],
+[`Du logo à la scénographie, en passant par le digital et le print. Ce que je fais, je le fais jusqu'au bout.`,`From logo to stage design, through digital and print. Whatever I do, I take all the way.`],
+[`La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son, avant même que tu appuies sur play.`,`Music deserves an image worthy of it. From single to full album, I design the visual world that extends your sound, before you even hit play.`],
+[`Ton nom, ton univers, ta signature visuelle. Je construis l'identité qui te rend reconnaissable d'une sortie à l'autre, du logo aux déclinaisons sur tous tes supports.`,`Your name, your world, your visual signature. I build the identity that makes you recognizable from one release to the next, from logo to variations across all your supports.`],
+[`Le mouvement, c'est ce qui retient l'attention quand tout le reste défile. Logos animés, reels, transitions. Ce qui était figé prend vie.`,`Motion is what holds attention when everything else scrolls by. Animated logos, reels, transitions. What was static comes alive.`],
+[`Ce qui se touche marque les esprits autrement. Affiches, flyers, programmes, livrets. Je conçois des supports print qui ont du caractère et qui tiennent à l'impression.`,`What you can touch leaves a different mark. Posters, flyers, programs, booklets. I design print with character that holds up in production.`],
+[`Suivi prépresse et validation des fichiers d'impression`,`Prepress follow-up and print file validation`],
+[`Discuter de ce projet →`,`Discuss this project →`],
+[`Une présence cohérente sur les réseaux, ça ne s'improvise pas. Je crée des templates et contenus visuels qui gardent une ligne forte sur tous tes canaux. Chaque post doit ressembler à toi.`,`A consistent presence on social media isn't improvised. I create templates and visual content that keep a strong line across all your channels. Every post should look like you.`],
+[`Visuels pour campagnes et sorties`,`Visuals for campaigns and releases`],
+[`Guides de style pour publication en autonomie`,`Style guides for publishing on your own`],
+[`Ton merch, c'est ton identité portée par tes fans. Je conçois des visuels pour textile et goodies qui ont de la gueule. Du concept jusqu'au fichier prêt pour la production.`,`Your merch is your identity worn by your fans. I design visuals for apparel and goodies that look sharp. From concept to production-ready file.`],
+[`Concept et direction artistique du merch`,`Merch concept and art direction`],
+[`Visuels pour t-shirts, hoodies, tote-bags, casquettes`,`Visuals for t-shirts, hoodies, tote bags, caps`],
+[`Adaptation aux techniques d'impression (sérigraphie, DTF, broderie)`,`Adapted to print techniques (screen printing, DTF, embroidery)`],
+[`Mockups réalistes pour présentation ou vente en ligne`,`Realistic mockups for presentation or online sales`],
+[`Fichiers techniques prêts pour impression`,`Technical files ready for print`],
+[`Faire vivre une identité dans l'espace physique, c'est un autre niveau. Pour tes concerts, festivals ou événements, je conçois l'habillage visuel qui crée une vraie expérience.`,`Bringing an identity to life in physical space is another level. For your concerts, festivals or events, I design the visual staging that creates a real experience.`],
+[`Intro, lyric video, teaser, clip. Le mouvement au service du son. Chaque image est pensée pour prolonger l'expérience musicale.`,`Intro, lyric video, teaser, music video. Motion in service of sound. Every frame is designed to extend the musical experience.`],
+[`De la scène de Kaolack à l'international. Une image pour chaque son.`,`From the Kaolack stage to the world. An image for every sound.`],
+[`Une image pour chaque son.`,`An image for every sound.`],
+[`De la prise de contact à la livraison, voilà exactement comment ça se passe.`,`From first contact to delivery, here's exactly how it goes.`],
+[`Univers, références, contraintes. Cadrés avant le démarrage.`,`World, references, constraints. Framed before we start.`],
+[`Acompte 50% avant démarrage`,`50% deposit before starting`],
+[`1 révision de direction incluse`,`1 direction revision included`],
+[`L'outil varie selon ce que le projet exige. Preview avant le final.`,`The tool depends on what the project needs. Preview before the final.`],
+[`Délai tenu, toujours`,`Deadline met, always`],
+[`Livraison et suivi`,`Delivery and follow-up`],
+[`Haute résolution, tous formats. Accès direct maintenu après livraison.`,`High resolution, all formats. Direct access kept after delivery.`],
+[`Solde à la livraison finale`,`Balance on final delivery`],
+[`Acompte`,`Deposit`],
+[`Projet urgent`,`Rush project`],
+[`Livraison en moins de 48h`,`Delivery in under 48h`],
+[`On parle de ton projet, ton univers, tes références. Plus tu es précis sur ce que tu veux, plus le résultat va coller.`,`We talk about your project, your world, your references. The clearer you are about what you want, the better the result fits.`],
+[`Je pose la direction créative : moodboard, palette, typographies. Tu valides avant que je rentre dans le vif.`,`I set the creative direction: moodboard, palette, typography. You approve before I dig in.`],
+[`Je crée. Photoshop, After Effects, Blender selon le projet. Tu reçois une preview pour valider avant la version finale.`,`I create. Photoshop, After Effects, Blender depending on the project. You get a preview to approve before the final version.`],
+[`Livraison`,`Delivery`],
+[`Livraison & Suivi`,`Delivery & Follow-up`],
+[`Fichiers en haute résolution. Je reste dispo après livraison pour les petits ajustements.`,`High-resolution files. I stay available after delivery for small adjustments.`],
+[`Tu peux m'écrire le matin ou le soir, je réponds toujours dans la journée, même le samedi.`,`You can message me morning or evening, I always reply within the day, even on Saturday.`],
+[`3 modifications offertes par projet. Au-delà, chaque correction est facturée selon le temps réel passé dessus.`,`3 free revisions per project. Beyond that, each correction is billed by the actual time spent on it.`],
+[`Acompte au démarrage`,`Deposit at the start`],
+[`La moitié est versée avant le début du travail. Le reste est payé à la livraison finale. Aucune surprise.`,`Half is paid before work begins. The rest on final delivery. No surprises.`],
+[`Tu as besoin du résultat très vite ? C'est possible, mais je bloque tout pour toi. Une majoration de 10% s'applique.`,`Need the result really fast? It's possible, but I clear everything for you. A 10% surcharge applies.`],
+[`Pour les projets récurrents`,`For recurring projects`],
+[`Tu reviens régulièrement ? Je t'offre 20% de réduction sur tous tes projets suivants. La fidélité, ça mérite d'être récompensée.`,`Coming back regularly? I give you 20% off all your following projects. Loyalty deserves to be rewarded.`],
+[`Chaque projet commence par une conversation.`,`Every project starts with a conversation.`],
+[`On te montre le pack adapté. Le reste sur devis.`,`We show you the right pack. The rest on quote.`],
+[`Covers, affiches & vidéos uniquement. Les autres domaines sont sur devis.`,`Covers, posters & videos only. Other fields are on quote.`],
+[`Je sors un :`,`I'm releasing a:`],
+[`Pour un EP ou mixtape`,`For an EP or mixtape`],
+[`Le + choisi`,`Most chosen`],
+[`Comparer les 2 formules ▾`,`Compare the 2 options ▾`],
+[`Ajoute à la carte`,`Add à la carte`],
+[`Acompte 50% · Wave · Orange Money · 3 révisions incluses`,`50% deposit · Wave · Orange Money · 3 revisions included`],
+[`1 concept graphique pour ta cover`,`1 graphic concept for your cover`],
+[`Comparer les deux formules`,`Compare the two options`],
+[`Trois packs, calibrés pour trois moments d'un projet. Les fourchettes de prix sont affichées ci-dessous.`,`Three packs, calibrated for three moments of a project. Price ranges are shown below.`],
+[`Le + complet`,`Most complete`],
+[`Glisse pour révéler`,`Slide to reveal`],
+[`Pour album complet avec mini direction artistique offerte.`,`For a full album with mini art direction included.`],
+[`Pour EP ou mixtape avec support réseaux sociaux inclus.`,`For an EP or mixtape with social media support included.`],
+[`Idéal pour un single ou projet rapide.`,`Ideal for a single or quick project.`],
+[`Communication complète pour un single`,`Full communication for a single`],
+[`Pour un EP entre 2 et 7 titres`,`For an EP of 2 to 7 tracks`],
+[`L'arsenal complet pour un album`,`The full arsenal for an album`],
+[`La campagne complète, du visuel à la rue.`,`The full campaign, from visual to the street.`],
+[`Lancer le projet →`,`Start the project →`],
+[`Ces éléments peuvent s'ajouter à n'importe quel pack, ou être commandés séparément. Chaque livrable est conçu avec le même niveau d'exigence que le reste.`,`These can be added to any pack, or ordered separately. Every deliverable is made with the same standard as the rest.`],
+[`Vidéo animée avec paroles synchronisées sur la musique.`,`Animated video with lyrics synced to the music.`],
+[`Visuels impactants pour concerts, événements et promotions.`,`Impactful visuals for concerts, events and promotions.`],
+[`Vidéo animée courte (jusqu'à 8s) optimisée pour le streaming.`,`Short animated video (up to 8s) optimized for streaming.`],
+[`Bannière de chaîne optimisée pour YouTube.`,`Channel banner optimized for YouTube.`],
+[`Couverture profil pour Facebook ou X (ex-Twitter).`,`Profile cover for Facebook or X (formerly Twitter).`],
+[`Format story pour Instagram, Facebook, TikTok, etc.`,`Story format for Instagram, Facebook, TikTok, etc.`],
+[`Story + Post + Bannière, présence optimisée sur toutes les plateformes.`,`Story + Post + Banner, optimized presence across all platforms.`],
+[`avant tout démarrage`,`before any start`],
+[`Comment se passe le paiement ?`,`How does payment work?`],
+[`50% d'acompte avant démarrage, le reste à la livraison. J'accepte Wave, Orange Money, Free Money et virements. Hors Sénégal : PayPal ou virement IBAN.`,`50% deposit before starting, the rest on delivery. I accept Wave, Orange Money, Free Money and transfers. Outside Senegal: PayPal or IBAN transfer.`],
+[`Quels sont les délais ?`,`What are the turnaround times?`],
+[`Oui. Mali, Côte d'Ivoire, Cameroun, France et au-delà. Tout se fait à distance via WhatsApp, email ou appel. La distance n'a jamais ralenti un projet.`,`Yes. Mali, Côte d'Ivoire, Cameroon, France and beyond. Everything happens remotely via WhatsApp, email or call. Distance has never slowed a project down.`],
+[`Qui est propriétaire des fichiers ?`,`Who owns the files?`],
+[`Toi, une fois le solde réglé. Tu es l'unique propriétaire des visuels finaux et tu les utilises librement. Les fichiers sources restent ma propriété ; ils peuvent être cédés sur devis. Je garde le droit de montrer le travail dans mon portfolio.`,`You, once the balance is paid. You're the sole owner of the final visuals and use them freely. Source files remain mine; they can be transferred on quote. I keep the right to show the work in my portfolio.`],
+[`3 révisions incluses par projet. Au-delà, facturé au temps (min 5 000 XOF). Une révision est un ajustement ciblé, pas un changement de concept complet.`,`3 revisions included per project. Beyond that, billed by time (min 5,000 XOF). A revision is a targeted adjustment, not a full concept change.`],
+[`Absolument, c'est recommandé. Partage tes covers préférées, ambiances, artistes. Je m'en inspire sans copier. L'objectif : que ça te ressemble.`,`Absolutely, it's recommended. Share your favorite covers, moods, artists. I draw inspiration without copying. The goal: that it looks like you.`],
+[`À 5 000 F tu paies une image. Ici tu paies une direction : quelqu'un qui lit ton projet, comprend ton univers et construit une identité qui te rend reconnaissable. La différence se voit le jour où ta cover passe à côté de 50 autres, et que c'est la tienne qu'on retient.`,`At 5,000 F you pay for an image. Here you pay for a direction: someone who reads your project, understands your world and builds an identity that makes you recognizable. The difference shows the day your cover sits next to 50 others, and yours is the one people remember.`],
+[`Et si je ne sais pas ce que je veux ?`,`What if I don't know what I want?`],
+[`C'est même le meilleur moment pour me parler. Mon travail commence par clarifier ton intention. Tu arrives avec une direction floue, on en sort un parti pris net. Pas besoin d'un brief parfait, juste de ton projet.`,`That's actually the best time to talk to me. My work starts by clarifying your intention. You come in with a blurry direction, we walk out with a sharp one. No need for a perfect brief, just your project.`],
+[`Combien de révisions sont incluses ?`,`How many revisions are included?`],
+[`Tu travailles depuis des références ?`,`Do you work from references?`],
+[`Pourquoi pas un designer à 5 000 F sur les réseaux ?`,`Why not a designer for 5,000 F on social media?`],
+[`Et si je ne sais pas exactement ce que je veux ?`,`What if I don't know exactly what I want?`],
+[`Décris ton projet, réponse concrète sous 24h.`,`Describe your project, a concrete reply within 24h.`],
+[`Je prends un nombre limité de projets à la fois, pour garder le niveau sur chacun.`,`I take on a limited number of projects at a time, to keep the level on each.`],
+[`Brand identity, cover art, motion, web design, print. Écris-moi, je réponds sous 48h.`,`Brand identity, cover art, motion, web design, print. Write to me, I reply within 48h.`],
+[`+221 76 377 22 08 · réponse rapide`,`+221 76 377 22 08 · quick reply`],
+[`Réponse`,`Reply`],
+[`Je réponds en 24h, toujours.`,`I reply within 24h, always.`],
+[`Réponse garantie sous 24h · Confidentiel`,`Reply guaranteed within 24h · Confidential`],
+[`Étape 2, Détails projet`,`Step 2, Project details`],
+[`Décris ton projet`,`Describe your project`],
+[`Je te reviens sous 24h. Urgent ? WhatsApp direct.`,`I'll get back to you within 24h. Urgent? WhatsApp me directly.`],
+[`Tarif communiqué sous 24h après ta demande`,`Pricing sent within 24h of your request`],
+[`Envoyer une demande`,`Send a request`],
+[`Envoyer la demande →`,`Send the request →`],
+[`Un pack d'assets pour les créatifs qui veulent travailler avec les mêmes ressources que MDG. Pas pour les clients, pour ceux qui font.`,`An asset pack for creatives who want to work with the same resources as MDG. Not for clients, for the ones who make.`],
+[`Pour graphistes & créateurs de covers. Crée des covers pro sans repartir de zéro : PSD calqués, fonts, actions PS et textures.`,`For designers & cover creators. Make pro covers without starting from scratch: layered PSDs, fonts, PS actions and textures.`],
+[`Activer le son`,`Enable sound`],
+[`Une question ? WhatsApp`,`A question? WhatsApp`],
+[`Outils issus du workflow MDG. Packagés pour une utilisation autonome.`,`Tools from the MDG workflow. Packaged for standalone use.`],
+[`Le pack est disponible, commande maintenant`,`The pack is available, order now`],
+[`Crée des covers pro sans repartir de zéro. PSD calqués prêts à éditer, fonts premium, actions Photoshop et textures brutes (grain, papier, métal, bruit).`,`Make pro covers without starting from scratch. Layered PSDs ready to edit, premium fonts, Photoshop actions and raw textures (grain, paper, metal, noise).`],
+[`Un seul paiement · Accès à vie`,`One payment · Lifetime access`],
+[`Obtenir le pack →`,`Get the pack →`],
+[`Ce que contient le pack`,`What's in the pack`],
+[`Fichiers PSD`,`PSD files`],
+[`Aperçu des visuels`,`Visual preview`],
+[`Livraison par WhatsApp`,`Delivery via WhatsApp`],
+[`Un seul paiement, à vie`,`One payment, for life`],
+[`C'est parti !`,`Let's go!`],
+[`Dernière étape, confirme sur WhatsApp pour recevoir ton pack.`,`Last step, confirm on WhatsApp to receive your pack.`],
+[`MDG te répond et t'envoie le lien de téléchargement directement ✦`,`MDG replies and sends you the download link directly ✦`],
+[`Des artistes et des marques qui ont quelque chose à dire. Et je m'assure que ça se voit.`,`Artists and brands with something to say. And I make sure it shows.`],
+[`Le pack signature`,`The signature pack`],
+[`Basé à Kaolack, Sénégal. Je travaille avec des artistes et des marques qui ont quelque chose à dire. Et je m'assure que ça se voit.`,`Based in Kaolack, Senegal. I work with artists and brands who have something to say. And I make sure it shows.`],
+[`Choisis le canal qui te convient, je réponds sous 24h.`,`Pick the channel that suits you, I reply within 24h.`],
+[`Ton nom`,`Your name`],
+[`Type de projet`,`Project type`],
+[`Ton message`,`Your message`],
+[`Clic · Touche Échap · Flèches pour naviguer`,`Click · Esc key · Arrows to navigate`],
+[`Tu vas quitter le site`,`You're about to leave the site`],
+[`Rester sur le site`,`Stay on the site`],
+[`Disponible, Kaolack SN`,`Available, Kaolack SN`],
+[`Aussi disponibles`,`Also available`],
+[`Affiche · flyer · prépresse`,`Poster · flyer · prepress`],
+[`Formats adaptés offset et numérique`,`Formats for offset and digital`],
+[`Affiche`,`Poster`],
+[`Prépresse`,`Prepress`],
+[`Sérigraphie`,`Screen printing`],
+[`Festival · scène · événement`,`Festival · stage · event`],
+[`Habillage scène et backdrop`,`Stage design and backdrop`],
+[`Scène`,`Stage`],
+[`Événement`,`Event`],
+[`projets livrés, Sénégal et international`,`projects delivered, Senegal and international`],
+[`projets livrés`,`projects delivered`],
+[`3 révisions incluses`,`3 revisions included`],
+[`Visuels COMING SOON & OUT NOW`,`COMING SOON & OUT NOW visuals`],
+[`Visualizer par titre + pack bannières`,`Visualizer per track + banner pack`],
+[`Visuels promo`,`Promo visuals`],
+[`4 visuels`,`4 visuals`],
+[`Bannières`,`Banners`],
+[`Pack bannières complet`,`Full banner pack`],
+[`Pack visuels promo étendu`,`Extended promo visuals pack`],
+[`Combien de révisions incluses ?`,`How many revisions included?`],
+[`PSD calqués`,`Layered PSDs`],
+[`Actions PS`,`PS Actions`],
+[`Textures brutes`,`Raw Textures`],
+[`à vie`,`for life`],
+[`✦ Disponible maintenant`,`✦ Available now`],
+[`À propos`,`About`],
+[`Aller au contenu principal`,`Skip to main content`],
+[`Logo · identité · web · packaging`,`Logo · identity · web · packaging`],
+[`Voir mes réalisations`,`See my work`],
+[`Cover art · Atmosphérique`,`Cover art · Atmospheric`],
+[`Key Visual · Cinématique`,`Key Visual · Cinematic`],
+[`Key Visual · Cinéma`,`Key Visual · Cinema`],
+[`Sports Key Visual · Cinématique`,`Sports Key Visual · Cinematic`],
+[`Sports Key Visual · Épique`,`Sports Key Visual · Epic`],
+[`Promo Vidéo`,`Promo Video`],
+[`RÉFÉRENCES`,`REFERENCES`],
+[`Témoignages`,`Testimonials`],
+[`Ils en parlent en vidéo`,`They talk about it on video`],
+[`Références`,`References`],
+[`4 témoignages`,`4 testimonials`],
+[`Producteur Artiste Sénégal`,`Producer · Artist · Senegal`],
+[`Artiste Sénégal`,`Artist · Senegal`],
+[`À PROPOS`,`ABOUT`],
+[`Expérience`,`Experience`],
+[`Portée`,`Reach`],
+[`Sélection`,`Selection`],
+[`PSD calqués · Textures · Fonts · Presets PS`,`Layered PSDs · Textures · Fonts · PS Presets`],
+[`De A jusqu'au bout.`,`From A all the way through.`],
+[`Identité d'Artiste`,`Artist Identity`],
+[`Motion Design & Vidéo`,`Motion Design & Video`],
+[`Design Éditorial & Print`,`Editorial & Print Design`],
+[`Conception d'affiches et flyers événementiels`,`Design of event posters and flyers`],
+[`Programmes et livrets (concert, festival, expo)`,`Programs and booklets (concert, festival, expo)`],
+[`Magazines et zines indépendants`,`Independent magazines and zines`],
+[`Templates personnalisés Instagram (posts, stories, carousels)`,`Custom Instagram templates (posts, stories, carousels)`],
+[`Carrousels éducatifs ou promotionnels`,`Educational or promotional carousels`],
+[`Formats adaptés TikTok, X, Facebook`,`Formats for TikTok, X, Facebook`],
+[`Scénographie & Événementiel`,`Stage Design & Events`],
+[`Signalétique et fléchage festival / événement`,`Signage and wayfinding for festival / event`],
+[`Stands et espaces d'exposition`,`Booths and exhibition spaces`],
+[`Projection mapping et supports LED (concept)`,`Projection mapping and LED supports (concept)`],
+[`Ils m'ont confié leur image`,`They trusted me with their image`],
+[`MÉTHODOLOGIE`,`METHODOLOGY`],
+[`Méthodologie`,`Methodology`],
+[`Brief et échange`,`Brief and discussion`],
+[`Concept et direction`,`Concept and direction`],
+[`Moodboard, palette, typo. Validés avant production.`,`Moodboard, palette, type. Approved before production.`],
+[`Lun à Sam, 9h à minuit`,`Mon to Sat, 9am to midnight`],
+[`Au-delà, au temps passé`,`Beyond that, by time spent`],
+[`& ce que ça implique`,`& what it involves`],
+[`Étape 01`,`Step 01`],
+[`Étape 02`,`Step 02`],
+[`Étape 03`,`Step 03`],
+[`Brief & Échange`,`Brief & Discussion`],
+[`Démarrer ce pack →`,`Start this pack →`],
+[`Sortie complète`,`Full release`],
+[`EP, sortie complète`,`EP, full release`],
+[`dès 60K XOF`,`from 60K XOF`],
+[`dès 40K XOF`,`from 40K XOF`],
+[`dès 30K XOF`,`from 30K XOF`],
+[`dès 25K XOF`,`from 25K XOF`],
+[`Tracklist complète`,`Full tracklist`],
+[`tracklist complète`,`full tracklist`],
+[`Motion cover avancé + Canvas`,`Advanced motion cover + Canvas`],
+[`Motion cover avancé`,`Advanced motion cover`],
+[`Visualizer par titre + pack bannières`,`Visualizer per track + banner pack`],
+[`Visualizer ou lyrics video`,`Visualizer or lyrics video`],
+[`Packs Avancés`,`Advanced Packs`],
+[`Compléments`,`Add-ons`],
+[`4 révisions`,`4 revisions`],
+[`3 révisions`,`3 revisions`],
+[`2 révisions`,`2 revisions`],
+[`Option : déclinaison story/post +5.000 XOF`,`Option: story/post variation +5,000 XOF`],
+[`Template story réutilisable`,`Reusable story template`],
+[`Direction artistique complète`,`Full art direction`],
+[`Canvas animé`,`Animated Canvas`],
+[`Template communauté`,`Community template`],
+[`Option : logo artiste ou mise à jour identité visuelle incluse`,`Option: artist logo or visual identity update included`],
+[`Basique 60K · Intermédiaire 80K · Avancé 100K XOF`,`Basic 60K · Intermediate 80K · Advanced 100K XOF`],
+[`Animation de cover, fluide et immersive.`,`Cover animation, smooth and immersive.`],
+[`Simple 40K · Motion design avancé 60K XOF`,`Simple 40K · Advanced motion design 60K XOF`],
+[`Bannière YouTube`,`YouTube Banner`],
+[`Bannière Facebook / X`,`Facebook / X Banner`],
+[`Déclinaison Story`,`Story Variation`],
+[`Conditions générales`,`General terms`],
+[`Révisions`,`Revisions`],
+[`projets récurrents`,`recurring projects`],
+[`Lun à Sam`,`Mon to Sat`],
+[`Questions fréquentes`,`Frequently asked questions`],
+[`Single cover, 2 à 4 jours. EP ou mixtape, 5 à 10 jours. Album complet, 10 à 21 jours. Urgence sous 48h, +30%. Sous 24h, +50% selon disponibilité.`,`Single cover, 2 to 4 days. EP or mixtape, 5 to 10 days. Full album, 10 to 21 days. Rush under 48h, +30%. Under 24h, +50% depending on availability.`],
+[`2 à 4 jours.`,`2 to 4 days.`],
+[`5 à 10 jours.`,`5 to 10 days.`],
+[`10 à 21 jours.`,`10 to 21 days.`],
+[`que ça te ressemble, pas à quelqu'un d'autre.`,`that it looks like you, not someone else.`],
+[`Dis-moi ce que tu veux construire.`,`Tell me what you want to build.`],
+[`Identité`,`Identity`],
+[`Nom ou artiste`,`Name or artist`],
+[`Email ou WhatsApp`,`Email or WhatsApp`],
+[`Fourchette estimée`,`Estimated range`],
+[`500 000 XOF et plus`,`500,000 XOF and above`],
+[`À définir ensemble`,`To be defined together`],
+[`Références visuelles`,`Visual references`],
+[`Message reçu.`,`Message received.`],
+[`Ce que tu reçois`,`What you get`],
+[`Espace créatifs · Hors offre studio`,`Creators' space · Outside studio offer`],
+[`PSD calqués · Actions PS · Textures · Fonts premium`,`Layered PSDs · PS Actions · Textures · Premium fonts`],
+[`Templates calqués, prêts à éditer`,`Layered templates, ready to edit`],
+[`Grain, papier, métal, bruit`,`Grain, paper, metal, noise`],
+[`Sélection exclusive`,`Exclusive selection`],
+[`PSD calqués, proprement structurés`,`Layered PSDs, cleanly structured`],
+[`Prénom / pseudo`,`First name / alias`],
+[`Numéro Wave / téléphone`,`Wave number / phone`],
+[`© 2026 MDG Creative Studio · Tous droits réservés`,`© 2026 MDG Creative Studio · All rights reserved`],
+[`✦ Identité`,`✦ Identity`],
+[`Budget estimé`,`Estimated budget`],
+[`À discuter`,`To discuss`],
+[`Français · Wolof · Anglais`,`French · Wolof · English`],
+[`Plus exigeant`,`More demanding`],
+[`que productif`,`than productive`],
+[`artistes accompagnés`,`artists supported`],
+[`pays touchés`,`countries reached`],
+[`Tu travailles hors du Sénégal ?`,`Do you work outside Senegal?`],
+[`Tu pars de références ?`,`Do you start from references?`],
+[`Pourquoi pas un designer à 5 000 F ?`,`Why not a designer for 5,000 F?`],
+[`Écris-moi sur WhatsApp`,`Message me on WhatsApp`]
+]);
+function genericTextTranslate(lang){
+  var src = lang === 'en' ? __frToEn : __enToFr;
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(node){
+      var p = node.parentNode; if (!p) return NodeFilter.FILTER_REJECT;
+      var tag = p.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT' || tag === 'TEXTAREA')
+        return NodeFilter.FILTER_REJECT;
+      if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  var n, todo = [];
+  while ((n = walker.nextNode())) todo.push(n);
+  todo.forEach(function(tn){
+    var key = __normTxt(tn.nodeValue);
+    var val = src[key];
+    if (val !== undefined && val !== key) {
+      var lead = (tn.nodeValue.match(/^\s*/) || [''])[0];
+      var trail = (tn.nodeValue.match(/\s*$/) || [''])[0];
+      tn.nodeValue = lead + val + trail;
+    }
+  });
+}
+
 // Format: [ selector, key, attribute_or_innerHTML ]
 // attribute: 'text' = textContent, 'html' = innerHTML, 'aria-label' = attr
 var patches = [
@@ -19478,11 +19786,20 @@ var patches = [
 ];
 
 // ─── Éléments avec data-i18n (déjà balisés) ──────────
+// Remplace le TEXTE d'un élément sans détruire ses enfants (numéros, icônes).
+function setTransText(el, val){
+  if (el.querySelector('*')) {
+    var tn = null;
+    el.childNodes.forEach(function(n){ if (!tn && n.nodeType === 3 && n.textContent.trim()) tn = n; });
+    if (tn) tn.textContent = val; else el.appendChild(document.createTextNode(val));
+  } else { el.textContent = val; }
+}
+
 function applyDataI18n(lang) {
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     var key = el.getAttribute('data-i18n');
     if (translations[key] && translations[key][lang] !== null) {
-      el.textContent = translations[key][lang];
+      setTransText(el, translations[key][lang]);
     }
   });
 }
@@ -20405,11 +20722,12 @@ function applyComplexPatches(lang) {
   });
 
   // ── Burger menu nav links ──
-  var mobMenuLinks = document.querySelectorAll('.mob-menu a:not(.mob-cta)');
-  var mobMenuFr = ['','Réalisations','À propos','Services','Collabs','Process','Tarifs & Packs','FAQ','Contact'];
-  var mobMenuEn = ['','Portfolio','About','Services','Collabs','Process','Pricing','FAQ','Contact'];
+  var mobMenuLinks = document.querySelectorAll('.mob-links-list a');
+  var mobMenuFr = ['Accueil','Réalisations','À propos','Services','Collabs','Process','Tarifs & Packs','FAQ','Contact'];
+  var mobMenuEn = ['Home','Portfolio','About','Services','Collabs','Process','Pricing','FAQ','Contact'];
   mobMenuLinks.forEach(function(el, i) {
-    if (mobMenuFr[i]) el.textContent = lang === 'en' ? (mobMenuEn[i] || el.textContent) : (mobMenuFr[i] || el.textContent);
+    var v = lang === 'en' ? mobMenuEn[i] : mobMenuFr[i];
+    if (v) setTransText(el, v);
   });
   var mobCta = document.querySelector('.mob-cta');
   if (mobCta) mobCta.textContent = lang === 'en' ? 'Start a project' : 'Lancer un projet';
@@ -20438,6 +20756,30 @@ function applyComplexPatches(lang) {
     el.innerHTML = spanHTML + txt;
   });
 
+  // ── Enrichit le filet générique FR↔EN avec les paires inline
+  //    (process, services, about, conditions…) pour que les variantes
+  //    MOBILE, non câblées par sélecteur, se traduisent aussi. ──
+  try {
+    var __regArr = function(fr, en){ if (fr && en && fr.map) __addPairs(fr.map(function(f,i){ return [f, en[i]]; })); };
+    if (typeof procBadgesFr !== 'undefined') __regArr(procBadgesFr, procBadgesEn);
+    if (typeof procTitlesFr !== 'undefined') __regArr(procTitlesFr, procTitlesEn);
+    if (typeof procDescsFr !== 'undefined') __regArr(procDescsFr, procDescsEn);
+    if (typeof procRulesFr !== 'undefined') __regArr(procRulesFr, procRulesEn);
+    if (typeof aboutBodyFr !== 'undefined') __regArr(aboutBodyFr, aboutBodyEn);
+    if (typeof svcTFr !== 'undefined') __regArr(svcTFr, svcTEn);
+    if (typeof svcDFr !== 'undefined') __regArr(svcDFr, svcDEn);
+    if (typeof spDescsFr !== 'undefined') __regArr(spDescsFr, spDescsEn);
+    if (typeof pcondKeysFr !== 'undefined') __regArr(pcondKeysFr, pcondKeysEn);
+    if (typeof pcondValsFr !== 'undefined') __regArr(pcondValsFr, pcondValsEn);
+    if (typeof procCondData !== 'undefined' && procCondData.forEach) {
+      procCondData.forEach(function(d){
+        if (d.label)  __addPair(d.label.fr,  d.label.en);
+        if (d.detail) __addPair(d.detail.fr, d.detail.en);
+        if (d.expl)   __addPair(d.expl.fr,   d.expl.en);
+      });
+    }
+  } catch(e){}
+
 }
 
 // ─── Patches par sélecteur ────────────────────────────
@@ -20448,7 +20790,7 @@ function applyPatches(lang) {
     els.forEach(function(el){
       if (!translations[key] || translations[key][lang] === null) return;
       var val = translations[key][lang];
-      if (mode === 'text') el.textContent = val;
+      if (mode === 'text') setTransText(el, val);
       else if (mode === 'html') el.innerHTML = val;
       else el.setAttribute(mode, val);
     });
@@ -20558,57 +20900,15 @@ window.openModal = function(num) {
   document.body.style.overflow = 'hidden';
 };
 
-// ─── Pont Google Translate (remplace le dictionnaire manuel) ──
-function getGoogTransCookie() {
-  var m = document.cookie.match(/(?:^|;\s*)googtrans=([^;]*)/);
-  return m ? decodeURIComponent(m[1]) : '';
-}
-// Attend que le <select> .goog-te-combo soit monté par le widget Google
-// (chargement async du script), pour pouvoir traduire SANS recharger la page.
-function waitForGoogCombo(timeoutMs, cb) {
-  var combo = document.querySelector('.goog-te-combo');
-  if (combo) { cb(combo); return; }
-  var start = Date.now();
-  var iv = setInterval(function(){
-    var c = document.querySelector('.goog-te-combo');
-    if (c) {
-      clearInterval(iv);
-      cb(c);
-    } else if (Date.now() - start > timeoutMs) {
-      clearInterval(iv);
-      cb(null);
-    }
-  }, 100);
-}
-function setGoogleLang(lang) {
-  // lang: 'en' pour traduire, 'fr' pour restaurer le texte original
-  waitForGoogCombo(5000, function(combo){
-    if (combo) {
-      if (combo.value !== lang) {
-        combo.value = lang;
-        combo.dispatchEvent(new Event('change'));
-      }
-      return;
-    }
-    // Vraiment indisponible après l'attente (réseau lent/bloqué) : fallback cookie + reload
-    var hostname = window.location.hostname;
-    var current = getGoogTransCookie();
-    var desired = (lang === 'fr') ? '' : ('/fr/' + lang);
-    if (current === desired) return; // déjà dans l'état voulu, pas de reload inutile
-    if (lang === 'fr') {
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + hostname;
-    } else {
-      document.cookie = 'googtrans=/fr/' + lang + '; path=/;';
-      document.cookie = 'googtrans=/fr/' + lang + '; path=/; domain=' + hostname;
-    }
-    window.location.reload();
-  });
-}
-
-// ─── Synchronise uniquement l'état visuel du bouton (pas de traduction déclenchée) ──
-function syncLangUI(lang) {
+// ─── Fonction principale de traduction ───────────────
+function applyLang(lang) {
   currentLang = lang;
+  applyDataI18n(lang);
+  applyPatches(lang);
+  applyComplexPatches(lang);
+  genericTextTranslate(lang);
+
+  // Toggle button state, nav desktop
   var btn = document.getElementById('langToggle');
   var lbl = document.getElementById('langLabel');
   if (btn && lbl) {
@@ -20622,6 +20922,7 @@ function syncLangUI(lang) {
       btn.title = 'Switch to English';
     }
   }
+  // Toggle button state, menu mobile
   var mobBtn = document.getElementById('mobLangToggle');
   var mobLbl = document.getElementById('mobLangLabel');
   if (mobBtn && mobLbl) {
@@ -20633,12 +20934,9 @@ function syncLangUI(lang) {
       mobBtn.classList.remove('active');
     }
   }
-}
 
-// ─── Fonction principale de traduction (action utilisateur) ──
-function applyLang(lang) {
-  syncLangUI(lang);
-  setGoogleLang(lang);
+  // Ne pas sauvegarder dans localStorage, évite la contamination entre sessions
+  // try { localStorage.setItem('mdg_lang', lang); } catch(e){}
 }
 
 // ─── Toggle public ────────────────────────────────────
@@ -20647,36 +20945,19 @@ window.toggleLang = function() {
   // pour éviter toute désynchronisation entre sessions.
   var btn = document.getElementById('langToggle');
   var activeLang = (btn && btn.classList.contains('active')) ? 'en' : 'fr';
+  currentLang = activeLang; // resync interne
   applyLang(activeLang === 'fr' ? 'en' : 'fr');
 };
 
 // ─── Init au chargement ───────────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
-  // Si une traduction est déjà active (cookie googtrans posé lors d'une visite
-  // précédente / après un reload), on se contente de resynchroniser l'UI du
-  // bouton SANS redéclencher de traduction, sinon ça entre en conflit avec
-  // la détection navigateur ci-dessous et ça boucle les reloads.
-  var existing = getGoogTransCookie(); // ex: "/fr/en" ou ""
-  if (existing) {
-    var parts = existing.split('/');
-    var activeLang = parts[2] || 'fr';
-    syncLangUI(activeLang);
-    // Le widget Google traduit déjà tout seul depuis le cookie au chargement ;
-    // on s'assure juste que le <select> reflète bien le même état une fois monté.
-    waitForGoogCombo(6000, function(combo){
-      if (combo && combo.value !== activeLang) {
-        combo.value = activeLang;
-        combo.dispatchEvent(new Event('change'));
-      }
-    });
-    return;
-  }
-  // Première visite (pas de cookie) : on détecte la langue du navigateur,
-  // sans localStorage, pour ne pas contaminer les sessions suivantes.
+  // Détecte la langue du navigateur uniquement, pas de localStorage
+  // pour éviter qu'une session précédente affecte les nouveaux visiteurs.
   var browserLang = (navigator.language || navigator.userLanguage || 'fr').slice(0, 2).toLowerCase();
-  var initLang = browserLang === 'en' ? 'en' : 'fr';
-  syncLangUI(initLang);
-  if (initLang === 'en') applyLang('en');
+  // Français pour les visiteurs francophones, anglais (langue internationale)
+  // pour tous les autres, y compris ceux qui ne comprennent ni FR ni EN.
+  var initLang = browserLang === 'fr' ? 'fr' : 'en';
+  applyLang(initLang);
 });
 
 })();
