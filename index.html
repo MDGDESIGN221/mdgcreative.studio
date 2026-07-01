@@ -15417,7 +15417,7 @@ nav:not(#mob-tab-bar):not(.scrolled) .nav-burger span{background:#0e0e0e!importa
               <button type="button" class="cqf-chip" onclick="cqfToggleChip(this,'Autre')">Autre</button>
             </div>
 
-            <form id="cqfForm" action="https://formspree.io/f/mojydzko" method="POST">
+            <form id="cqfForm">
               <input type="hidden" name="_subject" value="Nouveau projet, MDG Creative Studio">
               <input type="hidden" id="cqfServiceHiddenForm" name="service" value="">
               <div class="cqf-row">
@@ -18498,6 +18498,7 @@ setInterval(updateKaolackTime, 10000);
     el.style.cssText = `width:${size}px;height:${size}px`;
     const img = document.createElement('img');
     img.src = covers[i % covers.length];
+    img.alt = '';
     el.appendChild(img);
     document.body.appendChild(el);
     trail.push({el, x: 0, y: 0, tx: 0, ty: 0, delay: i * 0.08});
@@ -19704,6 +19705,7 @@ __addPairs([
 [`Lien externe`,`External link`],
 [`Rester sur le site`,`Stay on the site`],
 [`Continuer vers Spotify →`,`Continue to Spotify →`],
+[`Glisse pour explorer`,`Swipe to explore`],
 [`& Direction Musicale`,`& Musical Direction`],
 [`Direction Musicale`,`Musical Direction`],
 [`6j/7`,`6 days/wk`],

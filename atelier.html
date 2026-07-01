@@ -6,6 +6,33 @@
 <meta name="theme-color" content="#ffffff">
 <title>Atelier MDG — Identité visuelle pour les marques</title>
 <meta name="description" content="Atelier MDG construit des identités visuelles durables pour les entreprises et marques ambitieuses. Logo, web, packaging, stratégie visuelle.">
+<meta name="author" content="Atelier MDG · MDG Creative Studio">
+<link rel="canonical" href="https://www.mdgcreative.studio/atelier.html">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (réseaux sociaux) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Atelier MDG — Identité visuelle pour les marques">
+<meta property="og:description" content="Logo, web, packaging, stratégie visuelle. Un studio d'identité de marque à Kaolack, Sénégal. Sept ans, neuf pays.">
+<meta property="og:image" content="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1780835079/hero_mobile_vouizb.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://www.mdgcreative.studio/atelier.html">
+<meta property="og:site_name" content="Atelier MDG">
+<meta property="og:locale" content="fr_FR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Atelier MDG — Identité visuelle pour les marques">
+<meta name="twitter:description" content="Logo, web, packaging, stratégie visuelle. Kaolack, Sénégal.">
+<meta name="twitter:image" content="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1780835079/hero_mobile_vouizb.jpg">
+<meta name="twitter:site" content="@_its.mdg">
+<meta name="twitter:creator" content="@_its.mdg">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_32,h_32,c_pad,b_rgb:ffffff/v1776666025/New_logo_black_yig2o7.png">
+<link rel="icon" type="image/png" sizes="64x64" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_64,h_64,c_pad,b_rgb:ffffff/v1776666025/New_logo_black_yig2o7.png">
+<link rel="apple-touch-icon" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_180,h_180,c_pad,b_rgb:ffffff/v1776666025/New_logo_black_yig2o7.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
@@ -250,6 +277,7 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
           MDG Creative
         </a>
+        <button type="button" id="langToggle" onclick="toggleLang()" aria-label="Switch language" style="display:inline-flex;align-items:center;background:none;border:1.5px solid var(--border-strong);border-radius:100px;padding:6px 13px;font-family:var(--font-head);font-weight:700;font-size:.72rem;letter-spacing:.05em;color:var(--black);cursor:pointer;transition:border-color .2s,background .2s"><span id="langLabel">EN</span></button>
         <a href="#contact" class="nav-cta">Confier un projet</a>
       </div>
     </div>
@@ -264,6 +292,7 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
   <a href="#realisations">Réalisations</a>
   <a href="#pourquoi">Notre approche</a>
   <a href="index.html">← MDG Creative</a>
+  <button type="button" onclick="toggleLang()" style="text-align:left;background:none;border:none;padding:16px 0;border-bottom:1px solid var(--border);font-family:var(--font-head);font-weight:700;font-size:1rem;color:var(--black);cursor:pointer"><span id="langLabelMob">English</span></button>
   <a href="#contact" class="nav-mobile-cta">Confier un projet</a>
 </div>
 
@@ -664,6 +693,128 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
   });
 
   // page reveal handled purely in CSS (animation auto-completes)
+})();
+</script>
+
+<!-- ═══ Traduction FR/EN automatique (par nœud texte, robuste aux modifs) ═══ -->
+<script>
+(function(){
+  var PAIRS = [
+    // NAV
+    ["Réalisations","Work"],["Notre approche","Our approach"],["Confier un projet","Start a project"],
+    // HERO
+    ["Studio d'identité de marque","Brand identity studio"],
+    ["Kaolack, Sénégal","Kaolack, Senegal"],
+    ["Nous façonnons des identités","We craft identities"],
+    ["que l'on ne confond pas.","no one mistakes for another."],
+    ["Logo, site, packaging, direction artistique. On construit pour les entreprises une image nette, cohérente d'un support à l'autre, et pensée pour tenir bien au-delà de la tendance du moment.","Logo, website, packaging, art direction. We build companies a sharp image, consistent from one medium to the next, and designed to outlast the trend of the moment."],
+    ["Logo, site, packaging, direction artistique pour les entreprises.","Logo, website, packaging, art direction for companies."],
+    ["Confier votre marque","Entrust your brand"],
+    ["Voir notre travail","See our work"],
+    ["7 ans","7 years"],["d'expérience","of experience"],["9 pays","9 countries"],["clients accompagnés","clients served"],
+    ["Identité · Web · Packaging · Stratégie","Identity · Web · Packaging · Strategy"],
+    ["Studio indépendant — depuis 2019","Independent studio — since 2019"],
+    // SERVICES
+    ["Ce que nous faisons","What we do"],
+    ["Un métier.","One craft."],["Quatre disciplines.","Four disciplines."],
+    ["Logo & Identité","Logo & Identity"],
+    ["Un logo qui tient aussi bien sur une carte de visite que sur une façade. Une identité qui reste cohérente partout où votre marque apparaît.","A logo that works as well on a business card as on a storefront. An identity that stays consistent everywhere your brand shows up."],
+    ["Charte graphique","Style guide"],["Déclinaisons","Variations"],
+    ["Un site sur mesure, rapide et lisible d'abord sur mobile, qui inspire confiance dès la première seconde et donne envie d'aller plus loin que la page d'accueil.","A custom site, fast and readable on mobile first, that earns trust from the first second and makes people want to go beyond the homepage."],
+    ["Site vitrine","Showcase site"],
+    ["L'emballage parle avant vous. Nous en faisons le premier argument de votre marque, du rayon jusqu'aux mains du client.","Packaging speaks before you do. We make it your brand's first argument, from the shelf to the customer's hands."],
+    ["Étiquettes","Labels"],["Boîtes","Boxes"],
+    ["Stratégie visuelle","Visual strategy"],
+    ["Avant de dessiner, on réfléchit. Direction artistique, positionnement, cohérence sur chacun de vos points de contact, pour que tout raconte la même histoire.","Before we draw, we think. Art direction, positioning, consistency across every touchpoint, so everything tells the same story."],
+    ["Direction artistique","Art direction"],["Supports com","Comms materials"],
+    // RÉALISATIONS
+    ["Nos réalisations","Our work"],
+    ["Du travail","Work that's"],["concret.","tangible."],
+    ["Chaque projet ouvre une étude de cas complète — logo, charte et déclinaisons. Cliquez sur une carte pour l'explorer.","Each project opens a full case study — logo, style guide and variations. Click a card to explore it."],
+    ["Voir le projet","View project"],
+    // POURQUOI
+    ["Pourquoi","Why"],["l'Atelier MDG","Atelier MDG"],
+    ["Sept ans sur le terrain","Seven years in the field"],
+    ["Depuis 2019, on a habillé des marques et des artistes dans neuf pays. Ce recul, on le met au service de décisions qui tiennent la route.","Since 2019, we've shaped brands and artists across nine countries. That perspective goes into decisions that hold up."],
+    ["Un seul interlocuteur","A single point of contact"],
+    ["Pas d'intermédiaire. Vous échangez directement avec le directeur créatif, du premier brief jusqu'à la livraison. Clair et réactif.","No middleman. You deal directly with the creative director, from the first brief to delivery. Clear and responsive."],
+    ["Jamais à moitié","Never half-way"],
+    ["On ne rend pas un travail tant qu'il n'est pas juste. Chaque projet reçoit le soin qu'on mettrait à notre propre marque, détail compris.","We don't hand over work until it's right. Every project gets the care we'd give our own brand, down to the detail."],
+    // CONTACT
+    ["Parlons de votre projet","Let's talk about your project"],
+    ["Votre marque mérite mieux qu'un","Your brand deserves better than an"],
+    ["à-peu-près.","almost-right."],
+    ["Le brief tient parfois en trois lignes. Dites-nous l'essentiel, on revient vers vous avec un vrai point de vue, pas un devis automatique.","A brief sometimes fits in three lines. Tell us the essentials and we'll come back with a real point of view, not an automated quote."],
+    ["Type de projet","Project type"],
+    ["Votre nom ou marque","Your name or brand"],["Votre email","Your email"],["Votre projet en quelques lignes","Your project in a few lines"],
+    ["Envoyer la demande","Send request"],["Envoi…","Sending…"],
+    ["Message reçu.","Message received."],
+    ["Merci, votre demande est bien arrivée. On revient vers vous très vite — souvent sous 24 h ouvrées.","Thanks, your request came through. We'll get back to you very soon — often within 24 business hours."],
+    ["Nom, email et message sont requis.","Name, email and message are required."],
+    ["Vérifiez votre adresse email.","Please check your email address."],
+    ["Envoi impossible. Réessayez ou écrivez-nous sur WhatsApp.","Couldn't send. Try again or message us on WhatsApp."],
+    ["Autre","Other"],
+    // FOOTER
+    ["© 2026 Atelier MDG · Kaolack, Sénégal","© 2026 Atelier MDG · Kaolack, Senegal"],
+    ["Retour MDG Creative","Back to MDG Creative"],
+    // ÉTUDES DE CAS (contenu injecté en JS)
+    ["Identité de marque","Brand identity"],["Livrables","Deliverables"],
+    ["Logo · Charte · Guidelines","Logo · Style guide · Guidelines"],["Secteur","Sector"],
+    ["Identité visuelle complète pour un club de basketball. Logo, charte graphique, déclinaisons.","Full visual identity for a basketball club. Logo, style guide, variations."],
+    ["Conception de l'identité visuelle complète d'un club de basketball : du logo principal à la charte graphique, en passant par les déclinaisons et les guidelines.","Design of a basketball club's complete visual identity: from the main logo to the style guide, including variations and guidelines."],
+    ["Identité visuelle pour RIMA. Logo, charte graphique et brand guidelines complets.","Visual identity for RIMA. Logo, style guide and full brand guidelines."],
+    ["Conception de l'identité visuelle complète de RIMA : du logo principal à la charte graphique et aux brand guidelines.","Design of RIMA's complete visual identity: from the main logo to the style guide and brand guidelines."],
+    ["Identité visuelle complète pour Owl Vision Production Studio. Logo, charte graphique et brand guidelines.","Full visual identity for Owl Vision Production Studio. Logo, style guide and brand guidelines."],
+    ["Conception de l'identité visuelle complète d'OVP Studio, du logo principal à la charte graphique et aux brand guidelines.","Design of OVP Studio's complete visual identity, from the main logo to the style guide and brand guidelines."],
+    ["Identité visuelle complète pour le Sine Saloum Festival. Logo, charte graphique et brand guidelines.","Full visual identity for the Sine Saloum Festival. Logo, style guide and brand guidelines."],
+    ["Conception de l'identité visuelle complète du Sine Saloum Festival, du logo principal à la charte graphique et aux brand guidelines.","Design of the Sine Saloum Festival's complete visual identity, from the main logo to the style guide and brand guidelines."]
+  ];
+  var F2E={}, E2F={};
+  function norm(s){ return (s||'').replace(/\s+/g,' ').trim(); }
+  function add(fr,en){ if(typeof fr!=='string'||typeof en!=='string')return; if(/[<>]/.test(fr)||/[<>]/.test(en))return; var f=norm(fr),e=norm(en); if(!f||!e)return; if(F2E[f]===undefined)F2E[f]=e; if(E2F[e]===undefined)E2F[e]=f; }
+  PAIRS.forEach(function(p){ add(p[0],p[1]); });
+
+  var ATTRS = [
+    ['#cf-name','placeholder','Ex. Baobabs Basket Club','e.g. Baobabs Basket Club'],
+    ['#cf-email','placeholder','vous@exemple.com','you@example.com'],
+    ['#cf-msg','placeholder',"Ce que vous voulez créer, le contexte, l'échéance…","What you want to create, the context, the deadline…"]
+  ];
+
+  function translateText(lang){
+    var src = lang==='en'?F2E:E2F;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode:function(n){ var p=n.parentNode; if(!p) return NodeFilter.FILTER_REJECT;
+        var t=p.tagName; if(t==='SCRIPT'||t==='STYLE'||t==='NOSCRIPT'||t==='TEXTAREA') return NodeFilter.FILTER_REJECT;
+        if(!n.nodeValue||!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT; return NodeFilter.FILTER_ACCEPT; }
+    });
+    var n, todo=[]; while((n=walker.nextNode())) todo.push(n);
+    todo.forEach(function(tn){ var key=norm(tn.nodeValue); var val=src[key];
+      if(val!==undefined && val!==key){ var lead=(tn.nodeValue.match(/^\s*/)||[''])[0]; var trail=(tn.nodeValue.match(/\s*$/)||[''])[0]; tn.nodeValue=lead+val+trail; } });
+  }
+  function translateAttrs(lang){
+    ATTRS.forEach(function(a){ var el=document.querySelector(a[0]); if(!el) return; el.setAttribute(a[1], lang==='en'?a[3]:a[2]); });
+  }
+
+  var LANG='fr';
+  var csPanel = document.getElementById('csPanel');
+  var mo = new MutationObserver(function(){ if(LANG==='en' && csPanel){ mo.disconnect(); translateText('en'); mo.observe(csPanel,{childList:true,subtree:true,characterData:true}); } });
+
+  function apply(lang){
+    LANG=lang;
+    document.documentElement.lang=lang;
+    if(mo) mo.disconnect();
+    translateText(lang);
+    translateAttrs(lang);
+    if(csPanel && lang==='en') mo.observe(csPanel,{childList:true,subtree:true,characterData:true});
+    var lbl=document.getElementById('langLabel'); if(lbl) lbl.textContent = lang==='en'?'FR':'EN';
+    var lblM=document.getElementById('langLabelMob'); if(lblM) lblM.textContent = lang==='en'?'Français':'English';
+    try{ localStorage.setItem('mdg_atelier_lang',lang); }catch(e){}
+  }
+  window.toggleLang = function(){ apply(LANG==='en'?'fr':'en'); };
+
+  var saved=null; try{ saved=localStorage.getItem('mdg_atelier_lang'); }catch(e){}
+  var initial = saved || ((navigator.language||navigator.userLanguage||'fr').slice(0,2).toLowerCase()==='fr' ? 'fr' : 'en');
+  apply(initial);
 })();
 </script>
 </body>
