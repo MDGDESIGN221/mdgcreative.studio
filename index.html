@@ -13309,224 +13309,108 @@ nav:not(#mob-tab-bar):not(.scrolled) .nav-burger span{background:#0e0e0e!importa
 
 
 
-<section id="social-proof" style="background:var(--dark);border-bottom:1px solid var(--border)">
-  <div class="sp-mob">
-    <div style="padding:38px 28px 8px">
-      <div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;color:#3DBFA3">RÉFÉRENCES</span></div>
-      <h2 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.9rem;color:#f0ede8;margin-top:12px;letter-spacing:-.02em">Témoignages</h2>
+<section id="social-proof" data-screen-label="Témoignages" style="background:var(--dark);border-bottom:1px solid var(--border)">
+  <style id="stg-css">
+  #social-proof .stg-wrap{max-width:1200px;margin:0 auto;padding:clamp(48px,7vw,100px) clamp(22px,4vw,60px)}
+  #social-proof .stg-mast{display:flex;justify-content:space-between;align-items:baseline;gap:24px;border-bottom:1px solid #f0ede8;padding-bottom:18px}
+  #social-proof .stg-mast .l{font-family:'Syne',sans-serif;font-weight:800;font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:#f0ede8}
+  #social-proof .stg-mast .r{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#7d7972}
+  #social-proof .stg-quote{padding:clamp(44px,6vw,80px) 0 clamp(38px,5vw,64px);text-align:center}
+  #social-proof .stg-quote .qm{font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(3rem,5vw,4.5rem);line-height:.4;color:var(--accent);opacity:.55}
+  #social-proof .stg-quote blockquote{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;font-size:clamp(1.6rem,3.4vw,3rem);line-height:1.32;max-width:22ch;margin:clamp(18px,3vw,28px) auto 0;color:#f0ede8;text-wrap:balance}
+  #social-proof .stg-quote blockquote b{font-style:normal;font-family:'Syne',sans-serif;font-weight:700;color:var(--accent)}
+  #social-proof .stg-who{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:clamp(28px,4vw,40px);flex-wrap:wrap}
+  #social-proof .stg-who img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:center top;border:1px solid rgba(240,237,232,.2);filter:grayscale(.3)}
+  #social-proof .stg-who .t{text-align:left}
+  #social-proof .stg-who .t b{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;display:block;color:#f0ede8}
+  #social-proof .stg-who .t span{font-size:.7rem;color:#7d7972}
+  #social-proof .stg-who .sep{width:1px;height:30px;background:rgba(240,237,232,.15)}
+  #social-proof .stg-who .yrs{font-size:.7rem;color:#7d7972;font-family:'Syne',sans-serif;letter-spacing:.04em}
+  #social-proof .stg-who .yrs b{font-size:.78rem;color:#f0ede8}
+  #social-proof .stg-strip-head{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(240,237,232,.13);padding-top:18px;margin-bottom:20px}
+  #social-proof .stg-strip-head .l{font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#7d7972}
+  #social-proof .stg-strip-head .r{font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;color:#7d7972}
+  #social-proof .stg-strip-head .r b{color:#f0ede8}
+  #social-proof .stg-vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.6vw,22px)}
+  /* reset des styles hérités de .sp-vcard-hero */
+  #social-proof .stg-vc{background:transparent!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:0!important;display:block!important;transform:none!important;overflow:visible!important;cursor:pointer;min-width:0}
+  #social-proof .stg-vc .im{position:relative;overflow:hidden;aspect-ratio:3/4;background:#0c0c0b}
+  #social-proof .stg-vc .im img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.04) brightness(.94);transition:filter .5s,transform .9s cubic-bezier(.16,1,.3,1)}
+  #social-proof .stg-vc:hover .im img{filter:grayscale(0);transform:scale(1.04)}
+  #social-proof .stg-vc .im::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+  #social-proof .stg-vc:hover .im::after{transform:scaleX(1)}
+  #social-proof .stg-vc .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:rgba(6,6,6,.42);border:1px solid rgba(240,237,232,.55);display:grid;place-items:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .3s,background .3s,border-color .3s;z-index:2}
+  #social-proof .stg-vc:hover .play{background:var(--accent);border-color:var(--accent);transform:translate(-50%,-50%) scale(1.06)}
+  #social-proof .stg-vc .play svg{width:15px;height:15px;fill:#f0ede8;transition:fill .3s}
+  #social-proof .stg-vc:hover .play svg{fill:#060606}
+  #social-proof .stg-vc .lab{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px 1px 0;align-items:baseline}
+  #social-proof .stg-vc .lab b{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:-.01em;color:#f0ede8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #social-proof .stg-vc .lab .no{font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;color:#7d7972}
+  #social-proof .stg-vc .lab span{grid-column:1;font-size:.64rem;color:#7d7972}
+  #social-proof .stg-verified{display:flex;justify-content:center;margin-top:clamp(28px,4vw,40px)}
+  #social-proof .stg-verified span{display:inline-flex;align-items:center;gap:8px;font:600 .66rem 'Inter',sans-serif;letter-spacing:.08em;color:var(--accent);border:1px solid rgba(61,191,163,.28);border-radius:100px;padding:11px 20px}
+  @media(max-width:760px){
+    #social-proof .stg-quote blockquote{font-size:1.5rem}
+    #social-proof .stg-vgrid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:12px;margin:0 -22px;padding:0 22px;touch-action:pan-x pan-y;overscroll-behavior-x:contain}
+    #social-proof .stg-vgrid::-webkit-scrollbar{display:none}
+    #social-proof .stg-vc{flex:0 0 62vw;max-width:230px;scroll-snap-align:start}
+  }
+  </style>
+  <div class="stg-wrap">
+    <div class="stg-mast">
+      <span class="l">MDG — Références</span>
+      <span class="r">Témoignages publics</span>
     </div>
-    <div style="margin:18px 26px 0;background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:26px 24px">
-      <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:3rem;line-height:.6;color:#3DBFA3;opacity:.5">”</div>
-      <blockquote style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.5rem;line-height:1.3;color:#f0ede8;margin-top:8px">C'est quelqu'un avec qui je bosse beaucoup. Il est hyper correct, hyper travailleur et trop fort.</blockquote>
-      <div style="display:flex;align-items:center;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1)">
-        <img width="120" height="180" decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_120/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814" style="width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(61,191,163,.5)">
-        <div style="flex:1"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:#f0ede8">ISS 814</div><div style="font:400 .68rem Inter;color:#7a7a75">Producteur, artiste, 6 ans de collab</div></div>
+
+    <div class="stg-quote">
+      <div class="qm">&ldquo;</div>
+      <blockquote>C'est quelqu'un avec qui je bosse beaucoup. Il est <b>hyper correct</b>, <b>hyper travailleur</b> et <b>trop fort.</b></blockquote>
+      <div class="stg-who">
+        <img width="120" height="180" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_120/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814">
+        <div class="t"><b>ISS 814</b><span>Producteur / Artiste · Sénégal</span></div>
+        <span class="sep"></span>
+        <span class="yrs"><b>6 ans</b> de collaboration</span>
       </div>
     </div>
-    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#7a7a75;padding:28px 26px 14px">Ils en parlent en vidéo</div>
-    <div class="sp-mob-track" style="display:flex;gap:14px;overflow-x:auto;padding:0 26px 26px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain">
-      <a href="https://www.youtube.com/watch?v=q8MD7X3gJLo&t=3552s" target="_blank" rel="noopener" style="flex:none;width:180px;scroll-snap-align:start;text-decoration:none"><div style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/4"><img width="360" height="482" decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_360/v1780964123/fais_la_premiere_image_que_202606090004_gdh7ky.jpg" alt="ISS 814" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.85),transparent 50%)"></div><div style="position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:rgba(6,6,6,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><div style="position:absolute;left:12px;bottom:12px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;color:#f0ede8">ISS 814</div><div style="font:400 .6rem Inter;color:#aca7a2">Producteur, artiste</div></div></div></a>
-      <a href="https://www.youtube.com/watch?v=7LgPqfl02yU&t=1862s" target="_blank" rel="noopener" style="flex:none;width:180px;scroll-snap-align:start;text-decoration:none"><div style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/4"><img width="360" height="482" decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_360/v1780964421/fais_la_premiere_image_que_202606090020_taj0wy.jpg" alt="Key Em Ti" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.85),transparent 50%)"></div><div style="position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:rgba(6,6,6,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><div style="position:absolute;left:12px;bottom:12px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;color:#f0ede8">Key Em Ti</div><div style="font:400 .6rem Inter;color:#aca7a2">Artiste</div></div></div></a>
-      <a href="https://www.youtube.com/watch?v=1Qaht5EYKds&t=988s" target="_blank" rel="noopener" style="flex:none;width:180px;scroll-snap-align:start;text-decoration:none"><div style="position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/4"><img width="360" height="482" decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_360/v1780964691/fais_la_premiere_image_que_202606090024_lnr2gj.jpg" alt="Emza Young Boss" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.85),transparent 50%)"></div><div style="position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:rgba(6,6,6,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><div style="position:absolute;left:12px;bottom:12px"><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;color:#f0ede8">Emza Young Boss</div><div style="font:400 .6rem Inter;color:#aca7a2">Artiste</div></div></div></a>
+
+    <div class="stg-strip-head">
+      <span class="l">Ils en parlent en vidéo</span>
+      <span class="r"><b>4</b> témoignages</span>
     </div>
-    <div style="padding:0 26px 38px"><div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1px solid rgba(61,191,163,.25);border-radius:100px;font:600 .68rem Inter;letter-spacing:.06em;color:#3DBFA3"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Témoignages publics vérifiés</div></div>
+    <div class="stg-vgrid">
+      <div class="sp-vcard-hero stg-vc" data-yt-id="q8MD7X3gJLo" data-start="3552" data-end="3600" data-name="ISS 814" data-role="Producteur · Artiste · Sénégal" role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
+        <div class="im"><img width="600" height="800" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964123/fais_la_premiere_image_que_202606090004_gdh7ky.jpg" alt="ISS 814"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        <div class="lab"><b>ISS 814</b><span class="no">01</span><span>Producteur · Artiste</span></div>
+      </div>
+      <div class="sp-vcard-hero stg-vc" data-yt-id="4hQRw6BqAQY" data-start="60" data-end="74" data-name="ISS 814" data-role="Producteur · Artiste · Sénégal" role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
+        <div class="im"><img width="600" height="800" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780963911/B_W_portrait_with_backlight_glow_znxcxz.png" alt="ISS 814"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        <div class="lab"><b>ISS 814</b><span class="no">02</span><span>Producteur · Artiste</span></div>
+      </div>
+      <div class="sp-vcard-hero stg-vc" data-yt-id="7LgPqfl02yU" data-start="1862" data-end="1870" data-name="Key Em Ti" data-role="Artiste · Sénégal" role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
+        <div class="im"><img width="600" height="800" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964421/fais_la_premiere_image_que_202606090020_taj0wy.jpg" alt="Key Em Ti"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        <div class="lab"><b>Key Em Ti</b><span class="no">03</span><span>Artiste</span></div>
+      </div>
+      <div class="sp-vcard-hero stg-vc" data-yt-id="1Qaht5EYKds" data-start="988" data-end="995" data-name="Emza Young Boss" data-role="Artiste · Sénégal" role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
+        <div class="im"><img width="600" height="800" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964691/fais_la_premiere_image_que_202606090024_lnr2gj.jpg" alt="Emza Young Boss"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        <div class="lab"><b>Emza Young Boss</b><span class="no">04</span><span>Artiste</span></div>
+      </div>
+    </div>
+
+    <div class="stg-verified"><span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Témoignages publics vérifiés</span></div>
   </div>
-  <!-- ── TÉMOIGNAGES, ce qu'ils disent ── -->
-  <div class="container" style="padding:5rem clamp(1.25rem,4vw,3rem) 4rem">
-    <style>
-      #social-proof .sp-header{padding-left:0!important;padding-right:0!important}
-      #social-proof .sp-feature::before,#social-proof .sp-feature::after{display:none!important}
-      #social-proof .sp-vcard-hero-thumb{aspect-ratio:16/10!important}
-      #social-proof .sp-vcard-hero-thumb img{filter:grayscale(1) contrast(1.05) brightness(.95)!important}
-      #social-proof .sp-slide:nth-child(1) .sp-vcard-hero-thumb img{object-position:center 20%}
-      #social-proof .sp-slide:nth-child(2) .sp-vcard-hero-thumb img{object-position:center 14%;filter:grayscale(1) contrast(1.02) brightness(1.18)!important}
-      #social-proof .sp-slide:nth-child(3) .sp-vcard-hero-thumb img{object-position:center top}
-      #social-proof .sp-slide:nth-child(4) .sp-vcard-hero-thumb img{object-position:center 12%}
-      @media(max-width:980px){#social-proof .sp-t1-split{flex-direction:column}#social-proof .sp-feature{max-width:none!important}}
-    </style>
-    <div class="sp-header reveal-up">
-      <div class="sec-label reveal-line">Références</div>
-      <h2 class="sp-h2">Témoignages</h2>
+
+  <!-- Lightbox vidéo, fullscreen -->
+  <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Lecture du témoignage vidéo">
+    <button id="sp-video-lb-close" aria-label="Fermer">×</button>
+    <button id="sp-video-lb-prev" aria-label="Vidéo précédente">←</button>
+    <button id="sp-video-lb-next" aria-label="Vidéo suivante">→</button>
+    <div id="sp-video-lb-inner">
+      <div id="sp-video-lb-frame" style="position:absolute;inset:0;width:100%;height:100%"></div>
+      <img id="sp-video-lb-poster" alt="" decoding="async">
+      <div id="sp-video-lb-spinner" aria-hidden="true"><span></span></div>
+      <div id="sp-video-lb-meta"><span id="sp-video-lb-meta-name"></span><span id="sp-video-lb-meta-role"></span></div>
     </div>
-
-    <!-- T1, Citation héro (gauche) + bande vidéo (droite) -->
-    <div class="sp-t1-split" style="display:flex;flex-wrap:wrap;gap:clamp(2rem,4vw,3.5rem);align-items:flex-start">
-
-    <!-- Citation forte, version sobre (sombre, sans carte blanche ni étoile/pill) -->
-    <div class="sp-feature reveal-up rd2" style="flex:1 1 380px;max-width:520px;min-width:340px;margin:0;background:transparent;border:none;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;">
-
-      <!-- Contenu -->
-      <div style="position:relative;z-index:1;">
-        <div style="font-family:'DM Serif Display',serif;font-style:italic;font-size:3.6rem;line-height:.4;color:var(--accent);opacity:.5;margin-bottom:1.3rem">&ldquo;</div>
-        <blockquote style="font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.4;color:var(--light);margin:0 0 1.8rem;max-width:780px">C'est quelqu'un avec qui je bosse beaucoup. Il est <b style="font-style:normal;font-family:'Syne',sans-serif;font-weight:600;color:var(--accent)">hyper correct</b>, <b style="font-style:normal;font-family:'Syne',sans-serif;font-weight:600;color:var(--accent)">hyper travailleur</b> et <b style="font-style:normal;font-family:'Syne',sans-serif;font-weight:600;color:var(--accent)">trop fort.</b></blockquote>
-        <div style="display:flex;align-items:center;gap:.95rem;padding-top:1.4rem;border-top:1px solid var(--border);max-width:780px">
-          <img width="1600" height="2401" decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1776491292/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814" style="width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:center top;border:1px solid var(--border2);filter:grayscale(.3);flex-shrink:0">
-          <div style="flex:1;">
-            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:var(--light)">ISS 814</div>
-            <div style="font-size:.72rem;color:var(--dim);margin-top:.15rem">Producteur / Artiste · Sénégal</div>
-          </div>
-          <div style="font-size:.7rem;color:var(--dim);font-family:'Syne',sans-serif;letter-spacing:.04em;white-space:nowrap;flex-shrink:0"><b style="color:var(--off);font-weight:700">6 ans</b> de collaboration</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Vidéos témoignages, 4 cartes, grille 2×2 -->
-    <div class="sp-videos" id="sp-audio-grid" style="flex:1 1 460px;min-width:0;margin:0">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.1rem"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#7a7a75">Ils en parlent en vidéo</span><span style="font-family:'Inter',sans-serif;font-size:.72rem;color:#5c5a54">4 témoignages</span></div>
-
-      <div class="sp-videos-track" id="spVideosTrack" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-
-        <!-- CARTE 1, ISS 814 -->
-        <div class="sp-slide">
-          <div class="sp-vcard-hero reveal-up"
-               data-yt-id="q8MD7X3gJLo" data-start="3552" data-end="3600"
-               data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
-               role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
-            <div class="sp-vcard-hero-thumb">
-              <img loading="lazy" decoding="async"
-                src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964123/fais_la_premiere_image_que_202606090004_gdh7ky.jpg"
-                alt="ISS 814">
-              <div class="sp-vcard-badge">
-                <span class="sp-vcard-badge-dot"></span>
-                <span class="sp-vcard-badge-text">ISS 814</span>
-              </div>
-              <div class="sp-vcard-nav-dots">
-                <span class="sp-vcard-nav-dot on"></span>
-                <span class="sp-vcard-nav-dot"></span>
-              </div>
-            </div>
-            <div class="sp-vcard-hero-body">
-              <span class="sp-vcard-hero-name">ISS 814</span>
-              <span class="sp-vcard-hero-role">Producteur Artiste Sénégal</span>
-              <span class="sp-vcard-desc">ISS 814 parle de MDG en public avec naturel. Sérieux, qualité du travail et relation humaine évoqués.</span>
-              <div class="sp-vcard-hero-foot">
-                <div class="sp-vcard-hero-play" aria-hidden="true">
-                  <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARTE 2, ISS 814 bis -->
-        <div class="sp-slide">
-          <div class="sp-vcard-hero reveal-up rd1"
-               data-yt-id="4hQRw6BqAQY" data-start="60" data-end="74"
-               data-name="ISS 814" data-role="Producteur · Artiste · Sénégal"
-               role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
-            <div class="sp-vcard-hero-thumb">
-              <img loading="lazy" decoding="async"
-                src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780963911/B_W_portrait_with_backlight_glow_znxcxz.png"
-                alt="ISS 814">
-              <div class="sp-vcard-badge">
-                <span class="sp-vcard-badge-dot"></span>
-                <span class="sp-vcard-badge-text">ISS 814</span>
-              </div>
-            </div>
-            <div class="sp-vcard-hero-body">
-              <span class="sp-vcard-hero-name">ISS 814</span>
-              <span class="sp-vcard-hero-role">Producteur Artiste Sénégal</span>
-              <span class="sp-vcard-desc">Le mot "trop fort" sort naturellement, en public. Pas de mise en scène.</span>
-              <div class="sp-vcard-hero-foot">
-                <div class="sp-vcard-hero-play" aria-hidden="true">
-                  <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARTE 3, Key Em Ti -->
-        <div class="sp-slide">
-          <div class="sp-vcard-hero reveal-up rd2"
-               data-yt-id="7LgPqfl02yU" data-start="1862" data-end="1870"
-               data-name="Key Em Ti" data-role="Artiste · Sénégal"
-               role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
-            <div class="sp-vcard-hero-thumb">
-              <img loading="lazy" decoding="async"
-                src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964421/fais_la_premiere_image_que_202606090020_taj0wy.jpg"
-                alt="Key Em Ti">
-              <div class="sp-vcard-badge">
-                <span class="sp-vcard-badge-dot"></span>
-                <span class="sp-vcard-badge-text">Key Em Ti</span>
-              </div>
-            </div>
-            <div class="sp-vcard-hero-body">
-              <span class="sp-vcard-hero-name">Key Em Ti</span>
-              <span class="sp-vcard-hero-role">Artiste Sénégal</span>
-              <span class="sp-vcard-desc">Sur le plateau, Key Em Ti sort le nom de MDG sans qu'on le lui demande.</span>
-              <div class="sp-vcard-hero-foot">
-                <div class="sp-vcard-hero-play" aria-hidden="true">
-                  <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARTE 4, Emza Young Boss -->
-        <div class="sp-slide">
-          <div class="sp-vcard-hero reveal-up rd3"
-               data-yt-id="1Qaht5EYKds" data-start="988" data-end="995"
-               data-name="Emza Young Boss" data-role="Artiste · Sénégal"
-               role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
-            <div class="sp-vcard-hero-thumb">
-              <img loading="lazy" decoding="async"
-                src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_600/v1780964691/fais_la_premiere_image_que_202606090024_lnr2gj.jpg"
-                alt="Emza Young Boss">
-              <div class="sp-vcard-badge">
-                <span class="sp-vcard-badge-dot"></span>
-                <span class="sp-vcard-badge-text">Emza Young Boss</span>
-              </div>
-            </div>
-            <div class="sp-vcard-hero-body">
-              <span class="sp-vcard-hero-name">Emza Young Boss</span>
-              <span class="sp-vcard-hero-role">Artiste Sénégal</span>
-              <span class="sp-vcard-desc">Le mot "génie" sort naturellement, pas pour faire plaisir.</span>
-              <div class="sp-vcard-hero-foot">
-                <div class="sp-vcard-hero-play" aria-hidden="true">
-                  <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /.sp-videos-track -->
-
-      <!-- Dots, mobile only -->
-      <div class="sp-videos-dots" id="sp-videos-dots" aria-hidden="true">
-        <span class="sp-dot active" data-idx="0"></span>
-        <span class="sp-dot" data-idx="1"></span>
-        <span class="sp-dot" data-idx="2"></span>
-        <span class="sp-dot" data-idx="3"></span>
-      </div>
-
-    </div><!-- /.sp-videos -->
-    </div><!-- /.sp-t1-split -->
-
-    <!-- Lightbox vidéo, fullscreen premium -->
-    <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Vidéo témoignage">
-      <button id="sp-video-lb-close" aria-label="Fermer la vidéo">&#10005;</button>
-      <button id="sp-video-lb-prev" aria-label="Vidéo précédente">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <button id="sp-video-lb-next" aria-label="Vidéo suivante">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-      <div id="sp-video-lb-inner">
-        <img loading="lazy" decoding="async" id="sp-video-lb-poster" alt="" aria-hidden="true">
-        <div id="sp-video-lb-spinner"><span></span></div>
-        <div id="sp-video-lb-frame"></div>
-      </div>
-      <div id="sp-video-lb-meta">
-        <span id="sp-video-lb-meta-name"></span>
-        <span id="sp-video-lb-meta-sep"></span>
-        <span id="sp-video-lb-meta-role"></span>
-      </div>
-      <div id="sp-video-lb-counter" aria-hidden="true"></div>
-    </div>
-  </div>
+    <div id="sp-video-lb-counter" aria-hidden="true"></div>
   </div>
 </section>
 
