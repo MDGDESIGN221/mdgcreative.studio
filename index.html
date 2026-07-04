@@ -15270,6 +15270,7 @@ function submitPackForm(e) {
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({
       access_key: WEB3FORMS_KEY,
+      botcheck: '',
       subject: 'Demande Pack, ' + subject,
       from_name: 'MDG Creative Studio',
       name: name,
@@ -15986,6 +15987,7 @@ function uranusSubmit2() {
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({
       access_key: WEB3FORMS_KEY,
+      botcheck: '',
       subject: 'URANUS GFX PACK, Nouvelle précommande',
       from_name: 'MDG Creative Studio',
       name: name, email: email, phone: phone,
@@ -16119,8 +16121,8 @@ function copyWaveNumber(btn) {
 
 
 <!-- GSAP placé ici (avant le code d'init, après le HTML), non-bloquant au chargement initial -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 // Safety net : si GSAP ne se charge pas (réseau lent), on rend tous les éléments visibles
 // Sur mobile : 400ms (plus rapide), desktop : 2500ms
@@ -20882,6 +20884,7 @@ function faqToggle(el){
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         access_key: WEB3FORMS_KEY,
+      botcheck: '',
         subject: 'Nouveau devis, ' + serviceTxt + ' | MDG Creative Studio',
         from_name: 'MDG Creative Studio',
         name: name,
@@ -21058,6 +21061,7 @@ function cpopSend(){
     headers:{'Content-Type':'application/json','Accept':'application/json'},
     body: JSON.stringify({
       access_key: WEB3FORMS_KEY,
+      botcheck: '',
       subject: 'Popup contact, ' + project + ' | MDG Creative Studio',
       from_name: 'MDG Creative Studio',
       name: name,
