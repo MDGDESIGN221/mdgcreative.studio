@@ -12124,7 +12124,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 
 
 <a href="#main-content" class="skip-link" style="position:absolute;top:-100px;left:1rem;background:var(--accent);color:#000;padding:.5rem 1rem;border-radius:4px;font-size:.75rem;font-weight:700;z-index:99999;transition:top .2s;text-decoration:none" onfocus="this.style.top='1rem'" onblur="this.style.top='-100px'">Skip to content</a>
-<nav aria-label="Navigation principale" role="navigation">
+<nav aria-label="Navigation principale" role="navigation" class="nav-on-light">
   <a href="#" class="nav-logo">
     <img width="1600" height="1600" decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" style="height:44px;width:auto;display:block;filter:brightness(1)">
   </a>
@@ -12635,14 +12635,29 @@ nav:not(#mob-tab-bar):not(.scrolled) .nav-links,
 nav:not(#mob-tab-bar):not(.scrolled) .nav-cta{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease}
 nav:not(#mob-tab-bar).scrolled .nav-links,
 nav:not(#mob-tab-bar).scrolled .nav-cta{opacity:1;visibility:visible;transition:opacity .35s ease}
-/* Au-dessus du hero blanc : nav transparent, logo + texte en noir. Au scroll, retour au nav sombre. */
-nav:not(#mob-tab-bar):not(.scrolled){background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border-bottom-color:transparent!important;transition:background .35s ease}
-nav:not(#mob-tab-bar):not(.scrolled) .nav-logo img{filter:brightness(0)!important;transition:filter .35s ease}
-nav:not(#mob-tab-bar):not(.scrolled) .nav-logo,
-nav:not(#mob-tab-bar):not(.scrolled) .nav-logo-sub{color:#0e0e0e!important}
-nav:not(#mob-tab-bar):not(.scrolled) .nav-avail{color:#3a3935!important}
-nav:not(#mob-tab-bar):not(.scrolled) .lang-toggle{color:#0e0e0e!important;border-color:rgba(14,14,14,.28)!important}
-nav:not(#mob-tab-bar):not(.scrolled) .nav-burger span{background:#0e0e0e!important}
+/* ── HEADER ADAPTATIF : s'inverse selon la luminosité du fond sous le header ── */
+nav:not(#mob-tab-bar){transition:background .4s ease,backdrop-filter .4s ease}
+/* Sur fond CLAIR → encre sombre, barre transparente */
+nav:not(#mob-tab-bar).nav-on-light{background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border-bottom-color:transparent!important}
+nav.nav-on-light .nav-logo img{filter:brightness(0)!important;transition:filter .4s ease}
+nav.nav-on-light .nav-logo,
+nav.nav-on-light .nav-logo-sub,
+nav.nav-on-light .nav-logo span{color:#0e0e0e!important}
+nav.nav-on-light .nav-avail{color:#3a3935!important}
+nav.nav-on-light .nav-links a{color:#3a3935!important}
+nav.nav-on-light .lang-toggle{color:#0e0e0e!important;border-color:rgba(14,14,14,.28)!important}
+nav.nav-on-light .lang-toggle.active{background:#0e0e0e!important;border-color:#0e0e0e!important;color:#fff!important}
+nav.nav-on-light .nav-burger span{background:#0e0e0e!important}
+/* Sur fond SOMBRE → encre claire + voile dégradé léger (pas de barre franche) */
+nav:not(#mob-tab-bar).nav-on-dark{background:linear-gradient(to bottom,rgba(6,6,6,.82) 0%,rgba(6,6,6,.42) 55%,rgba(6,6,6,0) 100%)!important;-webkit-backdrop-filter:blur(6px)!important;backdrop-filter:blur(6px)!important;box-shadow:none!important;border-bottom-color:transparent!important}
+nav.nav-on-dark .nav-logo img{filter:none!important;transition:filter .4s ease}
+nav.nav-on-dark .nav-logo,
+nav.nav-on-dark .nav-logo-sub,
+nav.nav-on-dark .nav-logo span{color:var(--light)!important}
+nav.nav-on-dark .nav-avail{color:var(--muted)!important}
+nav.nav-on-dark .nav-links a{color:var(--off)!important}
+nav.nav-on-dark .lang-toggle{color:var(--off)!important;border-color:var(--border2)!important}
+nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 </style>
 <section id="hero" class="nhero">
   <div class="nh-grain" aria-hidden="true"></div>
@@ -22808,5 +22823,54 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   });
 })();
 </script>
+
+<script id="nav-adapt-js">
+(function(){
+  var nav=document.querySelector('nav:not(#mob-tab-bar)'); if(!nav) return;
+  function lum(c){
+    if(!c) return null;
+    var m=c.match(/rgba?\(([^)]+)\)/); if(!m) return null;
+    var p=m[1].split(',').map(function(v){return parseFloat(v);});
+    if(p.length>=4 && p[3]===0) return null; // transparent
+    return 0.2126*p[0]+0.7152*p[1]+0.0722*p[2];
+  }
+  function bgLum(el){
+    while(el && el!==document.documentElement){
+      var l=lum(getComputedStyle(el).backgroundColor);
+      if(l!==null) return l;
+      el=el.parentElement;
+    }
+    var b=lum(getComputedStyle(document.body).backgroundColor);
+    return b===null?0:b;
+  }
+  var isLight=true;
+  function applyLogo(){ var logo=nav.querySelector('.nav-logo img'); if(logo) logo.style.setProperty('filter', isLight?'brightness(0)':'none', 'important'); }
+  var lastY=-1, ticking=false;
+  function update(){
+    var y=(nav.offsetHeight||64)+8;
+    var cx=Math.round(window.innerWidth/2);
+    var pe=nav.style.pointerEvents; nav.style.pointerEvents='none';
+    var el=document.elementFromPoint(cx,y);
+    nav.style.pointerEvents=pe;
+    if(!el) return;
+    var L=bgLum(el);
+    isLight=L>140;
+    nav.classList.toggle('nav-on-light',isLight);
+    nav.classList.toggle('nav-on-dark',!isLight);
+    applyLogo();
+  }
+  function onScroll(){
+    if(ticking) return; ticking=true;
+    requestAnimationFrame(function(){ ticking=false; var y=window.scrollY||window.pageYOffset; if(y!==lastY){lastY=y; update();} });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',function(){lastY=-1;onScroll();},{passive:true});
+  // Lenis / smooth-scroll safety: light rAF watcher
+  (function loop(){ update(); applyLogo(); requestAnimationFrame(loop); })();
+  if(document.readyState!=='loading') update(); else document.addEventListener('DOMContentLoaded',update);
+  window.addEventListener('load',update);
+})();
+</script>
+
 </body>
 </html>
