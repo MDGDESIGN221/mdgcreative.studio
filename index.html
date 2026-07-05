@@ -1364,7 +1364,7 @@ section+section::before,
 }
 .work-card:hover .work-overlay{opacity:1}
 .cov-card:hover .work-overlay{opacity:1}
-.work-card-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:#c9a96b;transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);z-index:3}
+.work-card-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:#3DBFA3;transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);z-index:3}
 .work-card:hover .work-card-bar{transform:scaleX(1)}
 .cov-card:hover .work-card-bar{transform:scaleX(1)}
 
@@ -1393,8 +1393,8 @@ section+section::before,
 .work-card-ba:hover .work-meta{opacity:0;transform:translateY(8px)}
 /* Crédit discret en haut, sans fond ni dégradé, juste lisible via text-shadow */
 .ba-credit{position:absolute;top:.92rem;left:50%;transform:translateX(-50%);z-index:5;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.55);pointer-events:none;white-space:nowrap}
-.work-cat{font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#c9a96b;display:flex;align-items:center;gap:.55rem}
-.work-cat::before{content:'';width:18px;height:1px;background:#c9a96b;opacity:.85}
+.work-cat{font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#3DBFA3;display:flex;align-items:center;gap:.55rem}
+.work-cat::before{content:'';width:18px;height:1px;background:#3DBFA3;opacity:.85}
 .work-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.96rem;letter-spacing:-.01em;color:#f5f2ec;line-height:1.16;display:flex;flex-direction:column;gap:.12rem}
 .work-title em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:#b9b4ac;font-size:.8em;display:block;letter-spacing:0;margin-top:.18rem}
 /* PEAUFINAGE : sur desktop (pointeur), le titre est masqué au repos et se déploie au survol. Le mobile (hover:none) garde le titre en caption. */
@@ -11990,30 +11990,30 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 .faqm-item.open .faqm-sign::after{content:'\2013'}
 /* ── TYPO MOBILE : corrections tailles sur tous les blocs mob ── */
 
-/* FAQ mob — questions h3 (1.5rem inline → 1rem) */
+/* FAQ mob, questions h3 (1.5rem inline → 1rem) */
 .faq-mob .faqm-item h3{font-size:1rem!important;line-height:1.3!important}
 .faq-mob .faqm-sign{font-size:1rem!important}
 .faq-mob .faqm-a p{font-size:.8rem!important}
 /* Titre section "Questions fréquentes" (1.85rem → 1.45rem) */
 .faq-mob h2{font-size:1.45rem!important}
 
-/* Hero mob — titres cartes "Cover Art", "In Motion" (clamp 1.8rem → 1.35rem) */
+/* Hero mob, titres cartes "Cover Art", "In Motion" (clamp 1.8rem → 1.35rem) */
 .hero-mob h2{font-size:1.35rem!important;line-height:1.1!important}
 
-/* Services mob — titre section (1.85rem → 1.45rem) et titres services (1.32rem → 1.05rem) */
+/* Services mob, titre section (1.85rem → 1.45rem) et titres services (1.32rem → 1.05rem) */
 .services-mob>div>h2{font-size:1.45rem!important;line-height:1.05!important}
 .services-mob .svc-title{font-size:1.05rem!important}
 
-/* SP mob — blockquote témoignage (1.5rem → 1.1rem) */
+/* SP mob, blockquote témoignage (1.5rem → 1.1rem) */
 .sp-mob blockquote{font-size:1.1rem!important;line-height:1.4!important}
 
-/* About mob — h2 citation "L'exigence grandit..." (clamp 2.2rem → 1.55rem fixe) */
+/* About mob, h2 citation "L'exigence grandit..." (clamp 2.2rem → 1.55rem fixe) */
 .about-mob h2[style*="clamp(2.2rem"]{font-size:1.55rem!important;line-height:1.15!important}
 
-/* SP mob — "Témoignages" (1.9rem → 1.5rem + white-space:nowrap pour éviter le wrap du "s") */
+/* SP mob, "Témoignages" (1.9rem → 1.5rem + white-space:nowrap pour éviter le wrap du "s") */
 .sp-mob h2{font-size:1.5rem!important;white-space:nowrap}
 
-/* Pricing mob — nom pack (2rem → 1.5rem) et prix (2.3rem → 1.8rem) */
+/* Pricing mob, nom pack (2rem → 1.5rem) et prix (2.3rem → 1.8rem) */
 .pd-card-name{font-size:1.5rem!important}
 .pd-card-amt{font-size:1.8rem!important}
 
@@ -12236,7 +12236,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
 
 /* ── Tab bar mobile ── */
 #mob-tab-bar{
-  /* Ancrage fixe renforcé — url(#lg-distort) dans backdrop-filter crée un
+  /* Ancrage fixe renforcé, url(#lg-distort) dans backdrop-filter crée un
      contexte de filtre qui décroche l'élément de son ancrage viewport sur
      Chrome Android et Safari iOS. On l'enlève ici, on garde juste le blur. */
   position:fixed!important;
@@ -12676,8 +12676,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           </picture>
           <span class="nh-tag">Creative Director</span>
         </div>
-        <p class="nh-lede">Direction artistique musicale, cover art et identit&eacute;s qui placent chaque sortie au niveau du son.</p>
-        <p class="nh-lede-m">Cover art &amp; direction artistique musicale. 7 ans, 50 artistes, 9 pays.</p>
+        <p class="nh-lede">Design &amp; direction artistique pour marques et artistes : identit&eacute;, cover art, web, motion, print.</p>
+        <p class="nh-lede-m">Design &amp; direction artistique. 7 ans, 50 artistes et marques, 9 pays.</p>
         <div class="nh-actions">
           <a class="nh-btn nh-btn--p" href="atelier.html" id="doorBrands">Pour les marques <i>&rarr;</i></a>
           <a class="nh-btn nh-btn--s" href="#passerelle" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('passerelle');else document.getElementById('passerelle')?.scrollIntoView({behavior:'smooth'})">Pour les artistes <i>&rarr;</i></a>
@@ -12700,9 +12700,9 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 <section id="passerelle" class="passerelle">
   <div class="pass-wrap">
     <div class="pass-intro">
-      <div class="pass-eyebrow" data-i18n="pass_eyebrow">MDG Creative &middot; Direction artistique musicale</div>
-      <h2 class="pass-title">Je donne une image <em>&agrave; la musique.</em></h2>
-      <p class="pass-lede" data-i18n="pass_lede">7 ans d'exigence, 50 artistes accompagn&eacute;s, 9 pays. Cover art, univers de sortie, affiches, identit&eacute; d'artiste, chaque sortie m&eacute;rite une image &agrave; la hauteur du son.</p>
+      <div class="pass-eyebrow" data-i18n="pass_eyebrow">MDG Creative &middot; Design &amp; direction artistique</div>
+      <h2 class="pass-title">Je con&ccedil;ois l'image <em>des marques et des artistes.</em></h2>
+      <p class="pass-lede" data-i18n="pass_lede">7 ans d'exigence, 50 artistes et marques, 9 pays. Identit&eacute;, cover art, web, motion, print&nbsp;: je con&ccedil;ois l'image, sous toutes ses formes.</p>
       <a class="pass-cta" href="#portfolio-accordion" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})" style="display:inline-flex;align-items:center;gap:9px;margin-top:30px;padding:15px 28px;border-radius:100px;background:linear-gradient(180deg,#4fd6b8,#37b39a);font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.04em;color:#06140f;text-decoration:none;box-shadow:0 10px 26px -8px rgba(61,191,163,.5)"><span data-i18n="pp_artists_go">Voir mes r&eacute;alisations</span> <span class="pp-arr">&rarr;</span></a>
     </div>
     <div class="pass-film" aria-hidden="true">
@@ -13373,7 +13373,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   </style>
   <div class="stg-wrap">
     <div class="stg-mast">
-      <span class="l">MDG — Références</span>
+      <span class="l">MDG · Références</span>
       <span class="r">Témoignages publics</span>
     </div>
 
@@ -13542,31 +13542,31 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 #services details[open] .expo-tog{transform:rotate(45deg)}
 #services .expo-tog{display:inline-block;transition:transform .35s;line-height:1}
 #services .exp-card,#services .exp-row{transition:background .45s}
-@media(hover:hover){#services .exp-card:hover{background:rgba(201,169,107,.05)}#services .exp-row:hover{background:rgba(201,169,107,.04)}}
+@media(hover:hover){#services .exp-card:hover{background:rgba(61,191,163,.05)}#services .exp-row:hover{background:rgba(61,191,163,.04)}}
 #services .container .svc-h2{font-size:clamp(2.2rem,3.6vw,3.4rem)!important;line-height:1.02!important}
-#services .container .svc-h2 em{font-size:clamp(1.5rem,2.4vw,2.1rem)!important;color:#d9bd83!important;display:block;font-style:italic;letter-spacing:0}
+#services .container .svc-h2 em{font-size:clamp(1.5rem,2.4vw,2.1rem)!important;color:#3DBFA3!important;display:block;font-style:italic;letter-spacing:0}
 </style>
   <div class="services-mob" style="opacity:1!important;visibility:visible!important;transform:none!important;background:#060606">
     <div style="padding:52px 22px 60px">
       <div style="max-width:520px;margin:0 auto">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px"><span style="width:26px;height:1px;background:#c9a96b"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.28em;color:#c9a96b">EXPERTISES</span></div>
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;line-height:1.04;letter-spacing:-.03em;color:#f5f2ec;margin:0 0 14px">Ce que je fais,<em style="font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:#d9bd83;display:block;font-size:1.7rem;margin-top:.1em">de A jusqu’au bout.</em></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px"><span style="width:26px;height:1px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.28em;color:#3DBFA3">EXPERTISES</span></div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;line-height:1.04;letter-spacing:-.03em;color:#f5f2ec;margin:0 0 14px">Ce que je fais,<em style="font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:#3DBFA3;display:block;font-size:1.7rem;margin-top:.1em">de A jusqu’au bout.</em></div>
         <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.86rem;line-height:1.65;color:#8f8b84;margin:0 0 40px">Trois disciplines maîtresses, quatre savoir-faire. Une seule main dirige l’ensemble.</p>
         <div style="border-top:1px solid rgba(255,255,255,.1)">
           <div style="padding:30px 2px;border-bottom:1px solid rgba(255,255,255,.1)">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:2.6rem;line-height:.8;color:#d9bd83">01</span><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,107,.4);display:inline-flex;align-items:center;justify-content:center;color:#d9bd83"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:2.6rem;line-height:.8;color:#3DBFA3">01</span><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(61,191,163,.4);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span></div>
       <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.24rem;line-height:1.14;letter-spacing:-.02em;color:#f0ede8;margin:0 0 10px">Direction Artistique Musicale</div>
       <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.86rem;line-height:1.65;color:#8f8b84;margin:0 0 14px">L’image qui prolonge le son, pensée avant le premier play.</p>
       <div style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.05em;color:#6f6b64;text-transform:uppercase">Cover Art · EP / Album · Press Kit</div>
     </div>
           <div style="padding:30px 2px;border-bottom:1px solid rgba(255,255,255,.1)">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:2.6rem;line-height:.8;color:#d9bd83">02</span><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,107,.4);display:inline-flex;align-items:center;justify-content:center;color:#d9bd83"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:2.6rem;line-height:.8;color:#3DBFA3">02</span><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(61,191,163,.4);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
       <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.24rem;line-height:1.14;letter-spacing:-.02em;color:#f0ede8;margin:0 0 10px">Identité d’Artiste</div>
       <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.86rem;line-height:1.65;color:#8f8b84;margin:0 0 14px">Le nom, l’univers, la signature qui vous distingue.</p>
       <div style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.05em;color:#6f6b64;text-transform:uppercase">Logo · Charte · Déclinaisons</div>
     </div>
           <div style="padding:30px 2px;border-bottom:1px solid rgba(255,255,255,.1)">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:2.6rem;line-height:.8;color:#d9bd83">03</span><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,169,107,.4);display:inline-flex;align-items:center;justify-content:center;color:#d9bd83"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:2.6rem;line-height:.8;color:#3DBFA3">03</span><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(61,191,163,.4);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span></div>
       <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.24rem;line-height:1.14;letter-spacing:-.02em;color:#f0ede8;margin:0 0 10px">Motion Design</div>
       <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.86rem;line-height:1.65;color:#8f8b84;margin:0 0 14px">Le mouvement qui retient l’œil quand tout défile.</p>
       <div style="font-family:'Inter',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.05em;color:#6f6b64;text-transform:uppercase">Animation · Logo Reveal · Reels</div>
@@ -13574,10 +13574,10 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
         </div>
         <div style="margin-top:34px">
           <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.26em;color:#6f6b64;margin-bottom:2px">ÉGALEMENT</div>
-          <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:12px;padding:18px 2px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#8a857d">04</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#e9e5df;flex:1">Design Éditorial &amp; Print</span><span class="expo-tog" style="font-size:1.2rem;color:#c9a96b">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.83rem;line-height:1.65;color:#8f8b84;margin:0 0 18px">Affiches, programmes, livrets — des supports qui ont du caractère.</p></div></details>
-          <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:12px;padding:18px 2px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#8a857d">05</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#e9e5df;flex:1">Contenu Social Media</span><span class="expo-tog" style="font-size:1.2rem;color:#c9a96b">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.83rem;line-height:1.65;color:#8f8b84;margin:0 0 18px">Templates et visuels qui gardent une ligne forte partout.</p></div></details>
-          <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:12px;padding:18px 2px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#8a857d">06</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#e9e5df;flex:1">Merchandising</span><span class="expo-tog" style="font-size:1.2rem;color:#c9a96b">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.83rem;line-height:1.65;color:#8f8b84;margin:0 0 18px">Textile et goodies qui ont de la gueule, jusqu’au fichier prod.</p></div></details>
-          <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:12px;padding:18px 2px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#8a857d">07</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#e9e5df;flex:1">Scénographie &amp; Événementiel</span><span class="expo-tog" style="font-size:1.2rem;color:#c9a96b">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.83rem;line-height:1.65;color:#8f8b84;margin:0 0 18px">Habillage de scène, signalétique, stands — une vraie expérience.</p></div></details>
+          <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:12px;padding:18px 2px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#8a857d">04</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#e9e5df;flex:1">Design Éditorial &amp; Print</span><span class="expo-tog" style="font-size:1.2rem;color:#3DBFA3">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.83rem;line-height:1.65;color:#8f8b84;margin:0 0 18px">Affiches, programmes, livrets, des supports qui ont du caractère.</p></div></details>
+          <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:12px;padding:18px 2px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#8a857d">05</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#e9e5df;flex:1">Contenu Social Media</span><span class="expo-tog" style="font-size:1.2rem;color:#3DBFA3">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.83rem;line-height:1.65;color:#8f8b84;margin:0 0 18px">Templates et visuels qui gardent une ligne forte partout.</p></div></details>
+          <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:12px;padding:18px 2px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#8a857d">06</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#e9e5df;flex:1">Merchandising</span><span class="expo-tog" style="font-size:1.2rem;color:#3DBFA3">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.83rem;line-height:1.65;color:#8f8b84;margin:0 0 18px">Textile et goodies qui ont de la gueule, jusqu’au fichier prod.</p></div></details>
+          <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:12px;padding:18px 2px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#8a857d">07</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#e9e5df;flex:1">Scénographie &amp; Événementiel</span><span class="expo-tog" style="font-size:1.2rem;color:#3DBFA3">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.83rem;line-height:1.65;color:#8f8b84;margin:0 0 18px">Habillage de scène, signalétique, stands, une vraie expérience.</p></div></details>
         </div>
       </div>
     </div>
@@ -13585,38 +13585,38 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   <div class="container">
     <div style="width:100%;box-sizing:border-box;background:#0a0a0a;color:#f0ede8;padding:clamp(52px,6vw,96px) clamp(30px,5vw,84px);border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden">
       <div style="position:absolute;top:44px;right:64px;font-family:'DM Serif Display',serif;font-style:italic;font-size:9rem;line-height:1;color:rgba(255,255,255,.03);pointer-events:none;user-select:none">04</div>
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px"><span style="width:34px;height:1px;background:#c9a96b"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.32em;color:#c9a96b">EXPERTISES</span></div>
-      <h2 class="svc-h2" style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.2rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.03em;color:#f5f2ec;margin:0 0 22px">Ce que je fais,<em style="color:#d9bd83;font-size:clamp(1.5rem,2.4vw,2.1rem)">de A jusqu’au bout.</em></h2>
-      <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:1rem;line-height:1.75;color:#8f8b84;max-width:52ch;margin:0 0 clamp(48px,6vw,72px)">Trois disciplines maîtresses, quatre savoir-faire complémentaires. Du logo à la scène, une seule main dirige l’ensemble — pour que rien ne dépareille.</p>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px"><span style="width:34px;height:1px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.32em;color:#3DBFA3">EXPERTISES</span></div>
+      <h2 class="svc-h2" style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.2rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.03em;color:#f5f2ec;margin:0 0 22px">Ce que je fais,<em style="color:#3DBFA3;font-size:clamp(1.5rem,2.4vw,2.1rem)">de A jusqu’au bout.</em></h2>
+      <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:1rem;line-height:1.75;color:#8f8b84;max-width:52ch;margin:0 0 clamp(48px,6vw,72px)">Trois disciplines maîtresses, quatre savoir-faire complémentaires. Du logo à la scène, une seule main dirige l’ensemble, pour que rien ne dépareille.</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.1)">
         <div class="exp-card" style="padding:42px 32px 38px;border-bottom:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.1);">
-    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:3rem;line-height:.8;color:#d9bd83">01</span><span style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(201,169,107,.4);display:inline-flex;align-items:center;justify-content:center;color:#d9bd83"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span></div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:3rem;line-height:.8;color:#3DBFA3">01</span><span style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(61,191,163,.4);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span></div>
     <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;line-height:1.14;letter-spacing:-.02em;color:#f0ede8;margin:0 0 13px">Direction Artistique Musicale</h3>
     <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.89rem;line-height:1.7;color:#8f8b84;margin:0 0 22px">L’image qui prolonge le son. Un univers visuel complet, pensé avant le premier <em style="font-style:italic;color:#b9b4ac">play</em>.</p>
     <div style="font-family:'Inter',sans-serif;font-size:.71rem;font-weight:500;letter-spacing:.06em;color:#6f6b64;text-transform:uppercase;margin-bottom:20px">Cover Art · EP / Album · Press Kit</div>
-    <details><summary style="display:flex;align-items:center;gap:10px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;color:#d9bd83">Détails</span><span class="expo-tog" style="font-weight:400;font-size:1.1rem;color:#c9a96b">+</span></summary><div style="padding-top:16px"><ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Direction artistique de sortie</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Cover art &amp; déclinaisons plateformes</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Press kit &amp; dossier de presse</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Moodboard &amp; direction photo</li></ul></div></details>
+    <details><summary style="display:flex;align-items:center;gap:10px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;color:#3DBFA3">Détails</span><span class="expo-tog" style="font-weight:400;font-size:1.1rem;color:#3DBFA3">+</span></summary><div style="padding-top:16px"><ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Direction artistique de sortie</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Cover art &amp; déclinaisons plateformes</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Press kit &amp; dossier de presse</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Moodboard &amp; direction photo</li></ul></div></details>
   </div>
         <div class="exp-card" style="padding:42px 32px 38px;border-bottom:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.1);">
-    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:3rem;line-height:.8;color:#d9bd83">02</span><span style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(201,169,107,.4);display:inline-flex;align-items:center;justify-content:center;color:#d9bd83"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:3rem;line-height:.8;color:#3DBFA3">02</span><span style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(61,191,163,.4);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
     <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;line-height:1.14;letter-spacing:-.02em;color:#f0ede8;margin:0 0 13px">Identité d’Artiste</h3>
     <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.89rem;line-height:1.7;color:#8f8b84;margin:0 0 22px">Un nom, une signature. L’identité qui vous rend reconnaissable d’une sortie à l’autre.</p>
     <div style="font-family:'Inter',sans-serif;font-size:.71rem;font-weight:500;letter-spacing:.06em;color:#6f6b64;text-transform:uppercase;margin-bottom:20px">Logo · Charte · Déclinaisons</div>
-    <details><summary style="display:flex;align-items:center;gap:10px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;color:#d9bd83">Détails</span><span class="expo-tog" style="font-weight:400;font-size:1.1rem;color:#c9a96b">+</span></summary><div style="padding-top:16px"><ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Logotype &amp; symbole</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Charte graphique complète</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Palette &amp; système typographique</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Kit de déclinaisons print &amp; digital</li></ul></div></details>
+    <details><summary style="display:flex;align-items:center;gap:10px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;color:#3DBFA3">Détails</span><span class="expo-tog" style="font-weight:400;font-size:1.1rem;color:#3DBFA3">+</span></summary><div style="padding-top:16px"><ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Logotype &amp; symbole</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Charte graphique complète</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Palette &amp; système typographique</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Kit de déclinaisons print &amp; digital</li></ul></div></details>
   </div>
         <div class="exp-card" style="padding:42px 32px 38px;border-bottom:1px solid rgba(255,255,255,.1);">
-    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:3rem;line-height:.8;color:#d9bd83">03</span><span style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(201,169,107,.4);display:inline-flex;align-items:center;justify-content:center;color:#d9bd83"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span></div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:3rem;line-height:.8;color:#3DBFA3">03</span><span style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(61,191,163,.4);display:inline-flex;align-items:center;justify-content:center;color:#3DBFA3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><polygon points="10 9 15 12 10 15 10 9"/></svg></span></div>
     <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;line-height:1.14;letter-spacing:-.02em;color:#f0ede8;margin:0 0 13px">Motion Design</h3>
     <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.89rem;line-height:1.7;color:#8f8b84;margin:0 0 22px">Le mouvement retient l’œil quand tout défile. Logos animés, reels, transitions.</p>
     <div style="font-family:'Inter',sans-serif;font-size:.71rem;font-weight:500;letter-spacing:.06em;color:#6f6b64;text-transform:uppercase;margin-bottom:20px">Animation · Logo Reveal · Reels</div>
-    <details><summary style="display:flex;align-items:center;gap:10px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;color:#d9bd83">Détails</span><span class="expo-tog" style="font-weight:400;font-size:1.1rem;color:#c9a96b">+</span></summary><div style="padding-top:16px"><ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Logo animé &amp; habillage</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Reels &amp; formats verticaux</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Transitions &amp; générique</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#c9a96b">—</span>Teaser de sortie</li></ul></div></details>
+    <details><summary style="display:flex;align-items:center;gap:10px"><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;color:#3DBFA3">Détails</span><span class="expo-tog" style="font-weight:400;font-size:1.1rem;color:#3DBFA3">+</span></summary><div style="padding-top:16px"><ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Logo animé &amp; habillage</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Reels &amp; formats verticaux</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Transitions &amp; générique</li><li style="font-family:'Inter',sans-serif;font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#3DBFA3">—</span>Teaser de sortie</li></ul></div></details>
   </div>
       </div>
       <div style="margin-top:56px">
         <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.28em;color:#6f6b64;margin-bottom:4px">ÉGALEMENT AU CATALOGUE</div>
-        <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:22px;padding:24px 4px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:#8a857d;width:34px">04</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.22rem;letter-spacing:-.01em;color:#e9e5df;flex:1">Design Éditorial &amp; Print</span><span style="font-family:'Inter',sans-serif;font-size:.73rem;color:#6f6b64">Affiche · Flyer · Prépresse</span><span class="expo-tog" style="font-size:1.35rem;color:#c9a96b">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:#8f8b84;margin:0 0 24px;padding-left:56px;max-width:70ch">Ce qui se touche marque autrement. Affiches, programmes, livrets — des supports imprimés qui ont du caractère et tiennent à l’impression.</p></div></details>
-        <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:22px;padding:24px 4px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:#8a857d;width:34px">05</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.22rem;letter-spacing:-.01em;color:#e9e5df;flex:1">Contenu Social Media</span><span style="font-family:'Inter',sans-serif;font-size:.73rem;color:#6f6b64">Templates · Carrousel</span><span class="expo-tog" style="font-size:1.35rem;color:#c9a96b">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:#8f8b84;margin:0 0 24px;padding-left:56px;max-width:70ch">Une présence cohérente ne s’improvise pas. Templates et visuels qui gardent une ligne forte sur tous vos canaux — chaque post vous ressemble.</p></div></details>
-        <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:22px;padding:24px 4px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:#8a857d;width:34px">06</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.22rem;letter-spacing:-.01em;color:#e9e5df;flex:1">Merchandising</span><span style="font-family:'Inter',sans-serif;font-size:.73rem;color:#6f6b64">Textile · Goodies</span><span class="expo-tog" style="font-size:1.35rem;color:#c9a96b">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:#8f8b84;margin:0 0 24px;padding-left:56px;max-width:70ch">Votre identité, portée par vos fans. Des visuels textile et goodies qui ont de la gueule, du concept au fichier prêt pour la production.</p></div></details>
-        <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:22px;padding:24px 4px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:#8a857d;width:34px">07</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.22rem;letter-spacing:-.01em;color:#e9e5df;flex:1">Scénographie &amp; Événementiel</span><span style="font-family:'Inter',sans-serif;font-size:.73rem;color:#6f6b64">Scène · Stand · Festival</span><span class="expo-tog" style="font-size:1.35rem;color:#c9a96b">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:#8f8b84;margin:0 0 24px;padding-left:56px;max-width:70ch">L’identité qui prend l’espace. Habillage de scène, signalétique et stands — pour transformer un événement en véritable expérience.</p></div></details>
+        <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:22px;padding:24px 4px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:#8a857d;width:34px">04</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.22rem;letter-spacing:-.01em;color:#e9e5df;flex:1">Design Éditorial &amp; Print</span><span style="font-family:'Inter',sans-serif;font-size:.73rem;color:#6f6b64">Affiche · Flyer · Prépresse</span><span class="expo-tog" style="font-size:1.35rem;color:#3DBFA3">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:#8f8b84;margin:0 0 24px;padding-left:56px;max-width:70ch">Ce qui se touche marque autrement. Affiches, programmes, livrets, des supports imprimés qui ont du caractère et tiennent à l’impression.</p></div></details>
+        <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:22px;padding:24px 4px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:#8a857d;width:34px">05</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.22rem;letter-spacing:-.01em;color:#e9e5df;flex:1">Contenu Social Media</span><span style="font-family:'Inter',sans-serif;font-size:.73rem;color:#6f6b64">Templates · Carrousel</span><span class="expo-tog" style="font-size:1.35rem;color:#3DBFA3">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:#8f8b84;margin:0 0 24px;padding-left:56px;max-width:70ch">Une présence cohérente ne s’improvise pas. Templates et visuels qui gardent une ligne forte sur tous vos canaux, chaque post vous ressemble.</p></div></details>
+        <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:22px;padding:24px 4px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:#8a857d;width:34px">06</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.22rem;letter-spacing:-.01em;color:#e9e5df;flex:1">Merchandising</span><span style="font-family:'Inter',sans-serif;font-size:.73rem;color:#6f6b64">Textile · Goodies</span><span class="expo-tog" style="font-size:1.35rem;color:#3DBFA3">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:#8f8b84;margin:0 0 24px;padding-left:56px;max-width:70ch">Votre identité, portée par vos fans. Des visuels textile et goodies qui ont de la gueule, du concept au fichier prêt pour la production.</p></div></details>
+        <details class="exp-row" style="border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);"><summary style="display:flex;align-items:center;gap:22px;padding:24px 4px"><span style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.15rem;color:#8a857d;width:34px">07</span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.22rem;letter-spacing:-.01em;color:#e9e5df;flex:1">Scénographie &amp; Événementiel</span><span style="font-family:'Inter',sans-serif;font-size:.73rem;color:#6f6b64">Scène · Stand · Festival</span><span class="expo-tog" style="font-size:1.35rem;color:#3DBFA3">+</span></summary><div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.9rem;line-height:1.75;color:#8f8b84;margin:0 0 24px;padding-left:56px;max-width:70ch">L’identité qui prend l’espace. Habillage de scène, signalétique et stands, pour transformer un événement en véritable expérience.</p></div></details>
       </div>
     </div>
   </div>
@@ -13735,7 +13735,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 <section id="process" class="wm-section" data-wm="PROCESS" style="background:#efe9db;color:#1c1a17;border-top:1px solid rgba(0,0,0,.08)">
   <div class="process-mob" style="background:#efe9db!important">
     <div style="padding:46px 26px 52px">
-      <div class="mono-jb" style="font-size:.66rem;letter-spacing:.22em;color:#2b9a82;margin-bottom:14px">— MÉTHODOLOGIE</div>
+      <div class="mono-jb" style="font-size:.66rem;letter-spacing:.22em;color:#2b9a82;margin-bottom:14px">MÉTHODOLOGIE</div>
       <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;line-height:1;letter-spacing:-.03em;color:#1c1a17;margin:0 0 26px;border-bottom:2px solid #1c1a17;padding-bottom:22px">Comment je travaille,<em class="serif-dm" style="display:block;font-style:italic;font-weight:400;font-size:1.55rem;color:#3DBFA3;margin-top:.1em">chapitre par chapitre.</em></h2>
       <div>
         <div style="padding:22px 0;border-bottom:1px solid rgba(28,26,23,.16)"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="serif-dm" style="font-size:2.4rem;line-height:.8;color:#3DBFA3">01</span><h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Brief &amp; Échange</h3></div><p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">Univers, références, contraintes. Cadrés avant le démarrage.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#2b9a82">ACOMPTE 50% AVANT DÉMARRAGE</div></div>
@@ -13755,10 +13755,10 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
     <div style="max-width:1180px;margin:0 auto">
       <div style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:48px;margin-bottom:56px;border-bottom:2px solid #1c1a17;padding-bottom:34px">
         <div>
-          <div class="mono-jb" style="font-size:.72rem;letter-spacing:.24em;color:#2b9a82;margin-bottom:22px">— MÉTHODOLOGIE</div>
+          <div class="mono-jb" style="font-size:.72rem;letter-spacing:.24em;color:#2b9a82;margin-bottom:22px">MÉTHODOLOGIE</div>
           <h2 class="proc-title" style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.4rem,3.6vw,3.5rem);line-height:.98;letter-spacing:-.03em;color:#1c1a17;margin:0">Comment je travaille,<br><em class="serif-dm" style="font-style:italic;font-weight:400;color:#3DBFA3">chapitre par chapitre.</em></h2>
         </div>
-        <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.98rem;line-height:1.7;color:#615b50;max-width:32ch;margin:0">De la première conversation à la livraison — un engagement clair à chaque étape, jamais de surprise sur la facture.</p>
+        <p style="font-family:'Inter',sans-serif;font-weight:300;font-size:.98rem;line-height:1.7;color:#615b50;max-width:32ch;margin:0">De la première conversation à la livraison. Un engagement clair à chaque étape, jamais de surprise sur la facture.</p>
       </div>
       <div>
         <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:1px solid rgba(28,26,23,.16)">
@@ -13811,14 +13811,14 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   <div class="pricing-mob">
 
     <div style="padding:32px 26px 0;text-align:center">
-      <div style="display:inline-flex;align-items:center;gap:10px"><span style="width:22px;height:1.5px;background:#c9a96b"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;color:#c9a96b">INVESTISSEMENT</span><span style="width:22px;height:1.5px;background:#c9a96b"></span></div>
-      <h2 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.9rem;color:#f0ede8;margin-top:14px;letter-spacing:-.02em">Tu sors <em style="font-family:'DM Serif Display',serif;font-weight:400;font-style:italic;color:#c9a96b">quoi ?</em></h2>
+      <div style="display:inline-flex;align-items:center;gap:10px"><span style="width:22px;height:1.5px;background:#3DBFA3"></span><span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.22em;color:#3DBFA3">INVESTISSEMENT</span><span style="width:22px;height:1.5px;background:#3DBFA3"></span></div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.9rem;color:#f0ede8;margin-top:14px;letter-spacing:-.02em">Tu sors <em style="font-family:'DM Serif Display',serif;font-weight:400;font-style:italic;color:#3DBFA3">quoi ?</em></h2>
       <p style="font:400 .8rem Inter,sans-serif;color:#8a8780;margin-top:10px">On te montre le pack adapté. Le reste sur devis.</p>
       <div style="display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:8px 14px;border:1px solid rgba(255,255,255,.1);border-radius:100px;font:400 .68rem Inter,sans-serif;color:#a9a59f;line-height:1.4;text-align:left">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c9a96b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3DBFA3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
         <span>Covers, affiches &amp; vidéos uniquement. Les autres domaines sont sur devis.</span>
       </div>
-      <p style="display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;color:#c9a96b;line-height:1.45;margin:14px auto 0;max-width:300px;text-align:center"><span style="width:6px;height:6px;border-radius:50%;background:#c9a96b;box-shadow:0 0 8px rgba(201,169,107,.7);flex-shrink:0"></span>Agenda limité. Peu de projets en parallèle, pour garder le niveau sur chacun.</p>
+      <p style="display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;color:#3DBFA3;line-height:1.45;margin:14px auto 0;max-width:300px;text-align:center"><span style="width:6px;height:6px;border-radius:50%;background:#3DBFA3;box-shadow:0 0 8px rgba(61,191,163,.7);flex-shrink:0"></span>Agenda limité. Peu de projets en parallèle, pour garder le niveau sur chacun.</p>
     </div>
 
     <div id="pmFormatBar" style="position:sticky;top:0;z-index:6;background:#060606;padding:16px 26px 14px;margin-top:20px;border-bottom:1px solid rgba(255,255,255,.08)">
@@ -13861,30 +13861,30 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
     #pricing > .container, #pricing > .sec-num{display:none !important}
     .pricing-desk{display:block;max-width:1200px;margin:0 auto;padding:1rem 3rem 2rem;position:relative;z-index:2}
   }
-  .pd-eyebrow{display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.28em;color:#c9a96b}
-  .pd-eyebrow span{width:26px;height:1px;background:#c9a96b}
+  .pd-eyebrow{display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.28em;color:#3DBFA3}
+  .pd-eyebrow span{width:26px;height:1px;background:#3DBFA3}
   .pd-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.6rem,4vw,3.6rem);color:#f5f2ec;text-align:center;margin-top:1.1rem;letter-spacing:-.03em;line-height:1}
-  .pd-title em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:#c9a96b}
+  .pd-title em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:#3DBFA3}
   .pd-sub{text-align:center;color:#8f8b84;font-size:1rem;margin-top:.85rem;font-weight:300}
   .pd-scope{display:inline-flex;align-items:center;gap:.55rem;margin:1.4rem auto 0;padding:.6rem 1.1rem;border:1px solid rgba(255,255,255,.1);border-radius:100px;font-size:.76rem;color:#8f8b84;font-weight:300}
-  .pd-scope svg{stroke:#c9a96b;flex-shrink:0}
+  .pd-scope svg{stroke:#3DBFA3;flex-shrink:0}
   .pd-scope-wrap{text-align:center}
-  .pd-scarcity{color:#c9a96b !important}
-  .pd-scarcity span{background:#c9a96b !important;box-shadow:0 0 9px rgba(201,169,107,.6) !important}
+  .pd-scarcity{color:#3DBFA3 !important}
+  .pd-scarcity span{background:#3DBFA3 !important;box-shadow:0 0 9px rgba(61,191,163,.6) !important}
   .pd-format-bar{display:flex;align-items:center;justify-content:center;gap:1.4rem;margin:2.75rem 0 0;flex-wrap:wrap}
   .pd-format-lead{font:600 .62rem 'Inter',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8f8b84}
   .pd-format-grid{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:center}
   .pd-fbtn{padding:.85rem 1.7rem;border-radius:100px;font-family:'Syne',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;transition:background .2s,color .2s,border-color .2s;white-space:nowrap;background:transparent;color:#8f8b84;border:1px solid rgba(255,255,255,.18)}
-  .pd-fbtn:hover{border-color:rgba(201,169,107,.5);color:#f0ede8}
-  .pd-fbtn.active{background:#c9a96b;color:#0a0a0a;border-color:#c9a96b}
+  .pd-fbtn:hover{border-color:rgba(61,191,163,.5);color:#f0ede8}
+  .pd-fbtn.active{background:#3DBFA3;color:#0a0a0a;border-color:#3DBFA3}
   .pd-packs{display:flex;justify-content:center;align-items:stretch;gap:1.6rem;flex-wrap:wrap;margin-top:2.75rem}
   .pd-card{border-radius:4px;padding:40px 34px;position:relative;flex:0 1 400px;max-width:440px;display:flex;flex-direction:column}
   .pd-card.solo{flex:0 1 620px;max-width:640px}
   .pd-card-base{background:#0d0d0d;border:1px solid rgba(255,255,255,.1)}
   .pd-card-feat{background:#f0ede8;border:1px solid #f0ede8;color:#141210}
-  .pd-card-badge{position:absolute;top:-13px;left:34px;background:#c9a96b;color:#0a0a0a;font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:6px 14px;border-radius:100px}
+  .pd-card-badge{position:absolute;top:-13px;left:34px;background:#3DBFA3;color:#0a0a0a;font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:6px 14px;border-radius:100px}
   .pd-card-tier{font-family:'Syne',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#7a766e}
-  .pd-card-feat .pd-card-tier{color:#8a7a52}
+  .pd-card-feat .pd-card-tier{color:#3e7d70}
   .pd-card-name{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;margin-top:.4rem;letter-spacing:-.02em;line-height:1}
   .pd-card-for{font:400 .82rem 'Inter',sans-serif;color:#8f8b84;margin-top:.5rem}
   .pd-card-feat .pd-card-for{color:#6b6252}
@@ -13892,17 +13892,17 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   .pd-card-amt{font-family:'DM Serif Display',serif;font-size:3rem;color:#f0ede8;line-height:.9;letter-spacing:-.01em}
   .pd-card-feat .pd-card-amt{color:#141210}
   .pd-card-xof{font:500 .8rem 'Inter',sans-serif;color:#7a766e;letter-spacing:.04em}
-  .pd-card-feat .pd-card-xof{color:#8a7a52}
+  .pd-card-feat .pd-card-xof{color:#3e7d70}
   .pd-card-usd{font:400 .8rem 'Inter',sans-serif;color:#6f6b64;margin-left:auto;align-self:flex-end}
   .pd-card-feat .pd-card-usd{color:#6b6252}
   .pd-card-div{height:1px;background:rgba(255,255,255,.1);margin:1.7rem 0}
   .pd-card-feat .pd-card-div{background:rgba(20,18,16,.15)}
   .pd-card-feats{list-style:none;display:flex;flex-direction:column;gap:1rem;margin:0;padding:0}
   .pd-card-feats li{display:flex;gap:.7rem;font:400 .9rem/1.5 'Inter',sans-serif;color:#c4bfb8}
-  .pd-card-feats li svg{stroke:#c9a96b;flex-shrink:0;margin-top:3px}
+  .pd-card-feats li svg{stroke:#3DBFA3;flex-shrink:0;margin-top:3px}
   .pd-card-feats strong{color:#f0ede8;font-weight:600}
   .pd-card-feat .pd-card-feats li{color:#3a352c}
-  .pd-card-feat .pd-card-feats li svg{stroke:#a08a4e}
+  .pd-card-feat .pd-card-feats li svg{stroke:#1f8a73}
   .pd-card-feat .pd-card-feats strong{color:#141210}
   .pd-card-cta{margin-top:auto;padding-top:1.9rem}
   .pd-card-cta a{display:block;text-align:center;text-decoration:none;padding:1rem;border-radius:2px;font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;letter-spacing:.02em;transition:transform .2s,box-shadow .2s,background .2s}
@@ -13910,7 +13910,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   .pd-cta-feat{background:#141210;color:#f0ede8}
   .pd-cta-feat:hover{box-shadow:0 10px 30px rgba(0,0,0,.35)}
   .pd-cta-base{background:transparent;color:#f0ede8;border:1px solid rgba(255,255,255,.22)}
-  .pd-cta-base:hover{border-color:#c9a96b;color:#c9a96b}
+  .pd-cta-base:hover{border-color:#3DBFA3;color:#3DBFA3}
   .pd-compare{max-width:780px;margin:2.5rem auto 0}
   .pd-compare-title{text-align:center;font-family:'Syne',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:#8f8b84;margin-bottom:1.1rem}
   .pd-compare-table{border:1px solid rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
@@ -13921,12 +13921,12 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   .pd-compare-row > div{padding:.95rem 1.1rem;font:400 .85rem 'Inter',sans-serif;border-left:1px solid rgba(255,255,255,.06)}
   .pd-compare-row > div:first-child{border-left:none;color:#8f8b84}
   .pd-compare-row > div:nth-child(2){text-align:center;color:#8f8b84;font-weight:600}
-  .pd-compare-row > div:nth-child(3){text-align:center;color:#f0ede8;font-weight:600;background:rgba(201,169,107,.06)}
+  .pd-compare-row > div:nth-child(3){text-align:center;color:#f0ede8;font-weight:600;background:rgba(61,191,163,.06)}
   .pd-addons-wrap{margin-top:4rem}
   .pd-addons-label{font-family:'Syne',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:#8f8b84;text-align:center;margin-bottom:1.4rem}
   .pd-addons{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:960px;margin:0 auto}
   .pd-addon{background:#0d0d0d;border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:1.4rem 1.4rem;transition:border-color .25s,transform .3s}
-  .pd-addon:hover{border-color:rgba(201,169,107,.4);transform:translateY(-3px)}
+  .pd-addon:hover{border-color:rgba(61,191,163,.4);transform:translateY(-3px)}
   .pd-addon-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:#f0ede8}
   .pd-addon-price{font:400 .78rem 'Inter',sans-serif;color:#8f8b84;margin-top:.4rem}
   .pd-foot{text-align:center;color:#8f8b84;font-size:.82rem;margin-top:3rem;font-weight:300}
@@ -14042,7 +14042,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       if (!cmp) { compareWrap.innerHTML = ''; return; }
       const rows = cmp.rows.map(r => '<div class="pd-compare-row"><div>' + esc(r.label) + '</div><div>' + esc(r.a) + '</div><div>' + esc(r.b) + '</div></div>').join('');
       compareWrap.innerHTML = '<div class="pd-compare-title">Comparer les deux formules</div>'
-        + '<div class="pd-compare-table"><div class="pd-compare-head"><div></div><div style="color:#c4bfb8">' + esc(cmp.a) + '</div><div style="color:#c9a96b">' + esc(cmp.b) + '</div></div>' + rows + '</div>';
+        + '<div class="pd-compare-table"><div class="pd-compare-head"><div></div><div style="color:#c4bfb8">' + esc(cmp.a) + '</div><div style="color:#3DBFA3">' + esc(cmp.b) + '</div></div>' + rows + '</div>';
     }
     renderFormats(); renderPacks(); renderCompare();
   })();
@@ -14920,7 +14920,7 @@ function switchPricingTab(panel, btn) {
       btn.textContent = labels[k];
       const active = k === fmt;
       btn.style.cssText = (active
-        ? 'background:#c9a96b;color:#0a0a0a;border:1px solid #c9a96b'
+        ? 'background:#3DBFA3;color:#0a0a0a;border:1px solid #3DBFA3'
         : 'background:transparent;color:#8f8b84;border:1px solid rgba(255,255,255,.16)')
         + ';padding:12px 4px;border-radius:100px;font-family:"Syne",sans-serif;font-weight:700;font-size:.72rem;cursor:pointer;transition:all .2s;white-space:nowrap;text-align:center;letter-spacing:.02em';
       btn.addEventListener('click', () => {
@@ -14947,8 +14947,8 @@ function switchPricingTab(panel, btn) {
       const ink = p.featured ? '#141210' : '#f0ede8';
       const muted = p.featured ? '#6b6252' : '#8f8b84';
       const soft = p.featured ? '#3a352c' : '#c4bfb8';
-      const gold = p.featured ? '#a08a4e' : '#c9a96b';
-      const badge = p.featured ? '<div style="position:absolute;top:-10px;left:22px;background:#c9a96b;color:#0a0a0a;font-family:\'Syne\',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border-radius:100px">Le + choisi</div>' : '';
+      const gold = p.featured ? '#1f8a73' : '#3DBFA3';
+      const badge = p.featured ? '<div style="position:absolute;top:-10px;left:22px;background:#3DBFA3;color:#0a0a0a;font-family:\'Syne\',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border-radius:100px">Le + choisi</div>' : '';
       const feats = p.feat.map(ft =>
         '<li style="display:flex;gap:10px;font:400 .82rem/1.5 Inter,sans-serif;color:' + soft + '"><span style="color:' + gold + ';flex-shrink:0">—</span>' + escapeHtml(ft) + '</li>'
       ).join('');
@@ -14982,14 +14982,14 @@ function switchPricingTab(panel, btn) {
         '<div style="display:grid;grid-template-columns:1.3fr 1fr 1fr;border-top:1px solid rgba(255,255,255,.07)">'
         + '<div style="padding:12px 14px;font:400 .74rem Inter,sans-serif;color:#a7a29b">' + escapeHtml(r.label) + '</div>'
         + '<div style="padding:12px 6px;text-align:center;font:600 .74rem Inter,sans-serif;color:#8f8b84;border-left:1px solid rgba(255,255,255,.06)">' + escapeHtml(r.a) + '</div>'
-        + '<div style="padding:12px 6px;text-align:center;font:600 .74rem Inter,sans-serif;color:#f0ede8;border-left:1px solid rgba(255,255,255,.06);background:rgba(201,169,107,.07)">' + escapeHtml(r.b) + '</div>'
+        + '<div style="padding:12px 6px;text-align:center;font:600 .74rem Inter,sans-serif;color:#f0ede8;border-left:1px solid rgba(255,255,255,.06);background:rgba(61,191,163,.07)">' + escapeHtml(r.b) + '</div>'
         + '</div>'
       ).join('');
       html += '<div style="margin-top:14px;border:1px solid rgba(255,255,255,.1);border-radius:4px;overflow:hidden">'
         + '<div style="display:grid;grid-template-columns:1.3fr 1fr 1fr;background:#0d0d0d">'
         + '<div style="padding:13px 14px"></div>'
         + '<div style="padding:13px 8px;text-align:center;font-family:\'Syne\',sans-serif;font-weight:700;font-size:.82rem;color:#c4bfb8;border-left:1px solid rgba(255,255,255,.08)">' + escapeHtml(cmp.a) + '</div>'
-        + '<div style="padding:13px 8px;text-align:center;font-family:\'Syne\',sans-serif;font-weight:700;font-size:.82rem;color:#c9a96b;border-left:1px solid rgba(255,255,255,.08)">' + escapeHtml(cmp.b) + '</div>'
+        + '<div style="padding:13px 8px;text-align:center;font-family:\'Syne\',sans-serif;font-weight:700;font-size:.82rem;color:#3DBFA3;border-left:1px solid rgba(255,255,255,.08)">' + escapeHtml(cmp.b) + '</div>'
         + '</div>' + rows + '</div>';
     }
     compareWrap.innerHTML = html;
@@ -15466,7 +15466,7 @@ function submitPackForm(e) {
         <div style="flex:none;width:152px;scroll-snap-align:start"><div style="position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)"><img width="320" height="400" decoding="async" loading="lazy" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_320/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)"></div><span style="position:absolute;top:9px;left:9px;font:700 .54rem 'Inter',sans-serif;letter-spacing:.08em;color:#042019;background:#3DBFA3;padding:3px 7px;border-radius:5px">PSD</span><div style="position:absolute;left:11px;bottom:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;color:#f0fbf8">Sénégal · KSA</div></div></div>
       </div>
       <div style="margin:30px 26px 44px;padding:22px;background:linear-gradient(135deg,rgba(61,191,163,.12),rgba(61,191,163,.03));border:1px solid rgba(61,191,163,.25);border-radius:18px;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(61,191,163,.14);border:1px solid rgba(61,191,163,.32);border-radius:100px;font:700 .56rem 'Syne',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#a8f0e4">Édition limitée — épuisée</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(61,191,163,.14);border:1px solid rgba(61,191,163,.32);border-radius:100px;font:700 .56rem 'Syne',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#a8f0e4">Édition limitée, épuisée</span>
         <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;color:#f0fbf8;margin-top:12px">Pack épuisé</div>
         <p style="font:400 .82rem 'Inter',sans-serif;line-height:1.6;color:#8fa8a1;margin:8px auto 18px;max-width:300px">La première série est partie plus vite que prévu. Une nouvelle édition arrive bientôt.</p>
         <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20pr%C3%A9viens-moi%20quand%20l%27URANUS%20GFX%20PACK%20revient" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:#3DBFA3;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#042019;text-decoration:none;box-shadow:0 10px 34px rgba(61,191,163,.4)">Préviens-moi du retour</a>
@@ -15496,7 +15496,7 @@ function submitPackForm(e) {
 <div class="u-drop-banner">
   <span class="u-banner-badge" style="color:#a8f0e4;background:rgba(61,191,163,.12);border-color:rgba(61,191,163,.3);">URANUS GFX PACK</span>
   <span class="u-banner-txt">PSD calqués · Actions PS · Textures · Fonts premium</span>
-  <span class="u-banner-badge" style="color:var(--u-accent3);background:rgba(61,191,163,.1);border-color:rgba(61,191,163,.25)">Édition limitée — épuisée</span>
+  <span class="u-banner-badge" style="color:var(--u-accent3);background:rgba(61,191,163,.1);border-color:rgba(61,191,163,.25)">Édition limitée, épuisée</span>
 </div>
 
 <!-- ── LAUNCHED STATUS ── -->
@@ -15506,7 +15506,7 @@ function submitPackForm(e) {
       <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--u-accent);box-shadow:0 0 8px var(--u-accent);"></span>
       RUPTURE DE STOCK
     </span>
-    <span style="font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--u-mid);">Édition limitée épuisée — nouvelle série bientôt</span>
+    <span style="font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--u-mid);">Édition limitée épuisée, nouvelle série bientôt</span>
   </div>
 </div>
 
@@ -15546,7 +15546,7 @@ function submitPackForm(e) {
 
     <!-- Édition limitée épuisée -->
     <div style="border:1px solid rgba(61,191,163,.28);background:linear-gradient(135deg,rgba(61,191,163,.10),rgba(61,191,163,.02));border-radius:18px;padding:1.5rem 1.6rem;max-width:460px">
-      <span style="display:inline-flex;align-items:center;gap:7px;padding:5px 12px;background:rgba(61,191,163,.14);border:1px solid rgba(61,191,163,.32);border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#a8f0e4">Édition limitée — épuisée</span>
+      <span style="display:inline-flex;align-items:center;gap:7px;padding:5px 12px;background:rgba(61,191,163,.14);border:1px solid rgba(61,191,163,.32);border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#a8f0e4">Édition limitée, épuisée</span>
       <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;color:#f0fbf8;margin-top:.9rem">Pack épuisé</div>
       <p style="font:400 .85rem 'Inter',sans-serif;line-height:1.65;color:#8fa8a1;margin:.5rem 0 1.1rem">La première série de l'URANUS GFX PACK est partie plus vite que prévu. Une nouvelle édition arrive bientôt.</p>
       <a href="https://wa.me/221763772208?text=Salut%20MDG%2C%20pr%C3%A9viens-moi%20quand%20l%27URANUS%20GFX%20PACK%20revient" target="_blank" rel="noopener" class="u-btn-secondary">
@@ -18204,16 +18204,16 @@ var translations = {
 
   // ─── HERO ────────────────────────────────────────────
   hero_eyebrow: { fr: 'MDG CREATIVE STUDIO', en: 'MDG CREATIVE STUDIO' },
-  hero_promise: { fr: "L'excellence, c'est mon seul standard.", en: "Excellence is my only standard." },
-  hero_btn_primary: { fr: 'Postuler pour un projet', en: 'Apply for a project' },
-  hero_select: { fr: 'Sur sélection · Disponibilités limitées', en: 'By selection · Limited availability' },
+  hero_promise: { fr: "Je conçois l'image des marques et des artistes.", en: "I craft the image of brands and artists." },
+  hero_btn_primary: { fr: 'Parle-moi de ton projet', en: 'Tell me about your project' },
+  hero_select: { fr: 'Je prends peu de projets à la fois, pour bien faire', en: 'I take on few projects at a time, to do them right' },
   hero_btn_secondary: { fr: '7 ans de travail →', en: '7 years of work →' },
   door_brands_k: { fr: 'Pour les marques', en: 'For brands' },
   door_brands_v: { fr: 'Logo · identité · web · packaging', en: 'Logo · identity · web · packaging' },
   door_artists_k: { fr: 'Pour les artistes', en: 'For artists' },
   door_artists_v: { fr: 'Cover art · direction · visuels', en: 'Cover art · direction · visuals' },
-  pass_eyebrow: { fr: 'MDG Creative · Direction artistique musicale', en: 'MDG Creative · Music art direction' },
-  pass_lede: { fr: "7 ans d'exigence, 50 artistes accompagnés, 9 pays. Cover art, univers de sortie, affiches, identité d'artiste, chaque sortie mérite une image à la hauteur du son.", en: '7 years of craft, 50+ artists, 9 countries. Cover art, release worlds, posters, artist identity, every release deserves an image worthy of the sound.' },
+  pass_eyebrow: { fr: 'MDG Creative · Design & direction artistique', en: 'MDG Creative · Design & art direction' },
+  pass_lede: { fr: "7 ans d'exigence, 50 artistes et marques, 9 pays. Identité, cover art, web, motion, print : je conçois l'image, sous toutes ses formes.", en: '7 years of craft, 50 artists and brands, 9 countries. Identity, cover art, web, motion, print: I design the image, in every form.' },
   pp_brands_tag: { fr: 'Pour les marques', en: 'For brands' },
   pp_brands_title: { fr: 'Identité & branding', en: 'Identity & branding' },
   pp_brands_desc: { fr: 'Logo, charte, packaging, web, direction artistique de marque.', en: 'Logo, guidelines, packaging, web, brand art direction.' },
@@ -18242,7 +18242,7 @@ var translations = {
   about_title: { fr: 'Creative Director<br><span>basé à Kaolack</span>', en: 'Creative Director<br><span>based in Kaolack</span>' },
   about_p1: { fr: "Un perfectionniste désordonné, jamais pleinement satisfait d'un seul projet. Gamin, je noircissais déjà des carnets au crayon ; mordu de tech, de jeux vidéo et de son, j'ai fait mes premières affiches sur téléphone, puis j'ai découvert Photoshop juste après le bac et je ne l'ai plus lâché.", en: "A disorganized perfectionist, never fully satisfied with a single project. As a kid I was already filling notebooks with pencil drawings; a tech, gaming and music head, I made my first posters on my phone, then discovered Photoshop right after high school and never put it down." },
   about_p2: { fr: "", en: "" },
-  about_p3: { fr: "Le déclic, c'est ma cover pour Dopeboy DMG, repartagée par Dip Doundou Guiss, Samba Peuzzi, Bm Jaay et ISS 814. ISS m'a écrit dans la foulée, et là j'ai pris les choses au sérieux. Depuis, avec ISS 814 j'ai même plus compté ; pareil avec Omzo Beatz, One Lyrical et pas mal d'autres. Des noms connus ici, d'autres à l'international. Chaque projet part de qui tu es, pas d'un template.", en: "The turning point was my cover for Dopeboy DMG, reshared by Dip Doundou Guiss, Samba Peuzzi, Bm Jaay and ISS 814. ISS reached out right after, and that's when I got serious. Since then, with ISS 814 I lost count; same with Omzo Beatz, One Lyrical and plenty more. Known names here, others abroad. Every project starts from who you are, not from a template." },,
+  about_p3: { fr: "Le déclic, c'est ma cover pour Dopeboy DMG, repartagée par Dip Doundou Guiss, Samba Peuzzi, Bm Jaay et ISS 814. ISS m'a écrit dans la foulée, et là j'ai pris les choses au sérieux. Depuis, avec ISS 814 j'ai même plus compté ; pareil avec Omzo Beatz, One Lyrical et pas mal d'autres. Des noms connus ici, d'autres à l'international. Chaque projet part de qui tu es, pas d'un template.", en: "The turning point was my cover for Dopeboy DMG, reshared by Dip Doundou Guiss, Samba Peuzzi, Bm Jaay and ISS 814. ISS reached out right after, and that's when I got serious. Since then, with ISS 814 I lost count; same with Omzo Beatz, One Lyrical and plenty more. Known names here, others abroad. Every project starts from who you are, not from a template." },
   sk1_name: { fr: 'Brand Identity', en: 'Brand Identity' },
   sk1_desc: { fr: 'Logo · Charte · Mockups', en: 'Logo · Guidelines · Mockups' },
   sk2_name: { fr: 'Direction Artistique', en: 'Art Direction' },
@@ -18265,7 +18265,7 @@ var translations = {
   // ─── WORK ────────────────────────────────────────────
   work_label: { fr: 'Réalisations', en: 'Work' },
   work_h2: { fr: 'Réalisations', en: 'Selected work' },
-  work_h2_sub: { fr: 'Des projets construits avec intention. Chaque visuel raconte quelque chose : une contrainte, un univers, une solution qui lui ressemble.', en: 'Projects built with intention. Every visual tells a story: a constraint, a world, a solution that fits.' },
+  work_h2_sub: { fr: 'Des vrais projets, pour des vrais artistes. Chacun avec sa contrainte et sa solution.', en: 'Real projects, for real artists. Each with its own constraint and its own solution.' },
   work_prev: { fr: 'Précédent', en: 'Previous' },
   work_next: { fr: 'Suivant', en: 'Next' },
 
@@ -18366,7 +18366,7 @@ var translations = {
   contact_label: { fr: 'Contact', en: 'Contact' },
   contact_h2_1: { fr: 'On crée', en: "Let's create" },
   contact_h2_2: { fr: 'quelque chose ?', en: 'something?' },
-  contact_sub: { fr: 'Brand identity, cover art, motion, web design, print. Écris-moi, je réponds sous 48h.', en: 'Brand identity, cover art, motion, web design, print. Write to me, I reply within 48h.' },
+  contact_sub: { fr: 'Brand identity, cover art, motion, web design, print. Écris-moi, je réponds sous 24h.', en: 'Brand identity, cover art, motion, web design, print. Write to me, I reply within 24h.' },
   info_location_label: { fr: 'Localisation', en: 'Location' },
   info_location_val: { fr: 'Kaolack, Sénégal', en: 'Kaolack, Senegal' },
   info_lang_label: { fr: 'Langues', en: 'Languages' },
@@ -18378,10 +18378,10 @@ var translations = {
   awards_label: { fr: 'Reconnaissances', en: 'Recognition' },
   awards_title_1: { fr: 'Ce que les autres', en: 'What others' },
   awards_title_em: { fr: ' disent du travail', en: ' say about the work' },
-  award1_name: { fr: 'Behance Featured', en: 'Behance Featured' },
-  award1_desc: { fr: 'Plusieurs projets mis en avant par la communauté Behance pour leur direction artistique et leur cohérence visuelle.', en: 'Several projects highlighted by the Behance community for their art direction and visual consistency.' },
+  award1_name: { fr: 'Repartagé par la scène', en: 'Reshared by the scene' },
+  award1_desc: { fr: 'Des covers repartagées par Dip Doundou Guiss, Samba Peuzzi, Bm Jaay et ISS 814 sur leurs propres pages.', en: 'Covers reshared by Dip Doundou Guiss, Samba Peuzzi, Bm Jaay and ISS 814 on their own pages.' },
   award2_name: { fr: 'Streaming Cover Art', en: 'Streaming Cover Art' },
-  award2_desc: { fr: 'Cover art diffusées sur Spotify, Apple Music et Deezer pour des artistes sénégalais avec des millions de streams cumulés.', en: 'Cover art broadcast on Spotify, Apple Music and Deezer for Senegalese artists with millions of cumulative streams.' },
+  award2_desc: { fr: 'Des covers diffusées sur Spotify, Apple Music et Deezer pour des artistes de la scène sénégalaise.', en: 'Cover art live on Spotify, Apple Music and Deezer for artists of the Senegalese scene.' },
   award3_name: { fr: '50+ Collaborations', en: '50+ Collaborations' },
   award3_desc: { fr: "Plus de 50 artistes et marques africaines accompagnés sur des projets de brand identity, cover art et motion design.", en: 'Over 50 African artists and brands supported on brand identity, cover art and motion design projects.' },
 
@@ -18528,12 +18528,94 @@ Object.keys(translations).forEach(function(k){
 //   URANUS, modales…). UN SEUL endroit à maintenir : ajoute
 //   ici toute nouvelle phrase FR avec sa version EN.
 __addPairs([
+[`Ce que je fais,`,`What I do,`],
+[`de A jusqu’au bout.`,`from start to finish.`],
+[`de A jusqu'au bout.`,`from start to finish.`],
+[`Trois disciplines maîtresses, quatre savoir-faire. Une seule main dirige l’ensemble.`,`Three core disciplines, four complementary skills. One hand steers it all.`],
+[`Trois disciplines maîtresses, quatre savoir-faire complémentaires. Du logo à la scène, une seule main dirige l’ensemble, pour que rien ne dépareille.`,`Three core disciplines, four complementary skills. From logo to stage, one hand steers it all, so nothing feels off.`],
+[`Direction Artistique Musicale`,`Music Art Direction`],
+[`L’image qui prolonge le son, pensée avant le premier play.`,`The image that extends the sound, shaped before the first play.`],
+[`L’image qui prolonge le son. Un univers visuel complet, pensé avant le premier`,`The image that extends the sound. A complete visual world, shaped before the first`],
+[`Cover Art · EP / Album · Press Kit`,`Cover Art · EP / Album · Press Kit`],
+[`Identité d’Artiste`,`Artist Identity`],
+[`Le nom, l’univers, la signature qui vous distingue.`,`The name, the world, the signature that sets you apart.`],
+[`Un nom, une signature. L’identité qui vous rend reconnaissable d’une sortie à l’autre.`,`A name, a signature. The identity that keeps you recognizable from one release to the next.`],
+[`Logo · Charte · Déclinaisons`,`Logo · Guidelines · Variations`],
+[`Le mouvement qui retient l’œil quand tout défile.`,`The motion that holds the eye as everything scrolls.`],
+[`Le mouvement retient l’œil quand tout défile. Logos animés, reels, transitions.`,`Motion holds the eye as everything scrolls. Animated logos, reels, transitions.`],
+[`Détails`,`Details`],
+[`Direction artistique de sortie`,`Release art direction`],
+[`Cover art & déclinaisons plateformes`,`Cover art & platform variations`],
+[`Press kit & dossier de presse`,`Press kit & press folder`],
+[`Moodboard & direction photo`,`Moodboard & photo direction`],
+[`Logotype & symbole`,`Logotype & symbol`],
+[`Charte graphique complète`,`Full brand guidelines`],
+[`Palette & système typographique`,`Palette & type system`],
+[`Kit de déclinaisons print & digital`,`Print & digital variation kit`],
+[`Logo animé & habillage`,`Animated logo & branding`],
+[`Reels & formats verticaux`,`Reels & vertical formats`],
+[`Transitions & générique`,`Transitions & title sequence`],
+[`Teaser de sortie`,`Release teaser`],
+[`ÉGALEMENT`,`ALSO`],
+[`ÉGALEMENT AU CATALOGUE`,`ALSO IN THE CATALOG`],
+[`Design Éditorial & Print`,`Editorial & Print Design`],
+[`Affiche · Flyer · Prépresse`,`Poster · Flyer · Prepress`],
+[`Affiches, programmes, livrets, des supports qui ont du caractère.`,`Posters, programs, booklets: print with real character.`],
+[`Ce qui se touche marque autrement. Affiches, programmes, livrets, des supports imprimés qui ont du caractère et tiennent à l’impression.`,`What you can touch leaves a different mark. Posters, programs, booklets: print with character that holds up in production.`],
+[`Contenu Social Media`,`Social Media Content`],
+[`Templates · Carrousel`,`Templates · Carousel`],
+[`Templates et visuels qui gardent une ligne forte partout.`,`Templates and visuals that hold a strong line everywhere.`],
+[`Une présence cohérente ne s’improvise pas. Templates et visuels qui gardent une ligne forte sur tous vos canaux, chaque post vous ressemble.`,`A consistent presence isn't improvised. Templates and visuals that hold a strong line across all your channels, so every post looks like you.`],
+[`Textile · Goodies`,`Apparel · Merch`],
+[`Textile et goodies qui ont de la gueule, jusqu’au fichier prod.`,`Apparel and merch with real edge, down to the production file.`],
+[`Votre identité, portée par vos fans. Des visuels textile et goodies qui ont de la gueule, du concept au fichier prêt pour la production.`,`Your identity, worn by your fans. Apparel and merch visuals with real edge, from concept to production-ready file.`],
+[`Scénographie & Événementiel`,`Set & Event Design`],
+[`Scène · Stand · Festival`,`Stage · Stand · Festival`],
+[`Habillage de scène, signalétique, stands, une vraie expérience.`,`Stage design, signage, stands: a real experience.`],
+[`L’identité qui prend l’espace. Habillage de scène, signalétique et stands, pour transformer un événement en véritable expérience.`,`Identity that takes over the space. Stage design, signage and stands, to turn an event into a real experience.`],
+[`MÉTHODOLOGIE`,`METHODOLOGY`],
+[`Comment je travaille,`,`How I work,`],
+[`chapitre par chapitre.`,`chapter by chapter.`],
+[`Brief & Échange`,`Brief & Exchange`],
+[`Univers, références, contraintes. Cadrés avant le démarrage.`,`World, references, constraints. Framed before we start.`],
+[`Univers, références, contraintes. Tout est cadré avant le moindre coup de crayon.`,`World, references, constraints. Everything is framed before the first stroke.`],
+[`ACOMPTE 50% AVANT DÉMARRAGE`,`50% DEPOSIT BEFORE START`],
+[`ACOMPTE 50%`,`50% DEPOSIT`],
+[`avant démarrage`,`before start`],
+[`Concept & Direction`,`Concept & Direction`],
+[`Moodboard, palette, typo. Validés avant production.`,`Moodboard, palette, type. Approved before production.`],
+[`Moodboard, palette, typographie. La direction est posée sur table et validée avant production.`,`Moodboard, palette, typography. The direction is laid out and approved before production.`],
+[`1 RÉVISION DE DIRECTION INCLUSE`,`1 DIRECTION REVISION INCLUDED`],
+[`1 RÉVISION`,`1 REVISION`],
+[`de direction incluse`,`of direction included`],
+[`L’outil varie selon le projet. Preview avant le final.`,`The tool varies by project. Preview before the final.`],
+[`L’outil s’adapte à ce que le projet exige. Une preview intermédiaire arrive toujours avant le final.`,`The tool adapts to what the project needs. An intermediate preview always comes before the final.`],
+[`DÉLAI TENU, TOUJOURS`,`DEADLINES MET, ALWAYS`],
+[`DÉLAI TENU`,`DEADLINES MET`],
+[`toujours`,`always`],
+[`Livraison & Suivi`,`Delivery & Follow-up`],
+[`Haute résolution, tous formats. Accès maintenu après.`,`High resolution, every format. Access kept afterwards.`],
+[`Haute résolution, tous formats. Et un accès direct qui reste ouvert après la livraison.`,`High resolution, every format. Plus direct access that stays open after delivery.`],
+[`SOLDE À LA LIVRAISON`,`BALANCE ON DELIVERY`],
+[`SOLDE`,`BALANCE`],
+[`à la livraison`,`on delivery`],
+[`De la première conversation à la livraison. Un engagement clair à chaque étape, jamais de surprise sur la facture.`,`From the first conversation to delivery. A clear commitment at every step, never a surprise on the invoice.`],
+[`Disponibilité`,`Availability`],
+[`Retouches`,`Revisions`],
+[`Acompte`,`Deposit`],
+[`Urgent`,`Rush`],
+[`Au-delà, au temps passé`,`Beyond that, billed by time`],
+[`Wave · OM · Virement`,`Wave · OM · Transfer`],
+[`Livraison sous 48h`,`Delivery within 48h`],
+[`Long terme`,`Long term`],
+[`Projets suivants`,`Next projects`],
+[`Add à la carte`,`À la carte add-ons`],
 [`Lancer un projet`,`Start a project`],
 [`L'excellence, c'est mon seul standard`,`Excellence is my only standard`],
 [`Le studio`,`The studio`],
-[`Je donne une image`,`I give an image`],
-[`à la musique.`,`to music.`],
-[`7 ans d'exigence, 50 artistes accompagnés, 9 pays. Cover art, univers de sortie, affiches, identité d'artiste, chaque sortie mérite une image à la hauteur du son.`,`7 years of demanding work, 50 artists, 9 countries. Cover art, release worlds, posters, artist identity, every release deserves an image worthy of the sound.`],
+[`Je conçois l'image`,`I craft the image`],
+[`des marques et des artistes.`,`of brands and artists.`],
+[`7 ans d'exigence, 50 artistes et marques, 9 pays. Identité, cover art, web, motion, print : je conçois l'image, sous toutes ses formes.`,`7 years of craft, 50 artists and brands, 9 countries. Identity, cover art, web, motion, print: I design the image, in every form.`],
 [`Ce que je produis`,`What I create`],
 [`C'est quelqu'un avec qui je bosse beaucoup. Il est hyper correct, hyper travailleur et trop fort.`,`He's someone I work with a lot. Super straight, super hardworking and seriously talented.`],
 [`ISS 814 parle de MDG en public avec naturel. Sérieux, qualité du travail et relation humaine évoqués.`,`ISS 814 speaks about MDG in public, naturally. Seriousness, quality of work and a real human bond.`],
@@ -18828,13 +18910,13 @@ __addPairs([
 [`se remarque.`,`stands out.`],
 [`Pour les artistes`,`For artists`],
 [`Pour les marques`,`For brands`],
-[`Édition limitée — épuisée`,`Limited edition — sold out`],
+[`Édition limitée, épuisée`,`Limited edition, sold out`],
 [`Pack épuisé`,`Pack sold out`],
 [`La première série de l'URANUS GFX PACK est partie plus vite que prévu. Une nouvelle édition arrive bientôt.`,`The first run of the URANUS GFX PACK sold out faster than expected. A new edition is coming soon.`],
 [`La première série est partie plus vite que prévu. Une nouvelle édition arrive bientôt.`,`The first run sold out faster than expected. A new edition is coming soon.`],
 [`Préviens-moi du retour`,`Notify me when it's back`],
 [`RUPTURE DE STOCK`,`OUT OF STOCK`],
-[`Édition limitée épuisée — nouvelle série bientôt`,`Limited edition sold out — new drop soon`],
+[`Édition limitée épuisée, nouvelle série bientôt`,`Limited edition sold out, new drop soon`],
 [`ÉPUISÉ`,`SOLD OUT`],
 [`ÉPUISÉ`,`SOLD OUT`],
 // ── Compléments : hero, portfolio, discographie, bio, stats, process, pricing, contact, spotify ──
@@ -18887,8 +18969,8 @@ __addPairs([
 [`satisfait d'un projet.`,`satisfied with a project.`],
 [`L'exigence grandit plus vite`,`The standard grows faster`],
 [`que la production. »`,`than the output. »`],
-[`Direction artistique musicale, cover art et identités qui placent chaque sortie au niveau du son.`,`Musical art direction, cover art and identities that put every release on the level of the sound.`],
-[`Cover art & direction artistique musicale. 7 ans, 50 artistes, 9 pays.`,`Cover art & musical art direction. 7 years, 50 artists, 9 countries.`],
+[`Design & direction artistique pour marques et artistes : identité, cover art, web, motion, print.`,`Design & art direction for brands and artists: identity, cover art, web, motion, print.`],
+[`Design & direction artistique. 7 ans, 50 artistes et marques, 9 pays.`,`Design & art direction. 7 years, 50 artists and brands, 9 countries.`],
 [`artistes`,`artists`],
 [`pays`,`countries`],
 [`& Direction Musicale`,`& Musical Direction`],
@@ -19127,8 +19209,8 @@ function applyComplexPatches(lang) {
   if (svcLabel) svcLabel.textContent = translations.services_label[lang];
   var svcH2 = document.querySelector('.svc-h2');
   if (svcH2) {
-    if (lang === 'en') svcH2.innerHTML = 'What I do,<em style="color:#d9bd83;font-size:clamp(1.5rem,2.4vw,2.1rem)">from A all the way through.</em>';
-    else svcH2.innerHTML = 'Ce que je fais,<em style="color:#d9bd83;font-size:clamp(1.5rem,2.4vw,2.1rem)">de A jusqu\'au bout.</em>';
+    if (lang === 'en') svcH2.innerHTML = 'What I do,<em style="color:#3DBFA3;font-size:clamp(1.5rem,2.4vw,2.1rem)">from A all the way through.</em>';
+    else svcH2.innerHTML = 'Ce que je fais,<em style="color:#3DBFA3;font-size:clamp(1.5rem,2.4vw,2.1rem)">de A jusqu\'au bout.</em>';
   }
   var svcCtaBtns = document.querySelectorAll('.svc-cta');
   svcCtaBtns.forEach(function(btn){ btn.textContent = translations.svc_cta_text[lang]; });
@@ -19607,7 +19689,7 @@ function applyComplexPatches(lang) {
   var heroBtnPrimary = document.querySelector('.hero-btn-primary');
   if (heroBtnPrimary) {
     var btnSpan = heroBtnPrimary.querySelector('span');
-    if (btnSpan) btnSpan.textContent = lang === 'en' ? 'Apply for a project' : 'Postuler pour un projet';
+    if (btnSpan) btnSpan.textContent = lang === 'en' ? 'Tell me about your project' : 'Parle-moi de ton projet';
   }
   var heroBtnSecondary = document.querySelector('.hero-btn-secondary');
   if (heroBtnSecondary) heroBtnSecondary.textContent = lang === 'en' ? '7 years of work →' : '7 ans de travail →';
