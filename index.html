@@ -16326,6 +16326,36 @@ if (_isMobile) {
 const _E  = 'power3.out';
 const _Eb = 'back.out(1.5)';
 
+/* ── AMPLIFICATEUR DE REVEAL (desktop) ──────────────────────────────
+   Muscle chaque entrée au scroll : distances ~2×, rotation subtile sur
+   les mouvements latéraux, scale plus marqué, durée légèrement rallongée.
+   Ne touche QUE les tweens de reveal (fromVars.opacity === 0) : les
+   animations utilitaires (marquees, filtres logo, hover) sont épargnées. */
+const _AMP = 2.05;
+function _amp(v){
+  if(!v || typeof v!=='object') return v;
+  const o = Object.assign({}, v);
+  if(typeof o.y==='number' && o.y) o.y *= _AMP;
+  if(typeof o.x==='number' && o.x) o.x *= _AMP;
+  if(typeof o.scale==='number' && o.scale<1) o.scale = 1 - (1-o.scale)*1.6;
+  if(typeof o.scaleX==='number' && o.scaleX<1) o.scaleX = 1 - (1-o.scaleX)*1.5;
+  // rotation directionnelle sur les glissements latéraux, si pas déjà défini
+  if(typeof o.x==='number' && o.x && o.rotate==null && o.rotation==null) o.rotation = o.x<0 ? -4 : 4;
+  return o;
+}
+if (!_isMobile && typeof gsap !== 'undefined') {
+  const _origFromTo = gsap.fromTo.bind(gsap);
+  gsap.fromTo = function(targets, fromVars, toVars){
+    if (fromVars && typeof fromVars==='object' && fromVars.opacity===0) {
+      fromVars = _amp(fromVars);
+      if (toVars && typeof toVars==='object' && typeof toVars.duration==='number') {
+        toVars = Object.assign({}, toVars, { duration: toVars.duration*1.12 });
+      }
+    }
+    return _origFromTo(targets, fromVars, toVars);
+  };
+}
+
 // Batch : desktop normal, mobile skip
 function _batch(sel, fromVars, toVars, staggerIn) {
   if (_isMobile) return; // mobile : CSS gère opacity:1
