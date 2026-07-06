@@ -22984,5 +22984,21 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
 })();
 </script>
 
+<style id="anti-pulse-humain">
+/* ── Suppression des pulses lumineux (tell IA) : halos figés, numéros/labels
+      stables, badges sans clignotement, étoiles URANUS immobiles. Les mêmes
+      noms de keyframes redéfinis en états calmes (dernière déclaration = gagne). */
+@keyframes collabsGlow{0%,100%{opacity:.5;transform:translateX(-50%) scale(1) translateY(0)}}
+@keyframes haloBreath{0%,100%{transform:scale(1);opacity:.5}}
+@keyframes u-glow-pulse{0%,100%{opacity:.6;transform:translateX(-50%) scaleX(1)}}
+@keyframes u-badge-pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,200,66,0)}}
+@keyframes secLabelGlow{0%,100%{text-shadow:none}}
+@keyframes secNumPulse{0%,100%{opacity:.8;text-shadow:none;transform:translateY(0)}}
+@keyframes u-twinkle{0%,100%{opacity:var(--lo,.12);transform:scale(1)}}
+@keyframes u-shimmer{0%,100%{background-position:0% center}}
+@keyframes eePulse{0%,100%{text-shadow:0 0 40px rgba(255,255,255,.14)}}
+/* le shimmer des labels de section : coupé */
+.sec-label{animation:none !important}
+</style>
 </body>
 </html>
