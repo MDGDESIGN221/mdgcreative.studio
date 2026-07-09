@@ -12610,6 +12610,9 @@ a[data-spotify] svg{ fill:#fff !important; }
 #hero.nhero .nh-btn--s:hover{border-color:#0e0e0e;transform:translateY(-2px)}
 #hero.nhero .nh-meta{display:flex;gap:clamp(22px,3vw,32px);margin-top:clamp(28px,4vw,46px);font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6a655e}
 #hero.nhero .nh-meta b{display:block;font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-.02em;color:#0e0e0e}
+#hero.nhero .nh-collabs{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5em;margin-top:clamp(18px,2.4vw,26px);padding-top:clamp(18px,2.4vw,26px);border-top:1px solid rgba(14,14,14,.1)}
+#hero.nhero .nh-collabs-lbl{font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a8580}
+#hero.nhero .nh-collabs-names{font-family:'Syne',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:-.01em;color:#3a3935}
 #hero.nhero .nh-imgcol{position:relative;overflow:hidden;border-radius:18px;min-height:420px;background:#eceae5}
 #hero.nhero .nh-imgcol img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:grayscale(.15) contrast(1.03);animation:nhkb 16s ease-in-out infinite alternate}
 #hero.nhero .nh-tag{position:absolute;left:16px;bottom:16px;background:rgba(252,251,249,.92);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);padding:8px 14px;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.68rem;color:#0e0e0e;letter-spacing:.02em;z-index:2}
@@ -12634,6 +12637,8 @@ a[data-spotify] svg{ fill:#fff !important; }
   #hero.nhero .nh-actions{flex-direction:column;align-items:stretch;gap:10px;margin-top:20px}
   #hero.nhero .nh-btn{justify-content:center;padding:15px}
   #hero.nhero .nh-meta{display:none}
+  #hero.nhero .nh-collabs{justify-content:center;text-align:center;margin-top:16px;padding-top:16px}
+  #hero.nhero .nh-collabs-names{font-size:.76rem}
 }
 /* Nav épuré au-dessus du hero : logo + dispo + langue seulement, le reste réapparaît au scroll */
 nav:not(#mob-tab-bar):not(.scrolled) .nav-links,
@@ -12688,6 +12693,10 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <a class="nh-btn nh-btn--s" href="#passerelle" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('passerelle');else document.getElementById('passerelle')?.scrollIntoView({behavior:'smooth'})">Pour les artistes <i>&rarr;</i></a>
         </div>
         <div class="nh-meta"><span><b>7+</b>ans</span><span><b>50+</b>artistes</span><span><b>9</b>pays</span></div>
+        <div class="nh-collabs">
+          <span class="nh-collabs-lbl">Ont travaillé avec</span>
+          <span class="nh-collabs-names">ISS 814 · One Lyrical · Dopeboy DMG · Omzo Beatz · VJ</span>
+        </div>
       </div>
       <div class="nh-imgcol">
         <picture>
