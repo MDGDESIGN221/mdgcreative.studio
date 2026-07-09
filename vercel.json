@@ -6,6 +6,10 @@
       "destination": "/atelier.html"
     },
     {
+      "source": "/tarifs",
+      "destination": "/tarifs.html"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/sitemap.xml"
     },
