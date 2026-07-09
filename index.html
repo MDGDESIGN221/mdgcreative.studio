@@ -188,6 +188,16 @@ html{scroll-behavior:smooth;overflow-x:hidden;overscroll-behavior-y:none}
   background: rgba(255,255,255,.04);
   color: #fff;
 }
+.scta-link--accent {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: var(--black) !important;
+}
+.scta-link--accent:hover {
+  background: #5fd6bd !important;
+  border-color: #5fd6bd !important;
+  color: var(--black) !important;
+}
 .scta-arr {
   transition: transform .25s cubic-bezier(.16,1,.3,1);
   display: inline-block;
@@ -13812,7 +13822,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 <!-- ── CTA BAND, après Process ── -->
 <div class="section-cta-band">
   <p class="scta-line">Envie de connaître l'investissement ?</p>
-  <a class="scta-link" href="/tarifs">Voir les tarifs &amp; packs <span class="scta-arr">→</span></a>
+  <a class="scta-link scta-link--accent" href="/tarifs">Voir les tarifs &amp; packs <span class="scta-arr">→</span></a>
 </div>
 
 
