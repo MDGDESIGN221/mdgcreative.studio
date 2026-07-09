@@ -38,6 +38,11 @@
   body{background:#060606}
   :root{ --accent:#3DBFA3; --diamond:#c084fc; }
   .pack-curtain{display:none!important}
+  .pricing-mob{display:none}
+  @media(max-width:767px){
+    .pricing-desk{display:none!important}
+    .pricing-mob{display:block!important;position:relative;z-index:3;background:#060606}
+  }
   .tf-nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:1.3rem clamp(1.25rem,5vw,3rem);background:rgba(6,6,6,.86);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid rgba(255,255,255,.1)}
   .tf-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none}
   .tf-logo img{height:28px;width:auto;display:block}
