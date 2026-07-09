@@ -39,6 +39,7 @@
   :root{ --accent:#3DBFA3; --diamond:#c084fc; }
   .pack-curtain{display:none!important}
   .pricing-panel{display:none!important}
+  #pricing > .container, #pricing > .sec-num{display:none!important}
   .pricing-mob{display:none}
   @media(max-width:767px){
     .pricing-desk{display:none!important}
@@ -87,6 +88,15 @@
         <span>Covers, affiches &amp; vidéos uniquement. Les autres domaines sont sur devis.</span>
       </div>
       <p style="display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;color:#3DBFA3;line-height:1.45;margin:14px auto 0;max-width:300px;text-align:center"><span style="width:6px;height:6px;border-radius:50%;background:#3DBFA3;box-shadow:0 0 8px rgba(61,191,163,.7);flex-shrink:0"></span>Agenda limité. Peu de projets en parallèle, pour garder le niveau sur chacun.</p>
+      <div class="tf-calc">
+        <div class="tf-calc-q">Pas sûr de ton format ?</div>
+        <div class="tf-calc-btns">
+          <button type="button" onclick="window.tfPick('Single')">Un seul son</button>
+          <button type="button" onclick="window.tfPick('EP')">Un EP / mixtape</button>
+          <button type="button" onclick="window.tfPick('Album')">Un album</button>
+          <button type="button" onclick="window.tfPick('Campagne')">Une campagne complète</button>
+        </div>
+      </div>
     </div>
 
     <div id="pmFormatBar" style="position:sticky;top:0;z-index:6;background:#060606;padding:16px 26px 14px;margin-top:20px;border-bottom:1px solid rgba(255,255,255,.08)">
@@ -116,6 +126,38 @@
         <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.84rem;color:#f0ede8">Flyers &amp; Affiches</div>
         <div style="font:400 .7rem Inter,sans-serif;color:#7a7a75;margin-top:5px">dès 25K XOF</div>
       </div>
+    </div>
+
+    <div class="tf-block">
+      <div class="tf-block-label">Après la commande</div>
+      <div class="tf-steps">
+        <div class="tf-step"><span>01</span>Acompte 50%</div>
+        <div class="tf-step"><span>02</span>Brief</div>
+        <div class="tf-step"><span>03</span>Concept</div>
+        <div class="tf-step"><span>04</span>Livraison</div>
+      </div>
+    </div>
+
+    <div class="tf-block">
+      <div class="tf-block-label">Un exemple concret</div>
+      <div class="tf-ba">
+        <div class="tf-ba-col"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Avant retouche" loading="lazy"><span>Raw</span></div>
+        <div class="tf-ba-col"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Après retouche" loading="lazy"><span>Final</span></div>
+      </div>
+      <p class="tf-ba-cap">Ce que le concept + les révisions incluses dans chaque pack peuvent changer.</p>
+    </div>
+
+    <div class="tf-block">
+      <div class="tf-block-label">Questions fréquentes</div>
+      <details class="tf-faq"><summary>Je veux juste retoucher une cover existante, c'est possible ?</summary><p>Oui — écris-moi directement, ce type de retouche est traité au cas par cas, hors packs.</p></details>
+      <details class="tf-faq"><summary>Je peux payer en plusieurs fois ?</summary><p>L'acompte de 50% lance le projet, le solde à la livraison. Pas d'échéancier au-delà de ces deux temps.</p></details>
+      <details class="tf-faq"><summary>Combien de temps pour recevoir mon pack ?</summary><p>Le délai est communiqué à la commande et dépend du pack choisi. Urgence possible avec supplément.</p></details>
+      <details class="tf-faq"><summary>Et si je ne suis pas sûr du pack à choisir ?</summary><p>Réserve un appel de 15 minutes, gratuit, on regarde ton projet ensemble.</p></details>
+    </div>
+
+    <div class="tf-cal-cta">
+      <div class="tf-cal-title">Pas sûr de ton choix ?</div>
+      <a href="https://calendly.com/mdgdesign221/appel-decouverte-15-20-min" target="_blank" rel="noopener" class="tf-cal-btn">Réserver un appel de 15 min →</a>
     </div>
 
     <div class="pay-block">
@@ -212,7 +254,51 @@
   .pay-chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
   .pay-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);border-radius:100px;padding:.55rem 1.1rem;font-family:'Syne',sans-serif;font-weight:700;font-size:.76rem;color:#c4bfb8}
   .pay-chip svg{color:#3DBFA3;flex-shrink:0}
+
+  .tf-calc{margin-top:1.8rem;padding:1.4rem 1.2rem;background:rgba(61,191,163,.05);border:1px solid rgba(61,191,163,.2);border-radius:14px;text-align:center}
+  .tf-calc-q{font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;color:#f0ede8;margin-bottom:.9rem}
+  .tf-calc-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+  .tf-calc-btns button{font-family:'Syne',sans-serif;font-weight:600;font-size:.76rem;color:#c4bfb8;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:.55rem 1rem;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+  .tf-calc-btns button:hover{background:#3DBFA3;color:#04120f;border-color:#3DBFA3}
+
+  .tf-block{max-width:900px;margin:4rem auto 0;padding:0 1rem}
+  .tf-block-label{text-align:center;font-family:'Syne',sans-serif;font-weight:700;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:#8f8b84;margin-bottom:1.3rem}
+
+  .tf-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+  .tf-step{background:#0d0d0d;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.1rem .8rem;text-align:center;font-family:'Inter',sans-serif;font-size:.78rem;color:#c4bfb8}
+  .tf-step span{display:block;font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:#3DBFA3;margin-bottom:.4rem}
+  @media(max-width:640px){.tf-steps{grid-template-columns:1fr 1fr}}
+
+  .tf-ba{display:flex;gap:1px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+  .tf-ba-col{position:relative;flex:1;background:#0d0d0d}
+  .tf-ba-col img{width:100%;height:auto;display:block}
+  .tf-ba-col span{position:absolute;top:10px;left:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#f0ede8;background:rgba(10,10,10,.7);padding:4px 10px;border-radius:100px}
+  .tf-ba-cap{text-align:center;font-size:.78rem;color:#7a7a75;margin-top:.9rem}
+
+  .tf-faq{border-top:1px solid rgba(255,255,255,.1);padding:1rem 0;cursor:pointer}
+  .tf-faq:last-child{border-bottom:1px solid rgba(255,255,255,.1)}
+  .tf-faq summary{font-family:'Syne',sans-serif;font-weight:600;font-size:.86rem;color:#f0ede8;list-style:none}
+  .tf-faq summary::-webkit-details-marker{display:none}
+  .tf-faq summary::before{content:'+ ';color:#3DBFA3;font-weight:800}
+  .tf-faq[open] summary::before{content:'\u2212 '}
+  .tf-faq p{font-size:.82rem;color:#a7a29b;margin-top:.6rem;line-height:1.6;padding-left:1.1rem}
+
+  .tf-cal-cta{max-width:900px;margin:4rem auto 0;padding:2rem 1.2rem;text-align:center;background:rgba(61,191,163,.05);border:1px solid rgba(61,191,163,.2);border-radius:16px}
+  .tf-cal-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#f0ede8;margin-bottom:1rem}
+  .tf-cal-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#04120f;background:#3DBFA3;text-decoration:none;padding:.9rem 1.6rem;border-radius:100px;transition:transform .2s,background .2s}
+  .tf-cal-btn:hover{background:#5fd6bd;transform:translateY(-2px)}
   </style>
+
+  <script>
+  window.tfPick = function(label){
+    var btns = document.querySelectorAll('.pd-fbtn, [id="pmFormatGrid"] button');
+    for (var i=0;i<btns.length;i++){
+      if (btns[i].textContent.trim() === label) { btns[i].click(); break; }
+    }
+    var packs = document.getElementById('pdPacks') || document.getElementById('pmPacks');
+    if (packs) packs.scrollIntoView({behavior:'smooth', block:'start'});
+  };
+  </script>
   <div class="pricing-desk">
     <div class="pd-eyebrow"><span></span>Investissement<span></span></div>
     <h2 class="pd-title">Tu sors <em>quoi ?</em></h2>
@@ -224,6 +310,15 @@
       </div>
     </div>
     <p class="pd-scarcity" style="display:flex;align-items:center;justify-content:center;gap:.6rem;font-family:'Syne',sans-serif;font-size:.82rem;font-weight:600;color:var(--accent);letter-spacing:.01em;margin:1.3rem auto 0;text-align:center"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 9px rgba(61,191,163,.7);flex-shrink:0"></span>Agenda limité. Je prends peu de projets en parallèle, pour garder le niveau sur chacun.</p>
+    <div class="tf-calc">
+      <div class="tf-calc-q">Pas sûr de ton format ?</div>
+      <div class="tf-calc-btns">
+        <button type="button" onclick="window.tfPick('Single')">Un seul son</button>
+        <button type="button" onclick="window.tfPick('EP')">Un EP / mixtape</button>
+        <button type="button" onclick="window.tfPick('Album')">Un album</button>
+        <button type="button" onclick="window.tfPick('Campagne')">Une campagne complète</button>
+      </div>
+    </div>
     <div class="pd-format-bar">
       <span class="pd-format-lead">Je sors un :</span>
       <div class="pd-format-grid" id="pdFormatGrid"></div>
@@ -239,6 +334,39 @@
         <div class="pd-addon"><div class="pd-addon-name">Flyers &amp; Affiches</div><div class="pd-addon-price">dès 25K XOF</div></div>
       </div>
     </div>
+
+    <div class="tf-block">
+      <div class="tf-block-label">Après la commande</div>
+      <div class="tf-steps">
+        <div class="tf-step"><span>01</span>Acompte 50%</div>
+        <div class="tf-step"><span>02</span>Brief</div>
+        <div class="tf-step"><span>03</span>Concept</div>
+        <div class="tf-step"><span>04</span>Livraison</div>
+      </div>
+    </div>
+
+    <div class="tf-block">
+      <div class="tf-block-label">Un exemple concret</div>
+      <div class="tf-ba">
+        <div class="tf-ba-col"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Avant retouche" loading="lazy"><span>Raw</span></div>
+        <div class="tf-ba-col"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_500/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Après retouche" loading="lazy"><span>Final</span></div>
+      </div>
+      <p class="tf-ba-cap">Ce que le concept + les révisions incluses dans chaque pack peuvent changer.</p>
+    </div>
+
+    <div class="tf-block">
+      <div class="tf-block-label">Questions fréquentes</div>
+      <details class="tf-faq"><summary>Je veux juste retoucher une cover existante, c'est possible ?</summary><p>Oui — écris-moi directement, ce type de retouche est traité au cas par cas, hors packs.</p></details>
+      <details class="tf-faq"><summary>Je peux payer en plusieurs fois ?</summary><p>L'acompte de 50% lance le projet, le solde à la livraison. Pas d'échéancier au-delà de ces deux temps.</p></details>
+      <details class="tf-faq"><summary>Combien de temps pour recevoir mon pack ?</summary><p>Le délai est communiqué à la commande et dépend du pack choisi. Urgence possible avec supplément.</p></details>
+      <details class="tf-faq"><summary>Et si je ne suis pas sûr du pack à choisir ?</summary><p>Réserve un appel de 15 minutes, gratuit, on regarde ton projet ensemble.</p></details>
+    </div>
+
+    <div class="tf-cal-cta">
+      <div class="tf-cal-title">Pas sûr de ton choix ?</div>
+      <a href="https://calendly.com/mdgdesign221/appel-decouverte-15-20-min" target="_blank" rel="noopener" class="tf-cal-btn">Réserver un appel de 15 min →</a>
+    </div>
+
     <div class="pay-block">
       <div class="pay-label">Moyens de paiement</div>
       <div class="pay-chips">
