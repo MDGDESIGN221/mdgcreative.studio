@@ -12681,7 +12681,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
         <p class="nh-lede">Design &amp; direction artistique pour marques et artistes : identit&eacute;, cover art, web, motion, print.</p>
         <p class="nh-lede-m">Design &amp; direction artistique. 7 ans, 50 artistes et marques, 9 pays.</p>
         <div class="nh-actions">
-          <a class="nh-btn nh-btn--p" href="atelier.html" id="doorBrands">Pour les marques <i>&rarr;</i></a>
+          <a class="nh-btn nh-btn--p" href="/atelier" id="doorBrands">Pour les marques <i>&rarr;</i></a>
           <a class="nh-btn nh-btn--s" href="#passerelle" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('passerelle');else document.getElementById('passerelle')?.scrollIntoView({behavior:'smooth'})">Pour les artistes <i>&rarr;</i></a>
         </div>
         <div class="nh-meta"><span><b>7+</b>ans</span><span><b>50+</b>artistes</span><span><b>9</b>pays</span></div>
@@ -22944,7 +22944,7 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   function goAtelier(e){
     if(e){ e.preventDefault(); e.stopPropagation(); }
     overlay.classList.add('active');
-    setTimeout(function(){ window.location.href = 'atelier.html'; }, 480);
+    setTimeout(function(){ window.location.href = '/atelier'; }, 480);
   }
   // Un vrai clic (tap) navigue. On ne se sert PLUS de 'touchend' :
   // il se déclenchait par erreur quand un scroll commençait sur le bouton.

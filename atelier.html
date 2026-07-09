@@ -7,7 +7,7 @@
 <title>Atelier MDG — Identité visuelle pour les marques</title>
 <meta name="description" content="Atelier MDG construit des identités visuelles durables pour les entreprises et marques ambitieuses. Logo, web, packaging, stratégie visuelle.">
 <meta name="author" content="Atelier MDG · MDG Creative Studio">
-<link rel="canonical" href="https://www.mdgcreative.studio/atelier.html">
+<link rel="canonical" href="https://www.mdgcreative.studio/atelier">
 <meta name="robots" content="index, follow">
 
 <!-- Open Graph (réseaux sociaux) -->
@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1780835079/hero_mobile_vouizb.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:url" content="https://www.mdgcreative.studio/atelier.html">
+<meta property="og:url" content="https://www.mdgcreative.studio/atelier">
 <meta property="og:site_name" content="Atelier MDG">
 <meta property="og:locale" content="fr_FR">
 
@@ -261,7 +261,7 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
 
 <nav class="nav" role="navigation">
   <div class="nav-inner">
-    <a href="atelier.html" class="nav-logo">
+    <a href="/atelier" class="nav-logo">
       <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto/v1776666025/New_logo_black_yig2o7.png" alt="Atelier MDG">
       <span class="nav-logo-name">Atelier MDG</span>
     </a>
@@ -541,25 +541,28 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
     var card = document.createElement('div');
     card.className = 'work-card fade-up';
     card.setAttribute('data-project', key);
-    card.setAttribute('role','button');
-    card.setAttribute('tabindex','0');
-    card.setAttribute('aria-label','Voir le projet ' + p.name);
+    card.setAttribute('role','link');
     card.innerHTML =
+      '<a href="projets/'+key+'.html" class="work-card-hit" aria-label="Voir le projet '+p.name+'">'+
       '<div class="work-card-img"><img src="'+p.thumb+'" alt="'+p.name+'" loading="lazy"></div>'+
       '<div class="work-card-body">'+
         '<div class="work-card-cat">'+p.cat+'</div>'+
         '<div class="work-card-name">'+p.name+'</div>'+
         '<p class="work-card-desc">'+p.cardDesc+'</p>'+
         '<span class="work-card-link">Voir le projet<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>'+
-      '</div>';
-    card.addEventListener('click', function(){ openProject(key); });
-    card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openProject(key); } });
+      '</div></a>';
+    var hit = card.querySelector('.work-card-hit');
+    hit.addEventListener('click', function(e){
+      if(e.button!==0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // laisse le navigateur gérer ouverture nouvel onglet/fenêtre
+      e.preventDefault();
+      openProject(key, true);
+    });
     grid.appendChild(card);
   });
 
   // modal
   var overlay = document.getElementById('csOverlay');
-  function openProject(key){
+  function openProject(key, pushUrl){
     var p = PROJECTS[key];
     document.getElementById('csHeaderCat').textContent = p.cat;
     document.getElementById('csHeaderTitle').textContent = p.name;
@@ -586,14 +589,21 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
     document.getElementById('csPanel').scrollTop = 0;
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    document.title = p.name + ' — Étude de cas | Atelier MDG';
+    if(pushUrl) history.pushState({project:key}, '', 'projets/'+key+'.html');
   }
   function closeProject(){
     overlay.classList.remove('open');
     document.body.style.overflow = '';
+    document.title = 'Atelier MDG — Identité visuelle pour les marques';
   }
-  document.getElementById('csClose').addEventListener('click', closeProject);
-  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeProject(); });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ closeProject(); closeMenu(); } });
+  window.addEventListener('popstate', function(e){
+    if(e.state && e.state.project){ openProject(e.state.project, false); }
+    else { closeProject(true); }
+  });
+  document.getElementById('csClose').addEventListener('click', function(){ closeProject(); if(history.state && history.state.project) history.back(); });
+  overlay.addEventListener('click', function(e){ if(e.target === overlay){ closeProject(); if(history.state && history.state.project) history.back(); } });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ if(overlay.classList.contains('open')){ closeProject(); if(history.state && history.state.project) history.back(); } closeMenu(); } });
 
   // mobile menu
   var toggle = document.getElementById('mobileToggle');
@@ -672,7 +682,7 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
         name: v.name,
         email: v.email,
         botcheck: cfForm.querySelector('input[name="botcheck"]').checked,
-        message: 'Type de projet : ' + v.type + '\nNom / marque : ' + v.name + '\nEmail : ' + v.email + '\n\nMessage :\n' + v.msg + '\n\nSource : atelier.html'
+        message: 'Type de projet : ' + v.type + '\nNom / marque : ' + v.name + '\nEmail : ' + v.email + '\n\nMessage :\n' + v.msg + '\n\nSource : /atelier'
       })
     }).then(function(r){ return r.json(); }).then(function(d){
       if(d && d.success){ document.getElementById('cformWrap').classList.add('sent'); }
