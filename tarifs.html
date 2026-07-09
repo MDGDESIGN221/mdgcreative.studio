@@ -49,6 +49,12 @@
   .tf-logo span{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:-.01em;color:#f0ede8}
   .tf-back{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#8f8b84;text-decoration:none;transition:color .25s}
   .tf-back:hover{color:#3DBFA3}
+  @media(max-width:480px){
+    .tf-nav{flex-wrap:nowrap;padding:1rem 1.1rem;gap:10px}
+    .tf-logo span{font-size:.8rem;white-space:nowrap}
+    .tf-logo img{height:22px}
+    .tf-back{font-size:.62rem;white-space:nowrap;flex-shrink:0}
+  }
   .tf-foot{border-top:1px solid rgba(255,255,255,.1);padding:2rem clamp(1.25rem,5vw,3rem);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.2rem}
   .tf-foot-brand{display:flex;align-items:center;gap:.6rem}
   .tf-foot-brand img{height:22px;width:auto}
@@ -111,7 +117,16 @@
       </div>
     </div>
 
-    <div style="text-align:center;padding:30px 26px 40px;font:400 .74rem Inter,sans-serif;color:#6c6a64">Acompte 50% · Wave · Orange Money · 3 révisions incluses</div>
+    <div class="pay-block">
+      <div class="pay-label">Moyens de paiement</div>
+      <div class="pay-chips">
+        <span class="pay-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><circle cx="18" cy="14" r="1.5"/></svg>Wave</span>
+        <span class="pay-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><circle cx="18" cy="14" r="1.5"/></svg>Orange Money</span>
+        <span class="pay-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></svg>PayPal</span>
+        <span class="pay-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></svg>Western Union</span>
+      </div>
+      <div style="text-align:center;font:400 .72rem Inter,sans-serif;color:#6c6a64">Acompte 50% · 3 révisions incluses · international via PayPal / Western Union</div>
+    </div>
 
   </div>
 
@@ -191,6 +206,11 @@
   .pd-addon-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:#f0ede8}
   .pd-addon-price{font:400 .78rem 'Inter',sans-serif;color:#8f8b84;margin-top:.4rem}
   .pd-foot{text-align:center;color:#8f8b84;font-size:.82rem;margin-top:3rem;font-weight:300}
+  .pay-block{text-align:center;margin-top:2.6rem}
+  .pay-label{font-family:'Syne',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:#6c6a64;margin-bottom:14px}
+  .pay-chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .pay-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);border-radius:100px;padding:.55rem 1.1rem;font-family:'Syne',sans-serif;font-weight:700;font-size:.76rem;color:#c4bfb8}
+  .pay-chip svg{color:#3DBFA3;flex-shrink:0}
   </style>
   <div class="pricing-desk">
     <div class="pd-eyebrow"><span></span>Investissement<span></span></div>
@@ -218,7 +238,16 @@
         <div class="pd-addon"><div class="pd-addon-name">Flyers &amp; Affiches</div><div class="pd-addon-price">dès 25K XOF</div></div>
       </div>
     </div>
-    <div class="pd-foot">Acompte 50% · Wave · Orange Money · 3 révisions incluses</div>
+    <div class="pay-block">
+      <div class="pay-label">Moyens de paiement</div>
+      <div class="pay-chips">
+        <span class="pay-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><circle cx="18" cy="14" r="1.5"/></svg>Wave</span>
+        <span class="pay-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 010-4h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><circle cx="18" cy="14" r="1.5"/></svg>Orange Money</span>
+        <span class="pay-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></svg>PayPal</span>
+        <span class="pay-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></svg>Western Union</span>
+      </div>
+      <div class="pd-foot" style="margin-top:0">Acompte 50% · 3 révisions incluses · international via PayPal / Western Union</div>
+    </div>
   </div>
   <script>
   (function initPricingDesk(){
