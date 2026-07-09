@@ -94,7 +94,7 @@ h2.legal-h2{
 }
 h2.legal-h2 .num{
   font-family:'DM Serif Display',serif;font-style:italic;
-  font-size:1rem;color:var(--gold);flex:none;
+  font-size:1rem;color:var(--accent);flex:none;
 }
 h3.legal-h3{
   font-family:'Syne',sans-serif;font-weight:600;
@@ -122,11 +122,8 @@ h3.legal-h3{
 
 /* ── Placeholder à compléter par le propriétaire ── */
 .tofill{
-  background:rgba(201,169,107,.14);
-  border:1px dashed rgba(201,169,107,.55);
-  color:var(--gold);
-  padding:.08em .5em;border-radius:4px;
-  font-size:.86em;font-weight:500;font-style:normal;
+  color:var(--dim);
+  font-size:.86em;font-weight:400;font-style:italic;
 }
 
 /* ── Pied ── */
