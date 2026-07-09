@@ -38,18 +38,30 @@
   body{background:#060606}
   :root{ --accent:#3DBFA3; --diamond:#c084fc; }
   .pack-curtain{display:none!important}
-  .tarifs-hero{max-width:1200px;margin:0 auto;padding:2.5rem 3rem 0}
-  .tarifs-back{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:#8f8b84;text-decoration:none;margin-bottom:1.5rem}
-  .tarifs-back:hover{color:#3DBFA3}
-  @media(max-width:700px){.tarifs-hero{padding:1.6rem 1.2rem 0}}
+  .tf-nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:1.3rem clamp(1.25rem,5vw,3rem);background:rgba(6,6,6,.86);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid rgba(255,255,255,.1)}
+  .tf-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+  .tf-logo img{height:28px;width:auto;display:block}
+  .tf-logo span{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:-.01em;color:#f0ede8}
+  .tf-back{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#8f8b84;text-decoration:none;transition:color .25s}
+  .tf-back:hover{color:#3DBFA3}
+  .tf-foot{border-top:1px solid rgba(255,255,255,.1);padding:2rem clamp(1.25rem,5vw,3rem);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.2rem}
+  .tf-foot-brand{display:flex;align-items:center;gap:.6rem}
+  .tf-foot-brand img{height:22px;width:auto}
+  .tf-foot-brand span{font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:#8f8b84}
+  .tf-foot-links{display:flex;flex-wrap:wrap;gap:1.3rem}
+  .tf-foot-links a{font-family:'Syne',sans-serif;font-weight:600;font-size:.74rem;color:rgba(255,255,255,.4);text-decoration:none;transition:color .25s}
+  .tf-foot-links a:hover{color:#3DBFA3}
 </style>
 </head>
 <body>
 
-<header class="legal-topbar">
-  <a href="index.html" class="legal-brand"><span></span>MDG Creative Studio</a>
-  <a href="index.html" class="legal-back">← Retour au site</a>
-</header>
+<nav class="tf-nav">
+  <a href="index.html" class="tf-logo">
+    <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_120/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio">
+    <span>MDG Creative Studio</span>
+  </a>
+  <a href="index.html" class="tf-back">← Retour à l'accueil</a>
+</nav>
 
 <section id="pricing">
   <div class="pricing-mob">
@@ -722,14 +734,17 @@
 
   </div>
 </section>
-<footer class="legal-foot">
-  <nav class="legal-foot-links" aria-label="Pages légales">
+<footer class="tf-foot">
+  <div class="tf-foot-brand">
+    <img src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_90/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio">
+    <span>Conçu avec soin par MDG Creative Studio · © 2026</span>
+  </div>
+  <nav class="tf-foot-links" aria-label="Pages légales">
     <a href="mentions-legales.html">Mentions légales</a>
     <a href="confidentialite.html">Confidentialité</a>
     <a href="cgv.html">CGV</a>
     <a href="index.html">Accueil</a>
   </nav>
-  <span class="legal-foot-copy">Conçu avec soin par MDG Creative Studio · © 2026</span>
 </footer>
 
 <script>
