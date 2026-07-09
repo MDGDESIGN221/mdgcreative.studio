@@ -12620,9 +12620,14 @@ a[data-spotify] svg{ fill:#fff !important; }
 #hero.nhero .nh-btn--s:hover{border-color:#0e0e0e;transform:translateY(-2px)}
 #hero.nhero .nh-meta{display:flex;gap:clamp(22px,3vw,32px);margin-top:clamp(28px,4vw,46px);font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6a655e}
 #hero.nhero .nh-meta b{display:block;font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-.02em;color:#0e0e0e}
-#hero.nhero .nh-collabs{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5em;margin-top:clamp(18px,2.4vw,26px);padding-top:clamp(18px,2.4vw,26px);border-top:1px solid rgba(14,14,14,.1)}
+#hero.nhero .nh-collabs{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:clamp(18px,2.4vw,26px);padding-top:clamp(18px,2.4vw,26px);border-top:1px solid rgba(14,14,14,.1)}
+#hero.nhero .nh-pics{display:flex;align-items:center;flex:none}
+#hero.nhero .nh-pic{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2.5px solid #fcfbf9;background:#eceae5}
+#hero.nhero .nh-pic + .nh-pic{margin-left:-11px}
 #hero.nhero .nh-collabs-lbl{font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a8580}
-#hero.nhero .nh-collabs-names{font-family:'Syne',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:-.01em;color:#3a3935}
+#hero.nhero .nh-collabs-names{font-family:'Inter',sans-serif;font-weight:400;font-size:.84rem;line-height:1.45;letter-spacing:0;color:#3a3935;max-width:none}
+#hero.nhero .nh-collabs-names b{font-family:'Syne',sans-serif;font-weight:600}
+#hero.nhero .nh-collabs-names .hl{color:#1f8a73}
 #hero.nhero .nh-imgcol{position:relative;overflow:hidden;border-radius:18px;min-height:420px;background:#eceae5}
 #hero.nhero .nh-imgcol img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:grayscale(.15) contrast(1.03);animation:nhkb 16s ease-in-out infinite alternate}
 #hero.nhero .nh-tag{position:absolute;left:16px;bottom:16px;background:rgba(252,251,249,.92);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);padding:8px 14px;border-radius:100px;font-family:'Syne',sans-serif;font-weight:700;font-size:.68rem;color:#0e0e0e;letter-spacing:.02em;z-index:2}
@@ -12648,7 +12653,7 @@ a[data-spotify] svg{ fill:#fff !important; }
   #hero.nhero .nh-btn{justify-content:center;padding:15px}
   #hero.nhero .nh-meta{display:none}
   #hero.nhero .nh-collabs{justify-content:center;text-align:center;margin-top:16px;padding-top:16px}
-  #hero.nhero .nh-collabs-names{font-size:.76rem}
+  #hero.nhero .nh-collabs-names{font-size:.78rem}
 }
 /* Nav épuré au-dessus du hero : logo + dispo + langue seulement, le reste réapparaît au scroll */
 nav:not(#mob-tab-bar):not(.scrolled) .nav-links,
@@ -12704,8 +12709,14 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
         </div>
         <div class="nh-meta"><span><b>7+</b>ans</span><span><b>50+</b>artistes</span><span><b>9</b>pays</span></div>
         <div class="nh-collabs">
-          <span class="nh-collabs-lbl">Ont travaillé avec</span>
-          <span class="nh-collabs-names">ISS 814 · One Lyrical · Dopeboy DMG · Omzo Beatz · VJ</span>
+          <div class="nh-pics">
+            <img class="nh-pic" width="40" height="40" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/c_thumb,g_face,w_120,h_120,f_auto,q_auto/v1777184982/iss_814_v22_dtnhal.jpg" alt="ISS 814">
+            <img class="nh-pic" width="40" height="40" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/c_thumb,g_face,w_120,h_120,f_auto,q_auto/v1777184384/one_lyrical_33_s2iha2.jpg" alt="One Lyrical">
+            <img class="nh-pic" width="40" height="40" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/c_thumb,g_face,w_120,h_120,f_auto,q_auto/v1777184573/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG">
+            <img class="nh-pic" width="40" height="40" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/c_thumb,g_face,w_120,h_120,f_auto,q_auto/v1777182477/omzo_1_jkbnwn.jpg" alt="Omzo Beatz">
+            <img class="nh-pic" width="40" height="40" loading="lazy" decoding="async" src="https://res.cloudinary.com/djdkpihuz/image/upload/c_thumb,g_face,w_120,h_120,f_auto,q_auto/v1783597715/mouhamed_VJ_znp3uf.jpg" alt="VJ">
+          </div>
+          <span class="nh-collabs-names" data-i18n="hero_collabs_line">La confiance d'<b>ISS 814</b>, <b>One Lyrical</b>, <b>Dopeboy DMG</b>, <b>Omzo Beatz</b>, <b>VJ</b> &mdash; et de <b class="hl">50+ artistes</b>.</span>
         </div>
       </div>
       <div class="nh-imgcol">
@@ -17511,6 +17522,7 @@ var translations = {
 
   // ─── COLLABS ─────────────────────────────────────────
   collabs_label: { fr: 'Collaborations', en: 'Collaborations' },
+  hero_collabs_line: { fr: 'La confiance d\'<b>ISS 814</b>, <b>One Lyrical</b>, <b>Dopeboy DMG</b>, <b>Omzo Beatz</b>, <b>VJ</b> &mdash; et de <b class="hl">50+ artistes</b>.', en: 'Trusted by <b>ISS 814</b>, <b>One Lyrical</b>, <b>Dopeboy DMG</b>, <b>Omzo Beatz</b>, <b>VJ</b> &mdash; and <b class="hl">50+ artists</b>.' },
   collabs_title: { fr: "Ils m'ont fait<em> confiance</em>", en: 'They trusted<em> me</em>' },
   collabs_sub: { fr: 'Plus de 50 artistes et marques africaines accompagnés depuis 2019. Et la liste continue.', en: 'Over 50 African artists and brands since 2019. And counting.' },
   collabs_count_label: { fr: 'artistes & marques', en: 'artists & brands' },
@@ -18281,6 +18293,7 @@ var patches = [
   ['.nav-links a[href="#about"]', 'nav_about', 'text'],
   ['.nav-links a[href="#services"]', 'nav_services', 'text'],
   ['.nav-links a[href="#collabs"]', 'collabs_label', 'text'],
+  ['#hero.nhero .nh-collabs-names', 'hero_collabs_line', 'html'],
   ['.nav-links a[href="#pricing"]', 'nav_pricing', 'text'],
   ['.nav-links a[href="#contact"]', 'contact_label', 'text'],
 
