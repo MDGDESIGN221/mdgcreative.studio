@@ -12789,6 +12789,44 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       </div>
     </div>
 
+    <!-- ── CHAPITRES (layout 10c) ── -->
+    <style id="chap-css">
+      #portfolio-accordion .port-tabs-wrap{display:none!important}
+      .chap-wrap{padding:1.4rem clamp(1.25rem,4vw,3rem) 3.5rem;display:flex;flex-direction:column}
+      .chap{border-top:1px solid rgba(255,255,255,.12);padding:26px 0 30px}
+      .chap:last-child{border-bottom:1px solid rgba(255,255,255,.12)}
+      .chap-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:18px}
+      .chap-head-l{display:flex;align-items:baseline;gap:14px;min-width:0}
+      .chap-num{font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:#3DBFA3;flex:none}
+      .chap-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:var(--light);letter-spacing:-.01em}
+      .chap-cnt{font-size:.74rem;color:var(--dim);flex:none}
+      .chap-btn{font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.02em;color:#3DBFA3;background:none;border:none;cursor:pointer;padding:8px 0;flex:none;transition:opacity .2s}
+      .chap-btn:hover{opacity:.65}
+      .chap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+      .chap-it{position:relative;display:block;aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#141414;border:none;padding:0;cursor:pointer}
+      .chap-grid.sq .chap-it,.chap-grid.sq .chap-more{aspect-ratio:1}
+      .chap-it img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+      .chap-it:hover img{transform:scale(1.05)}
+      .chap-play{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:rgba(10,10,10,.55);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:#f0ede8;pointer-events:none}
+      .chap-more{position:relative;aspect-ratio:4/5;border-radius:10px;border:1px dashed rgba(255,255,255,.25);background:rgba(255,255,255,.03);color:var(--light);font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;cursor:pointer;order:999;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s}
+      .chap-more:hover{border-color:#3DBFA3;background:rgba(61,191,163,.08)}
+      .chap-more .mm{display:none}
+      .chap-grid:not(.collapsed) .chap-more{display:none}
+      @media(min-width:768px){
+        .chap-grid.collapsed .chap-it:nth-child(n+11){display:none}
+        .chap-more.no-d{display:none}
+      }
+      @media(max-width:767px){
+        .chap-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+        .chap-grid.collapsed .chap-it:nth-child(n+7){display:none}
+        .chap-more .md{display:none}
+        .chap-more .mm{display:block}
+        .chap-more.no-m{display:none}
+        .chap-title{font-size:1.05rem}
+      }
+    </style>
+    <div id="chapWrap" class="chap-wrap" data-screen-label="Réalisations chapitres"></div>
+
     <!-- Panel Visuals -->
     <div class="pnl-acc active" id="pnl-work">
     <div style="padding:2rem clamp(1.25rem,4vw,3rem) 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
@@ -12806,7 +12844,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
         </div>
       <div class="work-track" id="workTrack">
         <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1782124592/NORVEGE_VS_SENEGAL_vmbgvx.png" data-lb-title="Norvège vs Sénégal" data-lb-desc="Sports Key Visual · Direction Artistique">
-          <img width="1200" height="1500" decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782124592/NORVEGE_VS_SENEGAL_vmbgvx.png" alt="Norvège vs Sénégal, Sports Key Visual">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1782124592/NORVEGE_VS_SENEGAL_vmbgvx.png" alt="Norvège vs Sénégal, Sports Key Visual">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">Norvège vs Sénégal<em>Direction Artistique</em></div>
@@ -12837,7 +12875,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-card-bar"></div>
         </div>
         <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" data-lb-title="France vs Sénégal" data-lb-desc="Sports Key Visual · Direction Artistique">
-          <img width="1200" height="1500" decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France vs Sénégal, Sports Key Visual">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France vs Sénégal, Sports Key Visual">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">France vs Sénégal<em>Direction Artistique</em></div>
@@ -12846,7 +12884,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-card-bar"></div>
         </a>
         <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" data-lb-title="Sénégal vs Arabie Saoudite" data-lb-desc="Sports Key Visual · Direction Artistique">
-          <img width="1200" height="1500" decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite, Sports Key Visual">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1200/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite, Sports Key Visual">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">Sénégal vs Arabie Saoudite<em>Direction Artistique</em></div>
@@ -13266,28 +13304,28 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       <div class="work-track" id="motTrack">
 
         <div class="work-card" style="cursor:pointer" data-mot-src="https://res.cloudinary.com/djdkpihuz/video/upload/v1778199953/Enhancer-Ultra_HD-Sabadola_EP_2026_ihhqsy.mp4" data-mot-title="Sabadola Teaser · One Lyrical">
-          <img width="1600" height="892" decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1778200118/2161ad67-0b9b-40ea-a3ff-06cb94b38640_bdydwf.png" alt="Sabadola Teaser">
+          <img width="1600" height="892" decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1778200118/2161ad67-0b9b-40ea-a3ff-06cb94b38640_bdydwf.png" alt="Sabadola Teaser">
           <div class="work-meta"><div class="work-cat">Motion Design</div><div class="work-title">Sabadola Teaser<em>One Lyrical</em></div></div>
           <div class="work-overlay"></div>
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
 
         <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=One_Lyrical_Promo_Video_concert_%C3%A0_Alassane_Djigo_elctoe" data-mot-title="PROMO · One Lyrical">
-          <img width="1600" height="2844" decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1777184384/one_lyrical_33_s2iha2.jpg" alt="PROMO">
+          <img width="1600" height="2844" decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_1600/v1777184384/one_lyrical_33_s2iha2.jpg" alt="PROMO">
           <div class="work-meta"><div class="work-cat">Promo Vidéo</div><div class="work-title">PROMO<em>One Lyrical</em></div></div>
           <div class="work-overlay"></div>
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
 
         <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=TUKKI_-_MGEEY_FT._DAMNIBRA_hduvob" data-mot-title="Tukki · Mgeey ft. Damnibra">
-          <img width="800" height="996" decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777514802/Graduation_Red_Mood_v3_-_Upscaled_o9x0zq.png" alt="Tukki">
+          <img width="800" height="996" decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777514802/Graduation_Red_Mood_v3_-_Upscaled_o9x0zq.png" alt="Tukki">
           <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">Tukki<em>Mgeey ft. Damnibra</em></div></div>
           <div class="work-overlay"></div>
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
 
         <div class="work-card" style="cursor:pointer" data-mot-src="https://player.cloudinary.com/embed/?cloud_name=djdkpihuz&public_id=NEW_WAVE_-_OOTHENTIK_ZEUS_fc5zv4" data-mot-title="New Wave · Oothentik Zeus">
-          <img width="800" height="1417" decoding="async" loading="eager" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="New Wave">
+          <img width="800" height="1417" decoding="async" loading="lazy" class="work-img" src="https://res.cloudinary.com/djdkpihuz/image/upload/f_auto,q_auto,w_800/v1777183762/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="New Wave">
           <div class="work-meta"><div class="work-cat">Motion Cover</div><div class="work-title">New Wave<em>Oothentik Zeus</em></div></div>
           <div class="work-overlay"></div>
           <div class="motion-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor" width="44" height="44"><path d="M8 5v14l11-7z"/></svg></div>
@@ -17208,6 +17246,83 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     thumb.classList.remove('motion-thumb');
   });
 });
+
+// ── CHAPITRES RÉALISATIONS (layout 10c) ──
+(function(){
+  var host=document.getElementById('chapWrap'); if(!host) return;
+  var defs=[
+    {num:'01', title:'Visuals', unit:['projets','projects'], sq:false, mot:false, sel:'#pnl-work [data-lb-src]', key:'chap_cnt_work'},
+    {num:'02', title:'Cover Art', unit:['covers','covers'], sq:true, mot:false, sel:'#pnl-covers [data-lb-src]', key:'chap_cnt_covers'},
+    {num:'03', title:'Motion', unit:['vid\u00e9os','videos'], sq:false, mot:true, sel:'#pnl-motion [data-mot-src]', key:'chap_cnt_motion'}
+  ];
+  var dictAdd={};
+  defs.forEach(function(def){
+    var srcEls=Array.prototype.slice.call(document.querySelectorAll(def.sel));
+    if(!srcEls.length) return;
+    var n=srcEls.length;
+    dictAdd[def.key]={fr:n+' '+def.unit[0], en:n+' '+def.unit[1]};
+    var chap=document.createElement('div'); chap.className='chap';
+    var head=document.createElement('div'); head.className='chap-head';
+    head.innerHTML='<div class="chap-head-l"><span class="chap-num">'+def.num+'</span><span class="chap-title">'+def.title+'</span><span class="chap-cnt" data-i18n="'+def.key+'">'+n+' '+def.unit[0]+'</span></div>';
+    var btn=document.createElement('button'); btn.type='button'; btn.className='chap-btn';
+    head.appendChild(btn);
+    var grid=document.createElement('div'); grid.className='chap-grid collapsed'+(def.sq?' sq':'');
+    var more=document.createElement('button'); more.type='button'; more.className='chap-more';
+    var remD=Math.max(0,n-9), remM=Math.max(0,n-5);
+    if(!remD) more.classList.add('no-d');
+    if(!remM) more.classList.add('no-m');
+    more.innerHTML='<span class="md">+'+remD+'</span><span class="mm">+'+remM+'</span>';
+    more.setAttribute('aria-label','Tout afficher');
+    grid.appendChild(more);
+    srcEls.forEach(function(el){
+      var img=el.querySelector('img');
+      var thumbSrc=img?img.src.replace(/w_\d+/,'w_400'):'';
+      var tile;
+      if(def.mot){
+        tile=document.createElement('button'); tile.type='button'; tile.className='chap-it';
+        tile.innerHTML=(thumbSrc?('<img loading="lazy" decoding="async" src="'+thumbSrc+'" alt="">'):'')+'<span class="chap-play">\u25B6</span>';
+        var label=el.getAttribute('data-mot-title')||'';
+        tile.setAttribute('aria-label',label);
+        tile.addEventListener('click',function(){
+          var p=label.split(' \u00b7 ');
+          if(typeof motionOpen==='function') motionOpen(el.getAttribute('data-mot-src'), p[0]||'', p[1]||'');
+        });
+      } else {
+        tile=document.createElement('a'); tile.className='chap-it';
+        tile.href='javascript:void(0)'; tile.setAttribute('role','button');
+        tile.setAttribute('data-lb-src', el.getAttribute('data-lb-src'));
+        tile.setAttribute('data-lb-title', el.getAttribute('data-lb-title')||'');
+        tile.setAttribute('data-lb-desc', el.getAttribute('data-lb-desc')||'');
+        var im=document.createElement('img'); im.loading='lazy'; im.decoding='async';
+        im.src=thumbSrc; im.alt=el.getAttribute('data-lb-title')||'';
+        tile.appendChild(im);
+        el.removeAttribute('data-lb-src');
+      }
+      grid.appendChild(tile);
+    });
+    function setBtn(){
+      var open=!grid.classList.contains('collapsed');
+      var en=(typeof currentLang!=='undefined'&&currentLang==='en');
+      btn.setAttribute('data-i18n', open?'chap_less':'chap_viewall');
+      btn.textContent=(open?(en?'Show less \u2191':'R\u00e9duire \u2191'):(en?'View all \u2192':'Tout voir \u2192'));
+    }
+    function toggle(){ grid.classList.toggle('collapsed'); setBtn(); }
+    btn.addEventListener('click',toggle);
+    more.addEventListener('click',toggle);
+    setBtn();
+    chap.appendChild(head); chap.appendChild(grid); host.appendChild(chap);
+  });
+  // Cacher les anciens panels (ils restent la source des modales vidéo)
+  document.querySelectorAll('#portfolio-accordion .pnl-acc').forEach(function(p){ p.classList.remove('active'); });
+  // Enregistrer les traductions une fois le dictionnaire chargé
+  setTimeout(function(){
+    if(typeof translations==='undefined') return;
+    translations.chap_viewall={fr:'Tout voir \u2192',en:'View all \u2192'};
+    translations.chap_less={fr:'R\u00e9duire \u2191',en:'Show less \u2191'};
+    for(var k in dictAdd) translations[k]=dictAdd[k];
+    if(typeof currentLang!=='undefined'&&currentLang==='en'&&typeof applyDataI18n==='function') applyDataI18n('en');
+  },0);
+})();
 
 // ── LIGHTBOX ──
 (function(){
