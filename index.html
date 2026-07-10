@@ -20024,12 +20024,21 @@ function motionOpen(src, name, artist) {
   document.getElementById('motion-fullscreen-title').textContent = name || '';
   document.getElementById('motion-fullscreen-artist').textContent = artist || '';
 
+  // Convertit les liens embed du player Cloudinary en .mp4 direct (l'iframe donne un écran blanc sur mobile)
+  if (/player\.cloudinary\.com\/embed/i.test(src)) {
+    try {
+      var params = new URLSearchParams(src.split('?')[1] || '');
+      var cn = params.get('cloud_name'), pid = params.get('public_id');
+      if (cn && pid) src = 'https://res.cloudinary.com/' + cn + '/video/upload/' + encodeURIComponent(pid).replace(/%2F/g, '/') + '.mp4';
+    } catch (err) {}
+  }
+
   var isMp4 = /\.(mp4|webm|mov)(\?|$)/i.test(src);
   if (isMp4) {
     content.innerHTML = '<video src="' + src + '" autoplay playsinline webkit-playsinline controls style="position:absolute;inset:0;width:100%;height:100%;background:#000;border:none;" preload="auto"></video>';
   } else {
     var sep = src.indexOf('?') > -1 ? '&' : '?';
-    var autoSrc = src + sep + 'autoplay=1&muted=true&controls=true&loop=false&quality=auto&preload=auto';
+    var autoSrc = src + sep + 'autoplay=1&muted=false&controls=true&loop=false&quality=auto&preload=auto';
     content.innerHTML = '<iframe src="' + autoSrc + '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>';
   }
 
