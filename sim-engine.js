@@ -4,8 +4,8 @@
 (function () {
   if (customElements.get('light-sim')) return;
 
-  const THREE_URL = 'https://unpkg.com/three@0.160.0/build/three.module.js';
-  const ADDON = 'https://unpkg.com/three@0.160.0/examples/jsm/';
+  const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+  const ADDON = 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/';
   const HEAD_URL = 'https://threejs.org/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb';
 
   let sharedLibs = null;
