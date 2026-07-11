@@ -2022,7 +2022,7 @@
           }
           this._dirty = true;
           if (typeof this.onLightMove === 'function') this.onLightMove(detail);
-          this.dispatchEvent(new CustomEvent('lightmove', { detail }));
+          this.dispatchEvent(new CustomEvent('lightmove', { detail, bubbles: true, composed: true }));
         } else if (this.p.interactive && this.p.gizmo && giz.visible) {
           cvs.style.cursor = pick(e) ? 'grab' : '';
         }
@@ -2229,7 +2229,7 @@
           <sc-if value="{{ isEn }}">Six interactive lessons · real-time render</sc-if>
         </span>
       </div>
-      <h1 style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(44px, 8.5vw, 118px); line-height: 0.94; letter-spacing: -0.02em; margin: 0 0 18px; color: #E8E0D0; text-transform: uppercase;">
+      <h1 style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(28px, 5.8vw, 88px); line-height: 0.96; letter-spacing: -0.02em; margin: 0 0 18px; color: #E8E0D0; text-transform: uppercase;">
         <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Comprendre<br><span style="color: #3DBFA3;">la lumière.</span></sc-if>
         <sc-if value="{{ isEn }}">Understand<br><span style="color: #3DBFA3;">the light.</span></sc-if>
       </h1>
@@ -2254,7 +2254,7 @@
   <!-- ============ LEÇON 01 — LA SOURCE ============ -->
   <section id="ch1" data-screen-label="Lecon 01 Source" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
     <div class="lc-vp">
-      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" intensity="{{ ch1Intensity }}" softness="{{ ch1Softness }}" distance="{{ ch1Distance }}" kelvin="{{ ch1Kelvin }}" color-hex="{{ ch1ColorHex }}" azimuth="{{ ch1Az }}" elevation="{{ ch1El }}" on-light-move="{{ ch1LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <x-import component-from-global-scope="light-sim" id="sim-ch1" mode="single" gizmo="true" interactive="true" intensity="{{ ch1Intensity }}" softness="{{ ch1Softness }}" distance="{{ ch1Distance }}" kelvin="{{ ch1Kelvin }}" color-hex="{{ ch1ColorHex }}" azimuth="{{ ch1Az }}" elevation="{{ ch1El }}" on-light-move="{{ ch1LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; pointer-events: none;">
         <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 01</sc-if><sc-if value="{{ isEn }}">Scene 01</sc-if>
@@ -2413,7 +2413,7 @@
   <!-- ============ LEÇON 03 — LA DIRECTION ============ -->
   <section id="ch3" data-screen-label="Lecon 03 Direction" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
     <div class="lc-vp">
-      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" intensity="1.6" softness="0.28" distance="2.1" kelvin="5300" azimuth="{{ ch3Az }}" elevation="{{ ch3El }}" on-light-move="{{ ch3LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <x-import component-from-global-scope="light-sim" id="sim-ch3" mode="single" gizmo="true" interactive="true" intensity="1.6" softness="0.28" distance="2.1" kelvin="5300" azimuth="{{ ch3Az }}" elevation="{{ ch3El }}" on-light-move="{{ ch3LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
         <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 03</sc-if><sc-if value="{{ isEn }}">Scene 03</sc-if>
@@ -2535,7 +2535,7 @@
   <!-- ============ LEÇON 05 — FRESNEL ============ -->
   <section id="ch5" data-screen-label="Lecon 05 Fresnel" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
     <div class="lc-vp">
-      <x-import component-from-global-scope="light-sim" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" on-light-move="{{ ch5LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <x-import component-from-global-scope="light-sim" id="sim-ch5" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" on-light-move="{{ ch5LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
         <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 05</sc-if><sc-if value="{{ isEn }}">Scene 05</sc-if>
@@ -2736,6 +2736,28 @@ class Component extends DCLogic {
   componentDidMount() {
     const l = this.props.defaultLang;
     if (l === 'en') this.setState({ lang: 'en' });
+    // wire viewport light-drag -> state (React does not pass function props to
+    // custom elements via attributes, so we attach listeners imperatively)
+    this._wireT = setInterval(() => {
+      const wire = (id, fn) => {
+        let el = document.getElementById(id);
+        if (el && el.tagName !== 'LIGHT-SIM') el = el.querySelector('light-sim') || (el.closest && el.closest('light-sim'));
+        if (el && !el.__lcWired) {
+          el.__lcWired = true;
+          el.addEventListener('lightmove', (e) => fn(e.detail));
+          el.onLightMove = fn;
+        }
+        return !!el;
+      };
+      const a = wire('sim-ch1', (d) => this.setState((st) => ({ ch1: { ...st.ch1, az: d.azimuth, el: d.elevation } })));
+      const b = wire('sim-ch3', (d) => this.setState((st) => ({ ch3: { ...st.ch3, az: d.azimuth, el: d.elevation } })));
+      const c = wire('sim-ch5', (d) => { if (d.rimWrap != null) this.setState((st) => ({ ch5: { ...st.ch5, wrap: d.rimWrap } })); });
+      if (a && b && c) { clearInterval(this._wireT); this._wireT = null; }
+    }, 400);
+  }
+
+  componentWillUnmount() {
+    if (this._wireT) clearInterval(this._wireT);
   }
 
   classifyPattern(az, el) {
