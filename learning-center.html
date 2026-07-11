@@ -2459,6 +2459,10 @@
             <button onClick="{{ ch1ColMagenta }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #DB4E9E; border: 2px solid {{ ch1RingMagenta }};"></button>
           </div>
         </div>
+        <p style="font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Cette liberté de couleur n'est qu'un terrain d'essai : sur une vraie image, elle doit correspondre à une source plausible dans la scène, la même règle que dans l'introduction.</sc-if>
+          <sc-if value="{{ isEn }}">This color freedom is a testing ground only: on a real image, it must match a plausible source in the scene, the same rule from the introduction.</sc-if>
+        </p>
       </div>
     </aside>
   </section>
@@ -2727,6 +2731,10 @@
         <p style="font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le masque isole les zones où l'angle de vue est rasant : précisément celles qu'un rim light fait briller.</sc-if>
           <sc-if value="{{ isEn }}">The mask isolates the zones where the viewing angle is grazing: precisely the ones a rim light makes glow.</sc-if>
+        </p>
+        <p style="font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Ces six couleurs sont un terrain de jeu pour ce module. Sur une vraie image, le rim doit correspondre à une source plausible dans la scène, sans quoi il aura l'air posé après coup.</sc-if>
+          <sc-if value="{{ isEn }}">These six colors are a playground for this module. On a real image, the rim must match a plausible source in the scene, or it will look pasted on afterward.</sc-if>
         </p>
       </div>
     </aside>
