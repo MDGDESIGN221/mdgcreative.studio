@@ -1766,24 +1766,10 @@
     if (document.readyState !== "loading") api.__dcBoot();
     else document.addEventListener("DOMContentLoaded", () => api.__dcBoot());
   }
-  function showBootError(err) {
-    const box = document.createElement("div");
-    box.setAttribute("style", "position:fixed;inset:0;z-index:2147483647;background:#0B0C0D;color:#E8E0D0;font-family:ui-monospace,monospace;padding:32px;overflow:auto;box-sizing:border-box;");
-    const msg = (err && (err.stack || err.message)) ? (err.stack || err.message) : String(err);
-    box.innerHTML =
-      '<div style="max-width:720px;margin:0 auto">' +
-      '<div style="font-family:sans-serif;font-size:20px;font-weight:700;color:#3DBFA3;margin-bottom:8px">Le Learning Center n\u2019a pas pu se charger</div>' +
-      '<div style="font-family:sans-serif;font-size:14px;color:rgba(232,224,208,0.7);margin-bottom:20px;line-height:1.5">Erreur au d\u00e9marrage (React, r\u00e9seau, ou script). D\u00e9tail technique ci-dessous \u2014 copie-le pour le d\u00e9bogage.</div>' +
-      '<pre style="white-space:pre-wrap;word-break:break-word;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:16px;font-size:12px;line-height:1.6"></pre>' +
-      '<div style="margin-top:20px"><a href="index.html" style="color:#3DBFA3;font-family:sans-serif;font-size:13px">\u2190 Retour \u00e0 l\u2019accueil</a></div>' +
-      '</div>';
-    box.querySelector("pre").textContent = msg;
-    document.body.appendChild(box);
-  }
   hideRawTemplate();
   loadReactUmd().then(init).catch((err) => {
     console.error("[dc] failed to load React or boot:", err);
-    showBootError(err);
+    throw err;
   });
 })();
 
@@ -1997,10 +1983,55 @@
       scene.add(rim); scene.add(rim.target);
       this._rim = rim;
 
-      // gizmo
-      const giz = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 16),
-        new THREE.MeshBasicMaterial({ color: 0xffffff }));
-      scene.add(giz); this._giz = giz;
+      // gizmo (core + halo) and direct light dragging
+      const giz = new THREE.Group();
+      const gizCore = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      const gizHalo = new THREE.Mesh(new THREE.SphereGeometry(0.115, 16, 16), new THREE.MeshBasicMaterial({ color: 0x3dbfa3, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending, depthWrite: false }));
+      const gizHit = new THREE.Mesh(new THREE.SphereGeometry(0.32, 8, 8), new THREE.MeshBasicMaterial({ visible: false }));
+      giz.add(gizCore); giz.add(gizHalo); giz.add(gizHit);
+      scene.add(giz); this._giz = giz; this._gizCore = gizCore; this._gizHalo = gizHalo;
+
+      // drag the light ball itself (raycast against an invisible larger hit sphere)
+      const ray = new THREE.Raycaster(); const ndc = new THREE.Vector2();
+      const cvs = renderer.domElement;
+      const pick = (e) => {
+        const r = cvs.getBoundingClientRect();
+        ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+        ray.setFromCamera(ndc, camera);
+        return ray.intersectObject(gizHit, false).length > 0;
+      };
+      let lpx = 0, lpy = 0;
+      cvs.addEventListener('pointerdown', (e) => {
+        if (!this.p.interactive || !this.p.gizmo || !giz.visible) return;
+        if (!pick(e)) return;
+        this._dragLight = true; controls.enabled = false;
+        lpx = e.clientX; lpy = e.clientY;
+        cvs.setPointerCapture(e.pointerId); cvs.style.cursor = 'grabbing';
+      });
+      cvs.addEventListener('pointermove', (e) => {
+        if (this._dragLight) {
+          const dx = e.clientX - lpx, dy = e.clientY - lpy; lpx = e.clientX; lpy = e.clientY;
+          const p = this.p; let detail;
+          if (p.mode === 'fresnel') {
+            p.rimwrap = Math.max(0, Math.min(1, p.rimwrap + dx * 0.004));
+            detail = { rimWrap: p.rimwrap };
+          } else {
+            p.azimuth = Math.max(-179, Math.min(179, p.azimuth + dx * 0.4));
+            p.elevation = Math.max(-70, Math.min(80, p.elevation - dy * 0.35));
+            detail = { azimuth: p.azimuth, elevation: p.elevation };
+          }
+          this._dirty = true;
+          if (typeof this.onLightMove === 'function') this.onLightMove(detail);
+          this.dispatchEvent(new CustomEvent('lightmove', { detail }));
+        } else if (this.p.interactive && this.p.gizmo && giz.visible) {
+          cvs.style.cursor = pick(e) ? 'grab' : '';
+        }
+      });
+      const endDrag = () => {
+        if (this._dragLight) { this._dragLight = false; controls.enabled = !!this.p.interactive; cvs.style.cursor = ''; }
+      };
+      cvs.addEventListener('pointerup', endDrag);
+      cvs.addEventListener('pointercancel', endDrag);
 
       // head
       const head = new THREE.Group();
@@ -2106,10 +2137,10 @@
       const gp = (p.mode === 'fresnel') ? rp : kp;
       this._giz.visible = !!p.gizmo && (p.mode === 'fresnel' ? true : !!p.keyon);
       this._giz.position.set(gp[0], gp[1], gp[2]);
-      this._giz.material.color.setRGB(
-        (p.mode === 'fresnel' ? rimCol : kc)[0],
-        (p.mode === 'fresnel' ? rimCol : kc)[1],
-        (p.mode === 'fresnel' ? rimCol : kc)[2]);
+      const pc = (p.mode === 'fresnel') ? rimCol : kc;
+      this._gizCore.material.color.setRGB(pc[0], pc[1], pc[2]);
+      this._gizHalo.material.color.setRGB(pc[0], pc[1], pc[2]);
+      this._gizHalo.scale.setScalar(1 + 0.18 * Math.sin(performance.now() / 380));
 
       // view mode material swap
       let mat = this._skinMat;
@@ -2128,10 +2159,10 @@
 <body>
 <x-dc>
 <helmet>
-  <title>Learning Center — Comprendre la lumière</title>
+  <title>MDG Learning Center — Comprendre la lumière</title>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     html, body { margin: 0; padding: 0; background: #0B0C0D; }
     * { box-sizing: border-box; }
@@ -2139,172 +2170,227 @@
     a:hover { color: #6BD9C2; }
     input[type="range"] { accent-color: #3DBFA3; }
     ::selection { background: #3DBFA3; color: #0B0C0D; }
-    @keyframes ls-pulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+    img { -webkit-user-drag: none; user-select: none; }
+    @keyframes ls-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    .lc-split { display: grid; grid-template-columns: minmax(0, 1fr) 460px; }
+    .lc-vp { position: relative; min-height: 78vh; }
+    .lc-aside { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 24px; padding: 88px 52px; border-left: 1px solid rgba(232,224,208,0.08); overflow: hidden; }
+    .lc-pad { padding: 110px 64px; }
+    .lc-navlinks { display: flex; align-items: center; gap: 18px; }
+    .lc-hero-pad { padding: 0 64px 72px; }
+    @media (max-width: 960px) {
+      .lc-split { grid-template-columns: 1fr; }
+      .lc-vp { min-height: 56vh; }
+      .lc-aside { border-left: none; border-top: 1px solid rgba(232,224,208,0.08); padding: 48px 22px 64px; }
+      .lc-pad { padding: 72px 22px; }
+      .lc-navlinks { display: none; }
+      .lc-hero-pad { padding: 0 22px 56px; }
+    }
   </style>
 </helmet>
 
-<div style="min-height: 100vh; background: #0B0C0D; color: #E8E0D0; font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; line-height: 1.6;">
+<div style="min-height: 100vh; background: #0B0C0D; color: #E8E0D0; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.65;">
 
   <!-- ============ HEADER ============ -->
-  <header style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; background: rgba(11,12,13,0.72); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(232,224,208,0.08);">
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG" style="height: 30px; width: auto; display: block;">
-      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.02em; color: #E8E0D0;">MDG</span>
-      <span style="font-family: 'Space Grotesk', sans-serif; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #3DBFA3;">Learning Center</span>
+  <header style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px; background: rgba(11,12,13,0.78); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(232,224,208,0.08);">
+    <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG" draggable="false" style="height: 26px; width: auto; display: block;">
+      <span style="width: 1px; height: 18px; background: rgba(232,224,208,0.2);"></span>
+      <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap;">Learning Center</span>
     </div>
-    <nav style="display: flex; align-items: center; gap: 22px; font-size: 13px; color: rgba(232,224,208,0.6);">
-      <a href="index.html" style="color: rgba(232,224,208,0.6); display: flex; align-items: center; gap: 6px;">← <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Site</sc-if><sc-if value="{{ isEn }}">Site</sc-if></a>
-      <a href="#ch1" style="color: rgba(232,224,208,0.6);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Anatomie</sc-if><sc-if value="{{ isEn }}">Anatomy</sc-if></a>
-      <a href="#ch2" style="color: rgba(232,224,208,0.6);">Falloff</a>
-      <a href="#ch3" style="color: rgba(232,224,208,0.6);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Direction</sc-if><sc-if value="{{ isEn }}">Direction</sc-if></a>
-      <a href="#ch4" style="color: rgba(232,224,208,0.6);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rôles</sc-if><sc-if value="{{ isEn }}">Roles</sc-if></a>
-      <a href="#ch5" style="color: rgba(232,224,208,0.6);">Fresnel</a>
-      <button onClick="{{ toggleLang }}" style="display: flex; gap: 0; border: 1px solid rgba(232,224,208,0.18); border-radius: 999px; background: transparent; padding: 3px; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif;">
-        <span style="padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: {{ frPillBg }}; color: {{ frPillFg }};">FR</span>
-        <span style="padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: {{ enPillBg }}; color: {{ enPillFg }};">EN</span>
+    <nav style="display: flex; align-items: center; gap: 18px;">
+      <div class="lc-navlinks" style="font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.08em;">
+        <a href="#ch1" style="color: rgba(232,224,208,0.55);">01</a>
+        <a href="#ch2" style="color: rgba(232,224,208,0.55);">02</a>
+        <a href="#ch3" style="color: rgba(232,224,208,0.55);">03</a>
+        <a href="#ch4" style="color: rgba(232,224,208,0.55);">04</a>
+        <a href="#ch5" style="color: rgba(232,224,208,0.55);">05</a>
+        <a href="#ch6" style="color: rgba(232,224,208,0.55);">06</a>
+      </div>
+      <button onClick="{{ toggleLang }}" style="display: flex; gap: 0; border: 1px solid rgba(232,224,208,0.18); border-radius: 999px; background: transparent; padding: 3px; cursor: pointer; font-family: 'Inter', sans-serif;">
+        <span style="padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: {{ frPillBg }}; color: {{ frPillFg }};">FR</span>
+        <span style="padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: {{ enPillBg }}; color: {{ enPillFg }};">EN</span>
       </button>
+      <a href="index.html" style="font-size: 12px; color: rgba(232,224,208,0.55); white-space: nowrap;">← Site</a>
     </nav>
   </header>
 
-  <!-- ============ CH 0 — HERO ============ -->
-  <section data-screen-label="Hero" style="position: relative; min-height: 92vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; overflow: hidden;">
+  <!-- ============ HERO ============ -->
+  <section data-screen-label="Hero" style="position: relative; min-height: 94vh; display: flex; align-items: flex-end; overflow: hidden;">
     <div style="position: absolute; inset: 0;">
-      <x-import component-from-global-scope="light-sim" mode="single" auto-orbit="true" interactive="false" gizmo="true" rim-on="true" color-hex="#DB4E74" rim-hex="#22D3C0" intensity="1.5" softness="0.3" distance="2.3" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <x-import component-from-global-scope="light-sim" mode="single" auto-orbit="true" interactive="true" gizmo="true" rim-on="true" color-hex="#DB4E74" rim-hex="#22D3C0" intensity="1.5" softness="0.3" distance="2.3" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
     </div>
-    <div style="position: relative; z-index: 2; grid-column: 1; padding: 0 32px 0 64px; max-width: 640px;">
-      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; margin-bottom: 20px;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chapitre 0 · Pourquoi la lumière</sc-if>
-        <sc-if value="{{ isEn }}">Chapter 0 · Why light</sc-if>
+    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,12,13,0.25) 0%, rgba(11,12,13,0) 35%, rgba(11,12,13,0.82) 88%); pointer-events: none;"></div>
+    <div class="lc-hero-pad" style="position: relative; z-index: 2; width: 100%; pointer-events: none;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #3DBFA3; animation: ls-pulse 2.2s infinite;"></span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Six leçons interactives · rendu temps réel</sc-if>
+          <sc-if value="{{ isEn }}">Six interactive lessons · real-time render</sc-if>
+        </span>
       </div>
-      <h1 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(38px, 5vw, 64px); line-height: 1.05; margin: 0 0 24px; color: #E8E0D0; text-wrap: balance;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le rim light n'est pas un effet.<br>C'est une conséquence physique.</sc-if>
-        <sc-if value="{{ isEn }}">Rim light is not an effect.<br>It is a physical consequence.</sc-if>
+      <h1 style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(44px, 8.5vw, 118px); line-height: 0.94; letter-spacing: -0.02em; margin: 0 0 18px; color: #E8E0D0; text-transform: uppercase;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Comprendre<br><span style="color: #3DBFA3;">la lumière.</span></sc-if>
+        <sc-if value="{{ isEn }}">Understand<br><span style="color: #3DBFA3;">the light.</span></sc-if>
       </h1>
-      <p style="font-size: 17px; color: rgba(232,224,208,0.68); max-width: 460px; margin: 0 0 32px;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Cinq modules interactifs pour comprendre, et non mémoriser, comment la lumière construit le volume, la profondeur et le contour. Chaque scène est vivante : tourne la tête, déplace la lumière, change sa couleur.</sc-if>
-        <sc-if value="{{ isEn }}">Five interactive modules to understand, not memorize, how light builds volume, depth and edge. Every scene is live: rotate the head, move the light, change its color.</sc-if>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(20px, 2.6vw, 30px); color: rgba(232,224,208,0.75); margin: 0 0 30px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Pas en la lisant. En la manipulant.</sc-if>
+        <sc-if value="{{ isEn }}">Not by reading it. By handling it.</sc-if>
       </p>
-      <a href="#ch1" style="display: inline-flex; align-items: center; gap: 10px; padding: 13px 26px; background: #3DBFA3; color: #0B0C0D; border-radius: 999px; font-weight: 600; font-size: 15px;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Commencer</sc-if>
-        <sc-if value="{{ isEn }}">Start</sc-if>
-        <span style="font-family: 'Space Grotesk', sans-serif;">↓</span>
-      </a>
-    </div>
-    <div style="position: absolute; bottom: 28px; left: 64px; display: flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(232,224,208,0.4);">
-      <span style="width: 7px; height: 7px; border-radius: 50%; background: #3DBFA3; animation: ls-pulse 2.4s infinite;"></span>
-      <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Vraie tête 3D · deux lumières colorées en orbite</sc-if>
-      <sc-if value="{{ isEn }}">Real 3D head · two colored lights orbiting</sc-if>
+      <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+        <a href="#ch1" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: #3DBFA3; color: #0B0C0D; border-radius: 999px; font-weight: 600; font-size: 15px; font-family: 'Inter', sans-serif;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Commencer la leçon 01</sc-if>
+          <sc-if value="{{ isEn }}">Start lesson 01</sc-if>
+          <span>↓</span>
+        </a>
+        <span style="font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.45);">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Attrape la sphère lumineuse ●</sc-if>
+          <sc-if value="{{ isEn }}">Grab the glowing sphere ●</sc-if>
+        </span>
+      </div>
     </div>
   </section>
 
-  <!-- ============ CH 1 — ANATOMIE ============ -->
-  <section id="ch1" data-screen-label="Ch1 Anatomie" style="min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 0; border-top: 1px solid rgba(232,224,208,0.08);">
-    <div style="position: relative; min-height: 70vh;">
-      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" intensity="{{ ch1Intensity }}" softness="{{ ch1Softness }}" distance="{{ ch1Distance }}" kelvin="{{ ch1Kelvin }}" color-hex="{{ ch1ColorHex }}" azimuth="{{ ch1Az }}" elevation="{{ ch1El }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
-      <div style="position: absolute; top: 24px; left: 32px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(232,224,208,0.45); pointer-events: none;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Glissez pour tourner la tête · réglez la lumière à droite</sc-if>
-        <sc-if value="{{ isEn }}">Drag to rotate the head · set the light on the right</sc-if>
+  <!-- ============ LEÇON 01 — LA SOURCE ============ -->
+  <section id="ch1" data-screen-label="Lecon 01 Source" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp">
+      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" intensity="{{ ch1Intensity }}" softness="{{ ch1Softness }}" distance="{{ ch1Distance }}" kelvin="{{ ch1Kelvin }}" color-hex="{{ ch1ColorHex }}" azimuth="{{ ch1Az }}" elevation="{{ ch1El }}" on-light-move="{{ ch1LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 01</sc-if><sc-if value="{{ isEn }}">Scene 01</sc-if>
+        </span>
+      </div>
+      <div style="position: absolute; bottom: 18px; left: 18px; right: 18px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; pointer-events: none;">
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">● glisse la sphère = déplace la lumière · fond = tourne la tête</sc-if>
+          <sc-if value="{{ isEn }}">● drag the sphere = move the light · background = rotate the head</sc-if>
+        </span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.1em; color: #3DBFA3;">az {{ ch1AzLabel }} · el {{ ch1ElLabel }}</span>
       </div>
     </div>
-    <aside style="display: flex; flex-direction: column; justify-content: center; gap: 26px; padding: 72px 48px; border-left: 1px solid rgba(232,224,208,0.08); background: rgba(232,224,208,0.02);">
-      <div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; margin-bottom: 12px;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chapitre 1</sc-if>
-          <sc-if value="{{ isEn }}">Chapter 1</sc-if>
+    <aside class="lc-aside">
+      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">01</div>
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 01 · La source</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 01 · The source</sc-if>
+          </span>
         </div>
-        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; margin: 0 0 14px; color: #E8E0D0;">
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Anatomie d'une lumière</sc-if>
           <sc-if value="{{ isEn }}">Anatomy of a light</sc-if>
         </h2>
-        <p style="font-size: 15px; color: rgba(232,224,208,0.65); margin: 0;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">« Dur » ou « doux » n'est pas un style. La dureté d'une ombre dépend d'une seule chose : la taille apparente de la source. Une petite source (soleil lointain, flash nu) donne des ombres nettes ; une grande source (fenêtre, softbox) les adoucit. Fais varier la taille et observe la transition.</sc-if>
-          <sc-if value="{{ isEn }}">"Hard" or "soft" is not a style. Shadow hardness depends on one thing: the apparent size of the source. A small source (distant sun, bare flash) gives crisp shadows; a large source (window, softbox) softens them. Change the size and watch the transition.</sc-if>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une ombre dure n'est pas un style, c'est une géométrie.</sc-if>
+          <sc-if value="{{ isEn }}">A hard shadow is not a style, it is geometry.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La dureté d'une ombre dépend d'une seule chose : la taille apparente de la source. Petite source (soleil, flash nu) : ombres nettes. Grande source (fenêtre, softbox) : ombres fondues. Fais varier la taille et observe la transition.</sc-if>
+          <sc-if value="{{ isEn }}">Shadow hardness depends on one thing: the apparent size of the source. Small source (sun, bare flash): crisp shadows. Large source (window, softbox): melted shadows. Change the size and watch the transition.</sc-if>
         </p>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 20px; padding: 24px; border: 1px solid rgba(232,224,208,0.1); border-radius: 14px; background: rgba(11,12,13,0.5); backdrop-filter: blur(10px);">
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: #101113;">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Direction · azimut</sc-if><sc-if value="{{ isEn }}">Direction · azimuth</sc-if></span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch1AzLabel }}</span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1AzLabel }}</span>
           </span>
           <input type="range" min="-120" max="120" step="1" value="{{ ch1Az }}" onChange="{{ setCh1Az }}" style="width: 100%;">
         </label>
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Hauteur · élévation</sc-if><sc-if value="{{ isEn }}">Height · elevation</sc-if></span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch1ElLabel }}</span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1ElLabel }}</span>
           </span>
           <input type="range" min="-30" max="75" step="1" value="{{ ch1El }}" onChange="{{ setCh1El }}" style="width: 100%;">
         </label>
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Intensité</sc-if><sc-if value="{{ isEn }}">Intensity</sc-if></span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch1IntensityLabel }}</span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1IntensityLabel }}</span>
           </span>
           <input type="range" min="0.1" max="3" step="0.05" value="{{ ch1Intensity }}" onChange="{{ setCh1Intensity }}" style="width: 100%;">
         </label>
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
-            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Taille de source (dureté)</sc-if><sc-if value="{{ isEn }}">Source size (hardness)</sc-if></span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch1SoftLabel }}</span>
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Taille de source · dureté</sc-if><sc-if value="{{ isEn }}">Source size · hardness</sc-if></span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1SoftLabel }}</span>
           </span>
           <input type="range" min="0" max="1" step="0.01" value="{{ ch1Softness }}" onChange="{{ setCh1Softness }}" style="width: 100%;">
         </label>
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span>Distance</span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch1DistLabel }}</span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1DistLabel }}</span>
           </span>
           <input type="range" min="1.2" max="4" step="0.05" value="{{ ch1Distance }}" onChange="{{ setCh1Distance }}" style="width: 100%;">
         </label>
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Température</sc-if><sc-if value="{{ isEn }}">Temperature</sc-if></span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch1KelvinLabel }}</span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1KelvinLabel }}</span>
           </span>
           <input type="range" min="2000" max="10000" step="100" value="{{ ch1Kelvin }}" onChange="{{ setCh1Kelvin }}" style="width: 100%; background: linear-gradient(90deg, #FF9329, #FFE4C4, #CDE4FF); height: 6px; border-radius: 3px; appearance: none; -webkit-appearance: none; outline: none;">
-          <span style="display: flex; justify-content: space-between; font-size: 11px; color: rgba(232,224,208,0.4);">
-            <span>2000K · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">bougie</sc-if><sc-if value="{{ isEn }}">candle</sc-if></span>
-            <span>10000K · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">ciel bleu</sc-if><sc-if value="{{ isEn }}">blue sky</sc-if></span>
-          </span>
         </label>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <span style="font-size: 13px; color: rgba(232,224,208,0.7);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleurs créatives</sc-if><sc-if value="{{ isEn }}">Creative colors</sc-if></span>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <span style="font-size: 12.5px; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleurs créatives</sc-if><sc-if value="{{ isEn }}">Creative colors</sc-if></span>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button onClick="{{ ch1ColWhite }}" title="Blanc / Kelvin" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg,#FFE9CC,#CFE6FF); border: 2px solid {{ ch1RingWhite }};"></button>
-            <button onClick="{{ ch1ColOrange }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #FF7A2F; border: 2px solid {{ ch1RingOrange }};"></button>
-            <button onClick="{{ ch1ColRed }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #E62534; border: 2px solid {{ ch1RingRed }};"></button>
-            <button onClick="{{ ch1ColTeal }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #22D3C0; border: 2px solid {{ ch1RingTeal }};"></button>
-            <button onClick="{{ ch1ColBlue }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #3B6EF5; border: 2px solid {{ ch1RingBlue }};"></button>
-            <button onClick="{{ ch1ColMagenta }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #DB4E9E; border: 2px solid {{ ch1RingMagenta }};"></button>
+            <button onClick="{{ ch1ColWhite }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg,#FFE9CC,#CFE6FF); border: 2px solid {{ ch1RingWhite }};"></button>
+            <button onClick="{{ ch1ColOrange }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #FF7A2F; border: 2px solid {{ ch1RingOrange }};"></button>
+            <button onClick="{{ ch1ColRed }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #E62534; border: 2px solid {{ ch1RingRed }};"></button>
+            <button onClick="{{ ch1ColTeal }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #22D3C0; border: 2px solid {{ ch1RingTeal }};"></button>
+            <button onClick="{{ ch1ColBlue }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #3B6EF5; border: 2px solid {{ ch1RingBlue }};"></button>
+            <button onClick="{{ ch1ColMagenta }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #DB4E9E; border: 2px solid {{ ch1RingMagenta }};"></button>
           </div>
         </div>
       </div>
     </aside>
   </section>
 
-  <!-- ============ CH 2 — FALLOFF ============ -->
-  <section id="ch2" data-screen-label="Ch2 Falloff" style="min-height: 100vh; display: grid; grid-template-columns: 420px minmax(0, 1fr); border-top: 1px solid rgba(232,224,208,0.08);">
-    <aside style="display: flex; flex-direction: column; justify-content: center; gap: 26px; padding: 72px 48px; border-right: 1px solid rgba(232,224,208,0.08); background: rgba(232,224,208,0.02);">
-      <div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; margin-bottom: 12px;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chapitre 2</sc-if>
-          <sc-if value="{{ isEn }}">Chapter 2</sc-if>
+  <!-- ============ LEÇON 02 — LA DISTANCE ============ -->
+  <section id="ch2" data-screen-label="Lecon 02 Distance" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp">
+      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" falloff-boost="1.4" intensity="2.6" softness="0.3" kelvin="4800" azimuth="35" elevation="18" distance="{{ ch2Distance }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 02</sc-if><sc-if value="{{ isEn }}">Scene 02</sc-if>
+        </span>
+      </div>
+      <div style="position: absolute; bottom: 18px; left: 18px; display: flex; align-items: baseline; gap: 10px; padding: 10px 16px; border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); border: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Intensité relative</sc-if><sc-if value="{{ isEn }}">Relative intensity</sc-if></span>
+        <span style="font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: #3DBFA3;">{{ ch2RelLabel }}</span>
+      </div>
+    </div>
+    <aside class="lc-aside">
+      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">02</div>
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 02 · La distance</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 02 · Distance</sc-if>
+          </span>
         </div>
-        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; margin: 0 0 14px; color: #E8E0D0;">
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La loi de l'inverse du carré</sc-if>
           <sc-if value="{{ isEn }}">The inverse-square law</sc-if>
         </h2>
-        <p style="font-size: 15px; color: rgba(232,224,208,0.65); margin: 0;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La lumière perd en intensité avec le carré de la distance : éloigne la source deux fois plus loin et elle devient quatre fois plus faible (I ∝ 1/d²). C'est pour ça qu'une source proche donne un dégradé rapide et dramatique du clair vers l'ombre, alors qu'une source lointaine aplatit tout.</sc-if>
-          <sc-if value="{{ isEn }}">Light falls off with the square of distance: move the source twice as far and it becomes four times weaker (I ∝ 1/d²). That is why a close source gives a fast, dramatic gradient from light to shadow, while a distant one flattens everything.</sc-if>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux fois plus loin, quatre fois plus faible.</sc-if>
+          <sc-if value="{{ isEn }}">Twice as far, four times weaker.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">I ∝ 1/d². Une source proche donne un dégradé rapide et dramatique du clair vers l'ombre. Une source lointaine aplatit tout. C'est le levier n°1 du contraste.</sc-if>
+          <sc-if value="{{ isEn }}">I ∝ 1/d². A close source gives a fast, dramatic gradient from light to shadow. A distant one flattens everything. It is the number one lever of contrast.</sc-if>
         </p>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 18px; padding: 24px; border: 1px solid rgba(232,224,208,0.1); border-radius: 14px; background: rgba(11,12,13,0.5); backdrop-filter: blur(10px);">
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
+      <div style="position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: #101113;">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span>Distance d</span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch2DistLabel }}</span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch2DistLabel }}</span>
           </span>
           <input type="range" min="0.7" max="4" step="0.05" value="{{ ch2Distance }}" onChange="{{ setCh2Distance }}" style="width: 100%;">
         </label>
@@ -2314,150 +2400,182 @@
             <path d="M0,5 L17.6,64.1 L35.3,91.4 L52.9,106.3 L70.6,115.2 L88.2,121.0 L105.9,125.0 L123.5,127.9 L158.8,131.6 L194.1,133.8 L229.4,135.2 L264.7,136.3 L300,137" fill="none" stroke="#3DBFA3" stroke-width="2"></path>
             <line x1="{{ ch2MarkerX }}" y1="140" x2="{{ ch2MarkerX }}" y2="{{ ch2MarkerY }}" stroke="rgba(232,224,208,0.35)" stroke-width="1" stroke-dasharray="3 3"></line>
             <circle cx="{{ ch2MarkerX }}" cy="{{ ch2MarkerY }}" r="5" fill="#3DBFA3"></circle>
-            <text x="6" y="16" fill="rgba(232,224,208,0.5)" font-size="11" font-family="IBM Plex Sans">I = 1/d²</text>
+            <text x="6" y="16" fill="rgba(232,224,208,0.5)" font-size="11" font-family="Inter">I = 1/d²</text>
           </svg>
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: rgba(232,224,208,0.4); margin-top: 4px;">
             <span>d = 0.7</span><span>d = 4</span>
           </div>
         </div>
-        <div style="display: flex; align-items: baseline; gap: 8px; font-family: 'Space Grotesk', sans-serif;">
-          <span style="font-size: 13px; color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Intensité relative :</sc-if><sc-if value="{{ isEn }}">Relative intensity:</sc-if></span>
-          <span style="font-size: 22px; font-weight: 600; color: #3DBFA3;">{{ ch2RelLabel }}</span>
-        </div>
       </div>
     </aside>
-    <div style="position: relative; min-height: 70vh;">
-      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" falloff-boost="1.4" intensity="2.6" softness="0.3" kelvin="4800" azimuth="35" elevation="18" distance="{{ ch2Distance }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
-    </div>
   </section>
 
-  <!-- ============ CH 3 — ANGLE & DIRECTION ============ -->
-  <section id="ch3" data-screen-label="Ch3 Direction" style="min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) 420px; border-top: 1px solid rgba(232,224,208,0.08);">
-    <div style="position: relative; min-height: 70vh;">
-      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" intensity="1.6" softness="0.28" distance="2.1" kelvin="5300" azimuth="{{ ch3Az }}" elevation="{{ ch3El }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
-      <div style="position: absolute; top: 24px; left: 32px; display: flex; flex-direction: column; gap: 6px; pointer-events: none;">
-        <div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(232,224,208,0.45);">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Glissez pour tourner la tête · réglez la lumière à droite</sc-if>
-          <sc-if value="{{ isEn }}">Drag to rotate the head · set the light on the right</sc-if>
-        </div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: rgba(232,224,208,0.6);">az {{ ch3AzLabel }} · el {{ ch3ElLabel }}</div>
+  <!-- ============ LEÇON 03 — LA DIRECTION ============ -->
+  <section id="ch3" data-screen-label="Lecon 03 Direction" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp">
+      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" intensity="1.6" softness="0.28" distance="2.1" kelvin="5300" azimuth="{{ ch3Az }}" elevation="{{ ch3El }}" on-light-move="{{ ch3LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 03</sc-if><sc-if value="{{ isEn }}">Scene 03</sc-if>
+        </span>
       </div>
-      <div style="position: absolute; bottom: 28px; left: 32px; padding: 12px 20px; border-radius: 999px; border: 1px solid {{ ch3BadgeBorder }}; background: rgba(11,12,13,0.65); backdrop-filter: blur(10px); font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: {{ ch3BadgeColor }}; pointer-events: none;">
-        {{ ch3PatternLabel }}
+      <div style="position: absolute; bottom: 18px; left: 18px; right: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; pointer-events: none;">
+        <span style="padding: 10px 18px; border-radius: 3px; border: 1px solid {{ ch3BadgeBorder }}; background: rgba(11,12,13,0.68); backdrop-filter: blur(8px); font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: {{ ch3BadgeColor }};">{{ ch3PatternLabel }}</span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.1em; color: #3DBFA3;">az {{ ch3AzLabel }} · el {{ ch3ElLabel }}</span>
       </div>
     </div>
-    <aside style="display: flex; flex-direction: column; justify-content: center; gap: 26px; padding: 72px 48px; border-left: 1px solid rgba(232,224,208,0.08); background: rgba(232,224,208,0.02);">
-      <div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; margin-bottom: 12px;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chapitre 3</sc-if>
-          <sc-if value="{{ isEn }}">Chapter 3</sc-if>
+    <aside class="lc-aside">
+      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">03</div>
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 03 · La direction</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 03 · Direction</sc-if>
+          </span>
         </div>
-        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; margin: 0 0 14px; color: #E8E0D0;">
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Angle et direction</sc-if>
           <sc-if value="{{ isEn }}">Angle and direction</sc-if>
         </h2>
-        <p style="font-size: 15px; color: rgba(232,224,208,0.65); margin: 0;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Les schémas de portrait ne sont que deux nombres : un azimut (le tour horizontal) et une élévation (la hauteur). Règle les deux et le nom du pattern s'affiche quand tu tombes sur une position connue. Tu peux aussi tourner la tête pour voir le même éclairage sous tous les angles.</sc-if>
-          <sc-if value="{{ isEn }}">Portrait schemes are just two numbers: an azimuth (horizontal angle) and an elevation (height). Set both and the pattern name appears when you hit a known position. You can also rotate the head to see the same lighting from every angle.</sc-if>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rembrandt n'est que deux nombres.</sc-if>
+          <sc-if value="{{ isEn }}">Rembrandt is just two numbers.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque schéma de portrait est une coordonnée : un azimut, une élévation. Attrape la sphère et déplace-la autour du visage : le nom du pattern s'affiche quand tu touches une position connue.</sc-if>
+          <sc-if value="{{ isEn }}">Every portrait scheme is a coordinate: an azimuth, an elevation. Grab the sphere and move it around the face: the pattern name appears when you hit a known position.</sc-if>
         </p>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 18px; padding: 24px; border: 1px solid rgba(232,224,208,0.1); border-radius: 14px; background: rgba(11,12,13,0.5); backdrop-filter: blur(10px);">
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
-            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Azimut (tour horizontal)</sc-if><sc-if value="{{ isEn }}">Azimuth (horizontal)</sc-if></span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch3AzLabel }}</span>
+      <div style="position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button onClick="{{ presetButterfly }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Butterfly</button>
+        <button onClick="{{ presetLoop }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Loop</button>
+        <button onClick="{{ presetRembrandt }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Rembrandt</button>
+        <button onClick="{{ presetSplit }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Split</button>
+      </div>
+      <div style="position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: #101113;">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Azimut</sc-if><sc-if value="{{ isEn }}">Azimuth</sc-if></span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch3AzLabel }}</span>
           </span>
           <input type="range" min="-120" max="120" step="1" value="{{ ch3Az }}" onChange="{{ setCh3Az }}" style="width: 100%;">
         </label>
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
-            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Élévation (hauteur)</sc-if><sc-if value="{{ isEn }}">Elevation (height)</sc-if></span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch3ElLabel }}</span>
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Élévation</sc-if><sc-if value="{{ isEn }}">Elevation</sc-if></span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch3ElLabel }}</span>
           </span>
           <input type="range" min="-30" max="75" step="1" value="{{ ch3El }}" onChange="{{ setCh3El }}" style="width: 100%;">
         </label>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <button onClick="{{ presetButterfly }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 12px 10px; border: 1px solid rgba(232,224,208,0.15); border-radius: 10px; background: transparent; color: rgba(232,224,208,0.75); font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Butterfly</button>
-        <button onClick="{{ presetLoop }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 12px 10px; border: 1px solid rgba(232,224,208,0.15); border-radius: 10px; background: transparent; color: rgba(232,224,208,0.75); font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Loop</button>
-        <button onClick="{{ presetRembrandt }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 12px 10px; border: 1px solid rgba(232,224,208,0.15); border-radius: 10px; background: transparent; color: rgba(232,224,208,0.75); font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Rembrandt</button>
-        <button onClick="{{ presetSplit }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 12px 10px; border: 1px solid rgba(232,224,208,0.15); border-radius: 10px; background: transparent; color: rgba(232,224,208,0.75); font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Split</button>
-      </div>
-      <p style="font-size: 13px; color: rgba(232,224,208,0.45); margin: 0;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Butterfly : frontal haut · Loop : léger décalage · Rembrandt : 45°/45°, triangle de lumière sur la joue · Split : 90°, moitié du visage dans l'ombre.</sc-if>
-        <sc-if value="{{ isEn }}">Butterfly: high frontal · Loop: slight offset · Rembrandt: 45°/45°, triangle of light on the cheek · Split: 90°, half the face in shadow.</sc-if>
+      <p style="position: relative; font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Butterfly : frontal haut · Loop : léger décalage · Rembrandt : 45°/45°, triangle sur la joue · Split : 90°, moitié du visage dans l'ombre.</sc-if>
+        <sc-if value="{{ isEn }}">Butterfly: high frontal · Loop: slight offset · Rembrandt: 45°/45°, triangle on the cheek · Split: 90°, half the face in shadow.</sc-if>
       </p>
     </aside>
   </section>
 
-  <!-- ============ CH 4 — ROLES ============ -->
-  <section id="ch4" data-screen-label="Ch4 Roles" style="min-height: 100vh; display: grid; grid-template-columns: 420px minmax(0, 1fr); border-top: 1px solid rgba(232,224,208,0.08);">
-    <aside style="display: flex; flex-direction: column; justify-content: center; gap: 26px; padding: 72px 48px; border-right: 1px solid rgba(232,224,208,0.08); background: rgba(232,224,208,0.02);">
-      <div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; margin-bottom: 12px;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chapitre 4</sc-if>
-          <sc-if value="{{ isEn }}">Chapter 4</sc-if>
+  <!-- ============ LEÇON 04 — LES RÔLES ============ -->
+  <section id="ch4" data-screen-label="Lecon 04 Roles" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp">
+      <x-import component-from-global-scope="light-sim" mode="single" gizmo="false" interactive="true" intensity="1.5" softness="0.4" distance="2.2" kelvin="4300" rim-hex="#22D3C0" azimuth="45" elevation="30" key-on="{{ ch4Key }}" fill-on="{{ ch4Fill }}" rim-on="{{ ch4Rim }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 04</sc-if><sc-if value="{{ isEn }}">Scene 04</sc-if>
+        </span>
+      </div>
+    </div>
+    <aside class="lc-aside">
+      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">04</div>
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 04 · Les rôles</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 04 · The roles</sc-if>
+          </span>
         </div>
-        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; margin: 0 0 14px; color: #E8E0D0;">Key · Fill · Rim</h2>
-        <p style="font-size: 15px; color: rgba(232,224,208,0.65); margin: 0;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une lumière n'est pas là pour décorer, elle a un rôle. Le key sculpte le volume, le fill remonte les ombres, le rim détache le sujet du fond. Coupe-les une par une pour voir précisément ce que chacune apporte.</sc-if>
-          <sc-if value="{{ isEn }}">A light is not there to decorate, it has a role. The key sculpts volume, the fill lifts the shadows, the rim separates the subject from the background. Toggle them one by one to see exactly what each brings.</sc-if>
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">Key · Fill · Rim</h2>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une lumière ne décore pas, elle travaille.</sc-if>
+          <sc-if value="{{ isEn }}">A light does not decorate, it works.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le key sculpte le volume, le fill remonte les ombres, le rim détache le sujet du fond. Coupe-les une par une pour voir ce que chacune apporte.</sc-if>
+          <sc-if value="{{ isEn }}">The key sculpts volume, the fill lifts the shadows, the rim separates the subject from the background. Toggle them one by one to see what each brings.</sc-if>
         </p>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <button onClick="{{ toggleKey }}" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid {{ keyBtnBorder }}; border-radius: 12px; background: rgba(11,12,13,0.5); cursor: pointer; text-align: left; transition: all 0.2s;">
+      <div style="position: relative; display: flex; flex-direction: column; gap: 10px;">
+        <button onClick="{{ toggleKey }}" style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border: 1px solid {{ keyBtnBorder }}; border-radius: 4px; background: #101113; cursor: pointer; text-align: left; transition: all 0.2s;">
           <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ keyDot }}; flex-shrink: 0;"></span>
           <span style="display: flex; flex-direction: column; gap: 2px;">
-            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; color: #E8E0D0;">Key light</span>
-            <span style="font-size: 12.5px; color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Définit le volume et la direction principale</sc-if><sc-if value="{{ isEn }}">Defines volume and main direction</sc-if></span>
+            <span style="font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #E8E0D0;">Key light</span>
+            <span style="font-size: 12.5px; color: rgba(232,224,208,0.5); font-family: 'Inter', sans-serif;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Définit le volume et la direction principale</sc-if><sc-if value="{{ isEn }}">Defines volume and main direction</sc-if></span>
           </span>
         </button>
-        <button onClick="{{ toggleFill }}" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid {{ fillBtnBorder }}; border-radius: 12px; background: rgba(11,12,13,0.5); cursor: pointer; text-align: left; transition: all 0.2s;">
+        <button onClick="{{ toggleFill }}" style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border: 1px solid {{ fillBtnBorder }}; border-radius: 4px; background: #101113; cursor: pointer; text-align: left; transition: all 0.2s;">
           <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ fillDot }}; flex-shrink: 0;"></span>
           <span style="display: flex; flex-direction: column; gap: 2px;">
-            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; color: #E8E0D0;">Fill light</span>
-            <span style="font-size: 12.5px; color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Réduit le contraste des ombres</sc-if><sc-if value="{{ isEn }}">Reduces shadow contrast</sc-if></span>
+            <span style="font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #E8E0D0;">Fill light</span>
+            <span style="font-size: 12.5px; color: rgba(232,224,208,0.5); font-family: 'Inter', sans-serif;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Réduit le contraste des ombres</sc-if><sc-if value="{{ isEn }}">Reduces shadow contrast</sc-if></span>
           </span>
         </button>
-        <button onClick="{{ toggleRim }}" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid {{ rimBtnBorder }}; border-radius: 12px; background: rgba(11,12,13,0.5); cursor: pointer; text-align: left; transition: all 0.2s;">
+        <button onClick="{{ toggleRim }}" style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border: 1px solid {{ rimBtnBorder }}; border-radius: 4px; background: #101113; cursor: pointer; text-align: left; transition: all 0.2s;">
           <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ rimDot }}; flex-shrink: 0;"></span>
           <span style="display: flex; flex-direction: column; gap: 2px;">
-            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; color: #E8E0D0;">Rim light</span>
-            <span style="font-size: 12.5px; color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sépare le sujet du fond par le contour</sc-if><sc-if value="{{ isEn }}">Separates subject from background via the edge</sc-if></span>
+            <span style="font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #E8E0D0;">Rim light</span>
+            <span style="font-size: 12.5px; color: rgba(232,224,208,0.5); font-family: 'Inter', sans-serif;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Détache le sujet du fond par le contour</sc-if><sc-if value="{{ isEn }}">Separates subject from background via the edge</sc-if></span>
           </span>
         </button>
       </div>
     </aside>
-    <div style="position: relative; min-height: 70vh;">
-      <x-import component-from-global-scope="light-sim" mode="single" gizmo="false" interactive="true" intensity="1.5" softness="0.4" distance="2.2" kelvin="4300" rim-hex="#22D3C0" azimuth="45" elevation="30" key-on="{{ ch4Key }}" fill-on="{{ ch4Fill }}" rim-on="{{ ch4Rim }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
-    </div>
   </section>
 
-  <!-- ============ CH 5 — FRESNEL ============ -->
-  <section id="ch5" data-screen-label="Ch5 Fresnel" style="min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) 420px; border-top: 1px solid rgba(232,224,208,0.08);">
-    <div style="position: relative; min-height: 70vh;">
-      <x-import component-from-global-scope="light-sim" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+  <!-- ============ LEÇON 05 — FRESNEL ============ -->
+  <section id="ch5" data-screen-label="Lecon 05 Fresnel" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp">
+      <x-import component-from-global-scope="light-sim" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" on-light-move="{{ ch5LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 05</sc-if><sc-if value="{{ isEn }}">Scene 05</sc-if>
+        </span>
+      </div>
+      <div style="position: absolute; bottom: 18px; left: 18px; pointer-events: none;">
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">● glisse la sphère vers l'arrière du crâne</sc-if>
+          <sc-if value="{{ isEn }}">● drag the sphere behind the skull</sc-if>
+        </span>
+      </div>
     </div>
-    <aside style="display: flex; flex-direction: column; justify-content: center; gap: 26px; padding: 72px 48px; border-left: 1px solid rgba(232,224,208,0.08); background: rgba(232,224,208,0.02);">
-      <div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; margin-bottom: 12px;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chapitre 5 · le cœur du rim light</sc-if>
-          <sc-if value="{{ isEn }}">Chapter 5 · the heart of rim light</sc-if>
+    <aside class="lc-aside">
+      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">05</div>
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 05 · Fresnel, le cœur du rim</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 05 · Fresnel, the heart of rim</sc-if>
+          </span>
         </div>
-        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; margin: 0 0 14px; color: #E8E0D0;">
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le principe de Fresnel</sc-if>
           <sc-if value="{{ isEn }}">The Fresnel principle</sc-if>
         </h2>
-        <p style="font-size: 15px; color: rgba(232,224,208,0.65); margin: 0;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le bord d'un visage s'illumine non pas parce que la lumière y est plus forte, mais parce que l'angle entre ta caméra et la surface devient rasant (effet Fresnel). Recule la source derrière le sujet et le contour prend feu. C'est exactement le principe de tes rim lights.</sc-if>
-          <sc-if value="{{ isEn }}">The edge of a face lights up not because the light is stronger there, but because the angle between your camera and the surface becomes grazing (the Fresnel effect). Push the source behind the subject and the edge ignites. This is exactly how your rim lights work.</sc-if>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le contour ne s'allume pas, c'est ton angle de vue qui devient rasant.</sc-if>
+          <sc-if value="{{ isEn }}">The edge does not light up, your viewing angle becomes grazing.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Pousse la source derrière le sujet : le contour prend feu. C'est exactement le principe de tes rim lights sur Photoshop.</sc-if>
+          <sc-if value="{{ isEn }}">Push the source behind the subject: the edge ignites. This is exactly how your Photoshop rim lights work.</sc-if>
         </p>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 20px; padding: 24px; border: 1px solid rgba(232,224,208,0.1); border-radius: 14px; background: rgba(11,12,13,0.5); backdrop-filter: blur(10px);">
-        <label style="display: flex; flex-direction: column; gap: 8px;">
-          <span style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(232,224,208,0.7);">
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: #101113;">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Position de la source</sc-if><sc-if value="{{ isEn }}">Source position</sc-if></span>
-            <span style="font-family: 'Space Grotesk', sans-serif; color: #3DBFA3;">{{ ch5WrapLabel }}</span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch5WrapLabel }}</span>
           </span>
           <input type="range" min="0" max="1" step="0.01" value="{{ ch5Wrap }}" onChange="{{ setCh5Wrap }}" style="width: 100%;">
           <span style="display: flex; justify-content: space-between; font-size: 11px; color: rgba(232,224,208,0.4);">
@@ -2465,125 +2583,143 @@
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Arrière</sc-if><sc-if value="{{ isEn }}">Behind</sc-if></span>
           </span>
         </label>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <span style="font-size: 13px; color: rgba(232,224,208,0.7);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleur du rim</sc-if><sc-if value="{{ isEn }}">Rim color</sc-if></span>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <span style="font-size: 12.5px; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleur du rim</sc-if><sc-if value="{{ isEn }}">Rim color</sc-if></span>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button onClick="{{ ch5RimTeal }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #22D3C0; border: 2px solid {{ ch5RingTeal }};"></button>
-            <button onClick="{{ ch5RimGreen }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #35E06A; border: 2px solid {{ ch5RingGreen }};"></button>
-            <button onClick="{{ ch5RimBlue }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #37B6FF; border: 2px solid {{ ch5RingBlue }};"></button>
-            <button onClick="{{ ch5RimMagenta }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #F23BA0; border: 2px solid {{ ch5RingMagenta }};"></button>
-            <button onClick="{{ ch5RimOrange }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #FF6A2C; border: 2px solid {{ ch5RingOrange }};"></button>
-            <button onClick="{{ ch5RimRed }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #F03040; border: 2px solid {{ ch5RingRed }};"></button>
+            <button onClick="{{ ch5RimTeal }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #22D3C0; border: 2px solid {{ ch5RingTeal }};"></button>
+            <button onClick="{{ ch5RimGreen }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #35E06A; border: 2px solid {{ ch5RingGreen }};"></button>
+            <button onClick="{{ ch5RimBlue }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #37B6FF; border: 2px solid {{ ch5RingBlue }};"></button>
+            <button onClick="{{ ch5RimMagenta }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #F23BA0; border: 2px solid {{ ch5RingMagenta }};"></button>
+            <button onClick="{{ ch5RimOrange }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #FF6A2C; border: 2px solid {{ ch5RingOrange }};"></button>
+            <button onClick="{{ ch5RimRed }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #F03040; border: 2px solid {{ ch5RingRed }};"></button>
           </div>
         </div>
-        <button onClick="{{ toggleCh5View }}" style="padding: 13px 18px; border: 1px solid {{ ch5MaskBorder }}; border-radius: 10px; background: {{ ch5MaskBg }}; color: {{ ch5MaskFg }}; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+        <button onClick="{{ toggleCh5View }}" style="padding: 13px 18px; border: 1px solid {{ ch5MaskBorder }}; border-radius: 4px; background: {{ ch5MaskBg }}; color: {{ ch5MaskFg }}; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Afficher le masque de Fresnel</sc-if>
           <sc-if value="{{ isEn }}">Show Fresnel mask</sc-if>
         </button>
-        <p style="font-size: 13px; color: rgba(232,224,208,0.45); margin: 0;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le masque isole les zones où l'angle de vue est rasant. Ce sont précisément les zones qu'un rim light fait briller.</sc-if>
-          <sc-if value="{{ isEn }}">The mask isolates the zones where the viewing angle is grazing. These are exactly the zones a rim light makes glow.</sc-if>
+        <p style="font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le masque isole les zones où l'angle de vue est rasant : précisément celles qu'un rim light fait briller.</sc-if>
+          <sc-if value="{{ isEn }}">The mask isolates the zones where the viewing angle is grazing: precisely the ones a rim light makes glow.</sc-if>
         </p>
       </div>
     </aside>
   </section>
 
-  <!-- ============ CH 6 — APPLICATION (before/after + galerie) ============ -->
-  <section id="ch6" data-screen-label="Ch6 Application" style="display: flex; flex-direction: column; gap: 52px; padding: 96px 64px; border-top: 1px solid rgba(232,224,208,0.08);">
-    <div style="max-width: 720px;">
-      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; margin-bottom: 12px;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Application · de la théorie à la toile</sc-if>
-        <sc-if value="{{ isEn }}">Applied · from theory to canvas</sc-if>
+  <!-- ============ LEÇON 06 — APPLICATION ============ -->
+  <section id="ch6" data-screen-label="Lecon 06 Application" class="lc-pad" onContextMenu="{{ blockCtx }}" style="position: relative; display: flex; flex-direction: column; gap: 56px; border-top: 1px solid rgba(232,224,208,0.08); overflow: hidden;">
+    <div style="position: absolute; top: -20px; right: 24px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 200px; line-height: 1; color: rgba(232,224,208,0.045); -webkit-text-stroke: 1px rgba(61,191,163,0.15); pointer-events: none;">06</div>
+    <div style="max-width: 760px; position: relative;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 06 · Application</sc-if>
+          <sc-if value="{{ isEn }}">Lesson 06 · Applied</sc-if>
+        </span>
       </div>
-      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 3.4vw, 40px); font-weight: 700; margin: 0 0 14px; color: #E8E0D0; text-wrap: balance;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Ce que ça donne sur Photoshop</sc-if>
-        <sc-if value="{{ isEn }}">What it looks like in Photoshop</sc-if>
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(28px, 3.4vw, 42px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0; text-wrap: balance;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">De la théorie à la toile</sc-if>
+        <sc-if value="{{ isEn }}">From theory to canvas</sc-if>
       </h2>
-      <p style="font-size: 15px; color: rgba(232,224,208,0.65); margin: 0; max-width: 560px;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Les mêmes principes, appliqués à mes illustrations. Glisse la barre : à droite l'esquisse de départ, à gauche le rendu final où le rim light détache le sujet.</sc-if>
-        <sc-if value="{{ isEn }}">The same principles, applied to my illustrations. Drag the bar: the starting sketch on the right, the final render where the rim light separates the subject on the left.</sc-if>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Les mêmes lois, appliquées sur Photoshop.</sc-if>
+        <sc-if value="{{ isEn }}">The same laws, applied in Photoshop.</sc-if>
+      </p>
+      <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0; max-width: 560px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Glisse la barre : à droite l'esquisse de départ, à gauche le rendu final où le rim light détache le sujet.</sc-if>
+        <sc-if value="{{ isEn }}">Drag the bar: the starting sketch on the right, the final render where the rim light separates the subject on the left.</sc-if>
       </p>
     </div>
 
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
-      <div onPointerDown="{{ compareDown }}" onPointerMove="{{ compareMove }}" style="position: relative; width: 100%; max-width: 560px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(232,224,208,0.1); user-select: none; touch-action: none; cursor: ew-resize;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Début" style="display: block; width: 100%; height: auto;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Final" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ afterClip }};">
-        <div style="position: absolute; top: 14px; left: 14px; padding: 5px 11px; border-radius: 999px; background: rgba(11,12,13,0.7); backdrop-filter: blur(6px); font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: 0.12em; font-weight: 600; color: #6BD9C2;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">FINAL</sc-if><sc-if value="{{ isEn }}">FINAL</sc-if></div>
-        <div style="position: absolute; top: 14px; right: 14px; padding: 5px 11px; border-radius: 999px; background: rgba(11,12,13,0.7); backdrop-filter: blur(6px); font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: 0.12em; font-weight: 600; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">DÉBUT</sc-if><sc-if value="{{ isEn }}">START</sc-if></div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; position: relative;">
+      <div onPointerDown="{{ compareDown }}" onPointerMove="{{ compareMove }}" style="position: relative; width: 100%; max-width: 580px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(232,224,208,0.1); user-select: none; touch-action: none; cursor: ew-resize;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Début" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Final" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ afterClip }}; pointer-events: none; user-select: none;">
+        <div style="position: absolute; top: 14px; left: 14px; padding: 5px 11px; border-radius: 3px; background: rgba(11,12,13,0.7); backdrop-filter: blur(6px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.16em; font-weight: 600; color: #6BD9C2;">FINAL</div>
+        <div style="position: absolute; top: 14px; right: 14px; padding: 5px 11px; border-radius: 3px; background: rgba(11,12,13,0.7); backdrop-filter: blur(6px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.16em; font-weight: 600; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">DÉBUT</sc-if><sc-if value="{{ isEn }}">START</sc-if></div>
         <div style="position: absolute; top: 0; bottom: 0; left: {{ comparePct }}; width: 2px; background: #3DBFA3; pointer-events: none; box-shadow: 0 0 12px rgba(61,191,163,0.6);">
-          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border-radius: 50%; background: #3DBFA3; color: #0B0C0D; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700;">⇄</div>
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 42px; height: 42px; border-radius: 50%; background: #3DBFA3; color: #0B0C0D; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700;">⇄</div>
         </div>
       </div>
-      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: rgba(232,224,208,0.5);">Rim Light Study #02 · Ibrahim Mbaye</div>
+      <div style="font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45);">RIM LIGHT STUDY #02 · IBRAHIM MBAYE</div>
     </div>
 
-    <div>
-      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(232,224,208,0.45); margin-bottom: 20px;">
+    <div style="position: relative;">
+      <div style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(232,224,208,0.4); font-weight: 600; margin-bottom: 20px;">
         <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Galerie · rim light en situation</sc-if>
         <sc-if value="{{ isEn }}">Gallery · rim light in context</sc-if>
       </div>
-      <div style="column-width: 260px; column-gap: 16px;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio" loading="lazy" style="width: 100%; display: block; border-radius: 12px; margin-bottom: 16px; break-inside: avoid;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png" alt="Norvège vs Sénégal" loading="lazy" style="width: 100%; display: block; border-radius: 12px; margin-bottom: 16px; break-inside: avoid;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France Sénégal" loading="lazy" style="width: 100%; display: block; border-radius: 12px; margin-bottom: 16px; break-inside: avoid;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" loading="lazy" style="width: 100%; display: block; border-radius: 12px; margin-bottom: 16px; break-inside: avoid;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776659502/NUNEZ_xxcyqg.jpg" alt="Nunez" loading="lazy" style="width: 100%; display: block; border-radius: 12px; margin-bottom: 16px; break-inside: avoid;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491236/SEN._vs_GAM._l7snqc.jpg" alt="Sénégal vs Gambie" loading="lazy" style="width: 100%; display: block; border-radius: 12px; margin-bottom: 16px; break-inside: avoid;">
+      <div style="column-width: 260px; column-gap: 14px;">
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png" alt="Norvège vs Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776659502/NUNEZ_xxcyqg.jpg" alt="Nunez" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491236/SEN._vs_GAM._l7snqc.jpg" alt="Sénégal vs Gambie" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
       </div>
     </div>
   </section>
 
   <!-- ============ NEWSLETTER ============ -->
-  <section data-screen-label="Newsletter" style="display: flex; justify-content: center; padding: 100px 32px; border-top: 1px solid rgba(232,224,208,0.08); background: rgba(61,191,163,0.04);">
-    <div style="width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center;">
-      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Nouvelles leçons</sc-if>
-        <sc-if value="{{ isEn }}">New lessons</sc-if>
+  <section data-screen-label="Newsletter" style="display: flex; justify-content: center; padding: 110px 24px; border-top: 1px solid rgba(232,224,208,0.08); background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(61,191,163,0.07), rgba(61,191,163,0) 70%);">
+    <div style="width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center;">
+      <div style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Prochaines leçons</sc-if>
+        <sc-if value="{{ isEn }}">Next lessons</sc-if>
       </div>
-      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px, 3vw, 38px); font-weight: 700; margin: 0; color: #E8E0D0; text-wrap: balance;">
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 3.2vw, 40px); font-weight: 700; margin: 0; color: #E8E0D0; text-wrap: balance;">
         <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sois prévenu quand une leçon sort</sc-if>
         <sc-if value="{{ isEn }}">Get notified when a lesson drops</sc-if>
       </h2>
-      <p style="font-size: 15px; color: rgba(232,224,208,0.6); margin: 0; max-width: 460px;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un e-mail court à chaque nouveau module : tutos rim light, études d'éclairage, ressources. Pas de spam.</sc-if>
-        <sc-if value="{{ isEn }}">A short email at every new module: rim light tutorials, lighting studies, resources. No spam.</sc-if>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px; color: rgba(232,224,208,0.6); margin: 0; max-width: 460px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un e-mail court à chaque module : tutos rim light, études d'éclairage, ressources.</sc-if>
+        <sc-if value="{{ isEn }}">A short email at every module: rim light tutorials, lighting studies, resources.</sc-if>
       </p>
       <sc-if value="{{ newsletterOpen }}" hint-placeholder-val="{{ true }}">
-        <form onSubmit="{{ submitNewsletter }}" style="display: flex; gap: 10px; width: 100%; max-width: 440px; flex-wrap: wrap; justify-content: center;">
-          <input type="email" required="required" placeholder="{{ emailPlaceholder }}" value="{{ email }}" onInput="{{ setEmail }}" style="flex: 1 1 240px; padding: 14px 18px; border-radius: 999px; border: 1px solid rgba(232,224,208,0.18); background: rgba(11,12,13,0.6); color: #E8E0D0; font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; outline: none;">
-          <button type="submit" style="padding: 14px 26px; border: none; border-radius: 999px; background: #3DBFA3; color: #0B0C0D; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; cursor: pointer;">
+        <form onSubmit="{{ submitNewsletter }}" style="display: flex; gap: 10px; width: 100%; max-width: 460px; flex-wrap: wrap; justify-content: center;">
+          <input type="email" required="required" placeholder="{{ emailPlaceholder }}" value="{{ email }}" onInput="{{ setEmail }}" style="flex: 1 1 240px; padding: 14px 18px; border-radius: 4px; border: 1px solid rgba(232,224,208,0.16); background: #101113; color: #E8E0D0; font-family: 'Inter', sans-serif; font-size: 15px; outline: none;">
+          <button type="submit" style="padding: 14px 26px; border: none; border-radius: 4px; background: #3DBFA3; color: #0B0C0D; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer;">
             <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">S'inscrire</sc-if>
             <sc-if value="{{ isEn }}">Subscribe</sc-if>
           </button>
         </form>
       </sc-if>
       <sc-if value="{{ newsletterDone }}">
-        <div style="display: flex; align-items: center; gap: 12px; padding: 16px 26px; border-radius: 999px; border: 1px solid rgba(61,191,163,0.5); background: rgba(61,191,163,0.1); color: #6BD9C2; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600;">
-          <span style="font-size: 18px;">✓</span>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 15px 26px; border-radius: 4px; border: 1px solid rgba(61,191,163,0.5); background: rgba(61,191,163,0.1); color: #6BD9C2; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;">
+          <span style="font-size: 17px;">✓</span>
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Inscrit, à bientôt pour la prochaine leçon.</sc-if>
           <sc-if value="{{ isEn }}">You're in, see you at the next lesson.</sc-if>
         </div>
       </sc-if>
-      <span style="font-size: 12px; color: rgba(232,224,208,0.35);">{{ subscriberCountLabel }}</span>
+      <span style="font-size: 12px; color: rgba(232,224,208,0.35);">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Zéro spam, désinscription en un clic.</sc-if>
+        <sc-if value="{{ isEn }}">Zero spam, one-click unsubscribe.</sc-if>
+      </span>
     </div>
   </section>
 
-  <!-- ============ FOOTER CTA ============ -->
-  <section data-screen-label="CTA" style="display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 120px 32px; text-align: center; border-top: 1px solid rgba(232,224,208,0.08);">
-    <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 3.4vw, 44px); font-weight: 700; margin: 0; color: #E8E0D0; max-width: 720px; text-wrap: balance;">
-      <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque scène ici a commencé avec une seule lumière. À vous de jouer.</sc-if>
+  <!-- ============ FOOTER ============ -->
+  <section data-screen-label="Footer" style="display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 90px 24px 70px; text-align: center; border-top: 1px solid rgba(232,224,208,0.08);">
+    <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(24px, 3vw, 36px); margin: 0; color: rgba(232,224,208,0.85); max-width: 720px; text-wrap: balance;">
+      <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque scène ici a commencé avec une seule lumière. À toi de jouer.</sc-if>
       <sc-if value="{{ isEn }}">Every scene here started with a single light. Your turn.</sc-if>
-    </h2>
-    <a href="#ch1" style="display: inline-flex; padding: 14px 30px; background: #3DBFA3; color: #0B0C0D; border-radius: 999px; font-weight: 600; font-size: 15px;">
-      <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rejouer les modules</sc-if>
-      <sc-if value="{{ isEn }}">Replay the modules</sc-if>
+    </p>
+    <a href="#ch1" style="display: inline-flex; padding: 13px 28px; background: transparent; border: 1px solid #3DBFA3; color: #3DBFA3; border-radius: 999px; font-weight: 600; font-size: 14px; font-family: 'Inter', sans-serif;">
+      <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rejouer les leçons</sc-if>
+      <sc-if value="{{ isEn }}">Replay the lessons</sc-if>
     </a>
-    <div style="font-size: 12px; color: rgba(232,224,208,0.35); letter-spacing: 0.08em;">MDG Creative Studio · Learning Center</div>
+    <div style="display: flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.35);">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG" draggable="false" style="height: 16px; width: auto; opacity: 0.6;">
+      <span>MDG Creative Studio · Learning Center</span>
+    </div>
   </section>
+
+  <!-- film grain -->
+  <div style="position: fixed; inset: 0; z-index: 70; pointer-events: none; opacity: 0.05; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>');"></div>
 </div>
 
-<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0B0C0D"></rect><circle cx="50" cy="50" r="16" fill="none" stroke="#3DBFA3" stroke-width="4"></circle><circle cx="63" cy="40" r="5" fill="#E8E0D0"></circle></svg></template></x-dc>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0B0C0D"></rect><circle cx="50" cy="50" r="16" fill="none" stroke="#3DBFA3" stroke-width="4"></circle><circle cx="63" cy="40" r="5" fill="#E8E0D0"></circle></svg></template>
+</x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;defaultLang&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;fr&quot;, &quot;en&quot;], &quot;default&quot;: &quot;fr&quot;, &quot;tsType&quot;: &quot;'fr' | 'en'&quot;, &quot;section&quot;: &quot;Contenu&quot;}}">
 class Component extends DCLogic {
   state = {
@@ -2637,9 +2773,11 @@ class Component extends DCLogic {
       toggleLang: () => this.setState({ lang: fr ? 'en' : 'fr' }),
       frPillBg: fr ? teal : 'transparent', frPillFg: fr ? '#0B0C0D' : 'rgba(232,224,208,0.55)',
       enPillBg: !fr ? teal : 'transparent', enPillFg: !fr ? '#0B0C0D' : 'rgba(232,224,208,0.55)',
+      blockCtx: (e) => e.preventDefault(),
 
       ch1Az: s.ch1.az, setCh1Az: set(['ch1', 'az']), ch1AzLabel: Math.round(s.ch1.az) + '°',
       ch1El: s.ch1.el, setCh1El: set(['ch1', 'el']), ch1ElLabel: Math.round(s.ch1.el) + '°',
+      ch1LightMove: (d) => this.setState((st) => ({ ch1: { ...st.ch1, az: d.azimuth, el: d.elevation } })),
       ch1Intensity: s.ch1.intensity, setCh1Intensity: set(['ch1', 'intensity']),
       ch1IntensityLabel: s.ch1.intensity.toFixed(2) + '×',
       ch1Softness: s.ch1.softness, setCh1Softness: set(['ch1', 'softness']),
@@ -2669,6 +2807,7 @@ class Component extends DCLogic {
 
       ch3Az: s.ch3.az, ch3El: s.ch3.el,
       setCh3Az: set(['ch3', 'az']), setCh3El: set(['ch3', 'el']),
+      ch3LightMove: (d) => this.setState((st) => ({ ch3: { ...st.ch3, az: d.azimuth, el: d.elevation } })),
       ch3AzLabel: Math.round(s.ch3.az) + '°',
       ch3ElLabel: Math.round(s.ch3.el) + '°',
       ch3PatternLabel: pattern,
@@ -2692,6 +2831,7 @@ class Component extends DCLogic {
 
       ch5Wrap: s.ch5.wrap, setCh5Wrap: set(['ch5', 'wrap']),
       ch5WrapLabel: Math.round(10 + s.ch5.wrap * 150) + '°',
+      ch5LightMove: (d) => { if (d.rimWrap != null) this.setState((st) => ({ ch5: { ...st.ch5, wrap: d.rimWrap } })); },
       ch5View: s.ch5.mask ? 1 : 0,
       toggleCh5View: () => this.setState((st) => ({ ch5: { ...st.ch5, mask: !st.ch5.mask } })),
       ch5MaskBorder: s.ch5.mask ? teal : 'rgba(232,224,208,0.15)',
@@ -2743,7 +2883,6 @@ class Component extends DCLogic {
           }).catch(() => {});
         } catch (_) {}
       },
-      subscriberCountLabel: fr ? 'Rejoins 1 200+ artistes' : 'Join 1,200+ artists',
     };
   }
 }
