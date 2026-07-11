@@ -2461,7 +2461,8 @@
             <button onClick="{{ ch5RimOrange }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #FF6A2C; border: 2px solid {{ ch5RingOrange }};"></button>
             <button onClick="{{ ch5RimRed }}" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer; background: #F03040; border: 2px solid {{ ch5RingRed }};"></button>
           </div>
-        </div> style="padding: 13px 18px; border: 1px solid {{ ch5MaskBorder }}; border-radius: 10px; background: {{ ch5MaskBg }}; color: {{ ch5MaskFg }}; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+        </div>
+        <button onClick="{{ toggleCh5View }}" style="padding: 13px 18px; border: 1px solid {{ ch5MaskBorder }}; border-radius: 10px; background: {{ ch5MaskBg }}; color: {{ ch5MaskFg }}; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Afficher le masque de Fresnel</sc-if>
           <sc-if value="{{ isEn }}">Show Fresnel mask</sc-if>
         </button>
