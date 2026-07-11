@@ -2113,7 +2113,7 @@
       // --- lights every frame (cheap) ---
       const kc = (p.colorhex && hexToRGB(p.colorhex)) || kelvinToRGB(p.kelvin);
       let az = p.azimuth, el = p.elevation, dist = p.distance;
-      const radius = dist * 1.55;
+      const radius = dist * 2.1;
       const compensate = p.falloffboost <= 0.001;
       const baseKey = 26;
       const kp = this._sph(az, el, radius);
@@ -2210,10 +2210,14 @@
     .lc-navlinks { display: flex; align-items: center; gap: 18px; }
     .lc-hero-pad { padding: 0 64px 72px; }
 
+    /* ===== ALTERNANCE DE THÈME PAR LEÇON ===== */
+    .lc-split, section.lc-pad { --lc-bg: #0B0C0D; --lc-vp-bg: #0B0C0D; --lc-fg: #E8E0D0; --lc-fg-70: rgba(232,224,208,0.7); --lc-fg-65: rgba(232,224,208,0.65); --lc-fg-60: rgba(232,224,208,0.6); --lc-fg-45: rgba(232,224,208,0.45); --lc-fg-40: rgba(232,224,208,0.4); --lc-border: rgba(232,224,208,0.08); --lc-border-14: rgba(232,224,208,0.14); --lc-btn-bg: #101113; --lc-panel-grad: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); background: var(--lc-bg); color: var(--lc-fg); }
+    .lc-split.lc-theme-light, section.lc-pad.lc-theme-light { --lc-bg: #F0EEE6; --lc-vp-bg: #F0EEE6; --lc-fg: #1C1A16; --lc-fg-70: rgba(28,26,22,0.72); --lc-fg-65: rgba(28,26,22,0.68); --lc-fg-60: rgba(28,26,22,0.62); --lc-fg-45: rgba(28,26,22,0.5); --lc-fg-40: rgba(28,26,22,0.42); --lc-border: rgba(28,26,22,0.1); --lc-border-14: rgba(28,26,22,0.16); --lc-btn-bg: #E4E1D6; --lc-panel-grad: linear-gradient(180deg, #E9E6DB 0%, #E1DDCF 100%); }
+
     /* ===== TABLETTE / MOBILE (≤960px) ===== */
     @media (max-width: 960px) {
       .lc-split { grid-template-columns: 1fr; }
-      .lc-vp { position: sticky; top: 55px; z-index: 5; min-height: 42vh; max-height: 46vh; min-height: 42svh; max-height: 46svh; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); }
+      .lc-vp { position: sticky; top: 55px; z-index: 5; min-height: 42vh; max-height: 46vh; min-height: 42svh; max-height: 46svh; background: var(--lc-vp-bg); border-bottom: 1px solid rgba(232,224,208,0.12); }
       .lc-aside { border-left: none; border-top: 1px solid rgba(232,224,208,0.08); padding: 40px 24px 56px; gap: 22px; }
       .lc-pad { padding: 64px 24px; }
       .lc-navlinks { display: none; }
@@ -2425,7 +2429,7 @@
   </section>
 
   <!-- ============ LEÇON 02 — LA DISTANCE ============ -->
-  <section id="ch2" data-screen-label="Lecon 02 Distance" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+  <section id="ch2" data-screen-label="Lecon 02 Distance" class="lc-split lc-theme-light" style="border-top: 1px solid rgba(232,224,208,0.08);">
     <div class="lc-vp">
       <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" falloff-boost="1.4" intensity="2.6" softness="0.3" kelvin="4800" azimuth="35" elevation="18" distance="{{ ch2Distance }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
@@ -2448,22 +2452,22 @@
             <sc-if value="{{ isEn }}">Lesson 02 · Distance</sc-if>
           </span>
         </div>
-        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: var(--lc-fg);">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La loi de l'inverse du carré</sc-if>
           <sc-if value="{{ isEn }}">The inverse-square law</sc-if>
         </h2>
-        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: var(--lc-fg-70); margin: 0 0 12px;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux fois plus loin, quatre fois plus faible.</sc-if>
           <sc-if value="{{ isEn }}">Twice as far, four times weaker.</sc-if>
         </p>
-        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+        <p style="font-size: 14.5px; color: var(--lc-fg-60); margin: 0;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">I ∝ 1/d². Une source proche donne un dégradé rapide et dramatique du clair vers l'ombre. Une source lointaine aplatit tout. C'est le levier n°1 du contraste.</sc-if>
           <sc-if value="{{ isEn }}">I ∝ 1/d². A close source gives a fast, dramatic gradient from light to shadow. A distant one flattens everything. It is the number one lever of contrast.</sc-if>
         </p>
       </div>
-      <div style="position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45);">
+      <div style="position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid var(--lc-border-14); border-top-color: var(--lc-border-14); border-radius: 4px; background: var(--lc-panel-grad); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.12);">
         <label style="display: flex; flex-direction: column; gap: 7px;">
-          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: var(--lc-fg-65);">
             <span>Distance d</span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch2DistLabel }}</span>
           </span>
@@ -2471,13 +2475,13 @@
         </label>
         <div>
           <svg viewBox="0 0 300 150" style="width: 100%; display: block;">
-            <line x1="0" y1="140" x2="300" y2="140" stroke="rgba(232,224,208,0.2)" stroke-width="1"></line>
+            <line x1="0" y1="140" x2="300" y2="140" stroke="var(--lc-border-14)" stroke-width="1"></line>
             <path d="M0,5 L17.6,64.1 L35.3,91.4 L52.9,106.3 L70.6,115.2 L88.2,121.0 L105.9,125.0 L123.5,127.9 L158.8,131.6 L194.1,133.8 L229.4,135.2 L264.7,136.3 L300,137" fill="none" stroke="#3DBFA3" stroke-width="2"></path>
-            <line x1="{{ ch2MarkerX }}" y1="140" x2="{{ ch2MarkerX }}" y2="{{ ch2MarkerY }}" stroke="rgba(232,224,208,0.35)" stroke-width="1" stroke-dasharray="3 3"></line>
+            <line x1="{{ ch2MarkerX }}" y1="140" x2="{{ ch2MarkerX }}" y2="{{ ch2MarkerY }}" stroke="var(--lc-border-14)" stroke-width="1" stroke-dasharray="3 3"></line>
             <circle cx="{{ ch2MarkerX }}" cy="{{ ch2MarkerY }}" r="5" fill="#3DBFA3"></circle>
-            <text x="6" y="16" fill="rgba(232,224,208,0.5)" font-size="11" font-family="Inter">I = 1/d²</text>
+            <text x="6" y="16" fill="var(--lc-fg-45)" font-size="11" font-family="Inter">I = 1/d²</text>
           </svg>
-          <div style="display: flex; justify-content: space-between; font-size: 11px; color: rgba(232,224,208,0.4); margin-top: 4px;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--lc-fg-40); margin-top: 4px;">
             <span>d = 0.7</span><span>d = 4</span>
           </div>
         </div>
@@ -2557,7 +2561,7 @@
   </section>
 
   <!-- ============ LEÇON 04 — LES RÔLES ============ -->
-  <section id="ch4" data-screen-label="Lecon 04 Roles" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+  <section id="ch4" data-screen-label="Lecon 04 Roles" class="lc-split lc-theme-light" style="border-top: 1px solid rgba(232,224,208,0.08);">
     <div class="lc-vp">
       <x-import component-from-global-scope="light-sim" mode="single" gizmo="false" interactive="true" intensity="1.5" softness="0.4" distance="2.2" kelvin="4300" rim-hex="#22D3C0" azimuth="45" elevation="30" key-on="{{ ch4Key }}" fill-on="{{ ch4Fill }}" rim-on="{{ ch4Rim }}" key-level="{{ ch4KeyLevel }}" fill-level="{{ ch4FillLevel }}" rim-level="{{ ch4RimLevel }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
@@ -2576,17 +2580,17 @@
             <sc-if value="{{ isEn }}">Lesson 04 · The roles</sc-if>
           </span>
         </div>
-        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">Key · Fill · Rim</h2>
-        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: var(--lc-fg);">Key · Fill · Rim</h2>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: var(--lc-fg-70); margin: 0 0 12px;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une lumière ne décore pas, elle travaille.</sc-if>
           <sc-if value="{{ isEn }}">A light does not decorate, it works.</sc-if>
         </p>
-        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+        <p style="font-size: 14.5px; color: var(--lc-fg-60); margin: 0;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le key sculpte le volume, le fill remonte les ombres, le rim détache le sujet du fond. Coupe-les une par une pour voir ce que chacune apporte.</sc-if>
           <sc-if value="{{ isEn }}">The key sculpts volume, the fill lifts the shadows, the rim separates the subject from the background. Toggle them one by one to see what each brings.</sc-if>
         </p>
       </div>
-      <div style="position: relative; display: flex; gap: 14px; padding: 20px 16px 16px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: linear-gradient(180deg, #131416, #0E0F11);">
+      <div style="position: relative; display: flex; gap: 14px; padding: 20px 16px 16px; border: 1px solid var(--lc-border-14); border-radius: 6px; background: var(--lc-panel-grad);">
         <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px;">
           <div onPointerDown="{{ faderKey }}" onPointerMove="{{ faderKey }}" style="position: relative; width: 100%; max-width: 74px; height: 190px; border-radius: 6px; background: #0B0C0D; border: 1px solid rgba(232,224,208,0.1); cursor: ns-resize; touch-action: none; user-select: none;">
             <span style="position: absolute; left: 0; right: 0; bottom: 0; height: {{ ch4KeyPct }}; background: linear-gradient(180deg, rgba(255,217,160,0.55), rgba(255,217,160,0.12)); border-radius: 0 0 5px 5px; pointer-events: none;"></span>
@@ -2612,7 +2616,7 @@
           <button onClick="{{ toggleRim }}" style="padding: 5px 12px; border-radius: 3px; border: 1px solid {{ rimBtnBorder }}; background: {{ ch4RimMuteBg }}; color: {{ ch4RimMuteFg }}; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer;">{{ ch4RimMuteLabel }}</button>
         </div>
       </div>
-      <p style="position: relative; font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+      <p style="position: relative; font-size: 12.5px; color: var(--lc-fg-40); margin: 0;">
         <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une console de mixage lumière : monte et descends chaque fader, coupe une lumière avec MUTE. Key sculpte, Fill débouche, Rim détache.</sc-if>
         <sc-if value="{{ isEn }}">A light mixing console: ride each fader up and down, cut a light with MUTE. Key sculpts, Fill lifts, Rim separates.</sc-if>
       </p>
