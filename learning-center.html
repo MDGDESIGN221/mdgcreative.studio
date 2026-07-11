@@ -2304,8 +2304,8 @@
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
         <span style="width: 7px; height: 7px; border-radius: 50%; background: #3DBFA3; animation: ls-pulse 2.2s infinite;"></span>
         <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Six leçons interactives · rendu temps réel</sc-if>
-          <sc-if value="{{ isEn }}">Six interactive lessons · real-time render</sc-if>
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Les fondamentaux, puis six leçons de rim light</sc-if>
+          <sc-if value="{{ isEn }}">The fundamentals, then six rim light lessons</sc-if>
         </span>
       </div>
       <h1 style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(28px, 5.8vw, 88px); line-height: 0.96; letter-spacing: -0.02em; margin: 0 0 18px; color: #E8E0D0; text-transform: uppercase;">
@@ -2313,19 +2313,54 @@
         <sc-if value="{{ isEn }}">Understand<br><span style="color: #3DBFA3;">the light.</span></sc-if>
       </h1>
       <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(20px, 2.6vw, 30px); color: rgba(232,224,208,0.75); margin: 0 0 30px;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Pas en la lisant. En la manipulant.</sc-if>
-        <sc-if value="{{ isEn }}">Not by reading it. By handling it.</sc-if>
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Avant le rim light, son comportement. Pas en le lisant. En le manipulant.</sc-if>
+        <sc-if value="{{ isEn }}">Before rim light, its behavior. Not by reading it. By handling it.</sc-if>
       </p>
       <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
-        <a href="#ch1" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: #3DBFA3; color: #0B0C0D; border-radius: 999px; font-weight: 600; font-size: 15px; font-family: 'Inter', sans-serif;">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Commencer la leçon 01</sc-if>
-          <sc-if value="{{ isEn }}">Start lesson 01</sc-if>
+        <a href="#lc-intro" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: #3DBFA3; color: #0B0C0D; border-radius: 999px; font-weight: 600; font-size: 15px; font-family: 'Inter', sans-serif;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Commencer par les fondamentaux</sc-if>
+          <sc-if value="{{ isEn }}">Start with the fundamentals</sc-if>
           <span>↓</span>
         </a>
         <span style="font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.45);">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La 3D commence à la leçon 01 · scroll libre ici</sc-if>
           <sc-if value="{{ isEn }}">3D starts at lesson 01 · free scroll here</sc-if>
         </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INTRO — LE COMPORTEMENT DE LA LUMIÈRE ============ -->
+  <section id="lc-intro" data-screen-label="Intro Comportement" class="lc-pad" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div style="max-width: 760px; margin: 0 auto; position: relative;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Avant les leçons</sc-if>
+          <sc-if value="{{ isEn }}">Before the lessons</sc-if>
+        </span>
+      </div>
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(28px, 3.4vw, 42px); font-weight: 700; margin: 0 0 16px; color: #E8E0D0; text-wrap: balance;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le comportement de la lumière sur un sujet</sc-if>
+        <sc-if value="{{ isEn }}">How light behaves on a subject</sc-if>
+      </h2>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 18px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le rim light n'est pas une technique à part. C'est une conséquence.</sc-if>
+        <sc-if value="{{ isEn }}">Rim light is not a separate technique. It is a consequence.</sc-if>
+      </p>
+      <p style="font-size: 15px; color: rgba(232,224,208,0.65); margin: 0 0 16px; line-height: 1.75;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Ici, on va apprendre à faire des rim lights. Mais avant d'y toucher, il faut comprendre comment une lumière se comporte sur un sujet, peu importe le rôle qu'on lui donne ensuite. Une lumière a une taille, une distance, une direction : ces trois choses décident à elles seules si une ombre sera nette ou fondue, si le sujet sera plat ou sculpté. Ce sont les mêmes lois pour un key light, un fill, ou un rim. Les six leçons qui suivent te font manipuler chacune de ces lois une par une.</sc-if>
+        <sc-if value="{{ isEn }}">Here, we are going to learn how to make rim lights. But before touching one, you need to understand how a light behaves on a subject, whatever role it is given afterward. A light has a size, a distance, a direction: these three things alone decide whether a shadow will be crisp or melted, whether the subject will look flat or sculpted. These are the same laws for a key light, a fill, or a rim. The six lessons that follow let you handle each of these laws one by one.</sc-if>
+      </p>
+      <div style="position: relative; padding: 20px 22px; border: 1px solid rgba(61,191,163,0.25); border-radius: 4px; background: rgba(61,191,163,0.05);">
+        <div style="font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; margin-bottom: 10px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La règle qu'on oublie souvent</sc-if>
+          <sc-if value="{{ isEn }}">The rule that gets forgotten</sc-if>
+        </div>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.75); margin: 0; line-height: 1.7;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une lumière ne s'invente pas sur un sujet sans raison. Un rim light doit correspondre à une source plausible dans la scène : un soleil bas, une fenêtre, une enseigne, un lampadaire. Peu importe laquelle, du moment que l'œil peut croire qu'elle existe. Sans cette cohérence, la technique peut être parfaite et le résultat sonnera quand même faux, parce que la lumière n'aura plus de raison d'être là.</sc-if>
+          <sc-if value="{{ isEn }}">A light does not get invented on a subject without a reason. A rim light must match a plausible source in the scene: a low sun, a window, a sign, a streetlight. It does not matter which, as long as the eye can believe it exists. Without this coherence, the technique can be flawless and the result will still feel wrong, because the light no longer has a reason to be there.</sc-if>
+        </p>
       </div>
     </div>
   </section>
