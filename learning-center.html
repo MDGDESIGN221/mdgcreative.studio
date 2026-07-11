@@ -1843,7 +1843,7 @@
   }
 
   const NUM = ['intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
-    'rimwrap', 'falloffboost', 'view', 'yaw'];
+    'rimwrap', 'falloffboost', 'view', 'yaw', 'keylevel', 'filllevel', 'rimlevel'];
   const BOOL = ['keyon', 'fillon', 'rimon', 'autoorbit', 'interactive', 'gizmo'];
 
   class LightSim extends HTMLElement {
@@ -1851,6 +1851,7 @@
       return ['mode', 'intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
         'rim-wrap', 'falloff-boost', 'view', 'key-on', 'fill-on', 'rim-on',
         'auto-orbit', 'interactive', 'gizmo', 'yaw', 'color-hex', 'rim-hex',
+        'key-level', 'fill-level', 'rim-level', 'keylevel', 'filllevel', 'rimlevel',
         'rimwrap', 'falloffboost', 'keyon', 'fillon', 'rimon', 'autoorbit', 'colorhex', 'rimhex'];
     }
     constructor() {
@@ -1858,7 +1859,7 @@
       this.p = {
         mode: 'single', intensity: 1.4, softness: 0.4, distance: 2.2, kelvin: 5400,
         azimuth: 42, elevation: 26, rimwrap: 0.75, falloffboost: 0, view: 0, yaw: 0,
-        colorhex: '', rimhex: '#3DBFA3',
+        colorhex: '', rimhex: '#3DBFA3', keylevel: 1, filllevel: 1, rimlevel: 1,
         keyon: true, fillon: true, rimon: false, autoorbit: false, interactive: true, gizmo: true,
       };
       this._ready = false; this._visible = true; this._userOrbiting = false;
@@ -1907,33 +1908,49 @@
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.05;
-      renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;touch-action:none;';
+      renderer.toneMappingExposure = 0.98;
+      renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;touch-action:pan-y;';
       this.appendChild(renderer.domElement);
       this._renderer = renderer;
 
       const scene = new THREE.Scene();
       this._scene = scene;
       const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
-      camera.position.set(0, 0.15, 5.2);
+      camera.position.set(0, 0.15, 4.35);
       this._camera = camera;
 
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enablePan = false;
+      controls.enableRotate = false;
+      controls.enableZoom = false;
       controls.enableDamping = true;
       controls.dampingFactor = 0.08;
-      controls.minDistance = 3.2; controls.maxDistance = 8;
+      controls.minDistance = 2.9; controls.maxDistance = 8;
       controls.minPolarAngle = 0.6; controls.maxPolarAngle = 2.2;
       controls.target.set(0, 0.05, 0);
       controls.addEventListener('start', () => { this._userOrbiting = true; });
       this._controls = controls;
 
+      // Ctrl/Cmd + wheel (or trackpad pinch) = zoom; plain wheel = page scroll
+      renderer.domElement.addEventListener('wheel', (e) => {
+        if (!this.p.interactive) return;
+        if (!(e.ctrlKey || e.metaKey)) return;
+        e.preventDefault();
+        const cam = this._camera, t = controls.target;
+        const f = Math.exp(e.deltaY * 0.0012);
+        const v = cam.position.clone().sub(t).multiplyScalar(f);
+        const d = Math.max(controls.minDistance, Math.min(controls.maxDistance, v.length()));
+        v.setLength(d);
+        cam.position.copy(t).add(v);
+        this._dirty = true;
+      }, { passive: false });
+
       // ambient + backdrop + ground so shadows and colored wash read
       scene.add(new THREE.AmbientLight(0x2a2f36, 0.6));
       const backdrop = new THREE.Mesh(
         new THREE.PlaneGeometry(24, 16),
-        new THREE.MeshStandardMaterial({ color: 0x0e0f11, roughness: 1, metalness: 0 }));
-      backdrop.position.set(0, 0, -2.4); backdrop.receiveShadow = true;
+        new THREE.MeshStandardMaterial({ color: 0x08090b, roughness: 1, metalness: 0 }));
+      backdrop.position.set(0, 0, -3.4); backdrop.receiveShadow = true;
       scene.add(backdrop);
       const ground = new THREE.Mesh(
         new THREE.PlaneGeometry(24, 24),
@@ -2002,10 +2019,13 @@
       };
       let lpx = 0, lpy = 0;
       cvs.addEventListener('pointerdown', (e) => {
-        if (!this.p.interactive || !this.p.gizmo || !giz.visible) return;
-        if (!pick(e)) return;
-        this._dragLight = true; controls.enabled = false;
+        if (!this.p.interactive) return;
         lpx = e.clientX; lpy = e.clientY;
+        if (this.p.gizmo && giz.visible && pick(e)) {
+          this._dragLight = true; controls.enabled = false;
+        } else {
+          this._dragHead = true; this._userOrbiting = true;
+        }
         cvs.setPointerCapture(e.pointerId); cvs.style.cursor = 'grabbing';
       });
       cvs.addEventListener('pointermove', (e) => {
@@ -2023,12 +2043,17 @@
           this._dirty = true;
           if (typeof this.onLightMove === 'function') this.onLightMove(detail);
           this.dispatchEvent(new CustomEvent('lightmove', { detail, bubbles: true, composed: true }));
+        } else if (this._dragHead) {
+          const dx = e.clientX - lpx, dy = e.clientY - lpy; lpx = e.clientX; lpy = e.clientY;
+          this._head.rotation.y += dx * 0.008;
+          this._head.rotation.x = Math.max(-0.45, Math.min(0.45, this._head.rotation.x + dy * 0.005));
+          this._dirty = true;
         } else if (this.p.interactive && this.p.gizmo && giz.visible) {
           cvs.style.cursor = pick(e) ? 'grab' : '';
         }
       });
       const endDrag = () => {
-        if (this._dragLight) { this._dragLight = false; controls.enabled = !!this.p.interactive; cvs.style.cursor = ''; }
+        if (this._dragLight || this._dragHead) { this._dragLight = false; this._dragHead = false; controls.enabled = !!this.p.interactive; cvs.style.cursor = ''; }
       };
       cvs.addEventListener('pointerup', endDrag);
       cvs.addEventListener('pointercancel', endDrag);
@@ -2080,8 +2105,6 @@
         const t = (performance.now() - this._t0) / 1000;
         this._head.rotation.y = Math.sin(t * 0.32) * 0.5;
         this._dirty = true;
-      } else {
-        this._head.rotation.y = (p.yaw || 0) * Math.PI / 180;
       }
       controls.update();
 
@@ -2090,22 +2113,22 @@
       let az = p.azimuth, el = p.elevation, dist = p.distance;
       const radius = dist * 1.55;
       const compensate = p.falloffboost <= 0.001;
-      const baseKey = 34;
+      const baseKey = 26;
       const kp = this._sph(az, el, radius);
       this._key.position.set(kp[0], kp[1], kp[2]);
       this._key.target.position.set(0, 0.02, 0);
       this._key.color.setRGB(kc[0], kc[1], kc[2]);
       this._key.penumbra = 0.15 + p.softness * 0.85;
-      this._key.angle = 0.5 + p.softness * 0.35;
+      this._key.angle = 0.36 + p.softness * 0.26;
       this._key.shadow.radius = 1 + p.softness * 22;
-      this._key.intensity = (p.keyon ? 1 : 0) * baseKey * p.intensity *
+      this._key.intensity = (p.keyon ? 1 : 0) * baseKey * p.intensity * (p.keylevel != null ? p.keylevel : 1) *
         (compensate ? (radius * radius) / 6.0 : 1.0);
-      this._key.visible = !!p.keyon;
+      this._key.visible = !!p.keyon && (p.keylevel == null || p.keylevel > 0.02);
 
       const fp = this._sph(-52, 12, radius * 1.05);
       this._fill.position.set(fp[0], fp[1], fp[2]);
-      this._fill.intensity = (p.fillon ? 1 : 0) * 5.5 * (radius * radius) / 6.0;
-      this._fill.visible = !!p.fillon;
+      this._fill.intensity = (p.fillon ? 1 : 0) * 5.5 * (p.filllevel != null ? p.filllevel : 1) * (radius * radius) / 6.0;
+      this._fill.visible = !!p.fillon && (p.filllevel == null || p.filllevel > 0.02);
 
       // rim: in fresnel mode driven by rim-wrap (front->behind); else fixed behind
       const rimCol = hexToRGB(p.rimhex) || [0.24, 0.75, 0.64];
@@ -2124,12 +2147,13 @@
       this._rim.position.set(rp[0], rp[1], rp[2]);
       this._rim.target.position.set(0, 0.02, 0);
       this._rim.color.setRGB(rimCol[0], rimCol[1], rimCol[2]);
-      this._rim.intensity = rimActive ? 55 * (p.mode === 'fresnel' ? p.intensity : 1.3) : 0;
-      this._rim.visible = rimActive;
+      const rimLvl = (p.rimlevel != null ? p.rimlevel : 1);
+      this._rim.intensity = rimActive ? 55 * rimLvl * (p.mode === 'fresnel' ? p.intensity : 1.3) : 0;
+      this._rim.visible = rimActive && rimLvl > 0.02;
 
       // fresnel rim glow injected into skin material
       this._rimUniforms.uRimColor.value.setRGB(rimCol[0], rimCol[1], rimCol[2]);
-      this._rimUniforms.uRimStrength.value = rimActive ? (p.mode === 'fresnel' ? 1.6 : 1.1) : 0.0;
+      this._rimUniforms.uRimStrength.value = (rimActive && rimLvl > 0.02) ? rimLvl * (p.mode === 'fresnel' ? 1.6 : 1.1) : 0.0;
       const rimDir = new THREE.Vector3(rp[0], rp[1], rp[2]).normalize().transformDirection(this._camera.matrixWorldInverse);
       this._rimUniforms.uRimDirView.value.copy(rimDir);
 
@@ -2162,19 +2186,27 @@
   <title>MDG Learning Center — Comprendre la lumière</title>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     html, body { margin: 0; padding: 0; background: #0B0C0D; }
     * { box-sizing: border-box; }
     a { color: #3DBFA3; text-decoration: none; }
     a:hover { color: #6BD9C2; }
-    input[type="range"] { accent-color: #3DBFA3; }
+    input[type="range"] { -webkit-appearance: none; appearance: none; height: 18px; background: transparent; cursor: ew-resize; margin: 0; }
+    input[type="range"]::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: linear-gradient(90deg, rgba(61,191,163,0.9), rgba(61,191,163,0.35)); box-shadow: inset 0 1px 1px rgba(0,0,0,0.7); }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: linear-gradient(180deg, #F2EADA, #C9C2B2); border: 1px solid #0B0C0D; box-shadow: 0 1px 3px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.5); margin-top: -5.5px; }
+    input[type="range"]::-moz-range-track { height: 3px; border-radius: 2px; background: linear-gradient(90deg, rgba(61,191,163,0.9), rgba(61,191,163,0.35)); }
+    input[type="range"]::-moz-range-thumb { width: 13px; height: 13px; border-radius: 50%; background: linear-gradient(180deg, #F2EADA, #C9C2B2); border: 1px solid #0B0C0D; box-shadow: 0 1px 3px rgba(0,0,0,0.8); }
     ::selection { background: #3DBFA3; color: #0B0C0D; }
     img { -webkit-user-drag: none; user-select: none; }
     @keyframes ls-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
     .lc-split { display: grid; grid-template-columns: minmax(0, 1fr) 460px; }
-    .lc-vp { position: relative; min-height: 78vh; }
-    .lc-aside { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 24px; padding: 88px 52px; border-left: 1px solid rgba(232,224,208,0.08); overflow: hidden; }
+    .lc-vp { position: sticky; top: 55px; height: calc(100vh - 55px); min-height: 480px; align-self: start; }
+    .lc-split { align-items: stretch; }
+    @media (max-width: 960px) {
+      .lc-vp { position: sticky; top: 55px; z-index: 5; min-height: 38vh; max-height: 42vh; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); }
+    }
+    .lc-aside { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 20px; padding: 40px 44px; border-left: 1px solid rgba(232,224,208,0.08); overflow: hidden; }
     .lc-pad { padding: 110px 64px; }
     .lc-navlinks { display: flex; align-items: center; gap: 18px; }
     .lc-hero-pad { padding: 0 64px 72px; }
@@ -2217,10 +2249,23 @@
 
   <!-- ============ HERO ============ -->
   <section data-screen-label="Hero" style="position: relative; min-height: 94vh; display: flex; align-items: flex-end; overflow: hidden;">
-    <div style="position: absolute; inset: 0;">
-      <x-import component-from-global-scope="light-sim" mode="single" auto-orbit="true" interactive="true" gizmo="true" rim-on="true" color-hex="#DB4E74" rim-hex="#22D3C0" intensity="1.5" softness="0.3" distance="2.3" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+    <div style="position: absolute; inset: 0; overflow: hidden; pointer-events: none;">
+      <div style="position: absolute; top: -6%; bottom: -6%; left: -10%; right: -10%; display: flex; gap: 4px; transform: skewX(-8deg);">
+        <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1776491317/match-day-sadio_we5xzy.jpg') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
+        <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1781509552/FRANCE_SENEGAL_rkitjo.jpg') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
+        <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
+        <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659502/NUNEZ_xxcyqg.jpg') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
+      </div>
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,12,13,0.62) 0%, rgba(11,12,13,0.38) 42%, rgba(11,12,13,0.96) 92%);"></div>
+      <div style="position: absolute; right: 64px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 14px; font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.18em; color: rgba(232,224,208,0.4); text-align: right;">
+        <span>01 · LA SOURCE</span>
+        <span>02 · LA DISTANCE</span>
+        <span>03 · LA DIRECTION</span>
+        <span>04 · LES RÔLES</span>
+        <span>05 · FRESNEL</span>
+        <span style="color: #3DBFA3;">06 · APPLICATION</span>
+      </div>
     </div>
-    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,12,13,0.25) 0%, rgba(11,12,13,0) 35%, rgba(11,12,13,0.82) 88%); pointer-events: none;"></div>
     <div class="lc-hero-pad" style="position: relative; z-index: 2; width: 100%; pointer-events: none;">
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
         <span style="width: 7px; height: 7px; border-radius: 50%; background: #3DBFA3; animation: ls-pulse 2.2s infinite;"></span>
@@ -2244,8 +2289,8 @@
           <span>↓</span>
         </a>
         <span style="font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.45);">
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Attrape la sphère lumineuse ●</sc-if>
-          <sc-if value="{{ isEn }}">Grab the glowing sphere ●</sc-if>
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La 3D commence à la leçon 01 · scroll libre ici</sc-if>
+          <sc-if value="{{ isEn }}">3D starts at lesson 01 · free scroll here</sc-if>
         </span>
       </div>
     </div>
@@ -2256,7 +2301,7 @@
     <div class="lc-vp">
       <x-import component-from-global-scope="light-sim" id="sim-ch1" mode="single" gizmo="true" interactive="true" intensity="{{ ch1Intensity }}" softness="{{ ch1Softness }}" distance="{{ ch1Distance }}" kelvin="{{ ch1Kelvin }}" color-hex="{{ ch1ColorHex }}" azimuth="{{ ch1Az }}" elevation="{{ ch1El }}" on-light-move="{{ ch1LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; pointer-events: none;">
-        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 01</sc-if><sc-if value="{{ isEn }}">Scene 01</sc-if>
         </span>
       </div>
@@ -2269,7 +2314,7 @@
       </div>
     </div>
     <aside class="lc-aside">
-      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">01</div>
+      
       <div style="position: relative;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
           <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
@@ -2291,58 +2336,58 @@
           <sc-if value="{{ isEn }}">Shadow hardness depends on one thing: the apparent size of the source. Small source (sun, bare flash): crisp shadows. Large source (window, softbox): melted shadows. Change the size and watch the transition.</sc-if>
         </p>
       </div>
-      <div style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: #101113;">
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45);">
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Direction · azimut</sc-if><sc-if value="{{ isEn }}">Direction · azimuth</sc-if></span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1AzLabel }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1AzLabel }}</span>
           </span>
           <input type="range" min="-120" max="120" step="1" value="{{ ch1Az }}" onChange="{{ setCh1Az }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Hauteur · élévation</sc-if><sc-if value="{{ isEn }}">Height · elevation</sc-if></span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1ElLabel }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1ElLabel }}</span>
           </span>
           <input type="range" min="-30" max="75" step="1" value="{{ ch1El }}" onChange="{{ setCh1El }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Intensité</sc-if><sc-if value="{{ isEn }}">Intensity</sc-if></span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1IntensityLabel }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1IntensityLabel }}</span>
           </span>
           <input type="range" min="0.1" max="3" step="0.05" value="{{ ch1Intensity }}" onChange="{{ setCh1Intensity }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Taille de source · dureté</sc-if><sc-if value="{{ isEn }}">Source size · hardness</sc-if></span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1SoftLabel }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1SoftLabel }}</span>
           </span>
           <input type="range" min="0" max="1" step="0.01" value="{{ ch1Softness }}" onChange="{{ setCh1Softness }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span>Distance</span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1DistLabel }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1DistLabel }}</span>
           </span>
           <input type="range" min="1.2" max="4" step="0.05" value="{{ ch1Distance }}" onChange="{{ setCh1Distance }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Température</sc-if><sc-if value="{{ isEn }}">Temperature</sc-if></span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch1KelvinLabel }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1KelvinLabel }}</span>
           </span>
-          <input type="range" min="2000" max="10000" step="100" value="{{ ch1Kelvin }}" onChange="{{ setCh1Kelvin }}" style="width: 100%; background: linear-gradient(90deg, #FF9329, #FFE4C4, #CDE4FF); height: 6px; border-radius: 3px; appearance: none; -webkit-appearance: none; outline: none;">
+          <input type="range" min="2000" max="10000" step="100" value="{{ ch1Kelvin }}" onChange="{{ setCh1Kelvin }}" style="width: 100%; background: linear-gradient(90deg, #FF9329, #FFE4C4, #CDE4FF); height: 4px; border-radius: 2px; box-shadow: inset 0 1px 1px rgba(0,0,0,0.5); outline: none;">
         </label>
         <div style="display: flex; flex-direction: column; gap: 9px;">
           <span style="font-size: 12.5px; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleurs créatives</sc-if><sc-if value="{{ isEn }}">Creative colors</sc-if></span>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button onClick="{{ ch1ColWhite }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: linear-gradient(135deg,#FFE9CC,#CFE6FF); border: 2px solid {{ ch1RingWhite }};"></button>
-            <button onClick="{{ ch1ColOrange }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #FF7A2F; border: 2px solid {{ ch1RingOrange }};"></button>
-            <button onClick="{{ ch1ColRed }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #E62534; border: 2px solid {{ ch1RingRed }};"></button>
-            <button onClick="{{ ch1ColTeal }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #22D3C0; border: 2px solid {{ ch1RingTeal }};"></button>
-            <button onClick="{{ ch1ColBlue }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #3B6EF5; border: 2px solid {{ ch1RingBlue }};"></button>
-            <button onClick="{{ ch1ColMagenta }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #DB4E9E; border: 2px solid {{ ch1RingMagenta }};"></button>
+            <button onClick="{{ ch1ColWhite }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: linear-gradient(135deg,#FFE9CC,#CFE6FF); border: 2px solid {{ ch1RingWhite }};"></button>
+            <button onClick="{{ ch1ColOrange }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #FF7A2F; border: 2px solid {{ ch1RingOrange }};"></button>
+            <button onClick="{{ ch1ColRed }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #E62534; border: 2px solid {{ ch1RingRed }};"></button>
+            <button onClick="{{ ch1ColTeal }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #22D3C0; border: 2px solid {{ ch1RingTeal }};"></button>
+            <button onClick="{{ ch1ColBlue }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #3B6EF5; border: 2px solid {{ ch1RingBlue }};"></button>
+            <button onClick="{{ ch1ColMagenta }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #DB4E9E; border: 2px solid {{ ch1RingMagenta }};"></button>
           </div>
         </div>
       </div>
@@ -2354,7 +2399,7 @@
     <div class="lc-vp">
       <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" falloff-boost="1.4" intensity="2.6" softness="0.3" kelvin="4800" azimuth="35" elevation="18" distance="{{ ch2Distance }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
-        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 02</sc-if><sc-if value="{{ isEn }}">Scene 02</sc-if>
         </span>
       </div>
@@ -2364,7 +2409,7 @@
       </div>
     </div>
     <aside class="lc-aside">
-      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">02</div>
+      
       <div style="position: relative;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
           <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
@@ -2386,11 +2431,11 @@
           <sc-if value="{{ isEn }}">I ∝ 1/d². A close source gives a fast, dramatic gradient from light to shadow. A distant one flattens everything. It is the number one lever of contrast.</sc-if>
         </p>
       </div>
-      <div style="position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: #101113;">
+      <div style="position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45);">
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span>Distance d</span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch2DistLabel }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch2DistLabel }}</span>
           </span>
           <input type="range" min="0.7" max="4" step="0.05" value="{{ ch2Distance }}" onChange="{{ setCh2Distance }}" style="width: 100%;">
         </label>
@@ -2415,7 +2460,7 @@
     <div class="lc-vp">
       <x-import component-from-global-scope="light-sim" id="sim-ch3" mode="single" gizmo="true" interactive="true" intensity="1.6" softness="0.28" distance="2.1" kelvin="5300" azimuth="{{ ch3Az }}" elevation="{{ ch3El }}" on-light-move="{{ ch3LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
-        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 03</sc-if><sc-if value="{{ isEn }}">Scene 03</sc-if>
         </span>
       </div>
@@ -2425,7 +2470,7 @@
       </div>
     </div>
     <aside class="lc-aside">
-      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">03</div>
+      
       <div style="position: relative;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
           <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
@@ -2453,21 +2498,26 @@
         <button onClick="{{ presetRembrandt }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Rembrandt</button>
         <button onClick="{{ presetSplit }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Split</button>
       </div>
-      <div style="position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: #101113;">
-        <label style="display: flex; flex-direction: column; gap: 7px;">
-          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
-            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Azimut</sc-if><sc-if value="{{ isEn }}">Azimuth</sc-if></span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch3AzLabel }}</span>
-          </span>
-          <input type="range" min="-120" max="120" step="1" value="{{ ch3Az }}" onChange="{{ setCh3Az }}" style="width: 100%;">
-        </label>
-        <label style="display: flex; flex-direction: column; gap: 7px;">
-          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
-            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Élévation</sc-if><sc-if value="{{ isEn }}">Elevation</sc-if></span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch3ElLabel }}</span>
-          </span>
-          <input type="range" min="-30" max="75" step="1" value="{{ ch3El }}" onChange="{{ setCh3El }}" style="width: 100%;">
-        </label>
+      <div style="position: relative; display: flex; align-items: center; justify-content: center; gap: 26px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45); flex-wrap: wrap;">
+        <div onPointerDown="{{ compassDrag }}" onPointerMove="{{ compassDrag }}" style="position: relative; width: 190px; height: 190px; border-radius: 50%; border: 1px solid rgba(232,224,208,0.16); background: radial-gradient(circle, #17181B 0%, #101113 70%); cursor: grab; touch-action: none; user-select: none; flex-shrink: 0;">
+          <span style="position: absolute; top: 6px; left: 50%; transform: translateX(-50%); font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.4);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">FACE</sc-if><sc-if value="{{ isEn }}">FRONT</sc-if></span>
+          <span style="position: absolute; top: 50%; right: 8px; transform: translateY(-50%); font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.4);">90°</span>
+          <span style="position: absolute; top: 50%; left: 8px; transform: translateY(-50%); font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.4);">-90°</span>
+          <span style="position: absolute; top: 50%; left: 50%; width: 68px; height: 86px; transform: translate(-50%,-50%); border-radius: 46% 54% 46% 46% / 58% 58% 40% 40%; background: linear-gradient(115deg, #2A2C30, #17181B); border: 1px solid rgba(232,224,208,0.1);"></span>
+          <span style="position: absolute; top: 50%; left: 50%; width: 1px; height: 86px; background: rgba(61,191,163,0.35); transform-origin: top center; transform: translateX(-50%) rotate({{ ch3NeedleRot }});"></span>
+          <span style="position: absolute; top: 50%; left: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: {{ ch3KnobColor }}; box-shadow: 0 0 18px {{ ch3KnobColor }}; transform: translate({{ ch3KnobX }}, {{ ch3KnobY }}); pointer-events: none;"></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; min-width: 150px; flex: 1;">
+          <div style="font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.45);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Boussole · vue du dessus</sc-if><sc-if value="{{ isEn }}">Compass · top view</sc-if></div>
+          <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 700; color: #3DBFA3;">{{ ch3AzLabel }}</span><span style="font-size: 11px; color: rgba(232,224,208,0.45);">azimut</span></div>
+          <label style="display: flex; flex-direction: column; gap: 7px;">
+            <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+              <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Élévation</sc-if><sc-if value="{{ isEn }}">Elevation</sc-if></span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch3ElLabel }}</span>
+            </span>
+            <input type="range" min="-30" max="75" step="1" value="{{ ch3El }}" onChange="{{ setCh3El }}" style="width: 100%;">
+          </label>
+        </div>
       </div>
       <p style="position: relative; font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
         <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Butterfly : frontal haut · Loop : léger décalage · Rembrandt : 45°/45°, triangle sur la joue · Split : 90°, moitié du visage dans l'ombre.</sc-if>
@@ -2479,15 +2529,15 @@
   <!-- ============ LEÇON 04 — LES RÔLES ============ -->
   <section id="ch4" data-screen-label="Lecon 04 Roles" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
     <div class="lc-vp">
-      <x-import component-from-global-scope="light-sim" mode="single" gizmo="false" interactive="true" intensity="1.5" softness="0.4" distance="2.2" kelvin="4300" rim-hex="#22D3C0" azimuth="45" elevation="30" key-on="{{ ch4Key }}" fill-on="{{ ch4Fill }}" rim-on="{{ ch4Rim }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <x-import component-from-global-scope="light-sim" mode="single" gizmo="false" interactive="true" intensity="1.5" softness="0.4" distance="2.2" kelvin="4300" rim-hex="#22D3C0" azimuth="45" elevation="30" key-on="{{ ch4Key }}" fill-on="{{ ch4Fill }}" rim-on="{{ ch4Rim }}" key-level="{{ ch4KeyLevel }}" fill-level="{{ ch4FillLevel }}" rim-level="{{ ch4RimLevel }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
-        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 04</sc-if><sc-if value="{{ isEn }}">Scene 04</sc-if>
         </span>
       </div>
     </div>
     <aside class="lc-aside">
-      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">04</div>
+      
       <div style="position: relative;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
           <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
@@ -2506,38 +2556,45 @@
           <sc-if value="{{ isEn }}">The key sculpts volume, the fill lifts the shadows, the rim separates the subject from the background. Toggle them one by one to see what each brings.</sc-if>
         </p>
       </div>
-      <div style="position: relative; display: flex; flex-direction: column; gap: 10px;">
-        <button onClick="{{ toggleKey }}" style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border: 1px solid {{ keyBtnBorder }}; border-radius: 4px; background: #101113; cursor: pointer; text-align: left; transition: all 0.2s;">
-          <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ keyDot }}; flex-shrink: 0;"></span>
-          <span style="display: flex; flex-direction: column; gap: 2px;">
-            <span style="font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #E8E0D0;">Key light</span>
-            <span style="font-size: 12.5px; color: rgba(232,224,208,0.5); font-family: 'Inter', sans-serif;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Définit le volume et la direction principale</sc-if><sc-if value="{{ isEn }}">Defines volume and main direction</sc-if></span>
-          </span>
-        </button>
-        <button onClick="{{ toggleFill }}" style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border: 1px solid {{ fillBtnBorder }}; border-radius: 4px; background: #101113; cursor: pointer; text-align: left; transition: all 0.2s;">
-          <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ fillDot }}; flex-shrink: 0;"></span>
-          <span style="display: flex; flex-direction: column; gap: 2px;">
-            <span style="font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #E8E0D0;">Fill light</span>
-            <span style="font-size: 12.5px; color: rgba(232,224,208,0.5); font-family: 'Inter', sans-serif;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Réduit le contraste des ombres</sc-if><sc-if value="{{ isEn }}">Reduces shadow contrast</sc-if></span>
-          </span>
-        </button>
-        <button onClick="{{ toggleRim }}" style="display: flex; align-items: center; gap: 14px; padding: 15px 17px; border: 1px solid {{ rimBtnBorder }}; border-radius: 4px; background: #101113; cursor: pointer; text-align: left; transition: all 0.2s;">
-          <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ rimDot }}; flex-shrink: 0;"></span>
-          <span style="display: flex; flex-direction: column; gap: 2px;">
-            <span style="font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #E8E0D0;">Rim light</span>
-            <span style="font-size: 12.5px; color: rgba(232,224,208,0.5); font-family: 'Inter', sans-serif;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Détache le sujet du fond par le contour</sc-if><sc-if value="{{ isEn }}">Separates subject from background via the edge</sc-if></span>
-          </span>
-        </button>
+      <div style="position: relative; display: flex; gap: 14px; padding: 20px 16px 16px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: linear-gradient(180deg, #131416, #0E0F11);">
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div onPointerDown="{{ faderKey }}" onPointerMove="{{ faderKey }}" style="position: relative; width: 100%; max-width: 74px; height: 190px; border-radius: 6px; background: #0B0C0D; border: 1px solid rgba(232,224,208,0.1); cursor: ns-resize; touch-action: none; user-select: none;">
+            <span style="position: absolute; left: 0; right: 0; bottom: 0; height: {{ ch4KeyPct }}; background: linear-gradient(180deg, rgba(255,217,160,0.55), rgba(255,217,160,0.12)); border-radius: 0 0 5px 5px; pointer-events: none;"></span>
+            <span style="position: absolute; left: 6px; right: 6px; bottom: calc({{ ch4KeyPct }} - 7px); height: 14px; border-radius: 3px; background: #E8E0D0; box-shadow: 0 2px 8px rgba(0,0,0,0.6); pointer-events: none;"></span>
+          </div>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #FFD9A0;">KEY {{ ch4KeyLabel }}</span>
+          <button onClick="{{ toggleKey }}" style="padding: 5px 12px; border-radius: 3px; border: 1px solid {{ keyBtnBorder }}; background: {{ ch4KeyMuteBg }}; color: {{ ch4KeyMuteFg }}; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer;">{{ ch4KeyMuteLabel }}</button>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div onPointerDown="{{ faderFill }}" onPointerMove="{{ faderFill }}" style="position: relative; width: 100%; max-width: 74px; height: 190px; border-radius: 6px; background: #0B0C0D; border: 1px solid rgba(232,224,208,0.1); cursor: ns-resize; touch-action: none; user-select: none;">
+            <span style="position: absolute; left: 0; right: 0; bottom: 0; height: {{ ch4FillPct }}; background: linear-gradient(180deg, rgba(191,211,242,0.5), rgba(191,211,242,0.1)); border-radius: 0 0 5px 5px; pointer-events: none;"></span>
+            <span style="position: absolute; left: 6px; right: 6px; bottom: calc({{ ch4FillPct }} - 7px); height: 14px; border-radius: 3px; background: #E8E0D0; box-shadow: 0 2px 8px rgba(0,0,0,0.6); pointer-events: none;"></span>
+          </div>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #BFD3F2;">FILL {{ ch4FillLabel }}</span>
+          <button onClick="{{ toggleFill }}" style="padding: 5px 12px; border-radius: 3px; border: 1px solid {{ fillBtnBorder }}; background: {{ ch4FillMuteBg }}; color: {{ ch4FillMuteFg }}; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer;">{{ ch4FillMuteLabel }}</button>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div onPointerDown="{{ faderRim }}" onPointerMove="{{ faderRim }}" style="position: relative; width: 100%; max-width: 74px; height: 190px; border-radius: 6px; background: #0B0C0D; border: 1px solid rgba(232,224,208,0.1); cursor: ns-resize; touch-action: none; user-select: none;">
+            <span style="position: absolute; left: 0; right: 0; bottom: 0; height: {{ ch4RimPct }}; background: linear-gradient(180deg, rgba(34,211,192,0.55), rgba(34,211,192,0.12)); border-radius: 0 0 5px 5px; pointer-events: none;"></span>
+            <span style="position: absolute; left: 6px; right: 6px; bottom: calc({{ ch4RimPct }} - 7px); height: 14px; border-radius: 3px; background: #E8E0D0; box-shadow: 0 2px 8px rgba(0,0,0,0.6); pointer-events: none;"></span>
+          </div>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #22D3C0;">RIM {{ ch4RimLabel }}</span>
+          <button onClick="{{ toggleRim }}" style="padding: 5px 12px; border-radius: 3px; border: 1px solid {{ rimBtnBorder }}; background: {{ ch4RimMuteBg }}; color: {{ ch4RimMuteFg }}; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer;">{{ ch4RimMuteLabel }}</button>
+        </div>
       </div>
+      <p style="position: relative; font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une console de mixage lumière : monte et descends chaque fader, coupe une lumière avec MUTE. Key sculpte, Fill débouche, Rim détache.</sc-if>
+        <sc-if value="{{ isEn }}">A light mixing console: ride each fader up and down, cut a light with MUTE. Key sculpts, Fill lifts, Rim separates.</sc-if>
+      </p>
     </aside>
   </section>
 
   <!-- ============ LEÇON 05 — FRESNEL ============ -->
-  <section id="ch5" data-screen-label="Lecon 05 Fresnel" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+  <section id="ch5" data-screen-label="Lecon 05 Fresnel" class="lc-split" style="border-top: 1px solid rgba(61,191,163,0.25); background: #000000; box-shadow: inset 0 40px 80px rgba(0,0,0,0.9);">
     <div class="lc-vp">
       <x-import component-from-global-scope="light-sim" id="sim-ch5" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" on-light-move="{{ ch5LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
-        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 05</sc-if><sc-if value="{{ isEn }}">Scene 05</sc-if>
         </span>
       </div>
@@ -2549,7 +2606,7 @@
       </div>
     </div>
     <aside class="lc-aside">
-      <div style="position: absolute; top: -10px; right: 10px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 170px; line-height: 1; color: rgba(232,224,208,0.05); -webkit-text-stroke: 1px rgba(61,191,163,0.18); pointer-events: none;">05</div>
+      
       <div style="position: relative;">
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
           <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
@@ -2571,11 +2628,11 @@
           <sc-if value="{{ isEn }}">Push the source behind the subject: the edge ignites. This is exactly how your Photoshop rim lights work.</sc-if>
         </p>
       </div>
-      <div style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(232,224,208,0.09); border-radius: 6px; background: #101113;">
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45);">
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Position de la source</sc-if><sc-if value="{{ isEn }}">Source position</sc-if></span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; color: #3DBFA3;">{{ ch5WrapLabel }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch5WrapLabel }}</span>
           </span>
           <input type="range" min="0" max="1" step="0.01" value="{{ ch5Wrap }}" onChange="{{ setCh5Wrap }}" style="width: 100%;">
           <span style="display: flex; justify-content: space-between; font-size: 11px; color: rgba(232,224,208,0.4);">
@@ -2586,12 +2643,12 @@
         <div style="display: flex; flex-direction: column; gap: 9px;">
           <span style="font-size: 12.5px; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleur du rim</sc-if><sc-if value="{{ isEn }}">Rim color</sc-if></span>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button onClick="{{ ch5RimTeal }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #22D3C0; border: 2px solid {{ ch5RingTeal }};"></button>
-            <button onClick="{{ ch5RimGreen }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #35E06A; border: 2px solid {{ ch5RingGreen }};"></button>
-            <button onClick="{{ ch5RimBlue }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #37B6FF; border: 2px solid {{ ch5RingBlue }};"></button>
-            <button onClick="{{ ch5RimMagenta }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #F23BA0; border: 2px solid {{ ch5RingMagenta }};"></button>
-            <button onClick="{{ ch5RimOrange }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #FF6A2C; border: 2px solid {{ ch5RingOrange }};"></button>
-            <button onClick="{{ ch5RimRed }}" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: #F03040; border: 2px solid {{ ch5RingRed }};"></button>
+            <button onClick="{{ ch5RimTeal }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #22D3C0; border: 2px solid {{ ch5RingTeal }};"></button>
+            <button onClick="{{ ch5RimGreen }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #35E06A; border: 2px solid {{ ch5RingGreen }};"></button>
+            <button onClick="{{ ch5RimBlue }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #37B6FF; border: 2px solid {{ ch5RingBlue }};"></button>
+            <button onClick="{{ ch5RimMagenta }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #F23BA0; border: 2px solid {{ ch5RingMagenta }};"></button>
+            <button onClick="{{ ch5RimOrange }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #FF6A2C; border: 2px solid {{ ch5RingOrange }};"></button>
+            <button onClick="{{ ch5RimRed }}" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #F03040; border: 2px solid {{ ch5RingRed }};"></button>
           </div>
         </div>
         <button onClick="{{ toggleCh5View }}" style="padding: 13px 18px; border: 1px solid {{ ch5MaskBorder }}; border-radius: 4px; background: {{ ch5MaskBg }}; color: {{ ch5MaskFg }}; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">
@@ -2608,7 +2665,7 @@
 
   <!-- ============ LEÇON 06 — APPLICATION ============ -->
   <section id="ch6" data-screen-label="Lecon 06 Application" class="lc-pad" onContextMenu="{{ blockCtx }}" style="position: relative; display: flex; flex-direction: column; gap: 56px; border-top: 1px solid rgba(232,224,208,0.08); overflow: hidden;">
-    <div style="position: absolute; top: -20px; right: 24px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 200px; line-height: 1; color: rgba(232,224,208,0.045); -webkit-text-stroke: 1px rgba(61,191,163,0.15); pointer-events: none;">06</div>
+    
     <div style="max-width: 760px; position: relative;">
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
         <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
@@ -2727,7 +2784,7 @@ class Component extends DCLogic {
     ch1: { intensity: 1.3, softness: 0.35, distance: 2.2, kelvin: 5200, color: '', az: 42, el: 30 },
     ch2: { distance: 1.6 },
     ch3: { az: 40, el: 35 },
-    ch4: { key: true, fill: true, rim: true },
+    ch4: { key: true, fill: true, rim: true, keyL: 0.85, fillL: 0.5, rimL: 0.9 },
     ch5: { wrap: 0.75, mask: false, rim: '#22D3C0' },
     email: '', subscribed: false,
     compare: 55,
@@ -2783,6 +2840,13 @@ class Component extends DCLogic {
     const setCh1Color = (hex) => this.setState((st) => ({ ch1: { ...st.ch1, color: hex } }));
     const setCh5Rim = (hex) => this.setState((st) => ({ ch5: { ...st.ch5, rim: hex } }));
     const ring = (on) => on ? '#E8E0D0' : 'transparent';
+    const fader = (k) => (e) => {
+      if (e.type === 'pointermove' && e.buttons !== 1) return;
+      if (e.type === 'pointerdown' && e.currentTarget.setPointerCapture) { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} }
+      const r = e.currentTarget.getBoundingClientRect();
+      const v = Math.max(0, Math.min(1, 1 - (e.clientY - r.top) / r.height));
+      this.setState((st) => ({ ch4: { ...st.ch4, [k]: v } }));
+    };
     const pattern = this.classifyPattern(s.ch3.az, s.ch3.el);
     const patternFound = ['Butterfly', 'Loop', 'Rembrandt', 'Split', 'Contre-jour / Rim', 'Backlight / Rim'].indexOf(pattern) >= 0;
     const rel = 1 / (s.ch2.distance * s.ch2.distance);
@@ -2829,6 +2893,20 @@ class Component extends DCLogic {
 
       ch3Az: s.ch3.az, ch3El: s.ch3.el,
       setCh3Az: set(['ch3', 'az']), setCh3El: set(['ch3', 'el']),
+      ch3NeedleRot: (180 + s.ch3.az) + 'deg',
+      ch3KnobX: (Math.sin(s.ch3.az * Math.PI / 180) * 78 - 0) + 'px',
+      ch3KnobY: (-Math.cos(s.ch3.az * Math.PI / 180) * 78) + 'px',
+      ch3KnobColor: '#3DBFA3',
+      compassDrag: (e) => {
+        if (e.type === 'pointermove' && e.buttons !== 1) return;
+        if (e.type === 'pointerdown' && e.currentTarget.setPointerCapture) { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} }
+        const r = e.currentTarget.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        let az = Math.atan2(dx, -dy) * 180 / Math.PI;
+        az = Math.max(-179, Math.min(179, az));
+        this.setState((st) => ({ ch3: { ...st.ch3, az } }));
+      },
       ch3LightMove: (d) => this.setState((st) => ({ ch3: { ...st.ch3, az: d.azimuth, el: d.elevation } })),
       ch3AzLabel: Math.round(s.ch3.az) + '°',
       ch3ElLabel: Math.round(s.ch3.el) + '°',
@@ -2841,6 +2919,16 @@ class Component extends DCLogic {
       presetSplit: () => setLight(90, 10),
 
       ch4Key: s.ch4.key, ch4Fill: s.ch4.fill, ch4Rim: s.ch4.rim,
+      ch4KeyLevel: s.ch4.keyL, ch4FillLevel: s.ch4.fillL, ch4RimLevel: s.ch4.rimL,
+      ch4KeyPct: Math.round(s.ch4.keyL * 100) + '%',
+      ch4FillPct: Math.round(s.ch4.fillL * 100) + '%',
+      ch4RimPct: Math.round(s.ch4.rimL * 100) + '%',
+      ch4KeyLabel: Math.round(s.ch4.keyL * 100), ch4FillLabel: Math.round(s.ch4.fillL * 100), ch4RimLabel: Math.round(s.ch4.rimL * 100),
+      faderKey: fader('keyL'), faderFill: fader('fillL'), faderRim: fader('rimL'),
+      ch4KeyMuteLabel: s.ch4.key ? 'ON' : 'MUTE', ch4FillMuteLabel: s.ch4.fill ? 'ON' : 'MUTE', ch4RimMuteLabel: s.ch4.rim ? 'ON' : 'MUTE',
+      ch4KeyMuteBg: s.ch4.key ? 'rgba(61,191,163,0.12)' : 'transparent', ch4KeyMuteFg: s.ch4.key ? '#3DBFA3' : 'rgba(232,224,208,0.45)',
+      ch4FillMuteBg: s.ch4.fill ? 'rgba(61,191,163,0.12)' : 'transparent', ch4FillMuteFg: s.ch4.fill ? '#3DBFA3' : 'rgba(232,224,208,0.45)',
+      ch4RimMuteBg: s.ch4.rim ? 'rgba(61,191,163,0.12)' : 'transparent', ch4RimMuteFg: s.ch4.rim ? '#3DBFA3' : 'rgba(232,224,208,0.45)',
       toggleKey: () => this.setState((st) => ({ ch4: { ...st.ch4, key: !st.ch4.key } })),
       toggleFill: () => this.setState((st) => ({ ch4: { ...st.ch4, fill: !st.ch4.fill } })),
       toggleRim: () => this.setState((st) => ({ ch4: { ...st.ch4, rim: !st.ch4.rim } })),
