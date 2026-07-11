@@ -1,0 +1,3145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+// GENERATED from dc-runtime/src/*.ts — do not edit. Rebuild with `cd dc-runtime && bun run build`.
+"use strict";
+(() => {
+  var __defProp = Object.defineProperty;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+
+  // src/react.ts
+  function getReact() {
+    const R = window.React;
+    if (!R) throw new Error("dc-runtime: window.React is not available yet");
+    return R;
+  }
+  function getReactDOM() {
+    const RD = window.ReactDOM;
+    if (!RD) throw new Error("dc-runtime: window.ReactDOM is not available yet");
+    return RD;
+  }
+  var h = ((...args) => getReact().createElement(
+    ...args
+  ));
+
+  // src/parse.ts
+  function parseDcDocument(doc) {
+    const dc = doc.querySelector("x-dc");
+    if (!dc) return null;
+    const scriptEl = doc.querySelector("script[data-dc-script]");
+    const { props, preview } = parseDataProps(
+      scriptEl?.getAttribute("data-props") ?? null
+    );
+    return {
+      template: dc.innerHTML,
+      js: scriptEl ? scriptEl.textContent || "" : "",
+      props,
+      preview
+    };
+  }
+  function parseDcText(src) {
+    const openMatch = /<x-dc(?:\s[^>]*)?>/.exec(src);
+    if (!openMatch) return null;
+    const close = src.lastIndexOf("</x-dc>");
+    if (close === -1 || close < openMatch.index) return null;
+    const template = src.slice(openMatch.index + openMatch[0].length, close);
+    const doc = new DOMParser().parseFromString(src, "text/html");
+    const scriptEl = doc.querySelector("script[data-dc-script]");
+    const { props, preview } = parseDataProps(
+      scriptEl?.getAttribute("data-props") ?? null
+    );
+    return {
+      template,
+      js: scriptEl ? scriptEl.textContent || "" : "",
+      props,
+      preview
+    };
+  }
+  function parseDataProps(raw) {
+    if (!raw) return { props: null, preview: null };
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return { props: null, preview: null };
+    }
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return { props: null, preview: null };
+    }
+    const obj = parsed;
+    const preview = obj.$preview && typeof obj.$preview === "object" ? obj.$preview : null;
+    const rest = {};
+    for (const k of Object.keys(obj)) {
+      if (k[0] !== "$") rest[k] = obj[k];
+    }
+    return { props: Object.keys(rest).length ? rest : null, preview };
+  }
+  function dcNameFromPath(pathname) {
+    let p = pathname || "";
+    try {
+      p = decodeURIComponent(p);
+    } catch {
+    }
+    const base = p.split("/").pop() || "Root";
+    return base.replace(/\.dc\.html$/, "").replace(/\.html?$/, "") || "Root";
+  }
+
+  // src/boot.ts
+  var BASE_CSS = `
+    .sc-placeholder{background:color-mix(in srgb,currentColor 8%,transparent);
+      border:1px solid color-mix(in srgb,currentColor 50%,transparent);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:color-mix(in srgb,currentColor 70%,transparent);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:color-mix(in srgb,currentColor 50%,transparent);
+      background:color-mix(in srgb,currentColor 10%,transparent);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts \u2014 keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  `;
+  var FULL_PAGE_CSS = "html,body{height:100%;margin:0}#dc-root,#dc-root>.sc-host{height:100%}";
+  function rootNameForDocument(doc, loc) {
+    let bootPath = loc.pathname || "";
+    if (!/\.dc\.html?$/i.test(safeDecode(bootPath))) {
+      try {
+        bootPath = new URL(doc.baseURI || "/").pathname;
+      } catch {
+      }
+    }
+    return dcNameFromPath(bootPath);
+  }
+  function safeDecode(s) {
+    try {
+      return decodeURIComponent(s);
+    } catch {
+      return s;
+    }
+  }
+  function boot(runtime, doc = document) {
+    const parsed = parseDcDocument(doc);
+    if (!parsed) return null;
+    const React = getReact();
+    const rootName = rootNameForDocument(doc, location);
+    runtime.markFetched(rootName);
+    runtime.setRootName(rootName);
+    runtime.adoptParsed(rootName, parsed);
+    if (!window.__resources) {
+      Promise.reject(new Error("dc-static")).then((res) => res.ok ? res.text() : "").then((t) => {
+        const raw = t ? parseDcText(t) : null;
+        if (raw?.template) runtime.updateHtml(rootName, raw.template);
+      }).catch(() => {
+      });
+    }
+    const dc = doc.querySelector("x-dc");
+    const hostEl = doc.createElement("div");
+    hostEl.id = "dc-root";
+    dc.replaceWith(hostEl);
+    if (!parsed.preview) {
+      const s = doc.createElement("style");
+      s.textContent = FULL_PAGE_CSS;
+      doc.head.appendChild(s);
+    }
+    const Root = runtime.getDC(rootName);
+    const entry = runtime.registry.get(rootName);
+    function StandaloneRoot() {
+      const [, setTick] = React.useState(0);
+      React.useEffect(() => {
+        const sub = () => setTick((n) => n + 1);
+        entry.subs.add(sub);
+        return () => {
+          entry.subs.delete(sub);
+        };
+      }, []);
+      const defaults = React.useMemo(() => {
+        const d = {};
+        for (const k in entry.propsMeta || {}) {
+          const v = entry.propsMeta?.[k]?.default;
+          if (v !== void 0) d[k] = v;
+        }
+        return d;
+      }, [entry.propsMeta]);
+      return h(Root, { ...defaults, ...entry.propOverrides || {} });
+    }
+    const ReactDOM = getReactDOM();
+    if (ReactDOM.createRoot)
+      ReactDOM.createRoot(hostEl).render(h(StandaloneRoot));
+    else ReactDOM.render(h(StandaloneRoot), hostEl);
+    return rootName;
+  }
+
+  // src/expr.ts
+  var IDENT_RE = /^[A-Za-z_$][A-Za-z0-9_$]*/;
+  var NUMBER_RE = /^-?\d+(\.\d+)?$/;
+  function resolve(vals, src) {
+    const expr = String(src).trim();
+    if (!expr) return void 0;
+    if (expr[0] === "(" && expr[expr.length - 1] === ")" && parensWrapWhole(expr)) {
+      return resolve(vals, expr.slice(1, -1));
+    }
+    const eq = findTopLevelEquality(expr);
+    if (eq) {
+      const lv = resolve(vals, expr.slice(0, eq.index));
+      const rv = resolve(vals, expr.slice(eq.index + eq.op.length));
+      switch (eq.op) {
+        case "===":
+          return lv === rv;
+        case "!==":
+          return lv !== rv;
+        case "==":
+          return lv == rv;
+        default:
+          return lv != rv;
+      }
+    }
+    if (expr[0] === "!") return !resolve(vals, expr.slice(1));
+    if (expr === "true") return true;
+    if (expr === "false") return false;
+    if (expr === "null") return null;
+    if (expr === "undefined") return void 0;
+    if (NUMBER_RE.test(expr)) return Number(expr);
+    if (expr.length >= 2 && (expr[0] === '"' || expr[0] === "'") && expr[expr.length - 1] === expr[0]) {
+      return expr.slice(1, -1);
+    }
+    return resolvePath(vals, expr);
+  }
+  function parensWrapWhole(expr) {
+    let depth = 0;
+    for (let i = 0; i < expr.length - 1; i++) {
+      if (expr[i] === "(") depth++;
+      else if (expr[i] === ")") {
+        depth--;
+        if (depth === 0) return false;
+      }
+    }
+    return true;
+  }
+  function findTopLevelEquality(expr) {
+    let depth = 0;
+    for (let i = 0; i < expr.length; i++) {
+      const c = expr[i];
+      if (c === "[" || c === "(") depth++;
+      else if (c === "]" || c === ")") depth--;
+      else if (depth === 0 && (c === "=" || c === "!") && expr[i + 1] === "=") {
+        if (i > 0 && (expr[i - 1] === "=" || expr[i - 1] === "!")) continue;
+        if (!expr.slice(0, i).trim()) continue;
+        const op = expr[i + 2] === "=" ? c + "==" : c + "=";
+        return { index: i, op };
+      }
+    }
+    return null;
+  }
+  function resolvePath(vals, expr) {
+    const head = expr.match(IDENT_RE);
+    if (!head) return void 0;
+    let cur = vals == null ? void 0 : vals[head[0]];
+    let i = head[0].length;
+    while (i < expr.length) {
+      if (expr[i] === ".") {
+        const m = expr.slice(i + 1).match(IDENT_RE) || expr.slice(i + 1).match(/^\d+/);
+        if (!m) return void 0;
+        cur = cur == null ? void 0 : cur[m[0]];
+        i += 1 + m[0].length;
+      } else if (expr[i] === "[") {
+        let depth = 1;
+        let j = i + 1;
+        while (j < expr.length && depth > 0) {
+          if (expr[j] === "[") depth++;
+          else if (expr[j] === "]") {
+            depth--;
+            if (depth === 0) break;
+          }
+          j++;
+        }
+        if (depth !== 0) return void 0;
+        const key = resolve(vals, expr.slice(i + 1, j));
+        cur = cur == null ? void 0 : cur[key];
+        i = j + 1;
+      } else {
+        return void 0;
+      }
+    }
+    return cur;
+  }
+
+  // src/encode.ts
+  var CAMEL_ATTR = "sc-camel-";
+  var INLINE_TEXT_TAGS = new Set(
+    "a abbr b bdi bdo br cite code del dfn em i ins kbd mark q s samp small span strike strong sub sup u var wbr".split(
+      " "
+    )
+  );
+  var RAW_WRAP = {
+    select: "sc-raw-select",
+    table: "sc-raw-table",
+    tbody: "sc-raw-tbody",
+    thead: "sc-raw-thead",
+    tfoot: "sc-raw-tfoot",
+    tr: "sc-raw-tr",
+    td: "sc-raw-td",
+    th: "sc-raw-th",
+    caption: "sc-raw-caption"
+  };
+  var RAW_UNWRAP = Object.fromEntries(
+    Object.entries(RAW_WRAP).map(([k, v]) => [v, k])
+  );
+  var EVENT_MAP = {
+    onclick: "onClick",
+    onchange: "onChange",
+    oninput: "onInput",
+    onsubmit: "onSubmit",
+    onkeydown: "onKeyDown",
+    onkeyup: "onKeyUp",
+    onkeypress: "onKeyPress",
+    onmousedown: "onMouseDown",
+    onmouseup: "onMouseUp",
+    onmouseenter: "onMouseEnter",
+    onmouseleave: "onMouseLeave",
+    onfocus: "onFocus",
+    onblur: "onBlur",
+    ondoubleclick: "onDoubleClick",
+    oncontextmenu: "onContextMenu",
+    onmousemove: "onMouseMove",
+    onmouseover: "onMouseOver",
+    onmouseout: "onMouseOut",
+    onpointerdown: "onPointerDown",
+    onpointerup: "onPointerUp",
+    onpointermove: "onPointerMove",
+    onpointerenter: "onPointerEnter",
+    onpointerleave: "onPointerLeave",
+    onpointercancel: "onPointerCancel",
+    onpointerover: "onPointerOver",
+    onpointerout: "onPointerOut",
+    ongotpointercapture: "onGotPointerCapture",
+    onlostpointercapture: "onLostPointerCapture",
+    ontouchstart: "onTouchStart",
+    ontouchend: "onTouchEnd",
+    ontouchmove: "onTouchMove",
+    ontouchcancel: "onTouchCancel",
+    ondragstart: "onDragStart",
+    ondragend: "onDragEnd",
+    ondragenter: "onDragEnter",
+    ondragleave: "onDragLeave",
+    ondragover: "onDragOver",
+    onanimationstart: "onAnimationStart",
+    onanimationend: "onAnimationEnd",
+    onanimationiteration: "onAnimationIteration",
+    ontransitionend: "onTransitionEnd"
+  };
+  var ATTRS = `(?:[^>"']|"[^"]*"|'[^']*')*`;
+  var IMPORT_SELF_CLOSE_RE = new RegExp(
+    "<(x-import|dc-import)(" + ATTRS + ")/>",
+    "gi"
+  );
+  var CAMEL_ATTR_RE = /(\s)([a-z]+[A-Z][A-Za-z0-9]*)(\s*=)/g;
+  function encodeCamelAttrs(html) {
+    return html.replace(
+      CAMEL_ATTR_RE,
+      (_, sp, name, eq) => sp + CAMEL_ATTR + name.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()) + eq
+    );
+  }
+  function encodeCase(html) {
+    html = html.replace(
+      IMPORT_SELF_CLOSE_RE,
+      (_, t, a) => "<" + t + a + "></" + t + ">"
+    );
+    html = html.replace(/<helmet(\s|>)/gi, "<sc-helmet$1");
+    html = html.replace(/<\/helmet\s*>/gi, "</sc-helmet>");
+    html = encodeCamelAttrs(html);
+    for (const [real, alias] of Object.entries(RAW_WRAP)) {
+      html = html.replace(
+        new RegExp("(</?)" + real + "(?=[\\s>])", "gi"),
+        "$1" + alias
+      );
+    }
+    return html;
+  }
+  function kebabToCamel(s) {
+    return s.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+  }
+  function cssToObj(css) {
+    const o = {};
+    for (const decl of css.split(";")) {
+      const i = decl.indexOf(":");
+      if (i < 0) continue;
+      const prop = decl.slice(0, i).trim();
+      o[prop.startsWith("--") ? prop : kebabToCamel(prop)] = decl.slice(i + 1).trim();
+    }
+    return o;
+  }
+  function compileAttr(raw) {
+    const whole = raw.match(/^\s*\{\{([\s\S]+?)\}\}\s*$/);
+    if (whole) {
+      const path = whole[1];
+      return (vals) => resolve(vals, path);
+    }
+    if (raw.includes("{{")) {
+      const parts = raw.split(/\{\{([\s\S]+?)\}\}/g);
+      return (vals) => parts.map((s, i) => i & 1 ? resolve(vals, s) ?? "" : s).join("");
+    }
+    return () => raw;
+  }
+
+  // src/compile.ts
+  function collectProps(node, kind, host) {
+    const propGetters = [];
+    const pseudoClasses = [];
+    let hintSize = null;
+    for (const { name, value } of [...node.attributes]) {
+      if (name === "sc-name" || name === "data-dc-tpl") continue;
+      let key = name;
+      if (key.startsWith(CAMEL_ATTR))
+        key = kebabToCamel(key.slice(CAMEL_ATTR.length));
+      if (key === "hint-size") {
+        hintSize = value;
+        continue;
+      }
+      if (key.startsWith("style-")) {
+        pseudoClasses.push(host.pseudoClass(key.slice(6), value));
+        continue;
+      }
+      if (kind !== "dom") {
+        if (key.includes("-") && !(kind === "x-import" && (key.startsWith("aria-") || key.startsWith("data-"))))
+          key = kebabToCamel(key);
+      } else {
+        if (key === "class") key = "className";
+        else if (key === "for") key = "htmlFor";
+        else if (key.startsWith("on"))
+          key = EVENT_MAP[key] || "on" + key[2].toUpperCase() + key.slice(3);
+      }
+      propGetters.push([key, compileAttr(value)]);
+    }
+    return { propGetters, pseudoClasses, hintSize };
+  }
+  var HOST_STYLE_PROPS = /* @__PURE__ */ new Set([
+    "position",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "inset",
+    "width",
+    "height",
+    "z-index",
+    "transform"
+  ]);
+  function hostPositionStyle(style) {
+    const all = typeof style === "string" ? cssToObj(style) : style != null && typeof style === "object" ? style : null;
+    if (!all) return void 0;
+    const out = {};
+    for (const [k, v] of Object.entries(all)) {
+      const kebab = k.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase());
+      if (HOST_STYLE_PROPS.has(kebab)) out[k] = v;
+    }
+    return Object.keys(out).length ? out : void 0;
+  }
+  function compileTemplate(html, host) {
+    const tpl = document.createElement("template");
+    //! nosemgrep: direct-inner-html-assignment
+    tpl.innerHTML = encodeCase(html);
+    let tplN = 0;
+    (function stamp(node) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        node.setAttribute("data-dc-tpl", String(tplN++));
+      }
+      for (const c of node.childNodes) stamp(c);
+    })(tpl.content);
+    const builders = walkChildren(tpl.content, host);
+    const render = ((vals, ctx) => builders.map((b, i) => b(vals || {}, ctx, i)));
+    render.__annotated = tpl.innerHTML;
+    return render;
+  }
+  function walkChildren(node, host) {
+    return [...node.childNodes].map((c) => walk(c, host)).filter((b) => b != null);
+  }
+  function walk(node, host) {
+    if (node.nodeType === Node.TEXT_NODE) return walkText(node);
+    if (node.nodeType !== Node.ELEMENT_NODE) return null;
+    const el = node;
+    const tag = el.tagName.toLowerCase();
+    if (tag === "sc-for") return walkFor(el, host);
+    if (tag === "sc-if") return walkIf(el, host);
+    if (tag === "x-import") return walkXImport(el, host);
+    if (tag === "sc-helmet") return host.helmet(el);
+    if (tag === "dc-import") return walkComponent(el, host);
+    return walkElement(el, host);
+  }
+  var warnedHoles = /* @__PURE__ */ new Set();
+  function warnUnresolved(ctx, what) {
+    const key = (ctx?.__name || "?") + "\0" + what;
+    if (warnedHoles.has(key)) return;
+    warnedHoles.add(key);
+    console.warn("[dc-runtime] " + (ctx?.__name || "template") + ": " + what);
+  }
+  function walkText(node) {
+    const txt = node.nodeValue ?? "";
+    if (!txt.includes("{{")) {
+      if (!txt.trim() && !txt.includes(" ")) return null;
+      return () => txt;
+    }
+    const parts = txt.split(/\{\{([\s\S]+?)\}\}/g);
+    return (vals, ctx, key) => h(
+      getReact().Fragment,
+      { key },
+      ...parts.map((p, i) => {
+        if (!(i & 1)) return p;
+        const v = resolve(vals, p);
+        if (v === void 0) {
+          if (!ctx?.__streamingNow) {
+            if (document.body?.hasAttribute("data-dc-editor-on")) {
+              return h(
+                "span",
+                { key: i, className: "sc-interp sc-unresolved" },
+                "{{ " + p.trim() + " }}"
+              );
+            }
+            warnUnresolved(
+              ctx,
+              "{{ " + p.trim() + " }} never resolved \u2014 rendered as empty"
+            );
+            return null;
+          }
+          return h(
+            "span",
+            { key: i, className: "sc-interp sc-missing" },
+            p.trim()
+          );
+        }
+        if (getReact().isValidElement(v) || Array.isArray(v)) {
+          return h(getReact().Fragment, { key: i }, v);
+        }
+        if (v === null || typeof v === "boolean") return null;
+        return h("span", { key: i, className: "sc-interp" }, String(v));
+      })
+    );
+  }
+  function walkFor(el, host) {
+    const listGet = compileAttr(el.getAttribute("list") || "");
+    const asName = el.getAttribute("as") || "item";
+    const hintN = parseInt(el.getAttribute("hint-placeholder-count") || "0", 10);
+    const kids = walkChildren(el, host);
+    const listSrc = el.getAttribute("list") || "";
+    return (vals, ctx, key) => {
+      let list = listGet(vals);
+      if (!Array.isArray(list)) {
+        if (!ctx?.__streamingNow) {
+          if (list !== void 0 && list !== null) {
+            warnUnresolved(
+              ctx,
+              'sc-for list="' + listSrc + '" is not an array (' + typeof list + ")"
+            );
+          }
+          list = [];
+        } else {
+          list = hintN > 0 ? Array(hintN).fill(void 0) : [];
+        }
+      }
+      return h(
+        getReact().Fragment,
+        { key },
+        list.map((item, i) => {
+          const sub = { ...vals, [asName]: item, $index: i };
+          return h(
+            getReact().Fragment,
+            { key: i },
+            kids.map((b, j) => b(sub, ctx, j))
+          );
+        })
+      );
+    };
+  }
+  function walkIf(el, host) {
+    const valGet = compileAttr(el.getAttribute("value") || "");
+    const hintRaw = el.getAttribute("hint-placeholder-val");
+    const hintGet = hintRaw != null ? compileAttr(hintRaw) : null;
+    const kids = walkChildren(el, host);
+    return (vals, ctx, key) => {
+      let v = valGet(vals);
+      if (v === void 0 && hintGet && ctx?.__streamingNow) v = hintGet(vals);
+      return v ? h(
+        getReact().Fragment,
+        { key },
+        kids.map((b, j) => b(vals, ctx, j))
+      ) : null;
+    };
+  }
+  function walkComponent(el, host) {
+    const name = el.getAttribute("name") || el.getAttribute("component") || "";
+    el.removeAttribute("name");
+    el.removeAttribute("component");
+    const tplId = el.getAttribute("data-dc-tpl");
+    const styleRaw = el.getAttribute("style");
+    el.removeAttribute("style");
+    const styleGet = styleRaw != null ? compileAttr(styleRaw) : null;
+    const { propGetters, hintSize } = collectProps(el, "dc-import", host);
+    const kids = walkChildren(el, host);
+    return (vals, ctx, key) => {
+      const props = {
+        key,
+        __hintSize: hintSize,
+        __tplId: tplId,
+        __hostStyle: styleGet ? hostPositionStyle(styleGet(vals)) : void 0
+      };
+      for (const [k, g] of propGetters) {
+        const v = g(vals);
+        if (k === "dcProps") {
+          if (v && typeof v === "object") Object.assign(props, v);
+          continue;
+        }
+        props[k] = v;
+      }
+      if (kids.length) props.children = kids.map((b, j) => b(vals, ctx, j));
+      return h(host.component(name), props);
+    };
+  }
+  function walkXImport(el, host) {
+    const globalNameGet = compileAttr(
+      el.getAttribute("component-from-global-scope") || ""
+    );
+    const exportNameGet = compileAttr(
+      el.getAttribute("component") || el.getAttribute("name") || ""
+    );
+    const fromRaw = el.getAttribute("from") || (el.getAttribute("component-from-global-scope") ? "" : el.getAttribute("src") || el.getAttribute("import") || "");
+    const urls = fromRaw.trim() ? fromRaw.trim().split(/\s+/) : [];
+    const url = urls.length ? urls[urls.length - 1] : "";
+    const kindOf = (u) => /\.(jsx|tsx)(\?|#|$)/i.test(u) ? "jsx" : "js";
+    const tplId = el.getAttribute("data-dc-tpl");
+    const styleRaw = el.getAttribute("style");
+    el.removeAttribute("style");
+    const styleGet = styleRaw != null ? compileAttr(styleRaw) : null;
+    const wrap = tplId != null || styleGet != null;
+    const { propGetters, hintSize } = collectProps(el, "x-import", host);
+    const hasContent = el.children.length > 0 || !!(el.textContent || "").trim();
+    const kids = hasContent ? walkChildren(el, host) : [];
+    const urlBindable = fromRaw.includes("{{");
+    if (urls.length && !urlBindable) {
+      let prev;
+      for (const u of urls) prev = host.loadExternal(kindOf(u), u, prev);
+    }
+    const evalName = (g, vals) => {
+      const v = g(vals);
+      const s = v == null ? "" : String(v);
+      return s.includes("{{") ? "" : s;
+    };
+    return (vals, ctx, key) => {
+      const globalName = evalName(globalNameGet, vals);
+      const name = globalName || evalName(exportNameGet, vals);
+      const C = !name || urlBindable ? null : globalName ? host.resolveExternalGlobal(url, globalName) : host.resolveExternal(url, name);
+      const hostStyle = styleGet ? hostPositionStyle(styleGet(vals)) : void 0;
+      const wrapper = wrap ? {
+        key,
+        className: "sc-host-x",
+        "data-dc-tpl": tplId,
+        style: hostStyle || { display: "contents" }
+      } : null;
+      if (!C) {
+        const error = urlBindable ? "x-import `from` cannot contain {{ \u2026 }} \u2014 module URLs are resolved at parse time; use a literal URL" : host.resolveExternalError(url, name);
+        const ph = host.placeholder({
+          key: wrapper ? void 0 : key,
+          name,
+          hintSize,
+          error
+        });
+        return wrapper ? h("div", wrapper, ph) : ph;
+      }
+      const props = wrapper ? {} : { key };
+      let unresolvedHole = false;
+      for (const [k, g] of propGetters) {
+        if (k === "component" || k === "componentFromGlobalScope" || k === "from") {
+          continue;
+        }
+        const v = g(vals);
+        if (v === void 0) unresolvedHole = true;
+        if (k === "dcProps") {
+          if (v && typeof v === "object") Object.assign(props, v);
+          continue;
+        }
+        props[k] = v;
+      }
+      if (unresolvedHole && ctx?.__htmlStreamingNow) {
+        const ph = host.placeholder({
+          key: wrapper ? void 0 : key,
+          name,
+          hintSize,
+          error: null
+        });
+        return wrapper ? h("div", wrapper, ph) : ph;
+      }
+      if (kids.length) props.children = kids.map((b, j) => b(vals, ctx, j));
+      return wrapper ? h("div", wrapper, h(C, props)) : h(C, props);
+    };
+  }
+  function contentKey(el) {
+    const clone = el.cloneNode(true);
+    for (const d of clone.querySelectorAll("*")) {
+      while (d.attributes.length) d.removeAttribute(d.attributes[0].name);
+    }
+    const s = clone.innerHTML;
+    let h2 = 5381;
+    for (let i = 0; i < s.length; i++) h2 = (h2 << 5) + h2 + s.charCodeAt(i) | 0;
+    return s.length + "." + (h2 >>> 0).toString(36);
+  }
+  var NEVER_CONTENT_KEYED = new Set(
+    "script style textarea option title select canvas iframe video audio".split(
+      " "
+    )
+  );
+  var NOT_INLINE_SELECTOR = ":not(" + [...INLINE_TEXT_TAGS].join(",") + ")";
+  function walkElement(el, host) {
+    const realTag = RAW_UNWRAP[el.localName] || el.localName;
+    const tplId = el.getAttribute("data-dc-tpl");
+    const inlineOnly = el.childNodes.length > 0 && !NEVER_CONTENT_KEYED.has(realTag) && el.querySelector(NOT_INLINE_SELECTOR) === null;
+    const keySuffix = inlineOnly ? "|" + contentKey(el) : "";
+    const { propGetters, pseudoClasses } = collectProps(el, "dom", host);
+    const kids = walkChildren(el, host);
+    return (vals, ctx, key) => {
+      const props = {
+        key: key + keySuffix,
+        "data-dc-tpl": tplId
+      };
+      for (const [k, g] of propGetters) {
+        let v = g(vals);
+        if (k === "style" && typeof v === "string") v = cssToObj(v);
+        if ((k === "value" || k === "checked") && v === void 0) {
+          v = k === "checked" ? false : "";
+        }
+        props[k] = v;
+      }
+      if (pseudoClasses.length) {
+        props.className = [props.className, ...pseudoClasses].filter(Boolean).join(" ");
+      }
+      return h(realTag, props, ...kids.map((b, j) => b(vals, ctx, j)));
+    };
+  }
+
+  // src/logic.ts
+  var StreamableLogic = class {
+    constructor(props) {
+      __publicField(this, "props");
+      __publicField(this, "state", {});
+      /** Back-pointer to the wrapper component, installed after construction. */
+      __publicField(this, "__host");
+      this.props = props || {};
+    }
+    setState(update, cb) {
+      this.__host && this.__host.__setLogicState(update, cb);
+    }
+    forceUpdate() {
+      this.__host && this.__host.forceUpdate();
+    }
+    componentDidMount() {
+    }
+    componentDidUpdate(_prevProps) {
+    }
+    componentWillUnmount() {
+    }
+    /** The flat object the template renders against (merged over props). */
+    renderVals() {
+      return {};
+    }
+  };
+  function evalDcLogic(src) {
+    //! nosemgrep: eval-and-function-constructor
+    const fn = new Function(
+      "DCLogic",
+      "StreamableLogic",
+      "React",
+      src + '\n;return (typeof Component!=="undefined"&&Component)||undefined;'
+    );
+    return fn(StreamableLogic, StreamableLogic, getReact());
+  }
+
+  // src/component.ts
+  function shallowEqual(a, b) {
+    if (!b) return false;
+    const ak = Object.keys(a).filter((k) => k !== "children");
+    const bk = Object.keys(b).filter((k) => k !== "children");
+    if (ak.length !== bk.length) return false;
+    for (const k of ak) if (a[k] !== b[k]) return false;
+    return true;
+  }
+  function Placeholder({
+    name,
+    hintSize,
+    streaming,
+    error
+  }) {
+    const [w, hgt] = (hintSize || "100%,60px").split(",");
+    return h(
+      "div",
+      {
+        className: "sc-placeholder" + (streaming ? " sc-streaming" : ""),
+        style: { width: w.trim(), height: hgt && hgt.trim() },
+        title: name
+      },
+      error ? h(
+        "div",
+        { className: "sc-placeholder-error" },
+        (name ? name + ": " : "") + error
+      ) : null
+    );
+  }
+  function hintToMin(hint) {
+    if (!hint) return void 0;
+    const [w, hgt] = hint.split(",");
+    return { minWidth: w.trim(), minHeight: hgt && hgt.trim() };
+  }
+  function createComponentFactory(registry, ensureFetched) {
+    const React = getReact();
+    const AncestorContext = React.createContext([]);
+    class StreamableComponent extends React.Component {
+      constructor(props) {
+        super(props);
+        __publicField(this, "__name");
+        __publicField(this, "__sub");
+        __publicField(this, "__needsDidMount", false);
+        /** Snapshot of the registry's streaming flags taken at render time —
+         *  builders read it off the RenderCtx (this) to pick placeholder vs
+         *  render-nothing for unresolved values. */
+        __publicField(this, "__streamingNow", false);
+        __publicField(this, "__htmlStreamingNow", false);
+        /** When a construct throws, remember the (class, registry.ver, props)
+         *  triple so render-time reconcile doesn't re-attempt it on every parent
+         *  re-render. A registry bump (new class, template, external module
+         *  resolving via bumpAll) changes `ver` and breaks the memo so an
+         *  env-dependent constructor can self-heal. */
+        __publicField(this, "__failedLogic", null);
+        __publicField(this, "__failedUserProps", null);
+        __publicField(this, "__failedVer", -1);
+        /** Per-instance constructor error — kept here (not on the registry entry)
+         *  so one instance's successful construct can't hide a sibling's failure,
+         *  and a construct can never wipe an eval error `updateJs` recorded on
+         *  `r.logicError`. */
+        __publicField(this, "__ctorError", null);
+        __publicField(this, "logic");
+        this.__name = props.__name;
+        this.state = { __v: 0, __err: null };
+        this.__sub = () => {
+          if (this.state.__err) this.setState({ __err: null });
+          this.forceUpdate();
+        };
+        this.__makeLogic(registry.get(this.__name).Logic, null);
+        ensureFetched(this.__name);
+      }
+      /** Error-boundary hook: a render crash anywhere in this DC's subtree
+       *  (its own template, an x-import'd component, a child DC without its
+       *  own deeper boundary) lands here instead of unmounting the page. */
+      static getDerivedStateFromError(e) {
+        return { __err: e instanceof Error && e.message ? e.message : String(e) };
+      }
+      componentDidCatch(e, info) {
+        console.error(
+          "[dc-runtime] render error in <" + this.__name + ">:",
+          e,
+          info?.componentStack || ""
+        );
+      }
+      /** Instantiate the logic class (or the no-op base) and adopt `prevState`
+       *  over its initial state — used both at mount and on hot-swap. */
+      __makeLogic(Logic, prevState) {
+        const L = Logic || StreamableLogic;
+        try {
+          this.logic = new L(this.__userProps());
+          this.__failedLogic = null;
+          this.__failedUserProps = null;
+          this.__ctorError = null;
+        } catch (e) {
+          console.error(e);
+          this.__failedLogic = Logic;
+          this.__failedUserProps = this.__userProps();
+          this.__failedVer = registry.get(this.__name).ver;
+          this.__ctorError = this.__name + ": " + (e instanceof Error && e.message ? e.message : String(e));
+          this.logic = new StreamableLogic(
+            this.__userProps()
+          );
+        }
+        this.logic.__host = this;
+        if (prevState)
+          this.logic.state = { ...this.logic.state || {}, ...prevState };
+      }
+      /** The props the author's logic + template see — internal __-prefixed
+       *  wiring stripped. */
+      __userProps() {
+        const { __name, __hintSize, __tplId, __hostStyle, ...rest } = this.props;
+        return rest;
+      }
+      __setLogicState(update, cb) {
+        const prev = this.logic.state;
+        const patch = typeof update === "function" ? update(prev) : update;
+        this.logic.state = { ...prev, ...patch };
+        this.setState((s) => ({ __v: s.__v + 1 }), cb);
+      }
+      /** Swap the logic instance when the registry's Logic class changed
+       *  (streaming completion, hot reload). State carries over; didMount
+       *  re-fires after the swap commits so refs exist. */
+      __reconcileLogic() {
+        const r = registry.get(this.__name);
+        const Next = r.Logic;
+        const Cur = this.logic.constructor;
+        if (Next === Cur || !Next && Cur === StreamableLogic || Next === this.__failedLogic && r.ver === this.__failedVer && shallowEqual(this.__userProps(), this.__failedUserProps)) {
+          return;
+        }
+        if (!this.__needsDidMount) {
+          try {
+            this.logic.componentWillUnmount();
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        this.__makeLogic(Next, this.logic.state);
+        this.__needsDidMount = true;
+      }
+      componentDidMount() {
+        registry.get(this.__name).subs.add(this.__sub);
+        try {
+          this.logic.componentDidMount();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      componentDidUpdate(prevProps) {
+        this.logic.props = this.__userProps();
+        if (this.__needsDidMount) {
+          if (this.state.__err || !registry.get(this.__name).tpl) return;
+          this.__needsDidMount = false;
+          try {
+            this.logic.componentDidMount();
+          } catch (e) {
+            console.error(e);
+          }
+        } else {
+          try {
+            this.logic.componentDidUpdate(prevProps);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      componentWillUnmount() {
+        registry.get(this.__name).subs.delete(this.__sub);
+        if (!this.__needsDidMount) {
+          try {
+            this.logic.componentWillUnmount();
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      render() {
+        const r = registry.get(this.__name);
+        const cls = "sc-host" + (r.htmlStreaming ? " sc-streaming-html" : "") + (r.jsStreaming ? " sc-streaming-js" : "");
+        const hintStyle = r.htmlStreaming ? hintToMin(this.props.__hintSize) : void 0;
+        const hostStyle = this.props.__hostStyle || hintStyle ? { ...hintStyle || {}, ...this.props.__hostStyle || {} } : void 0;
+        const hostBase = {
+          className: cls,
+          style: hostStyle,
+          "data-sc-name": this.__name,
+          "data-dc-tpl": this.props.__tplId
+        };
+        const chain = Array.isArray(this.context) ? this.context : [];
+        if (chain.includes(this.__name)) {
+          const cycle = [
+            ...chain.slice(chain.indexOf(this.__name)),
+            this.__name
+          ].join(" \u2192 ");
+          return h(
+            "div",
+            { ...hostBase, className: cls + " sc-has-error" },
+            h(Placeholder, {
+              name: this.__name,
+              hintSize: this.props.__hintSize,
+              error: "circular import: " + cycle
+            })
+          );
+        }
+        if (this.state.__err) {
+          return h(
+            "div",
+            { ...hostBase, className: cls + " sc-has-error" },
+            h(
+              "div",
+              { className: "sc-logic-error", "data-omelette-chrome": "" },
+              this.__name + ": " + this.state.__err
+            ),
+            h(Placeholder, {
+              name: this.__name,
+              hintSize: this.props.__hintSize,
+              error: this.state.__err
+            })
+          );
+        }
+        this.__reconcileLogic();
+        if (!r.tpl) {
+          return h(
+            "div",
+            hostBase,
+            h(Placeholder, { name: this.__name, hintSize: this.props.__hintSize })
+          );
+        }
+        const userProps = this.__userProps();
+        this.logic.props = userProps;
+        let vals = userProps;
+        let renderErr = r.logicError || this.__ctorError;
+        try {
+          vals = { ...userProps, ...this.logic.renderVals() || {} };
+        } catch (e) {
+          console.error(e);
+          renderErr = this.__name + ".renderVals(): " + (e instanceof Error && e.message ? e.message : String(e));
+        }
+        this.__streamingNow = !!(r.htmlStreaming || r.jsStreaming);
+        this.__htmlStreamingNow = !!r.htmlStreaming;
+        return h(
+          "div",
+          { ...hostBase, className: cls + (renderErr ? " sc-has-error" : "") },
+          renderErr && h(
+            "div",
+            { className: "sc-logic-error", "data-omelette-chrome": "" },
+            renderErr
+          ),
+          h(
+            AncestorContext.Provider,
+            { value: [...chain, this.__name] },
+            r.tpl(vals, this)
+          )
+        );
+      }
+    }
+    __publicField(StreamableComponent, "contextType", AncestorContext);
+    const named = /* @__PURE__ */ new Map();
+    function getDC(name) {
+      const hit = named.get(name);
+      if (hit) return hit;
+      function Dispatcher(p) {
+        const [, setTick] = React.useState(0);
+        React.useEffect(() => {
+          const sub = () => setTick((n) => n + 1);
+          registry.get(name).subs.add(sub);
+          return () => {
+            registry.get(name).subs.delete(sub);
+          };
+        }, []);
+        ensureFetched(name);
+        return h(StreamableComponent, { ...p, __name: name });
+      }
+      Dispatcher.displayName = name;
+      named.set(name, Dispatcher);
+      return Dispatcher;
+    }
+    return {
+      getDC,
+      StreamableComponent
+    };
+  }
+
+  // src/bundled.ts
+  function bundledBlob(url) {
+    const blobs = window.__resourceBlobs;
+    const b = blobs ? blobs[url.split("#")[0]] : void 0;
+    return b instanceof Blob ? b : null;
+  }
+
+  // src/cdn.ts
+  var REACT_URL = "https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js";
+  var REACT_SRI = "sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z";
+  var REACT_DOM_URL = "https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js";
+  var REACT_DOM_SRI = "sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1";
+  var BABEL_URL = "https://cdn.jsdelivr.net/npm/@babel/standalone@7.29.0/babel.min.js";
+  var BABEL_SRI = "sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y";
+  function cdnScriptFor(url, sri) {
+    const res = window.__resources;
+    const v = res ? res[url] : void 0;
+    return typeof v === "string" && v ? { src: v } : { src: url, integrity: sri };
+  }
+
+  // src/external.ts
+  var isCustomElementName = (n) => !n.includes(".") && n.includes("-");
+  function isRenderableType(g) {
+    if (typeof g === "function") return !isElementClass(g);
+    return typeof g === "object" && g !== null && typeof g.$$typeof === "symbol";
+  }
+  function resolveDottedPath(root, name) {
+    let cur = root;
+    for (const seg of name.split(".")) {
+      if (cur == null) return void 0;
+      cur = cur[seg];
+    }
+    return cur;
+  }
+  var GLOBAL_POLL_INTERVAL_MS = 50;
+  var GLOBAL_POLL_TIMEOUT_MS = 3e4;
+  function createExternalModules(onResolved) {
+    const cache = /* @__PURE__ */ new Map();
+    let babelLoading = null;
+    const reportedMissing = /* @__PURE__ */ new Map();
+    const polling = /* @__PURE__ */ new Set();
+    function ensureBabel() {
+      if (window.Babel) return Promise.resolve();
+      if (babelLoading) return babelLoading;
+      const babel = cdnScriptFor(BABEL_URL, BABEL_SRI);
+      babelLoading = new Promise((res, rej) => {
+        const s = document.createElement("script");
+        s.src = babel.src;
+        if (babel.integrity) {
+          s.integrity = babel.integrity;
+          s.crossOrigin = "anonymous";
+        }
+        s.onload = () => res();
+        s.onerror = rej;
+        document.head.appendChild(s);
+      });
+      return babelLoading;
+    }
+    const pending = /* @__PURE__ */ new Map();
+    function load(kind, url, after) {
+      const existing = pending.get(url);
+      if (existing) return existing;
+      cache.set(url, null);
+      console.info("[dc-runtime] x-import: loading", url, "(" + kind + ")");
+      const ready = Promise.all([
+        kind === "jsx" ? ensureBabel() : Promise.resolve(),
+        after ?? Promise.resolve()
+      ]);
+      const p = ready.then(() => {
+        const pre = bundledBlob(url);
+        if (pre) return pre.text();
+        return fetch(url).then((r) => {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.text();
+        });
+      }).then((src) => {
+        const code = kind === "jsx" ? window.Babel.transform(src, {
+          filename: url,
+          presets: ["react", "typescript"]
+        }).code : src;
+        const module = { exports: {} };
+        const before = new Set(Object.keys(window));
+        //! nosemgrep: eval-and-function-constructor
+        new Function("React", "module", "exports", "require", code)(
+          getReact(),
+          module,
+          module.exports,
+          () => ({})
+        );
+        const globals = {};
+        for (const k of Object.keys(window)) {
+          if (!before.has(k) && typeof window[k] === "function") {
+            globals[k] = window[k];
+          }
+        }
+        cache.set(url, { mod: module.exports, globals });
+        console.info(
+          "[dc-runtime] x-import: loaded",
+          url,
+          "\u2014 exports:",
+          Object.keys(module.exports),
+          "window globals:",
+          Object.keys(globals)
+        );
+        onResolved();
+      }).catch((e) => {
+        cache.set(url, {
+          mod: {},
+          globals: {},
+          error: "failed to load: " + (e instanceof Error && e.message ? e.message : String(e))
+        });
+        console.error(
+          "[dc-runtime] x-import: FAILED to load",
+          url,
+          "(" + kind + ")",
+          e
+        );
+        onResolved();
+      });
+      pending.set(url, p);
+      return p;
+    }
+    function resolve2(url, name) {
+      const entry = cache.get(url);
+      if (!entry) return null;
+      const { mod, globals } = entry;
+      const C = mod && mod[name] || globals && globals[name] || typeof window !== "undefined" && window[name] || mod && mod.default;
+      if (typeof C === "function") return C;
+      const key = url + "\0" + name;
+      if (!reportedMissing.has(key)) {
+        reportedMissing.set(
+          key,
+          entry.error || 'no export named "' + name + '" (has: ' + Object.keys(mod).join(", ") + ")"
+        );
+        console.error(
+          "[dc-runtime] x-import: module",
+          url,
+          "loaded but has no component named",
+          JSON.stringify(name),
+          "\u2014 available exports:",
+          Object.keys(mod),
+          "window globals:",
+          Object.keys(globals),
+          ". The module must `module.exports = {" + name + "}` or set `window." + name + "`."
+        );
+      }
+      return null;
+    }
+    function waitForGlobal(name) {
+      if (polling.has(name)) return;
+      polling.add(name);
+      const started = Date.now();
+      const isCE = isCustomElementName(name);
+      const tick = () => {
+        const found = isCE ? customElements.get(name) : isRenderableType(resolveDottedPath(window, name));
+        if (found) {
+          polling.delete(name);
+          onResolved();
+          return;
+        }
+        if (Date.now() - started >= GLOBAL_POLL_TIMEOUT_MS) {
+          console.warn(
+            "[dc-runtime] x-import: global",
+            JSON.stringify(name),
+            "never appeared on window after " + GLOBAL_POLL_TIMEOUT_MS + "ms"
+          );
+          return;
+        }
+        setTimeout(tick, GLOBAL_POLL_INTERVAL_MS);
+      };
+      setTimeout(tick, GLOBAL_POLL_INTERVAL_MS);
+    }
+    function resolveGlobal(url, name) {
+      const isCE = isCustomElementName(name);
+      if (!url) {
+        if (isCE) {
+          if (customElements.get(name)) return name;
+          waitForGlobal(name);
+          return null;
+        }
+        const g2 = resolveDottedPath(window, name);
+        if (isRenderableType(g2)) return g2;
+        waitForGlobal(name);
+        return null;
+      }
+      const entry = cache.get(url);
+      if (!entry) return null;
+      if (isCE && customElements.get(name)) return name;
+      const g = entry.globals[name] ?? resolveDottedPath(window, name);
+      if (isRenderableType(g)) return g;
+      if (name.includes(".")) return null;
+      const key = url + "\0global\0" + name;
+      if (!reportedMissing.has(key)) {
+        reportedMissing.set(key, null);
+        if (isCE && !customElements.get(name)) {
+          console.warn(
+            "[dc-runtime] x-import:",
+            url,
+            "loaded but no custom element",
+            JSON.stringify(name),
+            "is registered and window." + name + " is not a function \u2014 rendering <" + name + "> as an unknown element."
+          );
+        }
+      }
+      return name;
+    }
+    function getError(url, name) {
+      const entry = cache.get(url);
+      if (entry?.error) return entry.error;
+      return reportedMissing.get(url + "\0" + name) || null;
+    }
+    return { load, resolve: resolve2, resolveGlobal, getError };
+  }
+  function isElementClass(g) {
+    try {
+      return typeof g === "function" && typeof HTMLElement !== "undefined" && g.prototype instanceof HTMLElement;
+    } catch {
+      return false;
+    }
+  }
+
+  // src/atomics.ts
+  var ATOMIC_CSS = (
+    // layout
+    ".fx{display:flex}.col{display:flex;flex-direction:column}.grid{display:grid}.ac{align-items:center}.jc{justify-content:center}.jb{justify-content:space-between}.f1{flex:1}.noshrink{flex-shrink:0}.wrap{flex-wrap:wrap}.fw5{font-weight:500}.fw6{font-weight:600}.fw7{font-weight:700}.fw8{font-weight:800}.fs11{font-size:11px}.fs12{font-size:12px}.fs13{font-size:13px}.fs14{font-size:14px}.fs15{font-size:15px}.fs16{font-size:16px}.fs20{font-size:20px}.fs22{font-size:22px}.upper{text-transform:uppercase}.tc{text-align:center}.nowrap{white-space:nowrap}.gap8{gap:8px}.gap10{gap:10px}.gap12{gap:12px}.gap16{gap:16px}.gap24{gap:24px}.m0{margin:0}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}.posrel{position:relative}.posabs{position:absolute}.round{border-radius:50%}.ohide{overflow:hidden}.bbox{box-sizing:border-box}.pointer{cursor:pointer}.w100{width:100%}.b0{border:none}"
+  );
+
+  // src/helmet.ts
+  var DESIGN_DOC_MODE_RE = /<meta\b[^>]*\bname\s*=\s*["']design_doc_mode["'][^>]*\b(?:content|value)\s*=\s*["'](\w+)["']/i;
+  var CANVAS_BG_LIGHT = "#f0eee6";
+  var CANVAS_BG_DARK = "#2e2c26";
+  function createHelmetManager(doc, isStreaming) {
+    const mounted = /* @__PURE__ */ new Set();
+    const live = /* @__PURE__ */ new Map();
+    let designDocMode = null;
+    let canvasStyleEl = null;
+    let appTheme = "light";
+    try {
+      const ds = doc.documentElement.dataset.theme;
+      appTheme = ds === "dark" || ds === "light" ? ds : new URLSearchParams(doc.defaultView?.location.search ?? "").get(
+        "theme"
+      ) === "dark" ? "dark" : "light";
+    } catch {
+    }
+    function applyCanvasBg() {
+      if (!canvasStyleEl) return;
+      const bg = appTheme === "dark" ? CANVAS_BG_DARK : CANVAS_BG_LIGHT;
+      canvasStyleEl.textContent = `html,body{background:${bg}}#dc-root>.sc-host{position:relative}`;
+    }
+    function postDesignMode(mode) {
+      if (window.parent === window) return;
+      try {
+        window.parent.postMessage({ type: "__dc_design_mode", mode }, "*");
+      } catch {
+      }
+    }
+    function setDesignDocMode(mode) {
+      if (mode === designDocMode) return;
+      designDocMode = mode;
+      postDesignMode(mode);
+      if (mode === "canvas") {
+        doc.documentElement.setAttribute("data-dc-canvas", "");
+        canvasStyleEl = doc.createElement("style");
+        canvasStyleEl.setAttribute("data-dc-canvas", "");
+        applyCanvasBg();
+        doc.head.appendChild(canvasStyleEl);
+      } else {
+        doc.documentElement.removeAttribute("data-dc-canvas");
+        canvasStyleEl?.remove();
+        canvasStyleEl = null;
+      }
+    }
+    window.addEventListener("message", (e) => {
+      const type = e.data && e.data.type;
+      if (type === "__dc_theme") {
+        const t = e.data.theme;
+        if (t === "light" || t === "dark") {
+          appTheme = t;
+          applyCanvasBg();
+        }
+        return;
+      }
+      if (!designDocMode || type !== "__dc_probe") return;
+      postDesignMode(designDocMode);
+    });
+    function compile(node) {
+      const raw = [...node.children];
+      const helmetClosed = node.nextSibling != null || node.parentNode?.nextSibling != null;
+      if (node.hasAttribute("data-dc-atomics") && !mounted.has("__dc-atomics")) {
+        mounted.add("__dc-atomics");
+        const el = doc.createElement("style");
+        el.id = "__dc-atomics";
+        el.textContent = ATOMIC_CSS;
+        doc.head.appendChild(el);
+      }
+      return (_vals, ctx) => {
+        const name = ctx && ctx.__name || "";
+        const streaming = !!(name && isStreaming(name));
+        for (let i = 0; i < raw.length; i++) {
+          const child = raw[i];
+          const tag = child.tagName;
+          const mayBePartial = streaming && !helmetClosed && i === raw.length - 1;
+          if (tag === "SCRIPT") {
+            if (mayBePartial) continue;
+            const key = "SCRIPT|" + (child.getAttribute("src") || child.textContent || "");
+            if (mounted.has(key)) continue;
+            mounted.add(key);
+            const el = doc.createElement("script");
+            for (const { name: an, value } of [...child.attributes])
+              el.setAttribute(an, value);
+            if (child.textContent) el.textContent = child.textContent;
+            doc.head.appendChild(el);
+          } else if (tag === "LINK" || tag === "META") {
+            if (mayBePartial) continue;
+            const key = tag + "|" + (child.getAttribute("href") || child.getAttribute("src") || child.outerHTML);
+            if (mounted.has(key)) continue;
+            mounted.add(key);
+            if (tag === "LINK") {
+              const rel = (child.getAttribute("rel") || "").toLowerCase().split(/\s+/);
+              const href = (child.getAttribute("href") || "").trim();
+              const res = window.__resources;
+              const pre = res && rel.includes("stylesheet") && !rel.includes("alternate") ? res[href] : void 0;
+              const blob = typeof pre === "string" && pre ? bundledBlob(pre) : null;
+              if (blob) {
+                const el = doc.createElement("style");
+                if (child.hasAttribute("disabled")) {
+                  el.setAttribute("media", "not all");
+                } else if (child.getAttribute("media")) {
+                  el.setAttribute("media", child.getAttribute("media"));
+                }
+                if (child.getAttribute("title"))
+                  el.setAttribute("title", child.getAttribute("title"));
+                void blob.text().then((css) => {
+                  el.textContent = css;
+                });
+                doc.head.appendChild(el);
+                continue;
+              }
+            }
+            doc.head.appendChild(child.cloneNode(true));
+          } else {
+            const key = name + "|" + i;
+            let el = live.get(key);
+            if (!el || el.tagName !== tag) {
+              if (el) el.remove();
+              el = doc.createElement(tag.toLowerCase());
+              live.set(key, el);
+              doc.head.appendChild(el);
+            }
+            for (const { name: an, value } of [...child.attributes]) {
+              if (el.getAttribute(an) !== value) el.setAttribute(an, value);
+            }
+            if (el.textContent !== child.textContent)
+              el.textContent = child.textContent;
+          }
+        }
+        return null;
+      };
+    }
+    return { compile, setDesignDocMode };
+  }
+
+  // src/pseudo.ts
+  function createPseudoSheet(doc) {
+    let el = null;
+    const cache = /* @__PURE__ */ new Map();
+    let n = 0;
+    return (pseudo, css) => {
+      const k = pseudo + "|" + css;
+      const hit = cache.get(k);
+      if (hit) return hit;
+      if (!el) {
+        el = doc.createElement("style");
+        doc.head.appendChild(el);
+      }
+      const cls = "scp" + (n++).toString(36);
+      const sel = pseudo === "before" || pseudo === "after" ? "." + cls + "::" + pseudo : "." + cls + ":" + pseudo;
+      el.sheet.insertRule(sel + "{" + css + "}", el.sheet.cssRules.length);
+      cache.set(k, cls);
+      return cls;
+    };
+  }
+
+  // src/registry.ts
+  function createRegistry() {
+    const entries = /* @__PURE__ */ Object.create(null);
+    function get(name) {
+      return entries[name] || (entries[name] = {
+        html: "",
+        tpl: null,
+        Logic: null,
+        jsStreaming: false,
+        htmlStreaming: false,
+        ver: 0,
+        subs: /* @__PURE__ */ new Set(),
+        fetched: false
+      });
+    }
+    function bump(name) {
+      const r = get(name);
+      r.ver++;
+      for (const fn of r.subs) fn();
+    }
+    return {
+      entries,
+      get,
+      bump,
+      bumpAll() {
+        for (const n in entries) bump(n);
+      }
+    };
+  }
+
+  // src/runtime.ts
+  var COMPONENT_DIR = ".";
+  function createRuntime(doc = document) {
+    const registry = createRegistry();
+    const pseudoClass = createPseudoSheet(doc);
+    const helmet = createHelmetManager(
+      doc,
+      (name) => registry.get(name).htmlStreaming
+    );
+    const external = createExternalModules(() => registry.bumpAll());
+    const factory = createComponentFactory(registry, ensureFetched);
+    const host = {
+      component: (name) => factory.getDC(name),
+      placeholder: (props) => h(Placeholder, props),
+      helmet: (node) => helmet.compile(node),
+      loadExternal: (kind, url, after) => external.load(kind, url, after),
+      resolveExternal: (url, name) => external.resolve(url, name),
+      resolveExternalGlobal: (url, name) => external.resolveGlobal(url, name),
+      resolveExternalError: (url, name) => external.getError(url, name),
+      pseudoClass
+    };
+    function ensureFetched(name) {
+      const r = registry.get(name);
+      if (r.fetched) return;
+      r.fetched = true;
+      const url = COMPONENT_DIR + "/" + encodeURIComponent(name) + ".dc.html";
+      const res = window.__resources;
+      const pre = res ? res[url] : void 0;
+      const target = typeof pre === "string" && pre ? pre : url;
+      const blob = bundledBlob(target);
+      (blob ? blob.text() : fetch(target).then((res2) => {
+        if (!res2.ok) {
+          console.error(
+            '[dc-runtime] sibling fetch for "' + name + '" failed:',
+            url,
+            "returned",
+            res2.status,
+            "\u2014 the reference renders as an empty placeholder."
+          );
+          return "";
+        }
+        return res2.text();
+      })).then((t) => {
+        if (!t) return;
+        const parsed = parseDcText(t);
+        if (!parsed) {
+          console.error(
+            '[dc-runtime] sibling fetch for "' + name + '":',
+            url,
+            "has no \x3cx-dc> block \u2014 not a Design Component."
+          );
+          return;
+        }
+        if (parsed.props) r.propsMeta = parsed.props;
+        if (parsed.preview) r.preview = parsed.preview;
+        if (parsed.template && !r.html) updateHtml(name, parsed.template);
+        if (parsed.js && !r.Logic) updateJs(name, parsed.js);
+      }).catch(
+        (e) => console.error(
+          '[dc-runtime] sibling fetch for "' + name + '" threw:',
+          url,
+          e
+        )
+      );
+    }
+    let rootName = null;
+    function updateHtml(name, html) {
+      const r = registry.get(name);
+      r.html = html;
+      if (name === rootName) {
+        const mode = DESIGN_DOC_MODE_RE.exec(html)?.[1] ?? null;
+        if (mode || !r.htmlStreaming) helmet.setDesignDocMode(mode);
+      }
+      try {
+        r.tpl = compileTemplate(html, host);
+      } catch (e) {
+        console.error("[dc-runtime] template compile FAILED for", name, e);
+      }
+      registry.bump(name);
+    }
+    function updateJs(name, src) {
+      const r = registry.get(name);
+      const seq = r.jsSeq = (r.jsSeq || 0) + 1;
+      try {
+        const Cls = evalDcLogic(src);
+        if (r.jsSeq !== seq) return;
+        if (typeof Cls !== "function") {
+          r.logicError = name + ".dc.html: <script data-dc-script> must define `class Component extends DCLogic`";
+        } else {
+          r.logicError = null;
+          r.Logic = Cls;
+        }
+      } catch (e) {
+        if (r.jsSeq !== seq) return;
+        console.error(
+          "[dc-runtime] logic class eval FAILED for",
+          name,
+          "\u2014 the template renders with props only.",
+          e
+        );
+        r.logicError = name + ": " + (e instanceof Error && e.message ? e.message : String(e));
+      }
+      registry.bump(name);
+    }
+    function setStreaming(name, kind, on) {
+      const r = registry.get(name);
+      if (kind === "html") r.htmlStreaming = !!on;
+      else r.jsStreaming = !!on;
+      let any = false;
+      for (const n in registry.entries) {
+        const e = registry.entries[n];
+        if (e && (e.htmlStreaming || e.jsStreaming)) {
+          any = true;
+          break;
+        }
+      }
+      doc.documentElement.classList.toggle("sc-dc-streaming", any);
+      registry.bump(name);
+    }
+    function dcUpdate(name, kind, content, streaming) {
+      if (streaming) registry.get(name).fetched = true;
+      if (kind === "html") {
+        setStreaming(name, "html", !!streaming);
+        updateHtml(name, content);
+      } else if (kind === "js") {
+        setStreaming(name, "js", !!streaming);
+        if (!streaming) updateJs(name, content);
+      } else if (kind === "props") {
+        const { props, preview } = parseDataProps(content);
+        const r = registry.get(name);
+        r.propsMeta = props ?? void 0;
+        r.preview = preview;
+        registry.bump(name);
+      }
+    }
+    function setProps(name, overrides) {
+      registry.get(name).propOverrides = overrides && typeof overrides === "object" ? { ...overrides } : null;
+      registry.bump(name);
+    }
+    function adoptParsed(name, parsed) {
+      if (!parsed) return;
+      const r = registry.get(name);
+      if (parsed.props) r.propsMeta = parsed.props;
+      if (parsed.preview) r.preview = parsed.preview;
+      if (parsed.template) updateHtml(name, parsed.template);
+      if (parsed.js) updateJs(name, parsed.js);
+    }
+    return {
+      registry,
+      getDC: factory.getDC,
+      updateHtml,
+      updateJs,
+      dcUpdate,
+      setProps,
+      adoptParsed,
+      setRootName: (name) => {
+        rootName = name;
+      },
+      markFetched: (name) => {
+        registry.get(name).fetched = true;
+      },
+      annotatedTemplate: (name) => {
+        const r = registry.get(name);
+        return r.tpl && r.tpl.__annotated || null;
+      },
+      templateSource: (name) => registry.get(name).html || null,
+      StreamableLogic
+    };
+  }
+
+  // src/stream-state.ts
+  function createStreamTracker(staleMs = 6e4, now = Date.now) {
+    const since = /* @__PURE__ */ new Map();
+    const liveOne = (n) => {
+      const t = since.get(n);
+      if (t === void 0) return false;
+      if (now() - t > staleMs) {
+        since.delete(n);
+        return false;
+      }
+      return true;
+    };
+    return {
+      push(name, streaming, viewportKey) {
+        if (viewportKey === "dc-model") return;
+        if (streaming) since.set(name, now());
+        else since.delete(name);
+      },
+      live(name) {
+        if (name !== void 0) return liveOne(name);
+        for (const n of [...since.keys()]) if (liveOne(n)) return true;
+        return false;
+      }
+    };
+  }
+
+  // src/index.ts
+  function hideRawTemplate() {
+    const s = document.createElement("style");
+    s.textContent = "x-dc{display:none!important}";
+    document.head.appendChild(s);
+  }
+  function loadScript(src, integrity) {
+    return new Promise((resolve2, reject) => {
+      //! nosemgrep: create-script-element
+      const s = document.createElement("script");
+      s.src = src;
+      if (integrity) {
+        s.integrity = integrity;
+        s.crossOrigin = "anonymous";
+      }
+      s.async = false;
+      s.onload = () => resolve2();
+      s.onerror = () => reject(new Error(`failed to load ${src}`));
+      document.head.appendChild(s);
+    });
+  }
+  function loadReactUmd() {
+    const w = window;
+    if (w.React && w.ReactDOM) return Promise.resolve();
+    const react = cdnScriptFor(REACT_URL, REACT_SRI);
+    const reactDom = cdnScriptFor(REACT_DOM_URL, REACT_DOM_SRI);
+    return Promise.all([
+      loadScript(react.src, react.integrity),
+      loadScript(reactDom.src, reactDom.integrity)
+    ]).then(() => void 0);
+  }
+  function init() {
+    const runtime = createRuntime(document);
+    let rootName = "Root";
+    const baseCss = document.createElement("style");
+    baseCss.textContent = BASE_CSS;
+    document.head.prepend(baseCss);
+    const notifyHost = () => {
+      if (window.parent === window) return;
+      const r = runtime.registry.entries[rootName];
+      try {
+        window.parent.postMessage(
+          {
+            type: "__dc_booted",
+            rootName,
+            propsMeta: r && r.propsMeta || null,
+            preview: r && r.preview || null
+          },
+          "*"
+        );
+      } catch {
+      }
+    };
+    const streams = createStreamTracker();
+    const api = {
+      __dcUpdate: (name, kind, content, streaming, viewportKey) => {
+        streams.push(name, streaming, viewportKey);
+        runtime.dcUpdate(name, kind, content, streaming);
+        if (name === rootName && !streaming && kind === "props") notifyHost();
+      },
+      __dcStreaming: (name) => streams.live(name),
+      __dcSetProps: (name, overrides) => runtime.setProps(name, overrides),
+      /** Name of the component currently mounted as the page root — DC tools
+       *  push their template-stream here when targeting "the open page". */
+      __dcRootName: () => rootName,
+      /** Editor bridge — the encoded, `data-dc-tpl`-annotated template source.
+       *  The host editor parses this into its own template DOM so it can map a
+       *  rendered node (carrying the same `data-dc-tpl`) back to the source
+       *  node that emitted it. Returns the encoded form (`sc-camel-*` attrs,
+       *  `<sc-raw-*>`/`<sc-helmet>` tags); the editor decodes on serialize. */
+      __dcAnnotatedTemplate: (name) => runtime.annotatedTemplate(name),
+      /** Editor bridge — the *original* (decoded) template source. */
+      __dcTemplateSource: (name) => runtime.templateSource(name),
+      __dcBoot: () => {
+        rootName = boot(runtime, document) ?? rootName;
+        notifyHost();
+      },
+      __dcRegistry: runtime.registry.entries,
+      getDC: (name) => runtime.getDC(name),
+      // `DCLogic` is the documented base class name; `StreamableLogic` is the
+      // implementation alias kept for any project that already references it.
+      DCLogic: runtime.StreamableLogic,
+      StreamableLogic: runtime.StreamableLogic
+    };
+    Object.assign(window, api);
+    window.__dcContentKeyed = true;
+    if (document.readyState !== "loading") api.__dcBoot();
+    else document.addEventListener("DOMContentLoaded", () => api.__dcBoot());
+  }
+  hideRawTemplate();
+  loadReactUmd().then(init).catch((err) => {
+    console.error("[dc] failed to load React or boot:", err);
+    throw err;
+  });
+})();
+
+</script>
+<script>
+/* light-sim — real 3D head lighting simulator (Three.js) for MDG Learning Center.
+   A <light-sim> web component: loads a photoscanned head, orbit-controls to rotate,
+   colored key / fill / rim lights, fresnel + normals debug views. */
+(function () {
+  if (customElements.get('light-sim')) return;
+
+  const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+  const ADDON = 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/';
+  const HEAD_URL = 'https://threejs.org/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb';
+
+  let sharedLibs = null;
+  async function loadLibs() {
+    if (sharedLibs) return sharedLibs;
+    const THREE = await import(THREE_URL);
+    const { OrbitControls } = await import(ADDON + 'controls/OrbitControls.js');
+    const { GLTFLoader } = await import(ADDON + 'loaders/GLTFLoader.js');
+    sharedLibs = { THREE, OrbitControls, GLTFLoader };
+    return sharedLibs;
+  }
+
+  // cache the loaded head geometry across every instance on the page
+  let headGeomPromise = null;
+  function loadHeadGeometry(THREE, GLTFLoader) {
+    if (headGeomPromise) return headGeomPromise;
+    headGeomPromise = new Promise((resolve) => {
+      const loader = new GLTFLoader();
+      loader.load(HEAD_URL, (gltf) => {
+        let geom = null;
+        gltf.scene.traverse((o) => { if (o.isMesh && !geom) geom = o.geometry; });
+        if (geom) { geom = geom.clone(); geom.computeVertexNormals(); resolve({ geom, real: true }); }
+        else resolve({ geom: fallbackGeom(THREE), real: false });
+      }, undefined, () => resolve({ geom: fallbackGeom(THREE), real: false }));
+    });
+    return headGeomPromise;
+  }
+  function fallbackGeom(THREE) {
+    // organic blob so rim light still reads if the model can't load
+    const g = new THREE.IcosahedronGeometry(1, 24);
+    const p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+      const s = 1 + 0.18 * Math.sin(y * 3.1) + 0.12 * Math.cos(x * 2.4) - 0.15 * Math.max(0, z);
+      p.setXYZ(i, x * s * 0.8, y * s * 1.15, z * s * 0.85);
+    }
+    g.computeVertexNormals();
+    return g;
+  }
+
+  function kelvinToRGB(k) {
+    k = Math.max(1500, Math.min(12000, k)) / 100;
+    let r, g, b;
+    if (k <= 66) r = 255; else r = 329.698727446 * Math.pow(k - 60, -0.1332047592);
+    if (k <= 66) g = 99.4708025861 * Math.log(k) - 161.1195681661;
+    else g = 288.1221695283 * Math.pow(k - 60, -0.0755148492);
+    if (k >= 66) b = 255; else if (k <= 19) b = 0;
+    else b = 138.5177312231 * Math.log(k - 10) - 305.0447927307;
+    const c = (v) => Math.max(0, Math.min(255, v)) / 255;
+    return [c(r), c(g), c(b)];
+  }
+  function hexToRGB(h) {
+    h = String(h).replace('#', '');
+    if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+    const n = parseInt(h, 16);
+    if (isNaN(n)) return null;
+    return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  }
+
+  const NUM = ['intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
+    'rimwrap', 'falloffboost', 'view', 'yaw', 'keylevel', 'filllevel', 'rimlevel'];
+  const BOOL = ['keyon', 'fillon', 'rimon', 'autoorbit', 'interactive', 'gizmo'];
+
+  class LightSim extends HTMLElement {
+    static get observedAttributes() {
+      return ['mode', 'intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
+        'rim-wrap', 'falloff-boost', 'view', 'key-on', 'fill-on', 'rim-on',
+        'auto-orbit', 'interactive', 'gizmo', 'yaw', 'color-hex', 'rim-hex',
+        'key-level', 'fill-level', 'rim-level', 'keylevel', 'filllevel', 'rimlevel',
+        'rimwrap', 'falloffboost', 'keyon', 'fillon', 'rimon', 'autoorbit', 'colorhex', 'rimhex'];
+    }
+    constructor() {
+      super();
+      this.p = {
+        mode: 'single', intensity: 1.4, softness: 0.4, distance: 2.2, kelvin: 5400,
+        azimuth: 42, elevation: 26, rimwrap: 0.75, falloffboost: 0, view: 0, yaw: 0,
+        colorhex: '', rimhex: '#3DBFA3', keylevel: 1, filllevel: 1, rimlevel: 1,
+        keyon: true, fillon: true, rimon: false, autoorbit: false, interactive: true, gizmo: true,
+      };
+      this._ready = false; this._visible = true; this._userOrbiting = false;
+      this.onLightMove = null;
+      // define camelCase property setters so the DC host can pass values as
+      // properties OR attributes (both routes funnel into _setP)
+      ['mode', 'intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
+        'rimWrap', 'falloffBoost', 'view', 'keyOn', 'fillOn', 'rimOn',
+        'autoOrbit', 'interactive', 'gizmo', 'yaw', 'colorHex', 'rimHex'].forEach((camel) => {
+        const key = camel.toLowerCase();
+        Object.defineProperty(this, camel, {
+          configurable: true,
+          get() { return this.p[key]; },
+          set(v) { this._setP(key, v); },
+        });
+      });
+    }
+    attributeChangedCallback(name, _o, val) { this._setP(name.replace(/-/g, ''), val); }
+    _setP(name, v) {
+      if (BOOL.indexOf(name) >= 0) v = (v === true || v === 'true' || v === '' || v === 1);
+      else if (NUM.indexOf(name) >= 0) { v = parseFloat(v); if (isNaN(v)) return; }
+      if (this.p[name] === v) return;
+      this.p[name] = v; this._dirty = true;
+    }
+
+    connectedCallback() {
+      if (this._started) return; this._started = true;
+      this.style.display = this.style.display || 'block';
+      loadLibs().then((libs) => this._init(libs)).catch((e) => {
+        console.error('light-sim init failed', e);
+        this.innerHTML = '<div style="color:#888;font:13px sans-serif;padding:20px">3D indisponible</div>';
+      });
+    }
+    disconnectedCallback() {
+      this._stopped = true;
+      if (this._ro) this._ro.disconnect();
+      if (this._io) this._io.disconnect();
+      if (this._renderer) this._renderer.dispose();
+    }
+
+    async _init({ THREE, OrbitControls, GLTFLoader }) {
+      this.THREE = THREE;
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+      renderer.setClearColor(0x0b0c0d, 1);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.98;
+      renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;touch-action:pan-y;';
+      this.appendChild(renderer.domElement);
+      this._renderer = renderer;
+
+      const scene = new THREE.Scene();
+      this._scene = scene;
+      const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+      camera.position.set(0, 0.15, 4.35);
+      this._camera = camera;
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enablePan = false;
+      controls.enableRotate = false;
+      controls.enableZoom = false;
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      controls.minDistance = 2.9; controls.maxDistance = 8;
+      controls.minPolarAngle = 0.6; controls.maxPolarAngle = 2.2;
+      controls.target.set(0, 0.05, 0);
+      controls.addEventListener('start', () => { this._userOrbiting = true; });
+      this._controls = controls;
+
+      // Ctrl/Cmd + wheel (or trackpad pinch) = zoom; plain wheel = page scroll
+      renderer.domElement.addEventListener('wheel', (e) => {
+        if (!this.p.interactive) return;
+        if (!(e.ctrlKey || e.metaKey)) return;
+        e.preventDefault();
+        const cam = this._camera, t = controls.target;
+        const f = Math.exp(e.deltaY * 0.0012);
+        const v = cam.position.clone().sub(t).multiplyScalar(f);
+        const d = Math.max(controls.minDistance, Math.min(controls.maxDistance, v.length()));
+        v.setLength(d);
+        cam.position.copy(t).add(v);
+        this._dirty = true;
+      }, { passive: false });
+
+      // ambient + backdrop + ground so shadows and colored wash read
+      scene.add(new THREE.AmbientLight(0x2a2f36, 0.6));
+      const backdrop = new THREE.Mesh(
+        new THREE.PlaneGeometry(24, 16),
+        new THREE.MeshStandardMaterial({ color: 0x08090b, roughness: 1, metalness: 0 }));
+      backdrop.position.set(0, 0, -3.4); backdrop.receiveShadow = true;
+      scene.add(backdrop);
+      const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(24, 24),
+        new THREE.MeshStandardMaterial({ color: 0x0c0d0f, roughness: 1, metalness: 0 }));
+      ground.rotation.x = -Math.PI / 2; ground.position.y = -1.55; ground.receiveShadow = true;
+      scene.add(ground);
+
+      // materials
+      this._rimUniforms = {
+        uRimColor: { value: new THREE.Color(0x3dbfa3) },
+        uRimDirView: { value: new THREE.Vector3(0, 0, 1) },
+        uRimPower: { value: 3.0 },
+        uRimStrength: { value: 0.0 },
+      };
+      const skin = new THREE.MeshStandardMaterial({ color: 0xd8c3b1, roughness: 0.66, metalness: 0.0 });
+      skin.onBeforeCompile = (sh) => {
+        sh.uniforms.uRimColor = this._rimUniforms.uRimColor;
+        sh.uniforms.uRimDirView = this._rimUniforms.uRimDirView;
+        sh.uniforms.uRimPower = this._rimUniforms.uRimPower;
+        sh.uniforms.uRimStrength = this._rimUniforms.uRimStrength;
+        sh.fragmentShader = 'uniform vec3 uRimColor;uniform vec3 uRimDirView;uniform float uRimPower;uniform float uRimStrength;\n' + sh.fragmentShader;
+        sh.fragmentShader = sh.fragmentShader.replace('#include <dithering_fragment>',
+          'float _fres = pow(1.0 - clamp(dot(normalize(normal), normalize(vViewPosition)), 0.0, 1.0), uRimPower);\n' +
+          'float _face = smoothstep(-0.25, 0.55, dot(normalize(normal), normalize(uRimDirView)));\n' +
+          'gl_FragColor.rgb += uRimColor * _fres * _face * uRimStrength;\n' +
+          '#include <dithering_fragment>');
+      };
+      this._skinMat = skin;
+      this._normalMat = new THREE.MeshNormalMaterial();
+      this._fresnelMat = new THREE.ShaderMaterial({
+        uniforms: { uColor: { value: new THREE.Color(0x3dbfa3) } },
+        vertexShader: 'varying vec3 vN;varying vec3 vP;void main(){vN=normalMatrix*normal;vec4 mv=modelViewMatrix*vec4(position,1.0);vP=-mv.xyz;gl_Position=projectionMatrix*mv;}',
+        fragmentShader: 'varying vec3 vN;varying vec3 vP;uniform vec3 uColor;void main(){float f=pow(1.0-clamp(dot(normalize(vN),normalize(vP)),0.0,1.0),2.6);gl_FragColor=vec4(mix(vec3(0.03),uColor,f),1.0);}',
+      });
+
+      // lights
+      const key = new THREE.SpotLight(0xffffff, 40, 0, 0.7, 0.4, 2);
+      key.castShadow = true;
+      key.shadow.mapSize.set(1024, 1024);
+      key.shadow.camera.near = 0.5; key.shadow.camera.far = 20;
+      key.shadow.bias = -0.0006; key.shadow.blurSamples = 24;
+      scene.add(key); scene.add(key.target);
+      this._key = key;
+      const fill = new THREE.PointLight(0xbcd2f0, 6, 0, 2);
+      scene.add(fill); this._fill = fill;
+      const rim = new THREE.SpotLight(0x3dbfa3, 60, 0, 0.9, 0.6, 2);
+      scene.add(rim); scene.add(rim.target);
+      this._rim = rim;
+
+      // gizmo (core + halo) and direct light dragging
+      const giz = new THREE.Group();
+      const gizCore = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      const gizHalo = new THREE.Mesh(new THREE.SphereGeometry(0.115, 16, 16), new THREE.MeshBasicMaterial({ color: 0x3dbfa3, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending, depthWrite: false }));
+      const gizHit = new THREE.Mesh(new THREE.SphereGeometry(0.32, 8, 8), new THREE.MeshBasicMaterial({ visible: false }));
+      giz.add(gizCore); giz.add(gizHalo); giz.add(gizHit);
+      scene.add(giz); this._giz = giz; this._gizCore = gizCore; this._gizHalo = gizHalo;
+
+      // drag the light ball itself (raycast against an invisible larger hit sphere)
+      const ray = new THREE.Raycaster(); const ndc = new THREE.Vector2();
+      const cvs = renderer.domElement;
+      const pick = (e) => {
+        const r = cvs.getBoundingClientRect();
+        ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+        ray.setFromCamera(ndc, camera);
+        return ray.intersectObject(gizHit, false).length > 0;
+      };
+      let lpx = 0, lpy = 0;
+      cvs.addEventListener('pointerdown', (e) => {
+        if (!this.p.interactive) return;
+        lpx = e.clientX; lpy = e.clientY;
+        if (this.p.gizmo && giz.visible && pick(e)) {
+          this._dragLight = true; controls.enabled = false;
+        } else {
+          this._dragHead = true; this._userOrbiting = true;
+        }
+        cvs.setPointerCapture(e.pointerId); cvs.style.cursor = 'grabbing';
+      });
+      cvs.addEventListener('pointermove', (e) => {
+        if (this._dragLight) {
+          const dx = e.clientX - lpx, dy = e.clientY - lpy; lpx = e.clientX; lpy = e.clientY;
+          const p = this.p; let detail;
+          if (p.mode === 'fresnel') {
+            p.rimwrap = Math.max(0, Math.min(1, p.rimwrap + dx * 0.004));
+            detail = { rimWrap: p.rimwrap };
+          } else {
+            p.azimuth = Math.max(-179, Math.min(179, p.azimuth + dx * 0.4));
+            p.elevation = Math.max(-70, Math.min(80, p.elevation - dy * 0.35));
+            detail = { azimuth: p.azimuth, elevation: p.elevation };
+          }
+          this._dirty = true;
+          if (typeof this.onLightMove === 'function') this.onLightMove(detail);
+          this.dispatchEvent(new CustomEvent('lightmove', { detail, bubbles: true, composed: true }));
+        } else if (this._dragHead) {
+          const dx = e.clientX - lpx, dy = e.clientY - lpy; lpx = e.clientX; lpy = e.clientY;
+          this._head.rotation.y += dx * 0.008;
+          this._head.rotation.x = Math.max(-0.45, Math.min(0.45, this._head.rotation.x + dy * 0.005));
+          this._dirty = true;
+        } else if (this.p.interactive && this.p.gizmo && giz.visible) {
+          cvs.style.cursor = pick(e) ? 'grab' : '';
+        }
+      });
+      const endDrag = () => {
+        if (this._dragLight || this._dragHead) { this._dragLight = false; this._dragHead = false; controls.enabled = !!this.p.interactive; cvs.style.cursor = ''; }
+      };
+      cvs.addEventListener('pointerup', endDrag);
+      cvs.addEventListener('pointercancel', endDrag);
+
+      // head
+      const head = new THREE.Group();
+      scene.add(head); this._head = head;
+      const { geom, real } = await loadHeadGeometry(THREE, GLTFLoader);
+      const mesh = new THREE.Mesh(geom, this._skinMat);
+      mesh.castShadow = true; mesh.receiveShadow = true;
+      // normalize size/position of the loaded model
+      geom.computeBoundingBox();
+      const bb = geom.boundingBox, size = new THREE.Vector3(), ctr = new THREE.Vector3();
+      bb.getSize(size); bb.getCenter(ctr);
+      const scl = 2.15 / Math.max(size.x, size.y, size.z);
+      mesh.scale.setScalar(scl);
+      mesh.position.set(-ctr.x * scl, -ctr.y * scl + 0.05, -ctr.z * scl);
+      if (real) mesh.rotation.y = 0;
+      head.add(mesh); this._mesh = mesh;
+
+      this._ro = new ResizeObserver(() => this._resize()); this._ro.observe(this);
+      this._io = new IntersectionObserver((en) => { this._visible = en[0].isIntersecting; }, { threshold: 0.02 });
+      this._io.observe(this);
+      this._resize();
+      this._ready = true; this._dirty = true;
+      this._t0 = performance.now();
+      renderer.setAnimationLoop(() => this._frame());
+    }
+
+    _resize() {
+      if (!this._renderer) return;
+      const w = Math.max(2, this.clientWidth), h = Math.max(2, this.clientHeight);
+      if (this._lastW === w && this._lastH === h) return;
+      this._lastW = w; this._lastH = h;
+      this._renderer.setSize(w, h, false);
+      this._camera.aspect = w / h; this._camera.updateProjectionMatrix();
+      this._dirty = true;
+    }
+
+    _sph(az, el, r, cy) {
+      const a = az * Math.PI / 180, e = el * Math.PI / 180;
+      return [r * Math.sin(a) * Math.cos(e), (cy || 0.05) + r * Math.sin(e), r * Math.cos(a) * Math.cos(e)];
+    }
+
+    _frame() {
+      if (this._stopped || !this._ready) return;
+      const THREE = this.THREE, p = this.p, controls = this._controls;
+      controls.enabled = !!p.interactive;
+      // auto-orbit rotates the head until the user grabs it
+      if (p.autoorbit && !this._userOrbiting) {
+        const t = (performance.now() - this._t0) / 1000;
+        this._head.rotation.y = Math.sin(t * 0.32) * 0.5;
+        this._dirty = true;
+      }
+      controls.update();
+
+      // --- lights every frame (cheap) ---
+      const kc = (p.colorhex && hexToRGB(p.colorhex)) || kelvinToRGB(p.kelvin);
+      let az = p.azimuth, el = p.elevation, dist = p.distance;
+      const radius = dist * 2.1;
+      const compensate = p.falloffboost <= 0.001;
+      const baseKey = 26;
+      const kp = this._sph(az, el, radius);
+      this._key.position.set(kp[0], kp[1], kp[2]);
+      this._key.target.position.set(0, 0.02, 0);
+      this._key.color.setRGB(kc[0], kc[1], kc[2]);
+      this._key.penumbra = 0.15 + p.softness * 0.85;
+      this._key.angle = 0.36 + p.softness * 0.26;
+      this._key.shadow.radius = 1 + p.softness * 22;
+      this._key.intensity = (p.keyon ? 1 : 0) * baseKey * p.intensity * (p.keylevel != null ? p.keylevel : 1) *
+        (compensate ? (radius * radius) / 6.0 : 1.0);
+      this._key.visible = !!p.keyon && (p.keylevel == null || p.keylevel > 0.02);
+
+      const fp = this._sph(-52, 12, radius * 1.05);
+      this._fill.position.set(fp[0], fp[1], fp[2]);
+      this._fill.intensity = (p.fillon ? 1 : 0) * 5.5 * (p.filllevel != null ? p.filllevel : 1) * (radius * radius) / 6.0;
+      this._fill.visible = !!p.fillon && (p.filllevel == null || p.filllevel > 0.02);
+
+      // rim: in fresnel mode driven by rim-wrap (front->behind); else fixed behind
+      const rimCol = hexToRGB(p.rimhex) || [0.24, 0.75, 0.64];
+      let rimAz, rimEl, rimActive;
+      if (p.mode === 'fresnel') {
+        rimAz = 12 + p.rimwrap * 156; rimEl = 24; rimActive = true;
+        // dim frontal key so the wrap reads
+        const kp2 = this._sph(-32, 26, radius);
+        this._key.position.set(kp2[0], kp2[1], kp2[2]);
+        this._key.intensity = baseKey * 0.35 * (radius * radius) / 6.0;
+        this._key.visible = true;
+      } else {
+        rimAz = 152; rimEl = 30; rimActive = !!p.rimon;
+      }
+      const rp = this._sph(rimAz, rimEl, radius * 0.95);
+      this._rim.position.set(rp[0], rp[1], rp[2]);
+      this._rim.target.position.set(0, 0.02, 0);
+      this._rim.color.setRGB(rimCol[0], rimCol[1], rimCol[2]);
+      const rimLvl = (p.rimlevel != null ? p.rimlevel : 1);
+      this._rim.intensity = rimActive ? 55 * rimLvl * (p.mode === 'fresnel' ? p.intensity : 1.3) : 0;
+      this._rim.visible = rimActive && rimLvl > 0.02;
+
+      // fresnel rim glow injected into skin material
+      this._rimUniforms.uRimColor.value.setRGB(rimCol[0], rimCol[1], rimCol[2]);
+      this._rimUniforms.uRimStrength.value = (rimActive && rimLvl > 0.02) ? rimLvl * (p.mode === 'fresnel' ? 1.6 : 1.1) : 0.0;
+      const rimDir = new THREE.Vector3(rp[0], rp[1], rp[2]).normalize().transformDirection(this._camera.matrixWorldInverse);
+      this._rimUniforms.uRimDirView.value.copy(rimDir);
+
+      // gizmo
+      const gp = (p.mode === 'fresnel') ? rp : kp;
+      this._giz.visible = !!p.gizmo && (p.mode === 'fresnel' ? true : !!p.keyon);
+      this._giz.position.set(gp[0], gp[1], gp[2]);
+      const pc = (p.mode === 'fresnel') ? rimCol : kc;
+      this._gizCore.material.color.setRGB(pc[0], pc[1], pc[2]);
+      this._gizHalo.material.color.setRGB(pc[0], pc[1], pc[2]);
+      this._gizHalo.scale.setScalar(1 + 0.18 * Math.sin(performance.now() / 380));
+
+      // view mode material swap
+      let mat = this._skinMat;
+      if (p.view > 1.5) mat = this._normalMat;
+      else if (p.view > 0.5) { mat = this._fresnelMat; this._fresnelMat.uniforms.uColor.value.setRGB(rimCol[0], rimCol[1], rimCol[2]); }
+      if (this._mesh && this._mesh.material !== mat) this._mesh.material = mat;
+
+      if (this._visible) this._renderer.render(this._scene, this._camera);
+    }
+  }
+  customElements.define('light-sim', LightSim);
+})();
+
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>MDG Learning Center — Comprendre la lumière</title>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #0B0C0D; }
+    * { box-sizing: border-box; }
+    a { color: #3DBFA3; text-decoration: none; }
+    a:hover { color: #6BD9C2; }
+    input[type="range"] { -webkit-appearance: none; appearance: none; height: 18px; background: transparent; cursor: ew-resize; margin: 0; }
+    input[type="range"]::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: linear-gradient(90deg, rgba(61,191,163,0.9), rgba(61,191,163,0.35)); box-shadow: inset 0 1px 1px rgba(0,0,0,0.7); }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: linear-gradient(180deg, #F2EADA, #C9C2B2); border: 1px solid #0B0C0D; box-shadow: 0 1px 3px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.5); margin-top: -5.5px; }
+    input[type="range"]::-moz-range-track { height: 3px; border-radius: 2px; background: linear-gradient(90deg, rgba(61,191,163,0.9), rgba(61,191,163,0.35)); }
+    input[type="range"]::-moz-range-thumb { width: 13px; height: 13px; border-radius: 50%; background: linear-gradient(180deg, #F2EADA, #C9C2B2); border: 1px solid #0B0C0D; box-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+    ::selection { background: #3DBFA3; color: #0B0C0D; }
+    img { -webkit-user-drag: none; user-select: none; }
+    @keyframes ls-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    .lc-split { display: grid; grid-template-columns: minmax(0, 1fr) 460px; }
+    .lc-vp { position: sticky; top: 55px; height: calc(100vh - 55px); min-height: 480px; align-self: start; }
+    .lc-split { align-items: stretch; }
+    .lc-aside { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 20px; padding: 40px 44px; border-left: 1px solid rgba(232,224,208,0.08); overflow: hidden; }
+    .lc-pad { padding: 110px 64px; }
+    .lc-navlinks { display: flex; align-items: center; gap: 18px; }
+    .lc-hero-pad { padding: 0 64px 72px; }
+
+    /* ===== ALTERNANCE DE THÈME PAR LEÇON ===== */
+    .lc-split, section.lc-pad { --lc-bg: #0B0C0D; --lc-vp-bg: #0B0C0D; --lc-fg: #E8E0D0; --lc-fg-70: rgba(232,224,208,0.7); --lc-fg-65: rgba(232,224,208,0.65); --lc-fg-60: rgba(232,224,208,0.6); --lc-fg-45: rgba(232,224,208,0.45); --lc-fg-40: rgba(232,224,208,0.4); --lc-border: rgba(232,224,208,0.08); --lc-border-14: rgba(232,224,208,0.14); --lc-btn-bg: #101113; --lc-panel-grad: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); background: var(--lc-bg); color: var(--lc-fg); }
+    .lc-split.lc-theme-light, section.lc-pad.lc-theme-light { --lc-bg: #F0EEE6; --lc-vp-bg: #F0EEE6; --lc-fg: #1C1A16; --lc-fg-70: rgba(28,26,22,0.72); --lc-fg-65: rgba(28,26,22,0.68); --lc-fg-60: rgba(28,26,22,0.62); --lc-fg-45: rgba(28,26,22,0.5); --lc-fg-40: rgba(28,26,22,0.42); --lc-border: rgba(28,26,22,0.1); --lc-border-14: rgba(28,26,22,0.16); --lc-btn-bg: #E4E1D6; --lc-panel-grad: linear-gradient(180deg, #E9E6DB 0%, #E1DDCF 100%); }
+
+    /* ===== TABLETTE / MOBILE (≤960px) ===== */
+    @media (max-width: 960px) {
+      .lc-split { grid-template-columns: 1fr; }
+      .lc-vp { position: sticky; top: 55px; z-index: 5; min-height: 42vh; max-height: 46vh; min-height: 42svh; max-height: 46svh; background: var(--lc-vp-bg); border-bottom: 1px solid rgba(232,224,208,0.12); }
+      .lc-aside { border-left: none; border-top: 1px solid rgba(232,224,208,0.08); padding: 40px 24px 56px; gap: 22px; }
+      .lc-pad { padding: 64px 24px; }
+      .lc-navlinks { display: none; }
+      .lc-hero-pad { padding: 0 24px 48px; }
+
+      /* Hero : le rail de chapitres (position: absolute; right: 64px sur desktop) chevauchait
+         le titre en mobile. On le sort du flex-layout du parent (display:flex, row, nowrap)
+         en le gardant en position:absolute mais recalculé en haut de la section, en ligne
+         horizontale compacte, plutôt que de le repasser dans le flux normal — ce qui, sur un
+         parent flex sans wrap, pousserait .lc-hero-pad hors de l'écran au lieu de passer dessous. */
+      .lc-hero-chapters {
+        position: absolute !important;
+        top: 20px !important; left: 24px !important; right: 24px !important;
+        bottom: auto !important; transform: none !important;
+        display: flex !important; flex-wrap: wrap !important;
+        gap: 6px 14px !important; text-align: left !important;
+        width: auto !important;
+      }
+      .lc-hero-chapters span { font-size: 10px; }
+
+      /* Leçon 03 : la boussole (190px fixes) + le panneau texte (150px min) ne tiennent
+         plus côte à côte sous ~430px de large réel ; on empile au lieu de chevaucher. */
+      .lc-compass-row { flex-direction: column; align-items: stretch !important; gap: 18px !important; }
+      .lc-compass-row > div:first-child { margin: 0 auto; }
+      .lc-compass-row > div:last-child { min-width: 0 !important; }
+
+      /* Sliders (azimut, élévation, intensité, etc.) : le curseur 14px et la zone de 18px
+         de haut sont dimensionnés pour une souris. Au doigt, la cible visée est trop petite
+         (on cherche ~44px), d'où des glissés imprécis sur mobile. On agrandit la zone et le
+         curseur ; la piste reste fine (3px) pour ne pas alourdir le panneau visuellement. */
+      input[type="range"] { height: 40px; }
+      input[type="range"]::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -10.5px; }
+      input[type="range"]::-moz-range-thumb { width: 23px; height: 23px; }
+    }
+
+    /* ===== PETIT MOBILE (≤480px) : resserre encore l'aside et les paveurs de couleur ===== */
+    @media (max-width: 480px) {
+      .lc-aside { padding: 32px 18px 48px; }
+      .lc-pad { padding: 48px 18px; }
+      .lc-hero-pad { padding: 0 18px 40px; }
+      .lc-vp { min-height: 40vh; min-height: 40svh; }
+    }
+
+    /* ===== REDESIGN — CINÉMATIQUE AU SCROLL ===== */
+    @keyframes lcSweep { from { background-position: 100% 50%; } to { background-position: 0% 50%; } }
+    @keyframes lcFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes lcFade { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes lcHeroImg { from { opacity: 0.15; transform: skewX(-8deg) scale(1.12); } to { opacity: 1; transform: skewX(-8deg) scale(1); } }
+
+    /* entrée du hero au chargement */
+    .lc-hero-img-wrap { animation: lcHeroImg 1.8s cubic-bezier(0.22,0.61,0.36,1) both; }
+    .lc-hero-eyebrow { animation: lcFadeUp 0.7s ease-out 0.2s both; }
+    .lc-hero-t1 { background: linear-gradient(100deg, #E8E0D0 0%, #E8E0D0 40%, #FFFFFF 50%, #E8E0D0 60%, #E8E0D0 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: lcSweep 1.5s ease-in-out 0.5s both; }
+    .lc-hero-t2 { background: linear-gradient(100deg, #3DBFA3 0%, #3DBFA3 40%, #C7FFF1 50%, #3DBFA3 60%, #3DBFA3 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: lcSweep 1.5s ease-in-out 1.05s both; }
+    .lc-hero-sub { animation: lcFadeUp 0.7s ease-out 2.0s both; }
+    .lc-hero-cta { animation: lcFadeUp 0.8s ease-out 2.5s both; }
+    .lc-hero-chapters span { animation: lcFade 0.5s ease-out both; }
+    .lc-hero-chapters span:nth-child(1) { animation-delay: 1.4s; }
+    .lc-hero-chapters span:nth-child(2) { animation-delay: 1.55s; }
+    .lc-hero-chapters span:nth-child(3) { animation-delay: 1.7s; }
+    .lc-hero-chapters span:nth-child(4) { animation-delay: 1.85s; }
+    .lc-hero-chapters span:nth-child(5) { animation-delay: 2.0s; }
+    .lc-hero-chapters span:nth-child(6) { animation-delay: 2.15s; }
+
+    /* reveals au scroll — pilotés par le scroll (CSS pur, survivent aux re-render).
+       Sans support (Safari iOS), tout s'affiche normalement = version allégée mobile. */
+    @keyframes lcReveal { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+    @keyframes lcFadeOnly { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes lcEdge { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    .lc-edge { position: absolute; top: -1px; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #3DBFA3, transparent); transform: scaleX(0); transform-origin: center; pointer-events: none; z-index: 3; }
+    @supports (animation-timeline: view()) {
+      .lc-reveal { opacity: 0; animation: lcReveal 1ms linear both; animation-timeline: view(); animation-range: entry 4% cover 26%; }
+      .lc-reveal-2 { animation-range: entry 12% cover 34%; }
+      .lc-reveal-3 { animation-range: entry 20% cover 42%; }
+      .lc-vp-reveal { opacity: 0; animation: lcFadeOnly 1ms linear both; animation-timeline: view(); animation-range: entry 0% cover 20%; }
+      .lc-edge { animation: lcEdge 1ms linear both; animation-timeline: view(); animation-range: entry 8% entry 90%; }
+    }
+
+    /* micro-interactions */
+    button, .lc-cta { transition: transform 0.18s ease, box-shadow 0.22s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease; }
+    .lc-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(61,191,163,0.4); filter: brightness(1.04); }
+    .lc-ghost:hover { background: rgba(61,191,163,0.1); transform: translateY(-2px); }
+    .lc-swatch { transition: transform 0.16s ease, box-shadow 0.2s ease; }
+    .lc-swatch:hover { transform: translateY(-3px) scale(1.06); box-shadow: inset 0 0 10px rgba(255,255,255,0.22), 0 6px 16px rgba(0,0,0,0.6); }
+    .lc-nav-link { transition: color 0.2s ease; }
+    .lc-nav-link:hover { color: #3DBFA3 !important; }
+
+    /* mobile allégé + accessibilité : on coupe le lourd */
+    @media (max-width: 960px) {
+      .lc-hero-img-wrap { animation-duration: 1s; }
+      .lc-reveal { transition-duration: 0.6s; transform: translateY(24px); }
+      .lc-vp-reveal { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .lc-reveal, .lc-vp-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .lc-edge { transform: scaleX(1) !important; transition: none !important; }
+      *, *::before, *::after { animation-duration: 0.001s !important; animation-delay: 0s !important; }
+      .lc-hero-t1, .lc-hero-t2 { -webkit-text-fill-color: initial; background: none; }
+      .lc-hero-t1 { color: #E8E0D0; }
+      .lc-hero-t2 { color: #3DBFA3; }
+    }
+  </style>
+</helmet>
+
+<div style="min-height: 100vh; background: #0B0C0D; color: #E8E0D0; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.65;">
+
+  <!-- ============ HEADER ============ -->
+  <header style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px; background: rgba(11,12,13,0.78); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(232,224,208,0.08);">
+    <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG" draggable="false" style="height: 26px; width: auto; display: block;">
+      <span style="width: 1px; height: 18px; background: rgba(232,224,208,0.2);"></span>
+      <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap;">Learning Center</span>
+    </div>
+    <nav style="display: flex; align-items: center; gap: 18px;">
+      <div class="lc-navlinks" style="font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.08em;">
+        <a href="#ch1" class="lc-nav-link" style="color: rgba(232,224,208,0.55);">01</a>
+        <a href="#ch2" class="lc-nav-link" style="color: rgba(232,224,208,0.55);">02</a>
+        <a href="#ch3" class="lc-nav-link" style="color: rgba(232,224,208,0.55);">03</a>
+        <a href="#ch4" class="lc-nav-link" style="color: rgba(232,224,208,0.55);">04</a>
+        <a href="#ch5" class="lc-nav-link" style="color: rgba(232,224,208,0.55);">05</a>
+        <a href="#ch6" class="lc-nav-link" style="color: rgba(232,224,208,0.55);">06</a>
+      </div>
+      <button onClick="{{ toggleLang }}" style="display: flex; gap: 0; border: 1px solid rgba(232,224,208,0.18); border-radius: 999px; background: transparent; padding: 3px; cursor: pointer; font-family: 'Inter', sans-serif;">
+        <span style="padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: {{ frPillBg }}; color: {{ frPillFg }};">FR</span>
+        <span style="padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: {{ enPillBg }}; color: {{ enPillFg }};">EN</span>
+      </button>
+      <a href="index.html" style="font-size: 12px; color: rgba(232,224,208,0.55); white-space: nowrap;">← Site</a>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section data-screen-label="Hero" style="position: relative; min-height: 94vh; display: flex; align-items: flex-end; overflow: hidden;">
+    <div style="position: absolute; inset: 0; overflow: hidden; pointer-events: none;">
+      <div class="lc-hero-img-wrap" style="position: absolute; top: -6%; bottom: -6%; left: -10%; right: -10%; display: flex; gap: 4px; transform: skewX(-8deg);">
+        <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1776491317/match-day-sadio_we5xzy.jpg') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
+        <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1781509552/FRANCE_SENEGAL_rkitjo.jpg') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
+        <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
+        <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659502/NUNEZ_xxcyqg.jpg') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
+      </div>
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,12,13,0.62) 0%, rgba(11,12,13,0.38) 42%, rgba(11,12,13,0.96) 92%);"></div>
+    </div>
+    <div class="lc-hero-chapters" style="position: absolute; right: 64px; top: 50%; transform: translateY(-50%); z-index: 2; display: flex; flex-direction: column; gap: 14px; font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.18em; color: rgba(232,224,208,0.4); text-align: right; pointer-events: none;">
+      <span>01 · LA SOURCE</span>
+      <span>02 · LA DISTANCE</span>
+      <span>03 · LA DIRECTION</span>
+      <span>04 · LES RÔLES</span>
+      <span>05 · FRESNEL</span>
+      <span style="color: #3DBFA3;">06 · APPLICATION</span>
+    </div>
+    <div class="lc-hero-pad" style="position: relative; z-index: 2; width: 100%; pointer-events: none;">
+      <div class="lc-hero-eyebrow" style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #3DBFA3; animation: ls-pulse 2.2s infinite;"></span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Les fondamentaux, puis six leçons de rim light</sc-if>
+          <sc-if value="{{ isEn }}">The fundamentals, then six rim light lessons</sc-if>
+        </span>
+      </div>
+      <h1 style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(28px, 5.8vw, 88px); line-height: 0.96; letter-spacing: -0.02em; margin: 0 0 18px; text-transform: uppercase;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}"><span class="lc-hero-t1" style="display: block;">Comprendre</span><span class="lc-hero-t2" style="display: block;">la lumière.</span></sc-if>
+        <sc-if value="{{ isEn }}"><span class="lc-hero-t1" style="display: block;">Understand</span><span class="lc-hero-t2" style="display: block;">the light.</span></sc-if>
+      </h1>
+      <p class="lc-hero-sub" style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(20px, 2.6vw, 30px); color: rgba(232,224,208,0.75); margin: 0 0 30px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Avant le rim light, son comportement. Pas en le lisant. En le manipulant.</sc-if>
+        <sc-if value="{{ isEn }}">Before rim light, its behavior. Not by reading it. By handling it.</sc-if>
+      </p>
+      <div class="lc-hero-cta" style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+        <a href="#lc-intro" class="lc-cta" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: #3DBFA3; color: #0B0C0D; border-radius: 999px; font-weight: 600; font-size: 15px; font-family: 'Inter', sans-serif;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Commencer par les fondamentaux</sc-if>
+          <sc-if value="{{ isEn }}">Start with the fundamentals</sc-if>
+          <span>↓</span>
+        </a>
+        <span style="font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.45);">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La 3D commence à la leçon 01 · scroll libre ici</sc-if>
+          <sc-if value="{{ isEn }}">3D starts at lesson 01 · free scroll here</sc-if>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INTRO — LE COMPORTEMENT DE LA LUMIÈRE ============ -->
+  <section id="lc-intro" data-screen-label="Intro Comportement" class="lc-pad" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-reveal" style="max-width: 760px; margin: 0 auto; position: relative;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Avant les leçons</sc-if>
+          <sc-if value="{{ isEn }}">Before the lessons</sc-if>
+        </span>
+      </div>
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(28px, 3.4vw, 42px); font-weight: 700; margin: 0 0 16px; color: #E8E0D0; text-wrap: balance;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le comportement de la lumière sur un sujet</sc-if>
+        <sc-if value="{{ isEn }}">How light behaves on a subject</sc-if>
+      </h2>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 18px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le rim light n'est pas une technique à part. C'est une conséquence.</sc-if>
+        <sc-if value="{{ isEn }}">Rim light is not a separate technique. It is a consequence.</sc-if>
+      </p>
+      <p style="font-size: 15px; color: rgba(232,224,208,0.65); margin: 0 0 16px; line-height: 1.75;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Ici, on va apprendre à faire des rim lights. Mais avant d'y toucher, il faut comprendre comment une lumière se comporte sur un sujet, peu importe le rôle qu'on lui donne ensuite. Une lumière a une taille, une distance, une direction : ces trois choses décident à elles seules si une ombre sera nette ou fondue, si le sujet sera plat ou sculpté. Ce sont les mêmes lois pour un key light, un fill, ou un rim. Les six leçons qui suivent te font manipuler chacune de ces lois une par une.</sc-if>
+        <sc-if value="{{ isEn }}">Here, we are going to learn how to make rim lights. But before touching one, you need to understand how a light behaves on a subject, whatever role it is given afterward. A light has a size, a distance, a direction: these three things alone decide whether a shadow will be crisp or melted, whether the subject will look flat or sculpted. These are the same laws for a key light, a fill, or a rim. The six lessons that follow let you handle each of these laws one by one.</sc-if>
+      </p>
+      <div style="position: relative; padding: 20px 22px; border: 1px solid rgba(61,191,163,0.25); border-radius: 4px; background: rgba(61,191,163,0.05);">
+        <div style="font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; margin-bottom: 10px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La règle qu'on oublie souvent</sc-if>
+          <sc-if value="{{ isEn }}">The rule that gets forgotten</sc-if>
+        </div>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.75); margin: 0; line-height: 1.7;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une lumière ne s'invente pas sur un sujet sans raison. Un rim light doit correspondre à une source plausible dans la scène : un soleil bas, une fenêtre, une enseigne, un lampadaire. Peu importe laquelle, du moment que l'œil peut croire qu'elle existe. Sans cette cohérence, la technique peut être parfaite et le résultat sonnera quand même faux, parce que la lumière n'aura plus de raison d'être là.</sc-if>
+          <sc-if value="{{ isEn }}">A light does not get invented on a subject without a reason. A rim light must match a plausible source in the scene: a low sun, a window, a sign, a streetlight. It does not matter which, as long as the eye can believe it exists. Without this coherence, the technique can be flawless and the result will still feel wrong, because the light no longer has a reason to be there.</sc-if>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEÇON 01 — LA SOURCE ============ -->
+  <section id="ch1" data-screen-label="Lecon 01 Source" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp lc-vp-reveal">
+      <x-import component-from-global-scope="light-sim" id="sim-ch1" mode="single" gizmo="true" interactive="true" intensity="{{ ch1Intensity }}" softness="{{ ch1Softness }}" distance="{{ ch1Distance }}" kelvin="{{ ch1Kelvin }}" color-hex="{{ ch1ColorHex }}" azimuth="{{ ch1Az }}" elevation="{{ ch1El }}" on-light-move="{{ ch1LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; display: flex; gap: 8px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 01</sc-if><sc-if value="{{ isEn }}">Scene 01</sc-if>
+        </span>
+      </div>
+      <div style="position: absolute; bottom: 18px; left: 18px; right: 18px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; pointer-events: none;">
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">● glisse la sphère = déplace la lumière · fond = tourne la tête</sc-if>
+          <sc-if value="{{ isEn }}">● drag the sphere = move the light · background = rotate the head</sc-if>
+        </span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.1em; color: #3DBFA3;">az {{ ch1AzLabel }} · el {{ ch1ElLabel }}</span>
+      </div>
+    </div>
+    <aside class="lc-aside lc-reveal">
+      
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 01 · La source</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 01 · The source</sc-if>
+          </span>
+        </div>
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Anatomie d'une lumière</sc-if>
+          <sc-if value="{{ isEn }}">Anatomy of a light</sc-if>
+        </h2>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une ombre dure n'est pas un style, c'est une géométrie.</sc-if>
+          <sc-if value="{{ isEn }}">A hard shadow is not a style, it is geometry.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La dureté d'une ombre dépend d'une seule chose : la taille apparente de la source. Petite source (soleil, flash nu) : ombres nettes. Grande source (fenêtre, softbox) : ombres fondues. Fais varier la taille et observe la transition.</sc-if>
+          <sc-if value="{{ isEn }}">Shadow hardness depends on one thing: the apparent size of the source. Small source (sun, bare flash): crisp shadows. Large source (window, softbox): melted shadows. Change the size and watch the transition.</sc-if>
+        </p>
+      </div>
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45);">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Direction · azimut</sc-if><sc-if value="{{ isEn }}">Direction · azimuth</sc-if></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1AzLabel }}</span>
+          </span>
+          <input type="range" min="-120" max="120" step="1" value="{{ ch1Az }}" onInput="{{ setCh1Az }}" style="width: 100%;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Hauteur · élévation</sc-if><sc-if value="{{ isEn }}">Height · elevation</sc-if></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1ElLabel }}</span>
+          </span>
+          <input type="range" min="-30" max="75" step="1" value="{{ ch1El }}" onInput="{{ setCh1El }}" style="width: 100%;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Intensité</sc-if><sc-if value="{{ isEn }}">Intensity</sc-if></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1IntensityLabel }}</span>
+          </span>
+          <input type="range" min="0.1" max="3" step="0.05" value="{{ ch1Intensity }}" onInput="{{ setCh1Intensity }}" style="width: 100%;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Taille de source · dureté</sc-if><sc-if value="{{ isEn }}">Source size · hardness</sc-if></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1SoftLabel }}</span>
+          </span>
+          <input type="range" min="0" max="1" step="0.01" value="{{ ch1Softness }}" onInput="{{ setCh1Softness }}" style="width: 100%;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span>Distance</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1DistLabel }}</span>
+          </span>
+          <input type="range" min="1.2" max="4" step="0.05" value="{{ ch1Distance }}" onInput="{{ setCh1Distance }}" style="width: 100%;">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Température</sc-if><sc-if value="{{ isEn }}">Temperature</sc-if></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1KelvinLabel }}</span>
+          </span>
+          <input type="range" min="2000" max="10000" step="100" value="{{ ch1Kelvin }}" onInput="{{ setCh1Kelvin }}" style="width: 100%; background: linear-gradient(90deg, #FF9329, #FFE4C4, #CDE4FF); height: 4px; border-radius: 2px; box-shadow: inset 0 1px 1px rgba(0,0,0,0.5); outline: none;">
+        </label>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <span style="font-size: 12.5px; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleurs créatives</sc-if><sc-if value="{{ isEn }}">Creative colors</sc-if></span>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button onClick="{{ ch1ColWhite }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: linear-gradient(135deg,#FFE9CC,#CFE6FF); border: 2px solid {{ ch1RingWhite }};"></button>
+            <button onClick="{{ ch1ColOrange }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #FF7A2F; border: 2px solid {{ ch1RingOrange }};"></button>
+            <button onClick="{{ ch1ColRed }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #E62534; border: 2px solid {{ ch1RingRed }};"></button>
+            <button onClick="{{ ch1ColTeal }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #22D3C0; border: 2px solid {{ ch1RingTeal }};"></button>
+            <button onClick="{{ ch1ColBlue }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #3B6EF5; border: 2px solid {{ ch1RingBlue }};"></button>
+            <button onClick="{{ ch1ColMagenta }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #DB4E9E; border: 2px solid {{ ch1RingMagenta }};"></button>
+          </div>
+        </div>
+        <p style="font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Cette liberté de couleur n'est qu'un terrain d'essai : sur une vraie image, elle doit correspondre à une source plausible dans la scène, la même règle que dans l'introduction.</sc-if>
+          <sc-if value="{{ isEn }}">This color freedom is a testing ground only: on a real image, it must match a plausible source in the scene, the same rule from the introduction.</sc-if>
+        </p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ============ LEÇON 02 — LA DISTANCE ============ -->
+  <section id="ch2" data-screen-label="Lecon 02 Distance" class="lc-split lc-theme-light" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp lc-vp-reveal">
+      <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" falloff-boost="1.4" intensity="2.6" softness="0.3" kelvin="4800" azimuth="35" elevation="18" distance="{{ ch2Distance }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 02</sc-if><sc-if value="{{ isEn }}">Scene 02</sc-if>
+        </span>
+      </div>
+      <div style="position: absolute; bottom: 18px; left: 18px; display: flex; align-items: baseline; gap: 10px; padding: 10px 16px; border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); border: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Intensité relative</sc-if><sc-if value="{{ isEn }}">Relative intensity</sc-if></span>
+        <span style="font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: #3DBFA3;">{{ ch2RelLabel }}</span>
+      </div>
+    </div>
+    <aside class="lc-aside lc-reveal">
+      
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 02 · La distance</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 02 · Distance</sc-if>
+          </span>
+        </div>
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: var(--lc-fg);">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La loi de l'inverse du carré</sc-if>
+          <sc-if value="{{ isEn }}">The inverse-square law</sc-if>
+        </h2>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: var(--lc-fg-70); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux fois plus loin, quatre fois plus faible.</sc-if>
+          <sc-if value="{{ isEn }}">Twice as far, four times weaker.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: var(--lc-fg-60); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">I ∝ 1/d². Une source proche donne un dégradé rapide et dramatique du clair vers l'ombre. Une source lointaine aplatit tout. C'est le levier n°1 du contraste.</sc-if>
+          <sc-if value="{{ isEn }}">I ∝ 1/d². A close source gives a fast, dramatic gradient from light to shadow. A distant one flattens everything. It is the number one lever of contrast.</sc-if>
+        </p>
+      </div>
+      <div style="position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid var(--lc-border-14); border-top-color: var(--lc-border-14); border-radius: 4px; background: var(--lc-panel-grad); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.12);">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: var(--lc-fg-65);">
+            <span>Distance d</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch2DistLabel }}</span>
+          </span>
+          <input type="range" min="0.7" max="4" step="0.05" value="{{ ch2Distance }}" onInput="{{ setCh2Distance }}" style="width: 100%;">
+        </label>
+        <div>
+          <svg viewBox="0 0 300 150" style="width: 100%; display: block;">
+            <line x1="0" y1="140" x2="300" y2="140" stroke="var(--lc-border-14)" stroke-width="1"></line>
+            <path d="M0,5 L17.6,64.1 L35.3,91.4 L52.9,106.3 L70.6,115.2 L88.2,121.0 L105.9,125.0 L123.5,127.9 L158.8,131.6 L194.1,133.8 L229.4,135.2 L264.7,136.3 L300,137" fill="none" stroke="#3DBFA3" stroke-width="2"></path>
+            <line x1="{{ ch2MarkerX }}" y1="140" x2="{{ ch2MarkerX }}" y2="{{ ch2MarkerY }}" stroke="var(--lc-border-14)" stroke-width="1" stroke-dasharray="3 3"></line>
+            <circle cx="{{ ch2MarkerX }}" cy="{{ ch2MarkerY }}" r="5" fill="#3DBFA3"></circle>
+            <text x="6" y="16" fill="var(--lc-fg-45)" font-size="11" font-family="Inter">I = 1/d²</text>
+          </svg>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--lc-fg-40); margin-top: 4px;">
+            <span>d = 0.7</span><span>d = 4</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ============ LEÇON 03 — LA DIRECTION ============ -->
+  <section id="ch3" data-screen-label="Lecon 03 Direction" class="lc-split" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp lc-vp-reveal">
+      <x-import component-from-global-scope="light-sim" id="sim-ch3" mode="single" gizmo="true" interactive="true" intensity="1.6" softness="0.28" distance="2.1" kelvin="5300" azimuth="{{ ch3Az }}" elevation="{{ ch3El }}" on-light-move="{{ ch3LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 03</sc-if><sc-if value="{{ isEn }}">Scene 03</sc-if>
+        </span>
+      </div>
+      <div style="position: absolute; bottom: 18px; left: 18px; right: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; pointer-events: none;">
+        <span style="padding: 10px 18px; border-radius: 3px; border: 1px solid {{ ch3BadgeBorder }}; background: rgba(11,12,13,0.68); backdrop-filter: blur(8px); font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: {{ ch3BadgeColor }};">{{ ch3PatternLabel }}</span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.1em; color: #3DBFA3;">az {{ ch3AzLabel }} · el {{ ch3ElLabel }}</span>
+      </div>
+    </div>
+    <aside class="lc-aside lc-reveal">
+      
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 03 · La direction</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 03 · Direction</sc-if>
+          </span>
+        </div>
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Angle et direction</sc-if>
+          <sc-if value="{{ isEn }}">Angle and direction</sc-if>
+        </h2>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rembrandt n'est que deux nombres.</sc-if>
+          <sc-if value="{{ isEn }}">Rembrandt is just two numbers.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque schéma de portrait est une coordonnée : un azimut, une élévation. Attrape la sphère et déplace-la autour du visage : le nom du pattern s'affiche quand tu touches une position connue.</sc-if>
+          <sc-if value="{{ isEn }}">Every portrait scheme is a coordinate: an azimuth, an elevation. Grab the sphere and move it around the face: the pattern name appears when you hit a known position.</sc-if>
+        </p>
+      </div>
+      <div style="position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button onClick="{{ presetButterfly }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Butterfly</button>
+        <button onClick="{{ presetLoop }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Loop</button>
+        <button onClick="{{ presetRembrandt }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Rembrandt</button>
+        <button onClick="{{ presetSplit }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Split</button>
+      </div>
+      <div class="lc-compass-row" style="position: relative; display: flex; align-items: center; justify-content: center; gap: 26px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45); flex-wrap: wrap;">
+        <div onPointerDown="{{ compassDrag }}" onPointerMove="{{ compassDrag }}" style="position: relative; width: 190px; height: 190px; border-radius: 50%; border: 1px solid rgba(232,224,208,0.16); background: radial-gradient(circle, #17181B 0%, #101113 70%); cursor: grab; touch-action: none; user-select: none; flex-shrink: 0;">
+          <span style="position: absolute; top: 6px; left: 50%; transform: translateX(-50%); font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.4);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">FACE</sc-if><sc-if value="{{ isEn }}">FRONT</sc-if></span>
+          <span style="position: absolute; top: 50%; right: 8px; transform: translateY(-50%); font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.4);">90°</span>
+          <span style="position: absolute; top: 50%; left: 8px; transform: translateY(-50%); font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.4);">-90°</span>
+          <span style="position: absolute; top: 50%; left: 50%; width: 68px; height: 86px; transform: translate(-50%,-50%); border-radius: 46% 54% 46% 46% / 58% 58% 40% 40%; background: linear-gradient(115deg, #2A2C30, #17181B); border: 1px solid rgba(232,224,208,0.1);"></span>
+          <span style="position: absolute; top: 50%; left: 50%; width: 1px; height: 86px; background: rgba(61,191,163,0.35); transform-origin: top center; transform: translateX(-50%) rotate({{ ch3NeedleRot }});"></span>
+          <span style="position: absolute; top: 50%; left: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: {{ ch3KnobColor }}; box-shadow: 0 0 18px {{ ch3KnobColor }}; transform: translate({{ ch3KnobX }}, {{ ch3KnobY }}); pointer-events: none;"></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; min-width: 150px; flex: 1;">
+          <div style="font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.45);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Boussole · vue du dessus</sc-if><sc-if value="{{ isEn }}">Compass · top view</sc-if></div>
+          <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 700; color: #3DBFA3;">{{ ch3AzLabel }}</span><span style="font-size: 11px; color: rgba(232,224,208,0.45);">azimut</span></div>
+          <label style="display: flex; flex-direction: column; gap: 7px;">
+            <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+              <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Élévation</sc-if><sc-if value="{{ isEn }}">Elevation</sc-if></span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch3ElLabel }}</span>
+            </span>
+            <input type="range" min="-30" max="75" step="1" value="{{ ch3El }}" onInput="{{ setCh3El }}" style="width: 100%;">
+          </label>
+        </div>
+      </div>
+      <p style="position: relative; font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Butterfly : frontal haut · Loop : léger décalage · Rembrandt : 45°/45°, triangle sur la joue · Split : 90°, moitié du visage dans l'ombre.</sc-if>
+        <sc-if value="{{ isEn }}">Butterfly: high frontal · Loop: slight offset · Rembrandt: 45°/45°, triangle on the cheek · Split: 90°, half the face in shadow.</sc-if>
+      </p>
+    </aside>
+  </section>
+
+  <!-- ============ LEÇON 04 — LES RÔLES ============ -->
+  <section id="ch4" data-screen-label="Lecon 04 Roles" class="lc-split lc-theme-light" style="border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lc-vp lc-vp-reveal">
+      <x-import component-from-global-scope="light-sim" mode="single" gizmo="false" interactive="true" intensity="1.5" softness="0.4" distance="2.2" kelvin="4300" rim-hex="#22D3C0" azimuth="45" elevation="30" key-on="{{ ch4Key }}" fill-on="{{ ch4Fill }}" rim-on="{{ ch4Rim }}" key-level="{{ ch4KeyLevel }}" fill-level="{{ ch4FillLevel }}" rim-level="{{ ch4RimLevel }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 04</sc-if><sc-if value="{{ isEn }}">Scene 04</sc-if>
+        </span>
+      </div>
+    </div>
+    <aside class="lc-aside lc-reveal">
+      
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 04 · Les rôles</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 04 · The roles</sc-if>
+          </span>
+        </div>
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: var(--lc-fg);">Key · Fill · Rim</h2>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: var(--lc-fg-70); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une lumière ne décore pas, elle travaille.</sc-if>
+          <sc-if value="{{ isEn }}">A light does not decorate, it works.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: var(--lc-fg-60); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le key sculpte le volume, le fill remonte les ombres, le rim détache le sujet du fond. Coupe-les une par une pour voir ce que chacune apporte.</sc-if>
+          <sc-if value="{{ isEn }}">The key sculpts volume, the fill lifts the shadows, the rim separates the subject from the background. Toggle them one by one to see what each brings.</sc-if>
+        </p>
+      </div>
+      <div style="position: relative; display: flex; gap: 14px; padding: 20px 16px 16px; border: 1px solid var(--lc-border-14); border-radius: 6px; background: var(--lc-panel-grad);">
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div onPointerDown="{{ faderKey }}" onPointerMove="{{ faderKey }}" style="position: relative; width: 100%; max-width: 74px; height: 190px; border-radius: 6px; background: #0B0C0D; border: 1px solid rgba(232,224,208,0.1); cursor: ns-resize; touch-action: none; user-select: none;">
+            <span style="position: absolute; left: 0; right: 0; bottom: 0; height: {{ ch4KeyPct }}; background: linear-gradient(180deg, rgba(255,217,160,0.55), rgba(255,217,160,0.12)); border-radius: 0 0 5px 5px; pointer-events: none;"></span>
+            <span style="position: absolute; left: 6px; right: 6px; bottom: calc({{ ch4KeyPct }} - 7px); height: 14px; border-radius: 3px; background: #E8E0D0; box-shadow: 0 2px 8px rgba(0,0,0,0.6); pointer-events: none;"></span>
+          </div>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #FFD9A0;">KEY {{ ch4KeyLabel }}</span>
+          <button onClick="{{ toggleKey }}" style="padding: 5px 12px; border-radius: 3px; border: 1px solid {{ keyBtnBorder }}; background: {{ ch4KeyMuteBg }}; color: {{ ch4KeyMuteFg }}; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer;">{{ ch4KeyMuteLabel }}</button>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div onPointerDown="{{ faderFill }}" onPointerMove="{{ faderFill }}" style="position: relative; width: 100%; max-width: 74px; height: 190px; border-radius: 6px; background: #0B0C0D; border: 1px solid rgba(232,224,208,0.1); cursor: ns-resize; touch-action: none; user-select: none;">
+            <span style="position: absolute; left: 0; right: 0; bottom: 0; height: {{ ch4FillPct }}; background: linear-gradient(180deg, rgba(191,211,242,0.5), rgba(191,211,242,0.1)); border-radius: 0 0 5px 5px; pointer-events: none;"></span>
+            <span style="position: absolute; left: 6px; right: 6px; bottom: calc({{ ch4FillPct }} - 7px); height: 14px; border-radius: 3px; background: #E8E0D0; box-shadow: 0 2px 8px rgba(0,0,0,0.6); pointer-events: none;"></span>
+          </div>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #BFD3F2;">FILL {{ ch4FillLabel }}</span>
+          <button onClick="{{ toggleFill }}" style="padding: 5px 12px; border-radius: 3px; border: 1px solid {{ fillBtnBorder }}; background: {{ ch4FillMuteBg }}; color: {{ ch4FillMuteFg }}; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer;">{{ ch4FillMuteLabel }}</button>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div onPointerDown="{{ faderRim }}" onPointerMove="{{ faderRim }}" style="position: relative; width: 100%; max-width: 74px; height: 190px; border-radius: 6px; background: #0B0C0D; border: 1px solid rgba(232,224,208,0.1); cursor: ns-resize; touch-action: none; user-select: none;">
+            <span style="position: absolute; left: 0; right: 0; bottom: 0; height: {{ ch4RimPct }}; background: linear-gradient(180deg, rgba(34,211,192,0.55), rgba(34,211,192,0.12)); border-radius: 0 0 5px 5px; pointer-events: none;"></span>
+            <span style="position: absolute; left: 6px; right: 6px; bottom: calc({{ ch4RimPct }} - 7px); height: 14px; border-radius: 3px; background: #E8E0D0; box-shadow: 0 2px 8px rgba(0,0,0,0.6); pointer-events: none;"></span>
+          </div>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: #22D3C0;">RIM {{ ch4RimLabel }}</span>
+          <button onClick="{{ toggleRim }}" style="padding: 5px 12px; border-radius: 3px; border: 1px solid {{ rimBtnBorder }}; background: {{ ch4RimMuteBg }}; color: {{ ch4RimMuteFg }}; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; cursor: pointer;">{{ ch4RimMuteLabel }}</button>
+        </div>
+      </div>
+      <p style="position: relative; font-size: 12.5px; color: var(--lc-fg-40); margin: 0;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une console de mixage lumière : monte et descends chaque fader, coupe une lumière avec MUTE. Key sculpte, Fill débouche, Rim détache.</sc-if>
+        <sc-if value="{{ isEn }}">A light mixing console: ride each fader up and down, cut a light with MUTE. Key sculpts, Fill lifts, Rim separates.</sc-if>
+      </p>
+    </aside>
+  </section>
+
+  <!-- ============ LEÇON 05 — FRESNEL ============ -->
+  <section id="ch5" data-screen-label="Lecon 05 Fresnel" class="lc-split" style="border-top: 1px solid rgba(61,191,163,0.25); background: #000000; box-shadow: inset 0 40px 80px rgba(0,0,0,0.9);">
+    <div class="lc-vp lc-vp-reveal">
+      <x-import component-from-global-scope="light-sim" id="sim-ch5" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" on-light-move="{{ ch5LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 18px; left: 18px; pointer-events: none;">
+        <span style="padding: 6px 12px; border: 1px solid rgba(61,191,163,0.4); border-radius: 3px; background: rgba(11,12,13,0.62); backdrop-filter: blur(8px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #3DBFA3; font-weight: 600; white-space: nowrap; display: inline-block;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Scène 05</sc-if><sc-if value="{{ isEn }}">Scene 05</sc-if>
+        </span>
+      </div>
+      <div style="position: absolute; bottom: 18px; left: 18px; pointer-events: none;">
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">● glisse la sphère vers l'arrière du crâne</sc-if>
+          <sc-if value="{{ isEn }}">● drag the sphere behind the skull</sc-if>
+        </span>
+      </div>
+    </div>
+    <aside class="lc-aside lc-reveal">
+      
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 05 · Fresnel, le cœur du rim</sc-if>
+            <sc-if value="{{ isEn }}">Lesson 05 · Fresnel, the heart of rim</sc-if>
+          </span>
+        </div>
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le principe de Fresnel</sc-if>
+          <sc-if value="{{ isEn }}">The Fresnel principle</sc-if>
+        </h2>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le contour ne s'allume pas, c'est ton angle de vue qui devient rasant.</sc-if>
+          <sc-if value="{{ isEn }}">The edge does not light up, your viewing angle becomes grazing.</sc-if>
+        </p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Pousse la source derrière le sujet : le contour prend feu. C'est exactement le principe de tes rim lights sur Photoshop.</sc-if>
+          <sc-if value="{{ isEn }}">Push the source behind the subject: the edge ignites. This is exactly how your Photoshop rim lights work.</sc-if>
+        </p>
+      </div>
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45);">
+        <label style="display: flex; flex-direction: column; gap: 7px;">
+          <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Position de la source</sc-if><sc-if value="{{ isEn }}">Source position</sc-if></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch5WrapLabel }}</span>
+          </span>
+          <input type="range" min="0" max="1" step="0.01" value="{{ ch5Wrap }}" onInput="{{ setCh5Wrap }}" style="width: 100%;">
+          <span style="display: flex; justify-content: space-between; font-size: 11px; color: rgba(232,224,208,0.4);">
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Face</sc-if><sc-if value="{{ isEn }}">Front</sc-if></span>
+            <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Arrière</sc-if><sc-if value="{{ isEn }}">Behind</sc-if></span>
+          </span>
+        </label>
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <span style="font-size: 12.5px; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleur du rim</sc-if><sc-if value="{{ isEn }}">Rim color</sc-if></span>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button onClick="{{ ch5RimTeal }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #22D3C0; border: 2px solid {{ ch5RingTeal }};"></button>
+            <button onClick="{{ ch5RimGreen }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #35E06A; border: 2px solid {{ ch5RingGreen }};"></button>
+            <button onClick="{{ ch5RimBlue }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #37B6FF; border: 2px solid {{ ch5RingBlue }};"></button>
+            <button onClick="{{ ch5RimMagenta }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #F23BA0; border: 2px solid {{ ch5RingMagenta }};"></button>
+            <button onClick="{{ ch5RimOrange }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #FF6A2C; border: 2px solid {{ ch5RingOrange }};"></button>
+            <button onClick="{{ ch5RimRed }}" class="lc-swatch" style="width: 30px; height: 38px; border-radius: 3px; cursor: pointer; box-shadow: inset 0 0 10px rgba(255,255,255,0.18), 0 2px 6px rgba(0,0,0,0.5); background: #F03040; border: 2px solid {{ ch5RingRed }};"></button>
+          </div>
+        </div>
+        <button onClick="{{ toggleCh5View }}" style="padding: 13px 18px; border: 1px solid {{ ch5MaskBorder }}; border-radius: 4px; background: {{ ch5MaskBg }}; color: {{ ch5MaskFg }}; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Afficher le masque de Fresnel</sc-if>
+          <sc-if value="{{ isEn }}">Show Fresnel mask</sc-if>
+        </button>
+        <p style="font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le masque isole les zones où l'angle de vue est rasant : précisément celles qu'un rim light fait briller.</sc-if>
+          <sc-if value="{{ isEn }}">The mask isolates the zones where the viewing angle is grazing: precisely the ones a rim light makes glow.</sc-if>
+        </p>
+        <p style="font-size: 12.5px; color: rgba(232,224,208,0.4); margin: 0;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Ces six couleurs sont un terrain de jeu pour ce module. Sur une vraie image, le rim doit correspondre à une source plausible dans la scène, sans quoi il aura l'air posé après coup.</sc-if>
+          <sc-if value="{{ isEn }}">These six colors are a playground for this module. On a real image, the rim must match a plausible source in the scene, or it will look pasted on afterward.</sc-if>
+        </p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ============ LEÇON 06 — APPLICATION ============ -->
+  <section id="ch6" data-screen-label="Lecon 06 Application" class="lc-pad" onContextMenu="{{ blockCtx }}" style="position: relative; display: flex; flex-direction: column; gap: 56px; border-top: 1px solid rgba(232,224,208,0.08); overflow: hidden;">
+    
+    <div style="max-width: 760px; position: relative;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
+        <span style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon 06 · Application</sc-if>
+          <sc-if value="{{ isEn }}">Lesson 06 · Applied</sc-if>
+        </span>
+      </div>
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(28px, 3.4vw, 42px); font-weight: 700; margin: 0 0 10px; color: #E8E0D0; text-wrap: balance;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">De la théorie à la toile</sc-if>
+        <sc-if value="{{ isEn }}">From theory to canvas</sc-if>
+      </h2>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Les mêmes lois, appliquées sur Photoshop.</sc-if>
+        <sc-if value="{{ isEn }}">The same laws, applied in Photoshop.</sc-if>
+      </p>
+      <p style="font-size: 14.5px; color: rgba(232,224,208,0.6); margin: 0; max-width: 560px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Glisse la barre : à droite l'esquisse de départ, à gauche le rendu final où le rim light détache le sujet.</sc-if>
+        <sc-if value="{{ isEn }}">Drag the bar: the starting sketch on the right, the final render where the rim light separates the subject on the left.</sc-if>
+      </p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; position: relative;">
+      <div onPointerDown="{{ compareDown }}" onPointerMove="{{ compareMove }}" style="position: relative; width: 100%; max-width: 580px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(232,224,208,0.1); user-select: none; touch-action: none; cursor: ew-resize;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Début" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Final" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ afterClip }}; pointer-events: none; user-select: none;">
+        <div style="position: absolute; top: 14px; left: 14px; padding: 5px 11px; border-radius: 3px; background: rgba(11,12,13,0.7); backdrop-filter: blur(6px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.16em; font-weight: 600; color: #6BD9C2;">FINAL</div>
+        <div style="position: absolute; top: 14px; right: 14px; padding: 5px 11px; border-radius: 3px; background: rgba(11,12,13,0.7); backdrop-filter: blur(6px); font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.16em; font-weight: 600; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">DÉBUT</sc-if><sc-if value="{{ isEn }}">START</sc-if></div>
+        <div style="position: absolute; top: 0; bottom: 0; left: {{ comparePct }}; width: 2px; background: #3DBFA3; pointer-events: none; box-shadow: 0 0 12px rgba(61,191,163,0.6);">
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 42px; height: 42px; border-radius: 50%; background: #3DBFA3; color: #0B0C0D; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700;">⇄</div>
+        </div>
+      </div>
+      <div style="font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45);">RIM LIGHT STUDY #02 · IBRAHIM MBAYE</div>
+    </div>
+
+    <div style="position: relative;">
+      <div style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(232,224,208,0.4); font-weight: 600; margin-bottom: 20px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Galerie · rim light en situation</sc-if>
+        <sc-if value="{{ isEn }}">Gallery · rim light in context</sc-if>
+      </div>
+      <div style="column-width: 260px; column-gap: 14px;">
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png" alt="Norvège vs Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776659502/NUNEZ_xxcyqg.jpg" alt="Nunez" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div style="position: relative; margin-bottom: 14px; break-inside: avoid; border-radius: 6px; overflow: hidden;"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776491236/SEN._vs_GAM._l7snqc.jpg" alt="Sénégal vs Gambie" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section data-screen-label="Newsletter" style="display: flex; justify-content: center; padding: 110px 24px; border-top: 1px solid rgba(232,224,208,0.08); background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(61,191,163,0.07), rgba(61,191,163,0) 70%);">
+    <div class="lc-reveal" style="width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center;">
+      <div style="font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #3DBFA3; font-weight: 600;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Prochaines leçons</sc-if>
+        <sc-if value="{{ isEn }}">Next lessons</sc-if>
+      </div>
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 3.2vw, 40px); font-weight: 700; margin: 0; color: #E8E0D0; text-wrap: balance;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sois prévenu quand une leçon sort</sc-if>
+        <sc-if value="{{ isEn }}">Get notified when a lesson drops</sc-if>
+      </h2>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px; color: rgba(232,224,208,0.6); margin: 0; max-width: 460px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un e-mail court à chaque module : tutos rim light, études d'éclairage, ressources.</sc-if>
+        <sc-if value="{{ isEn }}">A short email at every module: rim light tutorials, lighting studies, resources.</sc-if>
+      </p>
+      <sc-if value="{{ newsletterOpen }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ submitNewsletter }}" style="display: flex; gap: 10px; width: 100%; max-width: 460px; flex-wrap: wrap; justify-content: center;">
+          <input type="email" required="required" placeholder="{{ emailPlaceholder }}" value="{{ email }}" onInput="{{ setEmail }}" style="flex: 1 1 240px; padding: 14px 18px; border-radius: 4px; border: 1px solid rgba(232,224,208,0.16); background: #101113; color: #E8E0D0; font-family: 'Inter', sans-serif; font-size: 15px; outline: none;">
+          <button type="submit" class="lc-cta" style="padding: 14px 26px; border: none; border-radius: 4px; background: #3DBFA3; color: #0B0C0D; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">S'inscrire</sc-if>
+            <sc-if value="{{ isEn }}">Subscribe</sc-if>
+          </button>
+        </form>
+      </sc-if>
+      <sc-if value="{{ newsletterDone }}">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 15px 26px; border-radius: 4px; border: 1px solid rgba(61,191,163,0.5); background: rgba(61,191,163,0.1); color: #6BD9C2; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;">
+          <span style="font-size: 17px;">✓</span>
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Inscrit, à bientôt pour la prochaine leçon.</sc-if>
+          <sc-if value="{{ isEn }}">You're in, see you at the next lesson.</sc-if>
+        </div>
+      </sc-if>
+      <span style="font-size: 12px; color: rgba(232,224,208,0.35);">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Zéro spam, désinscription en un clic.</sc-if>
+        <sc-if value="{{ isEn }}">Zero spam, one-click unsubscribe.</sc-if>
+      </span>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <section data-screen-label="Footer" style="display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 90px 24px 70px; text-align: center; border-top: 1px solid rgba(232,224,208,0.08);">
+    <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(24px, 3vw, 36px); margin: 0; color: rgba(232,224,208,0.85); max-width: 720px; text-wrap: balance;">
+      <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque scène ici a commencé avec une seule lumière. À toi de jouer.</sc-if>
+      <sc-if value="{{ isEn }}">Every scene here started with a single light. Your turn.</sc-if>
+    </p>
+    <a href="#ch1" class="lc-ghost" style="display: inline-flex; padding: 13px 28px; background: transparent; border: 1px solid #3DBFA3; color: #3DBFA3; border-radius: 999px; font-weight: 600; font-size: 14px; font-family: 'Inter', sans-serif;">
+      <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rejouer les leçons</sc-if>
+      <sc-if value="{{ isEn }}">Replay the lessons</sc-if>
+    </a>
+    <div style="display: flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.35);">
+      <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG" draggable="false" style="height: 16px; width: auto; opacity: 0.6;">
+      <span>MDG Creative Studio · Learning Center</span>
+    </div>
+  </section>
+
+  <!-- film grain -->
+  <div style="position: fixed; inset: 0; z-index: 70; pointer-events: none; opacity: 0.05; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>');"></div>
+</div>
+
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0B0C0D"></rect><circle cx="50" cy="50" r="16" fill="none" stroke="#3DBFA3" stroke-width="4"></circle><circle cx="63" cy="40" r="5" fill="#E8E0D0"></circle></svg></template>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultLang&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;fr&quot;, &quot;en&quot;], &quot;default&quot;: &quot;fr&quot;, &quot;tsType&quot;: &quot;'fr' | 'en'&quot;, &quot;section&quot;: &quot;Contenu&quot;}}">
+class Component extends DCLogic {
+  state = {
+    lang: 'fr',
+    ch1: { intensity: 1.3, softness: 0.35, distance: 2.2, kelvin: 5200, color: '', az: 42, el: 30 },
+    ch2: { distance: 1.6 },
+    ch3: { az: 40, el: 35 },
+    ch4: { key: true, fill: true, rim: true, keyL: 0.85, fillL: 0.5, rimL: 0.9 },
+    ch5: { wrap: 0.75, mask: false, rim: '#22D3C0' },
+    email: '', subscribed: false,
+    compare: 55,
+  };
+
+  componentDidMount() {
+    const l = this.props.defaultLang;
+    if (l === 'en') this.setState({ lang: 'en' });
+    // wire viewport light-drag -> state (React does not pass function props to
+    // custom elements via attributes, so we attach listeners imperatively)
+    this._wireT = setInterval(() => {
+      const wire = (id, fn) => {
+        let el = document.getElementById(id);
+        if (el && el.tagName !== 'LIGHT-SIM') el = el.querySelector('light-sim') || (el.closest && el.closest('light-sim'));
+        if (el && !el.__lcWired) {
+          el.__lcWired = true;
+          el.addEventListener('lightmove', (e) => fn(e.detail));
+          el.onLightMove = fn;
+        }
+        return !!el;
+      };
+      const a = wire('sim-ch1', (d) => this.setState((st) => ({ ch1: { ...st.ch1, az: d.azimuth, el: d.elevation } })));
+      const b = wire('sim-ch3', (d) => this.setState((st) => ({ ch3: { ...st.ch3, az: d.azimuth, el: d.elevation } })));
+      const c = wire('sim-ch5', (d) => { if (d.rimWrap != null) this.setState((st) => ({ ch5: { ...st.ch5, wrap: d.rimWrap } })); });
+      if (a && b && c) { clearInterval(this._wireT); this._wireT = null; }
+    }, 400);
+  }
+
+  componentWillUnmount() {
+    if (this._wireT) clearInterval(this._wireT);
+  }
+
+  classifyPattern(az, el) {
+    const a = Math.abs(az);
+    const fr = this.state.lang === 'fr';
+    if (a <= 15 && el >= 25 && el <= 65) return 'Butterfly';
+    if (a > 15 && a <= 35 && el >= 15 && el <= 45) return 'Loop';
+    if (a > 35 && a <= 60 && el >= 25 && el <= 55) return 'Rembrandt';
+    if (a > 75 && a <= 105 && el >= -10 && el <= 30) return 'Split';
+    if (a > 135) return fr ? 'Contre-jour / Rim' : 'Backlight / Rim';
+    return fr ? 'Zone libre, cherche un pattern' : 'Free zone, find a pattern';
+  }
+
+  renderVals() {
+    const s = this.state;
+    const fr = s.lang === 'fr';
+    const teal = '#3DBFA3';
+    const set = (path, parse) => (e) => {
+      const v = parse ? parse(e.target.value) : parseFloat(e.target.value);
+      this.setState((st) => ({ [path[0]]: { ...st[path[0]], [path[1]]: v } }));
+    };
+    const setLight = (az, el) => this.setState((st) => ({ ch3: { ...st.ch3, az, el } }));
+    const setCh1Color = (hex) => this.setState((st) => ({ ch1: { ...st.ch1, color: hex } }));
+    const setCh5Rim = (hex) => this.setState((st) => ({ ch5: { ...st.ch5, rim: hex } }));
+    const ring = (on) => on ? '#E8E0D0' : 'transparent';
+    const fader = (k) => (e) => {
+      if (e.type === 'pointermove' && e.buttons !== 1) return;
+      if (e.type === 'pointerdown' && e.currentTarget.setPointerCapture) { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} }
+      const r = e.currentTarget.getBoundingClientRect();
+      const v = Math.max(0, Math.min(1, 1 - (e.clientY - r.top) / r.height));
+      this.setState((st) => ({ ch4: { ...st.ch4, [k]: v } }));
+    };
+    const pattern = this.classifyPattern(s.ch3.az, s.ch3.el);
+    const patternFound = ['Butterfly', 'Loop', 'Rembrandt', 'Split', 'Contre-jour / Rim', 'Backlight / Rim'].indexOf(pattern) >= 0;
+    const rel = 1 / (s.ch2.distance * s.ch2.distance);
+    const markerX = Math.max(0, Math.min(300, (s.ch2.distance - 0.6) * 88.24));
+    const markerY = 140 - 135 * Math.min(1, rel / 2.778);
+    const onBorder = 'rgba(61,191,163,0.65)';
+    const offBorder = 'rgba(232,224,208,0.12)';
+    return {
+      isFr: fr, isEn: !fr,
+      toggleLang: () => this.setState({ lang: fr ? 'en' : 'fr' }),
+      frPillBg: fr ? teal : 'transparent', frPillFg: fr ? '#0B0C0D' : 'rgba(232,224,208,0.55)',
+      enPillBg: !fr ? teal : 'transparent', enPillFg: !fr ? '#0B0C0D' : 'rgba(232,224,208,0.55)',
+      blockCtx: (e) => e.preventDefault(),
+
+      ch1Az: s.ch1.az, setCh1Az: set(['ch1', 'az']), ch1AzLabel: Math.round(s.ch1.az) + '°',
+      ch1El: s.ch1.el, setCh1El: set(['ch1', 'el']), ch1ElLabel: Math.round(s.ch1.el) + '°',
+      ch1LightMove: (d) => this.setState((st) => ({ ch1: { ...st.ch1, az: d.azimuth, el: d.elevation } })),
+      ch1Intensity: s.ch1.intensity, setCh1Intensity: set(['ch1', 'intensity']),
+      ch1IntensityLabel: s.ch1.intensity.toFixed(2) + '×',
+      ch1Softness: s.ch1.softness, setCh1Softness: set(['ch1', 'softness']),
+      ch1SoftLabel: s.ch1.softness < 0.33 ? (fr ? 'dure' : 'hard') : s.ch1.softness < 0.66 ? (fr ? 'moyenne' : 'medium') : (fr ? 'douce' : 'soft'),
+      ch1Distance: s.ch1.distance, setCh1Distance: set(['ch1', 'distance']),
+      ch1DistLabel: s.ch1.distance.toFixed(2) + ' m',
+      ch1Kelvin: s.ch1.kelvin, setCh1Kelvin: set(['ch1', 'kelvin'], (v) => parseInt(v, 10)),
+      ch1KelvinLabel: s.ch1.kelvin + 'K',
+      ch1ColorHex: s.ch1.color,
+      ch1ColWhite: () => setCh1Color(''),
+      ch1ColOrange: () => setCh1Color('#FF7A2F'),
+      ch1ColRed: () => setCh1Color('#E62534'),
+      ch1ColTeal: () => setCh1Color('#22D3C0'),
+      ch1ColBlue: () => setCh1Color('#3B6EF5'),
+      ch1ColMagenta: () => setCh1Color('#DB4E9E'),
+      ch1RingWhite: ring(s.ch1.color === ''),
+      ch1RingOrange: ring(s.ch1.color === '#FF7A2F'),
+      ch1RingRed: ring(s.ch1.color === '#E62534'),
+      ch1RingTeal: ring(s.ch1.color === '#22D3C0'),
+      ch1RingBlue: ring(s.ch1.color === '#3B6EF5'),
+      ch1RingMagenta: ring(s.ch1.color === '#DB4E9E'),
+
+      ch2Distance: s.ch2.distance, setCh2Distance: set(['ch2', 'distance']),
+      ch2DistLabel: s.ch2.distance.toFixed(2) + ' m',
+      ch2MarkerX: markerX, ch2MarkerY: markerY,
+      ch2RelLabel: (rel * 100).toFixed(0) + ' %',
+
+      ch3Az: s.ch3.az, ch3El: s.ch3.el,
+      setCh3Az: set(['ch3', 'az']), setCh3El: set(['ch3', 'el']),
+      ch3NeedleRot: (180 + s.ch3.az) + 'deg',
+      ch3KnobX: (Math.sin(s.ch3.az * Math.PI / 180) * 78 - 0) + 'px',
+      ch3KnobY: (-Math.cos(s.ch3.az * Math.PI / 180) * 78) + 'px',
+      ch3KnobColor: '#3DBFA3',
+      compassDrag: (e) => {
+        if (e.type === 'pointermove' && e.buttons !== 1) return;
+        if (e.type === 'pointerdown' && e.currentTarget.setPointerCapture) { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} }
+        const r = e.currentTarget.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        let az = Math.atan2(dx, -dy) * 180 / Math.PI;
+        az = Math.max(-179, Math.min(179, az));
+        this.setState((st) => ({ ch3: { ...st.ch3, az } }));
+      },
+      ch3LightMove: (d) => this.setState((st) => ({ ch3: { ...st.ch3, az: d.azimuth, el: d.elevation } })),
+      ch3AzLabel: Math.round(s.ch3.az) + '°',
+      ch3ElLabel: Math.round(s.ch3.el) + '°',
+      ch3PatternLabel: pattern,
+      ch3BadgeColor: patternFound ? teal : 'rgba(232,224,208,0.5)',
+      ch3BadgeBorder: patternFound ? 'rgba(61,191,163,0.6)' : 'rgba(232,224,208,0.15)',
+      presetButterfly: () => setLight(0, 45),
+      presetLoop: () => setLight(28, 30),
+      presetRembrandt: () => setLight(45, 40),
+      presetSplit: () => setLight(90, 10),
+
+      ch4Key: s.ch4.key, ch4Fill: s.ch4.fill, ch4Rim: s.ch4.rim,
+      ch4KeyLevel: s.ch4.keyL, ch4FillLevel: s.ch4.fillL, ch4RimLevel: s.ch4.rimL,
+      ch4KeyPct: Math.round(s.ch4.keyL * 100) + '%',
+      ch4FillPct: Math.round(s.ch4.fillL * 100) + '%',
+      ch4RimPct: Math.round(s.ch4.rimL * 100) + '%',
+      ch4KeyLabel: Math.round(s.ch4.keyL * 100), ch4FillLabel: Math.round(s.ch4.fillL * 100), ch4RimLabel: Math.round(s.ch4.rimL * 100),
+      faderKey: fader('keyL'), faderFill: fader('fillL'), faderRim: fader('rimL'),
+      ch4KeyMuteLabel: s.ch4.key ? 'ON' : 'MUTE', ch4FillMuteLabel: s.ch4.fill ? 'ON' : 'MUTE', ch4RimMuteLabel: s.ch4.rim ? 'ON' : 'MUTE',
+      ch4KeyMuteBg: s.ch4.key ? 'rgba(61,191,163,0.12)' : 'transparent', ch4KeyMuteFg: s.ch4.key ? '#3DBFA3' : 'rgba(232,224,208,0.45)',
+      ch4FillMuteBg: s.ch4.fill ? 'rgba(61,191,163,0.12)' : 'transparent', ch4FillMuteFg: s.ch4.fill ? '#3DBFA3' : 'rgba(232,224,208,0.45)',
+      ch4RimMuteBg: s.ch4.rim ? 'rgba(61,191,163,0.12)' : 'transparent', ch4RimMuteFg: s.ch4.rim ? '#3DBFA3' : 'rgba(232,224,208,0.45)',
+      toggleKey: () => this.setState((st) => ({ ch4: { ...st.ch4, key: !st.ch4.key } })),
+      toggleFill: () => this.setState((st) => ({ ch4: { ...st.ch4, fill: !st.ch4.fill } })),
+      toggleRim: () => this.setState((st) => ({ ch4: { ...st.ch4, rim: !st.ch4.rim } })),
+      keyBtnBorder: s.ch4.key ? onBorder : offBorder,
+      fillBtnBorder: s.ch4.fill ? onBorder : offBorder,
+      rimBtnBorder: s.ch4.rim ? onBorder : offBorder,
+      keyDot: s.ch4.key ? '#FFD9A0' : 'rgba(232,224,208,0.15)',
+      fillDot: s.ch4.fill ? '#BFD3F2' : 'rgba(232,224,208,0.15)',
+      rimDot: s.ch4.rim ? teal : 'rgba(232,224,208,0.15)',
+
+      ch5Wrap: s.ch5.wrap, setCh5Wrap: set(['ch5', 'wrap']),
+      ch5WrapLabel: Math.round(10 + s.ch5.wrap * 150) + '°',
+      ch5LightMove: (d) => { if (d.rimWrap != null) this.setState((st) => ({ ch5: { ...st.ch5, wrap: d.rimWrap } })); },
+      ch5View: s.ch5.mask ? 1 : 0,
+      toggleCh5View: () => this.setState((st) => ({ ch5: { ...st.ch5, mask: !st.ch5.mask } })),
+      ch5MaskBorder: s.ch5.mask ? teal : 'rgba(232,224,208,0.15)',
+      ch5MaskBg: s.ch5.mask ? 'rgba(61,191,163,0.12)' : 'transparent',
+      ch5MaskFg: s.ch5.mask ? teal : 'rgba(232,224,208,0.75)',
+      ch5RimHex: s.ch5.rim,
+      ch5RimTeal: () => setCh5Rim('#22D3C0'),
+      ch5RimGreen: () => setCh5Rim('#35E06A'),
+      ch5RimBlue: () => setCh5Rim('#37B6FF'),
+      ch5RimMagenta: () => setCh5Rim('#F23BA0'),
+      ch5RimOrange: () => setCh5Rim('#FF6A2C'),
+      ch5RimRed: () => setCh5Rim('#F03040'),
+      ch5RingTeal: ring(s.ch5.rim === '#22D3C0'),
+      ch5RingGreen: ring(s.ch5.rim === '#35E06A'),
+      ch5RingBlue: ring(s.ch5.rim === '#37B6FF'),
+      ch5RingMagenta: ring(s.ch5.rim === '#F23BA0'),
+      ch5RingOrange: ring(s.ch5.rim === '#FF6A2C'),
+      ch5RingRed: ring(s.ch5.rim === '#F03040'),
+
+      comparePct: s.compare + '%',
+      afterClip: 'inset(0 ' + (100 - s.compare) + '% 0 0)',
+      compareDown: (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        this.setState({ compare: Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)) });
+      },
+      compareMove: (e) => {
+        if (e.buttons !== 1) return;
+        const r = e.currentTarget.getBoundingClientRect();
+        this.setState({ compare: Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)) });
+      },
+
+      newsletterOpen: !s.subscribed, newsletterDone: s.subscribed,
+      email: s.email,
+      emailPlaceholder: fr ? 'ton@email.com' : 'you@email.com',
+      setEmail: (e) => this.setState({ email: e.target.value }),
+      submitNewsletter: (e) => {
+        e.preventDefault();
+        const email = this.state.email;
+        this.setState({ subscribed: true });
+        try {
+          fetch('https://formsubmit.co/ajax/mdgdesign221@gmail.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              email: email,
+              _subject: 'Nouvelle inscription — MDG Learning Center',
+              _template: 'table',
+            }),
+          }).catch(() => {});
+        } catch (_) {}
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>
