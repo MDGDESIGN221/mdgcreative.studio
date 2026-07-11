@@ -162,7 +162,7 @@
     runtime.setRootName(rootName);
     runtime.adoptParsed(rootName, parsed);
     if (!window.__resources) {
-      fetch(location.href).then((res) => res.ok ? res.text() : "").then((t) => {
+      Promise.reject(new Error("dc-static")).then((res) => res.ok ? res.text() : "").then((t) => {
         const raw = t ? parseDcText(t) : null;
         if (raw?.template) runtime.updateHtml(rootName, raw.template);
       }).catch(() => {
@@ -1530,7 +1530,7 @@
           console.error(
             '[dc-runtime] sibling fetch for "' + name + '":',
             url,
-            "has no <x-dc> block \u2014 not a Design Component."
+            "has no \x3cx-dc> block \u2014 not a Design Component."
           );
           return;
         }
