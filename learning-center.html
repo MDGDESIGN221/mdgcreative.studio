@@ -2203,20 +2203,48 @@
     .lc-split { display: grid; grid-template-columns: minmax(0, 1fr) 460px; }
     .lc-vp { position: sticky; top: 55px; height: calc(100vh - 55px); min-height: 480px; align-self: start; }
     .lc-split { align-items: stretch; }
-    @media (max-width: 960px) {
-      .lc-vp { position: sticky; top: 55px; z-index: 5; min-height: 38vh; max-height: 42vh; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); }
-    }
     .lc-aside { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 20px; padding: 40px 44px; border-left: 1px solid rgba(232,224,208,0.08); overflow: hidden; }
     .lc-pad { padding: 110px 64px; }
     .lc-navlinks { display: flex; align-items: center; gap: 18px; }
     .lc-hero-pad { padding: 0 64px 72px; }
+
+    /* ===== TABLETTE / MOBILE (≤960px) ===== */
     @media (max-width: 960px) {
       .lc-split { grid-template-columns: 1fr; }
-      .lc-vp { min-height: 56vh; }
-      .lc-aside { border-left: none; border-top: 1px solid rgba(232,224,208,0.08); padding: 48px 22px 64px; }
-      .lc-pad { padding: 72px 22px; }
+      .lc-vp { position: sticky; top: 55px; z-index: 5; min-height: 42vh; max-height: 46vh; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); }
+      .lc-aside { border-left: none; border-top: 1px solid rgba(232,224,208,0.08); padding: 40px 24px 56px; gap: 22px; }
+      .lc-pad { padding: 64px 24px; }
       .lc-navlinks { display: none; }
-      .lc-hero-pad { padding: 0 22px 56px; }
+      .lc-hero-pad { padding: 0 24px 48px; }
+
+      /* Hero : le rail de chapitres (position: absolute; right: 64px sur desktop) chevauchait
+         le titre en mobile. On le sort du flex-layout du parent (display:flex, row, nowrap)
+         en le gardant en position:absolute mais recalculé en haut de la section, en ligne
+         horizontale compacte, plutôt que de le repasser dans le flux normal — ce qui, sur un
+         parent flex sans wrap, pousserait .lc-hero-pad hors de l'écran au lieu de passer dessous. */
+      .lc-hero-chapters {
+        position: absolute !important;
+        top: 20px !important; left: 24px !important; right: 24px !important;
+        bottom: auto !important; transform: none !important;
+        display: flex !important; flex-wrap: wrap !important;
+        gap: 6px 14px !important; text-align: left !important;
+        width: auto !important;
+      }
+      .lc-hero-chapters span { font-size: 10px; }
+
+      /* Leçon 03 : la boussole (190px fixes) + le panneau texte (150px min) ne tiennent
+         plus côte à côte sous ~430px de large réel ; on empile au lieu de chevaucher. */
+      .lc-compass-row { flex-direction: column; align-items: stretch !important; gap: 18px !important; }
+      .lc-compass-row > div:first-child { margin: 0 auto; }
+      .lc-compass-row > div:last-child { min-width: 0 !important; }
+    }
+
+    /* ===== PETIT MOBILE (≤480px) : resserre encore l'aside et les paveurs de couleur ===== */
+    @media (max-width: 480px) {
+      .lc-aside { padding: 32px 18px 48px; }
+      .lc-pad { padding: 48px 18px; }
+      .lc-hero-pad { padding: 0 18px 40px; }
+      .lc-vp { min-height: 40vh; }
     }
   </style>
 </helmet>
@@ -2257,14 +2285,14 @@
         <div style="flex: 1; background: url('https://res.cloudinary.com/djdkpihuz/image/upload/v1776659502/NUNEZ_xxcyqg.jpg') center / cover no-repeat; filter: brightness(0.38) saturate(0.85);"></div>
       </div>
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,12,13,0.62) 0%, rgba(11,12,13,0.38) 42%, rgba(11,12,13,0.96) 92%);"></div>
-      <div style="position: absolute; right: 64px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 14px; font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.18em; color: rgba(232,224,208,0.4); text-align: right;">
-        <span>01 · LA SOURCE</span>
-        <span>02 · LA DISTANCE</span>
-        <span>03 · LA DIRECTION</span>
-        <span>04 · LES RÔLES</span>
-        <span>05 · FRESNEL</span>
-        <span style="color: #3DBFA3;">06 · APPLICATION</span>
-      </div>
+    </div>
+    <div class="lc-hero-chapters" style="position: absolute; right: 64px; top: 50%; transform: translateY(-50%); z-index: 2; display: flex; flex-direction: column; gap: 14px; font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.18em; color: rgba(232,224,208,0.4); text-align: right; pointer-events: none;">
+      <span>01 · LA SOURCE</span>
+      <span>02 · LA DISTANCE</span>
+      <span>03 · LA DIRECTION</span>
+      <span>04 · LES RÔLES</span>
+      <span>05 · FRESNEL</span>
+      <span style="color: #3DBFA3;">06 · APPLICATION</span>
     </div>
     <div class="lc-hero-pad" style="position: relative; z-index: 2; width: 100%; pointer-events: none;">
       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
@@ -2498,7 +2526,7 @@
         <button onClick="{{ presetRembrandt }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Rembrandt</button>
         <button onClick="{{ presetSplit }}" style-hover="border-color: #3DBFA3; color: #3DBFA3;" style="padding: 13px 10px; border: 1px solid rgba(232,224,208,0.14); border-radius: 4px; background: #101113; color: rgba(232,224,208,0.75); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;">Split</button>
       </div>
-      <div style="position: relative; display: flex; align-items: center; justify-content: center; gap: 26px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45); flex-wrap: wrap;">
+      <div class="lc-compass-row" style="position: relative; display: flex; align-items: center; justify-content: center; gap: 26px; padding: 22px; border: 1px solid rgba(232,224,208,0.1); border-top-color: rgba(232,224,208,0.16); border-radius: 4px; background: linear-gradient(180deg, #15161A 0%, #0E0F11 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45); flex-wrap: wrap;">
         <div onPointerDown="{{ compassDrag }}" onPointerMove="{{ compassDrag }}" style="position: relative; width: 190px; height: 190px; border-radius: 50%; border: 1px solid rgba(232,224,208,0.16); background: radial-gradient(circle, #17181B 0%, #101113 70%); cursor: grab; touch-action: none; user-select: none; flex-shrink: 0;">
           <span style="position: absolute; top: 6px; left: 50%; transform: translateX(-50%); font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.4);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">FACE</sc-if><sc-if value="{{ isEn }}">FRONT</sc-if></span>
           <span style="position: absolute; top: 50%; right: 8px; transform: translateY(-50%); font-family: 'Inter', sans-serif; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.4);">90°</span>
