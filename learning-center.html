@@ -2086,6 +2086,8 @@
     _resize() {
       if (!this._renderer) return;
       const w = Math.max(2, this.clientWidth), h = Math.max(2, this.clientHeight);
+      if (this._lastW === w && this._lastH === h) return;
+      this._lastW = w; this._lastH = h;
       this._renderer.setSize(w, h, false);
       this._camera.aspect = w / h; this._camera.updateProjectionMatrix();
       this._dirty = true;
@@ -2211,7 +2213,7 @@
     /* ===== TABLETTE / MOBILE (≤960px) ===== */
     @media (max-width: 960px) {
       .lc-split { grid-template-columns: 1fr; }
-      .lc-vp { position: sticky; top: 55px; z-index: 5; min-height: 42vh; max-height: 46vh; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); }
+      .lc-vp { position: sticky; top: 55px; z-index: 5; min-height: 42vh; max-height: 46vh; min-height: 42svh; max-height: 46svh; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); }
       .lc-aside { border-left: none; border-top: 1px solid rgba(232,224,208,0.08); padding: 40px 24px 56px; gap: 22px; }
       .lc-pad { padding: 64px 24px; }
       .lc-navlinks { display: none; }
@@ -2244,7 +2246,7 @@
       .lc-aside { padding: 32px 18px 48px; }
       .lc-pad { padding: 48px 18px; }
       .lc-hero-pad { padding: 0 18px 40px; }
-      .lc-vp { min-height: 40vh; }
+      .lc-vp { min-height: 40vh; min-height: 40svh; }
     }
   </style>
 </helmet>
@@ -2370,42 +2372,42 @@
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Direction · azimut</sc-if><sc-if value="{{ isEn }}">Direction · azimuth</sc-if></span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1AzLabel }}</span>
           </span>
-          <input type="range" min="-120" max="120" step="1" value="{{ ch1Az }}" onChange="{{ setCh1Az }}" style="width: 100%;">
+          <input type="range" min="-120" max="120" step="1" value="{{ ch1Az }}" onInput="{{ setCh1Az }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Hauteur · élévation</sc-if><sc-if value="{{ isEn }}">Height · elevation</sc-if></span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1ElLabel }}</span>
           </span>
-          <input type="range" min="-30" max="75" step="1" value="{{ ch1El }}" onChange="{{ setCh1El }}" style="width: 100%;">
+          <input type="range" min="-30" max="75" step="1" value="{{ ch1El }}" onInput="{{ setCh1El }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Intensité</sc-if><sc-if value="{{ isEn }}">Intensity</sc-if></span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1IntensityLabel }}</span>
           </span>
-          <input type="range" min="0.1" max="3" step="0.05" value="{{ ch1Intensity }}" onChange="{{ setCh1Intensity }}" style="width: 100%;">
+          <input type="range" min="0.1" max="3" step="0.05" value="{{ ch1Intensity }}" onInput="{{ setCh1Intensity }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Taille de source · dureté</sc-if><sc-if value="{{ isEn }}">Source size · hardness</sc-if></span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1SoftLabel }}</span>
           </span>
-          <input type="range" min="0" max="1" step="0.01" value="{{ ch1Softness }}" onChange="{{ setCh1Softness }}" style="width: 100%;">
+          <input type="range" min="0" max="1" step="0.01" value="{{ ch1Softness }}" onInput="{{ setCh1Softness }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span>Distance</span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1DistLabel }}</span>
           </span>
-          <input type="range" min="1.2" max="4" step="0.05" value="{{ ch1Distance }}" onChange="{{ setCh1Distance }}" style="width: 100%;">
+          <input type="range" min="1.2" max="4" step="0.05" value="{{ ch1Distance }}" onInput="{{ setCh1Distance }}" style="width: 100%;">
         </label>
         <label style="display: flex; flex-direction: column; gap: 7px;">
           <span style="display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(232,224,208,0.65);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Température</sc-if><sc-if value="{{ isEn }}">Temperature</sc-if></span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch1KelvinLabel }}</span>
           </span>
-          <input type="range" min="2000" max="10000" step="100" value="{{ ch1Kelvin }}" onChange="{{ setCh1Kelvin }}" style="width: 100%; background: linear-gradient(90deg, #FF9329, #FFE4C4, #CDE4FF); height: 4px; border-radius: 2px; box-shadow: inset 0 1px 1px rgba(0,0,0,0.5); outline: none;">
+          <input type="range" min="2000" max="10000" step="100" value="{{ ch1Kelvin }}" onInput="{{ setCh1Kelvin }}" style="width: 100%; background: linear-gradient(90deg, #FF9329, #FFE4C4, #CDE4FF); height: 4px; border-radius: 2px; box-shadow: inset 0 1px 1px rgba(0,0,0,0.5); outline: none;">
         </label>
         <div style="display: flex; flex-direction: column; gap: 9px;">
           <span style="font-size: 12.5px; color: rgba(232,224,208,0.65);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleurs créatives</sc-if><sc-if value="{{ isEn }}">Creative colors</sc-if></span>
@@ -2465,7 +2467,7 @@
             <span>Distance d</span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch2DistLabel }}</span>
           </span>
-          <input type="range" min="0.7" max="4" step="0.05" value="{{ ch2Distance }}" onChange="{{ setCh2Distance }}" style="width: 100%;">
+          <input type="range" min="0.7" max="4" step="0.05" value="{{ ch2Distance }}" onInput="{{ setCh2Distance }}" style="width: 100%;">
         </label>
         <div>
           <svg viewBox="0 0 300 150" style="width: 100%; display: block;">
@@ -2543,7 +2545,7 @@
               <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Élévation</sc-if><sc-if value="{{ isEn }}">Elevation</sc-if></span>
               <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch3ElLabel }}</span>
             </span>
-            <input type="range" min="-30" max="75" step="1" value="{{ ch3El }}" onChange="{{ setCh3El }}" style="width: 100%;">
+            <input type="range" min="-30" max="75" step="1" value="{{ ch3El }}" onInput="{{ setCh3El }}" style="width: 100%;">
           </label>
         </div>
       </div>
@@ -2662,7 +2664,7 @@
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Position de la source</sc-if><sc-if value="{{ isEn }}">Source position</sc-if></span>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: #3DBFA3;">{{ ch5WrapLabel }}</span>
           </span>
-          <input type="range" min="0" max="1" step="0.01" value="{{ ch5Wrap }}" onChange="{{ setCh5Wrap }}" style="width: 100%;">
+          <input type="range" min="0" max="1" step="0.01" value="{{ ch5Wrap }}" onInput="{{ setCh5Wrap }}" style="width: 100%;">
           <span style="display: flex; justify-content: space-between; font-size: 11px; color: rgba(232,224,208,0.4);">
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Face</sc-if><sc-if value="{{ isEn }}">Front</sc-if></span>
             <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Arrière</sc-if><sc-if value="{{ isEn }}">Behind</sc-if></span>
