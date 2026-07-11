@@ -1766,10 +1766,24 @@
     if (document.readyState !== "loading") api.__dcBoot();
     else document.addEventListener("DOMContentLoaded", () => api.__dcBoot());
   }
+  function showBootError(err) {
+    const box = document.createElement("div");
+    box.setAttribute("style", "position:fixed;inset:0;z-index:2147483647;background:#0B0C0D;color:#E8E0D0;font-family:ui-monospace,monospace;padding:32px;overflow:auto;box-sizing:border-box;");
+    const msg = (err && (err.stack || err.message)) ? (err.stack || err.message) : String(err);
+    box.innerHTML =
+      '<div style="max-width:720px;margin:0 auto">' +
+      '<div style="font-family:sans-serif;font-size:20px;font-weight:700;color:#3DBFA3;margin-bottom:8px">Le Learning Center n\u2019a pas pu se charger</div>' +
+      '<div style="font-family:sans-serif;font-size:14px;color:rgba(232,224,208,0.7);margin-bottom:20px;line-height:1.5">Erreur au d\u00e9marrage (React, r\u00e9seau, ou script). D\u00e9tail technique ci-dessous \u2014 copie-le pour le d\u00e9bogage.</div>' +
+      '<pre style="white-space:pre-wrap;word-break:break-word;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:16px;font-size:12px;line-height:1.6"></pre>' +
+      '<div style="margin-top:20px"><a href="index.html" style="color:#3DBFA3;font-family:sans-serif;font-size:13px">\u2190 Retour \u00e0 l\u2019accueil</a></div>' +
+      '</div>';
+    box.querySelector("pre").textContent = msg;
+    document.body.appendChild(box);
+  }
   hideRawTemplate();
   loadReactUmd().then(init).catch((err) => {
     console.error("[dc] failed to load React or boot:", err);
-    throw err;
+    showBootError(err);
   });
 })();
 
