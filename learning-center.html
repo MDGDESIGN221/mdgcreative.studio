@@ -3,6 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MDG Learning Center — Maîtrise la lumière</title>
+<meta name="description" content="Apprends le rim light en manipulant une vraie lumière 3D. Six leçons interactives par MDG Creative Studio. Gratuit, sans carte bancaire.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MDG Creative Studio">
+<meta property="og:title" content="MDG Learning Center — Maîtrise la lumière">
+<meta property="og:description" content="Apprends le rim light en manipulant une vraie lumière 3D. Six leçons interactives, gratuit.">
+<meta property="og:image" content="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,h_630,c_fill,g_north,q_auto,f_jpg/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png">
+<meta property="og:url" content="https://www.mdgcreative.studio/learning-center.html">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B0C0D">
 <script>
 // GENERATED from dc-runtime/src/*.ts — do not edit. Rebuild with `cd dc-runtime && bun run build`.
 "use strict";
@@ -1888,13 +1899,33 @@
     connectedCallback() {
       if (this._started) return; this._started = true;
       this.style.display = this.style.display || 'block';
-      loadLibs().then((libs) => this._init(libs)).catch((e) => {
-        console.error('light-sim init failed', e);
-        this.innerHTML = '<div style="color:#888;font:13px sans-serif;padding:20px">3D indisponible</div>';
-      });
+      const boot = () => {
+        // pas de WebGL -> fallback propre au lieu d'un carré noir
+        try {
+          const c = document.createElement('canvas');
+          if (!c.getContext('webgl2') && !c.getContext('webgl')) { this._fallback(); return; }
+        } catch (_) { this._fallback(); return; }
+        loadLibs().then((libs) => this._init(libs)).catch((e) => {
+          console.error('light-sim init failed', e);
+          this._fallback();
+        });
+      };
+      // lazy: ne charge la scène que quand elle approche du viewport
+      try {
+        const pre = new IntersectionObserver((en) => {
+          if (en[0].isIntersecting) { pre.disconnect(); this._preIO = null; boot(); }
+        }, { rootMargin: '160% 0px 160% 0px' });
+        pre.observe(this);
+        this._preIO = pre;
+      } catch (_) { boot(); }
+    }
+    _fallback() {
+      this.style.position = this.style.position || 'relative';
+      this.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:radial-gradient(ellipse 50% 45% at 50% 46%, #1A1C1F 0%, #0B0C0D 72%);color:rgba(232,224,208,0.55);font:500 10.5px/1.6 JetBrains Mono, monospace;letter-spacing:0.16em;text-transform:uppercase;text-align:center;padding:24px"><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(61,191,163,0.5);display:flex;align-items:center;justify-content:center;color:#3DBFA3;font-size:14px">☀</span><span>3D indisponible sur cet appareil</span></div>';
     }
     disconnectedCallback() {
       this._stopped = true;
+      if (this._preIO) this._preIO.disconnect();
       if (this._ro) this._ro.disconnect();
       if (this._io) this._io.disconnect();
       if (this._renderer) this._renderer.dispose();
@@ -2831,6 +2862,11 @@
           <sc-if value="{{ isEn }}">Butterfly: high frontal · Loop: slight offset · Rembrandt: 45°/45° · Split: 90°.</sc-if>
         </p>
       </details>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 13px 15px; border: 1px solid {{ defiBorder }}; border-radius: 4px; background: {{ defiBg }};">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">DÉFI</span>
+        <span style="flex: 1; font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Trouve le Rembrandt à la main, sans preset.</sc-if><sc-if value="{{ isEn }}">Find Rembrandt by hand, no preset.</sc-if></span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; color: {{ defiStatusColor }}; white-space: nowrap;">{{ defiStatus }}</span>
+      </div>
       <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.04</span>
         <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un schéma de portrait n'est qu'une coordonnée : azimut + élévation.</sc-if><sc-if value="{{ isEn }}">A portrait scheme is just a coordinate: azimuth + elevation.</sc-if></span>
@@ -3329,6 +3365,7 @@ class Component extends DCLogic {
     email: '', subscribed: false,
     compare: 55,
     progress: 0, activeCh: 0, sound: true, psMethod: 0,
+    defiDone: false,
     acc: { a1: null, a2: null, a3: null, a4: null, a5: null },
   };
 
@@ -3337,6 +3374,12 @@ class Component extends DCLogic {
   componentDidMount() {
     const l = this.props.defaultLang;
     if (l === 'en') this.setState({ lang: 'en' });
+    try {
+      if (localStorage.getItem('mdg-lc-lang') === 'en') this.setState({ lang: 'en' });
+      if (localStorage.getItem('mdg-lc-lang') === 'fr') this.setState({ lang: 'fr' });
+      if (localStorage.getItem('mdg-lc-sub') === '1') this.setState({ subscribed: true });
+      if (localStorage.getItem('mdg-lc-defi') === '1') this.setState({ defiDone: true });
+    } catch (_) {}
     this._wireT = setInterval(() => {
       const wire = (id, fn) => {
         let el = document.getElementById(id);
@@ -3419,15 +3462,67 @@ class Component extends DCLogic {
       const ac = this._ac; if (ac.state === 'suspended') ac.resume();
       const t = ac.currentTime;
       const o = ac.createOscillator(), g = ac.createGain();
-      const f = kind === 'off' ? 300 : kind === 'preset' ? 620 : 460;
+      const f = kind === 'off' ? 300 : kind === 'preset' ? 620 : kind === 'tick' ? 950 : 460;
+      const amp = kind === 'tick' ? 0.016 : 0.05;
+      const dur = kind === 'tick' ? 0.05 : 0.13;
       o.type = 'triangle'; o.frequency.setValueAtTime(f, t);
       o.frequency.exponentialRampToValueAtTime(Math.max(120, f * 0.6), t + 0.05);
       g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(0.05, t + 0.006);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.13);
+      g.gain.exponentialRampToValueAtTime(amp, t + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
       o.connect(g); g.connect(ac.destination);
-      o.start(t); o.stop(t + 0.15);
+      o.start(t); o.stop(t + dur + 0.02);
     } catch (_) {}
+  }
+
+  woosh() {
+    if (!this.state.sound) return;
+    try {
+      if (!this._ac) this._ac = new (window.AudioContext || window.webkitAudioContext)();
+      const ac = this._ac; if (ac.state === 'suspended') ac.resume();
+      const t = ac.currentTime;
+      const o = ac.createOscillator(), g = ac.createGain(), fl = ac.createBiquadFilter();
+      o.type = 'sine'; o.frequency.setValueAtTime(110, t);
+      o.frequency.exponentialRampToValueAtTime(38, t + 0.55);
+      fl.type = 'lowpass'; fl.frequency.value = 240;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.06, t + 0.09);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+      o.connect(fl); fl.connect(g); g.connect(ac.destination);
+      o.start(t); o.stop(t + 0.65);
+    } catch (_) {}
+  }
+
+  win() {
+    if (!this.state.sound) return;
+    try {
+      if (!this._ac) this._ac = new (window.AudioContext || window.webkitAudioContext)();
+      const ac = this._ac; if (ac.state === 'suspended') ac.resume();
+      [523.25, 783.99].forEach((f, i) => {
+        const t = ac.currentTime + i * 0.11;
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(f, t);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.05, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
+        o.connect(g); g.connect(ac.destination);
+        o.start(t); o.stop(t + 0.3);
+      });
+    } catch (_) {}
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const c = this.state.ch3, p = prevState.ch3;
+    if (c.az !== p.az || c.el !== p.el) {
+      if (Math.floor(c.az / 15) !== Math.floor(p.az / 15)) this.click('tick');
+      if (!this.state.defiDone && !this._presetJump && this.classifyPattern(c.az, c.el) === 'Rembrandt') {
+        this.setState({ defiDone: true });
+        this.win();
+        try { localStorage.setItem('mdg-lc-defi', '1'); } catch (_) {}
+      }
+      this._presetJump = false;
+    }
+    if (this.state.activeCh !== prevState.activeCh && this.state.activeCh > 0) this.woosh();
   }
 
   classifyPattern(az, el) {
@@ -3450,7 +3545,7 @@ class Component extends DCLogic {
       if (isNaN(v)) return;
       this.setState((st) => ({ [path[0]]: { ...st[path[0]], [path[1]]: v } }));
     };
-    const setLight = (az, el) => this.setState((st) => ({ ch3: { ...st.ch3, az, el } }));
+    const setLight = (az, el) => { this._presetJump = true; this.setState((st) => ({ ch3: { ...st.ch3, az, el } })); };
     const setCh1Color = (hex) => { this.click('nav'); this.setState((st) => ({ ch1: { ...st.ch1, color: hex } })); };
     const setCh5Rim = (hex) => { this.click('nav'); this.setState((st) => ({ ch5: { ...st.ch5, rim: hex } })); };
     const ring = (on) => on ? 'rgba(232,224,208,0.9)' : 'transparent';
@@ -3473,7 +3568,7 @@ class Component extends DCLogic {
     const wedge3 = 'M ' + kx3 + ' ' + ky3 + ' L ' + w1x + ' ' + w1y + ' L ' + w2x + ' ' + w2y + ' Z';
     return {
       isFr: fr, isEn: !fr,
-      toggleLang: () => { this.click('nav'); this.setState({ lang: fr ? 'en' : 'fr' }); },
+      toggleLang: () => { this.click('nav'); const nl = fr ? 'en' : 'fr'; this.setState({ lang: nl }); try { localStorage.setItem('mdg-lc-lang', nl); } catch (_) {} },
       chapNum: s.activeCh > 0 ? ('0' + s.activeCh) : '00',
       progressPct: (s.progress * 100).toFixed(1) + '%',
       navC1: s.activeCh === 1 ? teal : 'rgba(232,224,208,0.45)',
@@ -3487,6 +3582,10 @@ class Component extends DCLogic {
       toggleSound: () => { const on = !this.state.sound; this.setState({ sound: on }); if (on) this.click('nav'); },
       clickNav: () => this.click('nav'),
       glowRef: this._glowRef,
+      defiBorder: s.defiDone ? 'rgba(61,191,163,0.5)' : 'rgba(232,224,208,0.14)',
+      defiBg: s.defiDone ? 'rgba(61,191,163,0.08)' : 'transparent',
+      defiStatus: s.defiDone ? (fr ? '✓ RÉUSSI' : '✓ DONE') : (fr ? 'EN COURS' : 'OPEN'),
+      defiStatusColor: s.defiDone ? '#3DBFA3' : 'rgba(232,224,208,0.45)',
       acc1Open: accV('a1'), toggleAcc1: accT('a1'), acc1Chev: accV('a1') ? '180deg' : '0deg',
       acc2Open: accV('a2'), toggleAcc2: accT('a2'), acc2Chev: accV('a2') ? '180deg' : '0deg',
       acc3Open: accV('a3'), toggleAcc3: accT('a3'), acc3Chev: accV('a3') ? '180deg' : '0deg',
@@ -3620,6 +3719,7 @@ class Component extends DCLogic {
         e.preventDefault();
         const email = this.state.email;
         this.setState({ subscribed: true });
+        try { localStorage.setItem('mdg-lc-sub', '1'); } catch (_) {}
         try {
           fetch('https://formsubmit.co/ajax/mdgdesign221@gmail.com', {
             method: 'POST',
