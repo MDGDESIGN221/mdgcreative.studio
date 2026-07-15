@@ -2371,6 +2371,28 @@
     .lcx-eyebtn { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; padding: 0; background: transparent; border: none; border-radius: 3px; cursor: pointer; }
     .lcx-eyebtn:hover { background: rgba(232,224,208,0.08); }
 
+    /* ---- accordéon inspecteurs ---- */
+    details.lcx-acc summary { list-style: none; pointer-events: none; }
+    details.lcx-acc summary::-webkit-details-marker { display: none; }
+    .lcx-accchev { display: none; }
+
+    /* ---- galerie annotée ---- */
+    .lcx-gal .lcx-cap { opacity: 0; transform: translateY(6px); transition: opacity 0.3s ease, transform 0.3s ease; }
+    .lcx-gal:hover .lcx-cap { opacity: 1; transform: none; }
+    @media (hover: none) { .lcx-gal .lcx-cap { opacity: 1; transform: none; } }
+
+    /* ---- leçon 05 : cinéma ---- */
+    .lcx-cinema { position: relative; min-height: 100svh; }
+    .lcx-cinvp { position: absolute; inset: 0; }
+    .lcx-cinpanel { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); z-index: 3; width: 368px; max-height: calc(100svh - 130px); overflow: auto; display: flex; flex-direction: column; gap: 16px; padding: 24px 22px; background: rgba(14,15,17,0.78); backdrop-filter: blur(18px); border: 1px solid rgba(232,224,208,0.14); border-radius: 6px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+    @media (max-width: 960px) {
+      .lcx-cinema { min-height: 0; display: flex; flex-direction: column; }
+      .lcx-cinvp { position: relative; inset: auto; height: 46svh; min-height: 320px; }
+      .lcx-cinpanel { position: static; transform: none; width: auto; max-height: none; border-radius: 0; border-left: none; border-right: none; box-shadow: none; background: #0B0C0D; padding: 40px 20px 56px; }
+      details.lcx-acc summary { pointer-events: auto; cursor: pointer; }
+      .lcx-accchev { display: block; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .lcx-reveal, .lcx-vpreveal, .lcx-h-chap span { opacity: 1 !important; transform: none !important; }
       *, *::before, *::after { animation-duration: 0.001s !important; animation-delay: 0s !important; }
@@ -2540,11 +2562,11 @@
       </div>
 
       <!-- INSPECTEUR 01 -->
-      <div style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
+      <details class="lcx-acc" open="{{ acc1Open }}" style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
+        <summary onClick="{{ toggleAcc1 }}" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
           <span style="font-size: 11px; font-weight: 600; color: rgba(232,224,208,0.85); letter-spacing: 0.02em;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Lumière principale</sc-if><sc-if value="{{ isEn }}">Main light</sc-if></span>
-          <span style="display: flex; gap: 5px; align-items: center;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3DBFA3;"></span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">SPOT</span></span>
-        </div>
+          <span style="display: flex; gap: 5px; align-items: center;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3DBFA3;"></span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">SPOT</span><span class="lcx-accchev" style="font-size: 9px; color: rgba(232,224,208,0.5); transform: rotate({{ acc1Chev }}); transition: transform 0.2s ease;">▾</span></span>
+        </summary>
         <div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid rgba(232,224,208,0.08);">
           <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.35);">Position</span>
           <div style="display: grid; grid-template-columns: 80px minmax(0,1fr) 54px; align-items: center; gap: 10px;">
@@ -2599,6 +2621,10 @@
             <sc-if value="{{ isEn }}">Testing ground: on a real image, color must come from a plausible source (rule R.01).</sc-if>
           </p>
         </div>
+      </details>
+      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.02</span>
+        <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La taille apparente de la source décide de la dureté des ombres.</sc-if><sc-if value="{{ isEn }}">The apparent size of the source decides shadow hardness.</sc-if></span>
       </div>
       <a href="#ch2" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
@@ -2647,11 +2673,11 @@
       </div>
 
       <!-- INSPECTEUR 02 -->
-      <div style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
+      <details class="lcx-acc" open="{{ acc2Open }}" style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
+        <summary onClick="{{ toggleAcc2 }}" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
           <span style="font-size: 11px; font-weight: 600; color: rgba(232,224,208,0.85);">Falloff</span>
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">I = 1/d²</span>
-        </div>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">I = 1/d²</span><span class="lcx-accchev" style="font-size: 9px; color: rgba(232,224,208,0.5); transform: rotate({{ acc2Chev }}); transition: transform 0.2s ease;">▾</span>
+        </summary>
         <div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid rgba(232,224,208,0.08);">
           <div style="display: grid; grid-template-columns: 80px minmax(0,1fr) 54px; align-items: center; gap: 10px;">
             <span style="font-size: 11px; color: rgba(232,224,208,0.55);">Distance d</span>
@@ -2670,6 +2696,10 @@
             <span>d = 0.7</span><span>d = 4</span>
           </div>
         </div>
+      </details>
+      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.03</span>
+        <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux fois plus loin, quatre fois plus faible : I ∝ 1/d².</sc-if><sc-if value="{{ isEn }}">Twice as far, four times weaker: I ∝ 1/d².</sc-if></span>
       </div>
       <a href="#ch3" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
@@ -2715,11 +2745,11 @@
       </div>
 
       <!-- INSPECTEUR 03 -->
-      <div style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
+      <details class="lcx-acc" open="{{ acc3Open }}" style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
+        <summary onClick="{{ toggleAcc3 }}" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
           <span style="font-size: 11px; font-weight: 600; color: rgba(232,224,208,0.85);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Direction</sc-if><sc-if value="{{ isEn }}">Direction</sc-if></span>
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">AZ / EL</span>
-        </div>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">AZ / EL</span><span class="lcx-accchev" style="font-size: 9px; color: rgba(232,224,208,0.5); transform: rotate({{ acc3Chev }}); transition: transform 0.2s ease;">▾</span>
+        </summary>
         <div style="padding: 12px 14px; border-bottom: 1px solid rgba(232,224,208,0.08);">
           <span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.35); margin-bottom: 10px;">Presets</span>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
@@ -2800,6 +2830,10 @@
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Butterfly : frontal haut · Loop : léger décalage · Rembrandt : 45°/45° · Split : 90°.</sc-if>
           <sc-if value="{{ isEn }}">Butterfly: high frontal · Loop: slight offset · Rembrandt: 45°/45° · Split: 90°.</sc-if>
         </p>
+      </details>
+      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.04</span>
+        <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un schéma de portrait n'est qu'une coordonnée : azimut + élévation.</sc-if><sc-if value="{{ isEn }}">A portrait scheme is just a coordinate: azimuth + elevation.</sc-if></span>
       </div>
       <a href="#ch4" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
@@ -2849,11 +2883,11 @@
       </div>
 
       <!-- PANNEAU CALQUES -->
-      <div style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
+      <details class="lcx-acc" open="{{ acc4Open }}" style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
+        <summary onClick="{{ toggleAcc4 }}" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
           <span style="font-size: 11px; font-weight: 600; color: rgba(232,224,208,0.85);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Calques d'éclairage</sc-if><sc-if value="{{ isEn }}">Lighting layers</sc-if></span>
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">3</span>
-        </div>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">3</span><span class="lcx-accchev" style="font-size: 9px; color: rgba(232,224,208,0.5); transform: rotate({{ acc4Chev }}); transition: transform 0.2s ease;">▾</span>
+        </summary>
         <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(232,224,208,0.08);">
           <button onClick="{{ toggleKey }}" class="lcx-eyebtn" title="key">
             <sc-if value="{{ ch4Key }}" hint-placeholder-val="{{ true }}"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display: block;"><path d="M1.5 7.5s2.2-4 6-4 6 4 6 4-2.2 4-6 4-6-4-6-4Z" stroke="#E8E0D0" stroke-width="1.1"></path><circle cx="7.5" cy="7.5" r="1.8" fill="#E8E0D0"></circle></svg></sc-if>
@@ -2888,6 +2922,10 @@
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">L'œil masque le calque, le curseur dose son opacité. Key sculpte, Fill débouche, Rim détache.</sc-if>
           <sc-if value="{{ isEn }}">The eye hides the layer, the slider sets its opacity. Key sculpts, Fill lifts, Rim separates.</sc-if>
         </p>
+      </details>
+      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.05</span>
+        <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque lumière a un travail : sculpter, déboucher, détacher.</sc-if><sc-if value="{{ isEn }}">Every light has a job: sculpt, lift, separate.</sc-if></span>
       </div>
       <a href="#ch5" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
@@ -2897,8 +2935,8 @@
   </section>
 
   <!-- ============ LEÇON 05 — FRESNEL ============ -->
-  <section id="ch5" data-screen-label="Lecon 05 Fresnel" class="lcx-split" style="border-top: 1px solid rgba(61,191,163,0.22); background: #000000;">
-    <div class="lcx-vp lcx-vpreveal">
+  <section id="ch5" data-screen-label="Lecon 05 Fresnel" class="lcx-cinema" style="border-top: 1px solid rgba(61,191,163,0.22); background: #000000;">
+    <div class="lcx-cinvp lcx-vpreveal">
       <x-import component-from-global-scope="light-sim" id="sim-ch5" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" on-light-move="{{ ch5LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 0; left: 0; display: flex; align-items: center; gap: 8px; padding: 9px 16px; background: #0E0F11; border-right: 1px solid rgba(232,224,208,0.1); border-bottom: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="display: block;"><circle cx="5" cy="5" r="4" stroke="#3DBFA3" stroke-width="1.2"></circle><circle cx="6.8" cy="3.4" r="1.3" fill="#E8E0D0"></circle></svg>
@@ -2912,7 +2950,7 @@
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.6); white-space: nowrap;">WRAP <span style="color: #3DBFA3;">{{ ch5WrapLabel }}</span></span>
       </div>
     </div>
-    <aside class="lcx-aside lcx-reveal">
+    <div class="lcx-cinpanel lcx-reveal">
       <div style="position: relative;">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
           <span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: #0B0C0D; background: #3DBFA3; padding: 3px 8px; border-radius: 2px;">05</span>
@@ -2936,11 +2974,11 @@
       </div>
 
       <!-- INSPECTEUR 05 -->
-      <div style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
+      <details class="lcx-acc" open="{{ acc5Open }}" style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden; flex-shrink: 0;">
+        <summary onClick="{{ toggleAcc5 }}" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
           <span style="font-size: 11px; font-weight: 600; color: rgba(232,224,208,0.85);">Rim light</span>
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">FRESNEL</span>
-        </div>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">FRESNEL</span><span class="lcx-accchev" style="font-size: 9px; color: rgba(232,224,208,0.5); transform: rotate({{ acc5Chev }}); transition: transform 0.2s ease;">▾</span>
+        </summary>
         <div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid rgba(232,224,208,0.08);">
           <div style="display: grid; grid-template-columns: 80px minmax(0,1fr) 54px; align-items: center; gap: 10px;">
             <span style="font-size: 11px; color: rgba(232,224,208,0.55);">Position</span>
@@ -2979,12 +3017,16 @@
             <sc-if value="{{ isEn }}">The mask isolates the zones where the viewing angle is grazing: the ones a rim light makes glow. Rule R.01: the rim stays plausible.</sc-if>
           </p>
         </div>
+      </details>
+      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.06</span>
+        <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le rim n'éclaire pas le bord : il révèle l'angle rasant.</sc-if><sc-if value="{{ isEn }}">The rim does not light the edge: it reveals the grazing angle.</sc-if></span>
       </div>
       <a href="#ch6" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.25); border-radius: 4px; background: rgba(61,191,163,0.06); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.55);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Passer à la pratique</sc-if><sc-if value="{{ isEn }}">Move to practice</sc-if></span>
         <span style="color: #3DBFA3;">06 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Application</sc-if><sc-if value="{{ isEn }}">Applied</sc-if> →</span>
       </a>
-    </aside>
+    </div>
   </section>
 
   <!-- ============ LEÇON 06 — APPLICATION ============ -->
@@ -3125,17 +3167,68 @@
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(232,224,208,0.3);">MDG STUDIO</span>
       </div>
       <div style="column-width: 260px; column-gap: 12px;">
-        <div style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
-        <div style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png" alt="Norvège vs Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
-        <div style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
-        <div style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
-        <div style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776659502/NUNEZ_xxcyqg.jpg" alt="Nunez" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
-        <div style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776491236/SEN._vs_GAM._l7snqc.jpg" alt="Sénégal vs Gambie" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;"></div>
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+          <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.01</span>
+            <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Quelle source rend ce rim crédible ?</sc-if><sc-if value="{{ isEn }}">What source makes this rim believable?</sc-if></span>
+          </div>
+        </div>
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png" alt="Norvège vs Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+          <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.02</span>
+            <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Bords nets : la source est petite.</sc-if><sc-if value="{{ isEn }}">Crisp edges: the source is small.</sc-if></span>
+          </div>
+        </div>
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+          <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.03</span>
+            <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Dégradé rapide : la source est proche.</sc-if><sc-if value="{{ isEn }}">Fast falloff: the source is close.</sc-if></span>
+          </div>
+        </div>
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+          <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.04</span>
+            <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Lis la coordonnée : azimut, élévation.</sc-if><sc-if value="{{ isEn }}">Read the coordinate: azimuth, elevation.</sc-if></span>
+          </div>
+        </div>
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776659502/NUNEZ_xxcyqg.jpg" alt="Nunez" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+          <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.05</span>
+            <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Key, fill, rim : qui travaille ici ?</sc-if><sc-if value="{{ isEn }}">Key, fill, rim: who is working here?</sc-if></span>
+          </div>
+        </div>
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776491236/SEN._vs_GAM._l7snqc.jpg" alt="Sénégal vs Gambie" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+          <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.06</span>
+            <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le contour brille où l'angle devient rasant.</sc-if><sc-if value="{{ isEn }}">The edge glows where the angle grazes.</sc-if></span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============ NEWSLETTER ============ -->
+  <!-- ============ RÉCAP — LES SIX RÈGLES ============ -->
+  <section id="lc-regles" data-screen-label="Les six regles" class="lcx-pad" style="position: relative; background: #F0EEE6; color: #1C1A16; overflow: hidden;">
+    <span style="position: absolute; top: 34px; right: 40px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(90px, 14vw, 180px); line-height: 1; color: rgba(28,26,22,0.05); pointer-events: none; user-select: none;">R</span>
+    <div class="lcx-reveal" style="max-width: 860px; margin: 0 auto; position: relative;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+        <span style="width: 26px; height: 1px; background: #2E9C85;"></span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: #2E9C85; font-weight: 500;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Ce que tu viens d'apprendre</sc-if><sc-if value="{{ isEn }}">What you just learned</sc-if></span>
+      </div>
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(30px, 3.6vw, 46px); font-weight: 700; letter-spacing: -0.01em; margin: 0 0 8px; color: #1C1A16; text-wrap: balance;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Six règles. Toute la lumière.</sc-if><sc-if value="{{ isEn }}">Six rules. All of light.</sc-if></h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 48px; margin-top: 30px;">
+        <div style="display: flex; align-items: baseline; gap: 14px; padding: 15px 0; border-top: 1px solid rgba(28,26,22,0.14);"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #2E9C85; font-weight: 600; flex-shrink: 0;">R.01</span><span style="font-size: 15px; color: rgba(28,26,22,0.78); line-height: 1.6;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une lumière doit venir d'une source plausible dans la scène.</sc-if><sc-if value="{{ isEn }}">A light must come from a plausible source in the scene.</sc-if></span></div>
+        <div style="display: flex; align-items: baseline; gap: 14px; padding: 15px 0; border-top: 1px solid rgba(28,26,22,0.14);"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #2E9C85; font-weight: 600; flex-shrink: 0;">R.02</span><span style="font-size: 15px; color: rgba(28,26,22,0.78); line-height: 1.6;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La taille apparente de la source décide de la dureté des ombres.</sc-if><sc-if value="{{ isEn }}">The apparent size of the source decides shadow hardness.</sc-if></span></div>
+        <div style="display: flex; align-items: baseline; gap: 14px; padding: 15px 0; border-top: 1px solid rgba(28,26,22,0.14);"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #2E9C85; font-weight: 600; flex-shrink: 0;">R.03</span><span style="font-size: 15px; color: rgba(28,26,22,0.78); line-height: 1.6;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux fois plus loin, quatre fois plus faible : I ∝ 1/d².</sc-if><sc-if value="{{ isEn }}">Twice as far, four times weaker: I ∝ 1/d².</sc-if></span></div>
+        <div style="display: flex; align-items: baseline; gap: 14px; padding: 15px 0; border-top: 1px solid rgba(28,26,22,0.14);"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #2E9C85; font-weight: 600; flex-shrink: 0;">R.04</span><span style="font-size: 15px; color: rgba(28,26,22,0.78); line-height: 1.6;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un schéma de portrait n'est qu'une coordonnée : azimut + élévation.</sc-if><sc-if value="{{ isEn }}">A portrait scheme is just a coordinate: azimuth + elevation.</sc-if></span></div>
+        <div style="display: flex; align-items: baseline; gap: 14px; padding: 15px 0; border-top: 1px solid rgba(28,26,22,0.14);"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #2E9C85; font-weight: 600; flex-shrink: 0;">R.05</span><span style="font-size: 15px; color: rgba(28,26,22,0.78); line-height: 1.6;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque lumière a un travail : sculpter, déboucher, détacher.</sc-if><sc-if value="{{ isEn }}">Every light has a job: sculpt, lift, separate.</sc-if></span></div>
+        <div style="display: flex; align-items: baseline; gap: 14px; padding: 15px 0; border-top: 1px solid rgba(28,26,22,0.14);"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #2E9C85; font-weight: 600; flex-shrink: 0;">R.06</span><span style="font-size: 15px; color: rgba(28,26,22,0.78); line-height: 1.6;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le rim n'éclaire pas le bord : il révèle l'angle rasant.</sc-if><sc-if value="{{ isEn }}">The rim does not light the edge: it reveals the grazing angle.</sc-if></span></div>
+      </div>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(18px, 2vw, 22px); color: rgba(28,26,22,0.6); margin: 26px 0 0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Si tu peux nommer la règle, tu peux corriger l'image.</sc-if><sc-if value="{{ isEn }}">If you can name the rule, you can fix the image.</sc-if></p>
+    </div>
+  </section>
+
   <!-- ============ CONVERSION — COMMENCE GRATUITEMENT ============ -->
   <section id="lc-access" data-screen-label="Commencer" style="display: flex; justify-content: center; padding: 128px 24px; border-top: 1px solid rgba(232,224,208,0.08); background: radial-gradient(ellipse 70% 90% at 50% 0%, rgba(61,191,163,0.08), rgba(61,191,163,0) 65%), #0B0C0D;">
     <div class="lcx-reveal" style="width: 100%; max-width: 720px; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center;">
@@ -3155,6 +3248,20 @@
         <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #3DBFA3;"></span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">6 leçons interactives</sc-if><sc-if value="{{ isEn }}">6 interactive lessons</sc-if></span>
         <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #3DBFA3;"></span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Études rim light</sc-if><sc-if value="{{ isEn }}">Rim light studies</sc-if></span>
         <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #3DBFA3;"></span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Nouveaux modules chaque mois</sc-if><sc-if value="{{ isEn }}">New modules monthly</sc-if></span>
+      </div>
+      <div style="width: 100%; max-width: 460px; border: 1px solid rgba(232,224,208,0.12); border-radius: 6px; background: #0E0F11; overflow: hidden; text-align: left; margin-top: 4px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(232,224,208,0.08);">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(232,224,208,0.8);">01 · Rim light</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; color: #3DBFA3; border: 1px solid rgba(61,191,163,0.4); padding: 3px 8px; border-radius: 999px; white-space: nowrap;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">EN LIGNE</sc-if><sc-if value="{{ isEn }}">LIVE</sc-if></span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(232,224,208,0.08);">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">02 · Couleur &amp; température</sc-if><sc-if value="{{ isEn }}">02 · Color &amp; temperature</sc-if></span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; color: rgba(232,224,208,0.35); border: 1px solid rgba(232,224,208,0.14); padding: 3px 8px; border-radius: 999px; white-space: nowrap;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">BIENTÔT</sc-if><sc-if value="{{ isEn }}">SOON</sc-if></span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">03 · Scènes de nuit</sc-if><sc-if value="{{ isEn }}">03 · Night scenes</sc-if></span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; color: rgba(232,224,208,0.35); border: 1px solid rgba(232,224,208,0.14); padding: 3px 8px; border-radius: 999px; white-space: nowrap;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">BIENTÔT</sc-if><sc-if value="{{ isEn }}">SOON</sc-if></span>
+        </div>
       </div>
       <sc-if value="{{ newsletterOpen }}" hint-placeholder-val="{{ true }}">
         <form onSubmit="{{ submitNewsletter }}" style="display: flex; gap: 12px; width: 100%; max-width: 480px; flex-wrap: wrap; justify-content: center; margin-top: 4px;">
@@ -3176,6 +3283,10 @@
         <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Zéro spam · désinscription en un clic</sc-if>
         <sc-if value="{{ isEn }}">Zero spam · one-click unsubscribe</sc-if>
       </span>
+      <div style="display: flex; align-items: center; gap: 10px; margin-top: 2px;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG" draggable="false" style="height: 13px; width: auto; opacity: 0.5;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.35);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un cours MDG Creative Studio · études signées Ibrahim Mbaye</sc-if><sc-if value="{{ isEn }}">An MDG Creative Studio course · studies by Ibrahim Mbaye</sc-if></span>
+      </div>
     </div>
   </section>
 
@@ -3194,6 +3305,9 @@
       <span>MDG Creative Studio · Learning Center · 2026</span>
     </div>
   </section>
+
+  <!-- lueur curseur -->
+  <div ref="{{ glowRef }}" style="position: fixed; left: 0; top: 0; width: 720px; height: 720px; margin: -360px 0 0 -360px; border-radius: 50%; background: radial-gradient(circle, rgba(61,191,163,0.085) 0%, rgba(61,191,163,0.03) 36%, rgba(61,191,163,0) 62%); mix-blend-mode: screen; pointer-events: none; z-index: 45; opacity: 0; transition: opacity 0.6s ease; will-change: transform; transform: translate(-9999px, -9999px);"></div>
 
   <!-- grain -->
   <div style="position: fixed; inset: 0; z-index: 70; pointer-events: none; opacity: 0.045; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>');"></div>
@@ -3215,7 +3329,10 @@ class Component extends DCLogic {
     email: '', subscribed: false,
     compare: 55,
     progress: 0, activeCh: 0, sound: true, psMethod: 0,
+    acc: { a1: null, a2: null, a3: null, a4: null, a5: null },
   };
+
+  _glowRef = React.createRef();
 
   componentDidMount() {
     const l = this.props.defaultLang;
@@ -3261,12 +3378,38 @@ class Component extends DCLogic {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     onScroll();
+
+    // lueur curseur (desktop, pointeur fin, pas de reduced-motion)
+    try {
+      const fine = window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (fine) {
+        this._glow = { x: -9999, y: -9999, tx: -9999, ty: -9999, on: false };
+        this._onMouse = (e) => {
+          const g = this._glow; g.tx = e.clientX; g.ty = e.clientY;
+          if (!g.on) { g.on = true; g.x = g.tx; g.y = g.ty; const el = this._glowRef.current; if (el) el.style.opacity = '1'; }
+        };
+        this._onLeave = (e) => { if (!e.relatedTarget) { const el = this._glowRef.current; if (el) el.style.opacity = '0'; this._glow.on = false; } };
+        window.addEventListener('mousemove', this._onMouse, { passive: true });
+        document.addEventListener('mouseout', this._onLeave);
+        const loop = () => {
+          this._glowRaf = requestAnimationFrame(loop);
+          const g = this._glow, el = this._glowRef.current;
+          if (!el || !g.on || document.hidden) return;
+          g.x += (g.tx - g.x) * 0.09; g.y += (g.ty - g.y) * 0.09;
+          el.style.transform = 'translate(' + g.x.toFixed(1) + 'px,' + g.y.toFixed(1) + 'px)';
+        };
+        this._glowRaf = requestAnimationFrame(loop);
+      }
+    } catch (_) {}
   }
 
   componentWillUnmount() {
     if (this._wireT) clearInterval(this._wireT);
     if (this._onScroll) { window.removeEventListener('scroll', this._onScroll); window.removeEventListener('resize', this._onScroll); }
     if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._glowRaf) cancelAnimationFrame(this._glowRaf);
+    if (this._onMouse) window.removeEventListener('mousemove', this._onMouse);
+    if (this._onLeave) document.removeEventListener('mouseout', this._onLeave);
   }
 
   click(kind) {
@@ -3311,6 +3454,9 @@ class Component extends DCLogic {
     const setCh1Color = (hex) => { this.click('nav'); this.setState((st) => ({ ch1: { ...st.ch1, color: hex } })); };
     const setCh5Rim = (hex) => { this.click('nav'); this.setState((st) => ({ ch5: { ...st.ch5, rim: hex } })); };
     const ring = (on) => on ? 'rgba(232,224,208,0.9)' : 'transparent';
+    const deskOpen = (typeof window === 'undefined') || window.innerWidth > 960;
+    const accV = (k) => s.acc[k] == null ? deskOpen : s.acc[k];
+    const accT = (k) => (e) => { e.preventDefault(); this.click('nav'); const cur = accV(k); this.setState((st) => ({ acc: { ...st.acc, [k]: !cur } })); };
     const pattern = this.classifyPattern(s.ch3.az, s.ch3.el);
     const patternFound = ['Butterfly', 'Loop', 'Rembrandt', 'Split', 'Contre-jour / Rim', 'Backlight / Rim'].indexOf(pattern) >= 0;
     const rel = 1 / (s.ch2.distance * s.ch2.distance);
@@ -3340,6 +3486,12 @@ class Component extends DCLogic {
       soundColor: s.sound ? teal : 'rgba(232,224,208,0.5)',
       toggleSound: () => { const on = !this.state.sound; this.setState({ sound: on }); if (on) this.click('nav'); },
       clickNav: () => this.click('nav'),
+      glowRef: this._glowRef,
+      acc1Open: accV('a1'), toggleAcc1: accT('a1'), acc1Chev: accV('a1') ? '180deg' : '0deg',
+      acc2Open: accV('a2'), toggleAcc2: accT('a2'), acc2Chev: accV('a2') ? '180deg' : '0deg',
+      acc3Open: accV('a3'), toggleAcc3: accT('a3'), acc3Chev: accV('a3') ? '180deg' : '0deg',
+      acc4Open: accV('a4'), toggleAcc4: accT('a4'), acc4Chev: accV('a4') ? '180deg' : '0deg',
+      acc5Open: accV('a5'), toggleAcc5: accT('a5'), acc5Chev: accV('a5') ? '180deg' : '0deg',
       psMethod: s.psMethod, isM0: s.psMethod === 0, isM1: s.psMethod === 1, isM2: s.psMethod === 2,
       setM0: () => { this.click('preset'); this.setState({ psMethod: 0 }); },
       setM1: () => { this.click('preset'); this.setState({ psMethod: 1 }); },
