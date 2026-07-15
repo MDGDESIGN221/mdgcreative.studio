@@ -2791,7 +2791,7 @@
           </div>
         </div>
         <div class="lcx-compass-row" style="padding: 14px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-bottom: 1px solid rgba(232,224,208,0.08);">
-          <div onPointerDown="{{ compassDrag }}" onPointerMove="{{ compassDrag }}" tabindex="0" role="slider" aria-label="Position de la lumière" onKeyDown="{{ compassKey }}" style-focus="box-shadow: 0 0 0 2px rgba(61,191,163,0.6);" style="position: relative; width: 186px; height: 186px; border-radius: 50%; cursor: grab; touch-action: none; user-select: none; outline: none; flex-shrink: 0;">
+          <div onPointerDown="{{ compassDrag }}" onPointerMove="{{ compassDrag }}" tabindex="0" role="slider" aria-label="{{ compassAriaLabel }}" onKeyDown="{{ compassKey }}" style-focus="box-shadow: 0 0 0 2px rgba(61,191,163,0.6);" style="position: relative; width: 186px; height: 186px; border-radius: 50%; cursor: grab; touch-action: none; user-select: none; outline: none; flex-shrink: 0;">
             <svg viewBox="0 0 200 200" style="width: 100%; height: 100%; display: block;">
               <circle cx="100" cy="100" r="92" fill="#101114"></circle>
               <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(232,224,208,0.16)" stroke-width="1"></circle>
@@ -3203,37 +3203,37 @@
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(232,224,208,0.3);">MDG STUDIO</span>
       </div>
       <div style="column-width: 260px; column-gap: 12px;">
-        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776491317/match-day-sadio_we5xzy.jpg" alt="Match Day Sadio" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776491317/match-day-sadio_we5xzy.jpg" alt="{{ galAlt1 }}" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
           <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.01</span>
             <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Quelle source rend ce rim crédible ?</sc-if><sc-if value="{{ isEn }}">What source makes this rim believable?</sc-if></span>
           </div>
         </div>
-        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png" alt="Norvège vs Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png" alt="{{ galAlt2 }}" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
           <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.02</span>
             <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Bords nets : la source est petite.</sc-if><sc-if value="{{ isEn }}">Crisp edges: the source is small.</sc-if></span>
           </div>
         </div>
-        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="France Sénégal" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="{{ galAlt3 }}" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
           <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.03</span>
             <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Dégradé rapide : la source est proche.</sc-if><sc-if value="{{ isEn }}">Fast falloff: the source is close.</sc-if></span>
           </div>
         </div>
-        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="{{ galAlt4 }}" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
           <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.04</span>
             <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Lis la coordonnée : azimut, élévation.</sc-if><sc-if value="{{ isEn }}">Read the coordinate: azimuth, elevation.</sc-if></span>
           </div>
         </div>
-        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776659502/NUNEZ_xxcyqg.jpg" alt="Nunez" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776659502/NUNEZ_xxcyqg.jpg" alt="{{ galAlt5 }}" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
           <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.05</span>
             <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Key, fill, rim : qui travaille ici ?</sc-if><sc-if value="{{ isEn }}">Key, fill, rim: who is working here?</sc-if></span>
           </div>
         </div>
-        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776491236/SEN._vs_GAM._l7snqc.jpg" alt="Sénégal vs Gambie" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
+        <div class="lcx-gal" style="position: relative; margin-bottom: 12px; break-inside: avoid; overflow: hidden; border: 1px solid rgba(232,224,208,0.07);"><img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_800,q_auto,f_auto/v1776491236/SEN._vs_GAM._l7snqc.jpg" alt="{{ galAlt6 }}" loading="lazy" draggable="false" style="width: 100%; display: block; pointer-events: none; user-select: none;">
           <div class="lcx-cap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 14px 12px; background: linear-gradient(180deg, rgba(11,12,13,0) 0%, rgba(11,12,13,0.9) 80%); display: flex; flex-direction: column; gap: 3px; pointer-events: none;">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #3DBFA3;">R.06</span>
             <span style="font-size: 12px; color: rgba(232,224,208,0.85); line-height: 1.45;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le contour brille où l'angle devient rasant.</sc-if><sc-if value="{{ isEn }}">The edge glows where the angle grazes.</sc-if></span>
@@ -3301,12 +3301,18 @@
       </div>
       <sc-if value="{{ newsletterOpen }}" hint-placeholder-val="{{ true }}">
         <form onSubmit="{{ submitNewsletter }}" style="display: flex; gap: 12px; width: 100%; max-width: 480px; flex-wrap: wrap; justify-content: center; margin-top: 4px;">
-          <input type="email" required="required" placeholder="{{ emailPlaceholder }}" value="{{ email }}" onInput="{{ setEmail }}" style="flex: 1 1 240px; padding: 15px 18px; border: 1px solid rgba(232,224,208,0.2); background: #0E0F11; color: #E8E0D0; font-family: 'Inter', sans-serif; font-size: 15px; outline: none; border-radius: 999px;">
-          <button type="submit" class="lcx-cta" style="padding: 15px 32px; border: none; border-radius: 999px; background: #3DBFA3; color: #0B0C0D; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14.5px; cursor: pointer; white-space: nowrap;">
-            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Commence gratuitement</sc-if>
-            <sc-if value="{{ isEn }}">Start for free</sc-if>
+          <input type="email" required="required" placeholder="{{ emailPlaceholder }}" value="{{ email }}" onInput="{{ setEmail }}" disabled="{{ newsletterSending }}" style="flex: 1 1 240px; padding: 15px 18px; border: 1px solid rgba(232,224,208,0.2); background: #0E0F11; color: #E8E0D0; font-family: 'Inter', sans-serif; font-size: 15px; outline: none; border-radius: 999px;">
+          <button type="submit" class="lcx-cta" disabled="{{ newsletterSending }}" style="padding: 15px 32px; border: none; border-radius: 999px; background: #3DBFA3; color: #0B0C0D; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14.5px; cursor: pointer; white-space: nowrap; opacity: {{ submitBtnOpacity }};">
+            {{ submitBtnLabel }}
           </button>
         </form>
+        <sc-if value="{{ newsletterError }}">
+          <div style="display: flex; align-items: center; gap: 10px; width: 100%; max-width: 480px; padding: 12px 18px; border: 1px solid rgba(240,70,70,0.4); background: rgba(240,70,70,0.08); color: #F09090; font-family: 'Inter', sans-serif; font-size: 13px; border-radius: 999px; margin-top: 4px;">
+            <span style="font-size: 14px;">⚠</span>
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">L'envoi a échoué — vérifie ta connexion et réessaie.</sc-if>
+            <sc-if value="{{ isEn }}">Something went wrong — check your connection and try again.</sc-if>
+          </div>
+        </sc-if>
       </sc-if>
       <sc-if value="{{ newsletterDone }}">
         <div style="display: flex; align-items: center; gap: 12px; padding: 16px 28px; border: 1px solid rgba(61,191,163,0.5); background: rgba(61,191,163,0.08); color: #6BD9C2; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; border-radius: 999px; margin-top: 4px;">
@@ -3362,7 +3368,7 @@ class Component extends DCLogic {
     ch3: { az: 40, el: 35 },
     ch4: { key: true, fill: true, rim: true, keyL: 0.85, fillL: 0.5, rimL: 0.9 },
     ch5: { wrap: 0.75, mask: false, rim: '#22D3C0' },
-    email: '', subscribed: false,
+    email: '', subscribed: false, subscribing: false, subscribeError: false,
     compare: 55,
     progress: 0, activeCh: 0, sound: true, psMethod: 0,
     defiDone: false,
@@ -3568,6 +3574,13 @@ class Component extends DCLogic {
     const wedge3 = 'M ' + kx3 + ' ' + ky3 + ' L ' + w1x + ' ' + w1y + ' L ' + w2x + ' ' + w2y + ' Z';
     return {
       isFr: fr, isEn: !fr,
+      compassAriaLabel: fr ? 'Position de la lumière' : 'Light position',
+      galAlt1: fr ? 'Joueur en action, rim light marquant le contour du visage' : 'Player in action, rim light tracing the edge of the face',
+      galAlt2: fr ? 'Rim light aux bords nets, signe d\u2019une petite source' : 'Rim light with crisp edges, a sign of a small source',
+      galAlt3: fr ? 'Dégradé lumineux rapide sur le sujet, source proche' : 'Fast light falloff on the subject, close source',
+      galAlt4: fr ? 'Portrait de joueur éclairé sous un angle marqué' : 'Player portrait lit from a pronounced angle',
+      galAlt5: fr ? 'Portrait avec key, fill et rim visibles séparément' : 'Portrait with key, fill, and rim light each visible',
+      galAlt6: fr ? 'Contour du joueur qui s\u2019illumine à l\u2019angle rasant' : 'The player\u2019s silhouette glowing at the grazing angle',
       toggleLang: () => { this.click('nav'); const nl = fr ? 'en' : 'fr'; this.setState({ lang: nl }); try { localStorage.setItem('mdg-lc-lang', nl); } catch (_) {} },
       chapNum: s.activeCh > 0 ? ('0' + s.activeCh) : '00',
       progressPct: (s.progress * 100).toFixed(1) + '%',
@@ -3712,25 +3725,31 @@ class Component extends DCLogic {
       },
 
       newsletterOpen: !s.subscribed, newsletterDone: s.subscribed,
+      newsletterSending: s.subscribing, newsletterError: s.subscribeError,
       email: s.email,
       emailPlaceholder: fr ? 'ton@email.com' : 'you@email.com',
       setEmail: (e) => this.setState({ email: e.target.value }),
+      submitBtnLabel: s.subscribing ? (fr ? 'Envoi…' : 'Sending…') : (fr ? 'Commence gratuitement' : 'Start for free'),
+      submitBtnOpacity: s.subscribing ? 0.6 : 1,
       submitNewsletter: (e) => {
         e.preventDefault();
         const email = this.state.email;
-        this.setState({ subscribed: true });
-        try { localStorage.setItem('mdg-lc-sub', '1'); } catch (_) {}
-        try {
-          fetch('https://formsubmit.co/ajax/mdgdesign221@gmail.com', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              email: email,
-              _subject: 'Nouvelle inscription — MDG Learning Center',
-              _template: 'table',
-            }),
-          }).catch(() => {});
-        } catch (_) {}
+        this.setState({ subscribing: true, subscribeError: false });
+        fetch('https://formsubmit.co/ajax/mdgdesign221@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            _subject: 'Nouvelle inscription — MDG Learning Center',
+            _template: 'table',
+          }),
+        }).then((res) => {
+          if (!res.ok) throw new Error('bad status');
+          this.setState({ subscribed: true, subscribing: false });
+          try { localStorage.setItem('mdg-lc-sub', '1'); } catch (_) {}
+        }).catch(() => {
+          this.setState({ subscribing: false, subscribeError: true });
+        });
       },
     };
   }
