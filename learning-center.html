@@ -2325,6 +2325,7 @@
       .lcx-pad { padding: 72px 24px; }
       .lcx-navlinks { display: none; }
       .lcx-herochap { display: none; }
+      .lcx-ps { grid-template-columns: 1fr !important; }
       .lcx-compass-row { flex-direction: column; align-items: stretch !important; gap: 18px !important; }
       .lcx-compass-row > div:first-child { margin: 0 auto; }
       .lcx-compass-row > div:last-child { min-width: 0 !important; }
@@ -3043,6 +3044,63 @@
       </div>
     </div>
 
+    <div class="lcx-reveal lcx-ps" style="position: relative; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 12px; align-items: start;">
+      <!-- méthodes -->
+      <div style="border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; overflow: hidden;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
+          <span style="font-size: 11.5px; font-weight: 600; color: rgba(232,224,208,0.85);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Plusieurs manières, même principe</sc-if><sc-if value="{{ isEn }}">Several ways, one principle</sc-if></span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">PSD</span>
+        </div>
+        <div style="display: flex; gap: 6px; padding: 12px 16px 0;">
+          <button onClick="{{ setM0 }}" style="flex: 1; padding: 9px 6px; border: 1px solid {{ m0Bd }}; border-radius: 3px 3px 0 0; background: {{ m0Bg }}; color: {{ m0Fg }}; font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 600; cursor: pointer;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Brush direct</sc-if><sc-if value="{{ isEn }}">Direct brush</sc-if></button>
+          <button onClick="{{ setM1 }}" style="flex: 1; padding: 9px 6px; border: 1px solid {{ m1Bd }}; border-radius: 3px 3px 0 0; background: {{ m1Bg }}; color: {{ m1Fg }}; font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 600; cursor: pointer;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sélection</sc-if><sc-if value="{{ isEn }}">Selection</sc-if></button>
+          <button onClick="{{ setM2 }}" style="flex: 1; padding: 9px 6px; border: 1px solid {{ m2Bd }}; border-radius: 3px 3px 0 0; background: {{ m2Bg }}; color: {{ m2Fg }}; font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 600; cursor: pointer;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Doublon</sc-if><sc-if value="{{ isEn }}">Duplicate</sc-if></button>
+        </div>
+        <div style="padding: 20px 16px; border-top: 1px solid rgba(61,191,163,0.25); margin-top: -1px;">
+          <sc-if value="{{ isM0 }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;"><span style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Brush direct</sc-if><sc-if value="{{ isEn }}">Direct brush</sc-if></span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(232,224,208,0.4);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">le plus rapide</sc-if><sc-if value="{{ isEn }}">fastest</sc-if></span></div>
+            <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 9px; font-size: 13.5px; color: rgba(232,224,208,0.62); line-height: 1.6;">
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Nouveau calque, mode <strong style="color:#E8E0D0;font-weight:600;">Densité linéaire (Ajout)</strong>, écrêté sur le sujet.</sc-if><sc-if value="{{ isEn }}">New layer, <strong style="color:#E8E0D0;font-weight:600;">Linear Dodge (Add)</strong> mode, clipped to the subject.</sc-if></li>
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Brush doux, couleur = teinte de la source. Peins le long du bord côté lumière.</sc-if><sc-if value="{{ isEn }}">Soft brush, color = source hue. Paint along the lit edge.</sc-if></li>
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Baisse l'opacité du calque jusqu'à ce que le rim <em>pose</em> au lieu de crier.</sc-if><sc-if value="{{ isEn }}">Lower the layer opacity until the rim <em>sits</em> instead of shouting.</sc-if></li>
+            </ol>
+          </sc-if>
+          <sc-if value="{{ isM1 }}">
+            <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;"><span style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sélection + contour</sc-if><sc-if value="{{ isEn }}">Selection + edge</sc-if></span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(232,224,208,0.4);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">bords nets</sc-if><sc-if value="{{ isEn }}">crisp edges</sc-if></span></div>
+            <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 9px; font-size: 13.5px; color: rgba(232,224,208,0.62); line-height: 1.6;">
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}"><strong style="color:#E8E0D0;font-weight:600;">Ctrl/Cmd + clic</strong> sur la vignette du sujet pour charger sa sélection.</sc-if><sc-if value="{{ isEn }}"><strong style="color:#E8E0D0;font-weight:600;">Ctrl/Cmd + click</strong> the subject thumbnail to load its selection.</sc-if></li>
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sélection &gt; <strong style="color:#E8E0D0;font-weight:600;">Contracter</strong> de 2–4 px, puis remplis un calque neuf.</sc-if><sc-if value="{{ isEn }}">Select &gt; <strong style="color:#E8E0D0;font-weight:600;">Contract</strong> by 2–4 px, then fill a new layer.</sc-if></li>
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Masque de fusion noir, révèle la lumière <strong style="color:#E8E0D0;font-weight:600;">uniquement</strong> sur les bords rasants.</sc-if><sc-if value="{{ isEn }}">Black layer mask, reveal light <strong style="color:#E8E0D0;font-weight:600;">only</strong> on the grazing edges.</sc-if></li>
+            </ol>
+          </sc-if>
+          <sc-if value="{{ isM2 }}">
+            <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;"><span style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Doublon + Niveaux</sc-if><sc-if value="{{ isEn }}">Duplicate + Levels</sc-if></span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(232,224,208,0.4);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">le plus réaliste</sc-if><sc-if value="{{ isEn }}">most realistic</sc-if></span></div>
+            <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 9px; font-size: 13.5px; color: rgba(232,224,208,0.62); line-height: 1.6;">
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Duplique le sujet, pousse les <strong style="color:#E8E0D0;font-weight:600;">Niveaux</strong> vers le blanc pour cramer les bords.</sc-if><sc-if value="{{ isEn }}">Duplicate the subject, push <strong style="color:#E8E0D0;font-weight:600;">Levels</strong> toward white to blow the edges.</sc-if></li>
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Masque noir sur le doublon, brush blanc pour révéler le contour rasant.</sc-if><sc-if value="{{ isEn }}">Black mask on the duplicate, white brush to reveal the grazing rim.</sc-if></li>
+              <li><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Teinte avec une <strong style="color:#E8E0D0;font-weight:600;">Balance des couleurs</strong> écrêtée = lumière prise sur la vraie peau.</sc-if><sc-if value="{{ isEn }}">Tint with a clipped <strong style="color:#E8E0D0;font-weight:600;">Color Balance</strong> = light drawn from the real skin.</sc-if></li>
+            </ol>
+          </sc-if>
+        </div>
+      </div>
+      <!-- réglages de brush -->
+      <div style="border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; overflow: hidden;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
+          <span style="font-size: 11.5px; font-weight: 600; color: rgba(232,224,208,0.85);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Réglages du brush</sc-if><sc-if value="{{ isEn }}">Brush settings</sc-if></span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">B</span>
+        </div>
+        <div style="padding: 6px 16px 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(232,224,208,0.07);"><span style="color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Dureté</sc-if><sc-if value="{{ isEn }}">Hardness</sc-if></span><span style="color: #3DBFA3;">0–30 %</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(232,224,208,0.07);"><span style="color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Opacité</sc-if><sc-if value="{{ isEn }}">Opacity</sc-if></span><span style="color: #3DBFA3;">40–70 %</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(232,224,208,0.07);"><span style="color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Flux</sc-if><sc-if value="{{ isEn }}">Flow</sc-if></span><span style="color: #3DBFA3;">10–30 %</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(232,224,208,0.07);"><span style="color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Taille</sc-if><sc-if value="{{ isEn }}">Size</sc-if></span><span style="color: #3DBFA3;">2–8 px</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(232,224,208,0.07);"><span style="color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Transfert</sc-if><sc-if value="{{ isEn }}">Transfer</sc-if></span><span style="color: rgba(232,224,208,0.8); font-size: 10.5px;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">opacité = pression</sc-if><sc-if value="{{ isEn }}">opacity = pressure</sc-if></span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0;"><span style="color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Couleur</sc-if><sc-if value="{{ isEn }}">Color</sc-if></span><span style="color: rgba(232,224,208,0.8); font-size: 10.5px;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">teinte source, pas blanc pur</sc-if><sc-if value="{{ isEn }}">source hue, not pure white</sc-if></span></div>
+        </div>
+        <p style="padding: 0 16px 16px; margin: 0; font-size: 11.5px; color: rgba(232,224,208,0.35); line-height: 1.6;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un flux bas = tu construis la lumière par petites touches, comme en vrai. Jamais 100 %.</sc-if><sc-if value="{{ isEn }}">Low flow = you build light in small passes, like in real life. Never 100%.</sc-if></p>
+      </div>
+    </div>
+
     <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative;">
       <div onPointerDown="{{ compareDown }}" onPointerMove="{{ compareMove }}" style="position: relative; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: none; cursor: ew-resize;">
         <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Début" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
@@ -3156,7 +3214,7 @@ class Component extends DCLogic {
     ch5: { wrap: 0.75, mask: false, rim: '#22D3C0' },
     email: '', subscribed: false,
     compare: 55,
-    progress: 0, activeCh: 0, sound: true,
+    progress: 0, activeCh: 0, sound: true, psMethod: 0,
   };
 
   componentDidMount() {
@@ -3282,6 +3340,13 @@ class Component extends DCLogic {
       soundColor: s.sound ? teal : 'rgba(232,224,208,0.5)',
       toggleSound: () => { const on = !this.state.sound; this.setState({ sound: on }); if (on) this.click('nav'); },
       clickNav: () => this.click('nav'),
+      psMethod: s.psMethod, isM0: s.psMethod === 0, isM1: s.psMethod === 1, isM2: s.psMethod === 2,
+      setM0: () => { this.click('preset'); this.setState({ psMethod: 0 }); },
+      setM1: () => { this.click('preset'); this.setState({ psMethod: 1 }); },
+      setM2: () => { this.click('preset'); this.setState({ psMethod: 2 }); },
+      m0Bg: s.psMethod === 0 ? 'rgba(61,191,163,0.12)' : '#0E0F11', m0Bd: s.psMethod === 0 ? 'rgba(61,191,163,0.6)' : 'rgba(232,224,208,0.14)', m0Fg: s.psMethod === 0 ? '#3DBFA3' : 'rgba(232,224,208,0.6)',
+      m1Bg: s.psMethod === 1 ? 'rgba(61,191,163,0.12)' : '#0E0F11', m1Bd: s.psMethod === 1 ? 'rgba(61,191,163,0.6)' : 'rgba(232,224,208,0.14)', m1Fg: s.psMethod === 1 ? '#3DBFA3' : 'rgba(232,224,208,0.6)',
+      m2Bg: s.psMethod === 2 ? 'rgba(61,191,163,0.12)' : '#0E0F11', m2Bd: s.psMethod === 2 ? 'rgba(61,191,163,0.6)' : 'rgba(232,224,208,0.14)', m2Fg: s.psMethod === 2 ? '#3DBFA3' : 'rgba(232,224,208,0.6)',
       compassKey: (e) => {
         const k = e.key; let daz = 0, del = 0;
         if (k === 'ArrowLeft') daz = -3; else if (k === 'ArrowRight') daz = 3;
