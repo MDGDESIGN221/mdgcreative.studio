@@ -3735,6 +3735,9 @@ class Component extends DCLogic {
         e.preventDefault();
         const email = this.state.email;
         this.setState({ subscribing: true, subscribeError: false });
+        // ⚠️ endpoint LIVE — toute soumission, même depuis un aperçu/prototype
+        // ailleurs que le site déployé, envoie une vraie notification dans la
+        // boîte mail réelle du studio. Ne pas soumettre pour "juste tester".
         fetch('https://formsubmit.co/ajax/mdgdesign221@gmail.com', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
