@@ -2039,6 +2039,14 @@
       this._giz = giz; this._fix = fix; this._fixFace = face; this._fixGlow = glow; this._fixBeam = beam;
       this._lookTarget = new THREE.Vector3(0, 0.02, 0);
 
+      // onboarding: a ring that pulses on the lamp the first time a scene is seen,
+      // so the user understands the fixture is grabbable
+      const ringTexC = document.createElement('canvas'); ringTexC.width = ringTexC.height = 128;
+      (() => { const g = ringTexC.getContext('2d'); g.strokeStyle = 'rgba(255,255,255,0.95)'; g.lineWidth = 7; g.beginPath(); g.arc(64, 64, 54, 0, Math.PI * 2); g.stroke(); })();
+      const introRing = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(ringTexC), color: 0x3dbfa3, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false }));
+      introRing.visible = false; giz.add(introRing);
+      this._introRing = introRing; this._introDone = false; this._introStart = 0;
+
       // drag the light ball itself (raycast against an invisible larger hit sphere)
       const ray = new THREE.Raycaster(); const ndc = new THREE.Vector2();
       const cvs = renderer.domElement;
@@ -2106,7 +2114,12 @@
       head.add(mesh); this._mesh = mesh;
 
       this._ro = new ResizeObserver(() => this._resize()); this._ro.observe(this);
-      this._io = new IntersectionObserver((en) => { this._visible = en[0].isIntersecting; }, { threshold: 0.02 });
+      this._io = new IntersectionObserver((en) => {
+        const vis = en[0].isIntersecting;
+        if (vis && !this._visible) this._dirty = true;
+        this._visible = vis;
+        if (vis && !this._introDone && this.p.interactive && this.p.gizmo && !this._introStart) this._introStart = performance.now();
+      }, { threshold: 0.06 });
       this._io.observe(this);
       this._resize();
       this._ready = true; this._dirty = true;
@@ -2131,6 +2144,7 @@
 
     _frame() {
       if (this._stopped || !this._ready) return;
+      if (!this._visible) return; // offscreen sims cost nothing
       const THREE = this.THREE, p = this.p, controls = this._controls;
       controls.enabled = !!p.interactive;
       // auto-orbit rotates the head until the user grabs it
@@ -2227,6 +2241,27 @@
         this._fixBeam.position.z = 0.15 + Ls / 2;
         this._fixBeam.material.opacity = Math.min(0.16, (0.04 + inten * 0.04) * Math.max(0.15, lvl));
         this._fixBeam.material.color.setRGB(pc[0], pc[1], pc[2]);
+      }
+
+      // onboarding attention pulse (first view only)
+      if (this._introRing) {
+        if (!this._introDone && this._introStart && fixOn) {
+          const elp = (performance.now() - this._introStart) / 1000;
+          const period = 1.25, runs = 3;
+          if (elp >= period * runs) { this._introDone = true; this._introRing.visible = false; }
+          else {
+            const ph = (elp % period) / period;
+            this._introRing.visible = true;
+            const sc = 0.6 + ph * 1.7;
+            this._introRing.scale.set(sc, sc, 1);
+            this._introRing.material.opacity = (1 - ph) * 0.6;
+            const pc = (p.mode === 'fresnel') ? rimCol : kc;
+            this._introRing.material.color.setRGB(pc[0], pc[1], pc[2]);
+            this._dirty = true;
+          }
+        } else if (this._introDone && this._introRing.visible) {
+          this._introRing.visible = false;
+        }
       }
 
       // view mode material swap
@@ -2354,21 +2389,27 @@
       <span style="width: 1px; height: 16px; background: rgba(232,224,208,0.18);"></span>
       <span style="font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.34em; text-transform: uppercase; color: rgba(232,224,208,0.85); font-weight: 600; white-space: nowrap;">Learning<span style="color: #3DBFA3;"> Center</span></span>
     </div>
-    <nav style="display: flex; align-items: center; gap: 22px;">
+    <nav style="display: flex; align-items: center; gap: 18px;">
+      <span class="lcx-navlinks" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(232,224,208,0.4);">{{ chapNum }}<span style="opacity: 0.45;"> / 06</span></span>
       <div class="lcx-navlinks" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em;">
-        <a href="#ch1" class="lcx-navlink" style="color: rgba(232,224,208,0.45);">01</a>
-        <a href="#ch2" class="lcx-navlink" style="color: rgba(232,224,208,0.45);">02</a>
-        <a href="#ch3" class="lcx-navlink" style="color: rgba(232,224,208,0.45);">03</a>
-        <a href="#ch4" class="lcx-navlink" style="color: rgba(232,224,208,0.45);">04</a>
-        <a href="#ch5" class="lcx-navlink" style="color: rgba(232,224,208,0.45);">05</a>
-        <a href="#ch6" class="lcx-navlink" style="color: rgba(232,224,208,0.45);">06</a>
+        <a href="#ch1" class="lcx-navlink" style="color: {{ navC1 }};">01</a>
+        <a href="#ch2" class="lcx-navlink" style="color: {{ navC2 }};">02</a>
+        <a href="#ch3" class="lcx-navlink" style="color: {{ navC3 }};">03</a>
+        <a href="#ch4" class="lcx-navlink" style="color: {{ navC4 }};">04</a>
+        <a href="#ch5" class="lcx-navlink" style="color: {{ navC5 }};">05</a>
+        <a href="#ch6" class="lcx-navlink" style="color: {{ navC6 }};">06</a>
       </div>
+      <button onClick="{{ toggleSound }}" title="son" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 26px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; background: transparent; color: {{ soundColor }}; cursor: pointer; padding: 0;">
+        <sc-if value="{{ soundOn }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:block;"><path d="M2 5.2v3.6h2L7 11V3L4 5.2H2Z" fill="currentColor"></path><path d="M9.2 5c.7.5 1.1 1.2 1.1 2s-.4 1.5-1.1 2M10.8 3.4c1.2.8 1.9 2.1 1.9 3.6s-.7 2.8-1.9 3.6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"></path></svg></sc-if>
+        <sc-if value="{{ soundOff }}"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:block;"><path d="M2 5.2v3.6h2L7 11V3L4 5.2H2Z" fill="currentColor"></path><path d="M9.5 5.5 12.5 8.5M12.5 5.5 9.5 8.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"></path></svg></sc-if>
+      </button>
       <button onClick="{{ toggleLang }}" style="display: flex; gap: 0; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; background: transparent; padding: 3px; cursor: pointer; font-family: 'Inter', sans-serif;">
         <span style="padding: 3px 10px; border-radius: 999px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; background: {{ frPillBg }}; color: {{ frPillFg }};">FR</span>
         <span style="padding: 3px 10px; border-radius: 999px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; background: {{ enPillBg }}; color: {{ enPillFg }};">EN</span>
       </button>
       <a href="index.html" style="font-size: 12px; color: rgba(232,224,208,0.5); white-space: nowrap;">← Site</a>
     </nav>
+    <div style="position: absolute; left: 0; bottom: -1px; height: 2px; width: {{ progressPct }}; background: linear-gradient(90deg, rgba(61,191,163,0.35), #3DBFA3); transition: width 0.25s ease; pointer-events: none;"></div>
   </header>
 
   <!-- ============ HERO ============ -->
@@ -2558,6 +2599,10 @@
           </p>
         </div>
       </div>
+      <a href="#ch2" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+        <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
+        <span style="color: #3DBFA3;">02 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La distance</sc-if><sc-if value="{{ isEn }}">Distance</sc-if> →</span>
+      </a>
     </aside>
   </section>
 
@@ -2625,6 +2670,10 @@
           </div>
         </div>
       </div>
+      <a href="#ch3" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+        <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
+        <span style="color: #3DBFA3;">03 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La direction</sc-if><sc-if value="{{ isEn }}">Direction</sc-if> →</span>
+      </a>
     </aside>
   </section>
 
@@ -2680,7 +2729,7 @@
           </div>
         </div>
         <div class="lcx-compass-row" style="padding: 14px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-bottom: 1px solid rgba(232,224,208,0.08);">
-          <div onPointerDown="{{ compassDrag }}" onPointerMove="{{ compassDrag }}" style="position: relative; width: 186px; height: 186px; cursor: grab; touch-action: none; user-select: none; flex-shrink: 0;">
+          <div onPointerDown="{{ compassDrag }}" onPointerMove="{{ compassDrag }}" tabindex="0" role="slider" aria-label="Position de la lumière" onKeyDown="{{ compassKey }}" style-focus="box-shadow: 0 0 0 2px rgba(61,191,163,0.6);" style="position: relative; width: 186px; height: 186px; border-radius: 50%; cursor: grab; touch-action: none; user-select: none; outline: none; flex-shrink: 0;">
             <svg viewBox="0 0 200 200" style="width: 100%; height: 100%; display: block;">
               <circle cx="100" cy="100" r="92" fill="#101114"></circle>
               <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(232,224,208,0.16)" stroke-width="1"></circle>
@@ -2751,6 +2800,10 @@
           <sc-if value="{{ isEn }}">Butterfly: high frontal · Loop: slight offset · Rembrandt: 45°/45° · Split: 90°.</sc-if>
         </p>
       </div>
+      <a href="#ch4" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+        <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
+        <span style="color: #3DBFA3;">04 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Les rôles</sc-if><sc-if value="{{ isEn }}">The roles</sc-if> →</span>
+      </a>
     </aside>
   </section>
 
@@ -2835,6 +2888,10 @@
           <sc-if value="{{ isEn }}">The eye hides the layer, the slider sets its opacity. Key sculpts, Fill lifts, Rim separates.</sc-if>
         </p>
       </div>
+      <a href="#ch5" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+        <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
+        <span style="color: #3DBFA3;">05 · Fresnel →</span>
+      </a>
     </aside>
   </section>
 
@@ -2922,6 +2979,10 @@
           </p>
         </div>
       </div>
+      <a href="#ch6" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.25); border-radius: 4px; background: rgba(61,191,163,0.06); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.55);">
+        <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Passer à la pratique</sc-if><sc-if value="{{ isEn }}">Move to practice</sc-if></span>
+        <span style="color: #3DBFA3;">06 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Application</sc-if><sc-if value="{{ isEn }}">Applied</sc-if> →</span>
+      </a>
     </aside>
   </section>
 
@@ -2948,6 +3009,38 @@
         <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Glisse la barre : à droite l'esquisse de départ, à gauche le rendu final où le rim light détache le sujet.</sc-if>
         <sc-if value="{{ isEn }}">Drag the bar: the starting sketch on the right, the final render where the rim light separates the subject on the left.</sc-if>
       </p>
+    </div>
+
+    <div class="lcx-reveal" style="position: relative;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(232,224,208,0.4);">
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La méthode · 4 étapes sur Photoshop</sc-if>
+          <sc-if value="{{ isEn }}">The method · 4 steps in Photoshop</sc-if>
+        </span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(232,224,208,0.3);">WORKFLOW</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+        <div style="padding: 22px 20px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: rgba(232,224,208,0.2);">01</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #3DBFA3; border: 1px solid rgba(61,191,163,0.3); padding: 3px 7px; border-radius: 999px;">L01 · R.01</span></div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin: 0; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La source plausible</sc-if><sc-if value="{{ isEn }}">The plausible source</sc-if></h3>
+          <p style="font-size: 13px; color: rgba(232,224,208,0.55); margin: 0; line-height: 1.65;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Décide d'où vient la lumière et pourquoi elle existe : soleil bas, fenêtre, enseigne. Sans source crédible, le rim sonne faux.</sc-if><sc-if value="{{ isEn }}">Decide where the light comes from and why it exists: low sun, window, sign. Without a credible source, the rim rings false.</sc-if></p>
+        </div>
+        <div style="padding: 22px 20px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: rgba(232,224,208,0.2);">02</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: rgba(232,224,208,0.5); border: 1px solid rgba(232,224,208,0.18); padding: 3px 7px; border-radius: 999px;">MASK</span></div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin: 0; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Isoler le sujet</sc-if><sc-if value="{{ isEn }}">Isolate the subject</sc-if></h3>
+          <p style="font-size: 13px; color: rgba(232,224,208,0.55); margin: 0; line-height: 1.65;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Détoure proprement le contour à éclairer : sélection, masque de fusion. Le rim ne déborde jamais sur le fond.</sc-if><sc-if value="{{ isEn }}">Cleanly cut out the edge to light: selection, layer mask. The rim never spills onto the background.</sc-if></p>
+        </div>
+        <div style="padding: 22px 20px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: rgba(232,224,208,0.2);">03</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #3DBFA3; border: 1px solid rgba(61,191,163,0.3); padding: 3px 7px; border-radius: 999px;">L05 · FRESNEL</span></div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin: 0; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Peindre le rasant</sc-if><sc-if value="{{ isEn }}">Paint the grazing edge</sc-if></h3>
+          <p style="font-size: 13px; color: rgba(232,224,208,0.55); margin: 0; line-height: 1.65;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sur un calque en Densité linéaire +, peins la lumière seulement sur les bords rasants — là où l'angle de vue fuit.</sc-if><sc-if value="{{ isEn }}">On a Linear Dodge (Add) layer, paint light only on the grazing edges — where the viewing angle falls away.</sc-if></p>
+        </div>
+        <div style="padding: 22px 20px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: rgba(232,224,208,0.2);">04</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #3DBFA3; border: 1px solid rgba(61,191,163,0.3); padding: 3px 7px; border-radius: 999px;">L02 · L04</span></div>
+          <h3 style="font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin: 0; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Doser &amp; colorer</sc-if><sc-if value="{{ isEn }}">Dose &amp; color</sc-if></h3>
+          <p style="font-size: 13px; color: rgba(232,224,208,0.55); margin: 0; line-height: 1.65;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Baisse l'opacité, prends la teinte de la source, un léger flou pour fondre. Le rim doit poser, pas crier.</sc-if><sc-if value="{{ isEn }}">Lower the opacity, take the source's hue, a light blur to blend. The rim should sit, not shout.</sc-if></p>
+        </div>
+      </div>
     </div>
 
     <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative;">
@@ -2985,34 +3078,40 @@
   </section>
 
   <!-- ============ NEWSLETTER ============ -->
-  <section data-screen-label="Newsletter" style="display: flex; justify-content: center; padding: 120px 24px; border-top: 1px solid rgba(232,224,208,0.08); background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(61,191,163,0.06), rgba(61,191,163,0) 70%), #0B0C0D;">
-    <div class="lcx-reveal" style="width: 100%; max-width: 620px; display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center;">
-      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: #3DBFA3;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Prochaines leçons</sc-if>
-        <sc-if value="{{ isEn }}">Next lessons</sc-if>
+  <!-- ============ CONVERSION — COMMENCE GRATUITEMENT ============ -->
+  <section id="lc-access" data-screen-label="Commencer" style="display: flex; justify-content: center; padding: 128px 24px; border-top: 1px solid rgba(232,224,208,0.08); background: radial-gradient(ellipse 70% 90% at 50% 0%, rgba(61,191,163,0.08), rgba(61,191,163,0) 65%), #0B0C0D;">
+    <div class="lcx-reveal" style="width: 100%; max-width: 720px; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center;">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase; color: #3DBFA3;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Commence gratuitement</sc-if>
+        <sc-if value="{{ isEn }}">Start for free</sc-if>
       </span>
-      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 3.2vw, 40px); font-weight: 700; letter-spacing: -0.01em; margin: 0; color: #E8E0D0; text-wrap: balance;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sois prévenu quand une leçon sort</sc-if>
-        <sc-if value="{{ isEn }}">Get notified when a lesson drops</sc-if>
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(30px, 4.4vw, 56px); font-weight: 800; letter-spacing: -0.02em; line-height: 0.98; margin: 0; color: #E8E0D0; text-transform: uppercase; text-wrap: balance;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Prends le contrôle<br>de <span style="color: #3DBFA3;">la lumière.</span></sc-if>
+        <sc-if value="{{ isEn }}">Take control<br>of <span style="color: #3DBFA3;">the light.</span></sc-if>
       </h2>
-      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px; color: rgba(232,224,208,0.6); margin: 0; max-width: 460px;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un e-mail court à chaque module : tutos rim light, études d'éclairage, ressources.</sc-if>
-        <sc-if value="{{ isEn }}">A short email at every module: rim light tutorials, lighting studies, resources.</sc-if>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(18px, 2.2vw, 24px); color: rgba(232,224,208,0.65); margin: 0; max-width: 500px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le premier module est offert. Commence maintenant, sans carte bancaire.</sc-if>
+        <sc-if value="{{ isEn }}">The first module is free. Start now, no card required.</sc-if>
       </p>
+      <div style="display: flex; gap: 10px 26px; flex-wrap: wrap; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(232,224,208,0.6);">
+        <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #3DBFA3;"></span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">6 leçons interactives</sc-if><sc-if value="{{ isEn }}">6 interactive lessons</sc-if></span>
+        <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #3DBFA3;"></span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Études rim light</sc-if><sc-if value="{{ isEn }}">Rim light studies</sc-if></span>
+        <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #3DBFA3;"></span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Nouveaux modules chaque mois</sc-if><sc-if value="{{ isEn }}">New modules monthly</sc-if></span>
+      </div>
       <sc-if value="{{ newsletterOpen }}" hint-placeholder-val="{{ true }}">
-        <form onSubmit="{{ submitNewsletter }}" style="display: flex; gap: 12px; width: 100%; max-width: 460px; flex-wrap: wrap; justify-content: center;">
-          <input type="email" required="required" placeholder="{{ emailPlaceholder }}" value="{{ email }}" onInput="{{ setEmail }}" style="flex: 1 1 240px; padding: 14px 4px; border: none; border-bottom: 1px solid rgba(232,224,208,0.25); background: transparent; color: #E8E0D0; font-family: 'Inter', sans-serif; font-size: 15px; outline: none; border-radius: 0;">
-          <button type="submit" class="lcx-cta" style="padding: 14px 28px; border: none; border-radius: 999px; background: #3DBFA3; color: #0B0C0D; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap;">
-            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">S'inscrire</sc-if>
-            <sc-if value="{{ isEn }}">Subscribe</sc-if>
+        <form onSubmit="{{ submitNewsletter }}" style="display: flex; gap: 12px; width: 100%; max-width: 480px; flex-wrap: wrap; justify-content: center; margin-top: 4px;">
+          <input type="email" required="required" placeholder="{{ emailPlaceholder }}" value="{{ email }}" onInput="{{ setEmail }}" style="flex: 1 1 240px; padding: 15px 18px; border: 1px solid rgba(232,224,208,0.2); background: #0E0F11; color: #E8E0D0; font-family: 'Inter', sans-serif; font-size: 15px; outline: none; border-radius: 999px;">
+          <button type="submit" class="lcx-cta" style="padding: 15px 32px; border: none; border-radius: 999px; background: #3DBFA3; color: #0B0C0D; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14.5px; cursor: pointer; white-space: nowrap;">
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Commence gratuitement</sc-if>
+            <sc-if value="{{ isEn }}">Start for free</sc-if>
           </button>
         </form>
       </sc-if>
       <sc-if value="{{ newsletterDone }}">
-        <div style="display: flex; align-items: center; gap: 12px; padding: 15px 26px; border: 1px solid rgba(61,191,163,0.5); background: rgba(61,191,163,0.08); color: #6BD9C2; font-family: 'Inter', sans-serif; font-size: 14.5px; font-weight: 500;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 16px 28px; border: 1px solid rgba(61,191,163,0.5); background: rgba(61,191,163,0.08); color: #6BD9C2; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; border-radius: 999px; margin-top: 4px;">
           <span style="font-size: 16px;">✓</span>
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Inscrit, à bientôt pour la prochaine leçon.</sc-if>
-          <sc-if value="{{ isEn }}">You're in, see you at the next lesson.</sc-if>
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">C'est parti — regarde ta boîte mail pour le premier module.</sc-if>
+          <sc-if value="{{ isEn }}">You're in — check your inbox for the first module.</sc-if>
         </div>
       </sc-if>
       <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.3);">
@@ -3057,6 +3156,7 @@ class Component extends DCLogic {
     ch5: { wrap: 0.75, mask: false, rim: '#22D3C0' },
     email: '', subscribed: false,
     compare: 55,
+    progress: 0, activeCh: 0, sound: true,
   };
 
   componentDidMount() {
@@ -3078,10 +3178,55 @@ class Component extends DCLogic {
       const c = wire('sim-ch5', (d) => { if (d.rimWrap != null) this.setState((st) => ({ ch5: { ...st.ch5, wrap: d.rimWrap } })); });
       if (a && b && c) { clearInterval(this._wireT); this._wireT = null; }
     }, 400);
+
+    // scroll progress + active chapter (throttled with rAF)
+    const ids = ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6'];
+    const onScroll = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => {
+        this._raf = null;
+        const de = document.documentElement;
+        const max = de.scrollHeight - window.innerHeight;
+        const prog = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        const cy = window.innerHeight * 0.5;
+        let act = 0;
+        for (let i = 0; i < ids.length; i++) {
+          const el = document.getElementById(ids[i]);
+          if (!el) continue;
+          const r = el.getBoundingClientRect();
+          if (r.top <= cy && r.bottom > cy) { act = i + 1; break; }
+        }
+        if (Math.abs(prog - this.state.progress) > 0.002 || act !== this.state.activeCh) this.setState({ progress: prog, activeCh: act });
+      });
+    };
+    this._onScroll = onScroll;
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
   }
 
   componentWillUnmount() {
     if (this._wireT) clearInterval(this._wireT);
+    if (this._onScroll) { window.removeEventListener('scroll', this._onScroll); window.removeEventListener('resize', this._onScroll); }
+    if (this._raf) cancelAnimationFrame(this._raf);
+  }
+
+  click(kind) {
+    if (!this.state.sound) return;
+    try {
+      if (!this._ac) this._ac = new (window.AudioContext || window.webkitAudioContext)();
+      const ac = this._ac; if (ac.state === 'suspended') ac.resume();
+      const t = ac.currentTime;
+      const o = ac.createOscillator(), g = ac.createGain();
+      const f = kind === 'off' ? 300 : kind === 'preset' ? 620 : 460;
+      o.type = 'triangle'; o.frequency.setValueAtTime(f, t);
+      o.frequency.exponentialRampToValueAtTime(Math.max(120, f * 0.6), t + 0.05);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.05, t + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.13);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t); o.stop(t + 0.15);
+    } catch (_) {}
   }
 
   classifyPattern(az, el) {
@@ -3105,8 +3250,8 @@ class Component extends DCLogic {
       this.setState((st) => ({ [path[0]]: { ...st[path[0]], [path[1]]: v } }));
     };
     const setLight = (az, el) => this.setState((st) => ({ ch3: { ...st.ch3, az, el } }));
-    const setCh1Color = (hex) => this.setState((st) => ({ ch1: { ...st.ch1, color: hex } }));
-    const setCh5Rim = (hex) => this.setState((st) => ({ ch5: { ...st.ch5, rim: hex } }));
+    const setCh1Color = (hex) => { this.click('nav'); this.setState((st) => ({ ch1: { ...st.ch1, color: hex } })); };
+    const setCh5Rim = (hex) => { this.click('nav'); this.setState((st) => ({ ch5: { ...st.ch5, rim: hex } })); };
     const ring = (on) => on ? 'rgba(232,224,208,0.9)' : 'transparent';
     const pattern = this.classifyPattern(s.ch3.az, s.ch3.el);
     const patternFound = ['Butterfly', 'Loop', 'Rembrandt', 'Split', 'Contre-jour / Rim', 'Backlight / Rim'].indexOf(pattern) >= 0;
@@ -3124,7 +3269,28 @@ class Component extends DCLogic {
     const wedge3 = 'M ' + kx3 + ' ' + ky3 + ' L ' + w1x + ' ' + w1y + ' L ' + w2x + ' ' + w2y + ' Z';
     return {
       isFr: fr, isEn: !fr,
-      toggleLang: () => this.setState({ lang: fr ? 'en' : 'fr' }),
+      toggleLang: () => { this.click('nav'); this.setState({ lang: fr ? 'en' : 'fr' }); },
+      chapNum: s.activeCh > 0 ? ('0' + s.activeCh) : '00',
+      progressPct: (s.progress * 100).toFixed(1) + '%',
+      navC1: s.activeCh === 1 ? teal : 'rgba(232,224,208,0.45)',
+      navC2: s.activeCh === 2 ? teal : 'rgba(232,224,208,0.45)',
+      navC3: s.activeCh === 3 ? teal : 'rgba(232,224,208,0.45)',
+      navC4: s.activeCh === 4 ? teal : 'rgba(232,224,208,0.45)',
+      navC5: s.activeCh === 5 ? teal : 'rgba(232,224,208,0.45)',
+      navC6: s.activeCh === 6 ? teal : 'rgba(232,224,208,0.45)',
+      soundOn: s.sound, soundOff: !s.sound,
+      soundColor: s.sound ? teal : 'rgba(232,224,208,0.5)',
+      toggleSound: () => { const on = !this.state.sound; this.setState({ sound: on }); if (on) this.click('nav'); },
+      clickNav: () => this.click('nav'),
+      compassKey: (e) => {
+        const k = e.key; let daz = 0, del = 0;
+        if (k === 'ArrowLeft') daz = -3; else if (k === 'ArrowRight') daz = 3;
+        else if (k === 'ArrowUp') del = 3; else if (k === 'ArrowDown') del = -3; else return;
+        e.preventDefault();
+        this.setState((st) => ({ ch3: { ...st.ch3,
+          az: Math.max(-179, Math.min(179, st.ch3.az + daz)),
+          el: Math.max(-30, Math.min(75, st.ch3.el + del)) } }));
+      },
       frPillBg: fr ? teal : 'transparent', frPillFg: fr ? '#0B0C0D' : 'rgba(232,224,208,0.55)',
       enPillBg: !fr ? teal : 'transparent', enPillFg: !fr ? '#0B0C0D' : 'rgba(232,224,208,0.55)',
       blockCtx: (e) => e.preventDefault(),
@@ -3178,19 +3344,19 @@ class Component extends DCLogic {
       ch3ElLabel: Math.round(s.ch3.el) + '°',
       ch3PatternLabel: pattern,
       ch3BadgeColor: patternFound ? teal : 'rgba(232,224,208,0.5)',
-      presetButterfly: () => setLight(0, 45),
-      presetLoop: () => setLight(28, 30),
-      presetRembrandt: () => setLight(45, 40),
-      presetSplit: () => setLight(90, 10),
+      presetButterfly: () => { this.click('preset'); setLight(0, 45); },
+      presetLoop: () => { this.click('preset'); setLight(28, 30); },
+      presetRembrandt: () => { this.click('preset'); setLight(45, 40); },
+      presetSplit: () => { this.click('preset'); setLight(90, 10); },
 
       ch4Key: s.ch4.key, ch4Fill: s.ch4.fill, ch4Rim: s.ch4.rim,
       ch4KeyOff: !s.ch4.key, ch4FillOff: !s.ch4.fill, ch4RimOff: !s.ch4.rim,
       ch4KeyLevel: s.ch4.keyL, ch4FillLevel: s.ch4.fillL, ch4RimLevel: s.ch4.rimL,
       setCh4KeyL: set(['ch4', 'keyL']), setCh4FillL: set(['ch4', 'fillL']), setCh4RimL: set(['ch4', 'rimL']),
       ch4KeyLabel: Math.round(s.ch4.keyL * 100), ch4FillLabel: Math.round(s.ch4.fillL * 100), ch4RimLabel: Math.round(s.ch4.rimL * 100),
-      toggleKey: () => this.setState((st) => ({ ch4: { ...st.ch4, key: !st.ch4.key } })),
-      toggleFill: () => this.setState((st) => ({ ch4: { ...st.ch4, fill: !st.ch4.fill } })),
-      toggleRim: () => this.setState((st) => ({ ch4: { ...st.ch4, rim: !st.ch4.rim } })),
+      toggleKey: () => { this.click(this.state.ch4.key ? 'off' : 'on'); this.setState((st) => ({ ch4: { ...st.ch4, key: !st.ch4.key } })); },
+      toggleFill: () => { this.click(this.state.ch4.fill ? 'off' : 'on'); this.setState((st) => ({ ch4: { ...st.ch4, fill: !st.ch4.fill } })); },
+      toggleRim: () => { this.click(this.state.ch4.rim ? 'off' : 'on'); this.setState((st) => ({ ch4: { ...st.ch4, rim: !st.ch4.rim } })); },
       keyDot: s.ch4.key ? '#FFD9A0' : 'rgba(232,224,208,0.15)',
       fillDot: s.ch4.fill ? '#BFD3F2' : 'rgba(232,224,208,0.15)',
       rimDot: s.ch4.rim ? teal : 'rgba(232,224,208,0.15)',
@@ -3199,7 +3365,7 @@ class Component extends DCLogic {
       ch5WrapLabel: Math.round(10 + s.ch5.wrap * 150) + '°',
       ch5LightMove: (d) => { if (d.rimWrap != null) this.setState((st) => ({ ch5: { ...st.ch5, wrap: d.rimWrap } })); },
       ch5View: s.ch5.mask ? 1 : 0,
-      toggleCh5View: () => this.setState((st) => ({ ch5: { ...st.ch5, mask: !st.ch5.mask } })),
+      toggleCh5View: () => { this.click('nav'); this.setState((st) => ({ ch5: { ...st.ch5, mask: !st.ch5.mask } })); },
       ch5SwBg: s.ch5.mask ? teal : 'rgba(232,224,208,0.18)',
       ch5SwX: s.ch5.mask ? '16px' : '2px',
       ch5RimHex: s.ch5.rim,
