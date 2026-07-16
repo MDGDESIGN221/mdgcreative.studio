@@ -2368,6 +2368,10 @@
       .lcx-aside { padding: 36px 14px 52px; }
       .lcx-pad { padding: 56px 18px; }
     }
+    @media (max-width: 640px) {
+      .lcx-h-title-wrap { padding: 0 22px 36px !important; }
+      .lcx-h-title-wrap h1 { font-size: clamp(30px, 10.2vw, 96px) !important; overflow-wrap: break-word; }
+    }
 
     /* ---- motion ---- */
     @keyframes lcxFadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
@@ -2482,7 +2486,7 @@
     </div>
 
     <!-- titre -->
-    <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 0 44px 52px; z-index: 2; pointer-events: none;">
+    <div class="lcx-h-title-wrap" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 0 44px 52px; z-index: 2; pointer-events: none;">
       <div class="lcx-h-eyebrow" style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
         <span style="width: 26px; height: 1px; background: #3DBFA3;"></span>
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(232,224,208,0.6);">
