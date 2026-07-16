@@ -3243,6 +3243,39 @@
     </div>
   </section>
 
+  <!-- ============ SPEED ART — LE PROCESSUS ============ -->
+  <section id="lc-speedart" data-screen-label="Speed Art" class="lcx-pad" style="position: relative; background: #0B0C0D; overflow: hidden; border-top: 1px solid rgba(232,224,208,0.08);">
+    <div class="lcx-reveal" style="max-width: 760px; position: relative; margin: 0 auto 48px; text-align: center;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10px; letter-spacing: 0.14em; color: #0B0C0D; background: #3DBFA3; padding: 4px 10px; border-radius: 999px; text-transform: uppercase;">Speed Art</span>
+      </div>
+      <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(28px, 3.4vw, 42px); font-weight: 700; letter-spacing: -0.01em; margin: 0 0 12px; color: #E8E0D0; text-wrap: balance;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Voir le processus</sc-if>
+        <sc-if value="{{ isEn }}">Watch the process</sc-if>
+      </h2>
+      <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 auto; max-width: 560px;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">De la toile vide au rim light final, en accéléré.</sc-if>
+        <sc-if value="{{ isEn }}">From blank canvas to final rim light, sped up.</sc-if>
+      </p>
+    </div>
+
+    <div class="lcx-reveal" style="max-width: 920px; margin: 0 auto; position: relative;">
+      <div style="position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 6px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); background: #0E0F11;">
+        <iframe
+          src="https://www.youtube.com/embed/JKnPwelsKcg?rel=0"
+          loading="lazy"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+          allowfullscreen="true">
+        </iframe>
+      </div>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: rgba(232,224,208,0.4); margin: 16px 0 0; text-align: center;">
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rendu final visible en Leçon 06 · Application</sc-if>
+        <sc-if value="{{ isEn }}">Final render in Lesson 06 · Applied</sc-if>
+      </p>
+    </div>
+  </section>
+
   <!-- ============ NEWSLETTER ============ -->
   <!-- ============ RÉCAP — LES SIX RÈGLES ============ -->
   <section id="lc-regles" data-screen-label="Les six regles" class="lcx-pad" style="position: relative; background: #F0EEE6; color: #1C1A16; overflow: hidden;">
