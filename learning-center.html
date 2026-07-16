@@ -2369,16 +2369,16 @@
       .lcx-pad { padding: 56px 18px; }
     }
     @media (max-width: 640px) {
-      .lcx-h-title-wrap { padding: 0 22px 36px !important; }
-      .lcx-h-title-wrap h1 { font-size: clamp(30px, 10.2vw, 96px) !important; overflow-wrap: break-word; }
+      .lcx-h-title-wrap { padding: 0 18px 36px !important; }
+      .lcx-h-title-wrap h1 { font-size: clamp(22px, 5.4vw, 96px) !important; }
     }
 
     /* ---- motion ---- */
     @keyframes lcxFadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
     @keyframes lcxSweep { from { background-position: 100% 50%; } to { background-position: 0% 50%; } }
     .lcx-h-eyebrow { animation: lcxFadeUp 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.3s both; }
-    .lcx-h-t1 { display: block; background: linear-gradient(100deg, #E8E0D0 0%, #E8E0D0 40%, #FFFFFF 50%, #E8E0D0 60%, #E8E0D0 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: lcxSweep 1.6s ease-in-out 0.6s both; }
-    .lcx-h-t2 { display: block; background: linear-gradient(100deg, #3DBFA3 0%, #3DBFA3 40%, #C7FFF1 50%, #3DBFA3 60%, #3DBFA3 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: lcxSweep 1.6s ease-in-out 1.1s both; }
+    .lcx-h-t1 { display: block; white-space: nowrap; background: linear-gradient(100deg, #E8E0D0 0%, #E8E0D0 40%, #FFFFFF 50%, #E8E0D0 60%, #E8E0D0 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: lcxSweep 1.6s ease-in-out 0.6s both; }
+    .lcx-h-t2 { display: block; white-space: nowrap; background: linear-gradient(100deg, #3DBFA3 0%, #3DBFA3 40%, #C7FFF1 50%, #3DBFA3 60%, #3DBFA3 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: lcxSweep 1.6s ease-in-out 1.1s both; }
     .lcx-h-sub { animation: lcxFadeUp 0.8s cubic-bezier(0.22,0.61,0.36,1) 1.9s both; }
     .lcx-h-cta { animation: lcxFadeUp 0.9s cubic-bezier(0.22,0.61,0.36,1) 2.3s both; }
     .lcx-h-chap span { opacity: 0; animation: lcxFadeUp 0.6s ease-out both; }
