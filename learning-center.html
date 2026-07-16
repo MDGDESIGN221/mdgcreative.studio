@@ -1859,7 +1859,7 @@
 
   class LightSim extends HTMLElement {
     static get observedAttributes() {
-      return ['mode', 'intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
+      return ['mode', 'model', 'intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
         'rim-wrap', 'falloff-boost', 'view', 'key-on', 'fill-on', 'rim-on',
         'auto-orbit', 'interactive', 'gizmo', 'yaw', 'color-hex', 'rim-hex',
         'key-level', 'fill-level', 'rim-level', 'keylevel', 'filllevel', 'rimlevel',
@@ -1868,7 +1868,7 @@
     constructor() {
       super();
       this.p = {
-        mode: 'single', intensity: 1.4, softness: 0.4, distance: 2.2, kelvin: 5400,
+        mode: 'single', model: 'head', intensity: 1.4, softness: 0.4, distance: 2.2, kelvin: 5400,
         azimuth: 42, elevation: 26, rimwrap: 0.75, falloffboost: 0, view: 0, yaw: 0,
         colorhex: '', rimhex: '#3DBFA3', keylevel: 1, filllevel: 1, rimlevel: 1,
         keyon: true, fillon: true, rimon: false, autoorbit: false, interactive: true, gizmo: true,
@@ -1877,7 +1877,7 @@
       this.onLightMove = null;
       // define camelCase property setters so the DC host can pass values as
       // properties OR attributes (both routes funnel into _setP)
-      ['mode', 'intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
+      ['mode', 'model', 'intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
         'rimWrap', 'falloffBoost', 'view', 'keyOn', 'fillOn', 'rimOn',
         'autoOrbit', 'interactive', 'gizmo', 'yaw', 'colorHex', 'rimHex'].forEach((camel) => {
         const key = camel.toLowerCase();
@@ -1894,6 +1894,7 @@
       else if (NUM.indexOf(name) >= 0) { v = parseFloat(v); if (isNaN(v)) return; }
       if (this.p[name] === v) return;
       this.p[name] = v; this._dirty = true;
+      if (name === 'model' && this._ready) { this._buildModel(v); this._syncPicker(); }
     }
 
     connectedCallback() {
@@ -1939,7 +1940,7 @@
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 0.98;
+      renderer.toneMappingExposure = 1.06;
       renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;touch-action:pan-y;';
       this.appendChild(renderer.domElement);
       this._renderer = renderer;
@@ -1996,7 +1997,21 @@
         uRimPower: { value: 3.0 },
         uRimStrength: { value: 0.0 },
       };
-      const skin = new THREE.MeshStandardMaterial({ color: 0xd8c3b1, roughness: 0.66, metalness: 0.0 });
+      const skin = new THREE.MeshPhysicalMaterial({ color: 0xb2b2b2, roughness: 0.68, metalness: 0.0, clearcoat: 0.2, clearcoatRoughness: 0.5, sheen: 0.25, sheenColor: new THREE.Color(0xffffff), sheenRoughness: 0.8 });
+      // textures peau procédurales : mottling couleur + micro-relief (bump/roughness)
+      (function skinTextures() {
+        const mk = (draw) => { const c = document.createElement('canvas'); c.width = c.height = 512; draw(c.getContext('2d')); const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t; };
+        const colorTex = mk((g) => {
+          g.fillStyle = '#b2b2b2'; g.fillRect(0, 0, 512, 512);
+          for (let i = 0; i < 24000; i++) { const x = Math.random() * 512, y = Math.random() * 512, r = Math.random() * 2.3, t = Math.random();
+            g.fillStyle = t > 0.5 ? 'rgba(120,120,120,0.05)' : 'rgba(190,190,190,0.05)'; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); }
+        });
+        const bumpTex = mk((g) => { const im = g.createImageData(512, 512);
+          for (let i = 0; i < im.data.length; i += 4) { const v = 128 + (Math.random() - 0.5) * 66; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
+          g.putImageData(im, 0, 0);
+        });
+        skin.map = colorTex; skin.bumpMap = bumpTex; skin.bumpScale = 0.013; skin.roughnessMap = bumpTex;
+      })();
       skin.onBeforeCompile = (sh) => {
         sh.uniforms.uRimColor = this._rimUniforms.uRimColor;
         sh.uniforms.uRimDirView = this._rimUniforms.uRimDirView;
@@ -2020,7 +2035,7 @@
       // lights
       const key = new THREE.SpotLight(0xffffff, 40, 0, 0.7, 0.4, 2);
       key.castShadow = true;
-      key.shadow.mapSize.set(1024, 1024);
+      key.shadow.mapSize.set(2048, 2048);
       key.shadow.camera.near = 0.5; key.shadow.camera.far = 20;
       key.shadow.bias = -0.0006; key.shadow.blurSamples = 24;
       scene.add(key); scene.add(key.target);
@@ -2030,6 +2045,8 @@
       const rim = new THREE.SpotLight(0x3dbfa3, 60, 0, 0.9, 0.6, 2);
       scene.add(rim); scene.add(rim.target);
       this._rim = rim;
+      const back = new THREE.PointLight(0xff6a4a, 3.2, 0, 2); // back-scatter chaud (approx SSS)
+      back.position.set(-0.6, 0.1, -1.6); scene.add(back); this._back = back;
 
       // light fixture: a real little studio lamp (housing, emissive face, glow, volumetric beam)
       const giz = new THREE.Group();
@@ -2128,21 +2145,13 @@
       cvs.addEventListener('pointerup', endDrag);
       cvs.addEventListener('pointercancel', endDrag);
 
-      // head
+      // model container
       const head = new THREE.Group();
       scene.add(head); this._head = head;
-      const { geom, real } = await loadHeadGeometry(THREE, GLTFLoader);
-      const mesh = new THREE.Mesh(geom, this._skinMat);
-      mesh.castShadow = true; mesh.receiveShadow = true;
-      // normalize size/position of the loaded model
-      geom.computeBoundingBox();
-      const bb = geom.boundingBox, size = new THREE.Vector3(), ctr = new THREE.Vector3();
-      bb.getSize(size); bb.getCenter(ctr);
-      const scl = 2.15 / Math.max(size.x, size.y, size.z);
-      mesh.scale.setScalar(scl);
-      mesh.position.set(-ctr.x * scl, -ctr.y * scl + 0.05, -ctr.z * scl);
-      if (real) mesh.rotation.y = 0;
-      head.add(mesh); this._mesh = mesh;
+      const loaded = await loadHeadGeometry(THREE, GLTFLoader);
+      this._headGeom = loaded.geom; this._headReal = loaded.real;
+      this._buildModel(this.p.model || 'head');
+      if (this.hasAttribute('model-picker') || this.hasAttribute('modelpicker')) this._buildPicker();
 
       this._ro = new ResizeObserver(() => this._resize()); this._ro.observe(this);
       this._io = new IntersectionObserver((en) => {
@@ -2156,6 +2165,93 @@
       this._ready = true; this._dirty = true;
       this._t0 = performance.now();
       renderer.setAnimationLoop(() => this._frame());
+    }
+
+    // ── swap-able study models (all procedural -> offline-safe, no extra loads) ──
+    _clearModel() {
+      if (!this._modelObj) return;
+      this._head.remove(this._modelObj);
+      this._modelObj.traverse((o) => { if (o.isMesh && o.geometry && o.geometry !== this._headGeom) o.geometry.dispose(); });
+      this._modelObj = null;
+    }
+    _buildBust(mat) {
+      const THREE = this.THREE;
+      const grp = new THREE.Group();
+      grp.add(new THREE.Mesh(this._headGeom, mat));
+      this._headGeom.computeBoundingBox();
+      const b = this._headGeom.boundingBox, s = new THREE.Vector3(); b.getSize(s);
+      const w = Math.max(s.x, s.z), nh = s.y * 0.55;
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(w * 0.30, w * 0.60, nh, 56, 1, true), mat);
+      neck.position.y = b.min.y - nh * 0.5 + s.y * 0.05;
+      grp.add(neck);
+      const sh = new THREE.Mesh(new THREE.SphereGeometry(1, 56, 40), mat);
+      sh.scale.set(w * 1.18, s.y * 0.36, w * 0.72);
+      sh.position.y = b.min.y - nh + s.y * 0.03;
+      grp.add(sh);
+      return grp;
+    }
+    _buildModel(name) {
+      const THREE = this.THREE; if (!THREE) return;
+      this._clearModel();
+      const mat = this._skinMat;
+      let obj;
+      if (name === 'sphere') obj = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 64), mat);
+      else if (name === 'cylinder') obj = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 2.0, 96, 1), mat);
+      else if (name === 'cloth') {
+        const g = new THREE.PlaneGeometry(2.2, 2.5, 90, 100), pos = g.attributes.position;
+        for (let i = 0; i < pos.count; i++) { const x = pos.getX(i), y = pos.getY(i);
+          pos.setZ(i, Math.sin(x * 3.0 + 0.4) * 0.17 + Math.sin(x * 6.5 + 1.1) * 0.05 + Math.sin(y * 1.8) * 0.07); }
+        g.computeVertexNormals(); obj = new THREE.Mesh(g, mat); obj.rotation.x = -0.12;
+      } else if (name === 'vase') {
+        const pts = [];
+        for (let i = 0; i <= 24; i++) { const t = i / 24, r = 0.16 + 0.5 * Math.sin(t * Math.PI * 0.92 + 0.28); pts.push(new THREE.Vector2(Math.max(0.04, r), t * 2.1)); }
+        obj = new THREE.Mesh(new THREE.LatheGeometry(pts, 96), mat);
+      } else if (name === 'bust' && this._headGeom) obj = this._buildBust(mat);
+      else obj = new THREE.Mesh(this._headGeom || fallbackGeom(THREE), mat);
+      const meshes = [];
+      obj.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; meshes.push(o); } });
+      if (obj.isMesh && meshes.indexOf(obj) < 0) { obj.castShadow = obj.receiveShadow = true; meshes.push(obj); }
+      const box = new THREE.Box3().setFromObject(obj), size = new THREE.Vector3(), ctr = new THREE.Vector3();
+      box.getSize(size); box.getCenter(ctr);
+      const scl = 2.15 / Math.max(size.x, size.y, size.z);
+      obj.position.set(-ctr.x, -ctr.y, -ctr.z);
+      const wrap = new THREE.Group(); wrap.add(obj); wrap.scale.setScalar(scl); wrap.position.y = 0.05;
+      this._head.add(wrap);
+      this._modelObj = wrap; this._mesh = meshes[0] || null; this._modelMeshes = meshes;
+      this.p.model = name; this._dirty = true;
+    }
+    _buildPicker() {
+      if (this._picker) return;
+      const MODELS = [['sphere', 'Sphère'], ['cylinder', 'Cylindre'], ['head', 'Tête']];
+      const bar = document.createElement('div');
+      bar.style.cssText = 'position:absolute;top:10px;right:10px;z-index:6;display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end;max-width:230px;pointer-events:auto;';
+      MODELS.forEach(([id, label]) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.dataset.model = id; b.textContent = label;
+        b.style.cssText = 'font:600 9.5px/1 "JetBrains Mono",monospace;letter-spacing:0.12em;text-transform:uppercase;padding:6px 9px;border-radius:999px;cursor:pointer;background:rgba(14,15,17,0.82);color:rgba(232,224,208,0.7);border:1px solid rgba(232,224,208,0.14);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:all .18s ease;';
+        b.addEventListener('pointerdown', (e) => e.stopPropagation());
+        b.addEventListener('click', (e) => { e.stopPropagation(); this._setP('model', id); });
+        bar.appendChild(b);
+      });
+      this.style.position = this.style.position || 'relative';
+      this.appendChild(bar); this._picker = bar; this._syncPicker();
+      // hint de manipulation (discoverabilité)
+      const hint = document.createElement('div');
+      hint.style.cssText = 'position:absolute;left:12px;bottom:12px;z-index:6;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:999px;background:rgba(14,15,17,0.78);border:1px solid rgba(232,224,208,0.12);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font:600 9px/1 "JetBrains Mono",monospace;letter-spacing:0.1em;text-transform:uppercase;color:rgba(232,224,208,0.62);pointer-events:none;transition:opacity .5s ease;';
+      hint.innerHTML = '<span style="color:#3DBFA3;">glisse</span> la lumière <span style="opacity:0.4;">/</span> <span style="color:#3DBFA3;">pivote</span> le modèle';
+      this.appendChild(hint); this._hint = hint;
+      const fade = () => { if (this._hint) this._hint.style.opacity = '0'; };
+      this.addEventListener('pointerdown', fade, { once: true });
+      this._hintTimer = setTimeout(fade, 5200);
+    }
+    _syncPicker() {
+      if (!this._picker) return;
+      this._picker.querySelectorAll('button').forEach((b) => {
+        const on = b.dataset.model === this.p.model;
+        b.style.background = on ? '#3DBFA3' : 'rgba(14,15,17,0.82)';
+        b.style.color = on ? '#0B0C0D' : 'rgba(232,224,208,0.7)';
+        b.style.borderColor = on ? '#3DBFA3' : 'rgba(232,224,208,0.14)';
+      });
     }
 
     _resize() {
@@ -2299,7 +2395,8 @@
       let mat = this._skinMat;
       if (p.view > 1.5) mat = this._normalMat;
       else if (p.view > 0.5) { mat = this._fresnelMat; this._fresnelMat.uniforms.uColor.value.setRGB(rimCol[0], rimCol[1], rimCol[2]); }
-      if (this._mesh && this._mesh.material !== mat) this._mesh.material = mat;
+      const mm = this._modelMeshes || (this._mesh ? [this._mesh] : []);
+      for (let i = 0; i < mm.length; i++) if (mm[i].material !== mat) mm[i].material = mat;
 
       if (this._visible) this._renderer.render(this._scene, this._camera);
     }
@@ -3198,6 +3295,21 @@
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.4);">Rim Light Study #02 · MDG</div>
     </div>
 
+    <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative; margin-top: 30px;">
+      <div onPointerDown="{{ compareDown2 }}" onPointerMove="{{ compareMove2 }}" style="position: relative; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: none; cursor: ew-resize;">
+        <img src="uploads/sadio-mane-avant.png" alt="Avant, rim froid" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
+        <img src="uploads/match-day-sadio_we5xzy.jpg" alt="Après, poster final" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ afterClip2 }}; pointer-events: none; user-select: none;">
+        <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: #FF7A2F;">FINAL</div>
+        <div style="position: absolute; top: 14px; right: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: rgba(232,224,208,0.6);">AVANT</div>
+        <div style="position: absolute; top: 0; bottom: 0; left: {{ comparePct2 }}; width: 1px; background: #FF7A2F; pointer-events: none; box-shadow: 0 0 12px rgba(255,122,47,0.5);">
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 38px; height: 38px; border-radius: 50%; background: #0B0C0D; border: 1px solid #FF7A2F; display: flex; align-items: center; justify-content: center;">
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" style="display: block;"><path d="M4 1 1 5l3 4M10 1l3 4-3 4" stroke="#FF7A2F" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+      </div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.4);">Sadio Mané · Sénégal × Maroc · MDG</div>
+    </div>
+
     <div style="position: relative;">
       <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap;">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(232,224,208,0.4);">
@@ -3407,6 +3519,7 @@ class Component extends DCLogic {
     ch5: { wrap: 0.75, mask: false, rim: '#22D3C0' },
     email: '', subscribed: false, subscribing: false, subscribeError: false,
     compare: 55,
+    compare2: 55,
     progress: 0, activeCh: 0, sound: true, psMethod: 0,
     defiDone: false,
     acc: { a1: null, a2: null, a3: null, a4: null, a5: null },
@@ -3759,6 +3872,18 @@ class Component extends DCLogic {
         if (e.buttons !== 1) return;
         const r = e.currentTarget.getBoundingClientRect();
         this.setState({ compare: Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)) });
+      },
+
+      comparePct2: s.compare2 + '%',
+      afterClip2: 'inset(0 ' + (100 - s.compare2) + '% 0 0)',
+      compareDown2: (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        this.setState({ compare2: Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)) });
+      },
+      compareMove2: (e) => {
+        if (e.buttons !== 1) return;
+        const r = e.currentTarget.getBoundingClientRect();
+        this.setState({ compare2: Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)) });
       },
 
       newsletterOpen: !s.subscribed, newsletterDone: s.subscribed,
