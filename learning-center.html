@@ -2296,9 +2296,19 @@
         if (moved) { this._camera.position.copy(controls.target).add(dir.setLength(len)); this._dirty = true; }
       }
 
-      // --- lights every frame (cheap) ---
-      const kc = (p.colorhex && hexToRGB(p.colorhex)) || kelvinToRGB(p.kelvin);
-      let az = p.azimuth, el = p.elevation, dist = p.distance;
+      // --- lights every frame, eased so nothing snaps (frame-rate independent) ---
+      const now = performance.now();
+      const dt = Math.min(0.05, (now - (this._lastFrameT || now)) / 1000); this._lastFrameT = now;
+      if (!this._sm) this._sm = { key: p.keyon ? 1 : 0, fill: p.fillon ? 1 : 0, rim: 0, az: p.azimuth, el: p.elevation, dist: p.distance, kr: 1, kg: 1, kb: 1 };
+      const sm = this._sm;
+      const ease = (cur, tgt, tau) => cur + (tgt - cur) * (1 - Math.exp(-dt / tau));
+      sm.key = ease(sm.key, p.keyon ? 1 : 0, 0.16);
+      sm.fill = ease(sm.fill, p.fillon ? 1 : 0, 0.16);
+      const kcT = (p.colorhex && hexToRGB(p.colorhex)) || kelvinToRGB(p.kelvin);
+      sm.kr = ease(sm.kr, kcT[0], 0.20); sm.kg = ease(sm.kg, kcT[1], 0.20); sm.kb = ease(sm.kb, kcT[2], 0.20);
+      const kc = [sm.kr, sm.kg, sm.kb];
+      sm.az = ease(sm.az, p.azimuth, 0.11); sm.el = ease(sm.el, p.elevation, 0.11); sm.dist = ease(sm.dist, p.distance, 0.13);
+      let az = sm.az, el = sm.el, dist = sm.dist;
       const radius = 1.3 + dist * 0.85;
       const compensate = p.falloffboost <= 0.001;
       const baseKey = 26;
@@ -2309,14 +2319,14 @@
       this._key.penumbra = 0.15 + p.softness * 0.85;
       this._key.angle = 0.36 + p.softness * 0.26;
       this._key.shadow.radius = 1 + p.softness * 22;
-      this._key.intensity = (p.keyon ? 1 : 0) * baseKey * p.intensity * (p.keylevel != null ? p.keylevel : 1) *
+      this._key.intensity = sm.key * baseKey * p.intensity * (p.keylevel != null ? p.keylevel : 1) *
         (compensate ? (radius * radius) / 6.0 : 1.0);
-      this._key.visible = !!p.keyon && (p.keylevel == null || p.keylevel > 0.02);
+      this._key.visible = sm.key > 0.02 && (p.keylevel == null || p.keylevel > 0.02);
 
       const fp = this._sph(p.fillazimuth != null ? p.fillazimuth : -52, p.fillelevation != null ? p.fillelevation : 12, radius * 1.05);
       this._fill.position.set(fp[0], fp[1], fp[2]);
-      this._fill.intensity = (p.fillon ? 1 : 0) * 5.5 * (p.filllevel != null ? p.filllevel : 1) * (radius * radius) / 6.0;
-      this._fill.visible = !!p.fillon && (p.filllevel == null || p.filllevel > 0.02);
+      this._fill.intensity = sm.fill * 5.5 * (p.filllevel != null ? p.filllevel : 1) * (radius * radius) / 6.0;
+      this._fill.visible = sm.fill > 0.02 && (p.filllevel == null || p.filllevel > 0.02);
 
       // rim: in fresnel mode driven by rim-wrap (front->behind); else fixed behind
       const rimCol = hexToRGB(p.rimhex) || [0.24, 0.75, 0.64];
@@ -2336,18 +2346,19 @@
       this._rim.target.position.set(0, 0.02, 0);
       this._rim.color.setRGB(rimCol[0], rimCol[1], rimCol[2]);
       const rimLvl = (p.rimlevel != null ? p.rimlevel : 1);
-      this._rim.intensity = rimActive ? 55 * rimLvl * (p.mode === 'fresnel' ? p.intensity : 1.3) : 0;
-      this._rim.visible = rimActive && rimLvl > 0.02;
+      sm.rim = ease(sm.rim, rimActive ? 1 : 0, 0.16);
+      this._rim.intensity = sm.rim * 55 * rimLvl * (p.mode === 'fresnel' ? p.intensity : 1.3);
+      this._rim.visible = sm.rim > 0.02 && rimLvl > 0.02;
 
       // fresnel rim glow injected into skin material
       this._rimUniforms.uRimColor.value.setRGB(rimCol[0], rimCol[1], rimCol[2]);
-      this._rimUniforms.uRimStrength.value = (rimActive && rimLvl > 0.02) ? rimLvl * (p.mode === 'fresnel' ? 1.6 : 1.1) : 0.0;
+      this._rimUniforms.uRimStrength.value = sm.rim * rimLvl * (p.mode === 'fresnel' ? 1.6 : 1.1);
       const rimDir = new THREE.Vector3(rp[0], rp[1], rp[2]).normalize().transformDirection(this._camera.matrixWorldInverse);
       this._rimUniforms.uRimDirView.value.copy(rimDir);
 
       // light fixture follows the active light and looks at the head
       const gp = (p.mode === 'fresnel') ? rp : kp;
-      const fixOn = !!p.gizmo && (p.mode === 'fresnel' ? true : !!p.keyon);
+      const fixOn = !!p.gizmo && (p.mode === 'fresnel' ? true : (p.keyon || sm.key > 0.02));
       this._giz.visible = fixOn;
       this._giz.position.set(gp[0], gp[1], gp[2]);
       if (fixOn) {
@@ -2357,9 +2368,10 @@
         const lvl = (p.mode === 'fresnel') ? 1 : (p.keylevel != null ? p.keylevel : 1);
         const fs = 0.82 + p.softness * 0.55;
         this._fix.scale.setScalar(fs);
-        this._fixFace.material.color.setRGB(pc[0], pc[1], pc[2]).multiplyScalar(0.75 + inten * 0.9 * lvl);
+        const kFade = (p.mode === 'fresnel') ? 1 : sm.key;
+        this._fixFace.material.color.setRGB(pc[0], pc[1], pc[2]).multiplyScalar((0.75 + inten * 0.9 * lvl) * (0.12 + 0.88 * kFade));
         this._fixGlow.material.color.setRGB(pc[0], pc[1], pc[2]);
-        this._fixGlow.material.opacity = Math.min(0.9, (0.3 + inten * 0.3) * Math.max(0.25, lvl));
+        this._fixGlow.material.opacity = Math.min(0.9, (0.3 + inten * 0.3) * Math.max(0.25, lvl)) * kFade;
         const gs = ((0.55 + inten * 0.3 + p.softness * 0.45) * (0.6 + 0.4 * lvl)) / fs;
         this._fixGlow.scale.set(gs, gs, 1);
         const L = Math.max(0.5, this._giz.position.distanceTo(this._lookTarget) * 0.95);
@@ -2368,7 +2380,7 @@
         const wideR = Math.min(1.7, Math.tan(ang) * L * 0.7) / fs;
         this._fixBeam.scale.set(wideR, Ls, wideR);
         this._fixBeam.position.z = 0.15 + Ls / 2;
-        this._fixBeam.material.opacity = Math.min(0.16, (0.04 + inten * 0.04) * Math.max(0.15, lvl));
+        this._fixBeam.material.opacity = Math.min(0.16, (0.04 + inten * 0.04) * Math.max(0.15, lvl)) * kFade;
         this._fixBeam.material.color.setRGB(pc[0], pc[1], pc[2]);
       }
 
