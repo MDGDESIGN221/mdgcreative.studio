@@ -1854,7 +1854,7 @@
         'auto-orbit', 'interactive', 'gizmo', 'yaw', 'color-hex', 'rim-hex',
         'key-level', 'fill-level', 'rim-level', 'keylevel', 'filllevel', 'rimlevel',
         'rimwrap', 'falloffboost', 'keyon', 'fillon', 'rimon', 'autoorbit', 'colorhex', 'rimhex',
-        'fill-azimuth', 'fill-elevation', 'rim-azimuth', 'rim-elevation', 'fillazimuth', 'fillelevation', 'rimazimuth', 'rimelevation'];
+        'fill-azimuth', 'fill-elevation', 'rim-azimuth', 'rim-elevation', 'fillazimuth', 'fillelevation', 'rimazimuth', 'rimelevation', 'fill-hex', 'fillhex'];
     }
     constructor() {
       super();
@@ -1872,7 +1872,7 @@
       ['mode', 'model', 'intensity', 'softness', 'distance', 'kelvin', 'azimuth', 'elevation',
         'rimWrap', 'falloffBoost', 'view', 'keyOn', 'fillOn', 'rimOn',
         'autoOrbit', 'interactive', 'gizmo', 'yaw', 'colorHex', 'rimHex',
-        'fillAzimuth', 'fillElevation', 'rimAzimuth', 'rimElevation'].forEach((camel) => {
+        'fillAzimuth', 'fillElevation', 'rimAzimuth', 'rimElevation', 'fillHex'].forEach((camel) => {
         const key = camel.toLowerCase();
         Object.defineProperty(this, camel, {
           configurable: true,
@@ -2325,7 +2325,9 @@
 
       const fp = this._sph(p.fillazimuth != null ? p.fillazimuth : -52, p.fillelevation != null ? p.fillelevation : 12, radius * 1.05);
       this._fill.position.set(fp[0], fp[1], fp[2]);
-      this._fill.intensity = sm.fill * 5.5 * (p.filllevel != null ? p.filllevel : 1) * (radius * radius) / 6.0;
+      if (p.fillhex) { const _fc = hexToRGB(p.fillhex); if (_fc) this._fill.color.setRGB(_fc[0], _fc[1], _fc[2]); }
+      const crossBoost = (p.mode === 'cross') ? 4.5 : 1;
+      this._fill.intensity = sm.fill * 5.5 * crossBoost * (p.filllevel != null ? p.filllevel : 1) * (radius * radius) / 6.0;
       this._fill.visible = sm.fill > 0.02 && (p.filllevel == null || p.filllevel > 0.02);
 
       // rim: in fresnel mode driven by rim-wrap (front->behind); else fixed behind
@@ -2476,7 +2478,13 @@
       input[type="range"]::-webkit-slider-thumb { width: 20px; height: 20px; margin-top: -9px; }
       input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; }
     }
+    @media (max-width: 960px) {
+      .lcx-cmpgrid { gap: 60px; }
+      .lcx-cmpgrid > div { padding: 0 12%; }
+    }
     @media (max-width: 480px) {
+      .lcx-cmpgrid { gap: 72px; }
+      .lcx-cmpgrid > div { padding: 0 14%; }
       .lcx-aside { padding: 36px 14px 52px; }
       .lcx-pad { padding: 72px 18px; }
     }
@@ -2563,14 +2571,15 @@
       <span style="font-family: 'Inter', sans-serif; font-size: 10.5px; letter-spacing: 0.34em; text-transform: uppercase; color: rgba(232,224,208,0.85); font-weight: 600; white-space: nowrap;">Learning<span style="color: #3DBFA3;"> Center</span></span>
     </div>
     <nav style="display: flex; align-items: center; gap: 18px;">
-      <span class="lcx-navlinks" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(232,224,208,0.4);">{{ chapNum }}<span style="opacity: 0.45;"> / 06</span></span>
+      <span class="lcx-navlinks" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: rgba(232,224,208,0.4);">{{ chapNum }}<span style="opacity: 0.45;"> / 07</span></span>
       <div class="lcx-navlinks" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em;">
         <a href="#ch1" class="lcx-navlink" style="color: {{ navC1 }};">01</a>
         <a href="#ch2" class="lcx-navlink" style="color: {{ navC2 }};">02</a>
         <a href="#ch3" class="lcx-navlink" style="color: {{ navC3 }};">03</a>
         <a href="#ch4" class="lcx-navlink" style="color: {{ navC4 }};">04</a>
-        <a href="#ch5" class="lcx-navlink" style="color: {{ navC5 }};">05</a>
-        <a href="#ch6" class="lcx-navlink" style="color: {{ navC6 }};">06</a>
+        <a href="#ch4b" class="lcx-navlink" style="color: {{ navC5 }};">05</a>
+        <a href="#ch5" class="lcx-navlink" style="color: {{ navC6 }};">06</a>
+        <a href="#ch6" class="lcx-navlink" style="color: {{ navC7 }};">07</a>
       </div>
       <button onClick="{{ toggleSound }}" title="son" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 26px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; background: transparent; color: {{ soundColor }}; cursor: pointer; padding: 0;">
         <sc-if value="{{ soundOn }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:block;"><path d="M2 5.2v3.6h2L7 11V3L4 5.2H2Z" fill="currentColor"></path><path d="M9.2 5c.7.5 1.1 1.2 1.1 2s-.4 1.5-1.1 2M10.8 3.4c1.2.8 1.9 2.1 1.9 3.6s-.7 2.8-1.9 3.6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"></path></svg></sc-if>
@@ -2619,7 +2628,7 @@
       </p>
       <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">
         <div class="lcx-h-proof" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 26px;">
-          <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.72); background: rgba(11,12,13,0.45); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>06 leçons interactives</span>
+          <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.72); background: rgba(11,12,13,0.45); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>07 leçons interactives</span>
           <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.72); background: rgba(11,12,13,0.45); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>≈ 15 minutes</span>
           <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.72); background: rgba(11,12,13,0.45); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>Gratuit · sans inscription</span>
           <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(61,191,163,0.35); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #3DBFA3; background: rgba(61,191,163,0.07); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>Vraie lumière 3D, pas des captures</span>
@@ -2627,7 +2636,7 @@
       </sc-if>
       <sc-if value="{{ isEn }}">
         <div class="lcx-h-proof" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 26px;">
-          <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.72); background: rgba(11,12,13,0.45); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>06 interactive lessons</span>
+          <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.72); background: rgba(11,12,13,0.45); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>07 interactive lessons</span>
           <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.72); background: rgba(11,12,13,0.45); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>≈ 15 minutes</span>
           <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(232,224,208,0.16); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.72); background: rgba(11,12,13,0.45); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>Free · no sign-up</span>
           <span style="display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border: 1px solid rgba(61,191,163,0.35); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #3DBFA3; background: rgba(61,191,163,0.07); backdrop-filter: blur(6px);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #3DBFA3;"></span>Real 3D light, not screenshots</span>
@@ -3134,15 +3143,91 @@
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.05</span>
         <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque lumière a un travail : sculpter, déboucher, détacher.</sc-if><sc-if value="{{ isEn }}">Every light has a job: sculpt, lift, separate.</sc-if></span>
       </div>
-      <a href="#ch5" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+      <a href="#ch4b" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
-        <span style="color: #3DBFA3;">05 · Fresnel →</span>
+        <span style="color: #3DBFA3;">05 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux sources</sc-if><sc-if value="{{ isEn }}">Two sources</sc-if> →</span>
       </a>
     </aside>
   </section>
 
-  <!-- ============ LEÇON 05 — FRESNEL ============ -->
-  <section id="ch5" data-screen-label="Lecon 05 Fresnel" class="lcx-cinema" style="border-top: 1px solid rgba(61,191,163,0.22); background: #000000;">
+  <!-- ============ LEÇON 05 — DEUX SOURCES (CROSS-LIGHT) ============ -->
+  <section id="ch4b" data-screen-label="Lecon 05 Cross-light" class="lcx-split" style="border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D;">
+    <div class="lcx-vp lcx-vpreveal">
+      <x-import component-from-global-scope="light-sim" mode="cross" gizmo="true" interactive="true" intensity="1.15" softness="0.45" distance="2.2" azimuth="{{ crossAzA }}" elevation="14" color-hex="{{ crossColorA }}" fill-hex="{{ crossColorB }}" fill-azimuth="{{ crossAzB }}" fill-elevation="16" key-on="true" fill-on="true" rim-on="false" key-level="{{ crossKeyLevel }}" fill-level="{{ crossFillLevel }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
+      <div style="position: absolute; top: 0; left: 0; display: flex; align-items: center; gap: 8px; padding: 9px 16px; background: #0E0F11; border-right: 1px solid rgba(232,224,208,0.1); border-bottom: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="display: block;"><circle cx="5" cy="5" r="4" stroke="#3DBFA3" stroke-width="1.2"></circle><circle cx="6.8" cy="3.4" r="1.3" fill="#E8E0D0"></circle></svg>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(232,224,208,0.7);">scene-05-cross</span>
+      </div>
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 16px; background: rgba(14,15,17,0.92); backdrop-filter: blur(8px); border-top: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">deux sources, deux couleurs, deux côtés</sc-if><sc-if value="{{ isEn }}">two sources, two colors, two sides</sc-if></span>
+        <span style="display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; white-space: nowrap;">
+          <span style="display: flex; align-items: center; gap: 5px; color: rgba(232,224,208,0.55);"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{ crossColorA }};"></span>A</span>
+          <span style="display: flex; align-items: center; gap: 5px; color: rgba(232,224,208,0.55);"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{ crossColorB }};"></span>B</span>
+        </span>
+      </div>
+    </div>
+    <aside class="lcx-aside lcx-reveal">
+      <div style="position: relative;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: #0B0C0D; background: #3DBFA3; padding: 3px 8px; border-radius: 2px;">05</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: #3DBFA3;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux sources</sc-if><sc-if value="{{ isEn }}">Two sources</sc-if></span>
+        </div>
+        <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; letter-spacing: -0.01em; margin: 0 0 12px; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La lumière de l'autre côté</sc-if><sc-if value="{{ isEn }}">The light from the other side</sc-if></h2>
+        <p style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; color: rgba(232,224,208,0.7); margin: 0 0 12px;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Une seule source décrit. Deux, de couleurs opposées, racontent.</sc-if><sc-if value="{{ isEn }}">One source describes. Two, in opposite colors, tell a story.</sc-if></p>
+        <p style="font-size: 14.5px; color: rgba(232,224,208,0.58); margin: 0; line-height: 1.75;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Presque toutes tes affiches sont construites comme ça : une clé chaude d'un côté, une source froide de l'autre. Le contraste chaud/froid sépare le sujet du fond et donne le côté cinéma. La règle : jamais la même couleur des deux côtés.</sc-if><sc-if value="{{ isEn }}">Almost every one of your posters is built this way: a warm key on one side, a cool source on the other. The warm/cool contrast separates the subject from the background and gives the cinematic feel. The rule: never the same color on both sides.</sc-if></p>
+      </div>
+      <details class="lcx-acc" open="{{ acc4Open }}" style="position: relative; border: 1px solid rgba(232,224,208,0.12); border-radius: 4px; background: #131418; box-shadow: 0 12px 32px rgba(0,0,0,0.45); overflow: hidden;">
+        <summary onClick="{{ toggleAcc4 }}" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: #17181C; border-bottom: 1px solid rgba(232,224,208,0.1);">
+          <span style="font-size: 11px; font-weight: 600; color: rgba(232,224,208,0.85);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux sources · chaud / froid</sc-if><sc-if value="{{ isEn }}">Two sources · warm / cool</sc-if></span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: rgba(232,224,208,0.4);">A / B</span>
+        </summary>
+        <div style="padding: 14px; display: flex; justify-content: center; border-bottom: 1px solid rgba(232,224,208,0.08);">
+          <div style="position: relative; width: 150px; height: 120px; border-radius: 6px; background: radial-gradient(circle at 50% 62%, rgba(232,224,208,0.06), rgba(11,12,13,0) 70%);">
+            <div style="position: absolute; left: 50%; top: 62%; transform: translate(-50%,-50%); width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(232,224,208,0.3);"></div>
+            <div style="position: absolute; left: {{ crossDotALeft }}; top: {{ crossDotTop }}; transform: translate(-50%,-50%); width: 16px; height: 16px; border-radius: 50%; background: {{ crossColorA }}; box-shadow: 0 0 12px {{ crossColorA }};"></div>
+            <div style="position: absolute; left: {{ crossDotBLeft }}; top: {{ crossDotTop }}; transform: translate(-50%,-50%); width: 16px; height: 16px; border-radius: 50%; background: {{ crossColorB }}; box-shadow: 0 0 12px {{ crossColorB }};"></div>
+            <span style="position: absolute; left: 6px; bottom: 4px; font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.12em; color: rgba(232,224,208,0.3);">VUE DE DESSUS</span>
+          </div>
+        </div>
+        <div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid rgba(232,224,208,0.08);">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.35);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Source A · chaude</sc-if><sc-if value="{{ isEn }}">Source A · warm</sc-if></span>
+          <div style="display: flex; gap: 8px;">
+            <button onClick="{{ crossA1 }}" title="orange" style="width: 30px; height: 30px; border-radius: 50%; background: #F0663A; border: 2px solid {{ crossARb1 }}; cursor: pointer; padding: 0;"></button>
+            <button onClick="{{ crossA2 }}" title="ambre" style="width: 30px; height: 30px; border-radius: 50%; background: #FFA53C; border: 2px solid {{ crossARb2 }}; cursor: pointer; padding: 0;"></button>
+            <button onClick="{{ crossA3 }}" title="rouge" style="width: 30px; height: 30px; border-radius: 50%; background: #FF4D3D; border: 2px solid {{ crossARb3 }}; cursor: pointer; padding: 0;"></button>
+          </div>
+        </div>
+        <div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid rgba(232,224,208,0.08);">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.35);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Source B · froide</sc-if><sc-if value="{{ isEn }}">Source B · cool</sc-if></span>
+          <div style="display: flex; gap: 8px;">
+            <button onClick="{{ crossB1 }}" title="teal" style="width: 30px; height: 30px; border-radius: 50%; background: #2FD4C4; border: 2px solid {{ crossBRb1 }}; cursor: pointer; padding: 0;"></button>
+            <button onClick="{{ crossB2 }}" title="bleu" style="width: 30px; height: 30px; border-radius: 50%; background: #3D8BFF; border: 2px solid {{ crossBRb2 }}; cursor: pointer; padding: 0;"></button>
+            <button onClick="{{ crossB3 }}" title="violet" style="width: 30px; height: 30px; border-radius: 50%; background: #9B6BFF; border: 2px solid {{ crossBRb3 }}; cursor: pointer; padding: 0;"></button>
+          </div>
+        </div>
+        <div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid rgba(232,224,208,0.08);">
+          <div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,224,208,0.35);">Balance</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(232,224,208,0.5);">{{ crossALabel }} · {{ crossBLabel }}</span></div>
+          <input type="range" min="0" max="1" step="0.01" value="{{ crossBalance }}" onInput="{{ setCrossBalance }}">
+        </div>
+        <div style="padding: 12px 14px; display: grid; grid-template-columns: 70px minmax(0,1fr) 46px; align-items: center; gap: 10px;">
+          <span style="font-size: 11px; color: rgba(232,224,208,0.55);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Écart</sc-if><sc-if value="{{ isEn }}">Spread</sc-if></span>
+          <input type="range" min="25" max="85" step="1" value="{{ crossSpread }}" onInput="{{ setCrossSpread }}">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #3DBFA3; text-align: right;">{{ crossSpreadLabel }}</span>
+        </div>
+      </details>
+      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.06</span>
+        <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux sources = deux couleurs. Chaud d'un côté, froid de l'autre : le sujet se détache.</sc-if><sc-if value="{{ isEn }}">Two sources = two colors. Warm on one side, cool on the other: the subject stands out.</sc-if></span>
+      </div>
+      <a href="#ch5" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+        <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
+        <span style="color: #3DBFA3;">06 · Fresnel →</span>
+      </a>
+    </aside>
+  </section>
+
+  <!-- ============ LEÇON 06 — FRESNEL ============ -->
+  <section id="ch5" data-screen-label="Lecon 06 Fresnel" class="lcx-cinema" style="border-top: 1px solid rgba(61,191,163,0.22); background: #000000;">
     <div class="lcx-cinvp lcx-vpreveal">
       <x-import component-from-global-scope="light-sim" id="sim-ch5" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" on-light-move="{{ ch5LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
       <div style="position: absolute; top: 0; left: 0; display: flex; align-items: center; gap: 8px; padding: 9px 16px; background: #0E0F11; border-right: 1px solid rgba(232,224,208,0.1); border-bottom: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
@@ -3160,7 +3245,7 @@
     <div class="lcx-cinpanel lcx-reveal">
       <div style="position: relative;">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-          <span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: #0B0C0D; background: #3DBFA3; padding: 3px 8px; border-radius: 2px;">05</span>
+          <span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: #0B0C0D; background: #3DBFA3; padding: 3px 8px; border-radius: 2px;">06</span>
           <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: #3DBFA3;">
             <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Fresnel, le cœur du rim</sc-if>
             <sc-if value="{{ isEn }}">Fresnel, the heart of rim</sc-if>
@@ -3231,17 +3316,17 @@
       </div>
       <a href="#ch6" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.25); border-radius: 4px; background: rgba(61,191,163,0.06); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.55);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Passer à la pratique</sc-if><sc-if value="{{ isEn }}">Move to practice</sc-if></span>
-        <span style="color: #3DBFA3;">06 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Application</sc-if><sc-if value="{{ isEn }}">Applied</sc-if> →</span>
+        <span style="color: #3DBFA3;">07 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Application</sc-if><sc-if value="{{ isEn }}">Applied</sc-if> →</span>
       </a>
     </div>
   </section>
 
-  <!-- ============ LEÇON 06 — APPLICATION ============ -->
-  <section id="ch6" data-screen-label="Lecon 06 Application" class="lcx-pad" onContextMenu="{{ blockCtx }}" style="position: relative; display: flex; flex-direction: column; gap: 64px; border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D; overflow: hidden;">
-    <span style="position: absolute; top: 44px; right: 40px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(90px, 14vw, 180px); line-height: 1; color: rgba(232,224,208,0.045); pointer-events: none; user-select: none;">06</span>
+  <!-- ============ LEÇON 07 — APPLICATION ============ -->
+  <section id="ch6" data-screen-label="Lecon 07 Application" class="lcx-pad" onContextMenu="{{ blockCtx }}" style="position: relative; display: flex; flex-direction: column; gap: 64px; border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D; overflow: hidden;">
+    <span style="position: absolute; top: 44px; right: 40px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(90px, 14vw, 180px); line-height: 1; color: rgba(232,224,208,0.045); pointer-events: none; user-select: none;">07</span>
     <div class="lcx-reveal" style="max-width: 760px; position: relative;">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-        <span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: #0B0C0D; background: #3DBFA3; padding: 3px 8px; border-radius: 2px;">06</span>
+        <span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: #0B0C0D; background: #3DBFA3; padding: 3px 8px; border-radius: 2px;">07</span>
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: #3DBFA3;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Application</sc-if>
           <sc-if value="{{ isEn }}">Applied</sc-if>
@@ -3350,7 +3435,7 @@
       </div>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 44px; align-items: start; margin-bottom: 48px;">
+    <div class="lcx-cmpgrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 44px; align-items: start; margin-bottom: 48px;">
     <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative;">
       <div onPointerDown="{{ compareDown }}" onPointerMove="{{ compareMove }}" style="position: relative; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
         <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Début" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ beforeClip }}; pointer-events: none; user-select: none;">
@@ -3503,8 +3588,8 @@
         </iframe>
       </div>
       <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: rgba(232,224,208,0.4); margin: 16px 0 0; text-align: center;">
-        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rendu final visible en Leçon 06 · Application</sc-if>
-        <sc-if value="{{ isEn }}">Final render in Lesson 06 · Applied</sc-if>
+        <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Rendu final visible en Leçon 07 · Application</sc-if>
+        <sc-if value="{{ isEn }}">Final render in Lesson 07 · Applied</sc-if>
       </p>
     </div>
   </section>
@@ -3668,6 +3753,7 @@ class Component extends DCLogic {
     compare3: 55,
     compare4: 55,
     compare5: 55,
+    crossx: { balance: 0.5, spread: 55, colorA: '#F0663A', colorB: '#2FD4C4' },
     progress: 0, activeCh: 0, sound: true, psMethod: 0,
     defiDone: false,
     acc: { a1: null, a2: null, a3: null, a4: null, a5: null },
@@ -3702,7 +3788,7 @@ class Component extends DCLogic {
     }, 400);
 
     // scroll progress + active chapter (throttled with rAF)
-    const ids = ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6'];
+    const ids = ['ch1', 'ch2', 'ch3', 'ch4', 'ch4b', 'ch5', 'ch6'];
     const onScroll = () => {
       if (this._raf) return;
       this._raf = requestAnimationFrame(() => {
@@ -3917,6 +4003,31 @@ class Component extends DCLogic {
       navC4: s.activeCh === 4 ? teal : 'rgba(232,224,208,0.45)',
       navC5: s.activeCh === 5 ? teal : 'rgba(232,224,208,0.45)',
       navC6: s.activeCh === 6 ? teal : 'rgba(232,224,208,0.45)',
+      navC7: s.activeCh === 7 ? teal : 'rgba(232,224,208,0.45)',
+      crossBalance: s.crossx.balance, crossSpread: s.crossx.spread,
+      crossColorA: s.crossx.colorA, crossColorB: s.crossx.colorB,
+      crossAzA: -s.crossx.spread, crossAzB: s.crossx.spread,
+      crossKeyLevel: 0.2 + (1 - s.crossx.balance) * 1.1,
+      crossFillLevel: 0.2 + s.crossx.balance * 1.1,
+      crossALabel: 'A ' + Math.round((1 - s.crossx.balance) * 100) + '%', crossBLabel: 'B ' + Math.round(s.crossx.balance * 100) + '%',
+      crossSpreadLabel: Math.round(s.crossx.spread) + '°',
+      crossDotALeft: (50 - Math.sin(s.crossx.spread * Math.PI / 180) * 34).toFixed(1) + '%',
+      crossDotBLeft: (50 + Math.sin(s.crossx.spread * Math.PI / 180) * 34).toFixed(1) + '%',
+      crossDotTop: (52 - Math.cos(s.crossx.spread * Math.PI / 180) * 26).toFixed(1) + '%',
+      setCrossBalance: (e) => this.setState((st) => ({ crossx: { ...st.crossx, balance: +e.target.value } })),
+      setCrossSpread: (e) => this.setState((st) => ({ crossx: { ...st.crossx, spread: +e.target.value } })),
+      crossA1: () => { this.click('nav'); this.setState((st) => ({ crossx: { ...st.crossx, colorA: '#F0663A' } })); },
+      crossA2: () => { this.click('nav'); this.setState((st) => ({ crossx: { ...st.crossx, colorA: '#FFA53C' } })); },
+      crossA3: () => { this.click('nav'); this.setState((st) => ({ crossx: { ...st.crossx, colorA: '#FF4D3D' } })); },
+      crossB1: () => { this.click('nav'); this.setState((st) => ({ crossx: { ...st.crossx, colorB: '#2FD4C4' } })); },
+      crossB2: () => { this.click('nav'); this.setState((st) => ({ crossx: { ...st.crossx, colorB: '#3D8BFF' } })); },
+      crossB3: () => { this.click('nav'); this.setState((st) => ({ crossx: { ...st.crossx, colorB: '#9B6BFF' } })); },
+      crossARb1: s.crossx.colorA === '#F0663A' ? '#E8E0D0' : 'rgba(232,224,208,0.2)',
+      crossARb2: s.crossx.colorA === '#FFA53C' ? '#E8E0D0' : 'rgba(232,224,208,0.2)',
+      crossARb3: s.crossx.colorA === '#FF4D3D' ? '#E8E0D0' : 'rgba(232,224,208,0.2)',
+      crossBRb1: s.crossx.colorB === '#2FD4C4' ? '#E8E0D0' : 'rgba(232,224,208,0.2)',
+      crossBRb2: s.crossx.colorB === '#3D8BFF' ? '#E8E0D0' : 'rgba(232,224,208,0.2)',
+      crossBRb3: s.crossx.colorB === '#9B6BFF' ? '#E8E0D0' : 'rgba(232,224,208,0.2)',
       soundOn: s.sound, soundOff: !s.sound,
       soundColor: s.sound ? teal : 'rgba(232,224,208,0.5)',
       toggleSound: () => { const on = !this.state.sound; this.setState({ sound: on }); if (on) this.click('nav'); },
