@@ -2558,6 +2558,59 @@
       .lcx-h-t1 { color: #E8E0D0; }
       .lcx-h-t2 { color: #3DBFA3; }
     }
+    /* =================================================================
+       REDESIGN MOBILE — rythme, respiration, cibles tactiles
+       (uniquement <=960px ; desktop inchangé ; placé en fin de <style>
+        pour l'emporter sur les règles mobiles précédentes)
+       ================================================================= */
+    @media (max-width: 960px) {
+      /* le viewport 3D devient une scène : carte encartée, arrondie, détachée */
+      .lcx-vp {
+        height: 40svh; min-height: 300px;
+        margin: 16px 16px 4px; border-radius: 18px;
+        border: 1px solid rgba(232,224,208,0.14);
+        box-shadow: 0 16px 44px rgba(0,0,0,0.5), inset 0 1px 0 rgba(232,224,208,0.06);
+        overflow: hidden;
+      }
+      /* la colonne de contrôles respire : plus d'air en haut, gros interstices */
+      .lcx-aside { gap: 28px; padding: 34px 20px 76px; }
+      .lcx-split { scroll-margin-top: 64px; }
+
+      /* accordéon inspecteur : en-tête et groupes plus aérés */
+      details.lcx-acc summary { padding: 16px 18px !important; }
+      details.lcx-acc summary > span:first-child { font-size: 13px !important; }
+      details.lcx-acc > div { padding: 18px 18px !important; gap: 18px !important; }
+      details.lcx-acc > div > div { gap: 14px !important; }
+      /* libellés de réglage un peu plus lisibles */
+      details.lcx-acc > div > div > span:first-child { font-size: 12.5px !important; }
+      details.lcx-acc > div > span:first-child { font-size: 10px !important; letter-spacing: 0.22em !important; }
+
+      /* pastilles couleur : vraies cibles tactiles */
+      .lcx-aside .lcx-chip, .lcx-cinpanel .lcx-chip {
+        width: 36px !important; height: 36px !important; border-radius: 9px !important;
+      }
+      /* champs numériques plus hauts */
+      .lcx-aside .lcx-num, .lcx-cinpanel .lcx-num { height: 36px !important; font-size: 13px !important; }
+
+      /* carte règle (R.xx) : plus d'air + texte plus lisible */
+      .lcx-rule { padding: 16px 17px !important; }
+      .lcx-rule > span:last-child { font-size: 13.5px !important; }
+
+      /* lien « leçon suivante » : gros bouton tappable */
+      .lcx-next {
+        padding: 18px 18px !important; font-size: 11px !important;
+        border-radius: 12px !important; min-height: 58px; box-sizing: border-box;
+      }
+
+      /* rythme des sections texte */
+      .lcx-pad { padding: 88px 22px; }
+    }
+    @media (max-width: 480px) {
+      .lcx-vp { height: 38svh; min-height: 280px; margin: 12px 12px 4px; border-radius: 16px; }
+      .lcx-aside { gap: 24px; padding: 28px 16px 68px; }
+      .lcx-pad { padding: 70px 18px; }
+      details.lcx-acc > div { padding: 16px 15px !important; gap: 16px !important; }
+    }
   </style>
 </helmet>
 
@@ -2820,11 +2873,11 @@
           </p>
         </div>
       </details>
-      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+      <div class="lcx-rule" style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.02</span>
         <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La taille apparente de la source décide de la dureté des ombres.</sc-if><sc-if value="{{ isEn }}">The apparent size of the source decides shadow hardness.</sc-if></span>
       </div>
-      <a href="#ch2" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+      <a href="#ch2" class="lcx-next" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
         <span style="color: #3DBFA3;">02 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La distance</sc-if><sc-if value="{{ isEn }}">Distance</sc-if> →</span>
       </a>
@@ -2895,11 +2948,11 @@
           </div>
         </div>
       </details>
-      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+      <div class="lcx-rule" style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.03</span>
         <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux fois plus loin, quatre fois plus faible : I ∝ 1/d².</sc-if><sc-if value="{{ isEn }}">Twice as far, four times weaker: I ∝ 1/d².</sc-if></span>
       </div>
-      <a href="#ch3" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+      <a href="#ch3" class="lcx-next" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
         <span style="color: #3DBFA3;">03 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">La direction</sc-if><sc-if value="{{ isEn }}">Direction</sc-if> →</span>
       </a>
@@ -3034,11 +3087,11 @@
         <span style="flex: 1; font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Trouve le Rembrandt à la main, sans preset.</sc-if><sc-if value="{{ isEn }}">Find Rembrandt by hand, no preset.</sc-if></span>
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; color: {{ defiStatusColor }}; white-space: nowrap;">{{ defiStatus }}</span>
       </div>
-      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+      <div class="lcx-rule" style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.04</span>
         <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Un schéma de portrait n'est qu'une coordonnée : azimut + élévation.</sc-if><sc-if value="{{ isEn }}">A portrait scheme is just a coordinate: azimuth + elevation.</sc-if></span>
       </div>
-      <a href="#ch4" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+      <a href="#ch4" class="lcx-next" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
         <span style="color: #3DBFA3;">04 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Les rôles</sc-if><sc-if value="{{ isEn }}">The roles</sc-if> →</span>
       </a>
@@ -3139,11 +3192,11 @@
           <sc-if value="{{ isEn }}">The eye hides the layer, the slider sets its opacity. Key sculpts, Fill lifts, Rim separates. Below: aim Fill and Rim around the subject.</sc-if>
         </p>
       </details>
-      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+      <div class="lcx-rule" style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.05</span>
         <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Chaque lumière a un travail : sculpter, déboucher, détacher.</sc-if><sc-if value="{{ isEn }}">Every light has a job: sculpt, lift, separate.</sc-if></span>
       </div>
-      <a href="#ch4b" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+      <a href="#ch4b" class="lcx-next" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
         <span style="color: #3DBFA3;">05 · <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux sources</sc-if><sc-if value="{{ isEn }}">Two sources</sc-if> →</span>
       </a>
@@ -3215,11 +3268,11 @@
           <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #3DBFA3; text-align: right;">{{ crossSpreadLabel }}</span>
         </div>
       </details>
-      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+      <div class="lcx-rule" style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.06</span>
         <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Deux sources = deux couleurs. Chaud d'un côté, froid de l'autre : le sujet se détache.</sc-if><sc-if value="{{ isEn }}">Two sources = two colors. Warm on one side, cool on the other: the subject stands out.</sc-if></span>
       </div>
-      <a href="#ch5" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
+      <a href="#ch5" class="lcx-next" onClick="{{ clickNav }}" style-hover="border-color: rgba(61,191,163,0.5); color: #E8E0D0;" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; padding: 13px 15px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.5);">
         <span><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Leçon suivante</sc-if><sc-if value="{{ isEn }}">Next lesson</sc-if></span>
         <span style="color: #3DBFA3;">06 · Fresnel →</span>
       </a>
@@ -3310,7 +3363,7 @@
           </p>
         </div>
       </details>
-      <div style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
+      <div class="lcx-rule" style="display: flex; align-items: baseline; gap: 12px; padding: 13px 15px; border: 1px solid rgba(61,191,163,0.28); border-radius: 4px; background: rgba(61,191,163,0.05);">
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3DBFA3; font-weight: 600; flex-shrink: 0;">R.06</span>
         <span style="font-size: 12.5px; color: rgba(232,224,208,0.72); line-height: 1.55;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Le rim n'éclaire pas le bord : il révèle l'angle rasant.</sc-if><sc-if value="{{ isEn }}">The rim does not light the edge: it reveals the grazing angle.</sc-if></span>
       </div>
