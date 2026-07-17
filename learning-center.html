@@ -2465,7 +2465,7 @@
 
     @media (max-width: 960px) {
       .lcx-split { grid-template-columns: 1fr; }
-      .lcx-vp { position: sticky; top: 57px; z-index: 5; height: auto; min-height: 42svh; max-height: 46svh; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); }
+      .lcx-vp { position: sticky; top: 57px; z-index: 5; height: 44svh; min-height: 300px; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); will-change: auto; }
       .lcx-aside { border-left: none; padding: 44px 20px 60px; gap: 20px; }
       .lcx-pad { padding: 96px 24px; }
       .lcx-navlinks { display: none; }
@@ -2514,7 +2514,7 @@
     @keyframes lcxFadeOnly { from { opacity: 0; } to { opacity: 1; } }
     @supports (animation-timeline: view()) {
       .lcx-reveal { opacity: 0; animation: lcxReveal 1ms linear both; animation-timeline: view(); animation-range: entry 4% cover 26%; }
-      .lcx-vpreveal { opacity: 0; animation: lcxFadeOnly 1ms linear both; animation-timeline: view(); animation-range: entry 0% cover 18%; }
+      .lcx-vpreveal { opacity: 1; }
     }
 
     /* ---- micro-interactions ---- */
