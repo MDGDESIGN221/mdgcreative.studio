@@ -2153,6 +2153,16 @@
       this._headGeom = loaded.geom; this._headReal = loaded.real;
       this._buildModel(this.p.model || 'head');
       if (this._loadEl) { const le = this._loadEl; this._loadEl = null; le.style.opacity = '0'; setTimeout(() => le.remove(), 450); }
+      if (this.p.interactive !== false && !this._hintEl && !this._hintDone) {
+        const h = document.createElement('div');
+        h.style.cssText = 'position:absolute;left:50%;bottom:48px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:8px;padding:9px 15px;border-radius:999px;background:rgba(14,15,17,0.88);border:1px solid rgba(61,191,163,0.4);color:rgba(232,224,208,0.9);font:500 10px/1 "JetBrains Mono",monospace;letter-spacing:0.13em;text-transform:uppercase;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity 0.5s ease;max-width:92%;overflow:hidden;text-overflow:ellipsis';
+        h.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:#3DBFA3;box-shadow:0 0 8px #3DBFA3;flex-shrink:0"></span>' + (this.getAttribute('hint-text') || 'touche \u00b7 fais tourner \u00b7 attrape la lampe');
+        this.appendChild(h); this._hintEl = h;
+        setTimeout(() => { if (this._hintEl) this._hintEl.style.opacity = '1'; }, 700);
+        const kill = () => { this._hintDone = true; if (this._hintEl) { const el = this._hintEl; this._hintEl = null; el.style.opacity = '0'; setTimeout(() => el.remove(), 600); } };
+        this.addEventListener('pointerdown', kill, { once: true });
+        setTimeout(kill, 14000);
+      }
       if (this.hasAttribute('model-picker') || this.hasAttribute('modelpicker')) this._buildPicker();
 
       this._ro = new ResizeObserver(() => this._resize()); this._ro.observe(this);
@@ -2455,6 +2465,9 @@
     .lcx-num:hover { border-color: rgba(232,224,208,0.28); }
     .lcx-num:focus { border-color: #3DBFA3; }
 
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { overflow-x: clip; overscroll-behavior-x: none; }
     /* ---- structure ---- */
     .lcx-split { display: grid; grid-template-columns: minmax(0, 1fr) 440px; align-items: stretch; }
     .lcx-vp { position: sticky; top: 57px; height: calc(100vh - 57px); min-height: 480px; align-self: start; overflow: hidden; }
@@ -2546,7 +2559,7 @@
     @media (max-width: 960px) {
       .lcx-cinema { min-height: 0; display: block; overflow-x: clip; }
       .lcx-cinvp { position: sticky; inset: auto; top: 57px; height: 48svh; min-height: 340px; z-index: 7; border-bottom: 1px solid rgba(232,224,208,0.14); box-shadow: 0 18px 40px rgba(0,0,0,0.55); background: #0B0C0D; }
-      .lcx-cinpanel { position: relative; transform: none; width: auto; max-height: none; margin: 14px 12px 64px; border-radius: 18px; border: 1px solid rgba(232,224,208,0.13); box-shadow: 0 18px 44px rgba(0,0,0,0.5); background: rgba(17,18,22,0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 6; padding: 18px 16px; }
+      .lcx-cinpanel { position: relative; inset: auto; transform: none; width: auto; max-height: none; margin: 14px 12px 64px; border-radius: 18px; border: 1px solid rgba(232,224,208,0.13); box-shadow: 0 18px 44px rgba(0,0,0,0.5); background: rgba(17,18,22,0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 6; padding: 18px 16px; }
       details.lcx-acc summary { pointer-events: auto; cursor: pointer; }
       .lcx-accchev { display: block; }
     }
@@ -2578,6 +2591,7 @@
         content: ""; display: block; width: 44px; height: 4px; border-radius: 999px;
         background: rgba(232,224,208,0.22); margin: 2px auto 16px;
       }
+      .lcx-aside::before { content: "\2193 fais d\00e9filer \00b7 les r\00e9glages de la le\00e7on"; display: block; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(232,224,208,0.45); padding: 12px 0 4px; }
       details.lcx-acc { border-radius: 18px !important; background: rgba(17,18,22,0.96) !important; }
       .lcx-rule { background: rgba(16,26,23,0.95) !important; border-radius: 16px !important; }
       .lcx-next { background: rgba(14,15,17,0.95) !important; }
@@ -2589,8 +2603,7 @@
       #ch4 .lcx-vp::after { content: "04"; }
       #ch4b .lcx-vp::after { content: "05"; }
       #ch5 .lcx-cinvp::after { content: "06"; }
-      /* anti-saut : hauteur des avant/après réservée avant chargement des images */
-      .lcx-cmpgrid div[style*="ew-resize"] > img:first-of-type { aspect-ratio: 4 / 5; height: auto; object-fit: cover; }
+      /* anti-saut avant/après : hauteur réservée en 4:5 sur les conteneurs (aspect-ratio inline) */
       .lcx-split { scroll-margin-top: 64px; }
 
       /* accordéon inspecteur : en-tête et groupes plus aérés */
@@ -2799,7 +2812,7 @@
         </span>
       </div>
       <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 16px; background: rgba(14,15,17,0.92); backdrop-filter: blur(8px); border-top: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); min-width: 0; flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">glisse la lampe → lumière · fond → tête</sc-if>
           <sc-if value="{{ isEn }}">drag the lamp → light · background → head</sc-if>
         </span>
@@ -2910,7 +2923,7 @@
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(232,224,208,0.7);">scene-02-distance</span>
       </div>
       <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 16px; background: rgba(14,15,17,0.92); backdrop-filter: blur(8px); border-top: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); min-width: 0; flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">approche puis éloigne la source</sc-if>
           <sc-if value="{{ isEn }}">bring the source close, then away</sc-if>
         </span>
@@ -3124,11 +3137,11 @@
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(232,224,208,0.7);">scene-04-roles</span>
       </div>
       <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 16px; background: rgba(14,15,17,0.92); backdrop-filter: blur(8px); border-top: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); min-width: 0; flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">coupe, dose et oriente chaque source</sc-if>
           <sc-if value="{{ isEn }}">mute, dose and aim each source</sc-if>
         </span>
-        <span style="display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; white-space: nowrap;">
+        <span style="display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0;">
           <span style="display: flex; align-items: center; gap: 5px; color: rgba(232,224,208,0.55);"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{ keyDot }};"></span>KEY</span>
           <span style="display: flex; align-items: center; gap: 5px; color: rgba(232,224,208,0.55);"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{ fillDot }};"></span>FILL</span>
           <span style="display: flex; align-items: center; gap: 5px; color: rgba(232,224,208,0.55);"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{ rimDot }};"></span>RIM</span>
@@ -3229,8 +3242,8 @@
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(232,224,208,0.7);">scene-05-cross</span>
       </div>
       <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 16px; background: rgba(14,15,17,0.92); backdrop-filter: blur(8px); border-top: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">deux sources, deux couleurs, deux côtés</sc-if><sc-if value="{{ isEn }}">two sources, two colors, two sides</sc-if></span>
-        <span style="display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; white-space: nowrap;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); min-width: 0; flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">deux sources, deux couleurs, deux côtés</sc-if><sc-if value="{{ isEn }}">two sources, two colors, two sides</sc-if></span>
+        <span style="display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0;">
           <span style="display: flex; align-items: center; gap: 5px; color: rgba(232,224,208,0.55);"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{ crossColorA }};"></span>A</span>
           <span style="display: flex; align-items: center; gap: 5px; color: rgba(232,224,208,0.55);"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{ crossColorB }};"></span>B</span>
         </span>
@@ -3305,7 +3318,7 @@
         <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(232,224,208,0.7);">scene-05-fresnel</span>
       </div>
       <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 16px; background: rgba(14,15,17,0.92); backdrop-filter: blur(8px); border-top: 1px solid rgba(232,224,208,0.1); pointer-events: none;">
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(232,224,208,0.45); min-width: 0; flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
           <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">glisse la lampe derrière le crâne</sc-if>
           <sc-if value="{{ isEn }}">drag the lamp behind the skull</sc-if>
         </span>
@@ -3507,9 +3520,9 @@
 
     <div class="lcx-cmpgrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 44px; align-items: start; margin-bottom: 48px;">
     <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative;">
-      <div onPointerDown="{{ compareDown }}" onPointerMove="{{ compareMove }}" style="position: relative; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
+      <div onPointerDown="{{ compareDown }}" onPointerMove="{{ compareMove }}" style="position: relative; aspect-ratio: 4 / 5; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
         <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Début" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ beforeClip }}; pointer-events: none; user-select: none;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Final" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Final" draggable="false" style="display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; pointer-events: none; user-select: none;">
         <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: #E8442F;">FINAL</div>
         <div style="position: absolute; top: 14px; right: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: rgba(232,224,208,0.6);"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">DÉBUT</sc-if><sc-if value="{{ isEn }}">START</sc-if></div>
         <div style="position: absolute; top: 0; bottom: 0; left: {{ comparePct }}; width: 1px; background: #E8442F; pointer-events: none; box-shadow: 0 0 12px rgba(232,68,47,0.5);">
@@ -3522,9 +3535,9 @@
     </div>
 
     <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative;">
-      <div onPointerDown="{{ compareDown2 }}" onPointerMove="{{ compareMove2 }}" style="position: relative; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
+      <div onPointerDown="{{ compareDown2 }}" onPointerMove="{{ compareMove2 }}" style="position: relative; aspect-ratio: 4 / 5; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
         <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,ar_4:5,c_fill,g_auto,q_auto,f_auto/v1784234324/sadio_man%C3%A9_jrsglh.png" alt="Avant, rim froid" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ beforeClip2 }}; pointer-events: none; user-select: none;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1776491317/match-day-sadio_we5xzy.jpg" alt="Après, poster final" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1776491317/match-day-sadio_we5xzy.jpg" alt="Après, poster final" draggable="false" style="display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; pointer-events: none; user-select: none;">
         <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: #FF7A2F;">FINAL</div>
         <div style="position: absolute; top: 14px; right: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: rgba(232,224,208,0.6);">AVANT</div>
         <div style="position: absolute; top: 0; bottom: 0; left: {{ comparePct2 }}; width: 1px; background: #FF7A2F; pointer-events: none; box-shadow: 0 0 12px rgba(255,122,47,0.5);">
@@ -3537,9 +3550,9 @@
     </div>
 
     <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative;">
-      <div onPointerDown="{{ compareDown3 }}" onPointerMove="{{ compareMove3 }}" style="position: relative; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
+      <div onPointerDown="{{ compareDown3 }}" onPointerMove="{{ compareMove3 }}" style="position: relative; aspect-ratio: 4 / 5; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
         <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,ar_4:5,c_fill,g_auto,q_auto,f_auto/v1784234371/Calque_21_fwhh9i.jpg" alt="Avant, composite brut" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ beforeClip3 }}; pointer-events: none; user-select: none;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1776490666/gameday-gambie_men43y.jpg" alt="Après, poster final" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1776490666/gameday-gambie_men43y.jpg" alt="Après, poster final" draggable="false" style="display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; pointer-events: none; user-select: none;">
         <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: #FF7A2F;">FINAL</div>
         <div style="position: absolute; top: 14px; right: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: rgba(232,224,208,0.6);">AVANT</div>
         <div style="position: absolute; top: 0; bottom: 0; left: {{ comparePct3 }}; width: 1px; background: #FF7A2F; pointer-events: none; box-shadow: 0 0 12px rgba(255,122,47,0.5);">
@@ -3552,9 +3565,9 @@
     </div>
 
     <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative;">
-      <div onPointerDown="{{ compareDown4 }}" onPointerMove="{{ compareMove4 }}" style="position: relative; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
+      <div onPointerDown="{{ compareDown4 }}" onPointerMove="{{ compareMove4 }}" style="position: relative; aspect-ratio: 4 / 5; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
         <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1784234323/Calque_47_n876xm.png" alt="Avant, portrait brut" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ beforeClip4 }}; pointer-events: none; user-select: none;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1776659502/NUNEZ_xxcyqg.jpg" alt="Après, poster final" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1776659502/NUNEZ_xxcyqg.jpg" alt="Après, poster final" draggable="false" style="display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; pointer-events: none; user-select: none;">
         <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: #C6F03A;">FINAL</div>
         <div style="position: absolute; top: 14px; right: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: rgba(232,224,208,0.6);">AVANT</div>
         <div style="position: absolute; top: 0; bottom: 0; left: {{ comparePct4 }}; width: 1px; background: #C6F03A; pointer-events: none; box-shadow: 0 0 12px rgba(198,240,58,0.5);">
@@ -3567,9 +3580,9 @@
     </div>
 
     <div class="lcx-reveal" style="display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative;">
-      <div onPointerDown="{{ compareDown5 }}" onPointerMove="{{ compareMove5 }}" style="position: relative; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
+      <div onPointerDown="{{ compareDown5 }}" onPointerMove="{{ compareMove5 }}" style="position: relative; aspect-ratio: 4 / 5; width: 100%; max-width: 620px; overflow: hidden; border: 1px solid rgba(232,224,208,0.12); user-select: none; touch-action: pan-y; cursor: ew-resize;">
         <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1784234323/Calque_327_whtykn.png" alt="Avant, composite brut" draggable="false" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: {{ beforeClip5 }}; pointer-events: none; user-select: none;">
-        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="Après, poster final" draggable="false" style="display: block; width: 100%; height: auto; pointer-events: none; user-select: none;">
+        <img src="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_auto/v1781509552/FRANCE_SENEGAL_rkitjo.jpg" alt="Après, poster final" draggable="false" style="display: block; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; pointer-events: none; user-select: none;">
         <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: #F2C744;">FINAL</div>
         <div style="position: absolute; top: 14px; right: 14px; padding: 6px 12px; background: rgba(11,12,13,0.75); backdrop-filter: blur(6px); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em; color: rgba(232,224,208,0.6);">AVANT</div>
         <div style="position: absolute; top: 0; bottom: 0; left: {{ comparePct5 }}; width: 1px; background: #F2C744; pointer-events: none; box-shadow: 0 0 12px rgba(242,199,68,0.5);">
