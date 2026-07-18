@@ -2465,8 +2465,8 @@
 
     @media (max-width: 960px) {
       .lcx-split { grid-template-columns: 1fr; }
-      .lcx-vp { position: sticky; top: 57px; z-index: 5; height: 44svh; min-height: 300px; background: #0B0C0D; border-bottom: 1px solid rgba(232,224,208,0.12); will-change: auto; }
-      .lcx-aside { border-left: none; padding: 44px 20px 60px; gap: 20px; }
+      .lcx-vp { position: sticky; top: 57px; z-index: 1; height: calc(100svh - 57px); min-height: 460px; background: #0B0C0D; will-change: auto; }
+      .lcx-aside { border-left: none; padding: 0 12px 84px; gap: 14px; margin-top: -110px; z-index: 6; justify-content: flex-start; overflow: visible; }
       .lcx-pad { padding: 96px 24px; }
       .lcx-navlinks { display: none; }
       .lcx-herochap { display: none; }
@@ -2544,9 +2544,9 @@
     .lcx-cinvp { position: absolute; inset: 0; }
     .lcx-cinpanel { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); z-index: 3; width: 368px; max-height: calc(100svh - 130px); overflow: auto; display: flex; flex-direction: column; gap: 16px; padding: 24px 22px; background: rgba(14,15,17,0.78); backdrop-filter: blur(18px); border: 1px solid rgba(232,224,208,0.14); border-radius: 6px; box-shadow: inset 0 1px 0 rgba(232,224,208,0.08), 0 24px 60px rgba(0,0,0,0.5), 0 0 32px rgba(61,191,163,0.06); }
     @media (max-width: 960px) {
-      .lcx-cinema { min-height: 0; display: flex; flex-direction: column; }
-      .lcx-cinvp { position: relative; inset: auto; height: 46svh; min-height: 320px; }
-      .lcx-cinpanel { position: static; transform: none; width: auto; max-height: none; border-radius: 0; border-left: none; border-right: none; box-shadow: none; background: #0B0C0D; padding: 40px 20px 56px; }
+      .lcx-cinema { min-height: 0; display: block; }
+      .lcx-cinvp { position: sticky; top: 57px; inset: auto; height: calc(100svh - 57px); min-height: 460px; z-index: 1; }
+      .lcx-cinpanel { position: relative; transform: none; width: auto; max-height: none; margin: -110px 12px 64px; border-radius: 18px; border: 1px solid rgba(232,224,208,0.13); box-shadow: 0 18px 44px rgba(0,0,0,0.5); background: rgba(17,18,22,0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 6; padding: 18px 16px; }
       details.lcx-acc summary { pointer-events: auto; cursor: pointer; }
       .lcx-accchev { display: block; }
     }
@@ -2564,16 +2564,23 @@
         pour l'emporter sur les règles mobiles précédentes)
        ================================================================= */
     @media (max-width: 960px) {
-      /* le viewport 3D devient une scène : carte encartée, arrondie, détachée */
-      .lcx-vp {
-        height: 40svh; min-height: 300px;
-        margin: 16px 16px 4px; border-radius: 18px;
-        border: 1px solid rgba(232,224,208,0.14);
-        box-shadow: 0 16px 44px rgba(0,0,0,0.5), inset 0 1px 0 rgba(232,224,208,0.06);
-        overflow: hidden;
+      /* --- LA FEUILLE : scène 3D plein écran, les contrôles glissent par-dessus en cartes --- */
+      .lcx-aside > * {
+        background: rgba(17,18,22,0.94);
+        border: 1px solid rgba(232,224,208,0.13);
+        border-radius: 18px;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 18px 44px rgba(0,0,0,0.45);
       }
-      /* la colonne de contrôles respire : plus d'air en haut, gros interstices */
-      .lcx-aside { gap: 28px; padding: 34px 20px 76px; }
+      .lcx-aside > *:not(details):not(a) { padding: 20px 18px; }
+      .lcx-aside > div:first-child::before {
+        content: ""; display: block; width: 44px; height: 4px; border-radius: 999px;
+        background: rgba(232,224,208,0.22); margin: 2px auto 16px;
+      }
+      details.lcx-acc { border-radius: 18px !important; background: rgba(17,18,22,0.96) !important; }
+      .lcx-rule { background: rgba(16,26,23,0.95) !important; border-radius: 16px !important; }
+      .lcx-next { background: rgba(14,15,17,0.95) !important; }
       .lcx-split { scroll-margin-top: 64px; }
 
       /* accordéon inspecteur : en-tête et groupes plus aérés */
@@ -2599,15 +2606,15 @@
       /* lien « leçon suivante » : gros bouton tappable */
       .lcx-next {
         padding: 18px 18px !important; font-size: 11px !important;
-        border-radius: 12px !important; min-height: 58px; box-sizing: border-box;
+        border-radius: 16px !important; min-height: 58px; box-sizing: border-box;
       }
 
       /* rythme des sections texte */
       .lcx-pad { padding: 88px 22px; }
     }
     @media (max-width: 480px) {
-      .lcx-vp { height: 38svh; min-height: 280px; margin: 12px 12px 4px; border-radius: 16px; }
-      .lcx-aside { gap: 24px; padding: 28px 16px 68px; }
+      .lcx-vp { min-height: 420px; }
+      .lcx-aside { gap: 12px; padding: 0 10px 72px; margin-top: -100px; }
       .lcx-pad { padding: 70px 18px; }
       details.lcx-acc > div { padding: 16px 15px !important; gap: 16px !important; }
     }
