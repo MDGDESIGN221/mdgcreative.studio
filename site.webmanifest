@@ -1,30 +1,21 @@
 {
   "name": "MDG Creative Studio",
   "short_name": "MDG",
-  "description": "Direction artistique, cover art & identité visuelle — Mouhamed Al Amine, Kaolack.",
+  "description": "Creative Director à Kaolack — cover art, brand identity, motion design & web.",
   "start_url": "/",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#060606",
   "theme_color": "#060606",
-  "lang": "fr",
   "icons": [
     {
       "src": "https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_192,h_192,c_pad,b_rgb:060606/v1776666026/NEW_LOGO_w_rxvoil.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
       "src": "https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_512,h_512,c_pad,b_rgb:060606/v1776666026/NEW_LOGO_w_rxvoil.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_512,h_512,c_pad,b_rgb:060606/v1776666026/NEW_LOGO_w_rxvoil.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     }
   ]
 }

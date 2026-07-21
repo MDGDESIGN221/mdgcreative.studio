@@ -1,149 +1,35 @@
-/* ───────────────────────────────────────────────────────────
-   MDG Creative Studio — Feuille de style des pages légales
-   Partagée par : mentions-legales.html, confidentialite.html, cgv.html
-   ─────────────────────────────────────────────────────────── */
-
-:root{
-  --black:#060606;
-  --dark:#0e0e0e;
-  --surface:#141414;
-  --border:rgba(255,255,255,.1);
-  --accent:#3DBFA3;
-  --light:#f0ede8;
-  --mid:#a7a29b;
-  --dim:#8f8b84;
-  --gold:#c9a96b;
-}
-
+/* Pages légales — MDG Creative Studio */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-
-body{
-  font-family:'Inter',system-ui,sans-serif;
-  background:var(--black);
-  color:var(--light);
-  line-height:1.7;
-  font-weight:300;
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-  padding-bottom:env(safe-area-inset-bottom,0);
-}
-
-a{color:var(--accent);text-decoration:none;transition:opacity .2s}
-a:hover{opacity:.7}
-
-/* ── Barre supérieure ── */
-.legal-topbar{
-  position:sticky;top:0;z-index:10;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.1rem clamp(1.25rem,5vw,3rem);
-  background:rgba(6,6,6,.82);
-  backdrop-filter:blur(18px) saturate(1.4);
-  -webkit-backdrop-filter:blur(18px) saturate(1.4);
-  border-bottom:1px solid var(--border);
-}
-.legal-brand{
-  display:flex;align-items:center;gap:.6rem;
-  font-family:'Syne',sans-serif;font-weight:800;
-  font-size:.95rem;letter-spacing:-.01em;color:var(--light);
-}
-.legal-brand span{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none}
-.legal-back{
-  display:inline-flex;align-items:center;gap:.5rem;
-  font-family:'Syne',sans-serif;font-weight:700;
-  font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--dim);
-}
-.legal-back:hover{color:var(--accent);opacity:1}
-
-/* ── Corps ── */
-.legal-wrap{
-  max-width:760px;
-  margin:0 auto;
-  padding:clamp(3rem,8vw,6rem) clamp(1.25rem,5vw,2rem) 5rem;
-}
-.legal-eyebrow{
-  display:flex;align-items:center;gap:12px;
-  font-family:'Syne',sans-serif;font-weight:700;
-  font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:1.4rem;
-}
-.legal-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent)}
-
-h1.legal-title{
-  font-family:'Syne',sans-serif;font-weight:800;
-  font-size:clamp(2.2rem,5.5vw,3.4rem);
-  line-height:1.03;letter-spacing:-.03em;
-  color:var(--light);margin-bottom:1rem;
-}
-h1.legal-title em{
-  font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;
-  color:var(--accent);
-}
-.legal-updated{
-  font-size:.82rem;color:var(--dim);margin-bottom:3rem;
-  padding-bottom:2rem;border-bottom:1px solid var(--border);
-}
-
-h2.legal-h2{
-  font-family:'Syne',sans-serif;font-weight:700;
-  font-size:1.28rem;letter-spacing:-.01em;
-  color:var(--light);margin:3rem 0 1rem;
-  display:flex;align-items:baseline;gap:.7rem;
-}
-h2.legal-h2 .num{
-  font-family:'DM Serif Display',serif;font-style:italic;
-  font-size:1rem;color:var(--accent);flex:none;
-}
-h3.legal-h3{
-  font-family:'Syne',sans-serif;font-weight:600;
-  font-size:.98rem;color:var(--light);margin:1.8rem 0 .6rem;
-}
-
-.legal-wrap p{color:var(--mid);margin-bottom:1.1rem;font-size:.94rem}
-.legal-wrap strong{color:var(--light);font-weight:600}
-.legal-wrap ul{list-style:none;margin:0 0 1.3rem;padding:0;display:flex;flex-direction:column;gap:.6rem}
-.legal-wrap ul li{
-  color:var(--mid);font-size:.94rem;padding-left:1.4rem;position:relative;
-}
-.legal-wrap ul li::before{
-  content:'—';position:absolute;left:0;color:var(--accent);
-}
-
-/* ── Bloc d'infos clés ── */
-.legal-card{
-  background:var(--dark);border:1px solid var(--border);
-  border-radius:10px;padding:1.6rem 1.8rem;margin:1.5rem 0;
-}
-.legal-card dl{display:grid;grid-template-columns:auto 1fr;gap:.7rem 1.5rem;margin:0}
-.legal-card dt{font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
-.legal-card dd{color:var(--light);font-size:.9rem;margin:0}
-
-/* ── Placeholder à compléter par le propriétaire ── */
-.tofill{
-  color:var(--dim);
-  font-size:.86em;font-weight:400;font-style:italic;
-}
-
-/* ── Pied ── */
-.legal-foot{
-  max-width:760px;margin:0 auto;
-  padding:2.5rem clamp(1.25rem,5vw,2rem) 4rem;
-  border-top:1px solid var(--border);
-  display:flex;flex-wrap:wrap;gap:1.5rem;
-  align-items:center;justify-content:space-between;
-}
-.legal-foot-links{display:flex;flex-wrap:wrap;gap:1.3rem}
-.legal-foot-links a{
-  font-family:'Syne',sans-serif;font-weight:600;
-  font-size:.76rem;letter-spacing:.03em;color:var(--dim);
-}
-.legal-foot-links a:hover{color:var(--accent);opacity:1}
-.legal-foot-links a[aria-current="page"]{color:var(--accent)}
-.legal-foot-copy{font-size:.74rem;color:var(--dim)}
-
-@media(max-width:520px){
-  .legal-card dl{grid-template-columns:1fr;gap:.3rem}
-  .legal-card dd{margin-bottom:.8rem}
-}
+:root{--bg:#060606;--ink:#f0ede8;--dim:#8f8b84;--accent:#3DBFA3;--border:rgba(255,255,255,.1)}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.75}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.legal-topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem clamp(1.25rem,4vw,3rem);border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(6,6,6,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:50}
+.legal-brand{display:inline-flex;align-items:center;gap:.6rem;font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--ink);letter-spacing:.02em}
+.legal-brand span{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px rgba(61,191,163,.8)}
+.legal-brand:hover{text-decoration:none;color:var(--accent)}
+.legal-back{font-family:'Syne',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.06em;color:var(--dim)}
+.legal-back:hover{color:var(--accent);text-decoration:none}
+.legal-wrap{max-width:760px;margin:0 auto;padding:clamp(3rem,7vw,5rem) 1.5rem 4rem}
+.legal-eyebrow{display:flex;align-items:center;gap:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem}
+.legal-eyebrow::before{content:'';width:26px;height:1px;background:var(--accent)}
+.legal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,6vw,3.1rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:.9rem}
+.legal-title em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--accent)}
+.legal-updated{font-size:.78rem;color:var(--dim);margin-bottom:2.6rem}
+.legal-wrap p{font-size:.95rem;font-weight:300;color:#c9c5be;margin-bottom:1.1rem}
+.legal-wrap strong{color:var(--ink);font-weight:600}
+.legal-wrap ul{margin:0 0 1.2rem 1.2rem}
+.legal-wrap li{font-size:.95rem;font-weight:300;color:#c9c5be;margin-bottom:.4rem}
+.legal-h2{display:flex;align-items:baseline;gap:.8rem;font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:-.01em;color:var(--ink);margin:2.6rem 0 .9rem;padding-top:1.6rem;border-top:1px solid var(--border)}
+.legal-h2 .num{font-family:'Syne',sans-serif;font-weight:800;font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.legal-card{background:#0e0e0e;border:1px solid var(--border);border-radius:12px;padding:1.3rem 1.5rem;margin:0 0 1.2rem}
+.legal-card dl{display:grid;grid-template-columns:auto 1fr;gap:.55rem 1.2rem;align-items:baseline}
+.legal-card dt{font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--ink);white-space:nowrap}
+.legal-card dd{font-size:.88rem;font-weight:300;color:#c9c5be}
+.legal-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1.6rem clamp(1.25rem,4vw,3rem);border-top:1px solid var(--border)}
+.legal-foot-links{display:flex;gap:1.2rem;flex-wrap:wrap}
+.legal-foot-links a{font-size:.74rem;color:var(--dim)}
+.legal-foot-links a:hover{color:var(--accent);text-decoration:none}
+.legal-foot-links a[aria-current="page"]{color:var(--ink)}
+.legal-foot-copy{font-size:.7rem;color:rgba(255,255,255,.32)}
+@media(max-width:560px){.legal-card dl{grid-template-columns:1fr;gap:.15rem}.legal-card dt{margin-top:.6rem}}
