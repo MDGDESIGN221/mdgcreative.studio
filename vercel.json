@@ -1,6 +1,16 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/(home|work|about|services|collabs|collab|process|faq|contact|pricing|portfolio|realisations|hero|portfolio-accordion)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/en/(home|work|about|services|collabs|collab|process|faq|contact|pricing|portfolio|realisations)",
+      "destination": "/en/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
