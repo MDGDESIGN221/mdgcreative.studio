@@ -3,11 +3,107 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/(home|work|about|services|collabs|collab|process|faq|contact|pricing|portfolio|realisations|hero|portfolio-accordion)",
+      "source": "/home",
       "destination": "/index.html"
     },
     {
-      "source": "/en/(home|work|about|services|collabs|collab|process|faq|contact|pricing|portfolio|realisations)",
+      "source": "/work",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/collabs",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/collab",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/process",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/pricing",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/realisations",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/hero",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/portfolio-accordion",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/en/home",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/work",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/about",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/services",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/collabs",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/collab",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/process",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/faq",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/contact",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/pricing",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/portfolio",
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/en/realisations",
       "destination": "/en/index.html"
     }
   ],
