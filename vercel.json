@@ -4,107 +4,107 @@
   "rewrites": [
     {
       "source": "/home",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/work",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/about",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/services",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/collabs",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/collab",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/process",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/faq",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/contact",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/pricing",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/portfolio",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/realisations",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/hero",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/portfolio-accordion",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/en/home",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/work",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/about",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/services",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/collabs",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/collab",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/process",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/faq",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/contact",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/pricing",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/portfolio",
-      "destination": "/en/index.html"
+      "destination": "/en"
     },
     {
       "source": "/en/realisations",
-      "destination": "/en/index.html"
+      "destination": "/en"
     }
   ],
   "headers": [
