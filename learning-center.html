@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MDG Learning Center — Comprendre la lumière</title>
+<title>MDG Learning Center · Comprendre la lumière</title>
 <meta name="description" content="Le Learning Center de MDG Creative Studio : comprendre le rim light et la lumière en design d'affiche, avec démos 3D interactives et études de cas avant/après.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.mdgcreative.studio/learning-center">
 <meta name="theme-color" content="#0B0C0D">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
-<meta property="og:title" content="MDG Learning Center — Comprendre la lumière">
+<meta property="og:title" content="MDG Learning Center · Comprendre la lumière">
 <meta property="og:description" content="Rim light, lumière et design d'affiche : démos 3D interactives, gratuit.">
 <meta property="og:image" content="https://res.cloudinary.com/djdkpihuz/image/upload/w_1200,q_auto,f_jpg/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png">
 <meta property="og:url" content="https://www.mdgcreative.studio/learning-center">
@@ -22,7 +22,7 @@
 <link rel="apple-touch-icon" href="https://res.cloudinary.com/djdkpihuz/image/upload/f_png,q_auto,w_180,h_180,c_pad,b_rgb:060606/v1776666026/NEW_LOGO_w_rxvoil.png">
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
-// GENERATED from dc-runtime/src/*.ts — do not edit. Rebuild with `cd dc-runtime && bun run build`.
+// GENERATED from dc-runtime/src/*.ts · do not edit. Rebuild with `cd dc-runtime && bun run build`.
 "use strict";
 (() => {
   var __defProp = Object.defineProperty;
@@ -848,7 +848,7 @@
         __publicField(this, "__name");
         __publicField(this, "__sub");
         __publicField(this, "__needsDidMount", false);
-        /** Snapshot of the registry's streaming flags taken at render time —
+        /** Snapshot of the registry's streaming flags taken at render time ·
          *  builders read it off the RenderCtx (this) to pick placeholder vs
          *  render-nothing for unresolved values. */
         __publicField(this, "__streamingNow", false);
@@ -861,7 +861,7 @@
         __publicField(this, "__failedLogic", null);
         __publicField(this, "__failedUserProps", null);
         __publicField(this, "__failedVer", -1);
-        /** Per-instance constructor error — kept here (not on the registry entry)
+        /** Per-instance constructor error · kept here (not on the registry entry)
          *  so one instance's successful construct can't hide a sibling's failure,
          *  and a construct can never wipe an eval error `updateJs` recorded on
          *  `r.logicError`. */
@@ -890,7 +890,7 @@
         );
       }
       /** Instantiate the logic class (or the no-op base) and adopt `prevState`
-       *  over its initial state — used both at mount and on hot-swap. */
+       *  over its initial state · used both at mount and on hot-swap. */
       __makeLogic(Logic, prevState) {
         const L = Logic || StreamableLogic;
         try {
@@ -912,7 +912,7 @@
         if (prevState)
           this.logic.state = { ...this.logic.state || {}, ...prevState };
       }
-      /** The props the author's logic + template see — internal __-prefixed
+      /** The props the author's logic + template see · internal __-prefixed
        *  wiring stripped. */
       __userProps() {
         const { __name, __hintSize, __tplId, __hostStyle, ...rest } = this.props;
@@ -1757,16 +1757,16 @@
       },
       __dcStreaming: (name) => streams.live(name),
       __dcSetProps: (name, overrides) => runtime.setProps(name, overrides),
-      /** Name of the component currently mounted as the page root — DC tools
+      /** Name of the component currently mounted as the page root · DC tools
        *  push their template-stream here when targeting "the open page". */
       __dcRootName: () => rootName,
-      /** Editor bridge — the encoded, `data-dc-tpl`-annotated template source.
+      /** Editor bridge · the encoded, `data-dc-tpl`-annotated template source.
        *  The host editor parses this into its own template DOM so it can map a
        *  rendered node (carrying the same `data-dc-tpl`) back to the source
        *  node that emitted it. Returns the encoded form (`sc-camel-*` attrs,
        *  `<sc-raw-*>`/`<sc-helmet>` tags); the editor decodes on serialize. */
       __dcAnnotatedTemplate: (name) => runtime.annotatedTemplate(name),
-      /** Editor bridge — the *original* (decoded) template source. */
+      /** Editor bridge · the *original* (decoded) template source. */
       __dcTemplateSource: (name) => runtime.templateSource(name),
       __dcBoot: () => {
         rootName = boot(runtime, document) ?? rootName;
@@ -1793,7 +1793,7 @@
 
 </script>
 <script>
-/* light-sim — real 3D head lighting simulator (Three.js) for MDG Learning Center.
+/* light-sim · real 3D head lighting simulator (Three.js) for MDG Learning Center.
    A <light-sim> web component: loads a photoscanned head, orbit-controls to rotate,
    colored key / fill / rim lights, fresnel + normals debug views. */
 (function () {
@@ -2455,7 +2455,7 @@
 
 
 <helmet>
-  <title>MDG Learning Center — Comprendre la lumière</title>
+  <title>MDG Learning Center · Comprendre la lumière</title>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -2590,7 +2590,7 @@
       .lcx-h-t2 { color: #3DBFA3; }
     }
     /* =================================================================
-       REDESIGN MOBILE — rythme, respiration, cibles tactiles
+       REDESIGN MOBILE · rythme, respiration, cibles tactiles
        (uniquement <=960px ; desktop inchangé ; placé en fin de <style>
         pour l'emporter sur les règles mobiles précédentes)
        ================================================================= */
@@ -2757,7 +2757,7 @@
     </div>
   </section>
 
-  <!-- ============ INTRO — ÉDITORIAL IVOIRE ============ -->
+  <!-- ============ INTRO · ÉDITORIAL IVOIRE ============ -->
   <section id="lc-intro" data-screen-label="Intro Comportement" class="lcx-pad" style="position: relative; background: #F0EEE6; color: #1C1A16; overflow: hidden;">
     <span style="position: absolute; top: 34px; right: 40px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(90px, 14vw, 180px); line-height: 1; color: rgba(28,26,22,0.05); pointer-events: none; user-select: none;">00</span>
     <div class="lcx-reveal" style="max-width: 760px; margin: 0 auto; position: relative;">
@@ -2819,7 +2819,7 @@
     </div>
   </section>
 
-  <!-- ============ LEÇON 01 — LA SOURCE ============ -->
+  <!-- ============ LEÇON 01 · LA SOURCE ============ -->
   <section id="ch1" data-screen-label="Lecon 01 Source" class="lcx-split" style="border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D;">
     <div class="lcx-vp lcx-vpreveal">
       <x-import component-from-global-scope="light-sim" id="sim-ch1" mode="single" gizmo="true" interactive="true" intensity="{{ ch1Intensity }}" softness="{{ ch1Softness }}" distance="{{ ch1Distance }}" kelvin="{{ ch1Kelvin }}" color-hex="{{ ch1ColorHex }}" azimuth="{{ ch1Az }}" elevation="{{ ch1El }}" on-light-move="{{ ch1LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
@@ -2932,7 +2932,7 @@
     </aside>
   </section>
 
-  <!-- ============ LEÇON 02 — LA DISTANCE ============ -->
+  <!-- ============ LEÇON 02 · LA DISTANCE ============ -->
   <section id="ch2" data-screen-label="Lecon 02 Distance" class="lcx-split" style="border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D;">
     <div class="lcx-vp lcx-vpreveal">
       <x-import component-from-global-scope="light-sim" mode="single" gizmo="true" interactive="true" falloff-boost="1.4" intensity="2.6" softness="0.3" kelvin="4800" azimuth="35" elevation="18" distance="{{ ch2Distance }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
@@ -3007,7 +3007,7 @@
     </aside>
   </section>
 
-  <!-- ============ LEÇON 03 — LA DIRECTION ============ -->
+  <!-- ============ LEÇON 03 · LA DIRECTION ============ -->
   <section id="ch3" data-screen-label="Lecon 03 Direction" class="lcx-split" style="border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D;">
     <div class="lcx-vp lcx-vpreveal">
       <x-import component-from-global-scope="light-sim" id="sim-ch3" mode="single" gizmo="true" interactive="true" intensity="1.6" softness="0.28" distance="2.1" kelvin="5300" azimuth="{{ ch3Az }}" elevation="{{ ch3El }}" on-light-move="{{ ch3LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
@@ -3146,7 +3146,7 @@
     </aside>
   </section>
 
-  <!-- ============ LEÇON 04 — LES RÔLES ============ -->
+  <!-- ============ LEÇON 04 · LES RÔLES ============ -->
   <section id="ch4" data-screen-label="Lecon 04 Roles" class="lcx-split" style="border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D;">
     <div class="lcx-vp lcx-vpreveal">
       <x-import component-from-global-scope="light-sim" mode="single" gizmo="false" interactive="true" intensity="1.5" softness="0.4" distance="2.2" kelvin="4300" rim-hex="#22D3C0" azimuth="45" elevation="30" key-on="{{ ch4Key }}" fill-on="{{ ch4Fill }}" rim-on="{{ ch4Rim }}" key-level="{{ ch4KeyLevel }}" fill-level="{{ ch4FillLevel }}" rim-level="{{ ch4RimLevel }}" fill-azimuth="{{ ch4FillAz }}" rim-azimuth="{{ ch4RimAz }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
@@ -3251,7 +3251,7 @@
     </aside>
   </section>
 
-  <!-- ============ LEÇON 05 — DEUX SOURCES (CROSS-LIGHT) ============ -->
+  <!-- ============ LEÇON 05 · DEUX SOURCES (CROSS-LIGHT) ============ -->
   <section id="ch4b" data-screen-label="Lecon 05 Cross-light" class="lcx-split" style="border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D;">
     <div class="lcx-vp lcx-vpreveal">
       <x-import component-from-global-scope="light-sim" mode="cross" gizmo="true" interactive="true" intensity="1.15" softness="0.45" distance="2.2" azimuth="{{ crossAzA }}" elevation="14" color-hex="{{ crossColorA }}" fill-hex="{{ crossColorB }}" fill-azimuth="{{ crossAzB }}" fill-elevation="16" key-on="true" fill-on="true" rim-on="false" key-level="{{ crossKeyLevel }}" fill-level="{{ crossFillLevel }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
@@ -3327,7 +3327,7 @@
     </aside>
   </section>
 
-  <!-- ============ LEÇON 06 — FRESNEL ============ -->
+  <!-- ============ LEÇON 06 · FRESNEL ============ -->
   <section id="ch5" data-screen-label="Lecon 06 Fresnel" class="lcx-cinema" style="border-top: 1px solid rgba(61,191,163,0.22); background: #000000;">
     <div class="lcx-cinvp lcx-vpreveal">
       <x-import component-from-global-scope="light-sim" id="sim-ch5" mode="fresnel" gizmo="true" interactive="true" intensity="2.2" kelvin="6500" rim-hex="{{ ch5RimHex }}" rim-wrap="{{ ch5Wrap }}" view="{{ ch5View }}" on-light-move="{{ ch5LightMove }}" hint-size="100%,100%" style="position: absolute; inset: 0;"></x-import>
@@ -3422,7 +3422,7 @@
     </div>
   </section>
 
-  <!-- ============ LEÇON 07 — APPLICATION ============ -->
+  <!-- ============ LEÇON 07 · APPLICATION ============ -->
   <section id="ch6" data-screen-label="Lecon 07 Application" class="lcx-pad" onContextMenu="{{ blockCtx }}" style="position: relative; display: flex; flex-direction: column; gap: 64px; border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D; overflow: hidden;">
     <span style="position: absolute; top: 44px; right: 40px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(90px, 14vw, 180px); line-height: 1; color: rgba(232,224,208,0.045); pointer-events: none; user-select: none;">07</span>
     <div class="lcx-reveal" style="max-width: 760px; position: relative;">
@@ -3469,7 +3469,7 @@
         <div style="padding: 22px 20px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; display: flex; flex-direction: column; gap: 12px;">
           <div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: rgba(232,224,208,0.2);">03</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #3DBFA3; border: 1px solid rgba(61,191,163,0.3); padding: 3px 7px; border-radius: 999px;">L05 · FRESNEL</span></div>
           <h3 style="font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin: 0; color: #E8E0D0;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Peindre le rasant</sc-if><sc-if value="{{ isEn }}">Paint the grazing edge</sc-if></h3>
-          <p style="font-size: 13px; color: rgba(232,224,208,0.55); margin: 0; line-height: 1.65;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sur un calque en Densité linéaire +, peins la lumière seulement sur les bords rasants — là où l'angle de vue fuit.</sc-if><sc-if value="{{ isEn }}">On a Linear Dodge (Add) layer, paint light only on the grazing edges — where the viewing angle falls away.</sc-if></p>
+          <p style="font-size: 13px; color: rgba(232,224,208,0.55); margin: 0; line-height: 1.65;"><sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">Sur un calque en Densité linéaire +, peins la lumière seulement sur les bords rasants · là où l'angle de vue fuit.</sc-if><sc-if value="{{ isEn }}">On a Linear Dodge (Add) layer, paint light only on the grazing edges · where the viewing angle falls away.</sc-if></p>
         </div>
         <div style="padding: 22px 20px; border: 1px solid rgba(232,224,208,0.1); border-radius: 4px; background: #0E0F11; display: flex; flex-direction: column; gap: 12px;">
           <div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: rgba(232,224,208,0.2);">04</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: #3DBFA3; border: 1px solid rgba(61,191,163,0.3); padding: 3px 7px; border-radius: 999px;">L02 · L04</span></div>
@@ -3662,7 +3662,7 @@
     </div>
   </section>
 
-  <!-- ============ SPEED ART — LE PROCESSUS ============ -->
+  <!-- ============ SPEED ART · LE PROCESSUS ============ -->
   <section id="lc-speedart" data-screen-label="Speed Art" class="lcx-pad" style="position: relative; background: #0B0C0D; overflow: hidden; border-top: 1px solid rgba(232,224,208,0.08);">
     <div class="lcx-reveal" style="max-width: 760px; position: relative; margin: 0 auto 48px; text-align: center;">
       <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px;">
@@ -3696,7 +3696,7 @@
   </section>
 
   <!-- ============ NEWSLETTER ============ -->
-  <!-- ============ RÉCAP — LES SIX RÈGLES ============ -->
+  <!-- ============ RÉCAP · LES SIX RÈGLES ============ -->
   <section id="lc-regles" data-screen-label="Les six regles" class="lcx-pad" style="position: relative; background: #F0EEE6; color: #1C1A16; overflow: hidden;">
     <span style="position: absolute; top: 34px; right: 40px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(90px, 14vw, 180px); line-height: 1; color: rgba(28,26,22,0.05); pointer-events: none; user-select: none;">R</span>
     <div class="lcx-reveal" style="max-width: 860px; margin: 0 auto; position: relative;">
@@ -3717,7 +3717,7 @@
     </div>
   </section>
 
-  <!-- ============ AUTORITÉ — LE STUDIO ============ -->
+  <!-- ============ AUTORITÉ · LE STUDIO ============ -->
   <section data-screen-label="Le studio" style="border-top: 1px solid rgba(232,224,208,0.08); background: #0B0C0D; padding: 136px 24px;">
     <div class="lcx-reveal lcx-compass-row" style="max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 48px;">
       <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 30px 34px; border: 1px solid rgba(232,224,208,0.1); border-radius: 6px; background: #0E0F11;">
@@ -3745,7 +3745,7 @@
     </div>
   </section>
 
-  <!-- ============ CONVERSION — COMMENCE GRATUITEMENT ============ -->
+  <!-- ============ CONVERSION · COMMENCE GRATUITEMENT ============ -->
   <section id="lc-access" data-screen-label="Commencer" style="display: flex; justify-content: center; padding: 168px 24px; border-top: 1px solid rgba(232,224,208,0.08); background: radial-gradient(ellipse 70% 90% at 50% 0%, rgba(61,191,163,0.08), rgba(61,191,163,0) 65%), #0B0C0D;">
     <div class="lcx-reveal" style="width: 100%; max-width: 720px; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center;">
       <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase; color: #3DBFA3;">
@@ -3789,16 +3789,16 @@
         <sc-if value="{{ newsletterError }}">
           <div style="display: flex; align-items: center; gap: 10px; width: 100%; max-width: 480px; padding: 12px 18px; border: 1px solid rgba(240,70,70,0.4); background: rgba(240,70,70,0.08); color: #F09090; font-family: 'Inter', sans-serif; font-size: 13px; border-radius: 999px; margin-top: 4px;">
             <span style="font-size: 14px;">⚠</span>
-            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">L'envoi a échoué — vérifie ta connexion et réessaie.</sc-if>
-            <sc-if value="{{ isEn }}">Something went wrong — check your connection and try again.</sc-if>
+            <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">L'envoi a échoué · vérifie ta connexion et réessaie.</sc-if>
+            <sc-if value="{{ isEn }}">Something went wrong · check your connection and try again.</sc-if>
           </div>
         </sc-if>
       </sc-if>
       <sc-if value="{{ newsletterDone }}">
         <div style="display: flex; align-items: center; gap: 12px; padding: 16px 28px; border: 1px solid rgba(61,191,163,0.5); background: rgba(61,191,163,0.08); color: #6BD9C2; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; border-radius: 999px; margin-top: 4px;">
           <span style="font-size: 16px;">✓</span>
-          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">C'est parti — regarde ta boîte mail pour le premier module.</sc-if>
-          <sc-if value="{{ isEn }}">You're in — check your inbox for the first module.</sc-if>
+          <sc-if value="{{ isFr }}" hint-placeholder-val="{{ true }}">C'est parti · regarde ta boîte mail pour le premier module.</sc-if>
+          <sc-if value="{{ isEn }}">You're in · check your inbox for the first module.</sc-if>
         </div>
       </sc-if>
       <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,224,208,0.3);">
@@ -4274,7 +4274,7 @@ class Component extends DCLogic {
         e.preventDefault();
         const email = this.state.email;
         this.setState({ subscribing: true, subscribeError: false });
-        // ⚠️ endpoint LIVE — toute soumission, même depuis un aperçu/prototype
+        // ⚠️ endpoint LIVE · toute soumission, même depuis un aperçu/prototype
         // ailleurs que le site déployé, envoie une vraie notification dans la
         // boîte mail réelle du studio. Ne pas soumettre pour "juste tester".
         fetch('https://formsubmit.co/ajax/mdgdesign221@gmail.com', {
@@ -4282,7 +4282,7 @@ class Component extends DCLogic {
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
             email: email,
-            _subject: 'Nouvelle inscription — MDG Learning Center',
+            _subject: 'Nouvelle inscription · MDG Learning Center',
             _template: 'table',
           }),
         }).then((res) => {
