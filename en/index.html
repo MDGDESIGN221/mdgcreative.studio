@@ -12125,13 +12125,13 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 <div class="cur-r" id="curR"></div>
 
 <div class="mob-overlay" id="mobOverlay"></div>
-<div class="mob-menu" id="mobMenu" role="dialog" aria-modal="true" aria-label="Menu principal">
+<div class="mob-menu" id="mobMenu" role="dialog" aria-modal="true" aria-label="Main menu">
   <div class="mob-handle" aria-hidden="true"></div>
   <div class="mob-sheet-head">
     <a href="#" class="mob-menu-logo" onclick="cm()">
       <img decoding="async" loading="lazy" src="/media/img/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" width="80" height="22" style="height:22px;width:auto;display:block">
     </a>
-    <button class="mob-close" id="mobClose" aria-label="Fermer le menu">✕</button>
+    <button class="mob-close" id="mobClose" aria-label="Close menu">✕</button>
   </div>
   <div class="mob-nav-head">Navigation rapide</div>
   <div class="mob-links-list">
@@ -12150,14 +12150,14 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   </div>
   <div class="mob-divider"></div>
   <div class="mob-menu-bottom">
-    <button class="mob-lang-toggle" id="mobLangToggle" onclick="toggleLang()" aria-label="Changer la langue / Switch language"><span id="mobLangLabel">EN</span></button>
+    <button class="mob-lang-toggle" id="mobLangToggle" onclick="toggleLang()" aria-label="Switch language"><span id="mobLangLabel">EN</span></button>
     <a href="#contact" class="mob-cta" onclick="cm('#contact')" data-i18n="nav_cta">Lancer un projet</a>
   </div>
 </div>
 
 
 <a href="#main-content" class="skip-link" style="position:absolute;top:-100px;left:1rem;background:var(--accent);color:#000;padding:.5rem 1rem;border-radius:4px;font-size:.75rem;font-weight:700;z-index:99999;transition:top .2s;text-decoration:none" onfocus="this.style.top='1rem'" onblur="this.style.top='-100px'">Skip to content</a>
-<nav aria-label="Navigation principale" role="navigation" class="nav-on-light">
+<nav aria-label="Main navigation" role="navigation" class="nav-on-light">
   <a href="#" class="nav-logo">
     <img width="1600" height="1600" decoding="async" loading="lazy" src="/media/img/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" style="height:44px;width:auto;display:block;filter:brightness(1)">
   </a>
@@ -12172,13 +12172,13 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   </ul>
   <div class="nav-right">
     <span class="nav-avail" style="flex-direction:column;align-items:flex-end;gap:2px"><span style="display:inline-flex;align-items:center;gap:.5rem"><span class="nav-avail-dot"></span><span data-i18n="nav_avail" style="font-weight:700">Disponible</span></span><span style="font-size:.6rem;letter-spacing:.04em;color:var(--dim)">Kaolack · <span id="kaolackTimeNav">--h--</span></span></span>
-    <button class="lang-toggle" id="langToggle" aria-label="Changer la langue / Switch language" aria-pressed="false" onclick="toggleLang()">
+    <button class="lang-toggle" id="langToggle" aria-label="Switch language" aria-pressed="false" onclick="toggleLang()">
       <span class="lang-toggle-inner" id="langLabel">EN</span>
     </button>
     <a href="/learning-center" class="nav-cta" style="background:transparent!important;background-image:none!important;border:1.5px solid var(--accent)!important;color:var(--accent)!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;">Learning Center</a>
     <a href="javascript:void(0)" class="nav-cta" data-i18n="nav_cta">Lancer un projet</a>
   </div>
-  <button class="nav-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <button class="nav-burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true">
   <defs>
@@ -12751,7 +12751,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           .lc-cta__title{font-size:1rem}
         }
       </style>
-        <a class="lc-cta" href="/learning-center" aria-label="Ouvrir le Learning Center · Rim Light en 3D interactif, gratuit">
+        <a class="lc-cta" href="/learning-center" aria-label="Open the Learning Center · Interactive 3D Rim Light, free">
           <span class="lc-cta__icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#07110f" stroke-width="1.6"/><path d="M15.5 9.2a5 5 0 1 0 0 5.6" stroke="#07110f" stroke-width="1.9" stroke-linecap="round"/></svg>
           </span>
@@ -12888,8 +12888,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       <span style="display:inline-flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)"><span style="width:5px;height:5px;border:1px solid var(--dim);transform:rotate(45deg)"></span>Explorations personnelles</span>
       <div class="work-nav">
         <span class="work-counter"><strong id="workCur">01</strong> / <span id="workTot">24</span></span>
-        <button class="work-arrow" id="workPrev" aria-label="Précédent">←</button>
-        <button class="work-arrow" id="workNext" aria-label="Suivant">→</button>
+        <button class="work-arrow" id="workPrev" aria-label="Previous">←</button>
+        <button class="work-arrow" id="workNext" aria-label="Next">→</button>
       </div>
     </div>
       <div class="work-track-wrap reveal-up rd1">
@@ -12898,8 +12898,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           Glisse pour explorer
         </div>
       <div class="work-track" id="workTrack">
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/NORVEGE_VS_SENEGAL_vmbgvx.png" data-lb-title="Norvège vs Sénégal" data-lb-desc="Sports Key Visual · Direction Artistique">
-          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/NORVEGE_VS_SENEGAL_vmbgvx.png" alt="Norvège vs Sénégal, Sports Key Visual">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/NORVEGE_VS_SENEGAL_vmbgvx.png" data-lb-title="Norway vs Senegal" data-lb-desc="Sports Key Visual · Art Direction">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/NORVEGE_VS_SENEGAL_vmbgvx.png" alt="Norway vs Senegal, Sports Key Visual">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">Norvège vs Sénégal<em>Direction Artistique</em></div>
@@ -12908,7 +12908,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-card-bar"></div>
         </a>
         <div class="work-card work-card-ba" data-lb-src="/media/img/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" data-lb-title="Ibrahim Mbaye" data-lb-desc="Rim Light Study · Before / After">
-          <div class="ba-slider" role="slider" aria-label="Comparer avant et après retouche" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+          <div class="ba-slider" role="slider" aria-label="Compare before and after retouching" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
             <img width="1200" height="1500" decoding="async" loading="eager" class="work-img ba-img-after" src="/media/img/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="Ibrahim Mbaye, Rim Light Study, version finale">
             <div class="ba-img-before-wrap">
               <img width="1200" height="1500" decoding="async" loading="eager" class="work-img ba-img-before" src="/media/img/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="Ibrahim Mbaye, Rim Light Study, image raw avant retouche">
@@ -12929,8 +12929,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </div>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/FRANCE_SENEGAL_rkitjo.jpg" data-lb-title="France vs Sénégal" data-lb-desc="Sports Key Visual · Direction Artistique">
-          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/FRANCE_SENEGAL_rkitjo.jpg" alt="France vs Sénégal, Sports Key Visual">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/FRANCE_SENEGAL_rkitjo.jpg" data-lb-title="France vs Senegal" data-lb-desc="Sports Key Visual · Art Direction">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/FRANCE_SENEGAL_rkitjo.jpg" alt="France vs Senegal, Sports Key Visual">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">France vs Sénégal<em>Direction Artistique</em></div>
@@ -12938,8 +12938,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" data-lb-title="Sénégal vs Arabie Saoudite" data-lb-desc="Sports Key Visual · Direction Artistique">
-          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Sénégal vs Arabie Saoudite, Sports Key Visual">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" data-lb-title="Senegal vs Saudi Arabia" data-lb-desc="Sports Key Visual · Art Direction">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg" alt="Senegal vs Saudi Arabia, Sports Key Visual">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">Sénégal vs Arabie Saoudite<em>Direction Artistique</em></div>
@@ -12947,8 +12947,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/USA_VS_SENEGAL_vkq9ol.jpg" data-lb-title="USA vs Sénégal" data-lb-desc="Sports Key Visual · Direction Artistique" class-trigger="lightbox">
-          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/USA_VS_SENEGAL_vkq9ol.jpg" alt="USA vs Sénégal, Sports Key Visual">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/USA_VS_SENEGAL_vkq9ol.jpg" data-lb-title="USA vs Senegal" data-lb-desc="Sports Key Visual · Art Direction" class-trigger="lightbox">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/USA_VS_SENEGAL_vkq9ol.jpg" alt="USA vs Senegal, Sports Key Visual">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">USA vs Sénégal<em>Direction Artistique</em></div>
@@ -12956,8 +12956,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/steadiness_gzcuvj.jpg" data-lb-title="Steadiness" data-lb-desc="Sports Key Visual · Sénégal vs Maroc" class-trigger="lightbox">
-          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/steadiness_gzcuvj.jpg" alt="Steadiness, Sénégal vs Maroc">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/steadiness_gzcuvj.jpg" data-lb-title="Steadiness" data-lb-desc="Sports Key Visual · Senegal vs Morocco" class-trigger="lightbox">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/steadiness_gzcuvj.jpg" alt="Steadiness, Senegal vs Morocco">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">Steadiness<em>Sénégal vs Maroc</em></div>
@@ -12965,7 +12965,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/match-day-sadio_we5xzy.jpg" data-lb-title="Match Day" data-lb-desc="Matchday Poster · Sadio Mané · Sénégal vs Maroc" class-trigger="lightbox">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/match-day-sadio_we5xzy.jpg" data-lb-title="Match Day" data-lb-desc="Matchday Poster · Sadio Mané · Senegal vs Morocco" class-trigger="lightbox">
           <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/match-day-sadio_we5xzy.jpg" alt="Match Day, Sadio Mané">
           <div class="work-meta">
             <div class="work-cat">Matchday Poster</div>
@@ -12983,7 +12983,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/next-match-koulibaly_zkejpe.jpg" data-lb-title="Next Match" data-lb-desc="Matchday Poster · Kalidou Koulibaly · Mali vs Sénégal" class-trigger="lightbox">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/next-match-koulibaly_zkejpe.jpg" data-lb-title="Next Match" data-lb-desc="Matchday Poster · Kalidou Koulibaly · Mali vs Senegal" class-trigger="lightbox">
           <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/next-match-koulibaly_zkejpe.jpg" alt="Next Match, Kalidou Koulibaly">
           <div class="work-meta">
             <div class="work-cat">Matchday Poster</div>
@@ -12992,8 +12992,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/gameday-soudan_obqcqd.jpg" data-lb-title="Gameday" data-lb-desc="Matchday Poster · Mané, Gueye, Sarr · Sénégal vs Soudan" class-trigger="lightbox">
-          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/gameday-soudan_obqcqd.jpg" alt="Gameday, Sénégal vs Soudan">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/gameday-soudan_obqcqd.jpg" data-lb-title="Gameday" data-lb-desc="Matchday Poster · Mané, Gueye, Sarr · Senegal vs Sudan" class-trigger="lightbox">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/gameday-soudan_obqcqd.jpg" alt="Gameday, Senegal vs Sudan">
           <div class="work-meta">
             <div class="work-cat">Matchday Poster</div>
             <div class="work-title">Gameday<em>Mané, Gueye, Sarr · Sénégal vs Soudan</em></div>
@@ -13001,8 +13001,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/gameday-gambie_men43y.jpg" data-lb-title="Game Day" data-lb-desc="Matchday Poster · Koulibaly, Jakobs, Jackson · Sénégal vs Gambie" class-trigger="lightbox">
-          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/gameday-gambie_men43y.jpg" alt="Gameday, Sénégal vs Gambie">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/gameday-gambie_men43y.jpg" data-lb-title="Game Day" data-lb-desc="Matchday Poster · Koulibaly, Jakobs, Jackson · Senegal vs Gambia" class-trigger="lightbox">
+          <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/gameday-gambie_men43y.jpg" alt="Gameday, Senegal vs Gambia">
           <div class="work-meta">
             <div class="work-cat">Matchday Poster</div>
             <div class="work-title">Game Day<em>Koulibaly, Jakobs, Jackson · Sénégal vs Gambie</em></div>
@@ -13028,7 +13028,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/dopeboy-dmg_jn2weq.jpg" data-lb-title="Dopeboy DMG" data-lb-desc="Cover Art · Cover art · Atmosphérique" class-trigger="lightbox">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/dopeboy-dmg_jn2weq.jpg" data-lb-title="Dopeboy DMG" data-lb-desc="Cover Art · Cover art · Atmospheric" class-trigger="lightbox">
           <img width="1200" height="1500" decoding="async" loading="lazy" class="work-img" src="/media/img/dopeboy-dmg_jn2weq.jpg" alt="Dopeboy DMG">
           <div class="work-meta">
             <div class="work-cat">Cover Art</div>
@@ -13047,7 +13047,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/ABDOU_DIALLO_ol4dkk.jpg" data-lb-title="Abdou Diallo" data-lb-desc="Abdou Diallo · #22 · Sénégal">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/ABDOU_DIALLO_ol4dkk.jpg" data-lb-title="Abdou Diallo" data-lb-desc="Abdou Diallo · #22 · Senegal">
           <img width="1600" height="2000" decoding="async" loading="lazy" class="work-img" src="/media/img/ABDOU_DIALLO_ol4dkk.jpg" alt="Abdou Diallo">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
@@ -13056,7 +13056,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/HAKILL_l0a1rr.jpg" data-lb-title="Hakill" data-lb-desc="Hakill · Direction Artistique">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/HAKILL_l0a1rr.jpg" data-lb-title="Hakill" data-lb-desc="Hakill · Art Direction">
           <img width="1600" height="2000" decoding="async" loading="lazy" class="work-img" src="/media/img/HAKILL_l0a1rr.jpg" alt="Hakill">
           <div class="work-meta">
             <div class="work-cat">Key Visual · Cinématique</div>
@@ -13065,8 +13065,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/Kalidou_Koulibaly_II_ipv21h.jpg" data-lb-title="Lions du Sénégal" data-lb-desc="Koulibaly, Dia, Jakobs · Sénégal">
-          <img width="1600" height="2000" decoding="async" loading="lazy" class="work-img" src="/media/img/Kalidou_Koulibaly_II_ipv21h.jpg" alt="Lions du Sénégal">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/Kalidou_Koulibaly_II_ipv21h.jpg" data-lb-title="Lions of Senegal" data-lb-desc="Koulibaly, Dia, Jakobs · Senegal">
+          <img width="1600" height="2000" decoding="async" loading="lazy" class="work-img" src="/media/img/Kalidou_Koulibaly_II_ipv21h.jpg" alt="Lions of Senegal">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual</div>
             <div class="work-title">Lions du Sénégal<em>Koulibaly, Dia, Jakobs · Sénégal</em></div>
@@ -13119,7 +13119,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/OMZO_BEATZ_qrxlee.jpg" data-lb-title="Omzo Beatz" data-lb-desc="Omzo Beatz · Direction Artistique">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/OMZO_BEATZ_qrxlee.jpg" data-lb-title="Omzo Beatz" data-lb-desc="Omzo Beatz · Art Direction">
           <img width="1600" height="2000" decoding="async" loading="lazy" class="work-img" src="/media/img/OMZO_BEATZ_qrxlee.jpg" alt="Omzo Beatz">
           <div class="work-meta">
             <div class="work-cat">Key Visual · Brand</div>
@@ -13147,7 +13147,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-overlay"></div>
           <div class="work-card-bar"></div>
         </a>
-        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/ARGENTINA_y1xlcd.jpg" data-lb-title="Argentina" data-lb-desc="Messi #10 · Direction Artistique">
+        <a class="work-card" href="javascript:void(0)" role="button" data-lb-src="/media/img/ARGENTINA_y1xlcd.jpg" data-lb-title="Argentina" data-lb-desc="Messi #10 · Art Direction">
           <img width="1600" height="2000" decoding="async" loading="lazy" class="work-img" src="/media/img/ARGENTINA_y1xlcd.jpg" alt="Argentina">
           <div class="work-meta">
             <div class="work-cat">Sports Key Visual · Épique</div>
@@ -13173,8 +13173,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       </div>
       <div class="cov-nav">
         <span class="cov-counter"><strong id="covCur">01</strong> / <span id="covTot">14</span></span>
-        <button class="cov-arrow" id="covPrev" aria-label="Précédent">←</button>
-        <button class="cov-arrow" id="covNext" aria-label="Suivant">→</button>
+        <button class="cov-arrow" id="covPrev" aria-label="Previous">←</button>
+        <button class="cov-arrow" id="covNext" aria-label="Next">→</button>
       </div>
     </div>
       <div class="cov-track-wrap ">
@@ -13305,7 +13305,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-card-bar"></div>
         </a>
         <!-- 12. Bal Poussière -->
-        <a class="cov-card" href="javascript:void(0)" data-lb-src="/media/img/bal-poussiere_mtzobd.jpg" data-lb-title="Bal Poussière" data-lb-desc="DJ Dysfunkshunal &amp; artistes">
+        <a class="cov-card" href="javascript:void(0)" data-lb-src="/media/img/bal-poussiere_mtzobd.jpg" data-lb-title="Bal Poussière" data-lb-desc="DJ Dysfunkshunal &amp; artists">
           <span class="cov-cat-tag">Compilation</span>
           <img width="1200" height="1200" decoding="async" loading="lazy" class="cov-img" src="/media/img/bal-poussiere_mtzobd.jpg" alt="Bal Poussière">
           <div class="cov-meta">
@@ -13351,8 +13351,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       </div>
       <div class="work-nav">
         <span class="work-counter"><strong id="motCur">01</strong> / <span id="motTot">09</span></span>
-        <button class="work-arrow" id="motPrev" aria-label="Précédent">←</button>
-        <button class="work-arrow" id="motNext" aria-label="Suivant">→</button>
+        <button class="work-arrow" id="motPrev" aria-label="Previous">←</button>
+        <button class="work-arrow" id="motNext" aria-label="Next">→</button>
       </div>
     </div>
     <div class="work-track-wrap reveal-up rd1">
@@ -13523,19 +13523,19 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       <span class="r"><b>4</b> témoignages</span>
     </div>
     <div class="stg-vgrid">
-      <div class="sp-vcard-hero stg-vc" data-yt-id="q8MD7X3gJLo" data-start="3552" data-end="3600" data-name="ISS 814" data-role="Producteur · Artiste · Sénégal" role="button" tabindex="0" aria-label="Voir le témoignage de ISS 814">
+      <div class="sp-vcard-hero stg-vc" data-yt-id="q8MD7X3gJLo" data-start="3552" data-end="3600" data-name="ISS 814" data-role="Producteur · Artiste · Sénégal" role="button" tabindex="0" aria-label="Watch ISS 814's testimonial">
         <div class="im"><img width="600" height="800" loading="lazy" decoding="async" src="/media/img/fais_la_premiere_image_que_202606090004_gdh7ky.jpg" alt="ISS 814"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
         <div class="lab"><b>ISS 814</b><span class="no">01</span><span>Producteur · Artiste</span><em class="watch" data-i18n-watch>Voir l'extrait →</em></div>
       </div>
-      <div class="sp-vcard-hero stg-vc" data-yt-id="4hQRw6BqAQY" data-start="60" data-end="74" data-name="ISS 814" data-role="Producteur · Artiste · Sénégal" role="button" tabindex="0" aria-label="Voir le second témoignage de ISS 814">
+      <div class="sp-vcard-hero stg-vc" data-yt-id="4hQRw6BqAQY" data-start="60" data-end="74" data-name="ISS 814" data-role="Producteur · Artiste · Sénégal" role="button" tabindex="0" aria-label="Watch ISS 814's second testimonial">
         <div class="im"><img width="600" height="800" loading="lazy" decoding="async" src="/media/img/B_W_portrait_with_backlight_glow_znxcxz.png" alt="ISS 814"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
         <div class="lab"><b>ISS 814</b><span class="no">02</span><span>Producteur · Artiste</span><em class="watch" data-i18n-watch>Voir l'extrait →</em></div>
       </div>
-      <div class="sp-vcard-hero stg-vc" data-yt-id="7LgPqfl02yU" data-start="1862" data-end="1870" data-name="Key Em Ti" data-role="Artiste · Sénégal" role="button" tabindex="0" aria-label="Voir le témoignage de Key Em Ti">
+      <div class="sp-vcard-hero stg-vc" data-yt-id="7LgPqfl02yU" data-start="1862" data-end="1870" data-name="Key Em Ti" data-role="Artiste · Sénégal" role="button" tabindex="0" aria-label="Watch Key Em Ti's testimonial">
         <div class="im"><img width="600" height="800" loading="lazy" decoding="async" src="/media/img/fais_la_premiere_image_que_202606090020_taj0wy.jpg" alt="Key Em Ti"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
         <div class="lab"><b>Key Em Ti</b><span class="no">03</span><span>Artiste</span><em class="watch" data-i18n-watch>Voir l'extrait →</em></div>
       </div>
-      <div class="sp-vcard-hero stg-vc" data-yt-id="1Qaht5EYKds" data-start="988" data-end="995" data-name="Emza Young Boss" data-role="Artiste · Sénégal" role="button" tabindex="0" aria-label="Voir le témoignage de Emza Young Boss">
+      <div class="sp-vcard-hero stg-vc" data-yt-id="1Qaht5EYKds" data-start="988" data-end="995" data-name="Emza Young Boss" data-role="Artiste · Sénégal" role="button" tabindex="0" aria-label="Watch Emza Young Boss's testimonial">
         <div class="im"><img width="600" height="800" loading="lazy" decoding="async" src="/media/img/fais_la_premiere_image_que_202606090024_lnr2gj.jpg" alt="Emza Young Boss"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
         <div class="lab"><b>Emza Young Boss</b><span class="no">04</span><span>Artiste</span><em class="watch" data-i18n-watch>Voir l'extrait →</em></div>
       </div>
@@ -13545,10 +13545,10 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   </div>
 
   <!-- Lightbox vidéo, fullscreen -->
-  <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Lecture du témoignage vidéo">
-    <button id="sp-video-lb-close" aria-label="Fermer">×</button>
-    <button id="sp-video-lb-prev" aria-label="Vidéo précédente">←</button>
-    <button id="sp-video-lb-next" aria-label="Vidéo suivante">→</button>
+  <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Play video testimonial">
+    <button id="sp-video-lb-close" aria-label="Close">×</button>
+    <button id="sp-video-lb-prev" aria-label="Previous video">←</button>
+    <button id="sp-video-lb-next" aria-label="Next video">→</button>
     <div id="sp-video-lb-inner">
       <div id="sp-video-lb-frame" style="position:absolute;inset:0;width:100%;height:100%"></div>
       <img id="sp-video-lb-poster" alt="" decoding="async">
@@ -13636,7 +13636,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       <div class="abg-cell abg-loc">Kaolack, Sénégal · Éd. 2026</div>
 
       <div class="abg-cell abg-title"><span class="abg-tag">Fig. 01 · Déclaration</span><h2>Plus exigeant que <em>productif.</em></h2></div>
-      <div class="abg-cell abg-portrait"><span class="abg-tag">Fig. 02 · Portrait</span><img width="900" height="1100" loading="lazy" decoding="async" src="/media/img/about_5_jdxu46.jpg" alt="Mouhamed Al Amine, directeur créatif MDG Creative Studio"></div>
+      <div class="abg-cell abg-portrait"><span class="abg-tag">Fig. 02 · Portrait</span><img width="900" height="1100" loading="lazy" decoding="async" src="/media/img/about_5_jdxu46.jpg" alt="Mouhamed Al Amine, creative director MDG Creative Studio"></div>
 
       <div class="abg-cell abg-lede"><span class="abg-tag">Le directeur</span><p>Un perfectionniste désordonné, jamais pleinement satisfait d'un seul projet.</p></div>
       <div class="abg-cell abg-body"><span class="abg-tag">Le parcours</span><p>Gamin, je noircissais déjà des carnets au crayon. Mordu de tech, de jeux et de son, j'ai fait mes premières affiches sur téléphone, puis Photoshop juste après le bac, et je ne l'ai plus lâché. Le déclic, c'est ma cover pour <b>Dopeboy DMG</b> (Road to Roots 2), repartagée par Dip Doundou Guiss, Samba Peuzzi, Bm Jaay et ISS 814. ISS m'a écrit dans la foulée, et là j'ai pris les choses au sérieux. Depuis, avec ISS 814 j'ai même plus compté ; pareil avec Omzo Beatz, One Lyrical et pas mal d'autres. Des noms connus ici, d'autres à l'international. Chaque projet part de qui tu es, pas d'un template.</p></div>
@@ -13647,9 +13647,9 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       <div class="abg-cell abg-collabs"><span class="abg-tag">Fig. 05 · Sélection</span>
         <div class="h">Collaborations</div>
         <div class="rows">
-          <a class="r" href="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" data-album="Bicrave" aria-label="ISS 814 sur Spotify"><svg class="r-sp" width="15" height="15" viewBox="0 0 24 24" fill="#1DB954" style="flex:none;margin-right:2px" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><b>ISS 814</b><span>Bicrave · Bonus Tracks</span></a>
-          <a class="r" href="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" data-album="The 808's God" aria-label="Omzo Beatz sur Spotify"><svg class="r-sp" width="15" height="15" viewBox="0 0 24 24" fill="#1DB954" style="flex:none;margin-right:2px" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><b>Omzo Beatz</b><span>The 808's God</span></a>
-          <a class="r" href="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" data-album="Road to Roots 2" aria-label="Dopeboy DMG sur Spotify"><svg class="r-sp" width="15" height="15" viewBox="0 0 24 24" fill="#1DB954" style="flex:none;margin-right:2px" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><b>Dopeboy DMG</b><span>Road to Roots 2</span></a>
+          <a class="r" href="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/24SKQuWsqOAUjSNzTa3V9S" data-album="Bicrave" aria-label="ISS 814 on Spotify"><svg class="r-sp" width="15" height="15" viewBox="0 0 24 24" fill="#1DB954" style="flex:none;margin-right:2px" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><b>ISS 814</b><span>Bicrave · Bonus Tracks</span></a>
+          <a class="r" href="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/1rHQbBfE6GyKbOSeboKycH" data-album="The 808's God" aria-label="Omzo Beatz on Spotify"><svg class="r-sp" width="15" height="15" viewBox="0 0 24 24" fill="#1DB954" style="flex:none;margin-right:2px" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><b>Omzo Beatz</b><span>The 808's God</span></a>
+          <a class="r" href="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" target="_blank" rel="noopener" data-spotify="https://open.spotify.com/album/4zYGJnwWnJILxLk0FtLWcy" data-album="Road to Roots 2" aria-label="Dopeboy DMG on Spotify"><svg class="r-sp" width="15" height="15" viewBox="0 0 24 24" fill="#1DB954" style="flex:none;margin-right:2px" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg><b>Dopeboy DMG</b><span>Road to Roots 2</span></a>
           <div class="r"><b>One Lyrical</b><span>&amp; d'autres · 9 pays</span></div>
         </div>
       </div>
@@ -13832,12 +13832,12 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       </div>
       <div style="flex:1">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/iss_814_v22_dtnhal.jpg" alt="ISS 814" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">ISS 814</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Rapper · Beatmaker</div></div><a href="https://www.instagram.com/iss814beats/" target="_blank" rel="noopener" aria-label="ISS 814 sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
-          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 2%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">One Lyrical</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/onelyrical.sn/" target="_blank" rel="noopener" aria-label="One Lyrical sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
-          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/omzo_1_jkbnwn.jpg" alt="Omzo Beatz" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">Omzo Beatz</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Beatmaker · Producer</div></div><a href="https://www.instagram.com/omzobeatz/" target="_blank" rel="noopener" aria-label="Omzo Beatz sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
-          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">Dopeboy DMG</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/dopeboydmg/" target="_blank" rel="noopener" aria-label="Dopeboy DMG sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
-          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="744" decoding="async" src="/media/img/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 34%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">Oothentik Zeus</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/oothentik_zeus_gb/" target="_blank" rel="noopener" aria-label="Oothentik Zeus sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
-          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 34%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">Gun Silent Beatz</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Beatmaker · Producer</div></div><a href="https://www.instagram.com/gunsilentbeatz/" target="_blank" rel="noopener" aria-label="Gun Silent Beatz sur Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/iss_814_v22_dtnhal.jpg" alt="ISS 814" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">ISS 814</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Rapper · Beatmaker</div></div><a href="https://www.instagram.com/iss814beats/" target="_blank" rel="noopener" aria-label="ISS 814 on Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/one_lyrical_33_s2iha2.jpg" alt="One Lyrical" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 2%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">One Lyrical</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/onelyrical.sn/" target="_blank" rel="noopener" aria-label="One Lyrical on Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/omzo_1_jkbnwn.jpg" alt="Omzo Beatz" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">Omzo Beatz</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Beatmaker · Producer</div></div><a href="https://www.instagram.com/omzobeatz/" target="_blank" rel="noopener" aria-label="Omzo Beatz on Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/dopeboy_bdrzw6.jpg" alt="Dopeboy DMG" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">Dopeboy DMG</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/dopeboydmg/" target="_blank" rel="noopener" aria-label="Dopeboy DMG on Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="744" decoding="async" src="/media/img/hf_20260426_055913_8dad1a9d-44e7-424e-9794-30bd704f9588_h5pesn.png" alt="Oothentik Zeus" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 34%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">Oothentik Zeus</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Artiste Rappeur</div></div><a href="https://www.instagram.com/oothentik_zeus_gb/" target="_blank" rel="noopener" aria-label="Oothentik Zeus on Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
+          <div style="position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden"><img width="420" height="747" decoding="async" src="/media/img/GUN_SILE_socvwe.jpg" alt="Gun Silent Beatz" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center 34%;filter:grayscale(1) contrast(1.06)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.9),transparent 52%)"></div><div style="position:absolute;left:15px;right:15px;bottom:15px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#f0ede8;line-height:1">Gun Silent Beatz</div><div style="font-family:'Inter',sans-serif;font-size:.68rem;color:#3DBFA3;margin-top:4px">Beatmaker · Producer</div></div><a href="https://www.instagram.com/gunsilentbeatz/" target="_blank" rel="noopener" aria-label="Gun Silent Beatz on Instagram" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;color:#f0ede8;flex-shrink:0;text-decoration:none"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></div></div>
         </div>
       </div>
     </div>
@@ -14230,7 +14230,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
                 </div>
                 <div class="cqf-field">
                   <label for="cqf-contact">Email ou WhatsApp</label>
-                  <input type="text" id="cqf-contact" name="contact" placeholder="+221 ou email">
+                  <input type="text" id="cqf-contact" name="contact" placeholder="+221 or email">
                 </div>
                 <div class="cqf-field full">
                   <label for="cqf-msg">Ton projet en quelques mots</label>
@@ -14622,7 +14622,7 @@ function submitPackForm(e) {
 <!-- ── MODAL HTML ── -->
 <div id="packModalOverlay" class="pack-modal-overlay" onclick="if(event.target===this)closePackModal()">
   <div class="pack-modal" id="packModal">
-    <button class="pack-modal-close" onclick="closePackModal()" aria-label="Fermer">✕</button>
+    <button class="pack-modal-close" onclick="closePackModal()" aria-label="Close">✕</button>
     <div class="pack-modal-head">
       <div class="pack-modal-label"></div>
       <div class="pack-modal-name"></div>
@@ -14640,10 +14640,10 @@ function submitPackForm(e) {
       <div class="pack-modal-section-title">Envoyer une demande</div>
       <form class="pack-modal-form" onsubmit="submitPackForm(event)">
         <input type="text" class="mdg-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none">
-        <input type="text" id="modal-name" aria-label="Ton nom ou nom d'artiste" placeholder="Ton nom / nom d'artiste" required>
-        <input type="text" id="modal-contact" aria-label="WhatsApp ou email" placeholder="WhatsApp ou email" required>
-        <input type="text" id="modal-subject" aria-label="Pack sélectionné" placeholder="Pack sélectionné" readonly style="opacity:.6;cursor:default">
-        <textarea id="modal-msg" rows="3" aria-label="Décris ton projet" placeholder="Décris ton projet en quelques mots (type de sortie, style, date visée…)"></textarea>
+        <input type="text" id="modal-name" aria-label="Your name or artist name" placeholder="Your name / artist name" required>
+        <input type="text" id="modal-contact" aria-label="WhatsApp or email" placeholder="WhatsApp or email" required>
+        <input type="text" id="modal-subject" aria-label="Selected package" placeholder="Selected package" readonly style="opacity:.6;cursor:default">
+        <textarea id="modal-msg" rows="3" aria-label="Describe your project" placeholder="Describe your project in a few words (release type, style, target date…)"></textarea>
         <button type="submit" class="pack-modal-submit">Envoyer la demande →</button>
       </form>
       <div class="pack-modal-alt">Ou contacte directement via <a href="https://wa.me/221763772208" target="_blank" rel="noopener noreferrer">WhatsApp</a> · <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener noreferrer">Instagram</a></div>
@@ -16051,7 +16051,7 @@ enableDragScroll(document.getElementById('motTrack'));
 </script>
 
 <!-- MODALS SERVICES -->
-<div class="modal-overlay" id="modalOverlay" aria-hidden="true"><div class="modal-box" id="modalBox"><button class="modal-close" id="modalClose" aria-label="Fermer">✕</button><div id="modalContent"></div></div></div>
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true"><div class="modal-box" id="modalBox"><button class="modal-close" id="modalClose" aria-label="Close">✕</button><div id="modalContent"></div></div></div>
 <script>
 // ── MODAL SERVICES ──
 const servicesData = [{"num": "01", "title": "Direction Artistique Musicale", "desc": "La musique mérite une image à sa hauteur. Du single à l'album complet, je conçois l'univers visuel qui prolonge ton son. Les gens doivent sentir ta musique avant même d'appuyer sur play.", "includes": ["Cover art pour single, EP ou album", "Direction artistique complète (concept, moodboard, palette)", "Déclinaisons réseaux (story, carré, bannière)", "Press kit visuel pour booking et médias", "Formats optimisés streaming (Spotify, Apple Music, Deezer)"], "tags": ["Cover Art", "EP / Album", "Press Kit", "Streaming"]}, {"num": "02", "title": "Identité d'Artiste", "desc": "Ton nom, ton univers, ta signature visuelle. Je construis l'identité qui te rend reconnaissable d'une sortie à l'autre, du logo aux déclinaisons sur tous tes supports.", "includes": ["Recherche de direction artistique & moodboard", "Conception du logotype (variantes principale, secondaire, favicon)", "Univers visuel complet (couleurs, typographies, textures)", "Déclinaisons sur tes supports (covers, réseaux, merch)", "Fichiers livrés en tous formats (SVG, PNG, PDF)"], "tags": ["Logo", "Univers", "Déclinaisons", "Artiste"]}, {"num": "03", "title": "Motion Design", "desc": "Le mouvement donne vie à ce qui était statique. Logos animés, intros vidéo, transitions. Je crée des animations qui renforcent ton identité et retiennent l'attention sur les réseaux.", "includes": ["Logo reveal animé (After Effects)", "Intros et outros pour vidéos YouTube / Twitch", "Stories et Reels animés pour Instagram", "Transitions et overlays pour montages", "Export multi-formats (MP4, GIF, WebM)"], "tags": ["Animation", "Logo Reveal", "Reels", "After Effects"]}, {"num": "04", "title": "Web Design", "desc": "Un site qui te représente vraiment, pas un template qu'on reconnaît de loin. Je conçois et développe des sites sur mesure, pensés pour convertir autant que pour impressionner.", "includes": ["Design UI/UX complet (wireframe vers maquette finale)", "Développement HTML / CSS / JS optimisé", "Responsive design (mobile, tablette, desktop)", "Optimisation vitesse et SEO de base", "Déploiement et mise en ligne inclus"], "tags": ["Site Web", "UI / UX", "Landing", "Responsive"]}, {"num": "05", "title": "Design Éditorial & Print", "desc": "Ce qui se touche marque les esprits autrement. Affiches, flyers, programmes, livrets. Je conçois des supports print qui ont du caractère et qui tiennent à l'impression.", "includes": ["Conception d'affiches et flyers événementiels", "Programmes et livrets (concert, festival, expo)", "Magazines et zines indépendants", "Suivi prépresse et validation des fichiers d'impression", "Formats adaptés offset et numérique"], "tags": ["Affiche", "Flyer", "Print", "Prépresse"]}, {"num": "06", "title": "Contenu Social Media", "desc": "Une présence cohérente sur les réseaux, ça ne s'improvise pas. Je crée des templates et contenus visuels qui gardent une ligne forte sur tous tes canaux. Chaque post doit ressembler à toi.", "includes": ["Templates personnalisés Instagram (posts, stories, carousels)", "Carrousels éducatifs ou promotionnels", "Visuels pour campagnes et sorties", "Guides de style pour publication en autonomie", "Formats adaptés TikTok, X, Facebook"], "tags": ["Instagram", "Templates", "Carrousel", "TikTok"]}, {"num": "07", "title": "Merchandising", "desc": "Ton merch, c'est ton identité portée par tes fans. Je conçois des visuels pour textile et goodies qui ont de la gueule. Du concept jusqu'au fichier prêt pour la production.", "includes": ["Concept et direction artistique du merch", "Visuels pour t-shirts, hoodies, tote-bags, casquettes", "Adaptation aux techniques d'impression (sérigraphie, DTF, broderie)", "Mockups réalistes pour présentation ou vente en ligne", "Fichiers techniques prêts pour impression"], "tags": ["Textile", "Goodies", "Production", "Sérigraphie"]}, {"num": "08", "title": "Scénographie & Événementiel", "desc": "Faire vivre une identité dans l'espace physique, c'est un autre niveau. Pour tes concerts, festivals ou événements, je conçois l'habillage visuel qui crée une vraie expérience.", "includes": ["Habillage scène et backdrop", "Signalétique et fléchage festival / événement", "Stands et espaces d'exposition", "Projection mapping et supports LED (concept)", "Direction artistique de l'espace complet"], "tags": ["Festival", "Stand", "Scène", "Événement"]}];
@@ -16520,8 +16520,8 @@ setInterval(updateKaolackTime, 10000);
 
 <!-- ── POPUP CONTACT ── -->
 <div class="cpop-overlay" id="cPopOverlay"></div>
-<div class="cpop" id="cPop" role="dialog" aria-label="Me contacter">
-  <button class="cpop-close" id="cPopClose" aria-label="Fermer">
+<div class="cpop" id="cPop" role="dialog" aria-label="Contact me">
+  <button class="cpop-close" id="cPopClose" aria-label="Close">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
   </button>
   <div class="cpop-drag-handle"></div>
@@ -16587,7 +16587,7 @@ setInterval(updateKaolackTime, 10000);
       </div>
       <div class="cpop-field">
         <label class="cpop-label-field">Ton message</label>
-        <textarea id="cpopMsg" class="cpop-input cpop-textarea" placeholder="Décris ton projet en quelques lignes..."></textarea>
+        <textarea id="cpopMsg" class="cpop-input cpop-textarea" placeholder="Describe your project in a few lines..."></textarea>
       </div>
     </div>
     <button class="cpop-submit" id="cpopSubmitBtn" onclick="cpopSend()">
@@ -16649,14 +16649,14 @@ setInterval(updateKaolackTime, 10000);
 
 <!-- ── LIGHTBOX ── -->
 <div class="lb-overlay" id="lbOverlay"></div>
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Visualiseur de portfolio">
-  <button class="lb-close" id="lbClose" aria-label="Fermer">
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Portfolio viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
   </button>
-  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Précédent">
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
   </button>
-  <button class="lb-nav lb-next" id="lbNext" aria-label="Suivant">
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
   </button>
   <div class="lb-img-wrap" id="lbImgWrap">
@@ -19119,6 +19119,12 @@ window.toggleLang = function() {
   applyLang(activeLang === 'fr' ? 'en' : 'fr');
 };
 
+/* Exposee sur window : le script de forcage en bas de en/index.html
+   teste typeof applyLang === 'function'. applyLang etant enfermee dans
+   cette IIFE, le test echouait et la page anglaise restait dans la langue
+   du navigateur. */
+window.applyLang = applyLang;
+
 // ─── Init au chargement ───────────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
   // Détecte la langue du navigateur uniquement, pas de localStorage
@@ -19154,7 +19160,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="qn-divider"></div>
     <a class="qn-item" onclick="qnGo('contact')"><span class="qn-num">→</span>Contact</a>
   </div>
-  <button id="quick-nav-toggle" aria-label="Navigation rapide" onclick="toggleQN()">
+  <button id="quick-nav-toggle" aria-label="Quick navigation" onclick="toggleQN()">
     <span class="qn-dot"></span>
     <span id="qn-current-label">Navigation</span>
     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6-6 6 6M6 15l6 6 6-6"/></svg>
@@ -19173,7 +19179,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <span id="pack-bs-tier"></span>
         <div id="pack-bs-name"></div>
       </div>
-      <button id="pack-bs-close" onclick="bsClose()" aria-label="Fermer">
+      <button id="pack-bs-close" onclick="bsClose()" aria-label="Close">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
@@ -19487,13 +19493,13 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- ── FULLSCREEN MOTION PLAYER ── -->
 <div id="motion-fullscreen" role="dialog" aria-modal="true">
   <div id="motion-fullscreen-inner">
-    <button id="motion-fullscreen-close" onclick="motionClose()" aria-label="Fermer">
+    <button id="motion-fullscreen-close" onclick="motionClose()" aria-label="Close">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
     <div id="motion-fullscreen-content"></div>
   </div>
-  <button id="motion-fullscreen-prev" onclick="motionGo(-1)" aria-label="Vidéo précédente">←</button>
-  <button id="motion-fullscreen-next" onclick="motionGo(1)" aria-label="Vidéo suivante">→</button>
+  <button id="motion-fullscreen-prev" onclick="motionGo(-1)" aria-label="Previous video">←</button>
+  <button id="motion-fullscreen-next" onclick="motionGo(1)" aria-label="Next video">→</button>
   <div id="motion-fullscreen-counter"></div>
   <div id="motion-fullscreen-title"></div>
   <div id="motion-fullscreen-artist"></div>
@@ -19688,7 +19694,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
 
 
 
-<button id="backToTop" aria-label="Remonter en haut" style="position:fixed;bottom:2rem;right:1.25rem;z-index:8000;width:42px;height:42px;border-radius:50%;background:rgba(18,18,18,.88);border:1px solid rgba(255,255,255,.07);color:var(--off);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:bottom .3s cubic-bezier(.16,1,.3,1),opacity .3s,transform .3s,color .2s,border-color .2s;pointer-events:none">
+<button id="backToTop" aria-label="Back to top" style="position:fixed;bottom:2rem;right:1.25rem;z-index:8000;width:42px;height:42px;border-radius:50%;background:rgba(18,18,18,.88);border:1px solid rgba(255,255,255,.07);color:var(--off);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:bottom .3s cubic-bezier(.16,1,.3,1),opacity .3s,transform .3s,color .2s,border-color .2s;pointer-events:none">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 <!-- script déplacé en fin de body -->
@@ -20390,12 +20396,12 @@ if(typeof MutationObserver !== 'undefined'){
      BOTTOM TAB BAR MOBILE, Sprint 3
      Visible uniquement sur mobile (< 900px)
 ══════════════════════════════════════════════════ -->
-<nav id="mob-tab-bar" aria-label="Navigation principale">
-  <a href="#hero" class="mob-tab active" data-section="hero" aria-label="Accueil">
+<nav id="mob-tab-bar" aria-label="Main navigation">
+  <a href="#hero" class="mob-tab active" data-section="hero" aria-label="Home">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/></svg>
     <span>Accueil</span>
   </a>
-  <a href="#portfolio-accordion" class="mob-tab" data-section="portfolio-accordion" aria-label="Projets">
+  <a href="#portfolio-accordion" class="mob-tab" data-section="portfolio-accordion" aria-label="Projects">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="11" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="12" width="8" height="9" rx="1"/><rect x="3" y="18" width="8" height="3" rx="1"/></svg>
     <span>Projets</span>
   </a>
@@ -20403,7 +20409,7 @@ if(typeof MutationObserver !== 'undefined'){
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     <span>Services</span>
   </a>
-  <a href="/tarifs" class="mob-tab" aria-label="Tarifs">
+  <a href="/tarifs" class="mob-tab" aria-label="Pricing">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
     <span>Tarifs</span>
   </a>
