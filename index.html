@@ -19109,6 +19109,12 @@ window.toggleLang = function() {
   applyLang(activeLang === 'fr' ? 'en' : 'fr');
 };
 
+/* Exposee sur window : le script de forcage en bas de en/index.html
+   teste typeof applyLang === 'function'. applyLang etant enfermee dans
+   cette IIFE, le test echouait et la page anglaise restait dans la langue
+   du navigateur. */
+window.applyLang = applyLang;
+
 // ─── Init au chargement ───────────────────────────────
 document.addEventListener('DOMContentLoaded', function(){
   // Détecte la langue du navigateur uniquement, pas de localStorage
