@@ -2317,17 +2317,14 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
   position:relative;border-radius:12px;overflow:hidden;
   box-shadow:0 40px 120px rgba(0,0,0,.8);
 }
-@media(max-width:768px){
-  #motion-fullscreen{padding:0;align-items:stretch;justify-content:flex-start;}
-  #motion-fullscreen-inner{width:100vw;max-width:100%;border-radius:0;aspect-ratio:unset;height:100svh;display:flex;flex-direction:column;}
-  #motion-fullscreen-inner iframe,#motion-fullscreen-inner video{position:relative;width:100%;flex:1;height:auto;}
-  #motion-fullscreen-title,#motion-fullscreen-artist{padding:0 1rem;}
-  #motion-fullscreen-close{top:.75rem;right:.75rem;}
-}
 #motion-fullscreen-inner iframe,
 #motion-fullscreen-inner video{
   position:absolute;inset:0;width:100%;height:100%;border:none;
 }
+/* La video porte un style inline position:absolute;inset:0 genere par
+   motionOpen : elle se cale donc sur ce conteneur, pas sur le inner. C'est ce
+   qui permet au bandeau du X de ne pas etre recouvert en mobile. */
+#motion-fullscreen-content{position:absolute;inset:0;}
 #motion-fullscreen-close{
   position:absolute;top:1.25rem;right:1.25rem;
   width:44px;height:44px;border-radius:50%;
@@ -2337,6 +2334,31 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
   transition:background .2s,transform .2s;z-index:2;
 }
 #motion-fullscreen-close:hover{background:rgba(255,255,255,0.11);transform:scale(1.08)}
+/* Navigation entre realisations : meme langage visuel que la lightbox temoignages */
+#motion-fullscreen-prev,
+#motion-fullscreen-next{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);
+  color:rgba(255,255,255,.8);cursor:pointer;line-height:1;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,transform .2s,opacity .2s;
+}
+#motion-fullscreen-prev{left:max(12px,calc(50% - min(480px,45vw) - 60px));}
+#motion-fullscreen-next{right:max(12px,calc(50% - min(480px,45vw) - 60px));}
+#motion-fullscreen-prev:hover,
+#motion-fullscreen-next:hover{background:rgba(255,255,255,.18);transform:translateY(-50%) scale(1.08);}
+#motion-fullscreen-prev:disabled,
+#motion-fullscreen-next:disabled{opacity:.25;cursor:default;pointer-events:none;}
+#motion-fullscreen-counter{
+  position:absolute;bottom:1.5rem;right:1.5rem;z-index:3;
+  font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);
+}
+/* display:flex ci-dessus l'emporterait sur l'attribut hidden : on le retablit */
+#motion-fullscreen-prev[hidden],
+#motion-fullscreen-next[hidden],
+#motion-fullscreen-counter[hidden]{display:none!important;}
 #motion-fullscreen-title{
   margin-top:1.25rem;text-align:center;
   font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;
@@ -2345,6 +2367,45 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 #motion-fullscreen-artist{
   font-size:.72rem;color:var(--accent);margin-top:.25rem;
   font-family:'Inter',sans-serif;font-weight:400;
+}
+/* ATTENTION : ce bloc doit rester APRES toutes les regles #motion-fullscreen-*
+   ci-dessus. A specificite egale la derniere l'emporte ; place plus haut, il
+   est purement ignore (c'etait le cas, d'ou la mise en page mobile cassee). */
+@media(max-width:768px){
+  /* La barre du bas (titre + fleches) n'est plus collee au bord : elle passait
+     sous l'indicateur systeme. Le inner n'occupe plus 100svh, il partage. */
+  #motion-fullscreen{
+    padding:0 0 calc(env(safe-area-inset-bottom,0px) + .9rem);
+    align-items:stretch;justify-content:flex-start;
+  }
+  /* padding-top = bandeau reserve au X, pour qu'il ne soit plus pose sur la
+     video et n'entre plus en concurrence avec les controles natifs. */
+  #motion-fullscreen-inner{
+    width:100vw;max-width:100%;border-radius:0;aspect-ratio:unset;
+    height:auto;flex:1;min-height:0;display:flex;flex-direction:column;
+    padding-top:calc(env(safe-area-inset-top,0px) + 3.5rem);
+  }
+  /* Inutile de cibler la video : son style inline l'emporte. On place son
+     conteneur sous le bandeau, la video suit. */
+  #motion-fullscreen-content{position:relative;inset:auto;flex:1;min-height:0;}
+  /* Marges laterales elargies : le titre ne passe plus sous les fleches */
+  #motion-fullscreen-title{margin-top:.9rem;padding:0 4.25rem;}
+  #motion-fullscreen-artist{padding:0 4.25rem;}
+  #motion-fullscreen-close{top:calc(env(safe-area-inset-top,0px) + .75rem);right:.75rem;}
+  #motion-fullscreen-counter{
+    top:calc(env(safe-area-inset-top,0px) + 1.45rem);left:1rem;
+    bottom:auto;right:auto;
+  }
+  /* Fleches en bas : a portee de pouce et hors de la zone video */
+  #motion-fullscreen-prev,
+  #motion-fullscreen-next{
+    top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 1rem);
+    transform:none;width:40px;height:40px;
+  }
+  #motion-fullscreen-prev{left:.9rem;right:auto;}
+  #motion-fullscreen-next{right:.9rem;left:auto;}
+  #motion-fullscreen-prev:hover,
+  #motion-fullscreen-next:hover{transform:scale(1.08);}
 }
 .motion-video{position:relative;padding-bottom:56.25%;background:var(--black);overflow:hidden}
 .motion-video iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
@@ -4029,7 +4090,11 @@ section + section::before{
 /* Bouton fermer, en dehors du inner */
 #sp-video-lb-close {
   position: absolute;
-  top: calc(50% - min(450px, 46vw) - 52px);
+  /* Offset VERTICAL : demi-hauteur de la video (16/9), pas la demi-largeur.
+     Avec min(450px,46vw) le bouton partait hors ecran au-dessus (top:-52px
+     en 1440x900). min(253px,25.9vw) est la valeur deja utilisee par le
+     compteur et le bloc meta. */
+  top: calc(50% - min(253px, 25.9vw) - 52px);
   right: calc(50% - min(450px, 46vw));
   z-index: 10;
   width: 40px; height: 40px;
@@ -11532,20 +11597,52 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   .work-card-bar{ display:block; transform:scaleX(1) !important; }
 
   /*, composants bloc 32, */
-  #sp-video-lb-prev { left: 8px; }
-  #sp-video-lb-next { right: 8px; }
+  /* Les fleches chevauchaient la video de ~37px de chaque cote : on les
+     descend sous le cadre, la ou l'espace est libre et le pouce accessible. */
+  #sp-video-lb-prev,
+  #sp-video-lb-next {
+    top: auto;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+    transform: none;
+  }
+  #sp-video-lb-prev { left: 1rem; right: auto; }
+  #sp-video-lb-next { right: 1rem; left: auto; }
+  #sp-video-lb-prev:hover,
+  #sp-video-lb-next:hover { transform: scale(1.08); }
   #sp-video-lb-counter {
-    bottom: 1.2rem;
-    right: 1.2rem;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.7rem);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
     position: fixed;
   }
 
   /*, composants bloc 33, */
   #sp-video-lb-close {
-    top: 1rem; right: 1rem;
+    top: calc(env(safe-area-inset-top, 0px) + 1rem);
+    right: 1rem;
     position: fixed;
   }
-  #sp-video-lb-meta { display: none; }
+  /* Le nom du temoin etait purement masque en mobile : on regardait un
+     temoignage sans savoir qui parlait. Remis, empile sur deux lignes
+     puisque le nowrap d'origine ne tient pas sur 375px. */
+  #sp-video-lb-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .15rem;
+    white-space: normal;
+    text-align: center;
+    /* Pas de position:fixed ici : #sp-video-lb-inner porte une transform et
+       devient donc le bloc conteneur des descendants fixes, ce qui ramenait
+       la meta par-dessus la video. On l'ancre sous le cadre en absolute. */
+    position: absolute;
+    top: calc(100% + .9rem);
+    bottom: auto;
+    left: 0;
+    right: 0;
+    transform: none;
+  }
   #sp-video-lb-inner {
     width: 96vw;
     border-radius: 3px;
@@ -19385,16 +19482,53 @@ document.addEventListener('DOMContentLoaded', function(){
     </button>
     <div id="motion-fullscreen-content"></div>
   </div>
+  <button id="motion-fullscreen-prev" onclick="motionGo(-1)" aria-label="Vidéo précédente">←</button>
+  <button id="motion-fullscreen-next" onclick="motionGo(1)" aria-label="Vidéo suivante">→</button>
+  <div id="motion-fullscreen-counter"></div>
   <div id="motion-fullscreen-title"></div>
   <div id="motion-fullscreen-artist"></div>
 </div>
 
 <script>
+/* Collection des realisations Motion. Reconstruite a chaque ouverture plutot
+   qu'une seule fois : le DOM peut changer (i18n, filtres). */
+var motionCards = [], motionIdx = -1;
+
+/* Etat des fleches et du compteur selon la position courante. */
+function motionSync(){
+  var prev = document.getElementById('motion-fullscreen-prev');
+  var next = document.getElementById('motion-fullscreen-next');
+  var cnt  = document.getElementById('motion-fullscreen-counter');
+  var n = motionCards.length;
+  var multi = n > 1 && motionIdx >= 0;
+  if (prev){ prev.hidden = !multi; prev.disabled = motionIdx <= 0; }
+  if (next){ next.hidden = !multi; next.disabled = motionIdx >= n - 1; }
+  if (cnt){ cnt.hidden = !multi; cnt.textContent = multi ? (motionIdx + 1) + ' / ' + n : ''; }
+}
+
+/* delta = -1 precedente, +1 suivante. Reappelle motionOpen : l'entree
+   d'historique n'est pas dupliquee, mdgOverlay.push ignore un nom deja empile. */
+function motionGo(delta){
+  var i = motionIdx + delta;
+  if (i < 0 || i >= motionCards.length) return;
+  var c = motionCards[i];
+  var parts = (c.getAttribute('data-mot-title') || '').split('\u00b7');
+  motionOpen(c.getAttribute('data-mot-src'), (parts[0]||'').trim(), (parts[1]||'').trim());
+}
+
 function motionOpen(src, name, artist) {
   var fs = document.getElementById('motion-fullscreen');
   var content = document.getElementById('motion-fullscreen-content');
   document.getElementById('motion-fullscreen-title').textContent = name || '';
   document.getElementById('motion-fullscreen-artist').textContent = artist || '';
+
+  /* Position dans la collection, pour le compteur et l'etat des fleches. */
+  motionCards = Array.prototype.slice.call(document.querySelectorAll('[data-mot-src]'));
+  motionIdx = -1;
+  for (var mi = 0; mi < motionCards.length; mi++){
+    if (motionCards[mi].getAttribute('data-mot-src') === src){ motionIdx = mi; break; }
+  }
+  motionSync();
 
   // Convertit les liens embed du player Cloudinary en .mp4 direct (l'iframe donne un écran blanc sur mobile)
   if (/player\.cloudinary\.com\/embed/i.test(src)) {
@@ -19441,6 +19575,12 @@ document.getElementById('motion-fullscreen').addEventListener('click', function(
 });
 document.addEventListener('keydown', function(e){
   if(e.key === 'Escape') motionClose();
+  var mfs = document.getElementById('motion-fullscreen');
+  if(!mfs || !mfs.classList.contains('open')) return;
+  /* Pas de swipe ici : la video utilise les controles natifs, un geste
+     horizontal entrerait en conflit avec la barre de progression. */
+  if(e.key === 'ArrowLeft'){ e.preventDefault(); motionGo(-1); }
+  if(e.key === 'ArrowRight'){ e.preventDefault(); motionGo(1); }
 });
 document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   thumb.addEventListener('click', function(){
