@@ -92,7 +92,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -100,9 +100,9 @@
      Point d'entree unique. Changer de police = modifier ces 3 lignes,
      au lieu des ~600 declarations qui existaient auparavant par fichier.
      Ne pas remettre de nom de police en dur ailleurs. */
-  --font-display:'Space Grotesk',sans-serif;
+  --font-display:'Syne',sans-serif;
   --font-body:'Inter',sans-serif;
-  --font-accent:'Instrument Serif',serif;
+  --font-accent:'DM Serif Display',serif;
   --black:#060606;
   --dark:#0e0e0e;
   --surface:#141414;
@@ -226,13 +226,13 @@ html{scroll-behavior:smooth;overflow-x:hidden;overscroll-behavior-y:none}
   }
 }
 
-/* ── Em d'accroche : --font-accent italic (harmonisé avec Atelier) ── */
+/* ── Em d'accroche : DM Serif Display italic (harmonisé avec Atelier) ── */
 h1 em, h2 em, h3 em {
   font-family: var(--font-accent) !important;
   font-style: italic !important;
   font-weight: 400 !important;
 }
-/* hero-name-sub --font-accent italic, déjà présent dans définition canonique ~L883, doublon retiré */
+/* hero-name-sub DM Serif Display italic, déjà présent dans définition canonique ~L883, doublon retiré */
 
 /* ── SYNE, titres de sections (harmonisé avec Atelier) ── */
 h1, h2, h3 {
@@ -690,7 +690,7 @@ body{font-family:var(--font-body);background:var(--black);color:var(--light);-we
 /* ── HERO EYEBROW HUD ── */
 /* .hero-eyebrow HUD, supprimé, absorbé dans définition canonique L841 */
 
-/* ── HERO NAME HUD, fusionné dans définitions canoniques L842 (hero-name, déjà identique) et L878 (hero-name-sub, --font-display uppercase appliqué) ── */
+/* ── HERO NAME HUD, fusionné dans définitions canoniques L842 (hero-name, déjà identique) et L878 (hero-name-sub, Syne uppercase appliqué) ── */
 
 /* ── HERO PORTFOLIO LINKS HUD ── */
 .hero-portfolio-links {
@@ -7789,7 +7789,7 @@ body,
 }
 
 /* C. TITRES DE SECTIONS, même ADN que "L'ÉLITE SE REMARQUE"
-      --font-display 700, uppercase, letter-spacing serré
+      Syne 800, uppercase, letter-spacing serré
       DESKTOP : tailles modérées, pas écrasantes */
 .port-h2,
 .sp-h2,
@@ -7817,7 +7817,7 @@ body,
 .faq-h2           { font-size: clamp(1.1rem, 1.4vw, 1.5rem) !important; }
 .contact-h2       { font-size: clamp(1.7rem, 2.6vw, 2.6rem) !important; }
 
-/* Les em italiques dans les titres, --font-accent, pas uppercase */
+/* Les em italiques dans les titres, DM Serif Display, pas uppercase */
 .port-h2 em,
 .sp-h2 em,
 .about-main-title em,
@@ -12013,7 +12013,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 <template id="__bundler_thumbnail" data-bg-color="#060606">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
     <rect width="1200" height="800" fill="#060606"/>
-    <text x="600" y="430" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="800" font-size="180" letter-spacing="8" fill="#f0ede8">MDG</text>
+    <text x="600" y="430" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="180" letter-spacing="8" fill="#f0ede8">MDG</text>
     <text x="600" y="510" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="34" letter-spacing="14" fill="#8b5cf6">CREATIVE STUDIO</text>
   </svg>
 </template>
@@ -19834,7 +19834,7 @@ function accSwitch(panel, btn) {
           if(hint && priceList[i]) {
             hint.textContent = priceList[i];
             hint.style.fontSize = '1.25rem';
-            hint.style.fontFamily = 'var(--font-display)';
+            hint.style.fontFamily = "'Syne', sans-serif";
             hint.style.fontWeight = '800';
             hint.style.color = 'var(--accent)';
             hint.style.letterSpacing = '-.02em';
