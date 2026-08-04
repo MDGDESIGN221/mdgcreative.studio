@@ -11829,6 +11829,83 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 <!-- Styles déplacés pour rendu non-bloquant -->
 <body>
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   GESTIONNAIRE D'HISTORIQUE DES OVERLAYS
+   ──────────────────────────────────────────────────────────────────
+   Problème résolu : aucun overlay (player vidéo, lightbox, menu
+   mobile, bottom-sheet…) n'enregistrait d'entrée d'historique. Quand
+   le site est ouvert depuis une WebView Instagram/TikTok/Facebook —
+   donc avec une seule entrée d'historique — le geste retour n'avait
+   rien à dépiler pour fermer l'overlay : le navigateur remontait d'un
+   cran et sortait du site / fermait la WebView.
+
+   Principe (repris de la modale projet d'atelier.html, qui le fait
+   déjà correctement) : un overlay qui s'ouvre pousse une entrée ;
+   le retour dépile cette entrée et se contente de fermer l'overlay.
+
+   Deux sens à gérer, d'où le drapeau `skipPop` :
+     • retour navigateur  → popstate → on ferme l'overlay (sans re-naviguer)
+     • fermeture par l'UI → on a déjà fermé → on retire juste l'entrée
+                            via history.back(), et le popstate qui suit
+                            ne doit PAS refermer une seconde fois.
+   ══════════════════════════════════════════════════════════════════ */
+(function(){
+  var stack = [];        // overlays ouverts, du plus ancien au plus récent
+  var skipPop = false;   // le prochain popstate vient de nous, pas de l'utilisateur
+  var consumedAt = 0;    // instant du dernier popstate absorbé par un overlay
+
+  /* Garde-fou WebView : en arrivée directe (Instagram, TikTok…) il n'y a
+     qu'une seule entrée d'historique. On en ajoute une pour qu'un retour
+     ait toujours quelque chose à dépiler avant de quitter le site. */
+  try {
+    if (!history.state) history.replaceState({ mdgRoot: 1 }, '');
+    if (history.length <= 1) history.pushState({ mdgRoot: 1, guard: 1 }, '');
+  } catch (e) {}
+
+  function indexOf(name){
+    for (var i = stack.length - 1; i >= 0; i--) if (stack[i].name === name) return i;
+    return -1;
+  }
+
+  window.mdgOverlay = {
+    isOpen: function(){ return stack.length > 0; },
+
+    /* Vient d'absorber un retour ? Permet au routeur de sections d'ignorer
+       ce popstate au lieu de scroller en même temps. */
+    justConsumed: function(){ return (Date.now() - consumedAt) < 150; },
+
+    /* À appeler juste après l'ouverture visuelle d'un overlay.
+       closeFn = fermeture PUREMENT visuelle : elle ne doit pas toucher
+       à l'historique, sinon on boucle. */
+    push: function(name, closeFn){
+      if (indexOf(name) !== -1) return;
+      stack.push({ name: name, close: closeFn });
+      try { history.pushState({ mdgOverlay: name }, ''); } catch (e) {}
+    },
+
+    /* À appeler quand l'UI ferme l'overlay (bouton, Échap, clic extérieur).
+       L'appelant a déjà fermé visuellement : on ne fait que reprendre
+       l'entrée d'historique correspondante. */
+    pop: function(name){
+      var i = indexOf(name);
+      if (i === -1) return;
+      stack.splice(i, 1);
+      skipPop = true;
+      try { history.back(); }
+      catch (e) { skipPop = false; }
+    }
+  };
+
+  window.addEventListener('popstate', function(){
+    if (skipPop) { skipPop = false; return; }   // c'est nous qui avons appelé back()
+    if (!stack.length) return;                  // aucun overlay : navigation normale
+    var top = stack.pop();
+    consumedAt = Date.now();
+    try { top.close(); } catch (e) {}
+  });
+})();
+</script>
 <template id="__bundler_thumbnail" data-bg-color="#060606">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
     <rect width="1200" height="800" fill="#060606"/>
@@ -12634,11 +12711,11 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       </div>
       <div class="pass-fcol rev">
         <img loading="lazy" decoding="async" src="/media/img/iss-bonus_arcro4.jpg" alt="">
-        <img loading="lazy" decoding="async" src="/media/img/M%C3%A9rite_Front_Cover_lf1vdy.jpg" alt="">
+        <img loading="lazy" decoding="async" src="/media/img/Merite_Front_Cover_lf1vdy.jpg" alt="">
         <img loading="lazy" decoding="async" src="/media/img/cab-topboy_jhyst6.jpg" alt="">
         <img loading="lazy" decoding="async" src="/media/img/good-vibes_m7kre2.jpg" alt="">
         <img loading="lazy" decoding="async" src="/media/img/iss-bonus_arcro4.jpg" alt="">
-        <img loading="lazy" decoding="async" src="/media/img/M%C3%A9rite_Front_Cover_lf1vdy.jpg" alt="">
+        <img loading="lazy" decoding="async" src="/media/img/Merite_Front_Cover_lf1vdy.jpg" alt="">
         <img loading="lazy" decoding="async" src="/media/img/cab-topboy_jhyst6.jpg" alt="">
         <img loading="lazy" decoding="async" src="/media/img/good-vibes_m7kre2.jpg" alt="">
       </div>
@@ -13065,9 +13142,9 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
           <div class="work-card-bar"></div>
         </a>
         <!-- 6. Mérite -->
-        <a class="cov-card" href="javascript:void(0)" data-lb-src="/media/img/M%C3%A9rite_Front_Cover_lf1vdy.jpg" data-lb-title="Mérite" data-lb-desc="KEY EM TI · Album">
+        <a class="cov-card" href="javascript:void(0)" data-lb-src="/media/img/Merite_Front_Cover_lf1vdy.jpg" data-lb-title="Mérite" data-lb-desc="KEY EM TI · Album">
           <span class="cov-cat-tag">Album</span>
-          <img width="1600" height="1600" decoding="async" loading="lazy" class="cov-img" src="/media/img/M%C3%A9rite_Front_Cover_lf1vdy.jpg" alt="Mérite, KEY EM TI">
+          <img width="1600" height="1600" decoding="async" loading="lazy" class="cov-img" src="/media/img/Merite_Front_Cover_lf1vdy.jpg" alt="Mérite, KEY EM TI">
           <div class="cov-meta">
             <div class="cov-title">Mérite</div>
             <div class="cov-artist">KEY EM TI</div>
@@ -14382,6 +14459,7 @@ function openPackModal(packId) {
   const scrollY = window.scrollY;
   document.body.style.overflow = 'hidden';
   document.body.dataset.scrollY = scrollY;
+  if (window.mdgOverlay) window.mdgOverlay.push('pack', closePackModal);
 }
 
 function closePackModal() {
@@ -14394,6 +14472,7 @@ function closePackModal() {
   document.documentElement.style.height = '';
   window.scrollTo({top: scrollY, behavior: 'instant'});
   if (typeof lenis !== 'undefined' && lenis) lenis.start();
+  if (window.mdgOverlay) window.mdgOverlay.pop('pack');
 }
 
 document.addEventListener('keydown', e => { if(e.key === 'Escape' && document.getElementById('packModalOverlay').classList.contains('open')) closePackModal(); });
@@ -15309,6 +15388,7 @@ function openMobMenu(){
   document.documentElement.style.height='100%';
   document.body.dataset.mobScrollY=_msy;
   setTimeout(()=>{const first=mob.querySelector('a,button:not(.mob-close)');if(first)first.focus();},80);
+  if (window.mdgOverlay) window.mdgOverlay.push('mobmenu', closeMobMenu);
 }
 function closeMobMenu(skipScrollRestore){
   mob.classList.remove('open');
@@ -15321,6 +15401,7 @@ function closeMobMenu(skipScrollRestore){
     window.scrollTo({top:_msy2,behavior:'instant'});
   }
   burger.focus();
+  if (window.mdgOverlay) window.mdgOverlay.pop('mobmenu');
 }
 function cm(href){
   closeMobMenu(true); // ne pas restaurer la position, laisser le href gérer
@@ -15866,6 +15947,7 @@ enableDragScroll(document.getElementById('motTrack'));
       document.getElementById('cPopOverlay').classList.remove('active');
       pop.classList.remove('active');
       document.body.style.overflow = '';
+      if (window.mdgOverlay) window.mdgOverlay.pop('cpop');
     }
   });
 })();
@@ -15899,6 +15981,7 @@ function openModal(num) {
   overlay.classList.add('open');
   overlay.setAttribute('aria-hidden','false');
   document.body.style.overflow = 'hidden';
+  if (window.mdgOverlay) window.mdgOverlay.push('service', closeModal);
   setTimeout(()=>{const cl=document.getElementById('modalClose');if(cl)cl.focus();},60);
 }
 
@@ -15910,6 +15993,7 @@ function closeModal() {
   // consomme le tap suivant comme "défocus" au lieu de déclencher le click → modal ne se rouvre pas
   if(_modalTrigger && window.matchMedia('(hover:hover)').matches) _modalTrigger.focus();
   _modalTrigger = null;
+  if (window.mdgOverlay) window.mdgOverlay.pop('service');
 }
 
 document.querySelectorAll('[data-modal]').forEach(card => {
@@ -16617,6 +16701,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     lb.classList.add('active');
     document.body.style.overflow = 'hidden';
     if(typeof lenis !== 'undefined' && lenis) lenis.stop();
+    if (window.mdgOverlay) window.mdgOverlay.push('lightbox', closeLb);
     setTimeout(function(){var c=document.getElementById('lbClose');if(c)c.focus();},60);
   }
 
@@ -16625,6 +16710,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     lb.classList.remove('active');
     document.body.style.overflow = '';
     if(typeof lenis !== 'undefined' && lenis) lenis.start();
+    if (window.mdgOverlay) window.mdgOverlay.pop('lightbox');
     setTimeout(function(){ lbImg.src = ''; }, 400);
   }
 
@@ -18852,6 +18938,7 @@ window.openModal = function(num) {
         '<a href="#contact" class="modal-cta" onclick="closeModal()">' + translations.modal_cta_text.en + '</a>';
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
+      if (window.mdgOverlay) window.mdgOverlay.push('service', closeModal);
       return;
     }
   }
@@ -18873,6 +18960,7 @@ window.openModal = function(num) {
     '<a href="#contact" class="modal-cta" onclick="closeModal()">Discuter de ce projet →</a>';
   overlay2.classList.add('open');
   document.body.style.overflow = 'hidden';
+  if (window.mdgOverlay) window.mdgOverlay.push('service', closeModal);
 };
 
 // ─── Fonction principale de traduction ───────────────
@@ -19057,15 +19145,17 @@ document.addEventListener('DOMContentLoaded', function(){
     const cta = document.getElementById('pack-bs-cta');
     cta.style.background = d.accentColor === 'var(--accent)' ? 'var(--accent)' : d.accentColor;
     cta.style.color = d.accentColor === '#ffc832' ? '#000' : '#000';
-    cta.onclick = () => { bsClose(); if(window.openPackModal) openPackModal(d.modalId); };
+    cta.onclick = () => { bsClose(); setTimeout(function(){ if(window.openPackModal) openPackModal(d.modalId); }, 180); };
     document.getElementById('pack-bottom-sheet').classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (window.mdgOverlay) window.mdgOverlay.push('bottomsheet', window.bsClose);
     setTimeout(()=>{const cl=document.getElementById('pack-bs-close');if(cl)cl.focus();},60);
   };
 
   window.bsClose = function() {
     document.getElementById('pack-bottom-sheet').classList.remove('open');
     document.body.style.overflow = '';
+    if (window.mdgOverlay) window.mdgOverlay.pop('bottomsheet');
   };
 
   // Fermer sur fond
@@ -19326,12 +19416,25 @@ function motionOpen(src, name, artist) {
 
   fs.classList.add('open');
   document.body.style.overflow = 'hidden';
+  /* Enregistre une entrée d'historique : le geste retour fermera le player
+     au lieu de sortir du site (cf. gestionnaire en haut de <body>). */
+  if (window.mdgOverlay) window.mdgOverlay.push('motion', motionCloseVisual);
 }
-function motionClose() {
+/* Fermeture purement visuelle — ne touche pas à l'historique.
+   C'est ce que le retour navigateur appelle. */
+function motionCloseVisual() {
   var fs = document.getElementById('motion-fullscreen');
   fs.classList.remove('open');
   document.getElementById('motion-fullscreen-content').innerHTML = '';
   document.body.style.overflow = '';
+}
+/* Fermeture demandée par l'UI (bouton, Échap, clic extérieur) :
+   on ferme puis on reprend l'entrée d'historique poussée à l'ouverture. */
+function motionClose() {
+  var fs = document.getElementById('motion-fullscreen');
+  if (!fs.classList.contains('open')) return;
+  motionCloseVisual();
+  if (window.mdgOverlay) window.mdgOverlay.pop('motion');
 }
 document.getElementById('motion-fullscreen').addEventListener('click', function(e){
   if(e.target === this) motionClose();
@@ -19708,6 +19811,7 @@ function faqToggle(el){
     document.documentElement.style.overflow='hidden';
     document.documentElement.style.height='100%';
     document.body.dataset.popScrollY=_sy;
+    if (window.mdgOverlay) window.mdgOverlay.push('cpop', closePop);
     setTimeout(()=>{const f=pop.querySelector('input,button,a');if(f)f.focus();},80);
   }
   // Expose globalement pour les boutons footer/inline
@@ -19729,6 +19833,7 @@ function faqToggle(el){
     document.documentElement.style.height='';
     window.scrollTo({top:_sy2,behavior:'instant'});
     if(lastFocusedEl)lastFocusedEl.focus();
+    if (window.mdgOverlay) window.mdgOverlay.pop('cpop');
   }
 
   // Tous les boutons "Travaillons ensemble" + svc-cta
@@ -20403,11 +20508,13 @@ function cqfToggleChip(btn, val) {
 
     /* Focus trap */
     setTimeout(function(){ closBtn.focus(); }, 180);
+    if (window.mdgOverlay) window.mdgOverlay.push('ytlb', closeYtLb);
   }
 
   function closeYtLb(){
     lb.classList.remove('open', 'loading');
     unlockScroll();
+    if (window.mdgOverlay) window.mdgOverlay.pop('ytlb');
     /* Détruire l'iframe après l'animation, stoppe la lecture audio */
     setTimeout(function(){
       frame.innerHTML = '';
@@ -20784,6 +20891,10 @@ if (document.readyState === 'loading') {
 
   /* ── 3. Mettre à jour l'URL (pushState) ── */
   function setURL(id, replace){
+    /* Un overlay est ouvert (player vidéo, lightbox…) : son entrée
+       d'historique doit rester la dernière, sinon le geste retour
+       dépilerait une section au lieu de fermer l'overlay. */
+    if(window.mdgOverlay && window.mdgOverlay.isOpen()) return;
     var slug = ROUTES[id];
     if(!slug || slug === _lastSlug) return;
     _lastSlug = slug;
@@ -20940,6 +21051,9 @@ if (document.readyState === 'loading') {
 
   /* ── 10. Bouton Retour / Avance du navigateur ── */
   window.addEventListener('popstate', function(e){
+    /* Ce retour vient d'être absorbé par un overlay qui s'est fermé :
+       on ne scrolle pas en plus. */
+    if(window.mdgOverlay && window.mdgOverlay.justConsumed()) return;
     var id = (e.state && e.state.section);
     if(!id){
       /* Tenter de déduire l'ID depuis le pathname */
@@ -21020,12 +21134,14 @@ if (document.readyState === 'loading') {
     }
     popup.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (window.mdgOverlay) window.mdgOverlay.push('ig', igClose);
     setTimeout(function(){ cancelBtn.focus(); }, 60);
   }
 
   function igClose() {
     popup.classList.remove('open');
     document.body.style.overflow = '';
+    if (window.mdgOverlay) window.mdgOverlay.pop('ig');
     currentIg = null;
   }
 
@@ -21168,12 +21284,14 @@ if (document.readyState === 'loading') {
     lastFocus = document.activeElement;
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden','false');
+    if (window.mdgOverlay) window.mdgOverlay.push('spotifywarn', closeWarn);
     setTimeout(function(){ stayBtn.focus(); }, 60);
   }
   function closeWarn(){
     overlay.classList.remove('open');
     overlay.setAttribute('aria-hidden','true');
     pendingUrl = null;
+    if (window.mdgOverlay) window.mdgOverlay.pop('spotifywarn');
     if(lastFocus && lastFocus.focus){ lastFocus.focus(); }
   }
 
