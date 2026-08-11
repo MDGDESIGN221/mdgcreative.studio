@@ -23557,6 +23557,23 @@ nav .nav-cta[href="/learning-center"]:hover{
     width:22px!important; height:22px!important; stroke-width:2!important;
   }
 }
+
+/* ── #about : les deux photos secondaires ──
+   Elles occupaient 6 colonnes sur 12 pour 270px de haut, soit une fente
+   de 2,75:1 — alors que les sources sont CARREES. Resultat : 36% de
+   l'image visible, reduite a une bande horizontale. Ramenees a 4
+   colonnes et un peu plus hautes, elles retrouvent un format proche de
+   leur source et se rangent a cote du portrait sur la meme rangee. */
+@media(min-width:768px){
+  /* 4 colonnes laissaient 460px de vide a droite : toutes les autres
+     rangees de la grille sont pleines, celle-ci ne l'etait pas. On garde
+     6 colonnes et on gagne la proportion sur la HAUTEUR. */
+  #about .abg-photo{ grid-column:span 6!important; height:clamp(360px,31vw,470px)!important; }
+  #about .abg-photo img{ object-position:50% 30%!important; }
+  /* Le portrait garde ses 4 colonnes et ses 2 rangees : la rangee est
+     donc complete (4+4+4) et rien ne se retrouve orphelin. */
+  #about .abg-portrait img{ object-position:50% 38%!important; }
+}
 </style>
 <script id="mdg-quicknav-hero">
 (function(){
