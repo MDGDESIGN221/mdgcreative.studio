@@ -19,6 +19,7 @@
 </script>
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
 <meta name="theme-color" content="#060606">
+<!-- La barre systeme reste noire : le vert n'occupe l'ecran qu'une seconde, la faire clignoter serait pire que rien. -->
 <meta name="color-scheme" content="dark">
 
 <!-- SEO -->
@@ -23702,6 +23703,45 @@ nav .nav-cta[href="/learning-center"]:hover{
 @media(max-width:767px){
   #hero.nhero .nh-title{ font-size:clamp(2.3rem,11vw,3.6rem)!important; }
   #hero.nhero .nh-title em{ padding-left:0; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   OUVERTURE : LE RIDEAU VERT
+   ──────────────────────────────────────────────────────────────────
+   C'est le seul moment ou le vert a le droit d'occuper tout l'ecran —
+   precisement parce qu'il ne le fait jamais ailleurs. Il se retire vers
+   le haut et decouvre le noir : le contraste de la marque est pose en
+   une seconde, avant meme la premiere ligne de contenu.
+
+   Le mecanisme existant est conserve : deux logos superposes, celui du
+   dessus revele de bas en haut par un clip-path qui suit le chargement
+   reel. On ne rajoute pas d'attente, on habille celle qui existe.
+   ══════════════════════════════════════════════════════════════════ */
+#loader{
+  background:var(--accent)!important;
+}
+/* Le logo est un PNG blanc : sur le vert il faut l'inverser en noir. */
+#loader .loader-logo-ghost{
+  filter:brightness(0)!important;
+  opacity:.17!important;
+}
+#loader .loader-logo-fill{
+  filter:brightness(0)!important;   /* le halo lime n'a plus de sens sur du vert */
+}
+/* Le rideau : plus lent et mieux amorti que le defaut, pour qu'il se
+   lise comme un geste et non comme un ecran qui disparait. */
+#loader.done{
+  transition:transform .78s cubic-bezier(.76,0,.18,1)!important;
+}
+
+/* Sous prefers-reduced-motion, le rideau ne glisse pas : il s'efface.
+   Le contraste vert -> noir reste percu, sans deplacement. */
+@media(prefers-reduced-motion:reduce){
+  #loader.done{
+    transform:none!important;
+    opacity:0!important;
+    transition:opacity .35s ease!important;
+  }
 }
 </style>
 <script id="mdg-quicknav-hero">
