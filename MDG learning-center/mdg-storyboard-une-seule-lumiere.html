@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MDG · UNE SEULE LUMIÈRE — storyboard 18 s</title>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#0B0C0D;
+    --ivory:#E8E0D0;
+    --teal:#3DBFA3;
+    --teal-lift:#C7FFF1;
+    --panel-a:#15161A;
+    --panel-b:#0E0F11;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    background:#050506; color:var(--ivory);
+    font-family:'Inter',sans-serif;
+    display:flex; flex-direction:column; align-items:center;
+    overflow:hidden;
+  }
+
+  /* ═══ la scène : 1080×1920, mise à l'échelle pour tenir à l'écran ═══ */
+  #stage{ flex:1; display:flex; align-items:center; justify-content:center; width:100%; min-height:0; }
+  #fit{ position:relative; }
+  #frame{
+    position:relative; width:1080px; height:1920px;
+    background:#000; overflow:hidden;
+    transform-origin:top left;
+    box-shadow:0 30px 90px rgba(0,0,0,.7);
+  }
+
+  /* ── la photo (plans 1–3) ── */
+  #photo{ position:absolute; inset:0; z-index:2; }
+  #photo img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:50% 42%;
+    display:block; user-select:none; -webkit-user-drag:none;
+  }
+  #ph-before{ opacity:0; }
+  #ph-after{ opacity:0; clip-path:inset(0 var(--wipe,0%) 0 0); }
+
+  /* le trait : l'image écrasée en contraste → noir + liseré blanc, teinté teal, screené */
+  .trace{
+    position:absolute; inset:0; mix-blend-mode:screen; pointer-events:none;
+    clip-path:inset(0 var(--wipe,0%) 0 0);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 var(--rev,0%),transparent calc(var(--rev,0%) + 7%));
+            mask-image:linear-gradient(180deg,#000 0%,#000 var(--rev,0%),transparent calc(var(--rev,0%) + 7%));
+  }
+  .trace-inner{ position:absolute; inset:0; background:var(--teal); isolation:isolate; }
+  .trace-inner img{ mix-blend-mode:multiply; filter:grayscale(1) brightness(1.15) contrast(9); }
+  #trace-glow{ filter:blur(18px); }
+
+  #ph-scrim{
+    position:absolute; inset:0; opacity:0;
+    background:linear-gradient(180deg,rgba(11,12,13,0) 40%,rgba(11,12,13,.55) 68%,rgba(11,12,13,.94) 100%);
+  }
+  #wipeline{
+    position:absolute; top:0; bottom:0; width:2px; background:var(--teal);
+    box-shadow:0 0 18px rgba(61,191,163,.75); opacity:0;
+  }
+
+  /* ── le monde 3D + le mur (plans 3–6) ── */
+  #world{ position:absolute; inset:0; z-index:1; background:var(--ink); opacity:0; }
+  #wall{ position:absolute; z-index:1; }
+  .cell{
+    position:absolute; overflow:hidden; border-radius:4px;
+    border:1px solid rgba(232,224,208,.10);
+    background:linear-gradient(180deg,var(--panel-a) 0%,var(--panel-b) 100%);
+  }
+  .cell img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    user-select:none; -webkit-user-drag:none;
+  }
+  /* la cellule vide : le viewport de l'instrument, exactement le panneau du site */
+  #cell-head{ border-color:rgba(61,191,163,.30); }
+  #cell-head .badge{
+    position:absolute; top:8px; left:8px; z-index:2;
+    padding:3px 8px; border:1px solid rgba(61,191,163,.42); border-radius:3px;
+    background:rgba(11,12,13,.62); backdrop-filter:blur(8px);
+    font-size:9px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--teal); font-weight:600; white-space:nowrap;
+  }
+
+  #c3d{ position:absolute; inset:0; z-index:2; mix-blend-mode:screen; transform-origin:50% 50%; }
+  #headfall{
+    position:absolute; left:50%; top:44%; width:360px; height:470px;
+    transform:translate(-50%,-50%); border-radius:50% 50% 46% 46%/56% 56% 44% 44%;
+    background:#101114; box-shadow:inset -18px 0 40px rgba(61,191,163,.55), inset -3px 0 0 rgba(199,255,241,.85);
+    z-index:2; opacity:0; display:none;
+  }
+
+  /* l'onde qui allume le mur */
+  #wave{ position:absolute; z-index:3; mix-blend-mode:screen; pointer-events:none; opacity:0;
+         border-radius:50%; transform:translate(-50%,-50%);
+         background:radial-gradient(circle, rgba(199,255,241,.55) 0%, rgba(61,191,163,.34) 34%, rgba(61,191,163,0) 68%); }
+  #ring{ position:absolute; z-index:3; mix-blend-mode:screen; pointer-events:none; opacity:0;
+         border-radius:50%; transform:translate(-50%,-50%);
+         border:2px solid rgba(199,255,241,.8); box-shadow:0 0 40px rgba(61,191,163,.6); }
+
+  /* ── HUD : le curseur + les chiffres (plan 4) ── */
+  #hud{ position:absolute; inset:0; z-index:5; pointer-events:none; }
+  #cursor{ position:absolute; width:38px; height:38px; margin:-19px 0 0 -19px; opacity:0;
+           border:2px solid var(--teal); border-radius:50%;
+           box-shadow:0 0 18px rgba(61,191,163,.5), inset 0 0 12px rgba(61,191,163,.25); }
+  #cursor::after{ content:''; position:absolute; left:50%; top:50%; width:5px; height:5px;
+                  margin:-2.5px 0 0 -2.5px; border-radius:50%; background:var(--teal); }
+  #readout{ position:absolute; left:64px; bottom:404px; opacity:0;
+            font-family:'JetBrains Mono',monospace; font-weight:600; font-size:26px;
+            letter-spacing:.06em; color:var(--teal); }
+  #preset{ position:absolute; right:64px; bottom:400px; opacity:0;
+           font-family:'Syne',sans-serif; font-weight:700; font-size:34px;
+           letter-spacing:.02em; color:var(--ivory); text-transform:uppercase; }
+
+  /* ── typo ── */
+  #type{ position:absolute; inset:0; z-index:6; pointer-events:none; }
+  .t{ position:absolute; left:64px; right:64px; text-align:center; opacity:0; }
+  .syne{ font-family:'Syne',sans-serif; font-weight:800; letter-spacing:-.02em; text-transform:uppercase; line-height:.98; }
+  .serif{ font-family:'Instrument Serif',serif; font-style:italic; }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+
+  #t1{ top:1338px; font-size:68px; line-height:1.04; }
+  #t2{ top:1560px; font-size:68px; line-height:1.04; color:var(--teal); }
+
+  #tname{ top:1500px; font-family:'Syne',sans-serif; font-weight:800; font-size:50px; line-height:1.0; letter-spacing:.01em; text-transform:uppercase; }
+  #tsub{ top:1660px; font-size:32px; color:rgba(232,224,208,.78); white-space:nowrap; }
+
+  #tw1{ top:1478px; font-size:52px; white-space:nowrap; }
+  #tw2{ top:1560px; font-size:52px; line-height:1.05; color:var(--teal); }
+
+  /* ── écran-message : rideau noir, texte seul ── */
+  #msgcard{ position:absolute; inset:0; z-index:6; background:#000; opacity:0; pointer-events:none; }
+  #m1{ top:780px; font-size:64px; line-height:1.03; }
+  #m2{ top:1000px; font-size:74px; line-height:1.08; color:var(--teal); }
+
+  #lockup{ position:absolute; inset:0; }
+  #lg{ position:absolute; left:50%; top:806px; transform:translateX(-50%); height:72px; opacity:0; }
+  #lg img{ height:100%; width:auto; display:block; }
+  #l1{ top:948px; font-size:54px; font-family:'Syne',sans-serif; font-weight:700; letter-spacing:-.01em; white-space:nowrap; }
+  #l2{ top:1042px; font-size:82px; color:var(--teal); white-space:nowrap; }
+  #l3{ top:1180px; font-size:28px; color:rgba(232,224,208,.6); letter-spacing:.02em; white-space:nowrap; }
+  #l4{ top:1236px; font-size:28px; color:rgba(61,191,163,.75); letter-spacing:.02em; white-space:nowrap; }
+
+  /* ── traitement ── */
+  #scrim{ position:absolute; inset:0; z-index:4; background:rgba(11,12,13,.74); opacity:0; }
+  #nameScrim{
+    position:absolute; left:0; right:0; bottom:0; height:640px; z-index:4;
+    background:linear-gradient(180deg,rgba(11,12,13,0) 0%,rgba(11,12,13,.5) 42%,rgba(11,12,13,.88) 100%);
+    opacity:0; pointer-events:none;
+  }
+  #vig{ position:absolute; inset:0; z-index:7; pointer-events:none;
+        background:radial-gradient(ellipse 78% 62% at 50% 46%, rgba(0,0,0,0) 40%, rgba(0,0,0,.62) 100%); }
+  #grain{ position:absolute; inset:-100px; z-index:8; pointer-events:none; opacity:.055; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>"); }
+  #fadeout{ position:absolute; inset:0; z-index:9; background:#000; opacity:0; pointer-events:none; }
+
+  /* ═══ contrôles ═══ */
+  #ui{ width:100%; max-width:900px; padding:12px 20px 18px; }
+  #bar{ position:relative; height:30px; border-radius:4px; background:#121316;
+        border:1px solid rgba(232,224,208,.10); cursor:pointer; overflow:hidden; }
+  #prog{ position:absolute; left:0; top:0; bottom:0; width:0%; background:rgba(61,191,163,.20); }
+  #play{ position:absolute; top:0; bottom:0; width:2px; background:var(--teal); box-shadow:0 0 10px rgba(61,191,163,.8); }
+  .mk{ position:absolute; top:0; bottom:0; width:1px; background:rgba(232,224,208,.22); }
+  #labels{ display:flex; margin-top:6px; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:rgba(232,224,208,.34); }
+  #labels span{ overflow:hidden; white-space:nowrap; }
+  #row{ display:flex; align-items:center; gap:14px; margin-top:12px; }
+  button{ padding:7px 16px; border-radius:999px; border:1px solid rgba(232,224,208,.16);
+          background:transparent; color:var(--ivory); font-family:'Inter',sans-serif;
+          font-size:12px; font-weight:600; letter-spacing:.06em; cursor:pointer; }
+  button:hover{ border-color:var(--teal); color:var(--teal); }
+  #tc{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal); }
+  #shot{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:rgba(232,224,208,.5); }
+  #hint{ margin-left:auto; font-size:10.5px; color:rgba(232,224,208,.3); }
+</style>
+</head>
+<body>
+
+<div id="stage"><div id="fit"><div id="frame">
+
+  <!-- ── monde 3D + mur ─────────────────────────────────────────── -->
+  <div id="world">
+    <div id="wall"></div>
+    <div id="headfall"></div>
+    <canvas id="c3d" width="1080" height="1920"></canvas>
+    <div id="wave"></div>
+    <div id="ring"></div>
+  </div>
+
+  <!-- ── la photo ───────────────────────────────────────────────── -->
+  <div id="photo">
+    <img id="ph-before" crossorigin="anonymous"
+         src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973193/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_DEBUT_vmr4ub.png" alt="">
+    <img id="ph-after" crossorigin="anonymous"
+         src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="">
+
+    <div class="trace" id="trace-glow"><div class="trace-inner">
+      <img crossorigin="anonymous" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="">
+    </div></div>
+    <div class="trace" id="trace-core"><div class="trace-inner">
+      <img crossorigin="anonymous" src="https://res.cloudinary.com/djdkpihuz/image/upload/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png" alt="">
+    </div></div>
+
+    <div id="ph-scrim"></div>
+    <div id="wipeline"></div>
+  </div>
+
+  <div id="nameScrim"></div>
+
+  <!-- ── HUD ────────────────────────────────────────────────────── -->
+  <div id="hud">
+    <div id="cursor"></div>
+    <div id="readout">az 008° · el 018°</div>
+    <div id="preset"></div>
+  </div>
+
+  <!-- ── typo ───────────────────────────────────────────────────── -->
+  <div id="scrim"></div>
+  <div id="msgcard">
+    <div class="t syne" id="m1">MDG Learning<br>Center</div>
+    <div class="t serif" id="m2">Les rim lights, expliqués<br>en 6 leçons.</div>
+  </div>
+  <div id="type">
+    <div class="t syne" id="t1">Ce n'est pas<br>un filtre.</div>
+    <div class="t syne" id="t2">C'est une<br>lumière.</div>
+
+    <div class="t" id="tname">MDG Learning<br>Center</div>
+    <div class="t serif" id="tsub">Les rim lights, expliqués en 6 leçons.</div>
+
+    <div class="t syne" id="tw1">Les mêmes lois.</div>
+    <div class="t syne" id="tw2">Sur tout ce que<br>tu fais.</div>
+
+    <div id="lockup">
+      <div id="lg"><img crossorigin="anonymous"
+        src="https://res.cloudinary.com/djdkpihuz/image/upload/v1776666026/NEW_LOGO_w_rxvoil.png" alt="MDG"></div>
+      <div class="t" id="l1">6 leçons interactives.</div>
+      <div class="t syne" id="l2">Gratuit.</div>
+      <div class="t mono" id="l3">mdgcreative.studio/learning-center</div>
+      <div class="t mono" id="l4">Sois prévenu quand une leçon sort.</div>
+    </div>
+  </div>
+
+  <div id="vig"></div>
+  <div id="grain"></div>
+  <div id="fadeout"></div>
+
+</div></div></div>
+
+<div id="ui">
+  <div id="bar"><div id="prog"></div><div id="play"></div></div>
+  <div id="labels"></div>
+  <div id="row">
+    <button id="btn">Pause</button>
+    <button id="rst">Rejouer</button>
+    <button id="snd">Son : off</button>
+    <span id="tc">0.00 s</span>
+    <span id="shot">1 · LE TRAIT</span>
+    <span id="hint">espace = lecture · ←→ = image par image · maj+←→ = 1 s</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     TIMELINE — script classique, tourne même si le CDN 3D tombe
+     ══════════════════════════════════════════════════════════════════ -->
+<script>
+const DUR = 21.15;
+
+const T = {
+  /* 1 · LE TRAIT        0.00 → 2.05 */
+  traceIn:0.18, traceDur:1.15, resolveIn:1.28, resolveDur:0.72,
+  /* 2 · LA BASCULE      2.05 → 4.25 */
+  wipeOut:2.15, wipeOutDur:0.48, wipeIn:3.02, wipeInDur:0.48,
+  t1In:2.42, t2In:3.28, tOut:4.12,
+  /* 3 · LE MATCH CUT    4.25 → 6.25 */
+  cut:4.35, cutDur:0.70, pull:5.12, pullDur:1.10,
+  /* 4 · LE JOUET        6.25 → 11.25 */
+  grab:6.45, drag:6.95, dragDur:3.90, nameIn:8.55, subIn:9.05, toyOut:11.02,
+  /* 4bis · LE MESSAGE   11.25 → 14.00 — rideau noir, texte seul, referme le sens */
+  msgIn:11.30, msgInDur:0.55, msgL1In:11.70, msgL2In:12.15,
+  msgTxtOut:13.30, msgTxtOutDur:0.35, msgOut:13.65, msgOutDur:0.55,
+  /* 5 · LE MUR          14.00 → 18.00 */
+  wallIn:14.00, wallDur:0.90, wave:14.90, waveDur:2.40, wallTxt:16.25,
+  /* 6 · L'ACCÈS         18.00 → 20.75 */
+  access:18.00, logoIn:18.14, lessIn:18.54, freeIn:18.88, urlIn:19.28, newsIn:19.68, fade:20.70
+};
+
+const SHOTS = [
+  [0.00,'1 · LE TRAIT'], [2.05,'2 · LA BASCULE'], [4.25,'3 · LE MATCH CUT'],
+  [6.25,'4 · LE JOUET'], [11.25,'4bis · LE MESSAGE'], [14.00,'5 · LE MUR'], [18.00,"6 · L'ACCÈS"]
+];
+
+/* ══ le mur — 3 colonnes × 4 rangées, la cellule 4 est l'instrument ══ */
+const CELL_W = 296, CELL_H = 222, GAP = 14, COLS = 3, ROWS = 4;
+const WALL_W = COLS*CELL_W + (COLS-1)*GAP;      // 916
+const WALL_H = ROWS*CELL_H + (ROWS-1)*GAP;      // 930
+const WALL_X = (1080 - WALL_W) / 2;             // 82
+const WALL_Y = 430;
+const HEAD_CELL = 4;                            // rangée 2, colonne 2
+const TILE_SCALE = 0.20;                        // ← à ajuster si la tête déborde de sa case
+
+const POSTERS = [
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1781973218/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1776491268/SENEGAL_VS_MAROC_SADIO_a710rf.jpg',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1782124592/NORVEGE_VS_SENEGAL_vmbgvx.png',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1776659502/NUNEZ_xxcyqg.jpg',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1781041188/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1776659503/SEN._vs_GAM._rqcfws.jpg',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1776659501/NIX_-_FIGHT_CLUB_fuk5zo.jpg',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1776659243/HAKILL_l0a1rr.jpg',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1776491317/match-day-sadio_we5xzy.jpg',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1781509552/FRANCE_SENEGAL_rkitjo.jpg',
+ 'https://res.cloudinary.com/djdkpihuz/image/upload/v1782124593/NORVEGE_VS_SENEGAL_II_rs4n5y.png'
+];
+
+const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+const sstep = (a,b,x) => { const t = clamp01((x-a)/(b-a)); return t*t*(3-2*t); };
+const lerp = (a,b,t) => a + (b-a)*t;
+const oCubic = x => 1 - Math.pow(1-x,3);
+const oQuint = x => 1 - Math.pow(1-x,5);
+const oBack  = x => 1 + 2.2*Math.pow(x-1,3) + 1.4*Math.pow(x-1,2);
+const ioSine = x => -(Math.cos(Math.PI*x)-1)/2;
+
+/* ── construire le mur ─────────────────────────────────────────── */
+const wallEl = document.getElementById('wall');
+wallEl.style.left = WALL_X+'px'; wallEl.style.top = WALL_Y+'px';
+wallEl.style.width = WALL_W+'px'; wallEl.style.height = WALL_H+'px';
+
+const cells = [];
+let pIdx = 0;
+const headCX = WALL_X + (HEAD_CELL%COLS)*(CELL_W+GAP) + CELL_W/2;
+const headCY = WALL_Y + Math.floor(HEAD_CELL/COLS)*(CELL_H+GAP) + CELL_H/2;
+
+for (let i = 0; i < COLS*ROWS; i++){
+  const cx = (i%COLS)*(CELL_W+GAP), cy = Math.floor(i/COLS)*(CELL_H+GAP);
+  const d = document.createElement('div');
+  d.className = 'cell';
+  d.style.left = cx+'px'; d.style.top = cy+'px';
+  d.style.width = CELL_W+'px'; d.style.height = CELL_H+'px';
+
+  if (i === HEAD_CELL){
+    d.id = 'cell-head';
+    d.innerHTML = '<span class="badge">Scène</span>';
+    cells.push({ el:d, head:true });
+  } else {
+    const img = document.createElement('img');
+    img.crossOrigin = 'anonymous';
+    img.src = POSTERS[pIdx++ % POSTERS.length];
+    img.onerror = () => { img.style.display = 'none'; };
+    d.appendChild(img);
+    const acx = WALL_X + cx + CELL_W/2, acy = WALL_Y + cy + CELL_H/2;
+    const dist = Math.hypot(acx-headCX, acy-headCY);
+    cells.push({ el:d, head:false, dist });
+  }
+  wallEl.appendChild(d);
+}
+const maxDist = Math.max(...cells.filter(c=>!c.head).map(c=>c.dist));
+cells.forEach(c => { if(!c.head) c.r = c.dist / maxDist; });
+
+/* ── raccourcis DOM ───────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const world=$('world'), phot=$('photo'), phB=$('ph-before'), phA=$('ph-after'),
+      trG=$('trace-glow'), trC=$('trace-core'), phS=$('ph-scrim'), wl=$('wipeline'),
+      c3d=$('c3d'), hf=$('headfall'), wave=$('wave'), ring=$('ring'),
+      cur=$('cursor'), rdo=$('readout'), pre=$('preset'),
+      t1=$('t1'), t2=$('t2'), tn=$('tname'), ts=$('tsub'), w1=$('tw1'), w2=$('tw2'),
+      mc=$('msgcard'), m1=$('m1'), m2=$('m2'),
+      lg=$('lg'), l1=$('l1'), l2=$('l2'), l3=$('l3'), l4=$('l4'),
+      scr=$('scrim'), nsc=$('nameScrim'), grn=$('grain'), fdo=$('fadeout');
+
+/* ── les 5 schémas de portrait, dans l'ordre du geste ──────────── */
+const PRESETS = [[8,'Butterfly'],[45,'Loop'],[62,'Rembrandt'],[92,'Split'],[172,'Rim']];
+
+/* ══════════════════════ RENDU — fonction pure de t ══════════════════════ */
+function render(t){
+  t = Math.max(0, Math.min(DUR, t));
+
+  /* ── 1 · LE TRAIT ─────────────────────────────────────────────── */
+  const tr  = clamp01((t - T.traceIn) / T.traceDur);
+  const rev = oCubic(tr) * 113;
+  const res = sstep(T.resolveIn, T.resolveIn + T.resolveDur, t);
+
+  trG.style.setProperty('--rev', rev+'%');
+  trC.style.setProperty('--rev', rev+'%');
+
+  const traceOp = lerp(1, 0.30, res);
+  trC.style.opacity = traceOp;
+  trG.style.opacity = traceOp * 0.85;
+
+  /* ── 2 · LA BASCULE ───────────────────────────────────────────── */
+  let wipe = 0;
+  wipe += 100 * sstep(T.wipeOut, T.wipeOut + T.wipeOutDur, t);          // le rim s'efface
+  wipe -= 100 * sstep(T.wipeIn,  T.wipeIn  + T.wipeInDur,  t);          // le rim revient
+  wipe = Math.max(0, Math.min(100, wipe));
+
+  phA.style.setProperty('--wipe', wipe+'%');
+  trG.style.setProperty('--wipe', wipe+'%');
+  trC.style.setProperty('--wipe', wipe+'%');
+
+  const moving = Math.max(
+    sstep(T.wipeOut, T.wipeOut+0.06, t) * (1 - sstep(T.wipeOut+T.wipeOutDur-0.10, T.wipeOut+T.wipeOutDur, t)),
+    sstep(T.wipeIn,  T.wipeIn +0.06, t) * (1 - sstep(T.wipeIn +T.wipeInDur -0.10, T.wipeIn +T.wipeInDur,  t))
+  );
+  wl.style.opacity = moving;
+  wl.style.left = (100 - wipe) + '%';
+
+  phB.style.opacity = res;
+  phA.style.opacity = res;
+
+  const txt1 = sstep(T.t1In, T.t1In+0.30, t) * (1 - sstep(T.tOut, T.tOut+0.22, t));
+  const txt2 = sstep(T.t2In, T.t2In+0.30, t) * (1 - sstep(T.tOut, T.tOut+0.22, t));
+  t1.style.opacity = txt1;
+  t2.style.opacity = txt2;
+  t1.style.transform = 'translateY(' + (14*(1-oQuint(clamp01((t-T.t1In)/0.55)))) + 'px)';
+  t2.style.transform = 'translateY(' + (14*(1-oQuint(clamp01((t-T.t2In)/0.55)))) + 'px)';
+  phS.style.opacity = Math.max(txt1, txt2) * 0.95;
+
+  /* ── 3 · LE MATCH CUT ─────────────────────────────────────────── */
+  const cut = sstep(T.cut, T.cut + T.cutDur, t);
+  phot.style.opacity = 1 - cut;
+  phot.style.transform = 'scale(' + lerp(1, 1.10, cut) + ')';
+  world.style.opacity = cut;
+
+  /* ── 4 · LE JOUET ─────────────────────────────────────────────── */
+  const grab = sstep(T.grab, T.grab + 0.26, t);
+  const drag = clamp01((t - T.drag) / T.dragDur);
+  const dragE = ioSine(drag);
+  const az = lerp(8, 205, dragE);
+  const el = lerp(18, 34, Math.sin(dragE * Math.PI));
+
+  const hudOn = sstep(T.grab-0.30, T.grab+0.10, t) * (1 - sstep(T.toyOut, T.toyOut+0.25, t));
+  cur.style.opacity = hudOn;
+  rdo.style.opacity = hudOn * 0.95;
+  rdo.textContent = 'az ' + String(Math.round(az)).padStart(3,'0') + '° · el '
+                  + String(Math.round(el)).padStart(3,'0') + '°';
+
+  const squash = 1 - 0.22 * Math.exp(-9 * Math.max(0, t - T.grab));
+  cur.style.transform = 'scale(' + (grab ? squash : 1) + ')';
+
+  let pOp = 0, pName = '';
+  for (const [pa, nm] of PRESETS){
+    const near = 1 - clamp01(Math.abs(az - pa) / 7);
+    if (near > pOp && drag > 0.01 && drag < 0.99){ pOp = near; pName = nm; }
+  }
+  if (pName) pre.textContent = pName;
+  pre.style.opacity = pOp * hudOn * 0.9;
+
+  const nmOp = sstep(T.nameIn, T.nameIn+0.40, t) * (1 - sstep(T.toyOut, T.toyOut+0.30, t));
+  const sbOp = sstep(T.subIn,  T.subIn +0.40, t) * (1 - sstep(T.toyOut, T.toyOut+0.30, t));
+  tn.style.opacity = nmOp;
+  ts.style.opacity = sbOp;
+  nsc.style.opacity = Math.max(nmOp, sbOp) * 0.92;
+  tn.style.transform = 'translateY(' + (12*(1-oQuint(clamp01((t-T.nameIn)/0.6)))) + 'px)';
+  ts.style.transform = 'translateY(' + (12*(1-oQuint(clamp01((t-T.subIn)/0.6)))) + 'px)';
+
+  /* ── 4bis · LE MESSAGE — rideau noir, texte seul, referme le sens ─ */
+  const mcOn = sstep(T.msgIn, T.msgIn+T.msgInDur, t) * (1 - sstep(T.msgOut, T.msgOut+T.msgOutDur, t));
+  mc.style.opacity = mcOn;
+  const m1Op = sstep(T.msgL1In, T.msgL1In+0.40, t) * (1 - sstep(T.msgTxtOut, T.msgTxtOut+T.msgTxtOutDur, t));
+  const m2Op = sstep(T.msgL2In, T.msgL2In+0.40, t) * (1 - sstep(T.msgTxtOut, T.msgTxtOut+T.msgTxtOutDur, t));
+  m1.style.opacity = m1Op;
+  m2.style.opacity = m2Op;
+  m1.style.transform = 'translateY(' + (14*(1-oQuint(clamp01((t-T.msgL1In)/0.55)))) + 'px)';
+  m2.style.transform = 'translateY(' + (14*(1-oQuint(clamp01((t-T.msgL2In)/0.55)))) + 'px)';
+
+  /* ── 5 · LE MUR ───────────────────────────────────────────────── */
+  const wi = sstep(T.wallIn, T.wallIn + T.wallDur, t);           // le dézoom brutal
+  const k  = oQuint(wi);
+  const sc = lerp(1, TILE_SCALE, k);
+  const dy = lerp(0, headCY - 960, k);
+  c3d.style.transform = 'translate(0px,' + dy + 'px) scale(' + sc + ')';
+  wallEl.style.opacity = wi;
+  wallEl.style.transform = 'scale(' + lerp(1.10, 1, k) + ')';
+
+  const wv = clamp01((t - T.wave) / T.waveDur) * 1.28;           // l'onde radiale
+  for (const c of cells){
+    if (c.head) continue;
+    const ig = sstep(c.r - 0.10, c.r + 0.20, wv);
+    c.el.style.filter =
+      'brightness(' + lerp(0.15,1.0,ig).toFixed(3) + ') ' +
+      'saturate('  + lerp(0.22,1.05,ig).toFixed(3) + ') ' +
+      'contrast('  + lerp(0.92,1.06,ig).toFixed(3) + ')';
+    c.el.style.transform = 'scale(' + lerp(0.965, 1, oBack(ig)).toFixed(4) + ')';
+    c.el.style.boxShadow = '0 0 0 1px rgba(61,191,163,' + (ig*0.5).toFixed(3)
+                         + '), 0 0 44px rgba(61,191,163,' + (ig*0.32).toFixed(3) + ')';
+  }
+
+  const wvOn = (t >= T.wave && wv < 1.30) ? 1 : 0;
+  const rad  = wv * maxDist * 1.45;
+  wave.style.opacity = wvOn * (1 - clamp01((wv - 0.5) / 0.85)) * 0.95;
+  wave.style.left = headCX+'px'; wave.style.top = headCY+'px';
+  wave.style.width = (rad*2.4)+'px'; wave.style.height = (rad*2.4)+'px';
+  ring.style.opacity = wvOn * (1 - clamp01(wv / 1.10)) * 0.8;
+  ring.style.left = headCX+'px'; ring.style.top = headCY+'px';
+  ring.style.width = (rad*2)+'px'; ring.style.height = (rad*2)+'px';
+
+  const wt1 = sstep(T.wallTxt, T.wallTxt+0.34, t) * (1 - sstep(T.access, T.access+0.28, t));
+  const wt2 = sstep(T.wallTxt+0.24, T.wallTxt+0.58, t) * (1 - sstep(T.access, T.access+0.28, t));
+  w1.style.opacity = wt1;
+  w2.style.opacity = wt2;
+  w1.style.transform = 'translateY(' + (12*(1-oQuint(clamp01((t-T.wallTxt)/0.6)))) + 'px)';
+  w2.style.transform = 'translateY(' + (12*(1-oQuint(clamp01((t-T.wallTxt-0.24)/0.6)))) + 'px)';
+
+  /* ── 6 · L'ACCÈS ──────────────────────────────────────────────── */
+  const ac = sstep(T.access, T.access+0.55, t);
+  world.style.filter = ac > 0.001 ? 'blur(' + (ac*17).toFixed(1) + 'px)' : 'none';
+  scr.style.opacity = ac;
+
+  const lgO = sstep(T.logoIn, T.logoIn+0.38, t);
+  lg.style.opacity = lgO;
+  lg.style.transform = 'translateX(-50%) translateY(' + (10*(1-oQuint(clamp01((t-T.logoIn)/0.5)))) + 'px)';
+  l1.style.opacity = sstep(T.lessIn, T.lessIn+0.34, t);
+  l2.style.opacity = sstep(T.freeIn, T.freeIn+0.30, t);
+  l2.style.transform = 'scale(' + lerp(0.93, 1, oBack(clamp01((t-T.freeIn)/0.48))) + ')';
+  l3.style.opacity = sstep(T.urlIn, T.urlIn+0.34, t) * 0.85;
+  l4.style.opacity = sstep(T.newsIn, T.newsIn+0.34, t);
+  l4.style.transform = 'translateY(' + (8*(1-oQuint(clamp01((t-T.newsIn)/0.45)))) + 'px)';
+
+  fdo.style.opacity = sstep(T.fade, DUR, t);
+
+  /* ── grain ────────────────────────────────────────────────────── */
+  grn.style.backgroundPosition = ((t*137)%200) + 'px ' + ((t*211)%200) + 'px';
+
+  /* ── la 3D, si elle a réussi à charger ───────────────────────── */
+  if (window.__head3d) window.__head3d(t, { az, el, cut, drag, wi, grab, wallInT: T.wallIn });
+  else if (cut > 0.01){ hf.style.display = 'block'; hf.style.opacity = cut; }
+
+  /* ── le curseur suit l'orbe (position réelle si la 3D est là) ── */
+  const op = window.__orbPos;
+  if (op && hudOn > 0.01){
+    cur.style.left = (op.x + 26) + 'px';
+    cur.style.top  = (op.y + 22) + 'px';
+  } else {
+    cur.style.left = lerp(700, 320, dragE) + 'px';
+    cur.style.top  = lerp(760, 980, Math.sin(dragE*Math.PI)) + 'px';
+  }
+}
+
+/* ══════════════════════ lecture + scrubber ══════════════════════ */
+let tNow = 0, playing = true, last = performance.now();
+const bar=$('bar'), prog=$('prog'), pl=$('play'), lab=$('labels'),
+      btn=$('btn'), rst=$('rst'), tc=$('tc'), shot=$('shot');
+
+SHOTS.forEach(([s], i) => {
+  if (i){ const m = document.createElement('div'); m.className='mk';
+          m.style.left = (s/DUR*100)+'%'; bar.appendChild(m); }
+  const end = i < SHOTS.length-1 ? SHOTS[i+1][0] : DUR;
+  const sp = document.createElement('span');
+  sp.style.width = ((end-s)/DUR*100)+'%';
+  sp.textContent = SHOTS[i][1];
+  lab.appendChild(sp);
+});
+
+function ui(){
+  prog.style.width = (tNow/DUR*100)+'%';
+  pl.style.left = (tNow/DUR*100)+'%';
+  tc.textContent = tNow.toFixed(2)+' s';
+  let s = SHOTS[0][1];
+  for (const [a,n] of SHOTS) if (tNow >= a) s = n;
+  shot.textContent = s;
+}
+function seek(t){ tNow = Math.max(0, Math.min(DUR, t)); render(tNow); ui(); }
+
+bar.addEventListener('pointerdown', e => {
+  const r = bar.getBoundingClientRect();
+  const go = ev => seek(Math.max(0, Math.min(1, (ev.clientX-r.left)/r.width)) * DUR);
+  go(e);
+  const mv = ev => go(ev);
+  const up = () => { window.removeEventListener('pointermove', mv);
+                     window.removeEventListener('pointerup', up); };
+  window.addEventListener('pointermove', mv);
+  window.addEventListener('pointerup', up);
+});
+btn.onclick = () => { playing = !playing; btn.textContent = playing ? 'Pause' : 'Lecture'; last = performance.now(); };
+rst.onclick = () => { seek(0); playing = true; btn.textContent = 'Pause'; last = performance.now(); if (window.__audioReset) window.__audioReset(); };
+window.addEventListener('keydown', e => {
+  if (e.code === 'Space'){ e.preventDefault(); btn.click(); }
+  if (e.code === 'ArrowRight') seek(tNow + (e.shiftKey ? 1 : 1/60));
+  if (e.code === 'ArrowLeft')  seek(tNow - (e.shiftKey ? 1 : 1/60));
+});
+
+function loop(){
+  const now = performance.now(), dt = (now - last) / 1000; last = now;
+  if (playing){
+    const prevT = tNow;
+    tNow += dt;
+    if (tNow >= DUR){ tNow = 0; if (window.__audioReset) window.__audioReset(); }
+    render(tNow);
+    ui();
+    if (window.__audioTick) window.__audioTick(tNow, tNow < prevT ? -1 : prevT, true);
+  }
+  requestAnimationFrame(loop);
+}
+
+function fit(){
+  const avail = window.innerHeight - 130;
+  const s = Math.min(avail / 1920, (window.innerWidth - 60) / 1080);
+  const f = $('frame'), w = $('fit');
+  f.style.transform = 'scale(' + s + ')';
+  w.style.width = (1080*s)+'px'; w.style.height = (1920*s)+'px';
+}
+window.addEventListener('resize', fit);
+fit(); render(0); ui(); loop();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     SON — synthétisé en Web Audio, aucun sample externe.
+     Se déclenche sur clic (politique navigateur), silencieux sinon.
+     Calé sur les mêmes T.* que l'animation : jamais de timestamp en dur.
+     ══════════════════════════════════════════════════════════════════ -->
+<script>
+(() => {
+  let actx = null, master = null, sub = null, armed = false;
+
+  function boot(){
+    if (actx) return;
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    master = actx.createGain(); master.gain.value = 0.9; master.connect(actx.destination);
+
+    // ── sub bed : présence basse continue, quasi inaudible seule, se sent sous tout le reste
+    sub = actx.createOscillator();
+    const subGain = actx.createGain(); subGain.gain.value = 0.0;
+    sub.type = 'sine'; sub.frequency.value = 42;
+    sub.connect(subGain); subGain.connect(master);
+    sub.start();
+    sub.__gain = subGain;
+  }
+
+  function n(){ return actx.currentTime; }
+
+  // impulsion de bruit blanc, utilisée comme base pour whoosh / air / clic
+  function noiseBuffer(dur){
+    const buf = actx.createBuffer(1, actx.sampleRate*dur, actx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i=0;i<d.length;i++) d[i] = Math.random()*2-1;
+    return buf;
+  }
+
+  // whoosh : bruit filtré passe-bande balayé, sur chaque wipe (le trait qui bascule)
+  function sfxWhoosh(dur=0.5, freqFrom=280, freqTo=1600, gain=0.5){
+    const t0 = n();
+    const src = actx.createBufferSource(); src.buffer = noiseBuffer(dur);
+    const bp = actx.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 0.9;
+    bp.frequency.setValueAtTime(freqFrom, t0);
+    bp.frequency.exponentialRampToValueAtTime(freqTo, t0+dur);
+    const g = actx.createGain();
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(gain, t0+dur*0.35);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+    src.connect(bp); bp.connect(g); g.connect(master);
+    src.start(t0); src.stop(t0+dur+0.05);
+  }
+
+  // impact/clic : quand le curseur attrape l'orbe — un clic sec, pas un bruit mou
+  function sfxClick(gain=0.55){
+    const t0 = n();
+    const osc = actx.createOscillator(); osc.type = 'triangle';
+    osc.frequency.setValueAtTime(920, t0);
+    osc.frequency.exponentialRampToValueAtTime(180, t0+0.05);
+    const g = actx.createGain();
+    g.gain.setValueAtTime(gain, t0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+0.09);
+    osc.connect(g); g.connect(master);
+    osc.start(t0); osc.stop(t0+0.11);
+
+    // + un grain de bruit très court pour la texture du clic
+    const src = actx.createBufferSource(); src.buffer = noiseBuffer(0.03);
+    const hp = actx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 2200;
+    const ng = actx.createGain(); ng.gain.setValueAtTime(gain*0.6, t0); ng.gain.exponentialRampToValueAtTime(0.0001, t0+0.03);
+    src.connect(hp); hp.connect(ng); ng.connect(master);
+    src.start(t0);
+  }
+
+  // impact grave : le "ah" du match cut — un coup sourd avec un peu de sub
+  function sfxImpact(gain=0.6){
+    const t0 = n();
+    const osc = actx.createOscillator(); osc.type = 'sine';
+    osc.frequency.setValueAtTime(120, t0);
+    osc.frequency.exponentialRampToValueAtTime(38, t0+0.35);
+    const g = actx.createGain();
+    g.gain.setValueAtTime(gain, t0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+0.55);
+    osc.connect(g); g.connect(master);
+    osc.start(t0); osc.stop(t0+0.6);
+  }
+
+  // air / swell : montée continue de bruit filtré, pour le mur qui s'allume
+  let airSrc = null, airGain = null, airFilter = null;
+  function sfxAirStart(dur){
+    const t0 = n();
+    airSrc = actx.createBufferSource(); airSrc.buffer = noiseBuffer(dur); airSrc.loop = false;
+    airFilter = actx.createBiquadFilter(); airFilter.type = 'bandpass'; airFilter.Q.value = 0.7;
+    airFilter.frequency.setValueAtTime(200, t0);
+    airFilter.frequency.linearRampToValueAtTime(2400, t0+dur);
+    airGain = actx.createGain(); airGain.gain.setValueAtTime(0.0001, t0);
+    airGain.gain.exponentialRampToValueAtTime(0.42, t0+dur*0.82);
+    airGain.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+    airSrc.connect(airFilter); airFilter.connect(airGain); airGain.connect(master);
+    airSrc.start(t0); airSrc.stop(t0+dur+0.1);
+  }
+
+  // ── la partition : chaque event est ancré sur un T.* existant, jamais un chiffre absolu
+  const SCORE = [
+    { at: T.traceIn,                fn: () => sfxWhoosh(0.9, 200, 900, 0.30) },   // le trait se dessine
+    { at: T.wipeOut,                fn: () => sfxWhoosh(T.wipeOutDur, 260, 1500, 0.42) },
+    { at: T.wipeIn,                 fn: () => sfxWhoosh(T.wipeInDur, 1500, 260, 0.42) },
+    { at: T.cut,                    fn: () => sfxImpact(0.65) },                   // le match cut
+    { at: T.grab,                   fn: () => sfxClick(0.6) },                     // le curseur attrape l'orbe
+    { at: T.msgIn,                  fn: () => sfxWhoosh(T.msgInDur+0.3, 500, 140, 0.22) }, // le noir tombe
+    { at: T.wallIn,                 fn: () => sfxWhoosh(T.wallDur+0.2, 220, 700, 0.30) }, // le dézoom brutal
+    { at: T.wave,                   fn: () => sfxAirStart(T.waveDur + 0.6) },      // le swell du mur qui s'allume
+    { at: T.access,                 fn: () => sfxWhoosh(0.6, 500, 120, 0.28) },
+    { at: T.logoIn,                 fn: () => sfxClick(0.35) },
+  ];
+
+  function scheduleSub(t){
+    if (!sub) return;
+    // le sub monte doucement pendant Le Jouet, culmine sur Le Mur, s'efface à L'Accès
+    const on  = Math.max(0, Math.min(1, (t - T.grab) / 1.2));
+    const off = t > T.access ? Math.max(0, 1 - (t - T.access) / 1.2) : 1;
+    const target = 0.05 * on * off;
+    sub.__gain.gain.linearRampToValueAtTime(target, actx.currentTime + 0.08);
+  }
+
+  // appelé à chaque frame par render(), au lieu d'être un timer séparé —
+  // pour rester frame-exact avec le scrub, comme le reste de l'animation
+  window.__audioTick = (t, prevT, isPlaying) => {
+    if (!actx || !armed) return;
+    scheduleSub(t);
+    if (!isPlaying) return;               // on ne déclenche jamais de son en scrub manuel
+    for (const ev of SCORE){
+      if (prevT < ev.at && t >= ev.at) ev.fn();
+    }
+  };
+  window.__audioReset = () => {};
+
+  const sndBtn = document.getElementById('snd');
+  sndBtn.onclick = () => {
+    if (!armed){
+      boot();
+      actx.resume();
+      armed = true;
+      sndBtn.textContent = 'Son : on';
+    } else {
+      armed = !armed;
+      if (!armed && sub) sub.__gain.gain.value = 0;
+      sndBtn.textContent = 'Son : ' + (armed ? 'on' : 'off');
+    }
+  };
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     LA 3D — module séparé : s'il tombe, le storyboard tourne quand même
+     ══════════════════════════════════════════════════════════════════ -->
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader }      from 'three/addons/loaders/GLTFLoader.js';
+import { EffectComposer }  from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass }      from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+/* ← si le liseré de la 3D tombe du mauvais côté par rapport à la photo d'Ibrahim,
+     passe MATCH_AZ à -155. C'est le seul réglage que je ne peux pas voir d'ici. */
+const MATCH_AZ = 155;
+
+const TEAL  = 0x3DBFA3;
+const IVORY = 0xFFF0DC;
+
+try {
+  const cv = document.getElementById('c3d');
+  const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+  renderer.setSize(1080, 1920, false);
+  renderer.setPixelRatio(1);
+  renderer.setClearColor(0x000000, 1);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(28, 1080/1920, 0.1, 100);
+
+  const rim  = new THREE.SpotLight(TEAL,  0, 0, 0.62, 0.75, 2);   // couleur de base teal, modulée dans __head3d pendant Le Jouet
+  const fill = new THREE.SpotLight(IVORY, 0, 0, 0.85, 0.9,  2);
+  const kick = new THREE.SpotLight(0xFFB37A, 0, 0, 0.9, 0.85, 2);   // contre-teinte chaude, évite un creux d'ombre mort
+  const amb  = new THREE.AmbientLight(0xffffff, 0.035);
+  scene.add(rim, rim.target, fill, fill.target, kick, kick.target, amb);
+
+  const orb  = new THREE.Mesh(
+    new THREE.SphereGeometry(0.075, 24, 16),
+    new THREE.MeshBasicMaterial({ color: 0xC7FFF1 })
+  );
+  const glow = new THREE.Mesh(
+    new THREE.SphereGeometry(0.20, 20, 14),
+    new THREE.MeshBasicMaterial({ color: TEAL, transparent: true, opacity: 0.42,
+                                  blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  scene.add(orb, glow);
+
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(1080, 1920), 0.85, 0.62, 0.22);
+  composer.addPass(bloom);
+
+  const DEG = Math.PI/180;
+  const sph = (az, el, r) => new THREE.Vector3(
+    r*Math.cos(el*DEG)*Math.sin(az*DEG),
+    r*Math.sin(el*DEG),
+    r*Math.cos(el*DEG)*Math.cos(az*DEG)
+  );
+  const lerp = (a,b,t) => a + (b-a)*t;
+  const cl01 = v => v<0?0:v>1?1:v;
+  const ss   = (a,b,x) => { const t = cl01((x-a)/(b-a)); return t*t*(3-2*t); };
+
+  const gltf = await new GLTFLoader().loadAsync(
+    'https://threejs.org/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb'
+  );
+
+  let geo = null;
+  gltf.scene.traverse(o => { if (o.isMesh && !geo) geo = o.geometry; });
+  geo.computeBoundingBox();
+  const bb = geo.boundingBox, c = new THREE.Vector3(), sz = new THREE.Vector3();
+  bb.getCenter(c); bb.getSize(sz);
+  geo.translate(-c.x, -c.y, -c.z);
+  geo.scale(2/sz.y, 2/sz.y, 2/sz.y);              // hauteur normalisée à 2 unités
+
+  const headMat = new THREE.MeshStandardMaterial({
+    color: 0xD3C6B6, roughness: 0.55, metalness: 0.0
+  });
+  headMat.onBeforeCompile = shader => {
+    shader.uniforms.uRimColor     = { value: new THREE.Color(TEAL) };  // une seule teinte à la fois — pilotée dans le temps par __head3d
+    shader.uniforms.uRimPower     = { value: 2.4 };
+    shader.uniforms.uRimBoost     = { value: 0.0 };
+    shader.uniforms.uLightPosView = { value: new THREE.Vector3() };    // position de la lumière rim, en espace caméra, recalculée chaque frame
+    shader.uniforms.uRimGatePower = { value: 1.3 };
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <opaque_fragment>',
+      `
+      // Fresnel pur (dépend seulement de l'angle caméra) : s'allume sur TOUT le contour,
+      // peu importe où est la lumière. Physiquement faux pour un rim light, corrigé ci-dessous
+      // par un vrai terme de direction lumière, comme le ferait Three.js en interne.
+      float mdgFresnel = pow(1.0 - saturate(dot(geometryNormal, geometryViewDir)), uRimPower);
+      vec3 mdgToLight = normalize(uLightPosView + vViewPosition);        // vViewPosition = -posFragment ; voir commentaire ci-dessus
+      float mdgFaceLight = saturate(dot(geometryNormal, mdgToLight));
+      float mdgGate = pow(mdgFaceLight, uRimGatePower);                  // n'allume que le côté qui fait face à la source
+      outgoingLight += uRimColor * mdgFresnel * mdgGate * uRimBoost;
+      #include <opaque_fragment>`
+    );
+    shader.fragmentShader =
+      'uniform vec3 uRimColor;\nuniform float uRimPower;\nuniform float uRimBoost;\nuniform vec3 uLightPosView;\nuniform float uRimGatePower;\n' +
+      shader.fragmentShader;
+    headMat.userData.shader = shader;
+  };
+
+  const head = new THREE.Mesh(geo, headMat);
+  scene.add(head);
+
+  /* ancrage spatial : sans lui, le sujet flotte dans un noir total — rien dans la
+     scène ne suggère un sol, un espace, une profondeur de référence (confirmé en
+     relisant tout le fichier : head, orb, glow et les lumières sont les SEULS objets
+     de la scène). Un plan de sol classique avec ombre portée ne fonctionnerait pas ici :
+     le canvas est composé en mix-blend-mode:screen sur fond noir, donc toute zone sombre
+     (une ombre) resterait invisible. La solution est un anneau en lumière ADDITIVE (donc
+     visible en screen blend), posé à plat sous le modèle comme une aura au sol plutôt
+     qu'une vraie ombre — assez discret pour ne jamais distraire du visage, assez présent
+     pour donner un vrai point d'ancrage à l'espace. */
+  const floorHalo = new THREE.Mesh(
+    new THREE.RingGeometry(0.62, 1.35, 48),
+    new THREE.MeshBasicMaterial({ color: TEAL, transparent: true, opacity: 0,
+                                  blending: THREE.AdditiveBlending, depthWrite: false,
+                                  side: THREE.DoubleSide })
+  );
+  floorHalo.rotation.x = -Math.PI/2;    // à plat, comme un disque posé au sol
+  floorHalo.position.y = -1.18;         // juste sous le bas du modèle (normalisé de y=-1 à y=+1)
+  scene.add(floorHalo);
+
+  const proj = new THREE.Vector3();
+
+  window.__head3d = (t, S) => {
+    /* la caméra : très près de la mâchoire au match cut, puis elle recule.
+       Au-delà du pull, un vrai travelling continu, pas une oscillation qui
+       revient sur elle-même. driftPhase avance de façon monotone (jamais
+       Math.sin seul autour d'un centre fixe) : l'angle tourne toujours dans
+       le même sens, lentement, comme un plan-séquence qui contourne le sujet
+       plutôt qu'un cadre qui vibre sur place. Deux fréquences non harmoniques
+       (0.052 et 0.031) évitent toute boucle perceptible sur la durée du Jouet.
+       Le point de visée (lookY/lookX) dérive lui aussi dans l'espace, pas
+       seulement l'angle de la caméra : c'est ça qui donne la sensation de se
+       déplacer AVEC le sujet plutôt que de tourner autour d'un pivot figé.
+       La dérive s'active APRÈS le pull (jamais pendant l'alignement précis du
+       match cut) et s'efface AVANT le dézoom mur (jamais cumulée à ce mouvement). */
+    const pull = ss(5.12, 6.22, t);
+    const wall = S.wi;
+    const drift  = pull * (1 - wall);
+    const dt = Math.max(0, t - 6.22);                                // temps écoulé DEPUIS la fin du pull, pas t absolu :
+                                                                      // driftPhase vaut 0 pile quand drift s'active, donc
+                                                                      // le cadrage du pull n'est jamais perturbé même d'1°
+    const driftPhase = dt * 0.052;                                   // avance seule, ne revient jamais en arrière
+    const camAz   = (14.0 * driftPhase + 6.5 * Math.sin(dt*0.031)) * drift;
+    const camEl   = 4.2 * Math.sin(dt*0.089) * drift;                // aucun déphasage constant : sin(0)=0 pile à l'activation
+    const dolly   = 0.55 * Math.sin(dt*0.067) * drift;               // vrai travelling avant/arrière, pas une simple respiration
+    const lookDrift = 0.34 * Math.sin(dt*0.076) * drift;             // le point de visée glisse dans l'espace, pas seulement l'angle
+
+    const dist = lerp(lerp(2.2, 8.0, pull), 8.6, wall) - dolly;   // 7.0→8.0 et 7.6→8.6 : le cadrage serrait
+                                                                    // trop la largeur du buste (crop confirmé par
+                                                                    // calcul du champ de vision réel, fov=28°/dist=7.0
+                                                                    // → marge quasi nulle voire négative sur les côtés).
+                                                                    // Le match cut (dist=2.2, cadrage macro voulu) et
+                                                                    // le FOV ne sont pas touchés, pour ne changer que
+                                                                    // Le Jouet et Le Mur.
+    const cAz  = lerp(-16, -5, pull) + camAz;
+    const cEl  = lerp(1, 7, pull) + camEl;
+
+    /* pendant Le Jouet, la caméra remonte légèrement son cadrage pour laisser
+       respirer les épaules sous le nom du produit, n'affecte ni le pull (match cut)
+       ni la transition vers le mur, qui a son propre système de cadrage (dy/sc) */
+    const toyFrame = ss(6.90, 7.60, t) * (1 - ss(S.wallInT - 0.4, S.wallInT, t));
+    const lookY = lerp(lerp(-0.30, -0.05, pull), 0.16, toyFrame) + lookDrift * 0.4;
+    const lookX = lookDrift;
+
+    camera.position.copy(sph(cAz, cEl, dist));
+    camera.lookAt(lookX, lookY, 0);
+    camera.updateProjectionMatrix();
+    camera.updateMatrixWorld(true);   // requis avant de projeter la lumière en espace caméra plus bas
+
+    /* la lumière : elle démarre exactement à l'angle du liseré de la photo,
+       puis le curseur la promène — un seul geste, du butterfly au rim */
+    const live = ss(6.30, 6.70, t);
+    const az   = lerp(MATCH_AZ, S.az, live);
+    const el   = lerp(16, S.el, live);
+
+    /* démonstration : la même lumière peut changer de teinte, pas seulement de position —
+       une seule couleur à la fois sur le sujet, jamais un mélange ; le geste reste continu,
+       on ne fait que prouver que la teinte est aussi un paramètre qu'on contrôle.
+       Fenêtre choisie après l'apparition du nom/sous-titre (8.55/9.05) pour ne pas cumuler
+       deux nouveautés visuelles en même temps, et refermée avant toyOut (11.02). */
+    const hueSwing = ss(9.55, 9.95, t) * (1 - ss(10.35, 10.75, t));
+    rim.color.set(TEAL).lerp(new THREE.Color(0xFFB86B), hueSwing);
+
+    const rp = sph(az, el, 3.4);
+    rim.position.copy(rp);
+    rim.intensity = 300 * (0.55 + 0.45*ss(4.30, 5.00, t));
+    rim.target.position.set(0,0,0);
+
+    /* le modèle lui-même : avant ce fix, `head` n'était JAMAIS touché après sa création
+       (aucune rotation, aucune position, nulle part dans le fichier) — un mesh figé, seule
+       la caméra et la lumière bougeaient autour de lui. Il tourne maintenant sur son axe
+       (yaw) en suivant le même geste que dragE (le swing de la lumière, 6.95→10.85s), mais
+       décalé de 0.35s pour ne jamais donner l'impression mécanique d'un sujet "verrouillé"
+       sur la sphère au pixel près, comme s'il réagissait à sa présence avec un temps de
+       retard naturel. yaw part de 0° (jamais d'un extrême non-nul au démarrage) et suit
+       progressivement jusqu'à +18° au maximum du geste. Un tangage (pitch) indépendant, à
+       sa propre fréquence (dt*0.145), va jusqu'à ±6° et ajoute de la vie même aux deux
+       extrémités du swing où dragDelayed ralentit fortement (smoothstep). Assez pour se
+       sentir vivant sans jamais tourner comme une girouette. */
+    const headFollow = ss(6.95, 7.55, t) * (1 - ss(S.wallInT - 0.4, S.wallInT, t));
+    const dragDelayed = ss(6.95 + 0.35, 6.95 + 0.35 + 3.90, t);          // même geste que dragE (6.95→10.85), ~0.35s de retard
+    const yaw = dragDelayed * (18 * DEG) * headFollow;                  // part de 0°, suit progressivement jusqu'à +18° max
+    const pitch = Math.sin(dt*0.145) * (6 * DEG) * headFollow;
+    head.rotation.set(pitch, yaw, 0);
+
+    fill.position.copy(sph(-118, 12, 4.0));
+    fill.intensity = 26;
+    fill.target.position.set(0,0,0);
+
+    kick.position.copy(sph(az + 165, el*0.4, 3.6));
+    kick.intensity = 7 * ss(4.30, 4.65, t) * (1 - ss(5.25, 5.60, t));   // contre-teinte : allumée SEULEMENT pendant le match cut
+    kick.target.position.set(0,0,0);
+
+    if (headMat.userData.shader){
+      headMat.userData.shader.uniforms.uRimColor.value.copy(rim.color);
+      headMat.userData.shader.uniforms.uRimBoost.value = 0.85 * ss(4.30, 5.00, t);
+      headMat.userData.shader.uniforms.uLightPosView.value.copy(rp).applyMatrix4(camera.matrixWorldInverse);
+    }
+
+    /* l'orbe — visible seulement quand on peut l'attraper, il part avec l'onde.
+       Sa couleur suit rim.color en direct : c'est la "source" du hueSwing, elle doit
+       montrer la même teinte que ce qu'elle projette sur la tête. */
+    const orbOn = ss(6.05, 6.50, t) * (1 - ss(14.75, 15.05, t));   // recalé sur le nouveau wallIn (14.00)
+    const sq    = 1 - 0.30*Math.exp(-8*Math.max(0, t - 6.45));
+    orb.visible = glow.visible = orbOn > 0.01;
+    if (orb.visible){
+      orb.material.color.copy(rim.color).lerp(new THREE.Color(0xFFFFFF), 0.35);
+      glow.material.color.copy(rim.color);
+      orb.position.copy(rp).multiplyScalar(0.62);
+      glow.position.copy(orb.position);
+      orb.scale.setScalar(sq * orbOn);
+      glow.scale.setScalar((1.9 - 0.5*sq) * orbOn);
+      glow.material.opacity = 0.32 * orbOn;
+
+      proj.copy(orb.position).project(camera);
+      window.__orbPos = { x: (proj.x*0.5+0.5)*1080, y: (-proj.y*0.5+0.5)*1920 };
+    } else window.__orbPos = null;
+
+    bloom.strength = lerp(0.85, 1.05, S.drag||0);
+    composer.render();
+  };
+} catch (err) {
+  console.warn('3D indisponible — le storyboard tourne avec la silhouette de secours.', err);
+  document.getElementById('headfall').style.display = 'block';
+}
+</script>
+</body>
+</html>

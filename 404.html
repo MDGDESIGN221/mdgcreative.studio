@@ -54,5 +54,31 @@
     <a href="/" class="btn btn-p">← Retour à l'accueil</a>
     <a href="https://wa.me/221763772208" target="_blank" rel="noopener" class="btn btn-s">Me contacter</a>
   </div>
+
+<script id="mdg-404-lang">
+(function(){
+  /* L'URL demandee prime sur la langue du navigateur : un visiteur qui
+     se perd sous /en/ attend une page anglaise, meme si son navigateur
+     est en francais. */
+  var sousEn = /^\/en(\/|$)/.test(location.pathname);
+  var nav = (navigator.language || 'fr').slice(0, 2).toLowerCase();
+  if (!sousEn && nav === 'fr') return;
+
+  document.documentElement.lang = 'en';
+  var t = {
+    '.eyebrow': 'Error 404',
+    'h1': 'This page has moved.',
+    'p': 'The link you followed does not exist, or no longer does. No worries · everything that matters is still in place.',
+    '.btn-p': '← Back to home',
+    '.btn-s': 'Get in touch'
+  };
+  Object.keys(t).forEach(function(sel){
+    var e = document.querySelector(sel);
+    if (e) e.textContent = t[sel];
+  });
+  var accueil = document.querySelector('.btn-p');
+  if (accueil && sousEn) accueil.setAttribute('href', '/en/');
+})();
+</script>
 </body>
 </html>
