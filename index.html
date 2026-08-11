@@ -23606,21 +23606,16 @@ nav .nav-cta[href="/learning-center"]:hover{
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   TITRES : LE TRAITEMENT URANUS
+   TITRES DE SECTION : LE TRAITEMENT URANUS
    ──────────────────────────────────────────────────────────────────
-   Reprise de la recette de la page URANUS, validee a l'ecran :
-   capitales, graisse 700, interligne 0.92, tracking -.04em, premiere
-   ligne pleine et segment accentue en degrade clippe sur le texte.
+   Capitales + degrade sur la PREMIERE partie, le reste en blanc et en
+   casse normale. Le contraste ne vient pas de deux familles mais de
+   deux traitements de la meme famille.
 
-   Consequence assumee : le segment accentue n'est plus en serif
-   italique mais dans la meme famille, en capitales. Le titre devient un
-   BLOC typographique d'une seule voix, au lieu d'un contraste
-   sans/serif. C'est plus studio, moins editorial.
-
-   Le serif Instrument reste employe la ou il est vraiment editorial :
-   la respiration "chapitre par chapitre.", la citation d'ISS.
+   Le HERO en est exclu : "L'ELITE / se remarque." fonctionnait avec son
+   contraste capitales pleines / serif italique degrade. Le passer tout
+   en capitales lui faisait perdre sa respiration.
    ══════════════════════════════════════════════════════════════════ */
-#hero.nhero .nh-title,
 .pass-title,
 #services .svc-h2,
 .proc-title,
@@ -23630,9 +23625,17 @@ nav .nav-cta[href="/learning-center"]:hover{
   line-height:.92!important;
   letter-spacing:-.04em!important;
 }
+.pass-title > .mdg-word > i,
+#services .svc-h2 > .mdg-word > i,
+.proc-title > .mdg-word > i,
+#portH2 > .mdg-word > i{
+  background:linear-gradient(118deg,
+    #FFFFFF 0%, #E9F2C4 34%, var(--accent) 72%, #B4CE38 100%)!important;
+  -webkit-background-clip:text!important; background-clip:text!important;
+  -webkit-text-fill-color:transparent!important;
+}
 
-/* Le segment accentue : meme famille, capitales, degrade */
-#hero.nhero .nh-title em,
+/* Le segment secondaire : blanc, casse normale, aucun degrade. */
 .pass-title em,
 #services .svc-h2 em,
 .proc-title em,
@@ -23642,36 +23645,58 @@ nav .nav-cta[href="/learning-center"]:hover{
   font-style:normal!important;
   font-weight:700!important;
   font-size:1em!important;
-  letter-spacing:-.04em!important;
-  background:linear-gradient(118deg,
-    #FFFFFF 0%,
-    #E9F2C4 32%,
-    var(--accent) 68%,
-    #B4CE38 100%)!important;
-  -webkit-background-clip:text!important; background-clip:text!important;
-  -webkit-text-fill-color:transparent!important; color:transparent!important;
+  text-transform:none!important;
+  letter-spacing:-.03em!important;
+  background:none!important; background-image:none!important;
+  -webkit-text-fill-color:var(--light)!important;
+  color:var(--light)!important;
+}
+.pass-title em .mdg-word > i,
+#services .svc-h2 em .mdg-word > i,
+.proc-title em .mdg-word > i,
+#portH2 em .mdg-word > i{
+  background:none!important; background-image:none!important;
+  -webkit-text-fill-color:var(--light)!important;
+  color:var(--light)!important;
 }
 
-/* Le degrade doit suivre les mots decoupes par le module de revelation,
-   sinon le texte devient invisible : le fond est clippe sur un texte qui
-   vit dans les descendants. */
-#hero.nhero .nh-title em .mdg-word,
-#hero.nhero .nh-title em .mdg-word > i,
-.pass-title em .mdg-word,
-.pass-title em .mdg-word > i,
-#services .svc-h2 em .mdg-word,
-#services .svc-h2 em .mdg-word > i,
-.proc-title em .mdg-word,
-.proc-title em .mdg-word > i{
-  background-image:inherit!important;
+/* ── HERO : etat d'origine retabli ──
+   Capitales pleines pour "L'ELITE", serif italique degrade pour
+   "se remarque.". Le degrade est porte par les MOTS, pas par le
+   parent : le module de revelation deplace le texte dans des
+   descendants, et un fond clippe sur le parent n'a alors plus de
+   texte a clipper — il peignait un bloc plein. */
+#hero.nhero .nh-title{
+  text-transform:none!important;
+  background:none!important;
+  -webkit-text-fill-color:var(--light)!important;
+  color:var(--light)!important;
+  font-size:min(clamp(3.4rem, 10.5vw, 9rem), 18vh)!important;
+  line-height:.84!important;
+  letter-spacing:-.035em!important;
+}
+#hero.nhero .nh-title > .mdg-word > i{
+  background:none!important;
+  -webkit-text-fill-color:var(--light)!important;
+}
+#hero.nhero .nh-title em{
+  display:block;
+  font-family:var(--font-accent)!important;
+  font-style:italic!important;
+  font-weight:400!important;
+  font-size:.56em!important;
+  text-transform:none!important;
+  letter-spacing:-.01em!important;
+  background:none!important;
+}
+#hero.nhero .nh-title em .mdg-word > i{
+  background:linear-gradient(96deg,
+    var(--light) 8%, #DCEBA0 55%, var(--accent) 100%)!important;
   -webkit-background-clip:text!important; background-clip:text!important;
   -webkit-text-fill-color:transparent!important;
 }
-
-/* En capitales, un titre gagne en largeur : on rend un peu d'echelle. */
-#hero.nhero .nh-title{ font-size:min(clamp(3rem, 9.4vw, 7.6rem), 16vh)!important; }
 @media(max-width:767px){
-  #hero.nhero .nh-title{ font-size:clamp(2.3rem,11vw,3.6rem)!important; }
+  #hero.nhero .nh-title{ font-size:clamp(2.7rem,13vw,4.2rem)!important; }
 }
 </style>
 <script id="mdg-quicknav-hero">
