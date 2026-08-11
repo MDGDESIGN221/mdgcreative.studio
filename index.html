@@ -12523,7 +12523,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
     <li><a href="#contact" data-num="06" data-i18n="contact_label" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('contact');else document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <span class="nav-avail" style="flex-direction:column;align-items:flex-end;gap:2px"><span style="display:inline-flex;align-items:center;gap:.5rem"><span class="nav-avail-dot"></span><span data-i18n="nav_avail" style="font-weight:700">Disponible</span></span><span style="font-size:.6rem;letter-spacing:.04em;color:var(--dim)">Kaolack · <span id="kaolackTimeNav">--h--</span></span></span>
+    <span class="nav-avail" ><span style="display:inline-flex;align-items:center;gap:.5rem"><span class="nav-avail-dot"></span><span data-i18n="nav_avail" style="font-weight:700">Disponible</span></span><span style="font-size:.6rem;letter-spacing:.04em;color:var(--dim)">Kaolack · <span id="kaolackTimeNav">--h--</span></span></span>
     <button class="lang-toggle" id="langToggle" aria-label="Changer la langue / Switch language" aria-pressed="false" onclick="toggleLang()">
       <span class="lang-toggle-inner" id="langLabel">EN</span>
     </button>
@@ -14163,14 +14163,14 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
     <div style="padding:8px 26px 46px">
       <div style="font-family:var(--font-display);font-weight:700;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#7a7a75;text-align:center;margin-bottom:22px">Ils m'ont confié leur image</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px 14px;align-items:center;justify-items:center">
-        <img width="2030" height="965" decoding="async" loading="lazy" src="/media/img/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" style="height:24px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
-        <img width="644" height="826" decoding="async" loading="lazy" src="/media/img/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" style="height:30px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
-        <img width="1237" height="479" decoding="async" loading="lazy" src="/media/img/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" style="height:18px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
-        <img width="1743" height="1227" decoding="async" loading="lazy" src="/media/img/mprod_um5ng1.png" alt="Mpossible Prod" style="height:27px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
-        <img width="1096" height="551" decoding="async" loading="lazy" src="/media/img/RWMR_pse7dm.png" alt="RWMR" style="height:22px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
-        <img width="592" height="400" decoding="async" loading="lazy" src="/media/img/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" style="height:26px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
-        <img width="118" height="52" decoding="async" loading="lazy" src="/media/img/SKATEPRO_tqfxrn.png" alt="SkatePro" style="height:24px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
-        <img width="469" height="321" decoding="async" loading="lazy" src="/media/img/OO._ZEUS_f93qc3.png" alt="OO. Zeus" style="height:29px;width:auto;max-width:100%;object-fit:contain;opacity:.9;filter:brightness(0) invert(1)">
+        <img width="2030" height="965" decoding="async" loading="lazy" src="/media/img/Logo_OMZO_BEATZ-02_iulxom.png" alt="Omzo Beatz" class="mdg-partner">
+        <img width="644" height="826" decoding="async" loading="lazy" src="/media/img/ISS_NEW_LOGO_BLACK_ddbx47.png" alt="ISS 814" class="mdg-partner">
+        <img width="1237" height="479" decoding="async" loading="lazy" src="/media/img/SSF_LOGO_04_suwbxk.png" alt="Sine Saloum Festival" class="mdg-partner">
+        <img width="1743" height="1227" decoding="async" loading="lazy" src="/media/img/mprod_um5ng1.png" alt="Mpossible Prod" class="mdg-partner">
+        <img width="1096" height="551" decoding="async" loading="lazy" src="/media/img/RWMR_pse7dm.png" alt="RWMR" class="mdg-partner">
+        <img width="592" height="400" decoding="async" loading="lazy" src="/media/img/Logo_sans_arri_re-plan_hf6kqo.png" alt="One Lyrical" class="mdg-partner">
+        <img width="118" height="52" decoding="async" loading="lazy" src="/media/img/SKATEPRO_tqfxrn.png" alt="SkatePro" class="mdg-partner">
+        <img width="469" height="321" decoding="async" loading="lazy" src="/media/img/OO._ZEUS_f93qc3.png" alt="OO. Zeus" class="mdg-partner">
       </div>
     </div>
   </div>
@@ -14219,8 +14219,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 
 
 
-<section id="process" class="wm-section" style="background:#efe9db;color:#1c1a17;border-top:1px solid rgba(0,0,0,.08)">
-  <div class="process-mob" style="background:#efe9db!important">
+<section id="process" class="wm-section" >
+  <div class="process-mob">
     <div style="padding:46px 26px 52px">
       <div class="mono-jb" style="font-size:.66rem;letter-spacing:.22em;color:#CDE24C;margin-bottom:14px">MÉTHODOLOGIE</div>
       <h2 style="font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1;letter-spacing:-.015em;color:#1c1a17;margin:0 0 26px;border-bottom:2px solid #1c1a17;padding-bottom:22px">Comment je travaille,<em class="serif-dm" style="display:block;font-style:italic;font-weight:400;font-size:1.55rem;color:#E4FA5A;margin-top:.1em">chapitre par chapitre.</em></h2>
@@ -23066,6 +23066,56 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   margin:0 0 .55rem!important;
   mix-blend-mode:normal!important;
   color:var(--dim)!important;
+}
+
+/* ── Rangee de logos partenaires ──
+   Chaque logo portait une hauteur inline arbitraire (24, 30, 18, 27, 22px) :
+   aucune normalisation, donc Omzo Beatz paraissait deux fois plus petit que
+   ses voisins. Ils partagent desormais une BOITE commune et object-fit s'occupe
+   du format. Les silhouettes sont ramenees au blanc : plusieurs fichiers sont
+   des logos noirs, invisibles sur fond sombre. */
+.mdg-partner{
+  height:auto!important;
+  width:auto!important;
+  max-width:100%!important;
+  max-height:34px!important;
+  object-fit:contain!important;
+  filter:brightness(0) invert(1)!important;
+  opacity:.72!important;
+  transition:opacity .25s ease;
+}
+.mdg-partner:hover{ opacity:1!important; }
+@media(max-width:767px){ .mdg-partner{ max-height:28px!important; } }
+
+/* ── Bloc de statut dans la nav ──
+   Il portait un flex-direction:column inline : un empilement de deux
+   lignes au milieu d'une barre dont tous les autres elements tiennent
+   sur une seule. Il cassait le rythme et se retrouvait coince entre le
+   dernier lien et le selecteur de langue. Remis sur une ligne, separe
+   par un point median, dans la voix donnee. */
+nav .nav-avail{
+  flex-direction:row!important;
+  align-items:center!important;
+  gap:.55rem!important;
+  white-space:nowrap;
+}
+nav .nav-avail > span{ display:inline-flex!important; align-items:center; gap:.5rem; }
+nav .nav-avail .nav-avail-sep{
+  width:1px; height:11px; background:var(--border2); display:inline-block;
+}
+nav .nav-right{ gap:1.15rem!important; margin-left:1.5rem; }
+
+/* Le bouton Learning Center de la nav etait borde de vert, juste a cote
+   du CTA vert : deux verts qui se disputent la meme zone. Le Learning
+   Center a deja sa tuile claire dans le hero, il n'a pas besoin du vert
+   ici aussi. */
+nav .nav-cta[href="/learning-center"]{
+  border-color:var(--border2)!important;
+  color:var(--off)!important;
+}
+nav .nav-cta[href="/learning-center"]:hover{
+  border-color:var(--light)!important;
+  color:var(--light)!important;
 }
 </style>
 <script id="mdg-quicknav-hero">
