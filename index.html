@@ -12358,7 +12358,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
     <rect width="1200" height="800" fill="#060606"/>
     <text x="600" y="430" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="180" letter-spacing="8" fill="#f0ede8">MDG</text>
-    <text x="600" y="510" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="34" letter-spacing="14" fill="#8b5cf6">CREATIVE STUDIO</text>
+    <text x="600" y="510" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="600" font-size="34" letter-spacing="14" fill="#8b5cf6">CREATIVE STUDIO</text>
   </svg>
 </template>
 <style id="mdg-mobile-redesign">
@@ -12899,7 +12899,11 @@ a{ transition:color .2s ease, opacity .2s ease; }
 .av2-cover-item:hover .av2-cover-spotify{ color:#fff!important; border-color:rgba(255,255,255,.5)!important; }
 /* Logos Spotify des covers en blanc (mobile grille + desktop liste) */
 a[data-spotify] svg{ fill:#fff !important; }
-#about .rows .r .r-sp{ fill:#000 !important; }
+/* #about est passe en sombre : un glyphe Spotify noir y disparaissait
+   (contraste 1,14 sur rgb(20,20,20)). La regle datait de l'epoque ou la
+   section etait creme, ou le noir se voyait. On rend au logo sa couleur
+   de marque, lisible sur fond sombre. */
+#about .rows .r .r-sp{ fill:#1DB954 !important; }
 
 /* ── HERO : portes (marques / artistes) ── */
 .hero-doors{display:flex;align-items:stretch;flex-shrink:0;border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;max-width:560px;background:rgba(255,255,255,.03);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);margin-bottom:1rem;height:auto!important}
