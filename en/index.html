@@ -23874,6 +23874,15 @@ nav .nav-cta[href="/learning-center"]:hover{
   [data-snap]   .mdg-word > i{ transform:none!important; filter:none!important; }
   [data-orbit] > *{ transform:none!important; opacity:1!important; }
 }
+
+/* Caracteres encore brouilles. Le remplissage est repose explicitement :
+   sur les titres en degrade, le parent impose -webkit-text-fill-color
+   transparent, que ce span heriterait sans avoir de fond a lui — il
+   serait donc purement invisible. */
+.mdg-scr{
+  color:var(--accent)!important;
+  -webkit-text-fill-color:var(--accent)!important;
+}
 </style>
 
 <script id="mdg-motion-js">
@@ -23927,81 +23936,112 @@ nav .nav-cta[href="/learning-center"]:hover{
   }
 
   /* ── 1. REVELATION PAR LIGNES (Dia) ── */
+  /* == 1 & 2. SCRAMBLE ==
+     Le texte se resout caractere par caractere depuis un brouillage, de
+     gauche a droite. Les caracteres encore brouilles portent l'accent :
+     l'oeil suit la ligne de resolution qui balaie le mot.
+
+     Trois precautions que la version React n'a pas a gerer :
+       - la largeur de chaque mot est VERROUILLEE sur sa valeur finale
+         avant le brouillage. Sans cela chaque tick change la largeur du
+         texte et toute la ligne tremble. Elle est relachee a la fin,
+         sinon le titre ne se remettrait plus en page au redimensionnement.
+       - le texte reel est pose en aria-label : un lecteur d'ecran qui
+         lirait le contenu en cours de brouillage n'annoncerait que du
+         charabia.
+       - la resolution est garantie par construction : le minuteur s'arrete
+         en posant le texte final, jamais autrement. */
+  var SCR_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&@$?!/<>*+=';
+
+  function brouiller(txt){
+    var out = '';
+    for (var k = 0; k < txt.length; k++){
+      out += (txt.charAt(k) === ' ') ? ' '
+           : SCR_CHARS.charAt((Math.random() * SCR_CHARS.length) | 0);
+    }
+    return out;
+  }
+
+  function scrambler(porteur, txt, vitesse){
+    var len = txt.length, pas = 0;
+    var id = setInterval(function(){
+      pas += 0.5;
+      var p = Math.floor(pas);
+      if (p >= len){
+        clearInterval(id);
+        porteur.textContent = txt;
+        porteur.style.width = '';           // la mise en page redevient fluide
+        porteur.style.whiteSpace = '';
+        return;
+      }
+      var reste = '';
+      for (var k = p; k < len; k++){
+        reste += (txt.charAt(k) === ' ') ? ' '
+               : SCR_CHARS.charAt((Math.random() * SCR_CHARS.length) | 0);
+      }
+      porteur.textContent = '';
+      porteur.appendChild(document.createTextNode(txt.slice(0, p)));
+      var sp = document.createElement('span');
+      sp.className = 'mdg-scr';
+      sp.textContent = reste;
+      porteur.appendChild(sp);
+    }, vitesse);
+  }
+
+  function jouerScramble(el, words, vitesse, decalage){
+    if (!el.hasAttribute('aria-label')) el.setAttribute('aria-label', el.textContent.trim());
+    words.forEach(function(w, k){
+      var i = w.firstChild, txt = i.textContent;
+      if (!txt) return;
+      /* Largeur figee sur le rendu final : mesuree AVANT toute alteration. */
+      var largeur = Math.ceil(i.getBoundingClientRect().width);
+      i.style.opacity = '1';
+      i.style.transform = 'none';
+      i.style.filter = 'none';
+      if (largeur){ i.style.width = largeur + 'px'; i.style.whiteSpace = 'nowrap'; }
+      /* Brouille des maintenant plutot que de vider : un mot vide en
+         attendant son tour ferait un trou dans le titre. Le decalage ne
+         retarde donc que la RESOLUTION, pas l'apparition. */
+      i.textContent = '';
+      var att = document.createElement('span');
+      att.className = 'mdg-scr';
+      att.textContent = brouiller(txt);
+      i.appendChild(att);
+      setTimeout(function(){ scrambler(i, txt, vitesse); }, k * decalage);
+    });
+  }
+
+  function observer(el, jouer, seuil){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        jouer();
+      });
+    }, { threshold: seuil, rootMargin: '0px 0px -6% 0px' });
+    io.observe(el);
+  }
+
   function initReveal(){
     document.querySelectorAll('[data-reveal]').forEach(function(el){
       var words = splitByLine(el);
       if (!words.length) return;
-      if (REDUCED){
-        /* Fondu seul : pas de translation, pas de flou. Le texte apparait
-           quand meme, ce qui est le but recherche. */
-        var iof = new IntersectionObserver(function(entries){
-          entries.forEach(function(e){
-            if (!e.isIntersecting) return;
-            iof.unobserve(e.target);
-            words.forEach(function(w, k){
-              var i = w.firstChild;
-              i.style.transition = 'opacity .55s ease ' + (k * 0.03) + 's';
-              i.style.opacity = '1'; i.style.transform = 'none'; i.style.filter = 'none';
-            });
-          });
-        }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
-        iof.observe(el);
-        return;
-      }
-      var stagger = parseFloat(el.dataset.revealStagger || 0.08);
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if (!e.isIntersecting) return;
-          words.forEach(function(w){
-            var d = (parseInt(w.dataset.line, 10) || 0) * stagger;
-            var i = w.firstChild;
-            i.style.transition = 'opacity .7s ' + EASE + ' ' + d + 's, ' +
-                                 'transform .9s ' + EASE + ' ' + d + 's, ' +
-                                 'filter .7s ' + EASE + ' ' + d + 's';
-            i.style.opacity = '1'; i.style.transform = 'translateY(0)'; i.style.filter = 'blur(0)';
-          });
-          io.unobserve(e.target);
-        });
-      }, { threshold: 0.25, rootMargin: '0px 0px -8% 0px' });
-      io.observe(el);
+      /* Sous mouvement reduit le brouillage reste : il ne deplace rien.
+         Il est simplement plus court, pour limiter le clignotement. */
+      var vitesse  = REDUCED ? 24 : 32;
+      var decalage = REDUCED ? 45 : 70;
+      observer(el, function(){ jouerScramble(el, words, vitesse, decalage); }, 0.2);
     });
   }
 
-  /* ── 2. SNAP TEXT ──
-     Mots qui se calent d'un coup, sans flou : plus sec que la revelation
-     par lignes. Reserve aux sur-titres, pour ne pas se confondre avec les
-     titres eux-memes. */
+  /* Sur-titres : meme effet, plus vif et plus serre. Ce sont des
+     etiquettes courtes, elles doivent se resoudre avant que l'oeil ne
+     descende sur le titre qu'elles annoncent. */
   function initSnap(){
     document.querySelectorAll('[data-snap]').forEach(function(el){
       var words = splitByLine(el);
       if (!words.length) return;
-      if (REDUCED){
-        var ios = new IntersectionObserver(function(entries){
-          entries.forEach(function(e){
-            if (!e.isIntersecting) return;
-            ios.unobserve(e.target);
-            words.forEach(function(w, k){
-              var i = w.firstChild;
-              i.style.transition = 'opacity .3s ease ' + (k * 0.025) + 's';
-              i.style.opacity = '1'; i.style.transform = 'none';
-            });
-          });
-        }, { threshold: 0.35 });
-        ios.observe(el);
-        return;
-      }
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-          if (!e.isIntersecting) return;
-          words.forEach(function(w, k){
-            var i = w.firstChild;
-            i.style.transition = 'opacity .26s ease ' + (k*0.045) + 's, transform .42s ' + EASE + ' ' + (k*0.045) + 's';
-            i.style.opacity = '1'; i.style.transform = 'translateY(0)';
-          });
-          io.unobserve(e.target);
-        });
-      }, { threshold: 0.4 });
-      io.observe(el);
+      observer(el, function(){ jouerScramble(el, words, REDUCED ? 18 : 22, 32); }, 0.35);
     });
   }
 
@@ -24099,7 +24139,80 @@ nav .nav-cta[href="/learning-center"]:hover{
     /* Les lignes se calculent sur la mise en page finale : on attend les
        polices, sinon le regroupement se fait sur les metriques de secours
        et les ruptures de ligne tombent au mauvais endroit. */
-    var start = function(){ initReveal(); initSnap(); initCount(); initOrbit(); };
+
+  /* == 5. MARQUAGE AUTOMATIQUE ==
+     Le module ne servait qu'aux elements balises a la main : neuf sur
+     toute la page, d'ou un site qui paraissait immobile. Les sur-titres
+     sont marques ici, une seule fois, plutot que dans le HTML des deux
+     langues. Le snap leur est destine : bref et sec, il ne concurrence
+     pas la revelation des titres. */
+  var SURTITRES = '.pass-eyebrow,.port-new-eyebrow,.contact-eyebrow,' +
+                  '.contact-form-eyebrow,.sec-label,.info-label,' +
+                  '.contact-side-num,.abg-tag,.nh-idx';
+  function autoMarquage(){
+    document.querySelectorAll(SURTITRES).forEach(function(e){
+      /* Jamais les etiquettes de formulaire : un libelle qui apparait en
+         differe gene la saisie au lieu de la servir. */
+      if (e.closest('form')) return;
+      if (e.hasAttribute('data-reveal') || e.hasAttribute('data-snap')) return;
+      e.setAttribute('data-snap', '');
+    });
+  }
+
+  /* == 6. ENTREE DES FAMILLES ==
+     Les grilles arrivaient d'un seul bloc. Un decalage court entre leurs
+     elements donne un sens de lecture sans retarder la lecture. */
+  var FAMILLES = [['#about .abg-grid', '.abg-cell'],
+                  ['#social-proof', '.sp-vcard-hero']];
+  function initGroupes(){
+    FAMILLES.forEach(function(paire){
+      var hote = document.querySelector(paire[0]);
+      if (!hote) return;
+      var enfants = Array.prototype.slice.call(hote.querySelectorAll(paire[1]))
+                     .filter(function(c){ return c.getClientRects().length; });
+      if (enfants.length < 2) return;
+
+      /* Si la famille est deja a l'ecran au chargement, il n'y a rien a
+         reveler : la masquer pour la refaire apparaitre serait un clignotement.
+         On ne prepare que ce qui est encore hors champ. */
+      var r = hote.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) return;
+
+      enfants.forEach(function(c){
+        c.style.opacity = '0';
+        if (!REDUCED) c.style.transform = 'translateY(16px)';
+      });
+
+      function montrer(){
+        enfants.forEach(function(c, k){
+          if (c.style.opacity !== '0') return;
+          var d = Math.min(k * 0.055, 0.5);
+          c.style.transition = 'opacity .6s ease ' + d + 's' +
+            (REDUCED ? '' : ', transform .75s ' + EASE + ' ' + d + 's');
+          c.style.opacity = '1';
+          c.style.transform = 'none';
+        });
+      }
+
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          montrer();
+        });
+      }, { threshold: 0.12 });
+      io.observe(hote);
+
+      /* Filet de securite : du contenu invisible est bien pire qu'une
+         absence d'animation. Si l'observateur ne se declenche pas — onglet
+         en arriere-plan au chargement, element sorti du flux — on affiche.
+         Le delai est long a dessein : trop court, il revelerait la famille
+         avant meme que le visiteur y arrive, ce qui annule l'effet. */
+      setTimeout(montrer, 12000);
+    });
+  }
+
+    var start = function(){ autoMarquage(); initReveal(); initSnap(); initCount(); initOrbit(); initGroupes(); };
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
     else start();
 
