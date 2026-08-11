@@ -13107,6 +13107,17 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
         }
       </style>
         
+        <a class="lc-cta" href="/learning-center" aria-label="Open the Learning Center · Interactive 3D Rim Light, free">
+          <span class="lc-cta__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#101206" stroke-width="1.6"/><path d="M15.5 9.2a5 5 0 1 0 0 5.6" stroke="#101206" stroke-width="1.9" stroke-linecap="round"/></svg>
+          </span>
+          <span class="lc-cta__body">
+            <span class="lc-cta__eyebrow">Learning Center<span class="lc-cta__new">Gratuit</span></span>
+            <span class="lc-cta__title">Comprends la lumière en 3D</span>
+            <span class="lc-cta__sub">Rim light, cross-light, Fresnel · 7 leçons interactives, sans inscription.</span>
+          </span>
+          <span class="lc-cta__go"><span>Découvrir</span><i>&rarr;</i></span>
+        </a>
         <div class="nh-meta"><span><b data-mdg-count>7+</b>ans</span><span><b data-mdg-count>50+</b>artistes</span><span><b data-mdg-count>9</b>pays</span></div>
         <div class="nh-collabs">
           <div class="nh-pics">
@@ -13132,23 +13143,6 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 </section>
 
 <!-- ── PASSERELLE : intro artiste (les marques passent par l'Atelier via le hero) ── -->
-<!-- Bande Learning Center : sortie du hero, ou elle concurrencait le
-     choix principal marques/artistes. Elle reste immediatement
-     visible sous la ligne de flottaison, en offre secondaire assumee. -->
-<section class="lc-band">
-<a class="lc-cta" href="/learning-center" aria-label="Open the Learning Center · Interactive 3D Rim Light, free">
-          <span class="lc-cta__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#101206" stroke-width="1.6"/><path d="M15.5 9.2a5 5 0 1 0 0 5.6" stroke="#101206" stroke-width="1.9" stroke-linecap="round"/></svg>
-          </span>
-          <span class="lc-cta__body">
-            <span class="lc-cta__eyebrow">Learning Center<span class="lc-cta__new">Gratuit</span></span>
-            <span class="lc-cta__title">Comprends la lumière en 3D</span>
-            <span class="lc-cta__sub">Rim light, cross-light, Fresnel · 7 leçons interactives, sans inscription.</span>
-          </span>
-          <span class="lc-cta__go"><span>Découvrir</span><i>&rarr;</i></span>
-        </a>
-</section>
-
 <section id="passerelle" class="passerelle">
   <div class="pass-wrap">
     <div class="pass-intro">
@@ -22656,28 +22650,10 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
 #hero.nhero .nh-imgcol,
 #hero.nhero .nh-pic.loaded{ background:var(--surface)!important; }
 
-/* Bouton primaire : il etait noir sur fond clair, il disparaitrait sur
-   fond noir. Il devient l'aplat vert — le seul de l'ecran. */
-#hero.nhero .nh-actions .nh-btn--primary,
-#hero.nhero .nh-actions a:first-child{
-  background:var(--accent)!important;
-  color:var(--black)!important;
-  border-color:var(--accent)!important;
-}
-#hero.nhero .nh-actions a:first-child:hover{
-  background:var(--accent-press)!important;
-  border-color:var(--accent-press)!important;
-}
-/* Bouton secondaire : contour clair */
-#hero.nhero .nh-actions a:nth-child(2){
-  background:transparent!important;
-  color:var(--light)!important;
-  border:1px solid var(--border2)!important;
-}
-#hero.nhero .nh-actions a:nth-child(2):hover{
-  border-color:rgba(255,255,255,.34)!important;
-  background:rgba(255,255,255,.04)!important;
-}
+/* Les boutons du hero sont desormais definis dans le bloc #mdg-hero.
+   Les regles nth-child qui vivaient ici avaient une specificite
+   superieure et retablissaient une bordure complete sur le bouton
+   secondaire, alors qu'il doit etre un simple lien souligne. */
 
 /* Carte Learning Center : etait une carte vert pale sur fond creme.
    Devient une surface sombre bordee, le vert ne sert plus que d'accent. */
@@ -22789,46 +22765,47 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
 </style>
 <style id="mdg-hero">
 /* ══════════════════════════════════════════════════════════════════
-   HERO — recomposition
+   HERO — v2 : composition en blocs
    ──────────────────────────────────────────────────────────────────
-   Avant : grille 1.35fr/1fr (le partage 60/40 de n'importe quel
-   template), image en carte arrondie, et NEUF blocs empiles puis
-   centres verticalement dans la colonne de gauche. Le hero essayait de
-   tout dire en meme temps : titre, accroche, deux boutons, une carte
-   promo lumineuse, des statistiques, des avatars. Rien ne dominait.
+   v1 corrigeait l'echelle du titre mais gardait le schema texte-a-gauche
+   / image-a-droite : la structure la plus vue du web. Resultat : plus
+   grand, mais toujours classique et trop vide. Et le Learning Center,
+   reduit a une ligne grise, avait perdu toute presence alors que c'est
+   le produit d'appel.
 
-   Apres : le TYPE domine, l'image devient un contre-champ qui deborde
-   du cadre, et tout le materiel de preuve (chiffres, collaborations,
-   Learning Center) descend dans une bande basse separee par un filet.
-   Une seule action verte a l'ecran.
+   v2 : une grille de blocs. Le titre reste dominant mais le vide du
+   milieu est occupe par la tuile Learning Center, qui devient la seule
+   SURFACE CLAIRE de la page. Sur un site noir, un aplat clair est
+   l'evenement visuel le plus fort qui existe — plus fort que le vert,
+   et d'une nature differente, donc sans concurrence avec le CTA.
 
-   Aucune modification du DOM : .nh-txt passe en display:contents en
-   desktop, ses enfants deviennent donc des cellules de la grille
-   parente et se placent librement. Le mobile garde son empilement.
+   Repartition des emphases :
+     vert plein  → action principale (marques)
+     aplat clair → offre gratuite (Learning Center)
+     filets      → structure editoriale
    ══════════════════════════════════════════════════════════════════ */
 
 /* ── Le titre porte la page ── */
 #hero.nhero .nh-title{
-  /* Borne par la HAUTEUR autant que par la largeur : sur un ecran bas
-     (portable, 694px utiles) un titre calibre uniquement en vw poussait
-     la bande de preuve hors de l'ecran. */
-  font-size:min(clamp(3.6rem, 11.5vw, 10rem), 19vh)!important;
+  /* Borne par la HAUTEUR autant que par la largeur : cale uniquement en
+     vw, il poussait la bande de preuve hors de l'ecran sur un portable. */
+  font-size:min(clamp(3.4rem, 10.5vw, 9rem), 18vh)!important;
   line-height:.84!important;
   letter-spacing:-.035em!important;
   margin:0!important;
 }
 #hero.nhero .nh-title em{
-  font-size:.58em!important;
+  font-size:.56em!important;
   letter-spacing:-.01em!important;
   color:var(--light)!important;
 }
 
-/* ── Une seule action verte, la seconde redevient un lien ── */
+/* ── Une seule action verte ── */
 #hero.nhero .nh-btn--p{
   background:var(--accent)!important;
   color:var(--black)!important;
   border:none!important;
-  padding:16px 30px!important;
+  padding:15px 28px!important;
 }
 #hero.nhero .nh-btn--p:hover{
   background:var(--accent-press)!important;
@@ -22839,7 +22816,7 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   background:transparent!important;
   border:none!important;
   color:var(--off)!important;
-  padding:16px 4px!important;
+  padding:15px 4px!important;
   border-radius:0!important;
   border-bottom:1px solid rgba(255,255,255,.18)!important;
 }
@@ -22849,10 +22826,10 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   transform:none!important;
 }
 
-/* ── L'image : contre-champ, plus une carte ── */
+/* ── Image : contre-champ, plus une carte ── */
 #hero.nhero .nh-imgcol{
   border-radius:0!important;
-  background:var(--ink-800,#0e0e0e)!important;
+  background:#0e0e0e!important;
   min-height:0!important;
 }
 #hero.nhero .nh-imgcol img{
@@ -22866,57 +22843,85 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   backdrop-filter:blur(6px)!important;
 }
 
-/* ── Bande basse : la preuve, pas l'argument ── */
-#hero.nhero .nh-meta b{
-  font-size:1.9rem!important;
-  color:var(--light)!important;
-}
-#hero.nhero .nh-collabs-names .hl{ color:var(--off)!important; }   /* plus de vert ici */
-#hero.nhero .nh-pic{ border-color:var(--black)!important; background:var(--surface)!important; }
-
-/* ── Learning Center : une ligne, plus une carte lumineuse ──
-   La carte bordee de vert avec balayage lumineux volait l'attention au
-   CTA principal, et le glow est exactement l'effet a proscrire. */
-.lc-band .lc-cta{
+/* ══════════════════════════════════════════════════════════════════
+   TUILE LEARNING CENTER — la seule surface claire de la page
+   La version d'origine etait une carte sombre bordee de vert avec un
+   balayage lumineux et un halo : l'effet etait tapageur mais l'element
+   restait sombre sur fond sombre. Un aplat clair ressort davantage,
+   sans aucun effet.
+   ══════════════════════════════════════════════════════════════════ */
+#hero.nhero .lc-cta{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:.75rem!important;
+  background:var(--light)!important;
   border:none!important;
-  border-top:1px solid var(--border)!important;
-  border-radius:0!important;
-  background:transparent!important;
-  padding:1rem 0 0!important;
-  margin-top:0!important;
-  gap:.85rem!important;
+  border-radius:4px!important;
+  padding:1.15rem 1.25rem!important;
+  margin:0!important;
+  box-shadow:none!important;
+  transition:transform .3s cubic-bezier(.16,1,.3,1)!important;
 }
-.lc-band .lc-cta::before{ display:none!important; }   /* balayage lumineux supprime */
-.lc-band .lc-cta:hover,
-.lc-band .lc-cta:focus-visible{
-  transform:none!important;
-  background:transparent!important;
-  border-top-color:var(--border2)!important;
+#hero.nhero .lc-cta::before{ display:none!important; }   /* balayage lumineux supprime */
+#hero.nhero .lc-cta:hover{
+  transform:translateY(-3px)!important;
+  background:#fff!important;
   box-shadow:none!important;
 }
-.lc-band .lc-cta__icon{
-  width:32px!important;height:32px!important;border-radius:8px!important;
-  background:transparent!important;
-  border:1px solid var(--border2)!important;
-  box-shadow:none!important;                              /* halo supprime */
+#hero.nhero .lc-cta__icon{
+  width:38px!important;height:38px!important;border-radius:9px!important;
+  background:var(--accent)!important;      /* seul accent vert de la tuile */
+  border:none!important;
+  box-shadow:none!important;               /* halo supprime */
+  flex:none!important;
 }
-.lc-band .lc-cta__icon svg{ width:16px!important;height:16px!important; }
-.lc-band .lc-cta__icon svg *{ stroke:var(--off)!important; }
-.lc-band .lc-cta__eyebrow{
-  font-family:var(--font-display)!important;              /* JetBrains Mono n'est pas chargee */
-  color:var(--dim)!important;
+#hero.nhero .lc-cta__icon svg{ width:20px!important;height:20px!important; }
+#hero.nhero .lc-cta__icon svg *{ stroke:#101206!important; }
+#hero.nhero .lc-cta__body{
+  flex:1 1 auto!important;
+  display:flex!important; flex-direction:column!important; gap:.3rem!important;
 }
-.lc-band .lc-cta__new{
-  background:transparent!important;
-  color:var(--dim)!important;
-  border:1px solid var(--border2)!important;
+#hero.nhero .lc-cta__eyebrow{
+  font-family:var(--font-display)!important;   /* JetBrains Mono n'est pas chargee */
+  font-size:.58rem!important;
+  color:#6f6b64!important;
 }
-.lc-band .lc-cta__title{ font-size:.94rem!important; color:var(--light)!important; }
-.lc-band .lc-cta__sub{ color:var(--dim)!important; }
-.lc-band .lc-cta__go{ color:var(--off)!important; }
-.lc-band .lc-cta:hover .lc-cta__go{ color:var(--light)!important; }
+#hero.nhero .lc-cta__new{
+  background:#101206!important;
+  color:var(--accent)!important;
+  border:none!important;
+}
+#hero.nhero .lc-cta__title{
+  font-size:1.02rem!important;
+  color:#101206!important;
+  line-height:1.15!important;
+}
+#hero.nhero .lc-cta__sub{ color:#5c5a54!important; font-size:.74rem!important; }
+#hero.nhero .lc-cta__go{
+  color:#101206!important;
+  font-size:.76rem!important;
+  align-self:flex-start!important;
+}
+#hero.nhero .lc-cta:hover .lc-cta__go i{ transform:translateX(5px)!important; }
 
-/* ══════════ DESKTOP : la vraie recomposition ══════════ */
+/* ── Bande basse ── */
+#hero.nhero .nh-meta b{ font-size:1.8rem!important; color:var(--light)!important; }
+#hero.nhero .nh-collabs-names .hl{ color:var(--off)!important; }
+#hero.nhero .nh-pic{ border-color:var(--black)!important; background:var(--surface)!important; }
+
+/* Le rail de navigation affichait "Accueil" alors qu'on est deja en haut,
+   et sa pastille fixe recouvrait les chiffres. Il n'apparait qu'apres. */
+#quick-nav,
+#scrollIndicator{ transition:opacity .3s ease, transform .3s cubic-bezier(.16,1,.3,1); }
+#quick-nav.qn-hidden{ opacity:0; transform:translateY(10px); pointer-events:none; }
+/* Le rail vertical posait son libelle "Accueil" par-dessus le portrait.
+   Meme raison que la pastille : on est deja en haut, l'indication est
+   redondante tant qu'on n'a pas quitte le hero. */
+#scrollIndicator.qn-hidden{ opacity:0; pointer-events:none; }
+
+/* ══════════ DESKTOP : la grille de blocs ══════════ */
 @media(min-width:768px){
   #hero.nhero .nh-in{ max-width:1440px!important; }
 
@@ -22924,119 +22929,98 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   #hero.nhero .nh-txt{ display:contents!important; }
 
   #hero.nhero .nh-cols{
-    grid-template-columns:minmax(0,1fr) clamp(280px,28vw,420px)!important;
+    height:100%!important;
+    grid-template-columns:minmax(0,1fr) minmax(230px,.62fr) clamp(230px,21vw,330px)!important;
     grid-template-areas:
-      "titre  image"
-      "lede   image"
-      "actes  image"
-      "chiffres collabs"!important;
-    grid-template-rows:auto auto auto auto!important;
-    align-content:center!important;
-    column-gap:clamp(32px,5vw,72px)!important;
+      "titre    titre     image"
+      "lede     learning  image"
+      "actes    learning  image"
+      "chiffres collabs   collabs"!important;
+    /* L'espace libre est place sur la DERNIERE rangee : sinon il
+       s'ouvrait sous les boutons et laissait un vide de 165px au milieu
+       de la colonne gauche. Le groupe titre/accroche/actions reste
+       soude, la bande de preuve se cale en bas. */
+    grid-template-rows:auto auto auto 1fr!important;
+    align-content:stretch!important;
+    column-gap:clamp(20px,2.4vw,34px)!important;
     row-gap:0!important;
   }
 
-  #hero.nhero .nh-title   { grid-area:titre;    align-self:end; }
-  #hero.nhero .nh-lede    { grid-area:lede;     max-width:38ch!important;
-                            margin:clamp(14px,1.8vw,24px) 0 0!important; }
-  #hero.nhero .nh-actions { grid-area:actes;    margin-top:clamp(16px,2.2vw,26px)!important; }
+  #hero.nhero .nh-title   { grid-area:titre;  align-self:center; }
+  #hero.nhero .nh-lede    { grid-area:lede;   max-width:30ch!important;
+                            text-wrap:pretty;
+                            margin:clamp(14px,1.8vw,22px) 0 0!important; align-self:start; }
+  #hero.nhero .nh-actions { grid-area:actes;  margin-top:clamp(14px,1.8vw,20px)!important;
+                            align-self:start; }
 
-  /* L'image occupe les trois premieres rangees et deborde a droite */
+  /* La tuile occupe le vide du milieu, sur deux rangees */
+  #hero.nhero .lc-cta{
+    grid-area:learning;
+    margin-top:clamp(14px,1.8vw,22px)!important;
+    align-self:stretch!important;
+  }
+
   #hero.nhero .nh-imgcol{
     grid-area:image;
     align-self:stretch;
     margin-right:calc(50% - 50vw)!important;   /* debord jusqu'au bord de l'ecran */
-    min-height:clamp(380px,52vh,620px)!important;
+    min-height:clamp(300px,44vh,540px)!important;
   }
 
-  /* La grille occupe toute la hauteur et repartit l'espace libre :
-     le titre respire en haut, la bande de preuve se cale en bas. Sans
-     ca le contenu depassait la ligne de flottaison de ~100px et les
-     chiffres etaient coupes. */
-  #hero.nhero .nh-cols{ height:100%!important; align-content:space-between!important; }
-
-  /* Bande basse, separee par un filet */
+  /* Bande basse, filet continu */
   #hero.nhero .nh-meta{
     grid-area:chiffres;
-    margin-top:clamp(18px,2.4vw,30px)!important;
+    margin-top:clamp(16px,2.2vw,28px)!important;
     padding-top:14px!important;
     border-top:1px solid var(--border)!important;
     align-self:end;
   }
   #hero.nhero .nh-collabs{
     grid-area:collabs;
-    margin-top:clamp(18px,2.4vw,30px)!important;
+    margin-top:clamp(16px,2.2vw,28px)!important;
     padding-top:14px!important;
     border-top:1px solid var(--border)!important;
     justify-content:flex-end!important;
     text-align:right;
     align-self:end;
   }
-  /* Le Learning Center vit desormais dans .lc-band, sous le hero :
-     surtitre, titre et precision sur un seul rang. */
-  .lc-band .lc-cta__body{
-    flex-direction:row!important;
-    align-items:baseline!important;
-    gap:.85rem!important;
-    flex-wrap:wrap!important;
-  }
-  .lc-band .lc-cta__sub{ font-size:.74rem!important; }
 
   #hero.nhero .nh-imgwrap-mob{ display:none!important; }
 }
 
-/* ══════════ MOBILE : empilement conserve, hierarchie resserree ══════════ */
+/* ══════════ MOBILE ══════════ */
 @media(max-width:767px){
-  /* La barre d'onglets mobile est fixe, 56px, au ras du bas. Sans cette
-     reserve elle recouvrait la ligne des collaborations de 23px. */
-  #hero.nhero{
-    padding-bottom:calc(56px + env(safe-area-inset-bottom,0px) + 18px)!important;
-  }
-  #hero.nhero .nh-title{ font-size:clamp(2.9rem,14vw,4.4rem)!important; }
+  /* La barre d'onglets mobile est fixe, 56px, au ras du bas. */
+  #hero.nhero{ padding-bottom:calc(56px + env(safe-area-inset-bottom,0px) + 18px)!important; }
+  #hero.nhero .nh-title{ font-size:clamp(2.7rem,13vw,4.2rem)!important; }
   /* L'image mobile faisait 260px : le hero se terminait pile sous la barre
-     d'onglets et la ligne des collaborations passait dessous. Bornee par la
-     hauteur d'ecran, elle rend ~50px et tout repasse au-dessus. */
-  #hero.nhero .nh-imgwrap-mob{
-    height:clamp(170px,26vh,240px)!important;
-    margin-top:16px!important;
-  }
+     d'onglets et la ligne des collaborations passait dessous. */
+  #hero.nhero .nh-imgwrap-mob{ height:clamp(150px,22vh,210px)!important; margin-top:14px!important; }
   #hero.nhero .nh-imgwrap-mob img{ height:100%!important; object-fit:cover!important; }
   #hero.nhero .nh-actions{ flex-direction:column!important; align-items:stretch!important; gap:10px!important; }
   #hero.nhero .nh-btn--p{ justify-content:center!important; }
   #hero.nhero .nh-btn--s{ justify-content:center!important; border-bottom:none!important; }
+
+  /* Tuile compacte : icone + titre + fleche sur un rang */
+  #hero.nhero .lc-cta{
+    flex-direction:row!important;
+    align-items:center!important;
+    text-align:left!important;
+    margin-top:14px!important;
+    padding:.85rem 1rem!important;
+    gap:.8rem!important;
+  }
+  #hero.nhero .lc-cta__sub{ display:none!important; }
+  #hero.nhero .lc-cta__title{ font-size:.94rem!important; }
+  #hero.nhero .lc-cta__go span{ display:none!important; }
+
   #hero.nhero .nh-meta{
-    margin-top:28px!important; padding-top:18px!important;
+    margin-top:20px!important; padding-top:14px!important;
     border-top:1px solid var(--border)!important;
     justify-content:space-between!important;
   }
-  #hero.nhero .nh-meta b{ font-size:1.5rem!important; }
-  .lc-band .lc-cta{ margin-top:18px!important; }
+  #hero.nhero .nh-meta b{ font-size:1.4rem!important; }
 }
-
-/* ── Bande Learning Center, sous le hero ──
-   Un filet, une ligne, rien de plus. Elle signale une offre sans
-   disputer l'attention au choix marques/artistes du hero. */
-.lc-band{
-  background:var(--black);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  padding:0 clamp(20px,4vw,48px);
-}
-.lc-band .lc-cta{
-  max-width:1440px;
-  margin:0 auto!important;
-  border-top:none!important;
-  padding:clamp(14px,1.8vw,20px) 0!important;
-}
-@media(max-width:767px){
-  .lc-band .lc-cta__sub{ display:none!important; }   /* la ligne reste une ligne */
-}
-
-/* Le rail de navigation indiquait "Accueil" alors qu'on est deja en haut :
-   information redondante, et sa pastille fixe recouvrait les chiffres du
-   hero. Il n'apparait qu'une fois le hero quitte. */
-#quick-nav{ transition:opacity .3s ease, transform .3s cubic-bezier(.16,1,.3,1); }
-#quick-nav.qn-hidden{ opacity:0; transform:translateY(10px); pointer-events:none; }
 </style>
 <script id="mdg-quicknav-hero">
 (function(){
@@ -23046,8 +23030,10 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   var ticking = false;
   function sync(){
     ticking = false;
-    var seuil = hero.offsetHeight - 120;
-    qn.classList.toggle('qn-hidden', (window.scrollY || 0) < seuil);
+    var cache = (window.scrollY || 0) < hero.offsetHeight - 120;
+    qn.classList.toggle('qn-hidden', cache);
+    var rail = document.getElementById('scrollIndicator');
+    if (rail) rail.classList.toggle('qn-hidden', cache);
   }
   window.addEventListener('scroll', function(){
     if (!ticking){ ticking = true; requestAnimationFrame(sync); }
