@@ -14936,9 +14936,7 @@ function submitPackForm(e) {
   if (!name || !contact) return;
 
   var btn = e.target.querySelector('.pack-modal-submit');
-  var origText = btn.textContent;
-  btn.textContent = 'Envoi…';
-  btn.disabled = true;
+  window.mdgForm.envoi(btn);
 
   var WEB3FORMS_KEY = '7db2eac5-7a46-40db-a864-8b99ea9f4b7b';
   fetch('https://api.web3forms.com/submit', {
@@ -14956,17 +14954,13 @@ function submitPackForm(e) {
     })
   }).then(function(res) { return res.json(); }).then(function(data) {
     if (data.success) {
-      btn.textContent = '✓ Demande envoyée !';
+      window.mdgForm.succes(btn);
       setTimeout(function() { closePackModal(); }, 2000);
     } else {
-      btn.textContent = origText;
-      btn.disabled = false;
-      alert('Erreur lors de l\'envoi. Contacte-moi directement sur WhatsApp.');
+      window.mdgForm.erreur(btn, false);
     }
   }).catch(function() {
-    btn.textContent = origText;
-    btn.disabled = false;
-    alert('Erreur réseau. Contacte-moi sur WhatsApp ou Instagram.');
+    window.mdgForm.erreur(btn, true);
   });
 }
 </script>
@@ -20594,9 +20588,7 @@ function faqToggle(el){
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var btn = document.getElementById('cqfBtn');
-    var origHTML = btn.innerHTML;
-    btn.textContent = 'Envoi…';
-    btn.disabled = true;
+    window.mdgForm.envoi(btn);
 
     // Collect form data
     var fd = new FormData(form);
@@ -20634,14 +20626,10 @@ function faqToggle(el){
         var success = document.getElementById('cqfSuccess');
         if (success) success.classList.add('show');
       } else {
-        btn.innerHTML = origHTML;
-        btn.disabled = false;
-        btn.textContent = 'Erreur, réessaie';
+        window.mdgForm.erreur(btn, false);
       }
     }).catch(function(){
-      btn.innerHTML = origHTML;
-      btn.disabled = false;
-      btn.textContent = 'Erreur réseau, réessaie';
+      window.mdgForm.erreur(btn, true);
     });
   });
 })();
@@ -24381,6 +24369,140 @@ nav .nav-cta[href="/learning-center"]:hover{
   }, {passive:true});
 
   placer(bar.querySelector('.mob-tab.active:not(.mob-tab-cta)') || onglets[0], false);
+})();
+</script>
+
+<style id="mdg-form-states">
+/* ══════════════════════════════════════════════════════════════════
+   ETATS DE FORMULAIRE : ENVOI, ERREUR, SUCCES
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Envoi. Un balayage traverse le libelle pendant l'aller-retour reseau.
+   Il ne pretend pas connaitre la progression : il dit seulement que ca
+   travaille, ce qui est exactement l'information disponible. Il s'arrete
+   des que la reponse arrive — c'est ce qui le separe d'un ornement.
+   Le texte est noir sur le vert : la bande rend ce noir partiellement
+   transparent, donc le vert du bouton traverse la lettre et celle-ci
+   s'eclaircit au passage. */
+.mdg-shim{
+  background-image:linear-gradient(100deg,
+    currentColor 0%, currentColor 40%,
+    rgba(6,6,6,.26) 50%,
+    currentColor 60%, currentColor 100%);
+  background-size:260% 100%;
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:mdg-shim 1.15s linear infinite;
+}
+@keyframes mdg-shim{ from{ background-position:200% 0 } to{ background-position:-60% 0 } }
+
+@media(prefers-reduced-motion:reduce){
+  /* Le balayage est un deplacement : il est REMPLACE, pas supprime.
+     L'information "ca travaille" est fonctionnelle, pas decorative —
+     l'effacer laisserait l'utilisateur sans retour pendant toute
+     l'attente reseau. Une respiration d'opacite la porte sans rien
+     deplacer a l'ecran. */
+  .mdg-shim{
+    background-image:none;
+    -webkit-text-fill-color:currentColor;
+    /* !important assume : une regle universelle du site pose
+       "*, ::before, ::after { animation-duration:.001ms !important }"
+       sous ce reglage. C'est un coupe-circuit global, et le retour
+       d'attente est la seule animation qui doive y survivre. */
+    animation:mdg-shim-doux 1.6s ease-in-out infinite!important;
+  }
+  @keyframes mdg-shim-doux{ 0%,100%{ opacity:1 } 50%{ opacity:.42 } }
+}
+
+/* Erreur. Reste DANS le formulaire : le texte saisi n'est pas perdu et
+   le recours est a portee de clic. */
+.mdg-formerr{
+  margin-top:14px; padding:13px 15px;
+  border:1px solid rgba(255,110,110,.34);
+  border-left:3px solid #FF6E6E;
+  border-radius:4px;
+  background:rgba(255,110,110,.07);
+  font-family:var(--font-body); font-size:.82rem; line-height:1.55;
+  color:var(--off);
+}
+.mdg-formerr b{
+  display:block; margin-bottom:5px;
+  font-family:var(--font-display); font-weight:700;
+  font-size:.6rem; letter-spacing:.16em; text-transform:uppercase;
+  color:#FF8B8B;
+}
+.mdg-formerr a{
+  color:var(--accent); text-decoration:none;
+  border-bottom:1px solid rgba(228,250,90,.4);
+}
+.mdg-formerr a:hover{ border-bottom-color:var(--accent); }
+</style>
+
+<script id="mdg-form-states-js">
+/* Un seul jeu d'etats pour les deux formulaires. Les libelles suivent la
+   langue du document : la page anglaise affichait jusqu'ici ses erreurs
+   en francais. */
+(function(){
+  var WA = 'https://wa.me/221763772208';
+  function fr(){ return (document.documentElement.lang || 'fr').slice(0,2) !== 'en'; }
+  function formulaire(btn){ return btn.form || btn.closest('form') || btn.parentNode; }
+  function nettoyer(btn){
+    var f = formulaire(btn); if (!f) return;
+    var e = f.querySelector('.mdg-formerr'); if (e) e.remove();
+  }
+
+  window.mdgForm = {
+    envoi: function(btn){
+      if (!btn) return;
+      if (btn.dataset.mdgOrig == null) btn.dataset.mdgOrig = btn.innerHTML;
+      nettoyer(btn);
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
+      btn.textContent = '';
+      var s = document.createElement('span');
+      s.className = 'mdg-shim';
+      s.textContent = fr() ? 'Envoi en cours' : 'Sending';
+      btn.appendChild(s);
+    },
+
+    reset: function(btn){
+      if (!btn) return;
+      btn.disabled = false;
+      btn.removeAttribute('aria-busy');
+      if (btn.dataset.mdgOrig != null) btn.innerHTML = btn.dataset.mdgOrig;
+    },
+
+    succes: function(btn){
+      if (!btn) return;
+      btn.removeAttribute('aria-busy');
+      btn.disabled = true;
+      btn.textContent = fr() ? 'Demande envoyee' : 'Request sent';
+    },
+
+    /* Plus jamais une boite de dialogue du navigateur : police systeme,
+       bouton systeme, aucun rapport avec l'identite — et un recours cite
+       sans etre cliquable, ce qui obligeait a chercher le numero. */
+    erreur: function(btn, reseau){
+      window.mdgForm.reset(btn);
+      var f = formulaire(btn); if (!f) return;
+      var d = document.createElement('div');
+      d.className = 'mdg-formerr';
+      d.setAttribute('role', 'alert');
+      var t = document.createElement('b');
+      t.textContent = fr() ? (reseau ? 'Connexion interrompue' : 'Envoi impossible')
+                           : (reseau ? 'Connection lost'      : 'Could not send');
+      d.appendChild(t);
+      d.appendChild(document.createTextNode(fr()
+        ? "Ton message n'est pas parti. Rien n'est perdu, ton texte est toujours dans le formulaire. Reessaie, ou ecris-moi directement sur "
+        : "Your message did not go through. Nothing is lost, your text is still in the form. Try again, or message me directly on "));
+      var a = document.createElement('a');
+      a.href = WA; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'WhatsApp';
+      d.appendChild(a);
+      d.appendChild(document.createTextNode('.'));
+      f.appendChild(d);
+      try { d.scrollIntoView({ block:'nearest', behavior:'smooth' }); } catch(e){}
+    }
+  };
 })();
 </script>
 </body>
