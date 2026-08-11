@@ -18189,6 +18189,67 @@ __addPairs([
 [`Pour artistes sérieux, labels ou sorties majeures. Communication complète et premium sur`,`For serious artists, labels or major releases. Full, premium communication over`],
 [`. Cover EP ou album, tracklist pro, motion cover avancé, Canvas Spotify/Apple, série complète de visuels promotionnels (teaser, coming soon, reveal, pre-save, out now, highlight post), visualizer ou lyrics video pour chaque titre, vidéo announcement 10–15s, pack bannières YouTube/Facebook/X, déclinaisons story + post, et plan de diffusion sur 2 semaines (Instagram, Facebook, X, TikTok).`,`. EP or album cover, pro tracklist, advanced motion cover, Spotify/Apple Canvas, a full set of promo visuals (teaser, coming soon, reveal, pre-save, out now, highlight post), visualizer or lyrics video for each track, a 10–15s announcement video, a YouTube/Facebook/X banner pack, story + post variations, and a 2-week rollout plan (Instagram, Facebook, X, TikTok).`]
 ]);
+/* Les ATTRIBUTS restaient en francais : genericTextTranslate ne parcourt
+   que les noeuds texte. Or aria-label, alt, title et placeholder sont lus
+   par les lecteurs d'ecran et les moteurs de recherche — les laisser en
+   francais sur la page anglaise est une omission, pas un detail. Meme
+   dictionnaire que le texte, donc toujours un seul endroit a maintenir. */
+var __ATTRS_TRAD = ['aria-label', 'alt', 'title', 'placeholder'];
+function genericAttrTranslate(lang){
+  var src = lang === 'en' ? __frToEn : __enToFr;
+  __ATTRS_TRAD.forEach(function(a){
+    document.querySelectorAll('[' + a + ']').forEach(function(e){
+      var v = e.getAttribute(a);
+      if (!v || !v.trim()) return;
+      var t = src[__normTxt(v)];
+      if (t !== undefined && t !== v) e.setAttribute(a, t);
+    });
+  });
+}
+
+/* Chaines restees en francais sur la page anglaise, relevees au balayage
+   du rendu : 4 libelles cliquables, 1 paragraphe, et surtout 36 attributs
+   que le moteur ne voyait pas. Les titres d'oeuvres — Lions du Senegal,
+   Prince de la Ville, Dello Ma Merite — ne sont PAS traduits : ce sont des
+   noms propres. */
+__addPairs([
+[`Tout voir →`,`Show all →`],
+[`Découvrir URANUS →`,`Discover URANUS →`],
+[`Envoyer via WhatsApp`,`Send via WhatsApp`],
+[`Réduire ↑`,`Collapse ↑`],
+[`Teaser, contenu du pack, galerie et liste d'attente sur la page dédiée.`,`Teaser, pack contents, gallery and waiting list on the dedicated page.`],
+[`Menu principal`,`Main menu`],
+[`Fermer le menu`,`Close menu`],
+[`Ouvrir le Learning Center · Rim Light en 3D interactif, gratuit`,`Open the Learning Center · interactive 3D Rim Light, free`],
+[`Tout afficher`,`Show all`],
+[`Précédent`,`Previous`],
+[`Suivant`,`Next`],
+[`Comparer avant et après retouche`,`Compare before and after retouching`],
+[`Actions sur la citation`,`Quote actions`],
+[`Voir le témoignage de ISS 814`,`Watch the ISS 814 testimonial`],
+[`Voir le second témoignage de ISS 814`,`Watch the second ISS 814 testimonial`],
+[`Voir le témoignage de Key Em Ti`,`Watch the Key Em Ti testimonial`],
+[`Voir le témoignage de Emza Young Boss`,`Watch the Emza Young Boss testimonial`],
+[`Lecture du témoignage vidéo`,`Play video testimonial`],
+[`Fermer`,`Close`],
+[`Fermer la vidéo`,`Close video`],
+[`Lire`,`Play`],
+[`Couper le son`,`Mute`],
+[`Ton nom ou nom d'artiste`,`Your name or artist name`],
+[`WhatsApp ou email`,`WhatsApp or email`],
+[`+221 ou email`,`+221 or email`],
+[`Ibrahim Mbaye, Rim Light Study, image raw avant retouche`,`Ibrahim Mbaye, Rim Light Study, raw image before retouching`],
+[`ISS 814 sur Spotify`,`ISS 814 on Spotify`],
+[`Omzo Beatz sur Spotify`,`Omzo Beatz on Spotify`],
+[`Dopeboy DMG sur Spotify`,`Dopeboy DMG on Spotify`],
+[`ISS 814 sur Instagram`,`ISS 814 on Instagram`],
+[`One Lyrical sur Instagram`,`One Lyrical on Instagram`],
+[`Omzo Beatz sur Instagram`,`Omzo Beatz on Instagram`],
+[`Dopeboy DMG sur Instagram`,`Dopeboy DMG on Instagram`],
+[`Oothentik Zeus sur Instagram`,`Oothentik Zeus on Instagram`],
+[`Gun Silent Beatz sur Instagram`,`Gun Silent Beatz on Instagram`],
+]);
+
 function genericTextTranslate(lang){
   var src = lang === 'en' ? __frToEn : __enToFr;
   var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
@@ -19417,6 +19478,7 @@ function applyLang(lang) {
   applyPatches(lang);
   applyComplexPatches(lang);
   genericTextTranslate(lang);
+  genericAttrTranslate(lang);
 
   // Toggle button state, nav desktop
   var btn = document.getElementById('langToggle');
