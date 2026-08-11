@@ -419,7 +419,7 @@ body{font-family:var(--font-body);background:var(--black);color:var(--light);-we
   text-transform: uppercase;
   color: var(--accent);
   padding: .5rem .9rem;
-  border: 1px solid rgba(255,255,255,0.11);
+  border: 1px solid var(--border);
   border-radius: 9999px;
   width: fit-content;
   background: rgba(255,255,255,0.02);
@@ -593,7 +593,7 @@ body{font-family:var(--font-body);background:var(--black);color:var(--light);-we
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 0;
-  border-top: 1px solid rgba(255,255,255,.12);
+  border-top: 1px solid var(--border);
   background: rgba(6,6,6,.6);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -609,8 +609,8 @@ body{font-family:var(--font-body);background:var(--black);color:var(--light);-we
 .hero-hud-col--center {
   align-items: center;
   text-align: center;
-  border-left: 1px solid rgba(255,255,255,.1);
-  border-right: 1px solid rgba(255,255,255,.1);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
   padding: 0 clamp(1.5rem, 3vw, 2.5rem);
 }
 .hero-hud-col--right {
@@ -651,7 +651,7 @@ body{font-family:var(--font-body);background:var(--black);color:var(--light);-we
     background: rgba(6,6,6,.6) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
-    border-top: 1px solid rgba(255,255,255,.07) !important;
+    border-top: 1px solid var(--border) !important;
     z-index: 4;
     animation: none !important;
     opacity: 1 !important;
@@ -659,7 +659,7 @@ body{font-family:var(--font-body);background:var(--black);color:var(--light);-we
   .stat {
     flex: 1;
     padding: .75rem .5rem !important;
-    border-right: 1px solid rgba(255,255,255,.07) !important;
+    border-right: 1px solid var(--border) !important;
     border-bottom: none !important;
     display: flex;
     flex-direction: column;
@@ -796,7 +796,7 @@ body{font-family:var(--font-body);background:var(--black);color:var(--light);-we
 @media(hover:none){.cur,.cur-r{display:none}body{cursor:auto}}
 
 /* ── NAV ── */
-nav:not(#mob-tab-bar){position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(6,6,6,.76);backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);border-bottom:1px solid rgba(255,255,255,0.06);box-shadow:0 1px 0 rgba(255,255,255,0.03),0 4px 24px rgba(0,0,0,0.3)}
+nav:not(#mob-tab-bar){position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(6,6,6,.76);backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);border-bottom:1px solid var(--border);box-shadow:0 1px 0 rgba(255,255,255,0.03),0 4px 24px rgba(0,0,0,0.3)}
 .nav-logo{font-family:var(--font-display);font-weight:700;font-size:.95rem;color:var(--light);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;flex-shrink:0}
 .nav-logo-sub{font-size:.95rem;letter-spacing:.1em;color:var(--light);font-weight:700}
 
@@ -1367,7 +1367,7 @@ section+section::before,
 .trust-h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.7rem,3vw,2.4rem);letter-spacing:-.01em;white-space:nowrap}
 .trust-h2 em{font-family:var(--font-accent);font-style:italic;font-weight:400;color:var(--off);letter-spacing:0}
 .trust-sub{font-size:.8rem;color:var(--dim);max-width:220px;text-align:right;line-height:1.6}
-.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);overflow:hidden}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .trust-item{background:rgba(14,14,14,.9);padding:1.75rem 1.25rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.65rem;min-height:100px;transition:background .25s, box-shadow .25s, transform .3s}
 .trust-item:hover{background:rgba(22,22,22,.95);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,255,255,0.06)}
 .trust-logo{width:auto;max-width:160px;height:52px;object-fit:contain;opacity:.75;transition:opacity .3s,transform .3s;mix-blend-mode:screen}.trust-logo.omzo{height:150px;max-width:360px}
@@ -1652,7 +1652,7 @@ section+section::before,
   flex-direction:column;
   justify-content:space-between;
   padding:7rem 4rem 5rem 3rem;
-  border-right:1px solid rgba(255,255,255,.06);
+  border-right:1px solid var(--border);
   position:relative;
 }
 
@@ -2009,7 +2009,7 @@ footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;align-i
   transition:color .15s,background .15s;
   display:flex;align-items:center;gap:.5rem;justify-content:flex-start;
   padding:.85rem 1.5rem;
-  border-bottom:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid var(--border);
 }
 .mob-menu a:last-of-type{border-bottom:none}
 .mob-menu a::after{
@@ -2672,7 +2672,7 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
 .awards-title{font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--light);letter-spacing:-.015em;line-height:1.1;margin-top:.75rem}
 .awards-title em{color:var(--accent);font-style:normal}
 .awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
-.award-item{background:linear-gradient(160deg,rgba(16,16,16,.92) 0%,rgba(10,10,10,.97) 100%);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:2.5rem 2rem;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;border-top:2px solid transparent;box-shadow:var(--glass-shadow);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.award-item{background:linear-gradient(160deg,rgba(16,16,16,.92) 0%,rgba(10,10,10,.97) 100%);border:1px solid var(--border);border-radius:12px;padding:2.5rem 2rem;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;border-top:2px solid transparent;box-shadow:var(--glass-shadow);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .award-item:hover{border-color:rgba(255,255,255,0.12);border-top-color:var(--accent);transform:translateY(-6px);box-shadow:var(--glass-shadow-hover)}
 .award-logo{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;background:rgba(255,255,255,0.04);border-radius:12px;margin-bottom:1.5rem;color:var(--accent)}
 .award-year{font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
@@ -2688,7 +2688,7 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
    ═══════════════════════════════════════ */
 footer {
   background: #080808;
-  border-top: 1px solid rgba(255,255,255,.07);
+  border-top: 1px solid var(--border);
   padding: 0;
 }
 
@@ -2705,12 +2705,12 @@ footer::before {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   gap: 0;
-  border-bottom: 1px solid rgba(255,255,255,.05);
+  border-bottom: 1px solid var(--border);
 }
 
 .footer-brand {
   padding: 3rem 3rem 2.5rem;
-  border-right: 1px solid rgba(255,255,255,.05);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
@@ -2753,7 +2753,7 @@ footer::before {
 }
 .footer-brand .f-socials a {
   width: 36px; height: 36px; border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.09);
+  border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   color: rgba(255,255,255,.38); text-decoration: none;
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -2829,7 +2829,7 @@ footer::before {
 }
 .f-cta-btn-secondary {
   background: transparent;
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid var(--border);
   color: rgba(255,255,255,.65);
 }
 .f-cta-btn-secondary:hover {
@@ -2860,7 +2860,7 @@ footer::before {
   .footer-brand {
     padding: 2.25rem 1.5rem 2rem;
     border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,.05);
+    border-bottom: 1px solid var(--border);
     gap: 1.5rem;
   }
   .footer-contact-group {
@@ -3101,7 +3101,7 @@ footer::before {
   display:flex;align-items:center;gap:1rem;
   padding:1.1rem 1.25rem;
   background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.09);
+  border:1px solid var(--border);
   border-radius:12px;
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
@@ -3120,7 +3120,7 @@ footer::before {
 .tq-stats{
   display:grid;grid-template-columns:1fr 1fr;gap:1px;
   background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.09);
+  border:1px solid var(--border);
   border-radius:12px;overflow:hidden;margin-top:1.25rem;
   box-shadow:0 2px 12px rgba(0,0,0,.25);
 }
@@ -3152,7 +3152,7 @@ footer::before {
 .tcard-name{font-family:var(--font-display);font-weight:700;font-size:.82rem;color:var(--light)}
 .tcard-role{font-size:.72rem;color:var(--dim);font-weight:300;letter-spacing:.03em;margin-top:.1rem}
 .tcard-desc{font-size:.71rem;color:var(--off);line-height:1.55;font-weight:300;border-top:1px solid var(--border);padding-top:.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tcard-yt{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(255,255,255,0.04);padding:.25rem .55rem;border-radius:4px;margin-top:.5rem;border:1px solid rgba(255,255,255,0.07);width:fit-content}
+.tcard-yt{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(255,255,255,0.04);padding:.25rem .55rem;border-radius:4px;margin-top:.5rem;border:1px solid var(--border);width:fit-content}
 .tcard-yt svg{width:8px;height:8px;fill:var(--accent)}
 
 @media(max-width:1100px){.testimonials-layout{gap:3rem}}
@@ -3680,7 +3680,7 @@ section + section::before{
 /* ── GLOBAL GLASS VARIABLES ── */
 :root {
   --glass-bg: rgba(14,14,14,0.65);
-  --glass-border: rgba(255,255,255,0.07);
+  --glass-border: var(--border);
   --glass-border-accent: rgba(255,255,255,0.1);
   --glow-accent: rgba(255,255,255,0.06);
   --glass-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
@@ -3697,7 +3697,7 @@ section + section::before{
 /* ══ PRICING / PACK CARDS ══ */
 .pack-card {
   background: linear-gradient(160deg,rgba(16,16,16,.95) 0%,rgba(8,8,8,.98) 100%);
-  border: 1px solid rgba(255,255,255,.06);
+  border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--glass-shadow);
   transition: transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .3s;
@@ -3773,12 +3773,12 @@ section + section::before{
 
 /* ══ MODAL ══ */
 /* .pack-modal-overlay skin glass, fusionné dans définition de base postérieure L4650 */
-.pack-modal-box{background:linear-gradient(160deg,rgba(18,18,18,.97) 0%,rgba(8,8,8,.99) 100%);border:1px solid rgba(255,255,255,.07);box-shadow:0 24px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,0.04);border-radius:12px}
+.pack-modal-box{background:linear-gradient(160deg,rgba(18,18,18,.97) 0%,rgba(8,8,8,.99) 100%);border:1px solid var(--border);box-shadow:0 24px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,0.04);border-radius:12px}
 
 /* ══ IG BANNER ══ */
 
 /* ══ BACK TO TOP ══ */
-#backToTop{background:rgba(18,18,18,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.07);transition:bottom .3s cubic-bezier(.16,1,.3,1),opacity .3s,transform .3s,color .2s,border-color .2s}
+#backToTop{background:rgba(18,18,18,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);transition:bottom .3s cubic-bezier(.16,1,.3,1),opacity .3s,transform .3s,color .2s,border-color .2s}
 #backToTop:hover{border-color:var(--accent);box-shadow:0 0 16px rgba(228,250,90,0.25)}
 
 /* ══ SK (about skills) ══ */
@@ -3956,7 +3956,7 @@ section + section::before{
 .sp-feature {
   margin: 0 3rem 3.5rem;
   background: var(--black);
-  border: 1px solid rgba(255,255,255,.07);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 3rem 3rem 2.5rem;
   position: relative;
@@ -4001,7 +4001,7 @@ section + section::before{
 }
 .sp-quote-avatar {
   width: 48px; height: 48px; border-radius: 50%;
-  object-fit: cover; border: 2px solid rgba(0,0,0,0.12);
+  object-fit: cover; border: 2px solid var(--border);
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
   flex-shrink: 0;
 }
@@ -4062,7 +4062,7 @@ section + section::before{
   background: #0d0d0d;
   overflow: hidden;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid var(--border);
   -webkit-tap-highlight-color: transparent;
   transition: border-color .35s, box-shadow .35s;
   display: flex;
@@ -4200,7 +4200,7 @@ section + section::before{
   line-height: 1.6;
   font-family: var(--font-body);
   margin-top: .1rem;
-  border-top: 1px solid rgba(255,255,255,.06);
+  border-top: 1px solid var(--border);
   padding-top: .5rem;
 }
 
@@ -4531,7 +4531,7 @@ section + section::before{
 .port-count {
   text-align: right; line-height: 1;
   background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.07);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.2rem 1.6rem;
   display: flex; flex-direction: column; align-items: flex-end; gap: .4rem;
@@ -4569,7 +4569,7 @@ section + section::before{
   background: rgba(255,255,255,.028);
   backdrop-filter: blur(24px) saturate(1.4);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(255,255,255,.07);
+  border: 1px solid var(--border);
   box-shadow: 0 4px 32px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
   position: relative;
 }
@@ -4577,14 +4577,14 @@ section + section::before{
   display: flex; flex-direction: column; align-items: flex-start; gap: .55rem;
   padding: 1.4rem 1.6rem 1.35rem;
   background: rgba(255,255,255,.022);
-  border: 1px solid rgba(255,255,255,.06);
+  border: 1px solid var(--border);
   border-radius: 12px;
   cursor: pointer; position: relative;
   transition: background .3s, border-color .3s, box-shadow .3s;
   text-align: left;
   overflow: hidden;
 }
-.port-tab:last-child { border-right: 1px solid rgba(255,255,255,.06); }
+.port-tab:last-child { border-right: 1px solid var(--border); }
 .port-tab:hover {
   background: rgba(255,255,255,.042);
   border-color: rgba(255,255,255,.11);
@@ -4643,7 +4643,7 @@ section + section::before{
   display: flex; align-items: center; justify-content: center;
   border-radius: 12px;
   background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.09);
+  border: 1px solid var(--border);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: background .3s, border-color .3s, box-shadow .3s;
@@ -4701,14 +4701,14 @@ section + section::before{
     flex: unset;
     min-width: 0;
     scroll-snap-align: unset;
-    border-right: 1px solid rgba(255,255,255,.06);
+    border-right: 1px solid var(--border);
     border-radius: 12px;
     padding: .85rem .5rem .8rem;
     gap: .25rem;
   }
   .port-tab:last-child {
     padding-right: .5rem;
-    border-right: 1px solid rgba(255,255,255,.06);
+    border-right: 1px solid var(--border);
   }
   /* Supprimer fondu et indicateur de scroll */
   .port-tabs-wrap {
@@ -4876,7 +4876,7 @@ section + section::before{
   display: flex; align-items: flex-start; gap: .7rem;
   font-size: .82rem; color: var(--off);
   padding: .4rem 0;
-  border-bottom: 1px solid rgba(255,255,255,.04);
+  border-bottom: 1px solid var(--border);
   line-height: 1.45;
 }
 .pack-modal-features li:last-child { border-bottom: none; }
@@ -5240,7 +5240,7 @@ section + section::before{
   letter-spacing: .2em; text-transform: uppercase;
   color: var(--accent);
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.11);
+  border: 1px solid var(--border);
   padding: .35rem 1rem;
   border-radius: 9999px;
   margin-bottom: 1.4rem;
@@ -5830,7 +5830,7 @@ section + section::before{
   letter-spacing: .08em; text-transform: uppercase;
   padding: .85rem 1.5rem;
   border-radius: 9999px;
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid var(--border);
   background: rgba(255,255,255,.04);
   color: var(--off);
   cursor: pointer; text-decoration: none;
@@ -5874,7 +5874,7 @@ section + section::before{
   border-radius: 12px;
   padding: 2.5rem 2rem;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,.06);
+  border: 1px solid var(--border);
   background: linear-gradient(160deg,rgba(16,16,16,.95) 0%,rgba(8,8,8,.98) 100%);
   box-shadow: var(--glass-shadow);
   transition: transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .3s;
@@ -6050,7 +6050,7 @@ section + section::before{
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,.07);
+  border: 1px solid var(--border);
   background: linear-gradient(160deg,rgba(16,16,16,.95) 0%,rgba(10,10,10,.98) 100%);
   margin-bottom: 3rem;
   padding: 3.5rem 3rem;
@@ -6112,7 +6112,7 @@ section + section::before{
 .rollout-feat {
   font-size: .73rem; color: var(--light);
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--border);
   padding: .35rem .9rem;
   border-radius: 9999px;
 }
@@ -6353,7 +6353,7 @@ section + section::before{
   display: flex; align-items: flex-start; gap: .75rem;
   font-size: .85rem; color: var(--off);
   padding: .6rem 0;
-  border-bottom: 1px solid rgba(255,255,255,.04);
+  border-bottom: 1px solid var(--border);
   line-height: 1.45;
 }
 #pack-bs-features li:last-child { border-bottom: none; }
@@ -6377,7 +6377,7 @@ section + section::before{
 .pricing-note-icon {
   width: 80px; min-width: 80px; flex-shrink: 0;
   background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(192,200,216,.05) 100%);
-  border-right: 1px solid rgba(255,255,255,.07);
+  border-right: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   padding: 2rem 0;
 }
@@ -6421,7 +6421,7 @@ section + section::before{
 }
 .pricing-cond-value strong { color: var(--light); font-weight: 600; }
 @media(max-width: 600px) {
-  .pricing-note-icon { width: 100%; min-width: unset; border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); padding: 1.5rem; flex-direction: row; gap: .75rem; justify-content: flex-start; }
+  .pricing-note-icon { width: 100%; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem; flex-direction: row; gap: .75rem; justify-content: flex-start; }
   .pricing-note-text { padding: 1.5rem; }
 }
 
@@ -6507,7 +6507,7 @@ section + section::before{
   text-transform: uppercase !important;
   color: var(--dim) !important;
   background: rgba(255,255,255,.04) !important;
-  border: 1px solid rgba(255,255,255,.1) !important;
+  border: 1px solid var(--border) !important;
   border-radius: 9999px !important;
   padding: .45rem 1rem !important;
   margin-bottom: 1.5rem !important;
@@ -6556,7 +6556,7 @@ section + section::before{
   font-weight:300;letter-spacing:.01em;
   position:relative;z-index:2;
   max-width:520px;
-  border-left:2px solid rgba(255,255,255,0.11);
+  border-left:2px solid var(--border);
   padding-left:1.25rem;
   margin-left:3rem;
   font-style:normal;
@@ -6620,7 +6620,7 @@ section + section::before{
   background:rgba(10,10,10,.96);
   backdrop-filter:blur(32px) saturate(1.4);
   -webkit-backdrop-filter:blur(32px) saturate(1.4);
-  border:1px solid rgba(255,255,255,.09);
+  border:1px solid var(--border);
   border-radius:12px;
   padding:2rem 2.25rem 0;
   transform-style:preserve-3d;
@@ -6722,7 +6722,7 @@ section + section::before{
 .card-thumb{
   flex-shrink:0;width:100px;height:100px;border-radius:12px;
   background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,0.07);
+  border:1px solid var(--border);
   overflow:hidden;position:relative;
 }
 .card-thumb::after{
@@ -6783,7 +6783,7 @@ section + section::before{
   font-family:var(--font-body);font-size:.65rem;font-weight:300;
   font-style:italic;letter-spacing:.02em;
   color:var(--off);
-  border-left:2px solid rgba(255,255,255,0.11);
+  border-left:2px solid var(--border);
   padding-left:.65rem;
 }
 .card-desc{display:none}
@@ -6962,7 +6962,7 @@ section + section::before{
 
 /* ── CONTACT ENRICHI ── */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
-.contact-quick-form{background:linear-gradient(160deg,rgba(22,22,22,.92) 0%,rgba(14,14,14,.96) 100%);border:1px solid rgba(255,255,255,.13);border-radius:12px;box-shadow:0 8px 48px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,0.04) inset;padding:2.5rem;display:flex;flex-direction:column;gap:1.25rem;position:relative;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.contact-quick-form{background:linear-gradient(160deg,rgba(22,22,22,.92) 0%,rgba(14,14,14,.96) 100%);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 48px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,0.04) inset;padding:2.5rem;display:flex;flex-direction:column;gap:1.25rem;position:relative;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .contact-quick-form h3{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:-.0075em;color:var(--light);margin-bottom:.25rem}
 .contact-quick-form p{font-size:.8rem;color:var(--dim);font-weight:300;line-height:1.6;margin-bottom:.5rem}
 .cqf-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
@@ -6970,7 +6970,7 @@ section + section::before{
 .cqf-field.full{grid-column:1/-1}
 .cqf-field label{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 .cqf-field input,.cqf-field textarea,.cqf-field select{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;
   padding:.7rem 1rem;font-family:var(--font-body);font-size:.85rem;color:var(--light);
   outline:none;transition:border-color .25s,box-shadow .25s,background .25s;resize:none;
   -webkit-appearance:none;appearance:none;
@@ -7018,7 +7018,7 @@ section + section::before{
   border-bottom: 1px solid var(--border);
   position: relative;
   background: linear-gradient(135deg,rgba(16,16,16,.8) 0%,rgba(10,10,10,.9) 100%);
-  border: 1px solid rgba(255,255,255,.06);
+  border: 1px solid var(--border);
   border-radius: 12px;
   transition: border-color .25s,box-shadow .25s;
   overflow: hidden;
@@ -7161,7 +7161,7 @@ section + section::before{
 .cpop-field-group{display:flex;flex-direction:column;gap:.85rem;margin-bottom:1.25rem}
 .cpop-field{display:flex;flex-direction:column;gap:.4rem}
 .cpop-label-field{font-family:var(--font-display);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
-.cpop-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:.75rem 1rem;font-family:var(--font-body);font-size:.88rem;color:var(--light);outline:none;transition:border-color .2s,background .2s;width:100%;-webkit-appearance:none;appearance:none}
+.cpop-input{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:.75rem 1rem;font-family:var(--font-body);font-size:.88rem;color:var(--light);outline:none;transition:border-color .2s,background .2s;width:100%;-webkit-appearance:none;appearance:none}
 .cpop-input::placeholder{color:var(--dim)}
 .cpop-input:focus{border-color:rgba(255,255,255,0.22);background:rgba(255,255,255,0.02)}
 .cpop-select{cursor:pointer;color:var(--light)}
@@ -7180,7 +7180,7 @@ section + section::before{
   letter-spacing: .04em;
   padding: .45rem .9rem;
   border-radius: 9999px;
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid var(--border);
   background: transparent;
   color: rgba(255,255,255,.45);
   cursor: pointer;
@@ -7209,7 +7209,7 @@ section + section::before{
   align-items: center;
   justify-content: space-between;
   background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.09);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: .75rem 1rem;
   font-family: var(--font-body);
@@ -7240,7 +7240,7 @@ section + section::before{
   top: calc(100% + 6px);
   left: 0; right: 0;
   background: #161616;
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   z-index: 100;
@@ -7265,7 +7265,7 @@ section + section::before{
   padding: .78rem 1rem;
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255,255,255,.05);
+  border-bottom: 1px solid var(--border);
   font-family: var(--font-body);
   font-size: .84rem;
   color: rgba(255,255,255,.55);
@@ -8462,7 +8462,7 @@ body,
   display: flex; align-items: center; gap: .5rem;
   background: rgba(6,6,6,.82);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid var(--border);
   border-radius: 9999px;
   padding: .4rem 1rem .4rem .65rem;
   z-index: 4;
@@ -8897,7 +8897,7 @@ body,
     aspect-ratio: 1 / 1;
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,.1);
+    border: 1px solid var(--border);
     background: #141414;
   }
 
@@ -9184,7 +9184,7 @@ body,
   font-family: var(--font-display); font-size: .72rem; font-weight: 700;
   letter-spacing: .12em; text-transform: uppercase;
   color: var(--accent); background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.11);
+  border: 1px solid var(--border);
   border-radius: 9999px; padding: .25rem .7rem;
   margin-bottom: .75rem;
 }
@@ -9361,7 +9361,7 @@ body,
 /* ── CONDITIONS GÉNÉRALES REDESIGN ── */
 .pcond-wrap {
   margin-top: 2.5rem;
-  border: 1px solid rgba(255,255,255,.07);
+  border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   background: var(--black);
@@ -9376,7 +9376,7 @@ body,
 .pcond-header {
   display: flex; align-items: center; gap: .65rem;
   padding: 1rem 1.75rem;
-  border-bottom: 1px solid rgba(255,255,255,.05);
+  border-bottom: 1px solid var(--border);
   position: relative;
 }
 .pcond-header svg { stroke: var(--accent); flex-shrink: 0; }
@@ -9421,7 +9421,7 @@ body,
 /* Row pleine largeur */
 .pcond-row--full {
   grid-column: 1 / -1;
-  border-top: 1px solid rgba(255,255,255,.04);
+  border-top: 1px solid var(--border);
 }
 
 /* Clé */
@@ -9487,9 +9487,9 @@ body,
   border-radius: 12px; overflow: hidden;
 }
 /* Séparateurs entre cellules */
-.faq-item2:nth-child(odd) { border-right: 1px solid rgba(0,0,0,.08); }
-.faq-item2:nth-child(1),.faq-item2:nth-child(2) { border-bottom: 1px solid rgba(0,0,0,.08); }
-.faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid rgba(0,0,0,.08); }
+.faq-item2:nth-child(odd) { border-right: 1px solid var(--border); }
+.faq-item2:nth-child(1),.faq-item2:nth-child(2) { border-bottom: 1px solid var(--border); }
+.faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid var(--border); }
 
 .faq-item2 {
   background: #f0ede8;
@@ -9571,7 +9571,7 @@ body,
   .faq-grid { grid-template-columns: 1fr; border-radius: 12px; }
   .faq-item2:nth-child(odd) { border-right: none; }
   .faq-item2:nth-child(1),.faq-item2:nth-child(2),
-  .faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid rgba(0,0,0,.08); }
+  .faq-item2:nth-child(3),.faq-item2:nth-child(4) { border-bottom: 1px solid var(--border); }
   .faq-item2 { padding: 1.25rem 1.5rem; }
   .faq2-num { font-size: 2rem; top: .8rem; right: 1rem; }
   .faq2-q { padding-right: 3rem; }
@@ -9945,7 +9945,7 @@ body,
 }
 .u-orb-badge.b1 { top: 6%; right: -12%; background: rgba(46,20,90,.22); border: 1px solid rgba(139,92,246,.38); color: var(--u-accent3); --bd:5s;--bdelay:0s;--br:3deg; }
 .u-orb-badge.b2 { bottom: 24%; left: -16%; background: rgba(245,200,66,.08); border: 1px solid rgba(245,200,66,.28); color: var(--u-gold); --bd:4s;--bdelay:1s;--br:-3deg; }
-.u-orb-badge.b3 { top: 40%; right: -18%; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); color: var(--u-mid); --bd:6s;--bdelay:.5s;--br:1deg; }
+.u-orb-badge.b3 { top: 40%; right: -18%; background: rgba(255,255,255,.04); border: 1px solid var(--border); color: var(--u-mid); --bd:6s;--bdelay:.5s;--br:1deg; }
 .u-box-glow {
   position: absolute; bottom: -24px; left: 50%;
   transform: translateX(-50%); width: 220px; height: 70px; border-radius: 50%;
@@ -10856,7 +10856,7 @@ footer {
     flex-direction: column;
     background: var(--surface) !important;
     box-shadow: 0 4px 16px rgba(0,0,0,.4) !important;
-    border: 1px solid rgba(255,255,255,.06) !important;
+    border: 1px solid var(--border) !important;
     border-radius: var(--r) !important;
   }
   .cov-card .cov-img {
@@ -10980,7 +10980,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
   position: relative;
   z-index: 1;
   background: #181818;
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 2rem 1.75rem 1.5rem;
   max-width: 340px;
@@ -11038,7 +11038,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 #ig-popup-cancel {
   flex: 1;
   background: none;
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: .7rem;
   font-family: var(--font-display);
@@ -12601,7 +12601,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
   background:linear-gradient(160deg,rgba(20,20,22,.94),rgba(12,12,14,.97))!important;
   -webkit-backdrop-filter:none!important;
   backdrop-filter:none!important;
-  border:1px solid rgba(255,255,255,.07)!important;
+  border:1px solid var(--border)!important;
   box-shadow:0 20px 44px -26px rgba(0,0,0,.6)!important;
 }
 
@@ -12612,7 +12612,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
   background:linear-gradient(160deg,rgba(20,20,22,.94),rgba(12,12,14,.97))!important;
   -webkit-backdrop-filter:none!important;
   backdrop-filter:none!important;
-  border:1px solid rgba(255,255,255,.07)!important;
+  border:1px solid var(--border)!important;
   box-shadow:0 20px 44px -26px rgba(0,0,0,.6)!important;
 }
 
@@ -12653,7 +12653,7 @@ nav:not(#mob-tab-bar) > *{position:relative;z-index:1;}
     background-image:none!important;
     -webkit-backdrop-filter:blur(16px) saturate(1.4)!important;
     backdrop-filter:blur(16px) saturate(1.4)!important;
-    border-bottom:1px solid rgba(255,255,255,.07)!important;
+    border-bottom:1px solid var(--border)!important;
     box-shadow:0 1px 0 rgba(255,255,255,.05),0 6px 20px rgba(0,0,0,.4)!important;
   }
   nav:not(#mob-tab-bar)::after{display:none!important;}
@@ -13867,7 +13867,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 
     <div class="stg-quote">
       <div class="qm">&ldquo;</div>
-      <blockquote>C'est quelqu'un avec qui je bosse beaucoup. Il est <b>hyper correct</b>, <b>hyper travailleur</b> et <b>trop fort.</b></blockquote>
+      <blockquote id="issQuote">C'est quelqu'un avec qui je bosse beaucoup. Il est <b>hyper correct</b>, <b>hyper travailleur</b> et <span class="mdg-sel" id="issSel"><span class="mdg-sel-dot mdg-sel-dot--a" aria-hidden="true"></span><span class="mdg-sel-dot mdg-sel-dot--b" aria-hidden="true"></span>trop fort.<span class="mdg-sel-menu" role="group" aria-label="Actions sur la citation"><button type="button" class="mdg-sel-act" data-act="copy">Copy</button><span class="mdg-sel-div" aria-hidden="true"></span><button type="button" class="mdg-sel-act" data-act="share">Share</button></span></span></blockquote>
       <div class="stg-who">
         <img width="120" height="180" loading="lazy" decoding="async" src="/media/img/WhatsApp_Image_2024-11-19_at_03.14.19_bjs7us.jpg" alt="ISS 814">
         <div class="t"><b>ISS 814</b><span>Producteur / Artiste · Sénégal</span></div>
@@ -13933,8 +13933,8 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   #about{background:#eceae3 !important;padding:clamp(14px,2vw,26px) !important;overflow:hidden !important;border-bottom:1px solid rgba(17,16,8,.14) !important}
   #about::before{display:none !important}
   #about .abg-w{display:flex}
-  #about .abg-grid{flex:1;border-top:1.5px solid #111008;border-left:1.5px solid #111008;display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(78px,auto);font-family:var(--font-body)}
-  #about .abg-cell{border-right:1.5px solid #111008;border-bottom:1.5px solid #111008;padding:26px 20px 18px;position:relative;min-width:0;overflow:hidden}
+  #about .abg-grid{flex:1;border-top:1.5px solid var(--border);border-left:1.5px solid var(--border);display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(78px,auto);font-family:var(--font-body)}
+  #about .abg-cell{border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);padding:26px 20px 18px;position:relative;min-width:0;overflow:hidden}
   #about .abg-tag{position:absolute;top:10px;left:12px;font-family:var(--font-display);font-weight:700;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:#8a857b}
   #about .abg-mast{grid-column:span 8;display:flex;align-items:center;padding-top:18px}
   #about .abg-mast .l{font-family:var(--font-display);font-weight:700;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:#111008;white-space:nowrap}
@@ -14077,14 +14077,14 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       <h2 class="svc-h2" data-reveal style="font-family:var(--font-display);font-weight:700;font-size:clamp(2.2rem,3.6vw,3.4rem);line-height:1.02;letter-spacing:-.015em;color:#f5f2ec;margin:0 0 22px">Ce que je fais,<em style="color:#E4FA5A;font-size:clamp(1.5rem,2.4vw,2.1rem)">de A jusqu’au bout.</em></h2>
       <p style="font-family:var(--font-body);font-weight:300;font-size:1rem;line-height:1.75;color:#8f8b84;max-width:52ch;margin:0 0 clamp(48px,6vw,72px)">Trois disciplines maîtresses, quatre savoir-faire complémentaires. Du logo à la scène, une seule main dirige l’ensemble, pour que rien ne dépareille.</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border)">
-        <div class="exp-card" style="padding:42px 32px 38px;border-bottom:1px solid var(--border);border-right:1px solid rgba(255,255,255,.1);">
+        <div class="exp-card" style="padding:42px 32px 38px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);">
     <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px"><span style="font-family:var(--font-accent);font-style:italic;font-size:3rem;line-height:.8;color:#E4FA5A">01</span><span style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(228,250,90,.4);display:inline-flex;align-items:center;justify-content:center;color:#E4FA5A"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span></div>
     <h3 style="font-family:var(--font-display);font-weight:700;font-size:1.3rem;line-height:1.14;letter-spacing:-.01em;color:#f0ede8;margin:0 0 13px">Direction Artistique Musicale</h3>
     <p style="font-family:var(--font-body);font-weight:300;font-size:.89rem;line-height:1.7;color:#8f8b84;margin:0 0 22px">L’image qui prolonge le son. Un univers visuel complet, pensé avant le premier <em style="font-style:italic;color:#b9b4ac">play</em>.</p>
     <div style="font-family:var(--font-body);font-size:.71rem;font-weight:500;letter-spacing:.06em;color:#6f6b64;text-transform:uppercase;margin-bottom:20px">Cover Art · EP / Album · Press Kit</div>
     <details><summary style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-display);font-weight:700;font-size:.74rem;letter-spacing:.05em;color:#E4FA5A">Détails</span><span class="expo-tog" style="font-weight:400;font-size:1.1rem;color:#E4FA5A">+</span></summary><div style="padding-top:16px"><ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px"><li style="font-family:var(--font-body);font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#E4FA5A">·</span>Direction artistique de sortie</li><li style="font-family:var(--font-body);font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#E4FA5A">·</span>Cover art &amp; déclinaisons plateformes</li><li style="font-family:var(--font-body);font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#E4FA5A">·</span>Press kit &amp; dossier de presse</li><li style="font-family:var(--font-body);font-size:.82rem;color:#a7a29b;display:flex;gap:9px"><span style="color:#E4FA5A">·</span>Moodboard &amp; direction photo</li></ul></div></details>
   </div>
-        <div class="exp-card" style="padding:42px 32px 38px;border-bottom:1px solid var(--border);border-right:1px solid rgba(255,255,255,.1);">
+        <div class="exp-card" style="padding:42px 32px 38px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);">
     <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px"><span style="font-family:var(--font-accent);font-style:italic;font-size:3rem;line-height:.8;color:#E4FA5A">02</span><span style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(228,250,90,.4);display:inline-flex;align-items:center;justify-content:center;color:#E4FA5A"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22 3.34 17V7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
     <h3 style="font-family:var(--font-display);font-weight:700;font-size:1.3rem;line-height:1.14;letter-spacing:-.01em;color:#f0ede8;margin:0 0 13px">Identité d’Artiste</h3>
     <p style="font-family:var(--font-body);font-weight:300;font-size:.89rem;line-height:1.7;color:#8f8b84;margin:0 0 22px">Un nom, une signature. L’identité qui vous rend reconnaissable d’une sortie à l’autre.</p>
@@ -14224,12 +14224,12 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   <div class="process-mob">
     <div style="padding:46px 26px 52px">
       <div class="mono-jb" style="font-size:.66rem;letter-spacing:.22em;color:#CDE24C;margin-bottom:14px">MÉTHODOLOGIE</div>
-      <h2 style="font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1;letter-spacing:-.015em;color:#1c1a17;margin:0 0 26px;border-bottom:2px solid #1c1a17;padding-bottom:22px">Comment je travaille,<em class="serif-dm" style="display:block;font-style:italic;font-weight:400;font-size:1.55rem;color:#E4FA5A;margin-top:.1em">chapitre par chapitre.</em></h2>
+      <h2 style="font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1;letter-spacing:-.015em;color:#1c1a17;margin:0 0 26px;border-bottom:2px solid var(--border);padding-bottom:22px">Comment je travaille,<em class="serif-dm" style="display:block;font-style:italic;font-weight:400;font-size:1.55rem;color:#E4FA5A;margin-top:.1em">chapitre par chapitre.</em></h2>
       <div>
-        <div style="padding:22px 0;border-bottom:1px solid rgba(28,26,23,.16)"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="mdg-num" style="font-size:2.4rem;line-height:.8;color:#F0EDE8">01</span><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Brief &amp; Échange</h3></div><p style="font-family:var(--font-body);font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">Univers, références, contraintes. Cadrés avant le démarrage.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#CDE24C">ACOMPTE 50% AVANT DÉMARRAGE</div></div>
-        <div style="padding:22px 0;border-bottom:1px solid rgba(28,26,23,.16)"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="mdg-num" style="font-size:2.4rem;line-height:.8;color:#c9beac">02</span><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Concept &amp; Direction</h3></div><p style="font-family:var(--font-body);font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">Moodboard, palette, typo. Validés avant production.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#928b7d">1 RÉVISION DE DIRECTION INCLUSE</div></div>
-        <div style="padding:22px 0;border-bottom:1px solid rgba(28,26,23,.16)"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="mdg-num" style="font-size:2.4rem;line-height:.8;color:#c9beac">03</span><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Production</h3></div><p style="font-family:var(--font-body);font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">L’outil varie selon le projet. Preview avant le final.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#928b7d">DÉLAI TENU, TOUJOURS</div></div>
-        <div style="padding:22px 0;border-bottom:2px solid #1c1a17"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="mdg-num" style="font-size:2.4rem;line-height:.8;color:#F0EDE8">04</span><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Livraison &amp; Suivi</h3></div><p style="font-family:var(--font-body);font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">Haute résolution, tous formats. Accès maintenu après.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#CDE24C">SOLDE À LA LIVRAISON</div></div>
+        <div style="padding:22px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="mdg-num" style="font-size:2.4rem;line-height:.8;color:#F0EDE8">01</span><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Brief &amp; Échange</h3></div><p style="font-family:var(--font-body);font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">Univers, références, contraintes. Cadrés avant le démarrage.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#CDE24C">ACOMPTE 50% AVANT DÉMARRAGE</div></div>
+        <div style="padding:22px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="mdg-num" style="font-size:2.4rem;line-height:.8;color:#c9beac">02</span><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Concept &amp; Direction</h3></div><p style="font-family:var(--font-body);font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">Moodboard, palette, typo. Validés avant production.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#928b7d">1 RÉVISION DE DIRECTION INCLUSE</div></div>
+        <div style="padding:22px 0;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="mdg-num" style="font-size:2.4rem;line-height:.8;color:#c9beac">03</span><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Production</h3></div><p style="font-family:var(--font-body);font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">L’outil varie selon le projet. Preview avant le final.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#928b7d">DÉLAI TENU, TOUJOURS</div></div>
+        <div style="padding:22px 0;border-bottom:2px solid var(--border)"><div style="display:flex;align-items:baseline;gap:16px;margin-bottom:8px"><span class="mdg-num" style="font-size:2.4rem;line-height:.8;color:#F0EDE8">04</span><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#1c1a17;margin:0">Livraison &amp; Suivi</h3></div><p style="font-family:var(--font-body);font-weight:300;font-size:.84rem;line-height:1.55;color:#615b50;margin:0 0 8px">Haute résolution, tous formats. Accès maintenu après.</p><div class="mono-jb" style="font-size:.66rem;letter-spacing:.03em;color:#CDE24C">SOLDE À LA LIVRAISON</div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;margin-top:28px">
         <div><div class="mdg-num" style="font-size:1.7rem;color:#F0EDE8;line-height:1">6j/7</div><div style="font-family:var(--font-display);font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:#1c1a17;margin-top:5px">Disponibilité</div></div>
@@ -14241,7 +14241,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
   </div>
   <div class="container">
     <div style="max-width:1180px;margin:0 auto">
-      <div style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:48px;margin-bottom:56px;border-bottom:2px solid #1c1a17;padding-bottom:34px">
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:48px;margin-bottom:56px;border-bottom:2px solid var(--border);padding-bottom:34px">
         <div>
           <div class="mono-jb" style="font-size:.72rem;letter-spacing:.24em;color:#CDE24C;margin-bottom:22px">MÉTHODOLOGIE</div>
           <h2 class="proc-title" data-reveal style="font-family:var(--font-display);font-weight:700;font-size:clamp(2.4rem,3.6vw,3.5rem);line-height:.98;letter-spacing:-.015em;color:#1c1a17;margin:0">Comment je travaille,<br><em class="serif-dm" style="font-style:italic;font-weight:400;color:#E4FA5A">chapitre par chapitre.</em></h2>
@@ -14249,22 +14249,22 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
         <p style="font-family:var(--font-body);font-weight:300;font-size:.98rem;line-height:1.7;color:#615b50;max-width:32ch;margin:0">De la première conversation à la livraison. Un engagement clair à chaque étape, jamais de surprise sur la facture.</p>
       </div>
       <div>
-        <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:1px solid rgba(28,26,23,.16)">
+        <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:1px solid var(--border)">
     <div class="mdg-num" style="font-size:4.2rem;line-height:.8;color:#F0EDE8">01</div>
     <div><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.5rem;letter-spacing:-.005em;color:#1c1a17;margin:0 0 8px">Brief &amp; Échange</h3><p style="font-family:var(--font-body);font-weight:300;font-size:.92rem;line-height:1.65;color:#615b50;margin:0;max-width:52ch">Univers, références, contraintes. Tout est cadré avant le moindre coup de crayon.</p></div>
     <div class="mono-jb" style="font-size:.72rem;letter-spacing:.04em;color:#CDE24C;text-align:right">ACOMPTE 50%<br><span style="color:#928b7d">avant démarrage</span></div>
   </div>
-        <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:1px solid rgba(28,26,23,.16)">
+        <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:1px solid var(--border)">
     <div class="mdg-num" style="font-size:4.2rem;line-height:.8;color:#c9beac">02</div>
     <div><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.5rem;letter-spacing:-.005em;color:#1c1a17;margin:0 0 8px">Concept &amp; Direction</h3><p style="font-family:var(--font-body);font-weight:300;font-size:.92rem;line-height:1.65;color:#615b50;margin:0;max-width:52ch">Moodboard, palette, typographie. La direction est posée sur table et validée avant production.</p></div>
     <div class="mono-jb" style="font-size:.72rem;letter-spacing:.04em;color:#928b7d;text-align:right">1 RÉVISION<br><span style="color:#928b7d">de direction incluse</span></div>
   </div>
-        <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:1px solid rgba(28,26,23,.16)">
+        <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:1px solid var(--border)">
     <div class="mdg-num" style="font-size:4.2rem;line-height:.8;color:#c9beac">03</div>
     <div><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.5rem;letter-spacing:-.005em;color:#1c1a17;margin:0 0 8px">Production</h3><p style="font-family:var(--font-body);font-weight:300;font-size:.92rem;line-height:1.65;color:#615b50;margin:0;max-width:52ch">L’outil s’adapte à ce que le projet exige. Une preview intermédiaire arrive toujours avant le final.</p></div>
     <div class="mono-jb" style="font-size:.72rem;letter-spacing:.04em;color:#928b7d;text-align:right">DÉLAI TENU<br><span style="color:#928b7d">toujours</span></div>
   </div>
-        <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:2px solid #1c1a17">
+        <div style="display:grid;grid-template-columns:150px 1fr 260px;align-items:baseline;gap:40px;padding:34px 0;border-bottom:2px solid var(--border)">
     <div class="mdg-num" style="font-size:4.2rem;line-height:.8;color:#F0EDE8">04</div>
     <div><h3 style="font-family:var(--font-display);font-weight:700;font-size:1.5rem;letter-spacing:-.005em;color:#1c1a17;margin:0 0 8px">Livraison &amp; Suivi</h3><p style="font-family:var(--font-body);font-weight:300;font-size:.92rem;line-height:1.65;color:#615b50;margin:0;max-width:52ch">Haute résolution, tous formats. Et un accès direct qui reste ouvert après la livraison.</p></div>
     <div class="mono-jb" style="font-size:.72rem;letter-spacing:.04em;color:#CDE24C;text-align:right">SOLDE<br><span style="color:#928b7d">à la livraison</span></div>
@@ -14306,35 +14306,35 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.85rem;color:#1a1a18;margin-top:12px;letter-spacing:-.01em">Questions fréquentes</h2>
     </div>
     <div style="padding:0 28px 40px">
-      <div class="faqm-item open" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+      <div class="faqm-item open" style="border-top:1px solid var(--border);padding:22px 0">
         <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:var(--font-accent);font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Comment se passe le paiement ?</h3><span class="faqm-sign" style="color:#B4CE38;font-size:1.3rem;flex-shrink:0"></span></div>
         <div class="faqm-a"><p style="font:400 .82rem var(--font-body);color:#5c5a54;line-height:1.6;margin-top:12px">50% d'acompte avant démarrage, le reste à la livraison. J'accepte Wave, Orange Money, Free Money et virements. Hors Sénégal : PayPal ou virement IBAN.</p></div>
       </div>
-      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+      <div class="faqm-item" style="border-top:1px solid var(--border);padding:22px 0">
         <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:var(--font-accent);font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Quels sont les délais ?</h3><span class="faqm-sign" style="color:#B4CE38;font-size:1.3rem;flex-shrink:0"></span></div>
         <div class="faqm-a"><p style="font:400 .82rem var(--font-body);color:#5c5a54;line-height:1.6;margin-top:12px">Single cover, 2 à 4 jours. EP ou mixtape, 5 à 10 jours. Album complet, 10 à 21 jours. Urgence sous 48h, +30%. Sous 24h, +50% selon disponibilité.</p></div>
       </div>
-      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+      <div class="faqm-item" style="border-top:1px solid var(--border);padding:22px 0">
         <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:var(--font-accent);font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Tu travailles hors du Sénégal ?</h3><span class="faqm-sign" style="color:#B4CE38;font-size:1.3rem;flex-shrink:0"></span></div>
         <div class="faqm-a"><p style="font:400 .82rem var(--font-body);color:#5c5a54;line-height:1.6;margin-top:12px">Oui. Mali, Côte d'Ivoire, Cameroun, France et au-delà. Tout se fait à distance via WhatsApp, email ou appel. La distance n'a jamais ralenti un projet.</p></div>
       </div>
-      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+      <div class="faqm-item" style="border-top:1px solid var(--border);padding:22px 0">
         <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:var(--font-accent);font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Qui est propriétaire des fichiers ?</h3><span class="faqm-sign" style="color:#B4CE38;font-size:1.3rem;flex-shrink:0"></span></div>
         <div class="faqm-a"><p style="font:400 .82rem var(--font-body);color:#5c5a54;line-height:1.6;margin-top:12px">Toi, une fois le solde réglé. Tu es l'unique propriétaire des visuels finaux et tu les utilises librement. Les fichiers sources restent ma propriété ; ils peuvent être cédés sur devis. Je garde le droit de montrer le travail dans mon portfolio.</p></div>
       </div>
-      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+      <div class="faqm-item" style="border-top:1px solid var(--border);padding:22px 0">
         <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:var(--font-accent);font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Combien de révisions incluses ?</h3><span class="faqm-sign" style="color:#B4CE38;font-size:1.3rem;flex-shrink:0"></span></div>
         <div class="faqm-a"><p style="font:400 .82rem var(--font-body);color:#5c5a54;line-height:1.6;margin-top:12px">3 révisions incluses par projet. Au-delà, facturé au temps (min 5 000 XOF). Une révision est un ajustement ciblé, pas un changement de concept complet.</p></div>
       </div>
-      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);border-bottom:1px solid rgba(0,0,0,.12);padding:22px 0">
+      <div class="faqm-item" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 0">
         <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:var(--font-accent);font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Tu pars de références ?</h3><span class="faqm-sign" style="color:#B4CE38;font-size:1.3rem;flex-shrink:0"></span></div>
         <div class="faqm-a"><p style="font:400 .82rem var(--font-body);color:#5c5a54;line-height:1.6;margin-top:12px">Absolument, c'est recommandé. Partage tes covers préférées, ambiances, artistes. Je m'en inspire sans copier. L'objectif : que ça te ressemble.</p></div>
       </div>
-      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+      <div class="faqm-item" style="border-top:1px solid var(--border);padding:22px 0">
         <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:var(--font-accent);font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Pourquoi pas un designer à 5 000 F ?</h3><span class="faqm-sign" style="color:#B4CE38;font-size:1.3rem;flex-shrink:0"></span></div>
         <div class="faqm-a"><p style="font:400 .82rem var(--font-body);color:#5c5a54;line-height:1.6;margin-top:12px">À 5 000 F tu paies une image. Ici tu paies une direction : quelqu'un qui lit ton projet, comprend ton univers et construit une identité qui te rend reconnaissable. La différence se voit le jour où ta cover passe à côté de 50 autres, et que c'est la tienne qu'on retient.</p></div>
       </div>
-      <div class="faqm-item" style="border-top:1px solid rgba(0,0,0,.12);padding:22px 0">
+      <div class="faqm-item" style="border-top:1px solid var(--border);padding:22px 0">
         <div onclick="var it=this.closest('.faqm-item');var op=it.classList.contains('open');this.closest('.faq-mob').querySelectorAll('.faqm-item.open').forEach(function(x){x.classList.remove('open')});if(!op)it.classList.add('open')" style="display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer"><h3 style="font-family:var(--font-accent);font-style:italic;font-weight:400;font-size:1.5rem;color:#1a1a18;line-height:1.15">Et si je ne sais pas ce que je veux ?</h3><span class="faqm-sign" style="color:#B4CE38;font-size:1.3rem;flex-shrink:0"></span></div>
         <div class="faqm-a"><p style="font:400 .82rem var(--font-body);color:#5c5a54;line-height:1.6;margin-top:12px">C'est même le meilleur moment pour me parler. Mon travail commence par clarifier ton intention. Tu arrives avec une direction floue, on en sort un parti pris net. Pas besoin d'un brief parfait, juste de ton projet.</p></div>
       </div>
@@ -14441,7 +14441,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 .contact-mob .cfm-mark em { display: block; font-family: var(--font-accent); -webkit-text-stroke: 0; color: #E4FA5A; font-style: italic; font-weight: 400; font-size: .6em; margin-top: 6px; }
 .contact-mob .cfm-sub { font-size: .82rem; color: #7a7a75; line-height: 1.55; margin: 16px auto 0; max-width: 280px; }
 .contact-mob .cfm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
-.contact-mob .cfm-tile { display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 20px 10px; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; text-decoration: none; transition: border-color .2s, background .2s; }
+.contact-mob .cfm-tile { display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 20px 10px; border: 1px solid var(--border); border-radius: 12px; text-decoration: none; transition: border-color .2s, background .2s; }
 .contact-mob .cfm-tile:active { background: rgba(255,255,255,.03); }
 .contact-mob .cfm-tile .cfm-ico { width: 40px; height: 40px; border-radius: 50%; background: rgba(228,250,90,.1); border: 1px solid rgba(228,250,90,.28); color: #E4FA5A; display: grid; place-items: center; }
 .contact-mob .cfm-tile b { font-family: var(--font-display); font-weight: 700; font-size: .8rem; color: #f0ede8; }
@@ -14449,14 +14449,14 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 .contact-mob .cfm-tile.wide { grid-column: 1/-1; flex-direction: row; justify-content: center; background: #E4FA5A; border-color: #E4FA5A; padding: 16px; }
 .contact-mob .cfm-tile.wide .cfm-ico { background: rgba(4,32,25,.18); border: none; color: #1D2103; width: 32px; height: 32px; }
 .contact-mob .cfm-tile.wide b { color: #1D2103; font-size: .86rem; }
-.contact-mob .cfm-info { margin-top: 22px; padding: 16px 18px; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; display: flex; flex-direction: column; gap: 10px; }
+.contact-mob .cfm-info { margin-top: 22px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; gap: 10px; }
 .contact-mob .cfm-info-row { display: flex; align-items: center; justify-content: space-between; font-size: .74rem; }
 .contact-mob .cfm-info-row .k { color: #7a7a75; letter-spacing: .04em; }
 .contact-mob .cfm-info-row .v { font-family: var(--font-display); font-weight: 600; color: #cfcdc7; }
 .contact-mob .cfm-dot { display: inline-flex; align-items: center; gap: 6px; }
 .contact-mob .cfm-dot i { width: 6px; height: 6px; border-radius: 50%; background: #E4FA5A; box-shadow: 0 0 8px #E4FA5A; }
 /* Footer mobile (assorti B) */
-.footer-mob { margin-top: 0; padding: 38px 26px 30px; border-top: 1px solid rgba(255,255,255,.1); background: #040404; text-align: center; }
+.footer-mob { margin-top: 0; padding: 38px 26px 30px; border-top: 1px solid var(--border); background: #040404; text-align: center; }
 .footer-mob .fm-logo { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .footer-mob .fm-logo img { height: 22px; width: auto; display: block; }
 .footer-mob .fm-logo b { font-family: var(--font-display); font-weight: 700; font-size: .88rem; color: #f0ede8; }
@@ -14467,7 +14467,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 .footer-mob .fm-uranus { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; padding: 14px 16px; border-radius: 12px; background: linear-gradient(135deg,rgba(228,250,90,.12),transparent); border: 1px solid rgba(228,250,90,.25); text-decoration: none; }
 .footer-mob .fm-uranus b { font-family: var(--font-display); font-weight: 700; font-size: .72rem; letter-spacing: .1em; color: #E4FA5A; }
 .footer-mob .fm-uranus span { font-size: .66rem; color: #7a7a75; }
-.footer-mob .fm-bottom { margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.1); }
+.footer-mob .fm-bottom { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); }
 .footer-mob .fm-bottom p { font-size: .66rem; color: rgba(255,255,255,.28); letter-spacing: .04em; }
 </style>
 
@@ -20399,7 +20399,7 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
 
 
 
-<button id="backToTop" aria-label="Back to top" style="position:fixed;bottom:2rem;right:1.25rem;z-index:8000;width:42px;height:42px;border-radius:50%;background:rgba(18,18,18,.88);border:1px solid rgba(255,255,255,.07);color:var(--off);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:bottom .3s cubic-bezier(.16,1,.3,1),opacity .3s,transform .3s,color .2s,border-color .2s;pointer-events:none">
+<button id="backToTop" aria-label="Back to top" style="position:fixed;bottom:2rem;right:1.25rem;z-index:8000;width:42px;height:42px;border-radius:50%;background:rgba(18,18,18,.88);border:1px solid var(--border);color:var(--off);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:bottom .3s cubic-bezier(.16,1,.3,1),opacity .3s,transform .3s,color .2s,border-color .2s;pointer-events:none">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 <!-- script déplacé en fin de body -->
@@ -23187,6 +23187,99 @@ nav .nav-cta[href="/learning-center"]:hover{
      le trait entre elles faisait 2px. Seule la premiere garde le sien. */
   #faq .faqm-item + .faqm-item{ border-top:none!important; }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   CITATION SELECTIONNEE
+   La phrase se termine sur un fragment traite comme une selection
+   systeme : surlignage, deux poignees, bulle contextuelle. Le vert
+   signature remplace le bleu systeme, et la bulle agit reellement —
+   un temoignage se cite, l'interface le rend litteralement citable.
+   ══════════════════════════════════════════════════════════════════ */
+.mdg-sel{
+  position:relative;
+  display:inline;
+  background:var(--accent);
+  color:var(--black);
+  padding:.06em .1em;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+  border-radius:2px;
+}
+/* Les deux poignees de selection */
+.mdg-sel::before,
+.mdg-sel::after{
+  content:'';
+  position:absolute;
+  width:2px;
+  height:calc(100% + .22em);
+  background:var(--accent);
+  top:-.11em;
+}
+.mdg-sel::before{ left:-2px; }
+.mdg-sel::after { right:-2px; }
+.mdg-sel-dot{
+  position:absolute; width:11px; height:11px; border-radius:50%;
+  background:var(--accent); pointer-events:none;
+}
+.mdg-sel-dot--a{ left:-6px;  top:-.42em; }
+.mdg-sel-dot--b{ right:-6px; bottom:-.42em; }
+
+/* Bulle contextuelle */
+.mdg-sel-menu{
+  position:absolute;
+  left:0; top:calc(100% + .68em);
+  display:inline-flex; align-items:stretch;
+  background:#1b1b1b;
+  border:1px solid var(--border2);
+  border-radius:9999px;
+  padding:2px;
+  white-space:nowrap;
+  box-shadow:0 12px 34px rgba(0,0,0,.55);
+  opacity:0; transform:translateY(-6px);
+  transition:opacity .24s ease, transform .24s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+  z-index:5;
+}
+.mdg-sel:hover .mdg-sel-menu,
+.mdg-sel:focus-within .mdg-sel-menu,
+.mdg-sel.is-open .mdg-sel-menu{ opacity:1; transform:translateY(0); pointer-events:auto; }
+.mdg-sel-menu::after{
+  content:''; position:absolute; bottom:100%; left:26px;
+  border:6px solid transparent; border-bottom-color:#1b1b1b;
+}
+.mdg-sel-act{
+  font-family:var(--font-body); font-size:.72rem; font-weight:500;
+  color:var(--light); background:none; border:none; cursor:pointer;
+  padding:.42rem .85rem; border-radius:9999px;
+  transition:background .18s ease, color .18s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.mdg-sel-act:hover{ background:rgba(255,255,255,.09); }
+.mdg-sel-act.is-done{ color:var(--accent); }
+.mdg-sel-div{ width:1px; background:var(--border2); margin:.28rem 0; }
+
+/* La citation gagne en echelle : c'est elle l'evenement de la section */
+#social-proof .stg-quote blockquote{
+  font-family:var(--font-display)!important;
+  font-style:normal!important;      /* elle heritait d'un italique */
+  font-weight:700!important;
+  font-size:clamp(1.55rem, 3.4vw, 2.9rem)!important;
+  line-height:1.14!important;
+  letter-spacing:-.02em!important;
+  color:var(--light)!important;
+  margin-bottom:3.2rem!important;   /* place pour la bulle sous le fragment */
+}
+#social-proof .stg-quote blockquote b{ font-weight:700; color:var(--light); }
+#social-proof .stg-quote .qm{ display:none!important; }
+
+@media(max-width:767px){
+  #social-proof .stg-quote blockquote{ font-size:clamp(1.35rem,6.4vw,1.9rem)!important; }
+  .mdg-sel-menu{ left:auto; right:0; }
+  .mdg-sel-menu::after{ left:auto; right:26px; }
+}
+@media(prefers-reduced-motion:reduce){
+  .mdg-sel-menu{ transition:none; }
+}
 </style>
 <script id="mdg-quicknav-hero">
 (function(){
@@ -23463,5 +23556,47 @@ nav .nav-cta[href="/learning-center"]:hover{
 })();
 </script>
 
+
+<script id="mdg-quote-select">
+/* La bulle de selection agit reellement : copier place la citation dans le
+   presse-papiers, partager passe par l'API native quand elle existe et
+   retombe sur la copie sinon. Un decor qui ne fait rien serait un faux. */
+(function(){
+  var sel = document.getElementById('issSel');
+  var q   = document.getElementById('issQuote');
+  if(!sel || !q) return;
+
+  function texte(){
+    var clone = q.cloneNode(true);
+    var menu = clone.querySelector('.mdg-sel-menu');
+    if(menu) menu.remove();
+    return '\u00ab\u202f' + clone.textContent.replace(/\s+/g,' ').trim() + '\u202f\u00bb \u2014 ISS 814';
+  }
+  function fait(btn, mot){
+    var avant = btn.textContent;
+    btn.textContent = mot; btn.classList.add('is-done');
+    setTimeout(function(){ btn.textContent = avant; btn.classList.remove('is-done'); }, 1600);
+  }
+  sel.querySelectorAll('.mdg-sel-act').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var t = texte();
+      if(btn.dataset.act === 'share' && navigator.share){
+        navigator.share({ text: t }).catch(function(){});
+        return;
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(t).then(function(){ fait(btn, 'Copie'); })
+                                        .catch(function(){ fait(btn, 'Echec'); });
+      } else { fait(btn, 'Echec'); }
+    });
+  });
+  /* Tactile : pas de survol, un appui ouvre la bulle. */
+  sel.addEventListener('click', function(){ sel.classList.add('is-open'); });
+  document.addEventListener('click', function(e){
+    if(!sel.contains(e.target)) sel.classList.remove('is-open');
+  });
+})();
+</script>
 </body>
 </html>
