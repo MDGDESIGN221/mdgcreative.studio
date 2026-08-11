@@ -305,7 +305,7 @@ h1, h2, h3 {
 
 /* content-visibility retiré, cassait les calculs de position de ScrollTrigger */
 
-body{font-family:var(--font-body);background:var(--black);color:var(--light);-webkit-font-smoothing:antialiased;cursor:none;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw}
+body{font-family:var(--font-body);background:var(--black);color:var(--light);-webkit-font-smoothing:antialiased;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw}
 
 
 /* ── WATERMARK TEXTE GÉANT (inspiré pieterkoopt) ── */
@@ -22238,8 +22238,10 @@ if (document.readyState === 'loading') {
       width: 54px; height: 54px;
       border-color: rgba(255,255,255,.9);
     }
-    /* Masquer le curseur système quand le custom est actif */
-    body.mdg-cursor-active, body.mdg-cursor-active *{ cursor: none !important; }
+    /* Le suiveur point + anneau est remplace par la fleche systeme :
+       on ne masque plus le curseur. Regle neutralisee plutot que
+       supprimee, pour garder trace de ce qu'elle faisait. */
+    /* body.mdg-cursor-active, body.mdg-cursor-active *{ cursor: none !important; } */
     /* Exception : le slider before/after garde son curseur natif ew-resize */
     body.mdg-cursor-active .work-card-ba,
     body.mdg-cursor-active .work-card-ba *{ cursor: ew-resize !important; }
@@ -23581,6 +23583,38 @@ nav .nav-cta[href="/learning-center"]:hover{
    differente. Deux traits la ou il en faut un, et desalignes de surcroit.
    Le premier chapitre perd son bord superieur. */
 #portfolio-accordion .chap:first-of-type{ border-top:none!important; }
+
+/* ══════════════════════════════════════════════════════════════════
+   CURSEUR
+   Le site masquait le curseur natif (cursor:none) pour afficher un point
+   suivi d'un anneau. C'est un tic d'agence, et ce n'est pas ce que fait
+   Apple : leurs sites laissent la fleche systeme. On la restitue en SVG
+   pour l'avoir a l'identique partout, Windows compris — noire cernee de
+   blanc, avec la pointe exactement sur le point actif.
+
+   Sur les elements actionnables, elle prend le vert MDG : c'est le seul
+   changement d'etat, pas de deformation ni de trainee.
+   ══════════════════════════════════════════════════════════════════ */
+@media(hover:hover) and (pointer:fine){
+  /* Pas de selecteur descendant universel ici : "body.x *" aurait une
+     specificite superieure a "a, button" et ecraserait la variante verte
+     des elements actionnables. */
+  body,
+  body.mdg-cursor-active{ cursor:url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='32'%20viewBox='0%200%2024%2032'><path%20d='M3%201.5%20L3%2024.2%20L8.9%2018.5%20L12.6%2027.1%20L16.4%2025.5%20L12.8%2017.1%20L20.5%2016.9%20Z'%20fill='%23000000'%20stroke='%23ffffff'%20stroke-width='1.6'%20stroke-linejoin='round'/></svg>") 3 2, auto !important; }
+
+  a, button, [role="button"], summary, label,
+  .work-card, .cov-card, .mob-tab, [data-mot-src], .mdg-sel, .lc-cta,
+  input[type="submit"], input[type="button"], select{
+    cursor:url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='32'%20viewBox='0%200%2024%2032'><path%20d='M3%201.5%20L3%2024.2%20L8.9%2018.5%20L12.6%2027.1%20L16.4%2025.5%20L12.8%2017.1%20L20.5%2016.9%20Z'%20fill='%23E4FA5A'%20stroke='%23060606'%20stroke-width='1.6'%20stroke-linejoin='round'/></svg>") 3 2, auto !important;
+  }
+  input[type="text"], input[type="email"], input[type="tel"], textarea{
+    cursor:text !important;
+  }
+  .work-card-ba, .work-card-ba *{ cursor:ew-resize !important; }
+
+  /* Le suiveur point + anneau n'a plus lieu d'etre. */
+  #mdgCursor{ display:none !important; }
+}
 </style>
 <script id="mdg-quicknav-hero">
 (function(){
