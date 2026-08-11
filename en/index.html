@@ -24516,5 +24516,71 @@ nav .nav-cta[href="/learning-center"]:hover{
   };
 })();
 </script>
+
+<script id="mdg-lb-a11y">
+/* == ACCES CLAVIER DES VIGNETTES ==
+   Trois defauts constates a la mesure :
+
+   - Les 41 vignettes IMAGE ont bien un nom accessible : il vient du alt
+     de leur image. Les 10 vignettes VIDEO, elles, ont un alt vide et pour
+     seul texte le chevron : un lecteur d'ecran n'annoncait que "triangle
+     pointant vers la droite". Elles reprennent desormais le titre deja
+     porte par data-lb-title.
+   - Ce chevron etait lu comme du contenu. Il est masque.
+   - A la fermeture, le focus restait sur le bouton de fermeture devenu
+     invisible : la tabulation suivante repartait du haut du document et
+     l'utilisateur perdait sa place. C'est le pendant clavier de "ouvrir,
+     regarder, fermer, revenir exactement ou j'etais".
+*/
+(function(){
+  var lb = document.getElementById('lb');
+  if (!lb) return;
+  var declencheur = null, minuteur = null;
+
+  function nommer(){
+    document.querySelectorAll('.chap-it').forEach(function(b){
+      var chevron = b.querySelector('.chap-play');
+      if (chevron) chevron.setAttribute('aria-hidden', 'true');
+      if (b.getAttribute('aria-label')) return;
+      var img = b.querySelector('img');
+      if (img && (img.getAttribute('alt') || '').trim()) return;   // le alt suffit
+      var titre = (b.dataset.lbTitle || '').trim();
+      if (!titre) return;
+      var en = (document.documentElement.lang || 'fr').slice(0, 2) === 'en';
+      b.setAttribute('aria-label',
+        chevron ? (en ? 'Play video: ' + titre : 'Voir la video : ' + titre) : titre);
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('.chap-it');
+    if (b) declencheur = b;
+    /* Les chapitres se deplient a la demande : les vignettes apparues
+       ensuite doivent etre nommees. On repasse apres tout clic plutot que
+       d'observer le document en entier — le module de brouillage y ecrit
+       en continu, un observateur global s'y declencherait sans arret. */
+    clearTimeout(minuteur);
+    minuteur = setTimeout(nommer, 80);
+  }, true);
+
+  new MutationObserver(function(){
+    if (lb.classList.contains('active')) return;
+    if (!declencheur) return;
+    var b = declencheur; declencheur = null;
+    /* Apres le verrou de defilement : mdgLock repose la position au
+       relachement, et un focus pose trop tot la contredirait. */
+    setTimeout(function(){
+      /* Le focus ne peut revenir que sur un element encore affiche : si le
+         chapitre s'est replie, on remonte au plus proche visible. */
+      var cible = b.getClientRects().length ? b : (b.closest('.chap') || b);
+      try { cible.focus({ preventScroll: true }); }
+      catch (err) { try { cible.focus(); } catch (e2){} }
+    }, 90);
+  }).observe(lb, { attributes: true, attributeFilter: ['class'] });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', nommer);
+  else nommer();
+})();
+</script>
 </body>
 </html>
