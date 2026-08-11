@@ -13994,7 +13994,7 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
       <div class="abg-cell abg-loc">Kaolack, Sénégal · Éd. 2026</div>
 
       <div class="abg-cell abg-title"><span class="abg-tag">Fig. 01 · Déclaration</span><h2>Plus exigeant que <em>productif.</em></h2></div>
-      <div class="abg-cell abg-portrait"><span class="abg-tag">Fig. 02 · Portrait</span><img width="1536" height="2752" loading="lazy" decoding="async" src="/media/img/hero_mobile_vouizb.jpg" alt="Mouhamed Al Amine, directeur créatif MDG Creative Studio"></div>
+      <div class="abg-cell abg-portrait"><span class="abg-tag">Fig. 02 · Portrait</span><img width="2048" height="2048" loading="lazy" decoding="async" src="/media/img/about_5_jdxu46.jpg" alt="Mouhamed Al Amine, directeur créatif MDG Creative Studio"></div>
 
       <div class="abg-cell abg-lede"><span class="abg-tag">Le directeur</span><p>Un perfectionniste désordonné, jamais pleinement satisfait d'un seul projet.</p></div>
       <div class="abg-cell abg-body"><span class="abg-tag">Le parcours</span><p>Gamin, je noircissais déjà des carnets au crayon. Mordu de tech, de jeux et de son, j'ai fait mes premières affiches sur téléphone, puis Photoshop juste après le bac, et je ne l'ai plus lâché. Le déclic, c'est ma cover pour <b>Dopeboy DMG</b> (Road to Roots 2), repartagée par Dip Doundou Guiss, Samba Peuzzi, Bm Jaay et ISS 814. ISS m'a écrit dans la foulée, et là j'ai pris les choses au sérieux. Depuis, avec ISS 814 j'ai même plus compté ; pareil avec Omzo Beatz, One Lyrical et pas mal d'autres. Des noms connus ici, d'autres à l'international. Chaque projet part de qui tu es, pas d'un template.</p></div>
@@ -23514,7 +23514,7 @@ nav .nav-cta[href="/learning-center"]:hover{
    sujet y est au tiers inferieur. */
 #hero.nhero .nh-imgcol img{ object-position:50% 26%!important; }
 #hero.nhero .nh-imgwrap-mob img{ object-position:50% 24%!important; }
-#about .abg-portrait img{ object-position:50% 38%!important; }
+#about .abg-portrait img{ object-position:50% 18%!important; }
 
 /* ══════════════════════════════════════════════════════════════════
    BARRE DE NAV : L'INDICATEUR VERT SE DEPLACE
@@ -23561,8 +23561,15 @@ nav .nav-cta[href="/learning-center"]:hover{
   #about .abg-photo img{ object-position:50% 30%!important; }
   /* Le portrait garde ses 4 colonnes et ses 2 rangees : la rangee est
      donc complete (4+4+4) et rien ne se retrouve orphelin. */
-  #about .abg-portrait img{ object-position:50% 38%!important; }
+  #about .abg-portrait img{ object-position:50% 18%!important; }
 }
+
+/* ── Filet en double sous le titre des Realisations ──
+   .port-new-top dessine deja son bord inferieur ; le premier .chap
+   dessinait le sien juste en dessous, a 22px et sur une largeur
+   differente. Deux traits la ou il en faut un, et desalignes de surcroit.
+   Le premier chapitre perd son bord superieur. */
+#portfolio-accordion .chap:first-of-type{ border-top:none!important; }
 </style>
 <script id="mdg-quicknav-hero">
 (function(){
