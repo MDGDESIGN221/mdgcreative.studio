@@ -23671,20 +23671,23 @@ nav .nav-cta[href="/learning-center"]:hover{
   color:var(--light)!important;
 }
 
-/* ── HERO : etat d'origine retabli ──
-   Capitales pleines pour "L'ELITE", serif italique degrade pour
-   "se remarque.". Le degrade est porte par les MOTS, pas par le
-   parent : le module de revelation deplace le texte dans des
-   descendants, et un fond clippe sur le parent n'a alors plus de
-   texte a clipper — il peignait un bloc plein. */
+/* ── HERO : capitales, seconde ligne degradee ──
+   "L'ELITE" plein, "SE REMARQUE." en capitales dans la meme famille,
+   porte par un degrade blanc vers vert. Le titre devient un bloc d'une
+   seule voix, la seconde ligne decalee vers la droite.
+
+   Le degrade est porte par les MOTS, jamais par le parent : le module
+   de revelation deplace le texte dans des descendants, et un fond
+   clippe sur le parent n'a alors plus de texte a clipper — il peignait
+   un bloc vert plein. */
 #hero.nhero .nh-title{
-  text-transform:none!important;
+  text-transform:uppercase!important;
   background:none!important;
   -webkit-text-fill-color:var(--light)!important;
   color:var(--light)!important;
-  font-size:min(clamp(3.4rem, 10.5vw, 9rem), 18vh)!important;
-  line-height:.84!important;
-  letter-spacing:-.035em!important;
+  font-size:min(clamp(3rem, 9.4vw, 7.6rem), 16vh)!important;
+  line-height:.92!important;
+  letter-spacing:-.04em!important;
 }
 #hero.nhero .nh-title > .mdg-word > i{
   background:none!important;
@@ -23692,22 +23695,24 @@ nav .nav-cta[href="/learning-center"]:hover{
 }
 #hero.nhero .nh-title em{
   display:block;
-  font-family:var(--font-accent)!important;
-  font-style:italic!important;
-  font-weight:400!important;
-  font-size:.56em!important;
-  text-transform:none!important;
-  letter-spacing:-.01em!important;
+  font-family:var(--font-display)!important;
+  font-style:normal!important;
+  font-weight:700!important;
+  font-size:1em!important;
+  text-transform:uppercase!important;
+  letter-spacing:-.04em!important;
+  padding-left:.18em;              /* le decalage de la seconde ligne */
   background:none!important;
 }
 #hero.nhero .nh-title em .mdg-word > i{
-  background:linear-gradient(96deg,
-    var(--light) 8%, #DCEBA0 55%, var(--accent) 100%)!important;
+  background:linear-gradient(104deg,
+    #FFFFFF 0%, #E9F2C4 30%, var(--accent) 62%, #C7E24A 100%)!important;
   -webkit-background-clip:text!important; background-clip:text!important;
   -webkit-text-fill-color:transparent!important;
 }
 @media(max-width:767px){
-  #hero.nhero .nh-title{ font-size:clamp(2.7rem,13vw,4.2rem)!important; }
+  #hero.nhero .nh-title{ font-size:clamp(2.3rem,11vw,3.6rem)!important; }
+  #hero.nhero .nh-title em{ padding-left:0; }
 }
 </style>
 <script id="mdg-quicknav-hero">

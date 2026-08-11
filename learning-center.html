@@ -1933,7 +1933,7 @@
     }
     _fallback() {
       this.style.position = this.style.position || 'relative';
-      this.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:radial-gradient(ellipse 50% 45% at 50% 46%, #1A1C1F 0%, #0B0C0D 72%);color:rgba(232,224,208,0.55);font:500 10.5px/1.6 'Space Grotesk', monospace;letter-spacing:0.16em;text-transform:uppercase;text-align:center;padding:24px"><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(228,250,90,0.5);display:flex;align-items:center;justify-content:center;color:#E4FA5A;font-size:14px">☀</span><span>3D indisponible sur cet appareil</span></div>';
+      this.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:radial-gradient(ellipse 50% 45% at 50% 46%, #1A1C1F 0%, #0B0C0D 72%);color:rgba(232,224,208,0.55);font:500 10.5px/1.6 Space Grotesk, monospace;letter-spacing:0.16em;text-transform:uppercase;text-align:center;padding:24px"><span style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(228,250,90,0.5);display:flex;align-items:center;justify-content:center;color:#E4FA5A;font-size:14px">☀</span><span>3D indisponible sur cet appareil</span></div>';
     }
     disconnectedCallback() {
       this._stopped = true;
@@ -1949,7 +1949,7 @@
       if (!this._loadEl) {
         if (!document.getElementById('lsspin-kf')) { const st = document.createElement('style'); st.id = 'lsspin-kf'; st.textContent = '@keyframes lsspin{to{transform:rotate(360deg)}}'; document.head.appendChild(st); }
         const le = document.createElement('div');
-        le.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;display:flex;align-items:center;gap:10px;color:rgba(232,224,208,0.5);font:500 10px/1 'Space Grotesk',monospace;letter-spacing:0.18em;text-transform:uppercase;pointer-events:none;white-space:nowrap;transition:opacity 0.4s ease';
+        le.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;display:flex;align-items:center;gap:10px;color:rgba(232,224,208,0.5);font:500 10px/1 Space Grotesk,monospace;letter-spacing:0.18em;text-transform:uppercase;pointer-events:none;white-space:nowrap;transition:opacity 0.4s ease';
         le.innerHTML = '<span style="width:12px;height:12px;border-radius:50%;border:1px solid rgba(228,250,90,0.7);border-top-color:transparent;animation:lsspin 0.9s linear infinite;display:block;box-sizing:border-box"></span>chargement 3D';
         this.appendChild(le); this._loadEl = le;
       }
@@ -2173,7 +2173,7 @@
       if (this._loadEl) { const le = this._loadEl; this._loadEl = null; le.style.opacity = '0'; setTimeout(() => le.remove(), 450); }
       if (this.p.interactive !== false && !this._hintEl && !this._hintDone) {
         const h = document.createElement('div');
-        h.style.cssText = 'position:absolute;left:50%;bottom:48px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:8px;padding:9px 15px;border-radius:9999px;background:rgba(14,15,17,0.88);border:1px solid rgba(228,250,90,0.4);color:rgba(232,224,208,0.9);font:500 10px/1 'Space Grotesk',monospace;letter-spacing:0.13em;text-transform:uppercase;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity 0.5s ease;max-width:92%;overflow:hidden;text-overflow:ellipsis';
+        h.style.cssText = 'position:absolute;left:50%;bottom:48px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:8px;padding:9px 15px;border-radius:9999px;background:rgba(14,15,17,0.88);border:1px solid rgba(228,250,90,0.4);color:rgba(232,224,208,0.9);font:500 10px/1 Space Grotesk,monospace;letter-spacing:0.13em;text-transform:uppercase;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity 0.5s ease;max-width:92%;overflow:hidden;text-overflow:ellipsis';
         h.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:#E4FA5A;box-shadow:0 0 8px #E4FA5A;flex-shrink:0"></span>' + (this.getAttribute('hint-text') || 'touche \u00b7 fais tourner \u00b7 attrape la lampe');
         this.appendChild(h); this._hintEl = h;
         setTimeout(() => { if (this._hintEl) this._hintEl.style.opacity = '1'; }, 700);
@@ -2258,7 +2258,7 @@
       MODELS.forEach(([id, label]) => {
         const b = document.createElement('button');
         b.type = 'button'; b.dataset.model = id; b.textContent = label;
-        b.style.cssText = 'font:600 9.5px/1 'Space Grotesk',monospace;letter-spacing:0.12em;text-transform:uppercase;padding:6px 9px;border-radius:9999px;cursor:pointer;background:rgba(14,15,17,0.82);color:rgba(232,224,208,0.7);border:1px solid rgba(232,224,208,0.14);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:all .18s ease;';
+        b.style.cssText = 'font:600 9.5px/1 Space Grotesk,monospace;letter-spacing:0.12em;text-transform:uppercase;padding:6px 9px;border-radius:9999px;cursor:pointer;background:rgba(14,15,17,0.82);color:rgba(232,224,208,0.7);border:1px solid rgba(232,224,208,0.14);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:all .18s ease;';
         b.addEventListener('pointerdown', (e) => e.stopPropagation());
         b.addEventListener('click', (e) => { e.stopPropagation(); this._setP('model', id); });
         bar.appendChild(b);
@@ -2267,7 +2267,7 @@
       this.appendChild(bar); this._picker = bar; this._syncPicker();
       // hint de manipulation (discoverabilité)
       const hint = document.createElement('div');
-      hint.style.cssText = 'position:absolute;left:12px;bottom:12px;z-index:6;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:9999px;background:rgba(14,15,17,0.78);border:1px solid rgba(232,224,208,0.12);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font:600 9px/1 'Space Grotesk',monospace;letter-spacing:0.1em;text-transform:uppercase;color:rgba(232,224,208,0.62);pointer-events:none;transition:opacity .5s ease;';
+      hint.style.cssText = 'position:absolute;left:12px;bottom:12px;z-index:6;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:9999px;background:rgba(14,15,17,0.78);border:1px solid rgba(232,224,208,0.12);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font:600 9px/1 Space Grotesk,monospace;letter-spacing:0.1em;text-transform:uppercase;color:rgba(232,224,208,0.62);pointer-events:none;transition:opacity .5s ease;';
       hint.innerHTML = '<span style="color:#E4FA5A;">glisse</span> la lumière <span style="opacity:0.4;">/</span> <span style="color:#E4FA5A;">pivote</span> le modèle';
       this.appendChild(hint); this._hint = hint;
       const fade = () => { if (this._hint) this._hint.style.opacity = '0'; };
@@ -3104,8 +3104,8 @@
               <circle cx="{{ ch3KnobXsvg }}" cy="{{ ch3KnobYsvg }}" r="12" fill="rgba(228,250,90,0.18)"></circle>
               <circle cx="{{ ch3KnobXsvg }}" cy="{{ ch3KnobYsvg }}" r="6" fill="#E4FA5A"></circle>
               <circle cx="{{ ch3KnobXsvg }}" cy="{{ ch3KnobYsvg }}" r="2.2" fill="#0B0C0D"></circle>
-              <text x="100" y="50" text-anchor="middle" font-family='Space Grotesk', monospace" font-size="8" letter-spacing="1.5" fill="rgba(232,224,208,0.4)">{{ compassFaceLabel }}</text>
-              <text x="100" y="172" text-anchor="middle" font-family='Space Grotesk', monospace" font-size="8" letter-spacing="1.5" fill="rgba(232,224,208,0.35)">{{ compassBackLabel }}</text>
+              <text x="100" y="50" text-anchor="middle" font-family=Space Grotesk, monospace" font-size="8" letter-spacing="1.5" fill="rgba(232,224,208,0.4)">{{ compassFaceLabel }}</text>
+              <text x="100" y="172" text-anchor="middle" font-family=Space Grotesk, monospace" font-size="8" letter-spacing="1.5" fill="rgba(232,224,208,0.35)">{{ compassBackLabel }}</text>
             </svg>
           </div>
           <div style="display: flex; flex-direction: column; gap: 12px; min-width: 130px; flex: 1;">
