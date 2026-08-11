@@ -23604,6 +23604,75 @@ nav .nav-cta[href="/learning-center"]:hover{
   /* Le suiveur point + anneau n'a plus lieu d'etre. */
   #mdgCursor{ display:none !important; }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   TITRES : LE TRAITEMENT URANUS
+   ──────────────────────────────────────────────────────────────────
+   Reprise de la recette de la page URANUS, validee a l'ecran :
+   capitales, graisse 700, interligne 0.92, tracking -.04em, premiere
+   ligne pleine et segment accentue en degrade clippe sur le texte.
+
+   Consequence assumee : le segment accentue n'est plus en serif
+   italique mais dans la meme famille, en capitales. Le titre devient un
+   BLOC typographique d'une seule voix, au lieu d'un contraste
+   sans/serif. C'est plus studio, moins editorial.
+
+   Le serif Instrument reste employe la ou il est vraiment editorial :
+   la respiration "chapitre par chapitre.", la citation d'ISS.
+   ══════════════════════════════════════════════════════════════════ */
+#hero.nhero .nh-title,
+.pass-title,
+#services .svc-h2,
+.proc-title,
+#portH2{
+  text-transform:uppercase!important;
+  font-weight:700!important;
+  line-height:.92!important;
+  letter-spacing:-.04em!important;
+}
+
+/* Le segment accentue : meme famille, capitales, degrade */
+#hero.nhero .nh-title em,
+.pass-title em,
+#services .svc-h2 em,
+.proc-title em,
+#portH2 em{
+  display:block;
+  font-family:var(--font-display)!important;
+  font-style:normal!important;
+  font-weight:700!important;
+  font-size:1em!important;
+  letter-spacing:-.04em!important;
+  background:linear-gradient(118deg,
+    #FFFFFF 0%,
+    #E9F2C4 32%,
+    var(--accent) 68%,
+    #B4CE38 100%)!important;
+  -webkit-background-clip:text!important; background-clip:text!important;
+  -webkit-text-fill-color:transparent!important; color:transparent!important;
+}
+
+/* Le degrade doit suivre les mots decoupes par le module de revelation,
+   sinon le texte devient invisible : le fond est clippe sur un texte qui
+   vit dans les descendants. */
+#hero.nhero .nh-title em .mdg-word,
+#hero.nhero .nh-title em .mdg-word > i,
+.pass-title em .mdg-word,
+.pass-title em .mdg-word > i,
+#services .svc-h2 em .mdg-word,
+#services .svc-h2 em .mdg-word > i,
+.proc-title em .mdg-word,
+.proc-title em .mdg-word > i{
+  background-image:inherit!important;
+  -webkit-background-clip:text!important; background-clip:text!important;
+  -webkit-text-fill-color:transparent!important;
+}
+
+/* En capitales, un titre gagne en largeur : on rend un peu d'echelle. */
+#hero.nhero .nh-title{ font-size:min(clamp(3rem, 9.4vw, 7.6rem), 16vh)!important; }
+@media(max-width:767px){
+  #hero.nhero .nh-title{ font-size:clamp(2.3rem,11vw,3.6rem)!important; }
+}
 </style>
 <script id="mdg-quicknav-hero">
 (function(){
