@@ -135,6 +135,7 @@
   --border:rgba(255,255,255,0.08);
   --border2:rgba(255,255,255,0.14);
   --r:12px;
+  --gutter:24px;   /* gouttiere de page, mobile */
 }
 
 /* ── Couche DONNEE : Space Mono ────────────────────────────────────
@@ -22998,10 +22999,29 @@ html { scrollbar-color: rgba(255,255,255,.16) transparent; scrollbar-width: thin
   /* La barre d'onglets mobile est fixe, 56px, au ras du bas. */
   #hero.nhero{ padding-bottom:calc(56px + env(safe-area-inset-bottom,0px) + 18px)!important; }
   #hero.nhero .nh-title{ font-size:clamp(2.7rem,13vw,4.2rem)!important; }
-  /* L'image mobile faisait 260px : le hero se terminait pile sous la barre
-     d'onglets et la ligne des collaborations passait dessous. */
-  #hero.nhero .nh-imgwrap-mob{ height:clamp(150px,22vh,210px)!important; margin-top:14px!important; }
-  #hero.nhero .nh-imgwrap-mob img{ height:100%!important; object-fit:cover!important; }
+  /* La source du hero mobile est une VERTICALE (1536x2752). Elle etait
+     posee dans une boite horizontale de 327x179 : 30% de la photo
+     visible, le sujet coupe. La boite reprend un format portrait proche
+     de la source, et le cadrage vise le haut du buste plutot que le
+     centre geometrique. Le hero deborde alors legerement sous la ligne
+     de flottaison, ce qui est le comportement normal d'un hero mobile
+     et invite au defilement. */
+  #hero.nhero .nh-imgwrap-mob{
+    height:auto!important;
+    aspect-ratio:4/5!important;
+    width:68%!important;              /* portrait resserre : le cadrage est
+                                         conserve sans payer 409px de hauteur
+                                         sur un ecran de 812 */
+    max-width:270px!important;
+    max-height:38vh!important;
+    margin:14px auto 0!important;
+    overflow:hidden;
+  }
+  #hero.nhero .nh-imgwrap-mob img{
+    width:100%!important; height:100%!important;
+    object-fit:cover!important;
+    object-position:50% 28%!important;
+  }
   #hero.nhero .nh-actions{ flex-direction:column!important; align-items:stretch!important; gap:10px!important; }
   #hero.nhero .nh-btn--p{ justify-content:center!important; }
   #hero.nhero .nh-btn--s{ justify-content:center!important; border-bottom:none!important; }
@@ -23127,6 +23147,45 @@ nav .nav-cta[href="/learning-center"]{
 nav .nav-cta[href="/learning-center"]:hover{
   border-color:var(--light)!important;
   color:var(--light)!important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   UN SEUL FILET PAR JONCTION
+   Des elements adjacents dessinaient chacun leur bord a la MEME
+   ordonnee : le trait faisait alors 2px et paraissait plus epais que
+   les autres filets de la page. Cinq jonctions etaient concernees.
+   A chaque fois on supprime un cote, jamais les deux, pour que la
+   separation reste visible.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Les bandes de rappel suivent toujours une section qui porte deja son
+   bord inferieur : elles n'ont pas besoin du leur en haut. */
+.section-cta-band{ border-top:none!important; }
+
+/* #collabs porte deja un bord inferieur ; le bord superieur que la
+   bascule sombre avait ajoute a #process faisait doublon. */
+#process{ border-top:none!important; }
+
+/* La grille de FAQ et ses cartes dessinaient les memes aretes.
+   Les cartes gardent leurs bords, le conteneur n'en a plus. */
+.faq-grid{ border-top:none!important; border-bottom:none!important; }
+
+/* ══════════════════════════════════════════════════════════════════
+   GOUTTIERE MOBILE UNIQUE
+   Chaque section avait la sienne : about 15px, portfolio 36, services
+   42, process 46, faq 48, contact 69. Les filets heritant de la largeur
+   de leur conteneur, aucun ne s'alignait avec le suivant — d'ou des
+   traits qui semblent decales de bloc en bloc en descendant la page.
+   Une seule valeur, alignee sur celle du hero.
+   ══════════════════════════════════════════════════════════════════ */
+@media(max-width:767px){
+  #about .abg-cell{ padding-left:var(--gutter)!important; padding-right:var(--gutter)!important; }
+  #portfolio-accordion .chap{ margin-left:var(--gutter)!important; margin-right:var(--gutter)!important; }
+  #faq .faqm-item{ margin-left:var(--gutter)!important; margin-right:var(--gutter)!important; }
+
+  /* Deux cartes de FAQ qui se suivent dessinaient chacune leur bord :
+     le trait entre elles faisait 2px. Seule la premiere garde le sien. */
+  #faq .faqm-item + .faqm-item{ border-top:none!important; }
 }
 </style>
 <script id="mdg-quicknav-hero">
