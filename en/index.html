@@ -10680,22 +10680,38 @@ document.addEventListener('DOMContentLoaded', function () {
    les correctifs ecrivant en innerHTML doublaient le texte a chaque
    bascule. On rend le balisage d'origine, on traduit, on redecoupe. */
 (function(){
-  if (typeof window.applyLang !== 'function') return;
-  var origine = window.applyLang;
-  window.applyLang = function(lang){
+  function avant(){
     if (window.mdgTextUnsplit) { try { window.mdgTextUnsplit(); } catch(e){} }
     if (window.mdgMarkReset)  { try { window.mdgMarkReset(); }  catch(e){} }
-    var r = origine.apply(this, arguments);
-    if (window.mdgTextResplit) {
-      /* Apres le rendu de la traduction, sinon on mesurerait les lignes
-         sur l'ancien texte. */
-      requestAnimationFrame(function(){
-        try { window.mdgTextResplit(); } catch(e){}
-        if (window.mdgMarkApply) { try { window.mdgMarkApply(true); } catch(e){} }
-      });
-    }
-    return r;
-  };
+  }
+  function apres(){
+    /* Apres le rendu de la traduction, sinon on mesurerait les lignes
+       sur l'ancien texte. */
+    requestAnimationFrame(function(){
+      if (window.mdgTextResplit) { try { window.mdgTextResplit(); } catch(e){} }
+      if (window.mdgMarkApply)   { try { window.mdgMarkApply(true); } catch(e){} }
+    });
+  }
+  function envelopper(nom){
+    var origine = window[nom];
+    if (typeof origine !== 'function' || origine.__mdgEnveloppe) return;
+    var f = function(){
+      avant();
+      var r = origine.apply(this, arguments);
+      apres();
+      return r;
+    };
+    f.__mdgEnveloppe = true;
+    window[nom] = f;
+  }
+
+  /* DEUX portes d'entree, et il fallait les deux.
+     toggleLang appelle la fonction applyLang INTERNE a son IIFE, pas
+     window.applyLang : n'envelopper que celle-ci laissait le bouton de
+     langue passer a cote du correctif. C'est par le bouton que le
+     visiteur arrive, et c'est la seule voie qui comptait. */
+  envelopper('applyLang');
+  envelopper('toggleLang');
 })();
 </script>
 
