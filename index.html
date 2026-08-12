@@ -24633,5 +24633,212 @@ nav .nav-cta[href="/learning-center"]:hover{
   else nommer();
 })();
 </script>
+
+<script id="mdg-motion-flip">
+/* == LA VIDEO NAIT DE SA VIGNETTE ==
+   Le lecteur reprenait deja l'image de la vignette comme poster, donc la
+   continuite d'IMAGE existait. Manquait celle de POSITION : le plein
+   ecran surgissait sans lien avec ce qu'on venait de toucher.
+
+   On mesure la vignette et le cadre final, on pose la transformation
+   inverse, puis on la relache : le cadre part exactement de la vignette
+   et grandit jusqu'a sa place. C'est ce qui rend la fermeture evidente —
+   on sait ou ca retourne.
+
+   La transformation est portee par #motion-fullscreen-inner et PAS par
+   #mfs-stage : le stage appartient deja au geste de fermeture par swipe,
+   les deux se marcheraient dessus.
+
+   Au retour, le vol tient dans le fondu de 200ms deja pose sur le fond :
+   rien n'est retarde, donc ni le verrou de defilement ni l'historique ne
+   sont decales. */
+(function(){
+  if (!window.motionOpen || !window.motionCloseVisual) return;
+  var REDUIT = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var EASE = 'cubic-bezier(.16,1,.3,1)';
+  var vignette = null, minuteur = null;
+
+  document.addEventListener('click', function(e){
+    var c = e.target.closest && e.target.closest('[data-mot-src]');
+    if (c) vignette = c;
+  }, true);
+
+  function cadre(){ return document.getElementById('motion-fullscreen-inner'); }
+
+  /* Rend la transformation qui ramene `boite` sur `cible`. */
+  function versRect(boite, cible){
+    var a = boite.getBoundingClientRect(), d = cible.getBoundingClientRect();
+    if (!a.width || !a.height || !d.width || !d.height) return null;
+    return 'translate(' + ((d.left + d.width / 2) - (a.left + a.width / 2)) + 'px,'
+                        + ((d.top + d.height / 2) - (a.top + a.height / 2)) + 'px) '
+         + 'scale(' + (d.width / a.width) + ',' + (d.height / a.height) + ')';
+  }
+
+  var ouvrir = window.motionOpen;
+  window.motionOpen = function(){
+    ouvrir.apply(this, arguments);
+    if (REDUIT || !vignette) return;
+    var c = cadre(); if (!c) return;
+    clearTimeout(minuteur);
+    /* Deux images d'attente : le cadre prend sa taille finale au premier
+       rendu seulement, le mesurer avant donnerait un vol errone. */
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      var t = versRect(c, vignette); if (!t) return;
+      c.style.transition = 'none';
+      c.style.transformOrigin = '50% 50%';
+      c.style.transform = t;
+      void c.offsetWidth;                        // reflow force avant l'animation
+      c.style.transition = 'transform .46s ' + EASE;
+      c.style.transform = 'none';
+    }); });
+  };
+
+  var fermer = window.motionCloseVisual;
+  window.motionCloseVisual = function(){
+    var c = cadre();
+    if (!REDUIT && vignette && c && c.getClientRects().length){
+      var t = versRect(c, vignette);
+      if (t){
+        c.style.transition = 'transform .22s ease-in';
+        c.style.transform = t;
+        /* Nettoyage apres le fondu, sinon la prochaine ouverture
+           partirait de la position de la precedente. */
+        clearTimeout(minuteur);
+        minuteur = setTimeout(function(){
+          c.style.transition = ''; c.style.transform = ''; c.style.transformOrigin = '';
+        }, 300);
+      }
+    }
+    return fermer.apply(this, arguments);
+  };
+})();
+</script>
+
+<style id="mdg-mark-css">
+/* == SOULIGNAGE D'UNE PHRASE ==
+   Un trait qui se dessine sous UNE phrase, puis s'arrete. Il sert la
+   hierarchie : il designe l'argument, il ne decore pas. En poser
+   plusieurs annulerait ce qu'il cree. */
+.mdg-mark{ position:relative; }
+.mdg-mark-trait{
+  position:absolute; pointer-events:none; overflow:visible; z-index:0;
+}
+.mdg-mark-trait path{
+  fill:none; stroke:var(--accent); stroke-width:2.2; stroke-linecap:round;
+  stroke-dasharray:var(--len,200); stroke-dashoffset:var(--len,200);
+  transition:stroke-dashoffset .78s cubic-bezier(.16,1,.3,1) var(--delai,0s);
+}
+.mdg-mark-hote.is-on .mdg-mark-trait path{ stroke-dashoffset:0; }
+@media(prefers-reduced-motion:reduce){
+  /* Le trait reste, il ne se dessine plus : c'est le trace qui est du
+     mouvement, pas le trait lui-meme. */
+  .mdg-mark-trait path{ transition:none!important; stroke-dashoffset:0!important; }
+}
+</style>
+
+<script id="mdg-mark-js">
+(function(){
+  /* La phrase est enveloppee A L'EXECUTION, apres la traduction. L'envelopper
+     dans le HTML couperait le noeud texte en trois, et le dictionnaire — qui
+     cherche le paragraphe ENTIER comme cle — ne le trouverait plus : la page
+     anglaise repasserait au francais sur ce paragraphe. */
+  /* Les apostrophes typographiques et droites sont ramenees a une seule
+     forme AVANT la recherche. La substitution est de longueur egale, donc
+     les index restent valides pour decouper le noeud texte ensuite. */
+  function normApos(s){ return String(s).replace(/[\u2019\u02BC\u00B4]/g, "'"); }
+  var PHRASES = ["une seule main dirige l'ensemble",
+                 "one hand steers it all"];
+
+  function trouver(){
+    var res = [];
+    document.querySelectorAll('#services p').forEach(function(p){
+      if (p.querySelector('.mdg-mark')) return;
+      var w = document.createTreeWalker(p, NodeFilter.SHOW_TEXT), n;
+      while ((n = w.nextNode())){
+        var bas = normApos((n.nodeValue || "")).toLowerCase();
+        for (var i = 0; i < PHRASES.length; i++){
+          var k = bas.indexOf(PHRASES[i]);
+          if (k < 0) continue;
+          res.push({ noeud:n, debut:k, fin:k + PHRASES[i].length, hote:p });
+          return;
+        }
+      }
+    });
+    return res;
+  }
+
+  function envelopper(t){
+    var apres = t.noeud.splitText(t.debut);
+    apres.splitText(t.fin - t.debut);
+    var sp = document.createElement('span');
+    sp.className = 'mdg-mark';
+    apres.parentNode.insertBefore(sp, apres);
+    sp.appendChild(apres);
+    return sp;
+  }
+
+  function tracer(sp, hote){
+    hote.querySelectorAll('.mdg-mark-trait').forEach(function(e){ e.remove(); });
+    if (getComputedStyle(hote).position === 'static') hote.style.position = 'relative';
+    var rh = hote.getBoundingClientRect();
+    var rects = sp.getClientRects();
+    /* Un trait PAR LIGNE : sur une phrase qui passe a la ligne, un trait
+       unique couvrant toute la boite passerait au travers du texte. */
+    for (var i = 0; i < rects.length; i++){
+      var r = rects[i];
+      if (r.width < 6) continue;
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'mdg-mark-trait');
+      svg.setAttribute('viewBox', '0 0 200 12');
+      svg.setAttribute('preserveAspectRatio', 'none');
+      svg.style.left   = (r.left - rh.left - 2) + 'px';
+      svg.style.top    = (r.bottom - rh.top - 1) + 'px';
+      svg.style.width  = (r.width + 4) + 'px';
+      svg.style.height = '9px';
+      var d = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      /* Legere ondulation : un trait parfaitement droit lit comme une
+         bordure, pas comme un geste. */
+      d.setAttribute('d', 'M2,7 C48,2.5 96,9 148,4 C168,2 184,5 198,6');
+      svg.appendChild(d);
+      hote.appendChild(svg);
+      var len = d.getTotalLength();
+      d.style.setProperty('--len', len);
+      d.style.setProperty('--delai', (i * 0.16) + 's');
+    }
+  }
+
+  function demarrer(){
+    var cibles = trouver();
+    if (!cibles.length) return;
+    cibles.forEach(function(t){
+      var sp = envelopper(t), hote = t.hote;
+      hote.classList.add('mdg-mark-hote');
+      tracer(sp, hote);
+      var io = new IntersectionObserver(function(en){
+        en.forEach(function(e){
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          hote.classList.add('is-on');
+        });
+      }, { threshold:0.5 });
+      io.observe(hote);
+      var m = null;
+      window.addEventListener('resize', function(){
+        clearTimeout(m);
+        m = setTimeout(function(){ tracer(sp, hote); }, 140);
+      }, { passive:true });
+    });
+  }
+
+  function pret(){
+    /* Apres les polices : la largeur des lignes change au chargement, et
+       un trait mesure avant se retrouverait decale. */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ setTimeout(demarrer, 60); });
+    else setTimeout(demarrer, 300);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', pret);
+  else pret();
+})();
+</script>
 </body>
 </html>
