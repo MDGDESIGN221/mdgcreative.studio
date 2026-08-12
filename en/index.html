@@ -459,7 +459,7 @@
 <a href="#main-content" class="skip-link" style="position:absolute;top:-100px;left:1rem;background:var(--accent);color:#000;padding:.5rem 1rem;border-radius:4px;font-size:.75rem;font-weight:700;z-index:99999;transition:top .2s;text-decoration:none" onfocus="this.style.top='1rem'" onblur="this.style.top='-100px'">Skip to content</a>
 <nav aria-label="Main navigation" role="banner" class="nav-on-light">
   <a href="#" class="nav-logo">
-    <img width="1600" height="1600" decoding="async" loading="lazy" src="/media/img/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" style="height:44px;width:auto;display:block;filter:brightness(1)">
+    <img width="1600" height="1600" decoding="async" fetchpriority="high" src="/media/img/NEW_LOGO_w_rxvoil.png" alt="MDG Creative Studio" style="height:44px;width:auto;display:block;filter:brightness(1)">
   </a>
   <ul class="nav-links">
     <li><a href="#portfolio-accordion" data-num="01" data-i18n="nav_work" onclick="event.preventDefault();if(typeof lenisScroll!=='undefined')lenisScroll('portfolio-accordion');else document.getElementById('portfolio-accordion')?.scrollIntoView({behavior:'smooth'})">Réalisations</a></li>
@@ -4004,79 +4004,87 @@ function updateKaolackTime() {
 updateKaolackTime();
 setInterval(updateKaolackTime, 10000);
 
-// ── CURSOR TRAIL (covers en miniature) ──
+// ── SILLAGE DU CURSEUR (covers en miniature) ──
 (function(){
   if(!window.matchMedia('(hover:hover)').matches) return;
-  
+
+  // Vignettes 440px : la miniature affichee mesure 52px de cote. Les
+  // fichiers pleine resolution pesaient 1,5 Mo pour cette decoration,
+  // et ils partaient au chargement de la page — en concurrence avec le
+  // heros — alors que le sillage ne sert que dans covers et work.
   const covers = [
-    '/media/img/bal-poussiere_mtzobd.webp',
-    '/media/img/new-wave_vzxywo.webp',
-    '/media/img/good-vibes_m7kre2.webp',
-    '/media/img/okg_j3a2cn.webp',
-    '/media/img/gideon_t4a5wt.webp',
-    '/media/img/ghetto-star_cdj53n.webp',
+    '/media/img/bal-poussiere_mtzobd-t.webp',
+    '/media/img/new-wave_vzxywo-t.webp',
+    '/media/img/good-vibes_m7kre2-t.webp',
+    '/media/img/okg_j3a2cn-t.webp',
+    '/media/img/gideon_t4a5wt-t.webp',
+    '/media/img/ghetto-star_cdj53n-t.webp',
   ];
-  
-  const trail = [];
+
   const TRAIL_COUNT = 6;
-  let coverIndex = 0;
-  let lastX = 0, lastY = 0;
-  let moveCount = 0;
-  
-  // Créer les éléments trail
-  for(let i = 0; i < TRAIL_COUNT; i++){
-    const el = document.createElement('div');
-    el.className = 'cursor-trail';
-    const size = 52 - i * 6;
-    el.style.cssText = `width:${size}px;height:${size}px`;
-    const img = document.createElement('img');
-    img.src = covers[i % covers.length];
-    img.alt = '';
-    el.appendChild(img);
-    document.body.appendChild(el);
-    trail.push({el, x: 0, y: 0, tx: 0, ty: 0, delay: i * 0.08});
-  }
-  
+  const trail = [];
+  let coverIndex = 0, moveCount = 0, trailActive = false, boucleEnCours = false;
   let positions = Array(TRAIL_COUNT).fill({x:0,y:0});
-  
+
+  // Rien n'est cree, donc rien n'est telecharge, tant que le pointeur
+  // n'est pas entre dans une section concernee.
+  function construire(){
+    if(trail.length) return;
+    for(let i = 0; i < TRAIL_COUNT; i++){
+      const el = document.createElement('div');
+      el.className = 'cursor-trail';
+      const size = 52 - i * 6;
+      el.style.cssText = `width:${size}px;height:${size}px`;
+      const img = document.createElement('img');
+      img.src = covers[i % covers.length];
+      img.alt = '';
+      el.appendChild(img);
+      document.body.appendChild(el);
+      trail.push({el, x: 0, y: 0, tx: 0, ty: 0, delay: i * 0.08});
+    }
+  }
+
   document.addEventListener('mousemove', e => {
     moveCount++;
     positions = [{x: e.clientX, y: e.clientY}, ...positions.slice(0, TRAIL_COUNT - 1)];
-    
+
     // Changer l'image toutes les 8 mouvements
-    if(moveCount % 8 === 0) {
+    if(moveCount % 8 === 0 && trail.length){
       coverIndex = (coverIndex + 1) % covers.length;
       trail[0].el.querySelector('img').src = covers[coverIndex];
     }
   });
-  
-  let trailActive = false;
-  // Activer le trail seulement dans la section covers/work
-  document.querySelectorAll('#covers, #work').forEach(section => {
+
+  // La boucle s'arrete avec le survol au lieu de tourner a vide a chaque
+  // frame pendant toute la visite.
+  function animer(){
+    if(!trailActive){ boucleEnCours = false; return; }
+    positions.forEach((pos, i) => {
+      if(!trail[i]) return;
+      const t = trail[i];
+      t.x += (pos.x - t.x) * (0.3 - i * 0.03);
+      t.y += (pos.y - t.y) * (0.3 - i * 0.03);
+      t.el.style.transform = `translate(${t.x - 26}px, ${t.y - 26}px) rotate(${i * 8}deg)`;
+      t.el.style.opacity = String(1 - i * 0.15);
+    });
+    requestAnimationFrame(animer);
+  }
+
+  // Les panneaux s'appellent pnl-covers et pnl-work. L'ancien selecteur
+  // visait #covers et #work, qui n'existent pas : aucun ecouteur n'etait
+  // pose et le sillage ne s'est jamais affiche.
+  document.querySelectorAll('#pnl-covers, #pnl-work').forEach(section => {
     section.addEventListener('mouseenter', () => {
+      construire();
       trailActive = true;
       trail.forEach(t => t.el.style.opacity = '1');
+      if(!boucleEnCours){ boucleEnCours = true; requestAnimationFrame(animer); }
     });
     section.addEventListener('mouseleave', () => {
       trailActive = false;
       trail.forEach(t => t.el.style.opacity = '0');
     });
   });
-  
-  (function animateTrail(){
-    // Ne calcule les positions que si le trail est visible, économise CPU hors section covers
-    if(trailActive){
-      positions.forEach((pos, i) => {
-        if(!trail[i]) return;
-        const t = trail[i];
-        t.x += (pos.x - t.x) * (0.3 - i * 0.03);
-        t.y += (pos.y - t.y) * (0.3 - i * 0.03);
-        t.el.style.transform = `translate(${t.x - 26}px, ${t.y - 26}px) rotate(${i * 8}deg)`;
-        t.el.style.opacity = String(1 - i * 0.15);
-      });
-    }
-    requestAnimationFrame(animateTrail);
-  })();
 })();
 
 // ── IMAGE SUIT LE CURSEUR SUR LES ARTISTES ──
