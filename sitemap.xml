@@ -21,6 +21,9 @@
   <url>
     <loc>https://www.mdgcreative.studio/tarifs</loc>
     <lastmod>2026-07-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/tarifs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/tarifs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/tarifs"/>
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/learning-center</loc>
@@ -29,6 +32,9 @@
   <url>
     <loc>https://www.mdgcreative.studio/uranus</loc>
     <lastmod>2026-07-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/uranus"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/uranus"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/uranus"/>
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/projets/baobabs</loc>
@@ -57,5 +63,19 @@
   <url>
     <loc>https://www.mdgcreative.studio/mentions-legales</loc>
     <lastmod>2026-07-21</lastmod>
+  </url>
+  <url>
+    <loc>https://www.mdgcreative.studio/en/tarifs</loc>
+    <lastmod>2026-08-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/tarifs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/tarifs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/tarifs"/>
+  </url>
+  <url>
+    <loc>https://www.mdgcreative.studio/en/uranus</loc>
+    <lastmod>2026-08-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/uranus"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/uranus"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/uranus"/>
   </url>
 </urlset>
