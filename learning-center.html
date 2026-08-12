@@ -2460,6 +2460,29 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
+    /* ══════════════════════════════════════════════════════════════
+       EN-TETE : TENIR SUR LES ECRANS ETROITS
+       L'en-tete est en flex, space-between, nowrap, avec 28px de marge
+       de chaque cote. Il reclame 430px : logo 24, mot-symbole 154,
+       commandes 180, espacements 72.
+
+       En dessous, le conteneur du mot-symbole est bien ecrase par flex —
+       mais son TEXTE garde sa largeur et deborde : le bouton de son et
+       la pastille FR/EN se retrouvent posees par-dessus le mot CENTER.
+       Reproduit a 320px, absent a 470 et au-dela.
+
+       Sous 440px le mot-symbole s'efface : le logo identifie deja la
+       page, et ce sont les commandes qui doivent rester atteignables.
+       ══════════════════════════════════════════════════════════════ */
+    @media (max-width: 440px) {
+      header > div:first-child > span:last-child { display: none !important; }
+      header {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        gap: 10px !important;
+      }
+    }
+
     html, body { margin: 0; padding: 0; background: #0B0C0D; }
     * { box-sizing: border-box; }
     a { color: #E4FA5A; text-decoration: none; }
