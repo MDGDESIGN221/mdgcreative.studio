@@ -2540,7 +2540,14 @@ setTimeout(function(){
 // ── CURSEUR PREMIUM ──
 const cur=document.getElementById('cur'),curR=document.getElementById('curR');
 let mx=0,my=0,rx=0,ry=0;
-if(window.matchMedia('(hover:hover)').matches){
+/* Le suiveur point + anneau a ete remplace par un curseur SVG en CSS.
+   .cur porte desormais display:none sans media, donc il est masque
+   partout. La boucle et l'ecouteur de souris continuaient pourtant
+   d'ecrire des transformations sur un element invisible. On verifie
+   qu'il est rendu avant de faire quoi que ce soit. La feuille de style
+   est dans le head, elle est donc deja appliquee ici. */
+const curVisible = cur && getComputedStyle(cur).display !== 'none';
+if(window.matchMedia('(hover:hover)').matches && curVisible){
   document.addEventListener('mousemove',e=>{
     mx=e.clientX;my=e.clientY;
     cur.style.transform=`translate(calc(-50% + ${mx}px), calc(-50% + ${my}px))`;
@@ -9517,12 +9524,20 @@ if (document.readyState === 'loading') {
   if(!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
   var cursor = document.getElementById('mdgCursor');
+  if(!cursor) return;                 /* le test venait apres les querySelector */
   var ring = cursor.querySelector('.mdg-cursor-ring');
   var dot = cursor.querySelector('.mdg-cursor-dot');
   var label = cursor.querySelector('.mdg-cursor-label');
-  if(!cursor) return;
 
   document.body.classList.add('mdg-cursor-active');
+
+  /* Ce suiveur est retire : la feuille porte #mdgCursor{display:none
+     !important} sous (hover:hover) and (pointer:fine), c'est-a-dire
+     exactement la condition testee ci-dessus. Il ne s'affichait donc
+     nulle part, alors que sa boucle ecrivait une transformation a
+     chaque frame et ses ecouteurs a chaque mouvement de souris.
+     La classe reste posee : deux regles s'y accrochent encore. */
+  if(getComputedStyle(cursor).display === 'none') return;
 
   var mx = window.innerWidth/2, my = window.innerHeight/2;   // souris réelle
   var rx = mx, ry = my;                                       // position du ring (lissée)
