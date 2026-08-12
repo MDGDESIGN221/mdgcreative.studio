@@ -221,7 +221,27 @@ def c_css():
         ok('empreinte %s a jour dans les deux pages' % reel)
 
 
-for f in (c_js, c_parite, c_traductions, c_medias, c_vignettes, c_video, c_apercus, c_lexique, c_css):
+# ── 10. la page anglaise est-elle bien generee ? ──────────────────────
+def c_generation():
+    titre(10, 'Page anglaise generee depuis la source')
+    if not os.path.exists('tools/gen-en.py'):
+        ok('pas de generateur'); return
+    r = subprocess.run([sys.executable, 'tools/gen-en.py'], capture_output=True, text=True)
+    sortie = (r.stdout or '') + (r.stderr or '')
+    if 'identique au fichier actuel' in sortie:
+        ok('en/index.html correspond a la generation')
+        return
+    # Une page anglaise modifiee a la main derive de la source : la
+    # prochaine generation ecraserait la modification sans prevenir.
+    for l in sortie.split('\n'):
+        if "ligne(s) d ecart" in l or l.strip().startswith('!!'):
+            ko(l.strip()[:100])
+    if not any("ecart" in l for l in sortie.split('\n')):
+        ko('generation impossible : %s' % sortie.strip().split('\n')[-1][:70])
+
+
+for f in (c_js, c_parite, c_traductions, c_medias, c_vignettes, c_video,
+          c_apercus, c_lexique, c_css, c_generation):
     try:
         f()
     except Exception as e:
