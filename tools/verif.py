@@ -201,7 +201,27 @@ def c_lexique():
         ok('aucun terme concurrent pour l\'action principale')
 
 
-for f in (c_js, c_parite, c_traductions, c_medias, c_vignettes, c_video, c_apercus, c_lexique):
+# ── 9. empreinte du CSS ───────────────────────────────────────────────
+def c_css():
+    titre(9, 'Empreinte du CSS')
+    import hashlib
+    if not os.path.exists('assets/mdg.css'):
+        ok('pas de feuille extraite'); return
+    reel = hashlib.md5(io.open('assets/mdg.css', 'rb').read()).hexdigest()[:8]
+    mauvais = 0
+    for p in (FR, EN):
+        m = re.search(r'/assets/mdg\.css\?v=([a-f0-9]+)', lire(p))
+        if not m:
+            ko('%s : lien vers mdg.css sans empreinte' % p); mauvais += 1
+        elif m.group(1) != reel:
+            # Le fichier est servi en cache d'un an : une empreinte périmée
+            # ferait resservir l'ancienne feuille pendant un an.
+            ko('%s : empreinte %s, fichier %s' % (p, m.group(1), reel)); mauvais += 1
+    if not mauvais:
+        ok('empreinte %s a jour dans les deux pages' % reel)
+
+
+for f in (c_js, c_parite, c_traductions, c_medias, c_vignettes, c_video, c_apercus, c_lexique, c_css):
     try:
         f()
     except Exception as e:
