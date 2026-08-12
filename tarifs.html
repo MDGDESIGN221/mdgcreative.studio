@@ -405,7 +405,7 @@ button{font:inherit;background:none;border:none;cursor:pointer;color:inherit}
         + '<div class="rs-usd">XOF · ' + esc(p.usd) + '</div>'
         + '<div class="rs-div"></div>'
         + '<ul class="rs-feats">' + feats + '</ul>'
-        + '<a class="rs-cta ' + (p.featured ? 'fill' : 'ghost') + '" href="' + waHref(p.name, p.tier) + '" target="_blank" rel="noopener">Démarrer ce pack →</a>'
+        + '<a class="rs-cta ' + (p.featured ? 'fill' : 'ghost') + '" href="' + waHref(p.name, p.tier) + '" target="_blank" rel="noopener">Lancer ce pack →</a>'
         + '</div>';
     }).join('');
   }
@@ -446,7 +446,7 @@ button{font:inherit;background:none;border:none;cursor:pointer;color:inherit}
           + (cur.packs.length > 1 ? '<span class="mn-badge">Le + choisi</span>' : '')
           + '<div class="mn-line-top"><span class="name">' + esc(p.tier) + '</span><span class="dots"></span><span class="price">' + esc(p.price) + '</span></div>'
           + '<div class="desc">' + desc + '</div>'
-          + '<a class="mn-cta" href="' + waHref(p.name, p.tier) + '" target="_blank" rel="noopener">Démarrer ce pack →</a>'
+          + '<a class="mn-cta" href="' + waHref(p.name, p.tier) + '" target="_blank" rel="noopener">Lancer ce pack →</a>'
           + '</div>';
       }
       return '<div class="mn-line">'
