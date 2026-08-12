@@ -14437,3 +14437,114 @@ nav .nav-cta[href="/learning-center"]:hover{
      mouvement, pas le trait lui-meme. */
   .mdg-mark-trait path{ transition:none!important; stroke-dashoffset:0!important; }
 }
+/* ══════════════════════════════════════════════════════════════════
+   CIBLES TACTILES : 44px MINIMUM
+   ──────────────────────────────────────────────────────────────────
+   Mesure avant correction : 57 commandes sur 120 mesuraient moins de
+   44px sur mobile — 48%. Sur un site pense pour le telephone, c'est le
+   defaut le plus concret : un bouton de 35px se rate.
+
+   La regle ne s'applique qu'aux ecrans TACTILES. Une souris vise au
+   pixel ; lui imposer des boutons de 44px alourdirait la composition
+   sans rien resoudre.
+
+   Deux exclusions volontaires :
+     - .mdg-hp, le piege anti-spam, doit rester invisible et minuscule ;
+     - les liens en ligne DANS une phrase sont exemptes par la norme
+       (WCAG 2.5.8) : les agrandir casserait l'interlignage du texte.
+   ══════════════════════════════════════════════════════════════════ */
+@media (pointer: coarse) {
+
+  /* Boutons ronds et icones : la surface grandit, le dessin ne bouge pas. */
+  .mfs-btn,
+  .lb-nav,
+  .modal-close,
+  .cpop-close,
+  .mob-close,
+  .nav-logo,
+  .lang-toggle,
+  #motion-fullscreen-close,
+  #motion-fullscreen-prev,
+  #motion-fullscreen-next,
+  #mfs-retry {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  /* Pastilles de choix et onglets : on gagne en hauteur, la pilule
+     reste une pilule. */
+  .cqf-chip,
+  .cpop-chip-opt,
+  .chap-btn,
+  .cpop-tab,
+  .mdg-sel-act,
+  .mob-tab,
+  .port-new-tab-btn {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  /* Champs de saisie : 44px sert autant la visee que la lisibilite. */
+  .cpop-input,
+  .cpop-custom-select-btn,
+  .cqf-wa,
+  .scta-link,
+  input:not([type="hidden"]):not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    min-height: 44px !important;
+  }
+
+  /* Liens de pied de galerie : hors flux de phrase, ils peuvent grandir. */
+  .port-gallery-footer-link {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+}
+
+/* Deuxieme passe : par ROLE plutot que par nom de classe.
+   Les commandes restantes n'avaient pas de classe a cibler. Un <button>
+   est toujours une commande — il n'y a pas de cas ou 44px le gene. Les
+   liens, eux, ne sont vises que hors flux de phrase : pied de page,
+   navigation, et liens porteurs d'une icone. */
+@media (pointer: coarse) {
+
+  button:not(.mdg-hp) {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  .skip-link,
+  footer a,
+  nav a,
+  .social a,
+  .port-gallery-footer a {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  /* Liens dont le contenu est une icone : ils n'ont pas de texte pour
+     donner de la surface, il faut la leur poser. */
+  a:has(> svg),
+  a:has(> img) {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+/* Lien d'action isole dans sa cellule : ce n'est pas un lien de phrase,
+   il porte une action et merite la meme surface que les autres. */
+@media (pointer: coarse) {
+  .abg-cta a,
+  .abg-cell a:only-child {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+}
