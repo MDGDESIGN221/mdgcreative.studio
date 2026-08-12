@@ -2617,7 +2617,10 @@ a,button{transition:color .3s cubic-bezier(.16,1,.3,1),background-color .3s cubi
   }
   #motion-fullscreen-content video{object-fit:contain;}
   #mfs-controls{padding:2.5rem .6rem .6rem;}
-  #mfs-volwrap{display:none;}          /* volume = boutons physiques sur mobile */
+  /* Le bouton muet doit rester atteignable : il mesurait 0x0. Le curseur
+   de volume, lui, ne s'ouvre qu'au survol — sur mobile les boutons
+   materiels font le travail, un curseur y serait du bruit. */
+#mfs-volwrap{display:flex;}          /* volume = boutons physiques sur mobile */
   #mfs-time{font-size:.68rem;}
   #motion-fullscreen-title{font-size:.8rem;}
   #mfs-footer{padding:.7rem .75rem calc(env(safe-area-inset-bottom,0px) + .75rem);}
@@ -20029,7 +20032,9 @@ var motionCards = [], motionIdx = -1;
     clearTimeout(ctlTimer);
     ctlTimer = setTimeout(function(){
       if (fs.classList.contains('is-playing')) fs.classList.add('ctl-hidden');
-    }, 2600);
+      /* 2,6 s etait trop court pour qu'on ait le temps de voir que des
+         controles existent. */
+    }, 4200);
   }
 
   function setToggleIcon(playing){
@@ -23843,6 +23848,38 @@ nav .nav-cta[href="/learning-center"]:hover{
   #hero.nhero .nh-title em{ white-space:nowrap!important; }
   #hero.nhero .nh-title{ font-size:min(clamp(3rem, 8.6vw, 7rem), 15vh)!important; }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   LE LECTEUR NE DOIT JAMAIS PARAITRE VIDE
+   L'effacement emportait la barre entiere. On ne retire plus que la
+   RANGEE DE BOUTONS : la ligne de progression reste, en retrait. Elle
+   dit deux choses a la fois — ou en est la video, et ou appuyer pour
+   retrouver le reste.
+   ══════════════════════════════════════════════════════════════════ */
+#motion-fullscreen.is-playing.ctl-hidden #mfs-controls{
+  opacity:1!important; visibility:visible!important;
+  background:transparent!important;
+}
+#motion-fullscreen.is-playing.ctl-hidden #mfs-row{
+  opacity:0; visibility:hidden;
+  transition:opacity .25s ease, visibility .25s ease;
+}
+#motion-fullscreen.is-playing.ctl-hidden #mfs-timeline{ opacity:.55; }
+#mfs-row{ transition:opacity .25s ease, visibility .25s ease; }
+#mfs-timeline{ transition:opacity .25s ease; }
+
+/* Fin de lecture : le bouton central ne dit pas "reprendre" mais
+   "revoir". Sans ce mot, un rond avec un triangle laisse croire que la
+   video va continuer alors qu'elle est finie. */
+#motion-fullscreen.is-ended #mfs-play::after{
+  content:attr(data-mdg-revoir);
+  position:absolute; top:calc(100% + 12px); left:50%;
+  transform:translateX(-50%);
+  font-family:var(--font-display); font-weight:700;
+  font-size:.56rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--accent); white-space:nowrap;
+}
+#motion-fullscreen.is-ended #mfs-play{ overflow:visible; }
 </style>
 <script id="mdg-quicknav-hero">
 (function(){
@@ -24932,6 +24969,56 @@ nav .nav-cta[href="/learning-center"]:hover{
     }
     return r;
   };
+})();
+</script>
+
+<script id="mdg-player-fin">
+/* == FIN DE LECTURE : REVOIR ==
+   L'evenement 'ended' repassait l'etat en "pause" et rien d'autre. La
+   video restait figee sur sa derniere image, avec un bouton lecture qui
+   laissait croire qu'elle allait reprendre.
+
+   Les evenements media ne remontent pas : on ecoute donc en phase de
+   CAPTURE sur le document, sinon un lecteur cree apres coup echapperait
+   a l'ecoute. */
+(function(){
+  var fs = document.getElementById('motion-fullscreen');
+  if (!fs) return;
+  var play = document.getElementById('mfs-play');
+
+  function libelle(){
+    return (document.documentElement.lang || 'fr').slice(0, 2) === 'en' ? 'Replay' : 'Revoir';
+  }
+
+  document.addEventListener('ended', function(e){
+    if (!e.target || e.target.tagName !== 'VIDEO') return;
+    if (!fs.contains(e.target)) return;
+    fs.classList.add('is-ended');
+    if (play) play.setAttribute('data-mdg-revoir', libelle());
+  }, true);
+
+  document.addEventListener('play', function(e){
+    if (!e.target || e.target.tagName !== 'VIDEO') return;
+    fs.classList.remove('is-ended');
+  }, true);
+
+  /* Rejouer explicitement plutot que de compter sur le navigateur :
+     selon le moteur, appuyer sur lecture a la derniere image reprend a
+     zero ou ne fait rien du tout. */
+  function rejouer(e){
+    if (!fs.classList.contains('is-ended')) return;
+    var v = fs.querySelector('video');
+    if (!v) return;
+    e.preventDefault();
+    e.stopPropagation();
+    fs.classList.remove('is-ended');
+    try { v.currentTime = 0; } catch (err) {}
+    var p = v.play();
+    if (p && p.catch) p.catch(function(){});
+  }
+  [play, document.getElementById('mfs-toggle')].forEach(function(b){
+    if (b) b.addEventListener('click', rejouer, true);
+  });
 })();
 </script>
 </body>
