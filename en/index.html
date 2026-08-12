@@ -23974,6 +23974,10 @@ nav .nav-cta[href="/learning-center"]:hover{
   function splitByLine(el){
     if (el.dataset.mdgSplit === '1')
       return Array.prototype.slice.call(el.querySelectorAll('.mdg-word'));
+    /* Le balisage d'origine est conserve : le changement de langue doit
+       pouvoir le rendre au traducteur, qui ne sait lire que des noeuds
+       texte entiers. */
+    if (el.dataset.mdgRaw === undefined) el.dataset.mdgRaw = el.innerHTML;
     var words = wrapWords(el);
     el.dataset.mdgSplit = '1';
     var top = null, li = -1;
@@ -24040,6 +24044,10 @@ nav .nav-cta[href="/learning-center"]:hover{
 
   function jouerScramble(el, words, vitesse, decalage){
     if (!el.hasAttribute('aria-label')) el.setAttribute('aria-label', el.textContent.trim());
+    /* La visibilite des mots appartient a .is-in, posee en !important par
+       le site. Un style en ligne ne peut rien contre elle : sans cette
+       classe, l'element reste invisible quoi qu'on ecrive. */
+    el.classList.add('is-in');
     words.forEach(function(w, k){
       var i = w.firstChild, txt = i.textContent;
       if (!txt) return;
@@ -24071,6 +24079,37 @@ nav .nav-cta[href="/learning-center"]:hover{
     }, { threshold: seuil, rootMargin: '0px 0px -6% 0px' });
     io.observe(el);
   }
+
+  /* Rend son texte d'origine a tout ce qui a ete decoupe. Appele juste
+     avant une traduction, qui a besoin des noeuds intacts. */
+  window.mdgTextUnsplit = function(){
+    var n = 0;
+    document.querySelectorAll('[data-mdg-raw]').forEach(function(el){
+      el.innerHTML = el.dataset.mdgRaw;
+      delete el.dataset.mdgSplit;
+      n++;
+    });
+    return n;
+  };
+
+  /* Redecoupe apres traduction, directement dans l'etat final : une
+     bascule de langue n'est pas une entree a l'ecran, rejouer le
+     brouillage a chaque clic serait du bruit. */
+  window.mdgTextResplit = function(){
+    document.querySelectorAll('[data-mdg-raw]').forEach(function(el){
+      var mots = splitByLine(el);
+      el.classList.add('is-in');
+      mots.forEach(function(w){
+        var i = w.firstChild;
+        if (!i || !i.style) return;
+        i.style.opacity = '1';
+        i.style.transform = 'none';
+        i.style.filter = 'none';
+        i.style.width = '';
+        i.style.whiteSpace = '';
+      });
+    });
+  };
 
   function initReveal(){
     document.querySelectorAll('[data-reveal]').forEach(function(el){
@@ -24818,13 +24857,34 @@ nav .nav-cta[href="/learning-center"]:hover{
     }
   }
 
-  function demarrer(){
+  var suivis = [];
+
+  /* Rend au paragraphe son balisage d'origine. Sans ca, le noeud texte
+     reste coupe en trois par l'enveloppe et le dictionnaire, qui cherche
+     le paragraphe ENTIER comme cle, ne le reconnait plus : il resterait
+     fige dans la langue ou le soulignage a ete pose. */
+  window.mdgMarkReset = function(){
+    document.querySelectorAll('[data-mdg-mark-raw]').forEach(function(h){
+      h.innerHTML = h.dataset.mdgMarkRaw;
+      h.classList.remove('mdg-mark-hote', 'is-on');
+    });
+  };
+
+  window.mdgMarkApply = function(dejaVu){
     var cibles = trouver();
     if (!cibles.length) return;
     cibles.forEach(function(t){
-      var sp = envelopper(t), hote = t.hote;
+      var hote = t.hote;
+      if (hote.dataset.mdgMarkRaw === undefined) hote.dataset.mdgMarkRaw = hote.innerHTML;
+      var sp = envelopper(t);
       hote.classList.add('mdg-mark-hote');
       tracer(sp, hote);
+      if (dejaVu){
+        /* Une bascule de langue n'est pas une entree a l'ecran : le trait
+           est deja acquis, il se repose sans se retracer. */
+        hote.classList.add('is-on');
+        return;
+      }
       var io = new IntersectionObserver(function(en){
         en.forEach(function(e){
           if (!e.isIntersecting) return;
@@ -24833,13 +24893,21 @@ nav .nav-cta[href="/learning-center"]:hover{
         });
       }, { threshold:0.5 });
       io.observe(hote);
-      var m = null;
-      window.addEventListener('resize', function(){
-        clearTimeout(m);
-        m = setTimeout(function(){ tracer(sp, hote); }, 140);
-      }, { passive:true });
+      if (suivis.indexOf(hote) === -1){
+        suivis.push(hote);
+        var m = null;
+        window.addEventListener('resize', function(){
+          clearTimeout(m);
+          m = setTimeout(function(){
+            var s2 = hote.querySelector('.mdg-mark');
+            if (s2) tracer(s2, hote);
+          }, 140);
+        }, { passive:true });
+      }
     });
-  }
+  };
+
+  function demarrer(){ window.mdgMarkApply(false); }
 
   function pret(){
     /* Apres les polices : la largeur des lignes change au chargement, et
@@ -24849,6 +24917,32 @@ nav .nav-cta[href="/learning-center"]:hover{
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', pret);
   else pret();
+})();
+</script>
+
+<script id="mdg-lang-split">
+/* Le decoupage en mots et le changement de langue se contredisaient : le
+   traducteur cherche des noeuds texte ENTIERS, or un titre decoupe n'en
+   contient plus. Le titre restait donc fige dans sa langue d'origine, et
+   les correctifs ecrivant en innerHTML doublaient le texte a chaque
+   bascule. On rend le balisage d'origine, on traduit, on redecoupe. */
+(function(){
+  if (typeof window.applyLang !== 'function') return;
+  var origine = window.applyLang;
+  window.applyLang = function(lang){
+    if (window.mdgTextUnsplit) { try { window.mdgTextUnsplit(); } catch(e){} }
+    if (window.mdgMarkReset)  { try { window.mdgMarkReset(); }  catch(e){} }
+    var r = origine.apply(this, arguments);
+    if (window.mdgTextResplit) {
+      /* Apres le rendu de la traduction, sinon on mesurerait les lignes
+         sur l'ancien texte. */
+      requestAnimationFrame(function(){
+        try { window.mdgTextResplit(); } catch(e){}
+        if (window.mdgMarkApply) { try { window.mdgMarkApply(true); } catch(e){} }
+      });
+    }
+    return r;
+  };
 })();
 </script>
 </body>
