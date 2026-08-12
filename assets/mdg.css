@@ -14548,3 +14548,33 @@ nav .nav-cta[href="/learning-center"]:hover{
     align-items: center !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   FOCUS DES CHAMPS DE SAISIE
+   La regle generale couvre a, button et [role=button] : contour vert de
+   2px, parfaitement lisible. Les champs de formulaire, eux, ne
+   recevaient qu'un changement de bordure a rgba(255,255,255,.22) —
+   imperceptible sur fond sombre. Quelqu'un qui remplit le formulaire au
+   clavier ne savait pas ou il se trouvait.
+
+   Le contour est pose EN PLUS du changement de bordure existant, qui
+   reste utile a la souris.
+   ══════════════════════════════════════════════════════════════════ */
+input:not([type="hidden"]):not(.mdg-hp):focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px !important;
+}
+
+/* Certains navigateurs n'exposent pas encore :focus-visible sur les
+   champs : le focus simple sert de filet, sans penaliser la souris
+   puisque cliquer dans un champ est deja une intention explicite. */
+@supports not selector(:focus-visible) {
+  input:not([type="hidden"]):not(.mdg-hp):focus,
+  select:focus,
+  textarea:focus {
+    outline: 2px solid var(--accent) !important;
+    outline-offset: 2px !important;
+  }
+}
