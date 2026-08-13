@@ -14139,6 +14139,25 @@ nav .nav-cta[href="/learning-center"]:hover{
   -webkit-background-clip:text!important; background-clip:text!important;
   -webkit-text-fill-color:transparent!important;
 }
+/* Le meme degrade, porte par l'em LUI-MEME.
+
+   Il ne vivait que sur .mdg-word > i, les porteurs que le decoupage
+   fabrique. Le titre se frappe desormais caractere par caractere : il
+   n'est plus decoupe, ces porteurs n'existent plus, et le degrade
+   n'avait plus de support. Or la regle qui rend le texte transparent
+   pour laisser voir le degrade, elle, s'appliquait toujours : "se
+   remarque." etait peint en transparent sur rien, donc invisible.
+
+   Cette regle vient APRES le background:none de l'em, sinon elle serait
+   annulee. Elle ne gene pas le decoupage s'il revenait un jour : dans
+   ce cas l'em ne porte plus de texte en direct, son degrade se
+   decouperait sur du vide et les porteurs garderaient le leur. */
+#hero.nhero .nh-title em{
+  background:linear-gradient(104deg,
+    #FFFFFF 0%, #E9F2C4 30%, var(--accent) 62%, #C7E24A 100%)!important;
+  -webkit-background-clip:text!important; background-clip:text!important;
+  -webkit-text-fill-color:transparent!important;
+}
 @media(max-width:767px){
   #hero.nhero .nh-title{ font-size:clamp(2.3rem,11vw,3.6rem)!important; }
   #hero.nhero .nh-title em{ padding-left:0; }
