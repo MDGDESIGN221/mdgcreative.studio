@@ -67,8 +67,19 @@
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/learning-center</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/learning-center"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/learning-center"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/learning-center"/>
+  </url>
+  <url>
+    <loc>https://www.mdgcreative.studio/en/learning-center</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/learning-center"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/learning-center"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/learning-center"/>
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/mentions-legales</loc>

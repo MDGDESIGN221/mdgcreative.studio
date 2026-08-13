@@ -1,0 +1,38 @@
+[
+ [
+  "<html lang=\"fr\">",
+  "<html lang=\"en\">"
+ ],
+ [
+  "<title>MDG Learning Center · Comprendre la lumière</title>",
+  "<title>MDG Learning Center · Understanding light</title>"
+ ],
+ [
+  "<meta name=\"description\" content=\"Le Learning Center de MDG Creative Studio : comprendre le rim light et la lumière en design d'affiche, avec démos 3D interactives et études de cas avant/après.\">",
+  "<meta name=\"description\" content=\"The MDG Creative Studio Learning Center: understanding rim light and lighting in poster design, with interactive 3D demos and before/after case studies.\">"
+ ],
+ [
+  "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/learning-center\">",
+  "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/en/learning-center\">"
+ ],
+ [
+  "<meta property=\"og:title\" content=\"MDG Learning Center · Comprendre la lumière\">",
+  "<meta property=\"og:title\" content=\"MDG Learning Center · Understanding light\">"
+ ],
+ [
+  "<meta property=\"og:description\" content=\"Rim light, lumière et design d'affiche : démos 3D interactives, gratuit.\">",
+  "<meta property=\"og:description\" content=\"Rim light, lighting and poster design: interactive 3D demos, free.\">"
+ ],
+ [
+  "<meta property=\"og:url\" content=\"https://www.mdgcreative.studio/learning-center\">",
+  "<meta property=\"og:url\" content=\"https://www.mdgcreative.studio/en/learning-center\">"
+ ],
+ [
+  "    lang: 'fr',",
+  "    lang: 'en',   /* page servie sous /en/ */"
+ ],
+ [
+  "    const l = this.props.defaultLang;\n    if (l === 'en') this.setState({ lang: 'en' });\n    try {\n      if (localStorage.getItem('mdg-lc-lang') === 'en') this.setState({ lang: 'en' });\n      if (localStorage.getItem('mdg-lc-lang') === 'fr') this.setState({ lang: 'fr' });",
+  "    /* Page servie sous /en/ : l'URL tranche, le choix memorise ne la\n       contredit pas. Le bouton de langue reste libre ensuite. */\n    this.setState({ lang: 'en' });\n    try {"
+ ]
+]

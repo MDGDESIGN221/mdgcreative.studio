@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MDG Learning Center · Comprendre la lumière</title>
-<meta name="description" content="Le Learning Center de MDG Creative Studio : comprendre le rim light et la lumière en design d'affiche, avec démos 3D interactives et études de cas avant/après.">
+<title>MDG Learning Center · Understanding light</title>
+<meta name="description" content="The MDG Creative Studio Learning Center: understanding rim light and lighting in poster design, with interactive 3D demos and before/after case studies.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.mdgcreative.studio/learning-center">
+<link rel="canonical" href="https://www.mdgcreative.studio/en/learning-center">
 <link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/learning-center">
 <link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/learning-center">
 <link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/learning-center">
 <meta name="theme-color" content="#0B0C0D">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
-<meta property="og:title" content="MDG Learning Center · Comprendre la lumière">
-<meta property="og:description" content="Rim light, lumière et design d'affiche : démos 3D interactives, gratuit.">
+<meta property="og:title" content="MDG Learning Center · Understanding light">
+<meta property="og:description" content="Rim light, lighting and poster design: interactive 3D demos, free.">
 <meta property="og:image" content="/media/img/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.png">
-<meta property="og:url" content="https://www.mdgcreative.studio/learning-center">
+<meta property="og:url" content="https://www.mdgcreative.studio/en/learning-center">
 <meta property="og:site_name" content="MDG Creative Studio">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@_itsmdg">
@@ -2458,7 +2458,7 @@
 
 
 <helmet>
-  <title>MDG Learning Center · Comprendre la lumière</title>
+  <title>MDG Learning Center · Understanding light</title>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -3868,7 +3868,7 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;defaultLang&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;fr&quot;, &quot;en&quot;], &quot;default&quot;: &quot;fr&quot;, &quot;tsType&quot;: &quot;'fr' | 'en'&quot;, &quot;section&quot;: &quot;Contenu&quot;}}">
 class Component extends DCLogic {
   state = {
-    lang: 'fr',
+    lang: 'en',   /* page servie sous /en/ */
     ch1: { intensity: 1.3, softness: 0.35, distance: 2.2, kelvin: 5200, color: '', az: 42, el: 30 },
     ch2: { distance: 1.6 },
     ch3: { az: 40, el: 35 },
@@ -3889,11 +3889,10 @@ class Component extends DCLogic {
   _glowRef = React.createRef();
 
   componentDidMount() {
-    const l = this.props.defaultLang;
-    if (l === 'en') this.setState({ lang: 'en' });
+    /* Page servie sous /en/ : l'URL tranche, le choix memorise ne la
+       contredit pas. Le bouton de langue reste libre ensuite. */
+    this.setState({ lang: 'en' });
     try {
-      if (localStorage.getItem('mdg-lc-lang') === 'en') this.setState({ lang: 'en' });
-      if (localStorage.getItem('mdg-lc-lang') === 'fr') this.setState({ lang: 'fr' });
       if (localStorage.getItem('mdg-lc-sub') === '1') this.setState({ subscribed: true });
       if (localStorage.getItem('mdg-lc-defi') === '1') this.setState({ defiDone: true });
     } catch (_) {}

@@ -272,7 +272,13 @@ def c_francais_en():
         #     traduit aussi a l'execution
         # Les deux se reconnaissent au traducteur embarque dans la page.
         genere = os.path.exists('tools/i18n/%s.json' % os.path.basename(p)[:-5])
-        traducteur = re.search(r'documentElement\.lang\s*=|applyLang|translateText', s)
+        # Trois facons de traduire a l'execution coexistent sur le site :
+        # un dictionnaire (accueil), une table de textes (atelier), et un
+        # composant qui porte les deux langues et retire la branche
+        # inutile (learning center). Toutes laissent du francais dans la
+        # source alors que l'ecran affiche l'anglais.
+        traducteur = re.search(r'documentElement\.lang\s*=|applyLang|translateText|'
+                               r'setState\(\{\s*lang:|isFr\s*:', s)
         if genere and not traducteur:
             corps = re.sub(r'<script.*?</script>|<style.*?</style>|<!--.*?-->', ' ', s, flags=re.S)
             corps = re.sub(r'<[^>]+>', ' ', corps)
@@ -293,14 +299,25 @@ def c_francais_en():
 def c_couverture_en():
     titre(12, 'Couverture anglaise des pages francaises')
     fr_pages = sorted(p for p in glob.glob('*.html') if 'google' not in p)
-    sans = [p for p in fr_pages if not os.path.exists('en/' + p)]
+    generees, embarquees, sans = [], [], []
+    for p in fr_pages:
+        if os.path.exists('en/' + p):
+            generees.append(p)
+        elif re.search(r"lang\s*=\s*['\"]en['\"]|=== *'en'|navigator\.language", lire(p)):
+            # La page bascule elle-meme selon l'URL ou le navigateur : elle
+            # est accessible en anglais sans fichier separe.
+            embarquees.append(p)
+        else:
+            sans.append(p)
+    if embarquees:
+        print('   --   bilingue(s) a l execution, sans fichier separe : %s'
+              % ', '.join(embarquees))
     if sans:
         # Pas un echec : c'est l'etat connu du chantier. On le compte pour
         # qu'il ne se degrade pas en silence.
-        print('   --   %d page(s) sans version anglaise : %s'
-              % (len(sans), ', '.join(sans)))
-    ok('%d page(s) francaise(s) sur %d ont leur version anglaise'
-       % (len(fr_pages) - len(sans), len(fr_pages)))
+        ko('%d page(s) sans anglais du tout : %s' % (len(sans), ', '.join(sans)))
+    ok('%d page(s) sur %d accessibles en anglais (%d generees, %d a l execution)'
+       % (len(generees) + len(embarquees), len(fr_pages), len(generees), len(embarquees)))
 
 
 # ── 13. les pages generees depuis une table sont-elles a jour ? ───────
