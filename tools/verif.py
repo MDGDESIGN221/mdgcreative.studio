@@ -375,9 +375,59 @@ def c_sitemap():
             ko('sitemap decale : %s' % l[:88])
 
 
+# ── 15. bases du referencement ────────────────────────────────────────
+def c_seo():
+    titre(15, 'Bases du referencement')
+    import json as _json, glob as g
+    pages = sorted(set(g.glob('*.html') + g.glob('projets/*.html')
+                       + g.glob('en/*.html') + g.glob('en/projets/*.html')))
+    pages = [p for p in pages if 'google' not in p]
+    mauvais = 0
+    for p in pages:
+        s = lire(p)
+        est_404 = os.path.basename(p) == '404.html'
+
+        # Un seul h1 : c'est le signal de sujet le plus fort de la page.
+        # uranus n'en avait aucun, son titre principal etait un h2.
+        n_h1 = len(re.findall(r'<h1[\s>]', s))
+        if n_h1 != 1:
+            ko('%s : %d h1 (il en faut un)' % (p, n_h1)); mauvais += 1
+
+        # Au-dela d'environ 60 et 160 caracteres, la fin est coupee dans
+        # les resultats : ce qui compte doit tenir avant la coupe.
+        m = re.search(r'<title>([^<]*)</title>', s)
+        if not m:
+            ko('%s : pas de <title>' % p); mauvais += 1
+        elif len(m.group(1)) > 60:
+            ko('%s : titre de %d caracteres, coupe vers 60' % (p, len(m.group(1)))); mauvais += 1
+        m = re.search(r'<meta name="description"[^>]*content="([^"]*)"', s)
+        if not m:
+            if not est_404:                       # une page 404 n'est pas indexee
+                ko('%s : pas de description' % p); mauvais += 1
+        elif len(m.group(1)) > 160:
+            ko('%s : description de %d caracteres, coupee vers 160'
+               % (p, len(m.group(1)))); mauvais += 1
+
+        # Donnees structurees : JSON valide, et url du bon cote.
+        for b in re.findall(r'<script type="application/ld\+json">(.*?)</script>', s, re.S):
+            try:
+                d = _json.loads(b)
+            except Exception as e:
+                ko('%s : JSON-LD invalide (%s)' % (p, str(e)[:44])); mauvais += 1
+                continue
+            u = d.get('url') if isinstance(d, dict) else None
+            if isinstance(u, str) and u:
+                if p.startswith('en') != ('/en/' in u):
+                    ko('%s : JSON-LD url %s' % (p, u.replace('https://www.mdgcreative.studio', '')))
+                    mauvais += 1
+    if not mauvais:
+        ok('%d pages : un h1 chacune, titres et descriptions dans les limites, '
+           'JSON-LD valide' % len(pages))
+
+
 for f in (c_js, c_parite, c_traductions, c_medias, c_vignettes, c_video,
           c_apercus, c_lexique, c_css, c_generation,
-          c_francais_en, c_couverture_en, c_generation_pages, c_sitemap):
+          c_francais_en, c_couverture_en, c_generation_pages, c_sitemap, c_seo):
     try:
         f()
     except Exception as e:

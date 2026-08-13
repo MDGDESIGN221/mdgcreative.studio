@@ -188,7 +188,11 @@
   "The site is served exclusively over <strong>HTTPS</strong>, protected by Vercel, with hardened security headers. Your exchanges are encrypted in transit."
  ],
  [
-  "<meta name=\"description\" content=\"Politique de confidentialité de MDG Creative Studio : quelles données sont collectées, pourquoi, combien de temps, et vos droits, conforme à la loi sénégalaise n° 2008-12.\">",
-  "<meta name=\"description\" content=\"MDG Creative Studio privacy policy: what data is collected, why, for how long, and what your rights are, in line with Senegalese law no. 2008-12.\">"
+  "<meta name=\"description\" content=\"Quelles données sont collectées, pourquoi, combien de temps, et quels sont vos droits. Conforme à la loi sénégalaise n° 2008-12.\">",
+  "<meta name=\"description\" content=\"What data is collected, why, for how long, and what your rights are. In line with Senegalese law no. 2008-12.\">"
+ ],
+ [
+  "<meta property=\"og:description\" content=\"Quelles données sont collectées, pourquoi, combien de temps, et quels sont vos droits. Conforme à la loi sénégalaise n° 2008-12.\">",
+  "<meta property=\"og:description\" content=\"What data is collected, why, for how long, and what your rights are. In line with Senegalese law no. 2008-12.\">"
  ]
 ]

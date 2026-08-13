@@ -57,6 +57,36 @@ TETE_DESC = [
   'Brand identity, cover art, motion design & web. Kaolack, Senegal.'),
 ]
 
+# 1 bis. donnees structurees. Elles sont lues avant tout JavaScript,
+#        exactement comme les metas : la bascule a l'execution ne peut
+#        rien pour elles. La page anglaise annoncait donc une
+#        description francaise et l'URL de la page francaise.
+#
+#        Les @id ne changent PAS : ils identifient la meme entite dans
+#        les deux langues, c'est tout leur interet. Seuls le texte et
+#        les url de page suivent.
+TETE.extend([
+ ('"description":"Creative Director à Kaolack : cover art, brand identity, '
+  'motion design & web pour artistes et marques africaines.",',
+  '"description":"Creative Director in Kaolack: cover art, brand identity, '
+  'motion design & web for African artists and brands.",'),
+ ('"url":"https://www.mdgcreative.studio",',
+  '"url":"https://www.mdgcreative.studio/en/",'),
+ ('"description": "Studio de design créatif spécialisé en brand identity, '
+  'cover art, motion design et web. Basé à Kaolack, Sénégal.",',
+  '"description": "Creative design studio specialising in brand identity, '
+  'cover art, motion design and web. Based in Kaolack, Senegal.",'),
+])
+
+# Chaines de donnees structurees qui reviennent a plusieurs endroits.
+# TETE exige une occurrence unique ; celles-ci en ont plusieurs, et
+# toutes doivent basculer.
+TETE_TOUS = [
+ ('"url": "https://www.mdgcreative.studio",',
+  '"url": "https://www.mdgcreative.studio/en/",'),
+ ('"name": "Identité d\'Artiste"', '"name": "Artist Identity"'),
+]
+
 # 2. liens internes vers les versions anglaises
 LIENS = [('href="/tarifs"', 'href="/en/tarifs"'),
          ('href="/uranus"', 'href="/en/uranus"')]
@@ -100,6 +130,13 @@ def generer():
             print('  !! meta introuvable : %s' % marque); return None, None
         s = s[:m.start(1)] + texte + s[m.end(1):]
         rapport['tete'] += 1
+
+    for a, b in TETE_TOUS:
+        n = s.count(a)
+        if not n:
+            print('  !! chaine introuvable : %s' % a[:66]); return None, None
+        s = s.replace(a, b)
+        rapport['tete'] += n
 
     for a, b in LIENS:
         rapport['liens'] += s.count(a)

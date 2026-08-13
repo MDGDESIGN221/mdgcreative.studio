@@ -4,12 +4,12 @@
   "<html lang=\"en\">"
  ],
  [
-  "<title>URANUS GFX Pack · assets premium pour créatifs | MDG Creative Studio</title>",
-  "<title>URANUS GFX Pack · premium assets for creatives | MDG Creative Studio</title>"
+  "<title>URANUS GFX Pack · assets premium | MDG Creative Studio</title>",
+  "<title>URANUS GFX Pack · premium assets | MDG Creative Studio</title>"
  ],
  [
-  "<meta name=\"description\" content=\"URANUS GFX Pack by MDG Creative Studio : PSD calqués, textures, fonts premium et actions Photoshop pour graphistes et créateurs de covers. Paiement Wave, livraison WhatsApp.\">",
-  "<meta name=\"description\" content=\"URANUS GFX Pack by MDG Creative Studio: layered PSDs, textures, premium fonts and Photoshop actions for designers and cover artists. Wave payment, WhatsApp delivery.\">"
+  "<meta name=\"description\" content=\"PSD calqués, textures, fonts premium et actions Photoshop pour graphistes et créateurs de covers. Paiement Wave, livraison WhatsApp.\">",
+  "<meta name=\"description\" content=\"Layered PSDs, textures, premium fonts and Photoshop actions for designers and cover artists. Wave payment, WhatsApp delivery.\">"
  ],
  [
   "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/uranus\">",
@@ -382,5 +382,13 @@
  [
   "    <a href=\"/\">mdgcreative.studio</a>",
   "    <a href=\"/en/\">mdgcreative.studio</a>"
+ ],
+ [
+  "\"description\": \"PSD calqués, textures, fonts premium et actions Photoshop pour graphistes et créateurs de covers.\"",
+  "\"description\": \"Layered PSDs, textures, premium fonts and Photoshop actions for designers and cover artists.\""
+ ],
+ [
+  "\"url\": \"https://www.mdgcreative.studio/uranus\"",
+  "\"url\": \"https://www.mdgcreative.studio/en/uranus\""
  ]
 ]

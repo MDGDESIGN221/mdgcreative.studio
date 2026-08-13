@@ -8,8 +8,8 @@
   "<title>Pricing &amp; Packs · MDG Creative Studio</title>"
  ],
  [
-  "<meta name=\"description\" content=\"Tarifs et packs MDG Creative Studio : cover art, identité d'artiste, motion design. Cover seule ou sortie complète, devis clair, acompte 50%, révisions incluses.\">",
-  "<meta name=\"description\" content=\"MDG Creative Studio pricing and packs: cover art, artist identity, motion design. Single cover or full release, clear quote, 50% deposit, revisions included.\">"
+  "<meta name=\"description\" content=\"Cover art, identité d'artiste, motion design. Cover seule ou sortie complète : devis clair, acompte 50%, révisions incluses.\">",
+  "<meta name=\"description\" content=\"Cover art, artist identity, motion design. Single cover or full release: clear quote, 50% deposit, revisions included.\">"
  ],
  [
   "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/tarifs\">",
@@ -302,5 +302,21 @@
  [
   "        + '<a class=\"go\" href=\"' + waHref(p.name, p.tier) + '\" target=\"_blank\" rel=\"noopener\">Démarrer →</a>'",
   "        + '<a class=\"go\" href=\"' + waHref(p.name, p.tier) + '\" target=\"_blank\" rel=\"noopener\">Start →</a>'"
+ ],
+ [
+  "\"description\": \"Packs cover art et sortie complète : cover seule, EP, album. Devis clair, acompte 50 %, révisions incluses.\"",
+  "\"description\": \"Cover art and full release packs: single cover, EP, album. Clear quote, 50% deposit, revisions included.\""
+ ],
+ [
+  "\"url\": \"https://www.mdgcreative.studio/tarifs\"",
+  "\"url\": \"https://www.mdgcreative.studio/en/tarifs\""
+ ],
+ [
+  "— Cover seule\"",
+  "— Single cover\""
+ ],
+ [
+  "— Sortie complète\"",
+  "— Full release\""
  ]
 ]

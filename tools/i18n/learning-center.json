@@ -34,5 +34,33 @@
  [
   "    const l = this.props.defaultLang;\n    if (l === 'en') this.setState({ lang: 'en' });\n    try {\n      if (localStorage.getItem('mdg-lc-lang') === 'en') this.setState({ lang: 'en' });\n      if (localStorage.getItem('mdg-lc-lang') === 'fr') this.setState({ lang: 'fr' });",
   "    /* Page servie sous /en/ : l'URL tranche, le choix memorise ne la\n       contredit pas. Le bouton de langue reste libre ensuite. */\n    this.setState({ lang: 'en' });\n    try {"
+ ],
+ [
+  "\"name\": \"MDG Learning Center — Comprendre la lumière\"",
+  "\"name\": \"MDG Learning Center — Understanding light\""
+ ],
+ [
+  "\"description\": \"Comprendre le rim light et la lumière en design d'affiche, avec démos 3D interactives et études de cas avant/après.\"",
+  "\"description\": \"Understanding rim light and lighting in poster design, with interactive 3D demos and before/after case studies.\""
+ ],
+ [
+  "\"url\": \"https://www.mdgcreative.studio/learning-center\"",
+  "\"url\": \"https://www.mdgcreative.studio/en/learning-center\""
+ ],
+ [
+  "\"Direction de la lumière\"",
+  "\"Light direction\""
+ ],
+ [
+  "\"Loi de l'inverse du carré\"",
+  "\"Inverse-square law\""
+ ],
+ [
+  "\"Principe de Fresnel\"",
+  "\"Fresnel principle\""
+ ],
+ [
+  "\"Design d'affiche\"",
+  "\"Poster design\""
  ]
 ]
