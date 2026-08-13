@@ -62,5 +62,9 @@
  [
   "var initial = saved || ((navigator.language||navigator.userLanguage||'fr').slice(0,2).toLowerCase()==='fr' ? 'fr' : 'en');",
   "var initial = 'en';   /* page servie sous /en/ : l'URL prime sur le navigateur et sur le choix memorise */"
+ ],
+ [
+  "href=\"/projets/",
+  "href=\"/en/projets/"
  ]
 ]

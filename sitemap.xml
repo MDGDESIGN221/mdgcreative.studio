@@ -99,23 +99,67 @@
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/projets/baobabs</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/projets/baobabs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/projets/baobabs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/projets/baobabs"/>
+  </url>
+  <url>
+    <loc>https://www.mdgcreative.studio/en/projets/baobabs</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/projets/baobabs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/projets/baobabs"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/projets/baobabs"/>
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/projets/ovp</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/projets/ovp"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/projets/ovp"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/projets/ovp"/>
+  </url>
+  <url>
+    <loc>https://www.mdgcreative.studio/en/projets/ovp</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/projets/ovp"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/projets/ovp"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/projets/ovp"/>
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/projets/rima</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/projets/rima"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/projets/rima"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/projets/rima"/>
+  </url>
+  <url>
+    <loc>https://www.mdgcreative.studio/en/projets/rima</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/projets/rima"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/projets/rima"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/projets/rima"/>
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/projets/sinesaloum</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/projets/sinesaloum"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/projets/sinesaloum"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/projets/sinesaloum"/>
+  </url>
+  <url>
+    <loc>https://www.mdgcreative.studio/en/projets/sinesaloum</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/projets/sinesaloum"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/projets/sinesaloum"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/projets/sinesaloum"/>
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/tarifs</loc>

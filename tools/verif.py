@@ -189,8 +189,11 @@ def c_apercus():
 # ── 8. lexique ────────────────────────────────────────────────────────
 def c_lexique():
     titre(8, 'Lexique : une action, un terme')
+    # "Confier un projet" vivait dans les quatre etudes de cas : meme
+    # action que "Lancer un projet", deux mots differents selon la page.
     concurrents = ['Démarrer un projet', 'Discuter de ce projet',
-                   'Demander un devis', 'Démarrer ce pack']
+                   'Demander un devis', 'Démarrer ce pack',
+                   'Confier un projet']
     mauvais = 0
     for p in PAGES:
         s = lire(p)

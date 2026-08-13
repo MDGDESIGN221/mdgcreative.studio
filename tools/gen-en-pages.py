@@ -33,16 +33,27 @@ echecs = 0
 
 
 def pages():
+    """Nom de table -> chemin de page.
+
+    Un double tiret bas represente un dossier : projets__baobabs.json
+    decrit projets/baobabs.html. Les tables restent ainsi a plat, un
+    seul dossier a parcourir, sans perdre l'arborescence du site.
+    """
     if not os.path.isdir(TABLES):
         return []
-    return sorted(f[:-5] + '.html' for f in os.listdir(TABLES) if f.endswith('.json'))
+    return sorted(f[:-5].replace('__', '/') + '.html'
+                  for f in os.listdir(TABLES) if f.endswith('.json'))
+
+
+def table_de(nom):
+    return '%s/%s.json' % (TABLES, nom[:-5].replace('/', '__'))
 
 
 def generer(nom):
     global echecs
     source = nom
     cible = 'en/' + nom
-    table = json.load(io.open('%s/%s.json' % (TABLES, nom[:-5]), encoding='utf-8'))
+    table = json.load(io.open(table_de(nom), encoding='utf-8'))
 
     s = io.open(source, encoding='utf-8', newline='').read()
     posees, absentes = 0, []
@@ -75,6 +86,9 @@ def generer(nom):
             print('  %-16s   %s' % ('', x[:110]))
 
     if APPLY:
+        dossier = os.path.dirname(cible)
+        if dossier and not os.path.isdir(dossier):
+            os.makedirs(dossier)
         io.open(cible, 'w', encoding='utf-8', newline='').write(s)
         print('  %-16s %s ecrit.' % ('', cible))
     return s
