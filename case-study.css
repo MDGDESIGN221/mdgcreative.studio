@@ -45,6 +45,29 @@ a{color:var(--accent)}
 .cs-cta-link{display:inline-flex;align-items:center;gap:8px;background:var(--black);color:#fff;font-family:var(--font-head);font-size:.85rem;font-weight:700;letter-spacing:.02em;padding:14px 28px;border-radius:9999px;text-decoration:none;transition:background var(--transition),transform .2s}
 .cs-cta-link:hover{background:var(--gray-700);transform:translateY(-2px)}
 
+/* ─── Etudes de cas WEB ───
+   Un projet web se juge en ligne : le lien vers le site est la piece
+   maitresse de la page, pas une note de bas de page. Il est donc pose
+   sous la description, avant les visuels. */
+.cs-live{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-head);
+  font-weight:700;font-size:.84rem;letter-spacing:.01em;color:var(--black);
+  text-decoration:none;background:var(--accent-bright);
+  padding:13px 22px;border-radius:9999px;margin-bottom:2.2rem;
+  transition:transform .2s,box-shadow var(--transition)}
+.cs-live:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(14,14,14,.14)}
+.cs-live .dom{font-weight:500;color:var(--gray-700)}
+
+/* Emplacement d'image en attente. Il garde la place et les proportions
+   du visuel a venir, et dit ce qu'il attend : un cadre vide sans
+   explication passerait pour une panne. */
+.cs-vide{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;text-align:center;padding:32px 24px;background:var(--gray-100);
+  border:1px dashed var(--border-strong);border-radius:var(--radius);color:var(--gray-500)}
+.cs-hero.cs-vide{aspect-ratio:16/10}
+.cs-slide .cs-vide{border:none;border-radius:0;aspect-ratio:16/10;background:var(--gray-100)}
+.cs-vide-t{font-family:var(--font-head);font-weight:700;font-size:.8rem;color:var(--gray-700)}
+.cs-vide-d{font-size:.72rem;max-width:34ch;line-height:1.5}
+
 .cs-footer{border-top:1px solid var(--border);padding:24px 32px;display:flex;justify-content:center}
 .cs-footer a{font-size:.78rem;color:var(--gray-500);text-decoration:none}
 .cs-footer a:hover{color:var(--black)}

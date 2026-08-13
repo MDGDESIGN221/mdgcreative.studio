@@ -1,0 +1,158 @@
+[
+ [
+  "<html lang=\"fr\">",
+  "<html lang=\"en\">"
+ ],
+ [
+  "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/projets/sokan-business\">",
+  "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/en/projets/sokan-business\">"
+ ],
+ [
+  "<meta property=\"og:url\" content=\"https://www.mdgcreative.studio/projets/sokan-business\">",
+  "<meta property=\"og:url\" content=\"https://www.mdgcreative.studio/en/projets/sokan-business\">"
+ ],
+ [
+  "<meta property=\"og:locale\" content=\"fr_FR\">",
+  "<meta property=\"og:locale\" content=\"en_US\">"
+ ],
+ [
+  "\"inLanguage\": \"fr\"",
+  "\"inLanguage\": \"en\""
+ ],
+ [
+  "Toutes les réalisations",
+  "All work"
+ ],
+ [
+  "Un projet similaire en tête ?",
+  "Something similar in mind?"
+ ],
+ [
+  "Lancer un projet →",
+  "Start a project →"
+ ],
+ [
+  "← Retour à l'Atelier MDG",
+  "← Back to Atelier MDG"
+ ],
+ [
+  "href=\"/atelier#realisations\"",
+  "href=\"/en/atelier#realisations\""
+ ],
+ [
+  "href=\"/atelier#contact\"",
+  "href=\"/en/atelier#contact\""
+ ],
+ [
+  "href=\"/atelier\"",
+  "href=\"/en/atelier\""
+ ],
+ [
+  "<div class=\"cs-cat\">Site web</div>",
+  "<div class=\"cs-cat\">Website</div>"
+ ],
+ [
+  "Voir le site en ligne",
+  "View the live site"
+ ],
+ [
+  "<span class=\"cs-meta-label\">Discipline</span><span class=\"cs-meta-val\">Web Design &amp; Développement</span>",
+  "<span class=\"cs-meta-label\">Discipline</span><span class=\"cs-meta-val\">Web Design &amp; Development</span>"
+ ],
+ [
+  "<span class=\"cs-meta-label\">Livrables</span>",
+  "<span class=\"cs-meta-label\">Deliverables</span>"
+ ],
+ [
+  "<span class=\"cs-meta-label\">Secteur</span>",
+  "<span class=\"cs-meta-label\">Sector</span>"
+ ],
+ [
+  "<span class=\"cs-meta-label\">Année</span>",
+  "<span class=\"cs-meta-label\">Year</span>"
+ ],
+ [
+  "<span class=\"cs-vide-t\">Capture de la page d'accueil</span>",
+  "<span class=\"cs-vide-t\">Home page capture</span>"
+ ],
+ [
+  "<span class=\"cs-vide-d\">Pleine page, 1 600 px de large minimum</span>",
+  "<span class=\"cs-vide-d\">Full page, 1,600 px wide minimum</span>"
+ ],
+ [
+  "<title>Sokan Business · Le site | Atelier MDG</title>",
+  "<title>Sokan Business · The website | Atelier MDG</title>"
+ ],
+ [
+  "content=\"Sokan Business · Le site | Atelier MDG\"",
+  "content=\"Sokan Business · The website | Atelier MDG\""
+ ],
+ [
+  "Site de Sokan Business, logistique internationale Chine-Dakar : services, suivi de cargaison, devis et FAQ. Conception et développement.",
+  "The Sokan Business website, China-Dakar international logistics: services, cargo tracking, quotes and FAQ. Design and development."
+ ],
+ [
+  "Site de Sokan Business, logistique internationale Chine-Dakar : services, suivi de cargaison, devis et FAQ.",
+  "The Sokan Business website, China-Dakar international logistics: services, cargo tracking, quotes and FAQ."
+ ],
+ [
+  "Le site d'un transitaire qui achemine des marchandises de la Chine à Dakar. Le métier est technique et l'inquiétude du client est simple : où est ma cargaison, et combien ça coûte. Le site répond aux deux — un suivi par numéro de conteneur posé en pleine page, un devis en quelques champs, et une FAQ qui prend au sérieux les questions de douane. Bleu marine et bleu franc, pour une lecture claire sur des tableaux denses.",
+  "The website of a freight forwarder moving goods from China to Dakar. The trade is technical and the client's worry is simple: where is my cargo, and what will it cost. The site answers both — container tracking given a full page of its own, a quote in a handful of fields, and an FAQ that takes customs questions seriously. Navy and a clear blue, so dense tables stay readable."
+ ],
+ [
+  "<span class=\"cs-meta-val\">Site · Suivi · Devis</span>",
+  "<span class=\"cs-meta-val\">Website · Tracking · Quotes</span>"
+ ],
+ [
+  "<span class=\"cs-meta-val\">Logistique</span>",
+  "<span class=\"cs-meta-val\">Logistics</span>"
+ ],
+ [
+  "<span class=\"cs-vide-t\">Les solutions</span>",
+  "<span class=\"cs-vide-t\">The services</span>"
+ ],
+ [
+  "<span class=\"cs-vide-d\">Maritime, aérien, terrestre</span>",
+  "<span class=\"cs-vide-d\">Sea, air, road</span>"
+ ],
+ [
+  "<span class=\"cs-vide-t\">Comment ça marche</span>",
+  "<span class=\"cs-vide-t\">How it works</span>"
+ ],
+ [
+  "<span class=\"cs-vide-d\">Les quatre étapes</span>",
+  "<span class=\"cs-vide-d\">The four steps</span>"
+ ],
+ [
+  "<span class=\"cs-vide-t\">Suivi de cargaison</span>",
+  "<span class=\"cs-vide-t\">Cargo tracking</span>"
+ ],
+ [
+  "<span class=\"cs-vide-d\">La recherche par conteneur</span>",
+  "<span class=\"cs-vide-d\">Search by container</span>"
+ ],
+ [
+  "<span class=\"cs-vide-t\">Solutions clé en main</span>",
+  "<span class=\"cs-vide-t\">Turnkey solutions</span>"
+ ],
+ [
+  "<span class=\"cs-vide-d\">Les quatre offres</span>",
+  "<span class=\"cs-vide-d\">The four offers</span>"
+ ],
+ [
+  "<span class=\"cs-vide-t\">Le devis</span>",
+  "<span class=\"cs-vide-t\">The quote</span>"
+ ],
+ [
+  "<span class=\"cs-vide-d\">Le formulaire de contact</span>",
+  "<span class=\"cs-vide-d\">The contact form</span>"
+ ],
+ [
+  "<span class=\"cs-vide-t\">Questions fréquentes</span>",
+  "<span class=\"cs-vide-t\">Frequently asked</span>"
+ ],
+ [
+  "<span class=\"cs-vide-d\">Douane, délais, assurance</span>",
+  "<span class=\"cs-vide-d\">Customs, timescales, insurance</span>"
+ ]
+]

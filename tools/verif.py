@@ -416,7 +416,10 @@ def c_seo():
                 ko('%s : JSON-LD invalide (%s)' % (p, str(e)[:44])); mauvais += 1
                 continue
             u = d.get('url') if isinstance(d, dict) else None
-            if isinstance(u, str) and u:
+            # Le cote de la langue ne se verifie que sur NOS pages. Une
+            # etude de cas web decrit le site d'un client : son url est
+            # sur un autre domaine et n'a pas de version /en/.
+            if isinstance(u, str) and 'mdgcreative.studio' in u:
                 if p.startswith('en') != ('/en/' in u):
                     ko('%s : JSON-LD url %s' % (p, u.replace('https://www.mdgcreative.studio', '')))
                     mauvais += 1

@@ -93,7 +93,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/mdg.css?v=5b49b43e">
+<link rel="stylesheet" href="/assets/mdg.css?v=95c718b2">
 <script>
 /* Lenis smooth scroll, desktop uniquement + respect prefers-reduced-motion */
 (function(){
@@ -4333,11 +4333,24 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
   var defs=[
     {num:'01', title:'Visuals', unit:['projets','projects'], sq:false, mot:false, sel:'#pnl-work [data-lb-src]', key:'chap_cnt_work'},
     {num:'02', title:'Cover Art', unit:['covers','covers'], sq:true, mot:false, sel:'#pnl-covers [data-lb-src]', key:'chap_cnt_covers'},
-    {num:'03', title:'Motion', unit:['vid\u00e9os','videos'], sq:false, mot:true, sel:'#pnl-motion [data-mot-src]', key:'chap_cnt_motion'}
+    {num:'03', title:'Motion', unit:['vid\u00e9os','videos'], sq:false, mot:true, sel:'#pnl-motion [data-mot-src]', key:'chap_cnt_motion'},
+    /* Le web etait annonce dans l'accroche du heros \u2014 "identite, cover
+       art, web, motion, print" \u2014 et n'etait montre nulle part. Ce
+       chapitre-ci ne puise pas dans la page : ses vignettes MENENT a des
+       etudes de cas. Un site ne se lit pas dans une vignette de 80 px,
+       il lui faut une page. */
+    {num:'04', title:'Web', unit:['sites','sites'], sq:false, lien:true, key:'chap_cnt_web',
+     items:[
+       { href:'/projets/baobabs-site', titre:'Baobabs Basket Club',
+         sous:['Club de basket \u00b7 Dakar','Basketball club \u00b7 Dakar'], img:'' },
+       { href:'/projets/sokan-business', titre:'Sokan Business',
+         sous:['Logistique internationale','International logistics'], img:'' }
+     ]}
   ];
   var dictAdd={};
   defs.forEach(function(def){
-    var srcEls=Array.prototype.slice.call(document.querySelectorAll(def.sel));
+    var srcEls = def.items ? def.items
+               : Array.prototype.slice.call(document.querySelectorAll(def.sel));
     if(!srcEls.length) return;
     var n=srcEls.length;
     dictAdd[def.key]={fr:n+' '+def.unit[0], en:n+' '+def.unit[1]};
@@ -4355,9 +4368,29 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     more.setAttribute('aria-label','Tout afficher');
     grid.appendChild(more);
     srcEls.forEach(function(el){
+      var tile;
+      if(def.lien){
+        /* Vignette-lien vers une etude de cas. Tant qu'aucune image
+           n'est deposee, on pose le nom du projet plutot qu'un cadre
+           vide : la case garde sa place, ses proportions et son sens.
+           Deposer l'image ne demandera que de renseigner img. */
+        tile=document.createElement('a'); tile.className='chap-it chap-it--web';
+        tile.href=el.href;
+        tile.setAttribute('aria-label', el.titre + ' — ' + el.sous[0]);
+        if(el.img){
+          tile.innerHTML='<img loading="lazy" decoding="async" src="'+el.img+'" alt="'+el.titre+'">';
+        } else {
+          tile.innerHTML='<span class="chap-web-nom">'+el.titre+'</span>';
+        }
+        grid.appendChild(tile);
+        return;
+      }
+      /* A partir d'ici, el est un noeud du document : les chapitres
+         ordinaires puisent dans la page. Ces lectures doivent rester
+         APRES la branche des liens, dont les entrees sont de simples
+         objets et n'ont pas de querySelector. */
       var img=el.querySelector('img');
       var thumbSrc=img?img.src.replace(/w_\d+/,'w_400'):'';
-      var tile;
       if(def.mot){
         tile=document.createElement('button'); tile.type='button'; tile.className='chap-it';
         tile.innerHTML=(thumbSrc?('<img loading="lazy" decoding="async" src="'+thumbSrc+'" alt="">'):'')+'<span class="chap-play">\u25B6</span>';

@@ -14366,6 +14366,33 @@ nav .nav-cta[href="/learning-center"]:hover{
 [data-mdg-count]{ font-variant-numeric:tabular-nums; font-feature-settings:'tnum' 1; }
 
 /* ══════════════════════════════════════════════════════════════════
+   CHAPITRE WEB — vignettes en attente d'image
+   ──────────────────────────────────────────────────────────────────
+   Ces vignettes menent a une etude de cas, elles n'ouvrent pas la
+   visionneuse. Tant qu'aucune capture n'est deposee, la case porte le
+   nom du projet : elle garde sa place, ses proportions et son sens,
+   au lieu de laisser un cadre vide qui ressemblerait a une panne.
+   ══════════════════════════════════════════════════════════════════ */
+.chap-it--web{
+  display:flex; align-items:center; justify-content:center;
+  padding:10px; text-align:center;
+  background:linear-gradient(155deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.09);
+  transition:border-color .25s, background .25s;
+}
+.chap-it--web:hover,
+.chap-it--web:focus-visible{
+  border-color:rgba(var(--accent-rgb),.5);
+  background:linear-gradient(155deg, rgba(var(--accent-rgb),.09), rgba(255,255,255,.02));
+}
+.chap-web-nom{
+  font-family:var(--font-display); font-weight:700;
+  font-size:.62rem; line-height:1.2; letter-spacing:.01em;
+  color:var(--off); text-wrap:balance;
+}
+.chap-it--web:hover .chap-web-nom{ color:var(--light) }
+
+/* ══════════════════════════════════════════════════════════════════
    MACHINE A ECRIRE
    ──────────────────────────────────────────────────────────────────
    Le curseur suit le dernier caractere pose. Il clignote, mais il est
