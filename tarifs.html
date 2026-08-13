@@ -302,6 +302,7 @@ button{font:inherit;background:none;border:none;cursor:pointer;color:inherit}
  ]
 }
 </script>
+<link rel="stylesheet" href="/assets/beam.css?v=82477917">
 </head>
 <body>
 <div class="mdg-arrivee" aria-hidden="true"></div>
@@ -487,9 +488,17 @@ button{font:inherit;background:none;border:none;cursor:pointer;color:inherit}
     rsPacks.className = 'rs-duo' + (solo ? ' solo' : '');
     rsPacks.innerHTML = cur.packs.map(function(p){
       var cls = p.featured ? 'ivory' : 'dark';
+      /* Le faisceau ne va que sur la carte mise en avant : c'est la
+         seule que le regard doit attraper en premier. Sur ce fond ivoire
+         le vert vif se lit mal, on prend donc --accent-deep, la variante
+         dessinee pour les fonds clairs. */
+      var beam = p.featured
+        ? ' border-beam" style="--beam-duree:9s;--beam-taille:160px;'
+          + '--beam-a:var(--accent-deep);--beam-de:rgba(92,107,20,.25)'
+        : '';
       var badge = p.featured && !solo ? '<div class="rs-badge">Le + choisi</div>' : '';
       var feats = p.feat.map(function(ft){ return '<li>' + esc(ft) + '</li>'; }).join('');
-      return '<div class="rs-card ' + cls + '">' + badge
+      return '<div class="rs-card ' + cls + beam + '">' + badge
         + '<div class="rs-tier">' + esc(p.name) + '</div>'
         + '<div class="rs-name">' + esc(p.tier) + '</div>'
         + '<div class="rs-for">' + esc(forWhom[p.name] || '') + '</div>'
@@ -500,6 +509,10 @@ button{font:inherit;background:none;border:none;cursor:pointer;color:inherit}
         + '<a class="rs-cta ' + (p.featured ? 'fill' : 'ghost') + '" href="' + waHref(p.name, p.tier) + '" target="_blank" rel="noopener">Lancer ce pack →</a>'
         + '</div>';
     }).join('');
+    /* Les cartes viennent d'etre reconstruites : le faisceau doit
+       retrouver sa cible. Un balayage unique au chargement l'aurait
+       manquee, ces cartes n'existant pas encore a ce moment. */
+    if (window.mdgBeamScan) window.mdgBeamScan();
   }
   function renderCompare(){
     var cmp = data[fmt].compare;
@@ -562,5 +575,6 @@ button{font:inherit;background:none;border:none;cursor:pointer;color:inherit}
 </script>
 
 <script defer src="/assets/transition.js?v=2e1f1028"></script>
+<script defer src="/assets/beam.js?v=aeeb89df"></script>
 </body>
 </html>

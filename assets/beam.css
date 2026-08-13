@@ -1,0 +1,75 @@
+/* ══════════════════════════════════════════════════════════════════
+   BORDER BEAM — regles
+   ──────────────────────────────────────────────────────────────────
+   Fichier separe de mdg.css a dessein : tarifs.html ne charge pas la
+   feuille principale, elle porte ses propres styles. Le faisceau doit
+   servir les deux pages, donc il vit avec son script dans un couple
+   autonome, assets/beam.css + assets/beam.js. Recopier les regles dans
+   chaque page garantirait que les copies divergent.
+
+   Reglages, par variables sur l'element :
+     --beam-duree      duree d'un tour            (8s)
+     --beam-taille     longueur du trait          (110px)
+     --beam-epaisseur  epaisseur                  (1.5px)
+     --beam-a          couleur du coeur           (--accent)
+     --beam-de         couleur des extremites     (--accent a 35 %)
+
+   Sur fond clair, prendre --accent-deep : le vert vif ne s'y lit pas.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Le trait est porte par un ELEMENT injecte, pas par ::before ou
+   ::after. Un element n'a qu'un seul de chacun, et certains composants
+   les occupent deja : .mdg-ihb::before dessine le cercle qui s'etend au
+   survol, .mdg-ihb::after porte l'etiquette qui glisse. Un faisceau en
+   ::after aurait efface cette etiquette. Avec un enfant, la classe se
+   pose sur n'importe quoi sans rien ecraser. */
+.border-beam{ position:relative }
+
+.beam-trace{
+  position:absolute; left:0; top:0; pointer-events:none;
+  /* Le trace suit la bordure de la boite parente. C'est offset-path qui
+     fait le travail, pas une bordure animee : animer une bordure
+     repeindrait toute la boite a chaque frame. */
+  offset-path:border-box;
+  offset-distance:0%;
+  width:var(--beam-taille,110px); height:var(--beam-epaisseur,1.5px);
+  background:linear-gradient(90deg,
+             transparent,
+             var(--beam-de,rgba(var(--accent-rgb,228,250,90),.35)),
+             var(--beam-a,var(--accent,#E4FA5A)),
+             var(--beam-de,rgba(var(--accent-rgb,228,250,90),.35)),
+             transparent);
+  opacity:0;
+}
+
+/* .beam-actif est pose par le script quand l'element entre a l'ecran,
+   et RETIRE quand il en sort. C'est une animation sans fin : elle ne
+   doit tourner que sous les yeux de quelqu'un. */
+.border-beam.beam-actif > .beam-trace{
+  opacity:1;
+  will-change:offset-distance;
+  animation:mdg-beam var(--beam-duree,8s) linear infinite;
+}
+@keyframes mdg-beam{ to{ offset-distance:100% } }
+
+/* offset-path n'est pas partout. Sans lui le trait ne courrait pas : on
+   garde un liset fixe et discret plutot qu'un effet casse, et surtout
+   aucune couche n'est reservee pour rien. */
+@supports not (offset-path: border-box){
+  .border-beam.beam-actif > .beam-trace{
+    inset:0; width:auto; height:auto; animation:none; will-change:auto;
+    background:none; border-radius:inherit;
+    border:1px solid var(--beam-a,var(--accent,#E4FA5A));
+    opacity:.28;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  /* Une lumiere qui court est un vrai deplacement, contrairement a un
+     fondu : elle s'arrete ici. Le trait se pose sur le bord et s'y
+     tient. La presence reste, le mouvement disparait, et aucune couche
+     GPU n'est reservee. */
+  .border-beam.beam-actif > .beam-trace{
+    animation:none; will-change:auto; offset-distance:18%;
+  }
+}

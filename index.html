@@ -93,7 +93,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/mdg.css?v=84b85fcf">
+<link rel="stylesheet" href="/assets/mdg.css?v=fa99f827">
 <script>
 /* Lenis smooth scroll, desktop uniquement + respect prefers-reduced-motion */
 (function(){
@@ -176,6 +176,7 @@
 ═══════════════════════════════════════════════ -->
 
 <!-- Styles déplacés pour rendu non-bloquant -->
+<link rel="stylesheet" href="/assets/beam.css?v=82477917">
 <body>
 <script>
 /* ══════════════════════════════════════════════════════════════════
@@ -10286,42 +10287,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ── 6. BORDER BEAM ──
-     L'animation est sans fin : elle ne doit donc tourner que sous les
-     yeux de quelqu'un. Contrairement aux autres entrees de ce fichier,
-     l'observateur ne se detache pas — il rallume en entrant et eteint
-     en sortant, sinon un faisceau invisible continuerait de composer
-     une couche pour le reste de la visite. */
-  function initBeam(){
-    var cibles = document.querySelectorAll('.border-beam');
-    if (!cibles.length || !window.IntersectionObserver) return;
-    var io = new IntersectionObserver(function(entrees){
-      entrees.forEach(function(e){
-        e.target.classList.toggle('beam-actif', e.isIntersecting);
-      });
-    }, { rootMargin: '80px' });
-    cibles.forEach(function(el){
-      /* Le trait est un enfant, pas un pseudo-element : il ne peut donc
-         entrer en conflit avec aucun ::before ou ::after deja utilise. */
-      if (!el.querySelector(':scope > .beam-trace')) {
-        var t = document.createElement('i');
-        t.className = 'beam-trace';
-        t.setAttribute('aria-hidden', 'true');
-        el.appendChild(t);
-      }
-      if (dejaVisible(el)) el.classList.add('beam-actif');
-      io.observe(el);
-    });
+  /* Le Border Beam vit dans son propre couple de fichiers : il sert
+     aussi la page des tarifs, qui ne charge pas cette feuille-ci, et le
+     dupliquer garantirait que les deux copies divergent. */
 
-    /* Onglet en arriere-plan : rien a montrer, rien a composer. */
-    document.addEventListener('visibilitychange', function(){
-      if (document.hidden) {
-        cibles.forEach(function(el){ el.classList.remove('beam-actif'); });
-      }
-    });
-  }
-
-    var start = function(){ autoMarquage(); initReveal(); initSnap(); initCount(); initOrbit(); initGroupes(); initFrappe(); initBeam(); };
+    var start = function(){ autoMarquage(); initReveal(); initSnap(); initCount(); initOrbit(); initGroupes(); initFrappe(); };
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
     else start();
 
@@ -10985,5 +10955,6 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 </script>
 <script defer src="/assets/transition.js?v=2e1f1028"></script>
+<script defer src="/assets/beam.js?v=aeeb89df"></script>
 </body>
 </html>

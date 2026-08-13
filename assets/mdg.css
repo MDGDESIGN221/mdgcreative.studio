@@ -14365,66 +14365,6 @@ nav .nav-cta[href="/learning-center"]:hover{
   .mdg-caret{ animation:none }
 }
 
-/* ══════════════════════════════════════════════════════════════════
-   BORDER BEAM
-   ──────────────────────────────────────────────────────────────────
-   Un trait de lumiere parcourt le bord. Il tient en un seul
-   pseudo-element : un segment de degrade colle au trace de la bordure
-   par offset-path, et non une bordure animee — animer une bordure
-   repeint toute la boite a chaque frame.
-
-   Trois garde-fous, parce que c'est une animation SANS FIN :
-     - elle ne tourne que si l'element porte .beam-actif, pose par
-       l'observateur quand il entre a l'ecran ;
-     - elle s'arrete sous mouvement reduit ;
-     - le pseudo-element ne prend de couche GPU que pendant qu'il tourne.
-   ══════════════════════════════════════════════════════════════════ */
-/* Le trait est porte par un ELEMENT injecte, pas par ::before ou
-   ::after. Un element n'a qu'un seul de chacun, et le bouton du heros
-   les occupe deja tous les deux : .mdg-ihb::before dessine le cercle
-   qui s'etend au survol, .mdg-ihb::after porte l'etiquette qui glisse.
-   Un faisceau en ::after aurait efface cette etiquette. Avec un enfant,
-   la classe se pose sur n'importe quoi sans rien ecraser. */
-.border-beam{ position:relative }
-.beam-trace{
-  position:absolute; left:0; top:0; pointer-events:none;
-  /* le trace suit exactement la bordure de la boite parente */
-  offset-path:border-box;
-  offset-distance:0%;
-  width:var(--beam-taille,110px); height:var(--beam-epaisseur,1.5px);
-  background:linear-gradient(90deg,
-             transparent,
-             var(--beam-de,rgba(var(--accent-rgb),.35)),
-             var(--beam-a,var(--accent)),
-             var(--beam-de,rgba(var(--accent-rgb),.35)),
-             transparent);
-  opacity:0;
-}
-.border-beam.beam-actif > .beam-trace{
-  opacity:1;
-  will-change:offset-distance;
-  animation:mdg-beam var(--beam-duree,8s) linear infinite;
-}
-@keyframes mdg-beam{ to{ offset-distance:100% } }
-
-/* offset-path:border-box n'est pas partout. Sans lui le trait ne
-   courrait pas : on garde un liset fixe et discret plutot qu'un effet
-   casse, et surtout on ne reserve aucune couche pour rien. */
-@supports not (offset-path: border-box){
-  .border-beam.beam-actif > .beam-trace{
-    inset:0; width:auto; height:auto; animation:none; will-change:auto;
-    background:none; border:1px solid rgba(var(--accent-rgb),.28);
-    border-radius:inherit;
-  }
-}
-@media(prefers-reduced-motion:reduce){
-  /* Le trait ne court plus : il se pose sur le bord haut et s'y tient.
-     La presence reste, le mouvement disparait. */
-  .border-beam.beam-actif > .beam-trace{
-    animation:none; will-change:auto; offset-distance:18%;
-  }
-}
-
 /* Roue orbitale : perspective portee par le conteneur, sinon chaque carte
    cree la sienne et l'arc ne se lit pas. */
 [data-orbit]{ perspective:1400px; perspective-origin:50% 50%; }
