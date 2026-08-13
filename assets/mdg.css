@@ -14527,9 +14527,21 @@ nav .nav-cta[href="/learning-center"]:hover{
   }
 
   /* Liens dont le contenu est une icone : ils n'ont pas de texte pour
-     donner de la surface, il faut la leur poser. */
-  a:has(> svg),
-  a:has(> img) {
+     donner de la surface, il faut la leur poser.
+
+     a:has(> img) etait ici aussi, et c'etait une erreur de portee. Ce
+     selecteur attrape TOUTE vignette cliquable du site, pas seulement
+     les icones : les 27 cartes de Visuals et les 14 de Cover Art sont
+     des <a><img>. Son display:inline-flex!important ecrasait alors la
+     regle qui replie ces grilles sur mobile, et les deux chapitres se
+     deversaient en entier. Motion y echappait par accident, ses
+     cellules etant des <button>.
+
+     Mesure avant retrait : sur 48 liens-icones sans texte, 44 depassent
+     deja 44px. La moitie img ne protegeait donc rien, et cassait 41
+     vignettes. Les 4 liens reellement courts sont des <a><svg>, a
+     42x42 : c'est la moitie svg qui les rattrape, et elle reste. */
+  a:has(> svg) {
     min-width: 44px !important;
     min-height: 44px !important;
     display: inline-flex !important;
