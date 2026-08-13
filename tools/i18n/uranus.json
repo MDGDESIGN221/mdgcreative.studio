@@ -1,0 +1,386 @@
+[
+ [
+  "<html lang=\"fr\">",
+  "<html lang=\"en\">"
+ ],
+ [
+  "<title>URANUS GFX Pack · assets premium pour créatifs | MDG Creative Studio</title>",
+  "<title>URANUS GFX Pack · premium assets for creatives | MDG Creative Studio</title>"
+ ],
+ [
+  "<meta name=\"description\" content=\"URANUS GFX Pack by MDG Creative Studio : PSD calqués, textures, fonts premium et actions Photoshop pour graphistes et créateurs de covers. Paiement Wave, livraison WhatsApp.\">",
+  "<meta name=\"description\" content=\"URANUS GFX Pack by MDG Creative Studio: layered PSDs, textures, premium fonts and Photoshop actions for designers and cover artists. Wave payment, WhatsApp delivery.\">"
+ ],
+ [
+  "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/uranus\">",
+  "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/en/uranus\">"
+ ],
+ [
+  "<meta property=\"og:description\" content=\"PSD calqués, textures, fonts premium, actions Photoshop. Pour ceux qui font.\">",
+  "<meta property=\"og:description\" content=\"Layered PSDs, textures, premium fonts, Photoshop actions. For those who make things.\">"
+ ],
+ [
+  "  <a href=\"/\" class=\"u-nav-logo\">",
+  "  <a href=\"/en/\" class=\"u-nav-logo\">"
+ ],
+ [
+  "  <a href=\"/\" class=\"u-nav-back\">← Retour au studio</a>",
+  "  <a href=\"/en/\" class=\"u-nav-back\">← Back to the studio</a>"
+ ],
+ [
+  "      \">Un pack d'assets pour les créatifs qui veulent travailler avec les mêmes ressources que MDG. Pas pour les clients, pour ceux qui font.</p>",
+  "      \">An asset pack for creatives who want to work with the same resources as MDG. Not for clients — for the people who make things.</p>"
+ ],
+ [
+  "      \">Espace créatifs · Hors offre studio</span>",
+  "      \">Creators space · Outside the studio offer</span>"
+ ],
+ [
+  "        <span style=\"display:inline-flex;align-items:center;gap:7px;padding:6px 13px;background:rgba(228,250,90,.1);border:1px solid rgba(228,250,90,.3);border-radius:9999px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.18em;color:#DCEB7A\"><span style=\"width:6px;height:6px;border-radius:50%;background:#E4FA5A;box-shadow:0 0 8px #E4FA5A\"></span>RUPTURE DE STOCK</span>",
+  "        <span style=\"display:inline-flex;align-items:center;gap:7px;padding:6px 13px;background:rgba(228,250,90,.1);border:1px solid rgba(228,250,90,.3);border-radius:9999px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.56rem;letter-spacing:.18em;color:#DCEB7A\"><span style=\"width:6px;height:6px;border-radius:50%;background:#E4FA5A;box-shadow:0 0 8px #E4FA5A\"></span>OUT OF STOCK</span>"
+ ],
+ [
+  "        <p style=\"font:400 .85rem 'Archivo',sans-serif;line-height:1.5;color:#8fa8a1;margin:14px auto 0;max-width:300px\">Pour graphistes &amp; créateurs de covers. Crée des covers pro sans repartir de zéro : PSD calqués, fonts, actions PS et textures.</p>",
+  "        <p style=\"font:400 .85rem 'Archivo',sans-serif;line-height:1.5;color:#8fa8a1;margin:14px auto 0;max-width:300px\">For designers &amp; cover creators. Create pro covers without starting from scratch: layered PSDs, fonts, PS actions and textures.</p>"
+ ],
+ [
+  "            <button type=\"button\" aria-label=\"Activer le son\" onclick=\"var v=document.getElementById('uTeaserMob');if(v){v.muted=!v.muted;this.querySelector('span').textContent=v.muted?'Activer le son':'Couper le son';if(!v.muted){v.play();}}\" style=\"position:absolute;bottom:11px;right:11px;display:inline-flex;align-items:center;gap:6px;padding:7px 11px;background:rgba(2,12,10,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);border-radius:9999px;font:600 .58rem 'Archivo',sans-serif;letter-spacing:.04em;color:#FAFCEF;cursor:pointer\">♪ <span>Activer le son</span></button>",
+  "            <button type=\"button\" aria-label=\"Unmute\" onclick=\"var v=document.getElementById('uTeaserMob');if(v){v.muted=!v.muted;this.querySelector('span').textContent=v.muted?'Unmute':'Couper le son';if(!v.muted){v.play();}}\" style=\"position:absolute;bottom:11px;right:11px;display:inline-flex;align-items:center;gap:6px;padding:7px 11px;background:rgba(2,12,10,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);border-radius:9999px;font:600 .58rem 'Archivo',sans-serif;letter-spacing:.04em;color:#FAFCEF;cursor:pointer\">♪ <span>Unmute</span></button>"
+ ],
+ [
+  "          <div style=\"position:absolute;top:-10px;right:-6px;background:#E4FA5A;color:#1D2103;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.74rem;padding:8px 13px;border-radius:9999px;box-shadow:0 8px 22px rgba(228,250,90,.5);transform:rotate(6deg)\">ÉPUISÉ</div>",
+  "          <div style=\"position:absolute;top:-10px;right:-6px;background:#E4FA5A;color:#1D2103;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.74rem;padding:8px 13px;border-radius:9999px;box-shadow:0 8px 22px rgba(228,250,90,.5);transform:rotate(6deg)\">SOLD OUT</div>"
+ ],
+ [
+  "        <span style=\"font:600 .64rem 'Archivo',sans-serif;color:#C1C5A8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9999px\">PSD calqués</span>",
+  "        <span style=\"font:600 .64rem 'Archivo',sans-serif;color:#C1C5A8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9999px\">Layered PSDs</span>"
+ ],
+ [
+  "        <span style=\"font:600 .64rem 'Archivo',sans-serif;color:#C1C5A8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9999px\">Actions PS</span>",
+  "        <span style=\"font:600 .64rem 'Archivo',sans-serif;color:#C1C5A8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9999px\">PS actions</span>"
+ ],
+ [
+  "        <span style=\"font:600 .64rem 'Archivo',sans-serif;color:#C1C5A8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9999px\">Textures brutes</span>",
+  "        <span style=\"font:600 .64rem 'Archivo',sans-serif;color:#C1C5A8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9999px\">Raw textures</span>"
+ ],
+ [
+  "        <span style=\"font:600 .64rem 'Archivo',sans-serif;color:#C1C5A8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9999px\">Fonts premium</span>",
+  "        <span style=\"font:600 .64rem 'Archivo',sans-serif;color:#C1C5A8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9999px\">Premium fonts</span>"
+ ],
+ [
+  "        <div style=\"flex:1;text-align:center;padding:16px 6px;border-left:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.1)\"><div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;color:#FAFCEF\">4</div><div style=\"font:500 .56rem 'Archivo',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#A4AA7D;margin-top:3px\">familles</div></div>",
+  "        <div style=\"flex:1;text-align:center;padding:16px 6px;border-left:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.1)\"><div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;color:#FAFCEF\">4</div><div style=\"font:500 .56rem 'Archivo',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#A4AA7D;margin-top:3px\">families</div></div>"
+ ],
+ [
+  "        <div style=\"flex:1;text-align:center;padding:16px 6px\"><div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;color:#E4FA5A\">∞</div><div style=\"font:500 .56rem 'Archivo',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#A4AA7D;margin-top:3px\">à vie</div></div>",
+  "        <div style=\"flex:1;text-align:center;padding:16px 6px\"><div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;color:#E4FA5A\">∞</div><div style=\"font:500 .56rem 'Archivo',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#A4AA7D;margin-top:3px\">for life</div></div>"
+ ],
+ [
+  "      <div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:#A4AA7D;padding:30px 26px 14px\">Aperçu des PSD inclus <span style=\"color:#E4FA5A\">· 6 exemples</span></div>",
+  "      <div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:#A4AA7D;padding:30px 26px 14px\">Preview of the included PSDs <span style=\"color:#E4FA5A\">· 6 examples</span></div>"
+ ],
+ [
+  "        <div style=\"flex:none;width:152px;scroll-snap-align:start\"><div style=\"position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)\"><img width=\"320\" height=\"400\" decoding=\"async\" loading=\"lazy\" src=\"/media/img/FRANCE_SENEGAL_rkitjo.jpg\" alt=\"France vs Sénégal\" style=\"width:100%;height:100%;object-fit:cover;display:block\"><div style=\"position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)\"></div><span style=\"position:absolute;top:9px;left:9px;font:700 .54rem 'Archivo',sans-serif;letter-spacing:.08em;color:#1D2103;background:#E4FA5A;padding:3px 7px;border-radius:4px\">PSD</span><div style=\"position:absolute;left:11px;bottom:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.74rem;color:#FAFCEF\">France · Sénégal</div></div></div>",
+  "        <div style=\"flex:none;width:152px;scroll-snap-align:start\"><div style=\"position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)\"><img width=\"320\" height=\"400\" decoding=\"async\" loading=\"lazy\" src=\"/media/img/FRANCE_SENEGAL_rkitjo.jpg\" alt=\"France vs Senegal\" style=\"width:100%;height:100%;object-fit:cover;display:block\"><div style=\"position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)\"></div><span style=\"position:absolute;top:9px;left:9px;font:700 .54rem 'Archivo',sans-serif;letter-spacing:.08em;color:#1D2103;background:#E4FA5A;padding:3px 7px;border-radius:4px\">PSD</span><div style=\"position:absolute;left:11px;bottom:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.74rem;color:#FAFCEF\">France · Senegal</div></div></div>"
+ ],
+ [
+  "        <div style=\"flex:none;width:152px;scroll-snap-align:start\"><div style=\"position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)\"><img width=\"320\" height=\"400\" decoding=\"async\" loading=\"lazy\" src=\"/media/img/USA_VS_SENEGAL_vkq9ol.jpg\" alt=\"USA vs Sénégal\" style=\"width:100%;height:100%;object-fit:cover;display:block\"><div style=\"position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)\"></div><span style=\"position:absolute;top:9px;left:9px;font:700 .54rem 'Archivo',sans-serif;letter-spacing:.08em;color:#1D2103;background:#E4FA5A;padding:3px 7px;border-radius:4px\">PSD</span><div style=\"position:absolute;left:11px;bottom:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.74rem;color:#FAFCEF\">USA · Sénégal</div></div></div>",
+  "        <div style=\"flex:none;width:152px;scroll-snap-align:start\"><div style=\"position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)\"><img width=\"320\" height=\"400\" decoding=\"async\" loading=\"lazy\" src=\"/media/img/USA_VS_SENEGAL_vkq9ol.jpg\" alt=\"USA vs Senegal\" style=\"width:100%;height:100%;object-fit:cover;display:block\"><div style=\"position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)\"></div><span style=\"position:absolute;top:9px;left:9px;font:700 .54rem 'Archivo',sans-serif;letter-spacing:.08em;color:#1D2103;background:#E4FA5A;padding:3px 7px;border-radius:4px\">PSD</span><div style=\"position:absolute;left:11px;bottom:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.74rem;color:#FAFCEF\">USA · Senegal</div></div></div>"
+ ],
+ [
+  "        <div style=\"flex:none;width:152px;scroll-snap-align:start\"><div style=\"position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)\"><img width=\"320\" height=\"400\" decoding=\"async\" loading=\"lazy\" src=\"/media/img/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg\" alt=\"Sénégal vs Arabie Saoudite\" style=\"width:100%;height:100%;object-fit:cover;display:block\"><div style=\"position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)\"></div><span style=\"position:absolute;top:9px;left:9px;font:700 .54rem 'Archivo',sans-serif;letter-spacing:.08em;color:#1D2103;background:#E4FA5A;padding:3px 7px;border-radius:4px\">PSD</span><div style=\"position:absolute;left:11px;bottom:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.74rem;color:#FAFCEF\">Sénégal · KSA</div></div></div>",
+  "        <div style=\"flex:none;width:152px;scroll-snap-align:start\"><div style=\"position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.08)\"><img width=\"320\" height=\"400\" decoding=\"async\" loading=\"lazy\" src=\"/media/img/SENEGAL_VS_ARABIE_SAOUDITE_rvwtdj.jpg\" alt=\"Sénégal vs Arabie Saoudite\" style=\"width:100%;height:100%;object-fit:cover;display:block\"><div style=\"position:absolute;inset:0;background:linear-gradient(to top,rgba(2,10,8,.9),transparent 50%)\"></div><span style=\"position:absolute;top:9px;left:9px;font:700 .54rem 'Archivo',sans-serif;letter-spacing:.08em;color:#1D2103;background:#E4FA5A;padding:3px 7px;border-radius:4px\">PSD</span><div style=\"position:absolute;left:11px;bottom:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.74rem;color:#FAFCEF\">Senegal · KSA</div></div></div>"
+ ],
+ [
+  "        <span style=\"display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(228,250,90,.14);border:1px solid rgba(228,250,90,.32);border-radius:9999px;font:700 .56rem 'Space Grotesk',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#E9F4A4\">Édition limitée, épuisée</span>",
+  "        <span style=\"display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(228,250,90,.14);border:1px solid rgba(228,250,90,.32);border-radius:9999px;font:700 .56rem 'Space Grotesk',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#E9F4A4\">Limited edition, sold out</span>"
+ ],
+ [
+  "        <div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:#FAFCEF;margin-top:12px\">Pack épuisé</div>",
+  "        <div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:#FAFCEF;margin-top:12px\">Pack sold out</div>"
+ ],
+ [
+  "        <p style=\"font:400 .82rem 'Archivo',sans-serif;line-height:1.6;color:#8fa8a1;margin:8px auto 18px;max-width:300px\">La première série est partie plus vite que prévu. Une nouvelle édition arrive bientôt.</p>",
+  "        <p style=\"font:400 .82rem 'Archivo',sans-serif;line-height:1.6;color:#8fa8a1;margin:8px auto 18px;max-width:300px\">The first run sold out faster than expected. A new edition is coming soon.</p>"
+ ],
+ [
+  "        <a href=\"https://wa.me/221763772208?text=Salut%20MDG%2C%20pr%C3%A9viens-moi%20quand%20l%27URANUS%20GFX%20PACK%20revient\" target=\"_blank\" rel=\"noopener\" style=\"display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:#E4FA5A;border-radius:9999px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.82rem;color:#1D2103;text-decoration:none;box-shadow:0 10px 34px rgba(228,250,90,.4)\">Préviens-moi du retour</a>",
+  "        <a href=\"https://wa.me/221763772208?text=Salut%20MDG%2C%20pr%C3%A9viens-moi%20quand%20l%27URANUS%20GFX%20PACK%20revient\" target=\"_blank\" rel=\"noopener\" style=\"display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:#E4FA5A;border-radius:9999px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.82rem;color:#1D2103;text-decoration:none;box-shadow:0 10px 34px rgba(228,250,90,.4)\">Notify me when it returns</a>"
+ ],
+ [
+  "      Outils issus du workflow MDG. Packagés pour une utilisation autonome.",
+  "      Tools from the MDG workflow. Packaged to be used on your own."
+ ],
+ [
+  "  <span class=\"u-banner-txt\">PSD calqués · Actions PS · Textures · Fonts premium</span>",
+  "  <span class=\"u-banner-txt\">Layered PSDs · PS actions · Textures · Premium fonts</span>"
+ ],
+ [
+  "  <span class=\"u-banner-badge\" style=\"color:var(--u-accent3);background:rgba(228,250,90,.1);border-color:rgba(228,250,90,.25)\">Édition limitée, épuisée</span>",
+  "  <span class=\"u-banner-badge\" style=\"color:var(--u-accent3);background:rgba(228,250,90,.1);border-color:rgba(228,250,90,.25)\">Limited edition, sold out</span>"
+ ],
+ [
+  "      RUPTURE DE STOCK",
+  "      OUT OF STOCK"
+ ],
+ [
+  "    <span style=\"font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--u-mid);\">Édition limitée épuisée, nouvelle série bientôt</span>",
+  "    <span style=\"font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;color:var(--u-mid);\">Limited edition sold out, new run coming soon</span>"
+ ],
+ [
+  "      Pour graphistes &amp; créateurs de covers",
+  "      For designers &amp; cover creators"
+ ],
+ [
+  "      Crée des covers pro sans repartir de zéro. PSD calqués prêts à éditer, fonts premium, actions Photoshop et textures brutes (grain, papier, métal, bruit).",
+  "      Create pro covers without starting from scratch. Layered PSDs ready to edit, premium fonts, Photoshop actions and raw textures (grain, paper, metal, noise)."
+ ],
+ [
+  "      <span class=\"u-pill\">PSD calqués</span>",
+  "      <span class=\"u-pill\">Layered PSDs</span>"
+ ],
+ [
+  "      <span class=\"u-pill\">Actions PS</span>",
+  "      <span class=\"u-pill\">PS actions</span>"
+ ],
+ [
+  "      <span class=\"u-pill\">Textures brutes</span>",
+  "      <span class=\"u-pill\">Raw textures</span>"
+ ],
+ [
+  "      <span class=\"u-pill\">Fonts premium</span>",
+  "      <span class=\"u-pill\">Premium fonts</span>"
+ ],
+ [
+  "      <span style=\"display:inline-flex;align-items:center;gap:7px;padding:5px 12px;background:rgba(228,250,90,.14);border:1px solid rgba(228,250,90,.32);border-radius:9999px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#E9F4A4\">Édition limitée, épuisée</span>",
+  "      <span style=\"display:inline-flex;align-items:center;gap:7px;padding:5px 12px;background:rgba(228,250,90,.14);border:1px solid rgba(228,250,90,.32);border-radius:9999px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#E9F4A4\">Limited edition, sold out</span>"
+ ],
+ [
+  "      <div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;color:#FAFCEF;margin-top:.9rem\">Pack épuisé</div>",
+  "      <div style=\"font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em;color:#FAFCEF;margin-top:.9rem\">Pack sold out</div>"
+ ],
+ [
+  "      <p style=\"font:400 .85rem 'Archivo',sans-serif;line-height:1.65;color:#8fa8a1;margin:.5rem 0 1.1rem\">La première série de l'URANUS GFX PACK est partie plus vite que prévu. Une nouvelle édition arrive bientôt.</p>",
+  "      <p style=\"font:400 .85rem 'Archivo',sans-serif;line-height:1.65;color:#8fa8a1;margin:.5rem 0 1.1rem\">The first URANUS GFX PACK run sold out faster than expected. A new edition is coming soon.</p>"
+ ],
+ [
+  "        Préviens-moi du retour",
+  "        Notify me when it returns"
+ ],
+ [
+  "        <button type=\"button\" class=\"u-teaser-sound\" aria-label=\"Activer le son\" onclick=\"var v=document.getElementById('uTeaserDesk');if(v){v.muted=!v.muted;this.querySelector('span').textContent=v.muted?'Activer le son':'Couper le son';if(!v.muted){v.play();}}\">♪ <span>Activer le son</span></button>",
+  "        <button type=\"button\" class=\"u-teaser-sound\" aria-label=\"Unmute\" onclick=\"var v=document.getElementById('uTeaserDesk');if(v){v.muted=!v.muted;this.querySelector('span').textContent=v.muted?'Unmute':'Couper le son';if(!v.muted){v.play();}}\">♪ <span>Unmute</span></button>"
+ ],
+ [
+  "        <img width=\"1080\" height=\"1350\" decoding=\"async\" id=\"uranusBoxImg\" src=\"/media/img/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.webp\" loading=\"eager\" fetchpriority=\"high\" alt=\"URANUS GFX PACK\">",
+  "        <img decoding=\"async\" id=\"uranusBoxImg\" src=\"/media/img/IBRAHIM_MBAYE_-_RIM_LIGHT_STUDY_02_m2pvwr.webp\" loading=\"eager\" fetchpriority=\"high\" alt=\"URANUS GFX PACK\">"
+ ],
+ [
+  "      <img width=\"300\" height=\"375\" decoding=\"async\" src=\"/media/img/USA_VS_SENEGAL_vkq9ol.jpg\" loading=\"lazy\" alt=\"USA vs Sénégal, MDG Creative Studio\">",
+  "      <img width=\"300\" height=\"375\" decoding=\"async\" src=\"/media/img/USA_VS_SENEGAL_vkq9ol.jpg\" loading=\"lazy\" alt=\"USA vs Senegal, MDG Creative Studio\">"
+ ],
+ [
+  "      <img width=\"300\" height=\"375\" decoding=\"async\" src=\"/media/img/FRANCE_SENEGAL_rkitjo.jpg\" loading=\"lazy\" alt=\"France vs Sénégal, MDG Creative Studio\">",
+  "      <img width=\"300\" height=\"375\" decoding=\"async\" src=\"/media/img/FRANCE_SENEGAL_rkitjo.jpg\" loading=\"lazy\" alt=\"France vs Senegal, MDG Creative Studio\">"
+ ],
+ [
+  "<div class=\"u-orb-badge b2\">ÉPUISÉ</div>",
+  "<div class=\"u-orb-badge b2\">SOLD OUT</div>"
+ ],
+ [
+  "  <!-- ── ACCORDION 1 : Ce que contient le pack ── -->",
+  "  <!-- ── ACCORDION 1 : What is in the pack ── -->"
+ ],
+ [
+  "    <span class=\"u-accordion-trigger-left\">Ce que contient le pack</span>",
+  "    <span class=\"u-accordion-trigger-left\">What is in the pack</span>"
+ ],
+ [
+  "          <div class=\"u-asset-info\"><div class=\"u-asset-name2\">Fichiers PSD</div><div class=\"u-asset-detail2\">5 templates calqués, prêts à éditer</div></div>",
+  "          <div class=\"u-asset-info\"><div class=\"u-asset-name2\">PSD files</div><div class=\"u-asset-detail2\">5 layered templates, ready to edit</div></div>"
+ ],
+ [
+  "          <div class=\"u-asset-info\"><div class=\"u-asset-name2\">Textures</div><div class=\"u-asset-detail2\">Grain, papier, métal, bruit</div></div>",
+  "          <div class=\"u-asset-info\"><div class=\"u-asset-name2\">Textures</div><div class=\"u-asset-detail2\">Grain, paper, metal, noise</div></div>"
+ ],
+ [
+  "          <div class=\"u-asset-info\"><div class=\"u-asset-name2\">Fonts premium</div><div class=\"u-asset-detail2\">Sélection exclusive</div></div>",
+  "          <div class=\"u-asset-info\"><div class=\"u-asset-name2\">Premium fonts</div><div class=\"u-asset-detail2\">Exclusive selection</div></div>"
+ ],
+ [
+  "          <div class=\"u-asset-info\"><div class=\"u-asset-name2\">Presets PS</div><div class=\"u-asset-detail2\">Actions &amp; LUT Photoshop</div></div>",
+  "          <div class=\"u-asset-info\"><div class=\"u-asset-name2\">PS presets</div><div class=\"u-asset-detail2\">Photoshop actions &amp; LUTs</div></div>"
+ ],
+ [
+  "  <!-- ── ACCORDION 2 : Aperçu des visuels ── -->",
+  "  <!-- ── ACCORDION 2 : Visual preview ── -->"
+ ],
+ [
+  "    <span class=\"u-accordion-trigger-left\">Aperçu des visuels</span>",
+  "    <span class=\"u-accordion-trigger-left\">Visual preview</span>"
+ ],
+ [
+  "        <div class=\"u-gal-premium\" onclick=\"uGalOpen('/media/img/FRANCE_SENEGAL_rkitjo.jpg','France vs Sénégal')\">",
+  "        <div class=\"u-gal-premium\" onclick=\"uGalOpen('/media/img/FRANCE_SENEGAL_rkitjo.jpg','France vs Senegal')\">"
+ ],
+ [
+  "          <img width=\"500\" height=\"625\" decoding=\"async\" src=\"/media/img/FRANCE_SENEGAL_rkitjo.jpg\" alt=\"France vs Sénégal\" loading=\"lazy\">",
+  "          <img width=\"500\" height=\"625\" decoding=\"async\" src=\"/media/img/FRANCE_SENEGAL_rkitjo.jpg\" alt=\"France vs Senegal\" loading=\"lazy\">"
+ ],
+ [
+  "          <div class=\"u-gal-overlay\"><div class=\"u-gal-label\">France vs Sénégal</div><div class=\"u-gal-zoom\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/><line x1=\"11\" y1=\"8\" x2=\"11\" y2=\"14\"/><line x1=\"8\" y1=\"11\" x2=\"14\" y2=\"11\"/></svg></div></div>",
+  "          <div class=\"u-gal-overlay\"><div class=\"u-gal-label\">France vs Senegal</div><div class=\"u-gal-zoom\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/><line x1=\"11\" y1=\"8\" x2=\"11\" y2=\"14\"/><line x1=\"8\" y1=\"11\" x2=\"14\" y2=\"11\"/></svg></div></div>"
+ ],
+ [
+  "        <div class=\"u-gal-premium\" onclick=\"uGalOpen('/media/img/USA_VS_SENEGAL_vkq9ol.jpg','USA vs Sénégal')\">",
+  "        <div class=\"u-gal-premium\" onclick=\"uGalOpen('/media/img/USA_VS_SENEGAL_vkq9ol.jpg','USA vs Senegal')\">"
+ ],
+ [
+  "          <img width=\"500\" height=\"625\" decoding=\"async\" src=\"/media/img/USA_VS_SENEGAL_vkq9ol.jpg\" alt=\"USA vs Sénégal\" loading=\"lazy\">",
+  "          <img width=\"500\" height=\"625\" decoding=\"async\" src=\"/media/img/USA_VS_SENEGAL_vkq9ol.jpg\" alt=\"USA vs Senegal\" loading=\"lazy\">"
+ ],
+ [
+  "          <div class=\"u-gal-overlay\"><div class=\"u-gal-label\">USA vs Sénégal</div><div class=\"u-gal-zoom\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/><line x1=\"11\" y1=\"8\" x2=\"11\" y2=\"14\"/><line x1=\"8\" y1=\"11\" x2=\"14\" y2=\"11\"/></svg></div></div>",
+  "          <div class=\"u-gal-overlay\"><div class=\"u-gal-label\">USA vs Senegal</div><div class=\"u-gal-zoom\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/><line x1=\"11\" y1=\"8\" x2=\"11\" y2=\"14\"/><line x1=\"8\" y1=\"11\" x2=\"14\" y2=\"11\"/></svg></div></div>"
+ ],
+ [
+  "  <!-- ── ACCORDION 3 : Pourquoi acheter ── -->",
+  "  <!-- ── ACCORDION 3 : Why buy ── -->"
+ ],
+ [
+  "    <span class=\"u-accordion-trigger-left\">Pourquoi acheter</span>",
+  "    <span class=\"u-accordion-trigger-left\">Why buy</span>"
+ ],
+ [
+  "      <div class=\"u-why-row\"><span class=\"u-why-num\">01</span><span class=\"u-why-txt\"><strong>5 PSD sélectionnés à la main</strong>, chaque fichier est testé, calqué proprement. Pas de remplissage.</span></div>",
+  "      <div class=\"u-why-row\"><span class=\"u-why-num\">01</span><span class=\"u-why-txt\"><strong>5 hand-picked PSDs</strong>, every file is tested and cleanly layered. No filler.</span></div>"
+ ],
+ [
+  "      <div class=\"u-why-row\"><span class=\"u-why-num\">02</span><span class=\"u-why-txt\"><strong>Livraison par WhatsApp</strong>, dès que le pack est prêt, tu reçois le lien en message personnel.</span></div>",
+  "      <div class=\"u-why-row\"><span class=\"u-why-num\">02</span><span class=\"u-why-txt\"><strong>Delivery via WhatsApp</strong>, as soon as the pack is ready you get the link by direct message.</span></div>"
+ ],
+ [
+  "      <div class=\"u-why-row\"><span class=\"u-why-num\">03</span><span class=\"u-why-txt\"><strong>Un seul paiement, à vie</strong>, pas d'abonnement. Le pack t'appartient.</span></div>",
+  "      <div class=\"u-why-row\"><span class=\"u-why-num\">03</span><span class=\"u-why-txt\"><strong>One payment, for life</strong>, no subscription. The pack is yours.</span></div>"
+ ],
+ [
+  "      <div class=\"u-why-row\"><span class=\"u-why-num\">04</span><span class=\"u-why-txt\"><strong>Textures + Fonts + Presets inclus</strong>, tout pour travailler sans chercher ailleurs.</span></div>",
+  "      <div class=\"u-why-row\"><span class=\"u-why-num\">04</span><span class=\"u-why-txt\"><strong>Textures + Fonts + Presets included</strong>, everything you need without looking elsewhere.</span></div>"
+ ],
+ [
+  "    <span class=\"u-accordion-trigger-left\" style=\"color:var(--u-accent3);\">Commander, 19 900 FCFA <span style=\"font-size:.75em;opacity:.6;font-weight:400;\">~$30</span></span>",
+  "    <span class=\"u-accordion-trigger-left\" style=\"color:var(--u-accent3);\">Order, 19,900 FCFA <span style=\"font-size:.75em;opacity:.6;font-weight:400;\">~$30</span></span>"
+ ],
+ [
+  "            <span class=\"u-card-price-sub\">FCFA<br>Pack complet</span>",
+  "            <span class=\"u-card-price-sub\">FCFA<br>Full pack</span>"
+ ],
+ [
+  "          <div class=\"u-card-tag\" style=\"background:rgba(228,250,90,.12);border-color:rgba(228,250,90,.3);color:#E9F4A4;\">Un seul paiement · Accès à vie</div>",
+  "          <div class=\"u-card-tag\" style=\"background:rgba(228,250,90,.12);border-color:rgba(228,250,90,.3);color:#E9F4A4;\">One payment · Lifetime access</div>"
+ ],
+ [
+  "            <div class=\"u-field2\"><label for=\"uName2\">Prénom / pseudo</label><input type=\"text\" id=\"uName2\" placeholder=\"Ex : Mouhamed, MDG…\" autocomplete=\"name\"></div>",
+  "            <div class=\"u-field2\"><label for=\"uName2\">First name / alias</label><input type=\"text\" id=\"uName2\" placeholder=\"Ex : Mouhamed, MDG…\" autocomplete=\"name\"></div>"
+ ],
+ [
+  "            <div class=\"u-field2\"><label for=\"uEmail2\">Email</label><input type=\"email\" id=\"uEmail2\" placeholder=\"ton@email.com\" autocomplete=\"email\"></div>",
+  "            <div class=\"u-field2\"><label for=\"uEmail2\">Email</label><input type=\"email\" id=\"uEmail2\" placeholder=\"you@email.com\" autocomplete=\"email\"></div>"
+ ],
+ [
+  "            <div class=\"u-field2\"><label for=\"uPhone2\">Numéro Wave / téléphone</label><input type=\"tel\" id=\"uPhone2\" placeholder=\"+221 7X XXX XX XX\" autocomplete=\"tel\"></div>",
+  "            <div class=\"u-field2\"><label for=\"uPhone2\">Wave number / phone</label><input type=\"tel\" id=\"uPhone2\" placeholder=\"+221 7X XXX XX XX\" autocomplete=\"tel\"></div>"
+ ],
+ [
+  "              Obtenir le pack",
+  "              Get the pack"
+ ],
+ [
+  "              Confirmer sur WhatsApp",
+  "              Confirm on WhatsApp"
+ ],
+ [
+  "            <div id=\"uranusWaveInstructions\" class=\"u-wa-hint\">WhatsApp s'ouvre avec ton message prêt 👆<br>MDG te répond et t'envoie la demande Wave directement.</div>",
+  "            <div id=\"uranusWaveInstructions\" class=\"u-wa-hint\">WhatsApp opens with your message ready 👆<br>MDG replies and sends you the Wave request directly.</div>"
+ ],
+ [
+  "            <p class=\"u-card-note\">Paiement par <strong>Wave</strong> · Livraison par WhatsApp · Tes infos sont privées</p>",
+  "            <p class=\"u-card-note\">Payment via <strong>Wave</strong> · Delivery via WhatsApp · Your details stay private</p>"
+ ],
+ [
+  "            <h4>Tu es dans la liste !</h4>",
+  "            <h4>You are on the list!</h4>"
+ ],
+ [
+  "            <p>Dernière étape, confirme sur WhatsApp pour finaliser ta réservation.</p>",
+  "            <p>Last step: confirm on WhatsApp to finalise your reservation.</p>"
+ ],
+ [
+  "            <p style=\"font-size:.72rem;color:var(--u-dim);margin-top:.75rem;text-align:center\">MDG te répond et t'envoie le lien de téléchargement directement</p>",
+  "            <p style=\"font-size:.72rem;color:var(--u-dim);margin-top:.75rem;text-align:center\">MDG replies and sends you the download link directly</p>"
+ ],
+ [
+  "            <div class=\"u-trust-item\"><span class=\"u-trust-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg></span><span class=\"u-trust-label\">Données<br>privées</span></div>",
+  "            <div class=\"u-trust-item\"><span class=\"u-trust-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg></span><span class=\"u-trust-label\">Data<br>private</span></div>"
+ ],
+ [
+  "            <div class=\"u-trust-item\"><span class=\"u-trust-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10\"/><path d=\"M1 6h22v4H1z\"/><path d=\"M12 21V6\"/></svg></span><span class=\"u-trust-label\">Livraison<br>WhatsApp</span></div>",
+  "            <div class=\"u-trust-item\"><span class=\"u-trust-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10\"/><path d=\"M1 6h22v4H1z\"/><path d=\"M12 21V6\"/></svg></span><span class=\"u-trust-label\">Delivery<br>WhatsApp</span></div>"
+ ],
+ [
+  "            <div class=\"u-trust-item\"><span class=\"u-trust-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 20V10\"/><path d=\"M12 20V4\"/><path d=\"M6 20v-6\"/></svg></span><span class=\"u-trust-label\">Accès<br>à vie</span></div>",
+  "            <div class=\"u-trust-item\"><span class=\"u-trust-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 20V10\"/><path d=\"M12 20V4\"/><path d=\"M6 20v-6\"/></svg></span><span class=\"u-trust-label\">Access<br>for life</span></div>"
+ ],
+ [
+  "            <div class=\"u-trust-item\"><span class=\"u-trust-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/><polyline points=\"9 12 11 14 15 10\"/></svg></span><span class=\"u-trust-label\">Validé<br>par MDG</span></div>",
+  "            <div class=\"u-trust-item\"><span class=\"u-trust-icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/><polyline points=\"9 12 11 14 15 10\"/></svg></span><span class=\"u-trust-label\">Verified<br>by MDG</span></div>"
+ ],
+ [
+  "      subject: 'URANUS GFX PACK, Nouvelle précommande',",
+  "      subject: 'URANUS GFX PACK, new pre-order',"
+ ],
+ [
+  "      message: 'URANUS GFX PACK · 19 900 FCFA\\n\\nNom : ' + name + '\\nEmail : ' + email + '\\nTéléphone : ' + phone",
+  "      message: 'URANUS GFX PACK · 19 900 FCFA\\n\\nNom : ' + name + '\\nEmail : ' + email + '\\nPhone: ' + phone"
+ ],
+ [
+  "      btn.textContent = '✓ Enregistré !';",
+  "      btn.textContent = '✓ Saved!';"
+ ],
+ [
+  "      btn.textContent = '✕ Erreur, réessaie';",
+  "      btn.textContent = '✕ Error, try again';"
+ ],
+ [
+  "      setTimeout(function(){ btn.textContent = 'Enregistrer ma précommande →'; }, 3000);",
+  "      setTimeout(function(){ btn.textContent = 'Save my pre-order →'; }, 3000);"
+ ],
+ [
+  "    btn.textContent = '✕ Erreur réseau';",
+  "    btn.textContent = '✕ Network error';"
+ ],
+ [
+  "    setTimeout(function(){ btn.textContent = 'Enregistrer ma précommande →'; }, 3000);",
+  "    setTimeout(function(){ btn.textContent = 'Save my pre-order →'; }, 3000);"
+ ],
+ [
+  "    btn.textContent = '✅ Copié !';",
+  "    btn.textContent = '✅ Copied!';"
+ ],
+ [
+  "    setTimeout(function(){ btn.textContent = '📋 Copier le numéro'; }, 2500);",
+  "    setTimeout(function(){ btn.textContent = '📋 Copy the number'; }, 2500);"
+ ],
+ [
+  "    <a href=\"/cgv\">CGV</a>",
+  "    <a href=\"/cgv\">Terms</a>"
+ ],
+ [
+  "    <a href=\"/confidentialite\">Confidentialité</a>",
+  "    <a href=\"/confidentialite\">Privacy</a>"
+ ],
+ [
+  "    <a href=\"/\">mdgcreative.studio</a>",
+  "    <a href=\"/en/\">mdgcreative.studio</a>"
+ ]
+]

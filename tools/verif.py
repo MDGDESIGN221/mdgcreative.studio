@@ -240,8 +240,86 @@ def c_generation():
         ko('generation impossible : %s' % sortie.strip().split('\n')[-1][:70])
 
 
+# ── 11. du francais reste-t-il cote anglais ? ─────────────────────────
+def c_francais_en():
+    titre(11, 'Francais residuel dans les pages anglaises')
+    # Mots sans equivalent anglais, hors noms propres. La liste est
+    # volontairement courte : mieux vaut ne rien signaler que crier au loup.
+    MOTS = (r'\b(et|ou|les|des|une|pour|avec|votre|vos|notre|nos|dans|sur|'
+            r'chaque|tous|toutes|sans|selon|entre|apr[eè]s|avant|depuis|'
+            r'sont|seront|faire|voir|d[eé]j[aà]|seule?|compl[eè]te|clair|'
+            r'incluses?|livraison|paiement|devis|acompte|calqu[eé]s?|'
+            r'graphistes|cr[eé]ateurs)\b')
+    mauvais = 0
+    for p in sorted(glob.glob('en/*.html')):
+        s = lire(p)
+        trouves = []
+        # Les metas et le titre sont lus par les moteurs AVANT tout
+        # JavaScript : aucune traduction a l'execution ne peut les sauver.
+        # Ce controle vaut donc pour toutes les pages anglaises.
+        for m in re.finditer(r'<meta[^>]*(?:name|property)="([^"]*)"[^>]*content="([^"]*)"', s):
+            if re.search(MOTS, m.group(2), re.I):
+                trouves.append('meta %s : %s' % (m.group(1), m.group(2)[:56]))
+        m = re.search(r'<title>([^<]*)</title>', s)
+        if m and re.search(MOTS, m.group(1), re.I):
+            trouves.append('title : %s' % m.group(1)[:56])
+
+        # Le corps n'est verifie que sur les pages GENEREES depuis une
+        # table. L'accueil, lui, se traduit a l'execution : son corps est
+        # francais dans la source et c'est normal.
+        genere = os.path.exists('tools/i18n/%s.json' % os.path.basename(p)[:-5])
+        if genere:
+            corps = re.sub(r'<script.*?</script>|<style.*?</style>|<!--.*?-->', ' ', s, flags=re.S)
+            corps = re.sub(r'<[^>]+>', ' ', corps)
+            for phrase in re.split(r'\s{2,}|\n', corps):
+                t = ' '.join(phrase.split())
+                if len(t) >= 12 and re.search(MOTS, t, re.I):
+                    trouves.append('texte : %s' % t[:56])
+
+        if trouves:
+            for x in trouves[:5]:
+                ko('%s : %s' % (p, x))
+            mauvais += len(trouves)
+    if not mauvais:
+        ok('aucun francais residuel dans les metas ni dans les pages generees')
+
+
+# ── 12. chaque page francaise a-t-elle sa version anglaise ? ──────────
+def c_couverture_en():
+    titre(12, 'Couverture anglaise des pages francaises')
+    fr_pages = sorted(p for p in glob.glob('*.html') if 'google' not in p)
+    sans = [p for p in fr_pages if not os.path.exists('en/' + p)]
+    if sans:
+        # Pas un echec : c'est l'etat connu du chantier. On le compte pour
+        # qu'il ne se degrade pas en silence.
+        print('   --   %d page(s) sans version anglaise : %s'
+              % (len(sans), ', '.join(sans)))
+    ok('%d page(s) francaise(s) sur %d ont leur version anglaise'
+       % (len(fr_pages) - len(sans), len(fr_pages)))
+
+
+# ── 13. les pages generees depuis une table sont-elles a jour ? ───────
+def c_generation_pages():
+    titre(13, 'Pages anglaises generees depuis une table')
+    if not os.path.exists('tools/gen-en-pages.py'):
+        ok('pas de generateur de pages'); return
+    r = subprocess.run([sys.executable, 'tools/gen-en-pages.py'], capture_output=True, text=True)
+    sortie = (r.stdout or '') + (r.stderr or '')
+    ecarts = [l.strip() for l in sortie.split('\n') if "ligne(s) d ecart" in l]
+    absentes = [l.strip() for l in sortie.split('\n') if 'introuvable' in l]
+    for l in absentes:
+        # Une phrase francaise a bouge sans que sa traduction suive.
+        ko(l[:100])
+    for l in ecarts:
+        ko('page anglaise modifiee a la main : %s' % l[:80])
+    if not ecarts and not absentes:
+        n = len(glob.glob('tools/i18n/*.json'))
+        ok('%d page(s) correspondent a leur generation' % n)
+
+
 for f in (c_js, c_parite, c_traductions, c_medias, c_vignettes, c_video,
-          c_apercus, c_lexique, c_css, c_generation):
+          c_apercus, c_lexique, c_css, c_generation,
+          c_francais_en, c_couverture_en, c_generation_pages):
     try:
         f()
     except Exception as e:
