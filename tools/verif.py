@@ -317,9 +317,29 @@ def c_generation_pages():
         ok('%d page(s) correspondent a leur generation' % n)
 
 
+# ── 14. le sitemap suit-il les fichiers reels ? ───────────────────────
+def c_sitemap():
+    titre(14, 'Sitemap a jour')
+    if not os.path.exists('tools/gen-sitemap.py'):
+        ok('pas de generateur de sitemap'); return
+    r = subprocess.run([sys.executable, 'tools/gen-sitemap.py'], capture_output=True, text=True)
+    sortie = (r.stdout or '') + (r.stderr or '')
+    if 'identique au fichier actuel' in sortie:
+        s = lire('sitemap.xml')
+        ok('%d URL, %d alternates, conforme aux fichiers presents'
+           % (s.count('<loc>'), s.count('hreflang=')))
+        return
+    # Une page ajoutee ou retiree sans regenerer : le sitemap annonce un
+    # site qui n'existe plus tout a fait.
+    for l in sortie.split('\n'):
+        l = l.strip()
+        if l.startswith(('+ http', '- http')):
+            ko('sitemap decale : %s' % l[:88])
+
+
 for f in (c_js, c_parite, c_traductions, c_medias, c_vignettes, c_video,
           c_apercus, c_lexique, c_css, c_generation,
-          c_francais_en, c_couverture_en, c_generation_pages):
+          c_francais_en, c_couverture_en, c_generation_pages, c_sitemap):
     try:
         f()
     except Exception as e:
