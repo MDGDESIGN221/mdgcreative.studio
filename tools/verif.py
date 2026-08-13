@@ -264,11 +264,16 @@ def c_francais_en():
         if m and re.search(MOTS, m.group(1), re.I):
             trouves.append('title : %s' % m.group(1)[:56])
 
-        # Le corps n'est verifie que sur les pages GENEREES depuis une
-        # table. L'accueil, lui, se traduit a l'execution : son corps est
-        # francais dans la source et c'est normal.
+        # Le corps n'est verifie que sur les pages dont le HTML livre EST
+        # deja l'anglais. Deux cas y echappent, et leur source francaise
+        # est normale :
+        #   - l'accueil, traduit a l'execution par applyLang
+        #   - atelier, dont la tete est generee mais dont le corps se
+        #     traduit aussi a l'execution
+        # Les deux se reconnaissent au traducteur embarque dans la page.
         genere = os.path.exists('tools/i18n/%s.json' % os.path.basename(p)[:-5])
-        if genere:
+        traducteur = re.search(r'documentElement\.lang\s*=|applyLang|translateText', s)
+        if genere and not traducteur:
             corps = re.sub(r'<script.*?</script>|<style.*?</style>|<!--.*?-->', ' ', s, flags=re.S)
             corps = re.sub(r'<[^>]+>', ' ', corps)
             for phrase in re.split(r'\s{2,}|\n', corps):

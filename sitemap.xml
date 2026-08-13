@@ -3,8 +3,19 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.mdgcreative.studio/atelier</loc>
-    <lastmod>2026-08-12</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/atelier"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/atelier"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/atelier"/>
+  </url>
+  <url>
+    <loc>https://www.mdgcreative.studio/en/atelier</loc>
+    <lastmod>2026-08-13</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.mdgcreative.studio/atelier"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mdgcreative.studio/en/atelier"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mdgcreative.studio/atelier"/>
   </url>
   <url>
     <loc>https://www.mdgcreative.studio/cgv</loc>

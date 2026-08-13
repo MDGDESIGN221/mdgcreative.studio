@@ -1,0 +1,66 @@
+[
+ [
+  "<html lang=\"fr\">",
+  "<html lang=\"en\">"
+ ],
+ [
+  "<title>Atelier MDG · Identité visuelle pour les marques</title>",
+  "<title>Atelier MDG · Brand identity for companies</title>"
+ ],
+ [
+  "<meta name=\"description\" content=\"Atelier MDG construit des identités visuelles durables pour les entreprises et marques ambitieuses. Logo, web, packaging, stratégie visuelle.\">",
+  "<meta name=\"description\" content=\"Atelier MDG builds lasting visual identities for ambitious companies and brands. Logo, web, packaging, visual strategy.\">"
+ ],
+ [
+  "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/atelier\">",
+  "<link rel=\"canonical\" href=\"https://www.mdgcreative.studio/en/atelier\">"
+ ],
+ [
+  "<meta property=\"og:title\" content=\"Atelier MDG · Identité visuelle pour les marques\">",
+  "<meta property=\"og:title\" content=\"Atelier MDG · Brand identity for companies\">"
+ ],
+ [
+  "<meta property=\"og:description\" content=\"Logo, web, packaging, stratégie visuelle. Un studio d'identité de marque à Kaolack, Sénégal. Sept ans, neuf pays.\">",
+  "<meta property=\"og:description\" content=\"Logo, web, packaging, visual strategy. A brand identity studio in Kaolack, Senegal. Seven years, nine countries.\">"
+ ],
+ [
+  "<meta property=\"og:url\" content=\"https://www.mdgcreative.studio/atelier\">",
+  "<meta property=\"og:url\" content=\"https://www.mdgcreative.studio/en/atelier\">"
+ ],
+ [
+  "<meta property=\"og:locale\" content=\"fr_FR\">",
+  "<meta property=\"og:locale\" content=\"en_US\">"
+ ],
+ [
+  "<meta name=\"twitter:title\" content=\"Atelier MDG · Identité visuelle pour les marques\">",
+  "<meta name=\"twitter:title\" content=\"Atelier MDG · Brand identity for companies\">"
+ ],
+ [
+  "<meta name=\"twitter:description\" content=\"Logo, web, packaging, stratégie visuelle. Kaolack, Sénégal.\">",
+  "<meta name=\"twitter:description\" content=\"Logo, web, packaging, visual strategy. Kaolack, Senegal.\">"
+ ],
+ [
+  "href=\"/atelier\"",
+  "href=\"/en/atelier\""
+ ],
+ [
+  "href=\"/cgv\"",
+  "href=\"/en/cgv\""
+ ],
+ [
+  "href=\"/confidentialite\"",
+  "href=\"/en/confidentialite\""
+ ],
+ [
+  "href=\"/mentions-legales\"",
+  "href=\"/en/mentions-legales\""
+ ],
+ [
+  "href=\"/\"",
+  "href=\"/en/\""
+ ],
+ [
+  "var initial = saved || ((navigator.language||navigator.userLanguage||'fr').slice(0,2).toLowerCase()==='fr' ? 'fr' : 'en');",
+  "var initial = 'en';   /* page servie sous /en/ : l'URL prime sur le navigateur et sur le choix memorise */"
+ ]
+]
