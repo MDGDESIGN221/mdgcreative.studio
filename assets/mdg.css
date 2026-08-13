@@ -12708,19 +12708,19 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 .contact-mob .cfm-eyebrow span { width: 24px; height: 1.5px; background: #E4FA5A; }
 .contact-mob .cfm-mark { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.5rem,16vw,3.6rem); line-height: .86; letter-spacing: -.02em; color: transparent; -webkit-text-stroke: 1.4px #f0ede8; margin-top: 20px; }
 .contact-mob .cfm-mark em { display: block; font-family: var(--font-accent); -webkit-text-stroke: 0; color: #E4FA5A; font-style: italic; font-weight: 400; font-size: .6em; margin-top: 6px; }
-.contact-mob .cfm-sub { font-size: .82rem; color: #7a7a75; line-height: 1.55; margin: 16px auto 0; max-width: 280px; }
+.contact-mob .cfm-sub { font-size: .82rem; color: var(--dim); line-height: 1.55; margin: 16px auto 0; max-width: 280px; }
 .contact-mob .cfm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
 .contact-mob .cfm-tile { display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 20px 10px; border: 1px solid var(--border); border-radius: 12px; text-decoration: none; transition: border-color .2s, background .2s; }
 .contact-mob .cfm-tile:active { background: rgba(255,255,255,.03); }
 .contact-mob .cfm-tile .cfm-ico { width: 40px; height: 40px; border-radius: 50%; background: rgba(228,250,90,.1); border: 1px solid rgba(228,250,90,.28); color: #E4FA5A; display: grid; place-items: center; }
 .contact-mob .cfm-tile b { font-family: var(--font-display); font-weight: 700; font-size: .8rem; color: #f0ede8; }
-.contact-mob .cfm-tile span { font-size: .68rem; color: #7a7a75; }
+.contact-mob .cfm-tile span { font-size: .68rem; color: var(--dim); }
 .contact-mob .cfm-tile.wide { grid-column: 1/-1; flex-direction: row; justify-content: center; background: #E4FA5A; border-color: #E4FA5A; padding: 16px; }
 .contact-mob .cfm-tile.wide .cfm-ico { background: rgba(4,32,25,.18); border: none; color: #1D2103; width: 32px; height: 32px; }
 .contact-mob .cfm-tile.wide b { color: #1D2103; font-size: .86rem; }
 .contact-mob .cfm-info { margin-top: 22px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; gap: 10px; }
 .contact-mob .cfm-info-row { display: flex; align-items: center; justify-content: space-between; font-size: .74rem; }
-.contact-mob .cfm-info-row .k { color: #7a7a75; letter-spacing: .04em; }
+.contact-mob .cfm-info-row .k { color: var(--dim); letter-spacing: .04em; }
 .contact-mob .cfm-info-row .v { font-family: var(--font-display); font-weight: 600; color: #cfcdc7; }
 .contact-mob .cfm-dot { display: inline-flex; align-items: center; gap: 6px; }
 .contact-mob .cfm-dot i { width: 6px; height: 6px; border-radius: 50%; background: #E4FA5A; box-shadow: 0 0 8px #E4FA5A; }
@@ -12729,13 +12729,13 @@ nav.nav-on-dark .nav-burger span{background:var(--light)!important}
 .footer-mob .fm-logo { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .footer-mob .fm-logo img { height: 22px; width: auto; display: block; }
 .footer-mob .fm-logo b { font-family: var(--font-display); font-weight: 700; font-size: .88rem; color: #f0ede8; }
-.footer-mob .fm-desc { font-size: .76rem; color: #7a7a75; line-height: 1.6; margin: 14px auto 0; max-width: 300px; }
+.footer-mob .fm-desc { font-size: .76rem; color: var(--dim); line-height: 1.6; margin: 14px auto 0; max-width: 300px; }
 .footer-mob .fm-soc { display: flex; gap: 9px; justify-content: center; margin-top: 18px; }
 .footer-mob .fm-soc a { width: 42px; height: 42px; border-radius: 12px; border: 1px solid rgba(255,255,255,.18); display: grid; place-items: center; color: #cfcdc7; text-decoration: none; transition: border-color .2s, color .2s; }
 .footer-mob .fm-soc a:active { border-color: #E4FA5A; color: #E4FA5A; }
 .footer-mob .fm-uranus { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; padding: 14px 16px; border-radius: 12px; background: linear-gradient(135deg,rgba(228,250,90,.12),transparent); border: 1px solid rgba(228,250,90,.25); text-decoration: none; }
 .footer-mob .fm-uranus b { font-family: var(--font-display); font-weight: 700; font-size: .72rem; letter-spacing: .1em; color: #E4FA5A; }
-.footer-mob .fm-uranus span { font-size: .66rem; color: #7a7a75; }
+.footer-mob .fm-uranus span { font-size: .66rem; color: var(--dim); }
 .footer-mob .fm-bottom { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); }
 .footer-mob .fm-bottom p { font-size: .66rem; color:var(--dim); letter-spacing: .04em; }
 
