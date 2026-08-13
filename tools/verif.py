@@ -206,22 +206,35 @@ def c_lexique():
 
 # ── 9. empreinte du CSS ───────────────────────────────────────────────
 def c_css():
-    titre(9, 'Empreinte du CSS')
-    import hashlib
-    if not os.path.exists('assets/mdg.css'):
-        ok('pas de feuille extraite'); return
-    reel = hashlib.md5(io.open('assets/mdg.css', 'rb').read()).hexdigest()[:8]
+    titre(9, 'Empreintes des fichiers assets')
+    import hashlib, glob as g
+    fichiers = [f for f in g.glob('assets/*') if os.path.isfile(f)]
+    if not fichiers:
+        ok('pas de fichier dans assets/'); return
+    reel = {}
+    for f in fichiers:
+        reel['/' + f.replace('\\', '/')] = hashlib.md5(io.open(f, 'rb').read()).hexdigest()[:8]
+
+    # vercel.json sert /assets/(.*) en cache immuable d'un an : une
+    # empreinte perimee, ou absente, fige le fichier chez tout visiteur
+    # deja venu, pour douze mois.
     mauvais = 0
-    for p in (FR, EN):
-        m = re.search(r'/assets/mdg\.css\?v=([a-f0-9]+)', lire(p))
-        if not m:
-            ko('%s : lien vers mdg.css sans empreinte' % p); mauvais += 1
-        elif m.group(1) != reel:
-            # Le fichier est servi en cache d'un an : une empreinte périmée
-            # ferait resservir l'ancienne feuille pendant un an.
-            ko('%s : empreinte %s, fichier %s' % (p, m.group(1), reel)); mauvais += 1
+    pages = sorted(set(g.glob('*.html') + g.glob('projets/*.html')
+                       + g.glob('en/*.html') + g.glob('en/projets/*.html')))
+    for p in pages:
+        s = lire(p)
+        for m in re.finditer(r'(/assets/[A-Za-z0-9_.\-]+)(?:\?v=([a-f0-9]+))?', s):
+            chemin, vu = m.group(1), m.group(2)
+            att = reel.get(chemin)
+            if att is None:
+                continue                      # fichier absent : controle 4
+            if vu is None:
+                ko('%s : %s sans empreinte' % (p, chemin)); mauvais += 1
+            elif vu != att:
+                ko('%s : %s empreinte %s, fichier %s' % (p, chemin, vu, att)); mauvais += 1
     if not mauvais:
-        ok('empreinte %s a jour dans les deux pages' % reel)
+        ok('%d fichier(s) assets, empreintes a jour dans %d page(s)'
+           % (len(fichiers), len(pages)))
 
 
 # ── 10. la page anglaise est-elle bien generee ? ──────────────────────

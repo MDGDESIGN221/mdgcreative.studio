@@ -45,8 +45,20 @@
 }
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+<style id="mdg-transition">
+/* Voile d'arrivee. La page se decouvre depuis sa propre couleur de fond,
+   celle vers laquelle la page precedente a fondu : le raccord se fait
+   sur une couleur commune, pas sur un noir arbitraire. */
+.mdg-arrivee{position:fixed;inset:0;z-index:100000;background:#ffffff;pointer-events:none;animation:mdg-lever .42s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes mdg-lever{to{opacity:0;visibility:hidden}}
+/* Un fondu ne deplace rien : il reste admis sous mouvement reduit,
+   simplement plus court. */
+@media(prefers-reduced-motion:reduce){.mdg-arrivee{animation-duration:.2s}}
+</style>
 </head>
 <body>
+<div class="mdg-arrivee" aria-hidden="true"></div>
+
 
 <nav class="nav">
   <div class="nav-inner">
@@ -92,5 +104,6 @@
   <a href="/atelier">← Retour à l'Atelier MDG</a>
 </footer>
 
+<script defer src="/assets/transition.js?v=2e1f1028"></script>
 </body>
 </html>
