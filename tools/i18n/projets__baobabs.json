@@ -32,10 +32,6 @@
   "Start a project →"
  ],
  [
-  "← Retour à l'Atelier MDG",
-  "← Back to Atelier MDG"
- ],
- [
   "<span class=\"cs-meta-label\">Discipline</span>",
   "<span class=\"cs-meta-label\">Discipline</span>"
  ],
@@ -86,5 +82,9 @@
  [
   "<span class=\"cs-meta-val\">Sport</span>",
   "<span class=\"cs-meta-val\">Sport</span>"
+ ],
+ [
+  ">← Retour</a>",
+  ">← Back</a>"
  ]
 ]

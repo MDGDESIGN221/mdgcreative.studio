@@ -32,32 +32,8 @@
   "Start a project →"
  ],
  [
-  "← Retour à l'Atelier MDG",
-  "← Back to Atelier MDG"
- ],
- [
-  "href=\"/atelier#realisations\"",
-  "href=\"/en/atelier#realisations\""
- ],
- [
-  "href=\"/atelier#contact\"",
-  "href=\"/en/atelier#contact\""
- ],
- [
-  "href=\"/atelier\"",
-  "href=\"/en/atelier\""
- ],
- [
   "<div class=\"cs-cat\">Site web</div>",
   "<div class=\"cs-cat\">Website</div>"
- ],
- [
-  "<title>MDG Creative Studio · Le site | Atelier MDG</title>",
-  "<title>MDG Creative Studio · The website | Atelier MDG</title>"
- ],
- [
-  "content=\"MDG Creative Studio · Le site | Atelier MDG\"",
-  "content=\"MDG Creative Studio · The website | Atelier MDG\""
  ],
  [
   "Le site du studio : réalisations par discipline, atelier, méthode, tarifs et contact. Conception et développement.",
@@ -126,5 +102,29 @@
  [
   "La méthode en quatre étapes, du brief à la livraison, avec les jalons de paiement.",
   "The four-step method, from brief to delivery, with the payment milestones."
+ ],
+ [
+  "href=\"/work\"",
+  "href=\"/en/work\""
+ ],
+ [
+  "href=\"/contact\"",
+  "href=\"/en/contact\""
+ ],
+ [
+  "href=\"/\"",
+  "href=\"/en/\""
+ ],
+ [
+  "<title>MDG Creative Studio · Le site | MDG Creative Studio</title>",
+  "<title>MDG Creative Studio · The website | MDG Creative Studio</title>"
+ ],
+ [
+  "content=\"MDG Creative Studio · Le site | MDG Creative Studio\"",
+  "content=\"MDG Creative Studio · The website | MDG Creative Studio\""
+ ],
+ [
+  ">← Retour</a>",
+  ">← Back</a>"
  ]
 ]

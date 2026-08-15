@@ -32,10 +32,6 @@
   "Start a project →"
  ],
  [
-  "← Retour à l'Atelier MDG",
-  "← Back to Atelier MDG"
- ],
- [
   "<span class=\"cs-meta-label\">Discipline</span>",
   "<span class=\"cs-meta-label\">Discipline</span>"
  ],
@@ -78,5 +74,9 @@
  [
   "<span class=\"cs-meta-val\">Logo · Charte · Guidelines</span>",
   "<span class=\"cs-meta-val\">Logo · Brand book · Guidelines</span>"
+ ],
+ [
+  ">← Retour</a>",
+  ">← Back</a>"
  ]
 ]

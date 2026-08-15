@@ -24,10 +24,6 @@
   "  <a href=\"/en/\" class=\"u-nav-logo\">"
  ],
  [
-  "  <a href=\"/\" class=\"u-nav-back\">← Retour au studio</a>",
-  "  <a href=\"/en/\" class=\"u-nav-back\">← Back to the studio</a>"
- ],
- [
   "      \">Un pack d'assets pour les créatifs qui veulent travailler avec les mêmes ressources que MDG. Pas pour les clients, pour ceux qui font.</p>",
   "      \">An asset pack for creatives who want to work with the same resources as MDG. Not for clients — for the people who make things.</p>"
  ],
@@ -390,5 +386,9 @@
  [
   "\"url\": \"https://www.mdgcreative.studio/uranus\"",
   "\"url\": \"https://www.mdgcreative.studio/en/uranus\""
+ ],
+ [
+  "  <a href=\"/\" data-retour class=\"u-nav-back\">← Retour au studio</a>",
+  "  <a href=\"/en/\" data-retour class=\"u-nav-back\">← Back to the studio</a>"
  ]
 ]

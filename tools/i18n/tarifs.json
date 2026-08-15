@@ -40,10 +40,6 @@
   "    <img src=\"/media/img/NEW_LOGO_w_rxvoil.png\" alt=\"MDG Creative Studio\">"
  ],
  [
-  "  <a href=\"/\" class=\"tf-back\">← Retour à l'accueil</a>",
-  "  <a href=\"/en/\" class=\"tf-back\">← Back to home</a>"
- ],
- [
   "      <div class=\"rs-eyebrow\"><span></span><span>TARIFS</span></div>",
   "      <div class=\"rs-eyebrow\"><span></span><span>PRICING</span></div>"
  ],
@@ -318,5 +314,9 @@
  [
   "— Sortie complète\"",
   "— Full release\""
+ ],
+ [
+  "  <a href=\"/\" data-retour class=\"tf-back\">← Retour au site</a>",
+  "  <a href=\"/en/\" data-retour class=\"tf-back\">← Back to the site</a>"
  ]
 ]

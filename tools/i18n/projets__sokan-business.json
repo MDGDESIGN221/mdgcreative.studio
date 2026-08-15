@@ -32,22 +32,6 @@
   "Start a project →"
  ],
  [
-  "← Retour à l'Atelier MDG",
-  "← Back to Atelier MDG"
- ],
- [
-  "href=\"/atelier#realisations\"",
-  "href=\"/en/atelier#realisations\""
- ],
- [
-  "href=\"/atelier#contact\"",
-  "href=\"/en/atelier#contact\""
- ],
- [
-  "href=\"/atelier\"",
-  "href=\"/en/atelier\""
- ],
- [
   "<div class=\"cs-cat\">Site web</div>",
   "<div class=\"cs-cat\">Website</div>"
  ],
@@ -70,14 +54,6 @@
  [
   "<span class=\"cs-meta-label\">Année</span>",
   "<span class=\"cs-meta-label\">Year</span>"
- ],
- [
-  "<title>Sokan Business · Le site | Atelier MDG</title>",
-  "<title>Sokan Business · The website | Atelier MDG</title>"
- ],
- [
-  "content=\"Sokan Business · Le site | Atelier MDG\"",
-  "content=\"Sokan Business · The website | Atelier MDG\""
  ],
  [
   "Site de Sokan Business, logistique internationale Chine-Dakar : services, suivi de cargaison, devis et FAQ. Conception et développement.",
@@ -126,5 +102,29 @@
  [
   "Les questions fréquentes : douane, délais, assurance.",
   "Frequently asked questions: customs, timescales, insurance."
+ ],
+ [
+  "href=\"/work\"",
+  "href=\"/en/work\""
+ ],
+ [
+  "href=\"/contact\"",
+  "href=\"/en/contact\""
+ ],
+ [
+  "href=\"/\"",
+  "href=\"/en/\""
+ ],
+ [
+  "<title>Sokan Business · Le site | MDG Creative Studio</title>",
+  "<title>Sokan Business · The website | MDG Creative Studio</title>"
+ ],
+ [
+  "content=\"Sokan Business · Le site | MDG Creative Studio\"",
+  "content=\"Sokan Business · The website | MDG Creative Studio\""
+ ],
+ [
+  ">← Retour</a>",
+  ">← Back</a>"
  ]
 ]

@@ -62,5 +62,9 @@
  [
   "\"Design d'affiche\"",
   "\"Poster design\""
+ ],
+ [
+  "<a href=\"/\" data-retour style=\"font-size: 12px; color: rgba(232,224,208,0.5); white-space: nowrap;\">← Site</a>",
+  "<a href=\"/en/\" data-retour style=\"font-size: 12px; color: rgba(232,224,208,0.5); white-space: nowrap;\">← Site</a>"
  ]
 ]
