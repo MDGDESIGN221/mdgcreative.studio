@@ -14733,139 +14733,165 @@ textarea:focus-visible {
   color:#8f8b84; max-width:56ch; margin:0 0 clamp(38px,4.6vw,62px);
 }
 
-/* ── Les quatre disciplines ─────────────────────────────────────── */
-.xp-grille{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px }
-@media(max-width:1100px){ .xp-grille{ grid-template-columns:repeat(2,1fr) } }
-@media(max-width:620px){  .xp-grille{ grid-template-columns:1fr } }
+/* ── La rangee de tuiles ──────────────────────────────────────────
+   Huit disciplines, une seule allumee. C'est la touche eclairee au
+   milieu d'une rangee eteinte : l'oeil sait ou il est avant de lire. */
+.xp-tuiles{
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+  margin-bottom:clamp(34px,4.4vw,56px);
+}
+.xp-t{
+  display:flex; flex-direction:column; align-items:center;
+  width:clamp(84px,8.6vw,106px); padding:14px 8px 12px;
+  border-radius:16px; cursor:pointer;
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+  color:var(--off);
+  transition:transform .38s cubic-bezier(.34,1.25,.64,1), border-color .3s,
+             box-shadow .3s, background .3s, color .3s;
+}
+.xp-t-icone{ display:block; width:26px; height:26px }
+.xp-t-icone svg{ width:100%; height:100%; display:block }
+.xp-t-no{
+  font-family:var(--font-accent); font-style:italic;
+  font-size:.8rem; line-height:1; opacity:.45; margin-top:7px;
+}
+.xp-t-nom{
+  font-family:var(--font-display); font-weight:700;
+  font-size:.58rem; line-height:1.25; letter-spacing:.01em;
+  text-align:center; margin-top:7px; text-wrap:balance;
+}
+.xp-t:hover{ color:var(--light); border-color:rgba(255,255,255,.2) }
+.xp-t:focus-visible{ outline:2px solid var(--accent); outline-offset:3px }
+.xp-t[aria-selected="true"]{
+  color:var(--accent); transform:translateY(-9px);
+  border-color:rgba(var(--accent-rgb),.55);
+  background:linear-gradient(160deg, rgba(var(--accent-rgb),.17), rgba(var(--accent-rgb),.03));
+  box-shadow:0 0 0 4px rgba(var(--accent-rgb),.06),
+             0 20px 44px -18px rgba(var(--accent-rgb),.85);
+}
+.xp-t[aria-selected="true"] .xp-t-no{ opacity:1 }
 
-.xp-carte{
-  position:relative; isolation:isolate;
-  border-radius:15px; border:1px solid rgba(255,255,255,.08);
-  background:linear-gradient(168deg, rgba(255,255,255,.052), rgba(255,255,255,.012) 58%);
-  transition:border-color .3s, transform .35s cubic-bezier(.34,1.1,.64,1), box-shadow .35s;
+/* Sur ecran etroit la rangee ne tient pas : elle defile, avec un cran
+   d'arret par tuile. Mieux qu'un retour a la ligne qui casse le rang. */
+@media(max-width:760px){
+  .xp-tuiles{
+    flex-wrap:nowrap; justify-content:flex-start;
+    overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:14px 2px 12px; margin-left:-4px; margin-right:-4px;
+    scrollbar-width:none;
+  }
+  .xp-tuiles::-webkit-scrollbar{ display:none }
+  .xp-t{ flex:0 0 auto; scroll-snap-align:center; width:92px }
 }
-.xp-carte-corps{ position:relative; z-index:1; padding:clamp(24px,2.3vw,32px) }
-.xp-halo{
-  position:absolute; inset:-1px; z-index:0; border-radius:inherit;
-  opacity:0; transition:opacity .38s; pointer-events:none;
-  background:radial-gradient(340px 280px at var(--mx,50%) var(--my,0%),
-             rgba(var(--accent-rgb),.20), transparent 68%);
+
+/* ── La scene : lueur, pile, panneau ──────────────────────────────
+   Deux bords de cartes depassent derriere le panneau. Ce n'est pas un
+   ornement : c'est ce qui dit qu'il y en a d'autres dessous, et que
+   celle-ci est au-dessus. */
+.xp-scene{ position:relative; padding-top:20px }
+.xp-lueur{
+  position:absolute; left:50%; top:-6%;
+  width:min(820px,96%); height:78%;
+  transform:translateX(-50%); z-index:0; pointer-events:none;
+  background:radial-gradient(52% 56% at var(--mx,50%) var(--my,38%),
+             rgba(var(--accent-rgb),.22), transparent 72%);
+  filter:blur(34px);
 }
-.xp-carte:hover, .xp-carte:focus-within{
-  border-color:rgba(var(--accent-rgb),.42);
-  transform:translateY(-5px);
-  box-shadow:0 26px 62px -30px rgba(var(--accent-rgb),.5),
+.xp-pile{
+  position:absolute; left:50%; transform:translateX(-50%);
+  height:46px; border-radius:16px; z-index:0;
+  border:1px solid rgba(255,255,255,.07);
+  background:linear-gradient(180deg, rgba(255,255,255,.035), transparent);
+}
+.xp-pile--1{ top:9px;  width:calc(100% - 30px) }
+.xp-pile--2{ top:0;    width:calc(100% - 66px) }
+
+.xp-panneaux{ position:relative; z-index:1 }
+.xp-p{
+  display:grid; grid-template-columns:1.12fr 1fr;
+  gap:clamp(26px,3vw,54px);
+  padding:clamp(28px,3.2vw,46px);
+  border-radius:17px;
+  border:1px solid rgba(var(--accent-rgb),.2);
+  background:linear-gradient(168deg, rgba(255,255,255,.062), rgba(255,255,255,.014) 60%), #0b0b0b;
+  box-shadow:0 34px 86px -44px rgba(var(--accent-rgb),.55),
              inset 0 1px 0 rgba(255,255,255,.06);
+  animation:xpEntree .4s cubic-bezier(.2,.85,.3,1) both;
 }
-.xp-carte:hover .xp-halo, .xp-carte:focus-within .xp-halo{ opacity:1 }
+/* display:grid ci-dessus l'emporterait sur l'attribut hidden : il faut
+   le dire explicitement, sinon les huit panneaux s'affichent d'un coup. */
+.xp-p[hidden]{ display:none }
+@keyframes xpEntree{ from{ opacity:0; transform:translateY(12px) } to{ opacity:1; transform:none } }
 
-.xp-carte-haut{
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:22px;
-}
-.xp-no{
-  font-family:var(--font-accent); font-style:italic;
-  font-size:2.9rem; line-height:.8; color:var(--accent);
-  opacity:.72; transition:opacity .3s;
-}
-.xp-carte:hover .xp-no{ opacity:1 }
-
-/* La tuile d'icone porte la lueur, comme la touche allumee au milieu
-   d'une rangee eteinte. */
-.xp-tuile{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:46px; height:46px; flex:0 0 auto;
-  border-radius:13px; border:1px solid rgba(var(--accent-rgb),.26);
-  background:linear-gradient(158deg, rgba(var(--accent-rgb),.14), rgba(var(--accent-rgb),.028));
-  color:var(--accent);
-  transition:border-color .3s, box-shadow .3s, transform .35s cubic-bezier(.34,1.2,.64,1);
-}
-.xp-tuile svg{ width:20px; height:20px; display:block }
-.xp-carte:hover .xp-tuile{
-  border-color:rgba(var(--accent-rgb),.62); transform:scale(1.06);
-  box-shadow:0 0 0 4px rgba(var(--accent-rgb),.07),
-             0 14px 32px -14px rgba(var(--accent-rgb),.75);
+.xp-p-no{
+  display:block; font-family:var(--font-accent); font-style:italic;
+  font-size:clamp(3.4rem,5.6vw,5rem); line-height:.78;
+  color:var(--accent); opacity:.9;
 }
 
-.xp-titre{
+/* Les mots-cles, poses de travers comme des etiquettes collees a la
+   main. Ils se redressent quand on les approche. */
+.xp-etis{ display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 18px }
+.xp-eti{
+  display:inline-flex; padding:5px 11px; border-radius:8px;
   font-family:var(--font-display); font-weight:700;
-  font-size:1.14rem; line-height:1.18; letter-spacing:-.01em;
-  color:var(--light); margin:0 0 11px;
+  font-size:.58rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--accent); border:1px solid rgba(var(--accent-rgb),.32);
+  background:rgba(var(--accent-rgb),.06);
+  transition:transform .32s cubic-bezier(.34,1.15,.64,1);
 }
-.xp-desc{
+.xp-eti:first-child{
+  color:var(--dark); background:var(--accent); border-color:var(--accent);
+  box-shadow:0 10px 24px -12px rgba(var(--accent-rgb),.95);
+}
+.xp-eti:nth-child(1){ transform:rotate(-2.2deg) }
+.xp-eti:nth-child(2){ transform:rotate(1.6deg) }
+.xp-eti:nth-child(3){ transform:rotate(-1.1deg) }
+.xp-eti:nth-child(4){ transform:rotate(2deg) }
+.xp-etis:hover .xp-eti{ transform:none }
+
+.xp-p-titre{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(1.45rem,2.5vw,2.1rem); line-height:1.06;
+  letter-spacing:-.02em; color:var(--light); margin:0 0 14px;
+}
+.xp-p-desc{
   font-family:var(--font-body); font-weight:300;
-  font-size:.86rem; line-height:1.68; color:#8f8b84; margin:0 0 18px;
+  font-size:clamp(.88rem,1vw,.96rem); line-height:1.72;
+  color:#8f8b84; margin:0; max-width:44ch;
 }
-.xp-desc em{ font-style:italic; color:#b9b4ac }
-.xp-tags{
-  font-family:var(--font-body); font-size:.68rem; font-weight:500;
-  letter-spacing:.06em; text-transform:uppercase; color:var(--dim);
-  margin-bottom:18px;
-}
+.xp-p-desc em{ font-style:italic; color:#b9b4ac }
 
-.xp-plus summary{
-  display:flex; align-items:center; gap:9px; cursor:pointer;
+.xp-p-droite{ display:flex; flex-direction:column; justify-content:center }
+.xp-p-sur{
   font-family:var(--font-display); font-weight:700;
-  font-size:.72rem; letter-spacing:.05em; color:var(--accent);
-  list-style:none;
+  font-size:.58rem; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--dim); margin-bottom:14px;
 }
-.xp-plus summary::-webkit-details-marker{ display:none }
-.xp-plus .expo-tog{ font-weight:400; font-size:1.05rem; transition:transform .28s }
-.xp-liste{ list-style:none; padding:14px 0 0; margin:0; display:flex; flex-direction:column; gap:8px }
-.xp-liste li{
-  position:relative; padding-left:14px;
-  font-family:var(--font-body); font-size:.8rem; line-height:1.5; color:#a7a29b;
-}
-.xp-liste li::before{ content:'\00B7'; position:absolute; left:2px; color:var(--accent) }
-
-/* ── Les savoir-faire complementaires ───────────────────────────── */
-.xp-aussi{ margin-top:clamp(38px,4.4vw,58px) }
-.xp-aussi-titre{
-  font-family:var(--font-display); font-weight:700;
-  font-size:.6rem; letter-spacing:.28em; color:var(--dim); margin-bottom:16px;
-}
-/* Une legere inclinaison au repos : la rangee cesse d'etre un tableau
-   et redevient un jeu de cartes posees. Elle se redresse des qu'on
-   s'en approche — on ne lit pas de travers. */
-.xp-puce{
-  border-radius:12px; border:1px solid rgba(255,255,255,.08);
-  background:linear-gradient(150deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
-  margin-bottom:10px;
-  transition:transform .35s cubic-bezier(.34,1.1,.64,1), border-color .3s, box-shadow .3s;
-}
-.xp-puce:nth-of-type(odd) { transform:rotate(-.5deg) }
-.xp-puce:nth-of-type(even){ transform:rotate(.45deg) }
-.xp-puce:hover, .xp-puce:focus-within, .xp-puce[open]{
-  transform:rotate(0);
-  border-color:rgba(var(--accent-rgb),.34);
-  box-shadow:0 16px 40px -26px rgba(var(--accent-rgb),.55);
-}
-.xp-puce summary{
-  display:flex; align-items:center; gap:14px; cursor:pointer;
-  padding:17px clamp(16px,2vw,24px); list-style:none;
-}
-.xp-puce summary::-webkit-details-marker{ display:none }
-.xp-puce-no{
-  font-family:var(--font-accent); font-style:italic;
-  font-size:1.05rem; color:var(--accent); opacity:.6; flex:0 0 auto;
-}
-.xp-puce-nom{
-  font-family:var(--font-display); font-weight:700;
-  font-size:.98rem; color:#e9e5df; flex:1;
-}
-.xp-puce .expo-tog{ font-size:1.15rem; color:var(--accent); transition:transform .28s }
-.xp-puce p{
+.xp-p-liste{ list-style:none; padding:0; margin:0 }
+.xp-p-liste li{
+  position:relative; padding:0 0 11px 20px; margin-bottom:11px;
+  border-bottom:1px solid rgba(255,255,255,.06);
   font-family:var(--font-body); font-weight:300;
-  font-size:.85rem; line-height:1.68; color:#8f8b84;
-  margin:0; padding:0 clamp(16px,2vw,24px) 20px calc(clamp(16px,2vw,24px) + 28px);
+  font-size:.84rem; line-height:1.55; color:#a7a29b;
 }
-@media(min-width:820px){
-  .xp-aussi{ display:grid; grid-template-columns:repeat(2,1fr); gap:0 14px }
-  .xp-aussi-titre{ grid-column:1 / -1 }
+.xp-p-liste li:last-child{ border-bottom:0; margin-bottom:0; padding-bottom:0 }
+.xp-p-liste li::before{
+  content:'—'; position:absolute; left:0; top:0;
+  color:var(--accent); opacity:.75;
+}
+
+@media(max-width:860px){
+  .xp-p{ grid-template-columns:1fr; gap:26px }
+  .xp-p-droite{ justify-content:flex-start }
+  .xp-pile--1{ width:calc(100% - 22px) }
+  .xp-pile--2{ width:calc(100% - 48px) }
 }
 
 @media (prefers-reduced-motion: reduce){
-  .xp-carte, .xp-tuile, .xp-puce, .xp-halo, .xp-no{ transition:none }
-  .xp-carte:hover, .xp-carte:focus-within{ transform:none }
-  .xp-puce, .xp-puce:hover, .xp-puce[open]{ transform:none }
+  .xp-t, .xp-eti{ transition:none }
+  .xp-t[aria-selected="true"]{ transform:none }
+  .xp-eti, .xp-etis:hover .xp-eti{ transform:none }
+  .xp-p{ animation:none }
 }
