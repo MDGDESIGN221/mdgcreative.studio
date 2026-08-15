@@ -14392,6 +14392,34 @@ nav .nav-cta[href="/learning-center"]:hover{
 }
 .chap-it--web:hover .chap-web-nom{ color:var(--light) }
 
+/* Une fois la capture deposee, il n'y a plus de nom a centrer : l'image
+   prend toute la case et le fond d'attente ne doit plus se voir. */
+.chap-it--vue{ display:block; padding:0; background:#0b0b0b }
+
+/* La case du site courant ne mene nulle part : le visiteur y est deja.
+   Elle perd donc le curseur de lien et la reaction au survol, et porte
+   un ecusson qui dit pourquoi elle ne s'ouvre pas. */
+.chap-it--ici{ cursor:default }
+.chap-it--ici:hover{ border-color:rgba(255,255,255,.09) }
+.chap-it--ici:hover img{ transform:none }
+/* L'ecusson dit un etat, pas une invitation a cliquer : il reste sombre,
+   pour ne pas attirer l'oeil davantage que les deux vraies vignettes-liens.
+   Le point accent suffit a le rattacher a la charte. */
+.chap-web-ici{
+  position:absolute; left:9px; bottom:9px;
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:var(--font-display); font-weight:700;
+  font-size:.5rem; line-height:1; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--light); background:rgba(14,14,14,.78);
+  border:1px solid rgba(255,255,255,.16);
+  padding:5px 9px; border-radius:9999px;
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+}
+.chap-web-ici::before{
+  content:''; width:4px; height:4px; border-radius:50%;
+  background:var(--accent); flex:0 0 auto;
+}
+
 /* ══════════════════════════════════════════════════════════════════
    MACHINE A ECRIRE
    ──────────────────────────────────────────────────────────────────
