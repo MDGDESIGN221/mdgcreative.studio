@@ -350,7 +350,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/mdg.css?v=7969775e">
+<link rel="stylesheet" href="/assets/mdg.css?v=6ffb6079">
 <script>
 /* Lenis smooth scroll, desktop uniquement + respect prefers-reduced-motion */
 (function(){
@@ -4519,16 +4519,16 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
      items:[
        { href:'/projets/baobabs-site', titre:'Baobabs Basket Club',
          sous:['Club de basket \u00b7 Dakar','Basketball club \u00b7 Dakar'],
-         img:'/media/img/sites/baobabs-tuile.webp' },
+         img:'/media/img/sites/baobabs-accueil.webp' },
        { href:'/projets/sokan-business', titre:'Sokan Business',
          sous:['Logistique internationale','International logistics'],
-         img:'/media/img/sites/sokan-tuile.webp' },
+         img:'/media/img/sites/sokan-accueil.webp' },
        /* Le troisieme site est celui-ci. Sa vignette mene a l'etude de
           cas, pas au site : le visiteur y est deja. L'ecusson dit lequel
           des trois est le sien. */
        { href:'/projets/mdg-creative-studio', titre:'MDG Creative Studio', ici:true,
          sous:['Ce site','This site'],
-         img:'/media/img/sites/mdg-tuile.webp' }
+         img:'/media/img/sites/mdg-accueil.webp' }
      ]}
   ];
   var dictAdd={};
@@ -4543,7 +4543,12 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
     head.innerHTML='<div class="chap-head-l"><span class="chap-num">'+def.num+'</span><span class="chap-title">'+def.title+'</span><span class="chap-cnt" data-i18n="'+def.key+'">'+n+' '+def.unit[iLg]+'</span></div>';
     var btn=document.createElement('button'); btn.type='button'; btn.className='chap-btn';
     head.appendChild(btn);
-    var grid=document.createElement('div'); grid.className='chap-grid collapsed'+(def.sq?' sq':'');
+    var grid=document.createElement('div');
+    /* Le chapitre web ne se range pas comme les autres : trois sites
+       dans une grille de cinq colonnes flottaient dans deux colonnes
+       vides, et une capture de site ne se lit pas dans un portrait de
+       80 px. Il a sa grille, large et legendee. */
+    grid.className='chap-grid collapsed'+(def.sq?' sq':'')+(def.lien?' chap-grid--web':'');
     var more=document.createElement('button'); more.type='button'; more.className='chap-more';
     var remD=Math.max(0,n-9), remM=Math.max(0,n-5);
     if(!remD) more.classList.add('no-d');
@@ -4568,8 +4573,18 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
           tile.setAttribute('aria-label', el.titre + ' — ' + el.sous[iLg]);
         }
         if(el.img){
-          tile.innerHTML='<img loading="lazy" decoding="async" src="'+el.img+'" alt="'+el.titre+'">'
-            + (el.ici?'<span class="chap-web-ici" data-i18n="chap_web_ici">'+el.sous[iLg]+'</span>':'');
+          tile.innerHTML=
+            '<span class="chap-web-vue">'
+              + '<img loading="lazy" decoding="async" src="'+el.img+'" alt="'+el.titre+'">'
+              + (el.ici?'<span class="chap-web-ici" data-i18n="chap_web_ici">'+el.sous[iLg]+'</span>':'')
+            + '</span>'
+            + '<span class="chap-web-pied">'
+              + '<span class="chap-web-txt">'
+                + '<span class="chap-web-t">'+el.titre+'</span>'
+                + '<span class="chap-web-s">'+el.sous[iLg]+'</span>'
+              + '</span>'
+              + (mene?'<span class="chap-web-fl" aria-hidden="true">→</span>':'')
+            + '</span>';
         } else {
           tile.innerHTML='<span class="chap-web-nom">'+el.titre+'</span>';
         }

@@ -56,52 +56,8 @@
   "<span class=\"cs-meta-label\">Year</span>"
  ],
  [
-  "Site de Sokan Business, logistique internationale Chine-Dakar : services, suivi de cargaison, devis et FAQ. Conception et développement.",
-  "The Sokan Business website, China-Dakar international logistics: services, cargo tracking, quotes and FAQ. Design and development."
- ],
- [
-  "Site de Sokan Business, logistique internationale Chine-Dakar : services, suivi de cargaison, devis et FAQ.",
-  "The Sokan Business website, China-Dakar international logistics: services, cargo tracking, quotes and FAQ."
- ],
- [
-  "Le site d'un transitaire qui achemine des marchandises de la Chine à Dakar. Le métier est technique et l'inquiétude du client est simple : où est ma cargaison, et combien ça coûte. Le site répond aux deux — un suivi par numéro de conteneur posé en pleine page, un devis en quelques champs, et une FAQ qui prend au sérieux les questions de douane. Bleu marine et bleu franc, pour une lecture claire sur des tableaux denses.",
-  "The website of a freight forwarder moving goods from China to Dakar. The trade is technical and the client's worry is simple: where is my cargo, and what will it cost. The site answers both — container tracking given a full page of its own, a quote in a handful of fields, and an FAQ that takes customs questions seriously. Navy and a clear blue, so dense tables stay readable."
- ],
- [
-  "<span class=\"cs-meta-val\">Site · Suivi · Devis</span>",
-  "<span class=\"cs-meta-val\">Website · Tracking · Quotes</span>"
- ],
- [
   "<span class=\"cs-meta-val\">Logistique</span>",
   "<span class=\"cs-meta-val\">Logistics</span>"
- ],
- [
-  "Page d'accueil du site Sokan Business : « Expédiez vos marchandises de la Chine à Dakar » et le tableau des chiffres de l'entreprise.",
-  "Home page of the Sokan Business site: the China-to-Dakar headline and the company figures panel."
- ],
- [
-  "Les prestations : transport maritime, aérien, terrestre et dédouanement.",
-  "The services: sea, air and road freight, plus customs clearance."
- ],
- [
-  "Comment ça marche : les quatre étapes, de la prise en charge à la livraison.",
-  "How it works: the four steps from pick-up to delivery."
- ],
- [
-  "Le suivi d'expédition : la recherche par numéro de dossier et les délais par mode.",
-  "Shipment tracking: search by file number and transit times per mode."
- ],
- [
-  "Les solutions clé en main : les quatre offres et leur contenu.",
-  "The turnkey solutions: the four offers and what each includes."
- ],
- [
-  "Le formulaire de demande de devis et les coordonnées de l'entreprise.",
-  "The quote request form and the company contact details."
- ],
- [
-  "Les questions fréquentes : douane, délais, assurance.",
-  "Frequently asked questions: customs, timescales, insurance."
  ],
  [
   "href=\"/work\"",
@@ -150,5 +106,49 @@
  [
   "\"item\": \"https://www.mdgcreative.studio/projets/sokan-business\"",
   "\"item\": \"https://www.mdgcreative.studio/en/projets/sokan-business\""
+ ],
+ [
+  "Le site d’un transitaire qui achemine des marchandises de la Chine, d’Europe et du reste du monde jusqu’à Dakar. Le métier est technique : la page l’assume et l’outille. Un calculateur de volume taxable qui dit s’il faut du groupage ou un conteneur complet, une table d’Incoterms qui tranche qui paie quoi et jusqu’où, un suivi par numéro de dossier, quatre corridors chiffrés. Noir et vert d’eau, une typographie de titre massive, pour tenir onze sections sans perdre le lecteur.",
+  "The site of a freight forwarder moving goods from China, Europe and the rest of the world to Dakar. The trade is technical: the page owns it and equips it. A chargeable-volume calculator that says whether groupage or a full container fits, an Incoterms table that settles who pays what and how far, tracking by file number, four costed corridors. Black and aqua, a massive display type, to hold eleven sections without losing the reader."
+ ],
+ [
+  "Site de Sokan Business, transitaire et commissionnaire de transport à Dakar : corridors, calculateur de volume, Incoterms, suivi de dossier. Conception et développement.",
+  "The Sokan Business website, freight forwarder and transport commission agent in Dakar: corridors, volume calculator, Incoterms, file tracking. Design and development."
+ ],
+ [
+  "Site de Sokan Business, transitaire à Dakar : corridors, calculateur de volume, Incoterms, suivi de dossier.",
+  "The Sokan Business website, freight forwarder in Dakar: corridors, volume calculator, Incoterms, file tracking."
+ ],
+ [
+  "Page d’accueil du site Sokan Business : « Usine. Port. Votre porte. », la cotation express et les routes opérées.",
+  "Home page of the Sokan Business site: the factory-to-door headline, the express quotation and the operated routes."
+ ],
+ [
+  "<span class=\"cs-meta-val\">Site · Calculateur · Suivi</span>",
+  "<span class=\"cs-meta-val\">Website · Calculator · Tracking</span>"
+ ],
+ [
+  "Les prestations : la chaîne entière, de l’enlèvement fournisseur à la livraison.",
+  "The services: the whole chain, from supplier pick-up to delivery."
+ ],
+ [
+  "Les quatre corridors et leurs forfaits, enlèvement et dédouanement compris.",
+  "The four corridors and their packages, pick-up and customs clearance included."
+ ],
+ [
+  "Le calculateur de volume taxable, avec le plan de chargement du conteneur.",
+  "The chargeable-volume calculator, with the container loading plan."
+ ],
+ [
+  "La table des Incoterms 2020 : qui paie quoi, et jusqu’où.",
+  "The Incoterms 2020 table: who pays what, and how far."
+ ],
+ [
+  "Le suivi d’expédition : l’état du dossier par son numéro.",
+  "Shipment tracking: the file status by its number."
+ ],
+ [
+  "Le formulaire de cotation : décrire l’expédition pour obtenir un devis.",
+  "The quotation form: describe the shipment to get a quote."
  ]
 ]
