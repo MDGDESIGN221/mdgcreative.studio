@@ -116,14 +116,6 @@
   "href=\"/en/\""
  ],
  [
-  "<title>MDG Creative Studio · Le site | MDG Creative Studio</title>",
-  "<title>MDG Creative Studio · The website | MDG Creative Studio</title>"
- ],
- [
-  "content=\"MDG Creative Studio · Le site | MDG Creative Studio\"",
-  "content=\"MDG Creative Studio · The website | MDG Creative Studio\""
- ],
- [
   ">← Retour</a>",
   ">← Back</a>"
  ],
@@ -150,5 +142,13 @@
  [
   "\"item\": \"https://www.mdgcreative.studio/projets/mdg-creative-studio\"",
   "\"item\": \"https://www.mdgcreative.studio/en/projets/mdg-creative-studio\""
+ ],
+ [
+  "<title>Le site MDG Creative Studio · Étude de cas</title>",
+  "<title>The MDG Creative Studio website · Case study</title>"
+ ],
+ [
+  "content=\"Le site MDG Creative Studio · Étude de cas\"",
+  "content=\"The MDG Creative Studio website · Case study\""
  ]
 ]

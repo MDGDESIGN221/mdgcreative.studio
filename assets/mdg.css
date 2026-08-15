@@ -50,7 +50,6 @@
    decoree. Chiffres tabulaires pour que rien ne bouge en defilant. */
 #motion-fullscreen-counter,
 #mfs-time,
-#sp-video-lb-counter,
 #covCur, #covTot, #motCur, #motTot, #workCur, #workTot,
 #kaolackTime, #kaolackTimeNav, #kaolackTimeMob, #kaolackTimeContact,
 .mob-num,
@@ -4250,42 +4249,29 @@ section + section::before{
 }
 #sp-video-lb-close:hover { background: rgba(255,255,255,.18); transform: scale(1.08); }
 
-/* Boutons précédent / suivant */
-#sp-video-lb-prev,
-#sp-video-lb-next {
+/* ── Commande de navigation (assets/carrousel.js) ──
+   Elle remplace les deux fleches posees aux bords de l'ecran et le
+   compteur "2 / 4" du coin : une seule commande, centree sous la
+   video, qui donne aussi l'acces direct a chaque temoignage. */
+#sp-video-lb-nav {
   position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: max(14px, calc(50% - min(253px, 25.9vw) - 62px));
   z-index: 10;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.09);
-  border: 1px solid rgba(255,255,255,.14);
-  color: rgba(255,255,255,.8);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s, transform .2s, opacity .2s;
-  line-height: 1;
 }
-#sp-video-lb-prev { left: max(12px, calc(50% - min(450px, 46vw) - 60px)); }
-#sp-video-lb-next { right: max(12px, calc(50% - min(450px, 46vw) - 60px)); }
-#sp-video-lb-prev:hover,
-#sp-video-lb-next:hover { background: rgba(255,255,255,.18); transform: translateY(-50%) scale(1.08); }
-#sp-video-lb-prev:disabled,
-#sp-video-lb-next:disabled { opacity: .25; cursor: default; pointer-events: none; }
+/* Sur ecran etroit la formule ci-dessus, calibree pour un compteur texte
+   dans un coin, remontait la commande de 18 px SUR la video : elle
+   couvrait le nom de la personne qui parle.
 
-/* Counter ex: 2 / 4 */
-#sp-video-lb-counter {
-  position: fixed;
-  bottom: max(16px, calc(50% - min(253px, 25.9vw) - 44px));
-  right: max(12px, calc(50% - min(450px, 46vw)));
-  z-index: 10;
-  font-family: var(--font-display);
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color:var(--dim);
+   Elle se pose donc en bas — mais AU-DESSUS de la barre d'onglets, qui
+   occupe les 56 premiers pixels : plus bas, la commande passait
+   dessous. Il reste 237 px entre la video et la barre, la place ne
+   manque pas. */
+@media (max-width: 700px) {
+  #sp-video-lb-nav {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px);
+  }
 }
 
 

@@ -350,7 +350,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/mdg.css?v=8fbbae5b">
+<link rel="stylesheet" href="/assets/mdg.css?v=ce2a5724">
 <script>
 /* Lenis smooth scroll, desktop uniquement + respect prefers-reduced-motion */
 (function(){
@@ -378,6 +378,7 @@
 
 <!-- Styles déplacés pour rendu non-bloquant -->
 <link rel="stylesheet" href="/assets/beam.css?v=82477917">
+<link rel="stylesheet" href="/assets/composants.css?v=753f8611">
 <body>
 <script>
 /* ══════════════════════════════════════════════════════════════════
@@ -1500,15 +1501,13 @@
   <!-- Lightbox vidéo, fullscreen -->
   <div id="sp-video-lb" role="dialog" aria-modal="true" aria-label="Play video testimonial">
     <button id="sp-video-lb-close" aria-label="Close">×</button>
-    <button id="sp-video-lb-prev" aria-label="Previous video">←</button>
-    <button id="sp-video-lb-next" aria-label="Next video">→</button>
     <div id="sp-video-lb-inner">
       <div id="sp-video-lb-frame" style="position:absolute;inset:0;width:100%;height:100%"></div>
       <img id="sp-video-lb-poster" alt="" decoding="async">
       <div id="sp-video-lb-spinner" aria-hidden="true"><span></span></div>
       <div id="sp-video-lb-meta"><span id="sp-video-lb-meta-name"></span><span id="sp-video-lb-meta-role"></span></div>
     </div>
-    <div id="sp-video-lb-counter" aria-hidden="true"></div>
+    <div id="sp-video-lb-nav" data-infobulles></div>
   </div>
 </section>
 
@@ -2598,7 +2597,7 @@ function submitPackForm(e) {
         <span class="f-logo-name">MDG Creative Studio</span>
       </div>
       <p class="footer-brand-desc"><b>MDG Creative Studio, le studio de direction artistique et de design graphique de Mouhamed Al Amine Diawara.</b> <span>Basé à Kaolack, Sénégal. Je travaille avec des artistes et des marques qui ont quelque chose à dire. Et je m'assure que ça se voit.</p>
-      <div class="f-socials">
+      <div class="f-socials" data-infobulles>
         <a href="https://instagram.com/_its.mdg" target="_blank" rel="noopener" aria-label="Instagram">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
         </a>
@@ -8941,9 +8940,8 @@ function cqfToggleChip(btn, val) {
   var poster  = document.getElementById('sp-video-lb-poster');
   var metaN   = document.getElementById('sp-video-lb-meta-name');
   var metaR   = document.getElementById('sp-video-lb-meta-role');
-  var prevBtn = document.getElementById('sp-video-lb-prev');
-  var nextBtn = document.getElementById('sp-video-lb-next');
-  var counter = document.getElementById('sp-video-lb-counter');
+  var hoteNav = document.getElementById('sp-video-lb-nav');
+  var nav = null;   /* la commande de navigation, montee plus bas */
   if(!lb || !frame || !closBtn) return;
 
   var cards = Array.prototype.slice.call(document.querySelectorAll('.sp-vcard-hero, .sp-vcard-row'));
@@ -8956,10 +8954,35 @@ function cqfToggleChip(btn, val) {
   function lockScroll(){   if (window.mdgLock) window.mdgLock.acquire('ytlb'); }
   function unlockScroll(){ if (window.mdgLock) window.mdgLock.release('ytlb'); }
 
+  /* La commande dit ou l'utilisateur veut aller ; on lui dit ou il est.
+     Les deux sens ne passent pas par le meme chemin, sinon chacun
+     relancerait l'autre.
+
+     Le montage attend le chargement : assets/carrousel.js est differe,
+     donc absent au moment ou ce bloc s'execute. */
+  function monterNav(){
+    if (nav || !hoteNav || !window.MDGCarrousel) return;
+    nav = window.MDGCarrousel.creer(hoteNav, {
+      total: cards.length,
+      index: currentIdx,
+      boucle: false,
+      duree: 0,            /* une video ne s'avance pas toute seule */
+      nom: 'Témoignages',
+      libellePrec: 'Témoignage précédent',
+      libelleSuiv: 'Témoignage suivant',
+      onIndex: function(i){ openYtLb(i); }
+    });
+    if (window.MDGInfobulle) window.MDGInfobulle.equiperTout(hoteNav.parentNode);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', monterNav);
+  } else {
+    monterNav();
+  }
+
   function updateNav(){
-    if(prevBtn) prevBtn.disabled = currentIdx === 0;
-    if(nextBtn) nextBtn.disabled = currentIdx === cards.length - 1;
-    if(counter) counter.textContent = (currentIdx + 1) + ' / ' + cards.length;
+    monterNav();
+    if(nav) nav.aller(currentIdx);
   }
 
   function openYtLb(idx){
@@ -9071,20 +9094,6 @@ function cqfToggleChip(btn, val) {
     e.stopPropagation();
     closeYtLb();
   });
-
-  /* Nav prev / next */
-  if(prevBtn){
-    prevBtn.addEventListener('click', function(e){
-      e.stopPropagation();
-      if(currentIdx > 0) openYtLb(currentIdx - 1);
-    });
-  }
-  if(nextBtn){
-    nextBtn.addEventListener('click', function(e){
-      e.stopPropagation();
-      if(currentIdx < cards.length - 1) openYtLb(currentIdx + 1);
-    });
-  }
 
   /* Swipe gauche/droite dans la lightbox pour changer de vidéo */
   var _touchStartX = 0;
@@ -11220,6 +11229,8 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <script defer src="/assets/transition.js?v=2e1f1028"></script>
 <script defer src="/assets/retour.js?v=a82e9c8d"></script>
+<script defer src="/assets/carrousel.js?v=872dab21"></script>
+<script defer src="/assets/infobulle.js?v=8663363c"></script>
 <script defer src="/assets/beam.js?v=aeeb89df"></script>
 <script>document.addEventListener('DOMContentLoaded',function(){try{if(typeof applyLang==='function')applyLang('en')}catch(e){}});</script>
 </body>
