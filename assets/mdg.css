@@ -14738,7 +14738,7 @@ textarea:focus-visible {
    milieu d'une rangee eteinte : l'oeil sait ou il est avant de lire. */
 .xp-tuiles{
   display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
-  margin-bottom:clamp(34px,4.4vw,56px);
+  flex:1 1 auto; min-width:0;
 }
 .xp-t{
   display:flex; flex-direction:column; align-items:center;
@@ -14785,11 +14785,59 @@ textarea:focus-visible {
   .xp-t{ flex:0 0 auto; scroll-snap-align:center; width:92px }
 }
 
+/* ── Le rail : dire qu'il y a autre chose a cote ───────────────────
+   La rangee defilait sans le dire. Sur un ecran tactile, un contenu
+   coupe net au bord se lit comme un defaut de mise en page, pas comme
+   une invitation a faire glisser.
+
+   Deux fleches l'encadrent : elles changent de discipline, donc leur
+   seule presence annonce qu'il y en a avant et apres. Elles sont
+   DESACTIVEES pour de vrai aux extremites — c'est ainsi qu'on sait
+   qu'on est arrive au bout. Et les bords s'estompent tant qu'il reste
+   quelque chose a atteindre de ce cote-la. */
+.xp-rail{ position:relative; display:flex; align-items:center; gap:8px }
+.xp-rail-f{
+  display:flex; align-items:center; justify-content:center;
+  width:38px; height:38px; flex:0 0 auto; padding:0;
+  border-radius:50%; cursor:pointer;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05); color:var(--light);
+  transition:background .25s, border-color .25s, color .25s, opacity .25s;
+}
+.xp-rail-f svg{ width:16px; height:16px; display:block }
+.xp-rail-f:hover:not(:disabled){
+  background:rgba(var(--accent-rgb),.14); border-color:rgba(var(--accent-rgb),.5); color:var(--accent);
+}
+.xp-rail-f:focus-visible{ outline:2px solid var(--accent); outline-offset:3px }
+.xp-rail-f:disabled{ opacity:.26; cursor:default }
+
+/* Les voiles de bord vivent sur le rail, pas sur la zone qui defile :
+   posees sur celle-ci, elles glisseraient avec le contenu. */
+.xp-rail::before, .xp-rail::after{
+  content:''; position:absolute; top:0; bottom:0; width:44px;
+  pointer-events:none; opacity:0; transition:opacity .25s; z-index:2;
+}
+.xp-rail::before{ left:38px;  background:linear-gradient(90deg, #0a0a0a, transparent) }
+.xp-rail::after { right:38px; background:linear-gradient(270deg, #0a0a0a, transparent) }
+.xp-rail.a-gauche::before{ opacity:1 }
+.xp-rail.a-droite::after { opacity:1 }
+
+.xp-indice{
+  display:none;
+  font-family:var(--font-body); font-size:.68rem; letter-spacing:.04em;
+  color:var(--dim); text-align:center; margin:12px 0 0;
+}
+.xp-rail.a-droite ~ .xp-indice, .xp-rail.a-gauche ~ .xp-indice{ display:block }
+
+@media(max-width:760px){
+  .xp-tuiles{ margin-left:0; margin-right:0 }
+}
+
 /* ── La scene : lueur, pile, panneau ──────────────────────────────
    Deux bords de cartes depassent derriere le panneau. Ce n'est pas un
    ornement : c'est ce qui dit qu'il y en a d'autres dessous, et que
    celle-ci est au-dessus. */
-.xp-scene{ position:relative; padding-top:20px }
+.xp-scene{ position:relative; padding-top:20px; margin-top:clamp(32px,4.2vw,54px) }
 .xp-lueur{
   position:absolute; left:50%; top:-6%;
   width:min(820px,96%); height:78%;

@@ -39,6 +39,7 @@
       });
       if (donnerLeFocus) tuiles[i].focus();
       recentrer(tuiles[i]);
+      majRail();
     }
 
     /* Sur ecran etroit la rangee defile : la tuile choisie peut se
@@ -59,6 +60,42 @@
     tuiles.forEach(function (t, i) {
       t.addEventListener('click', function () { activer(i, false); });
     });
+
+    /* ── Le rail : fleches et voiles de bord ──────────────────────
+       Rien ne disait au visiteur qu'il restait des disciplines a
+       cote. Les fleches le disent par leur presence, les voiles par
+       leur estompe, et l'indice sous la rangee par des mots. */
+    var rail = rangee.closest('.xp-rail');
+    var prec = rail && rail.querySelector('.xp-rail-f--prec');
+    var suiv = rail && rail.querySelector('.xp-rail-f--suiv');
+
+    function rangActif() {
+      for (var k = 0; k < tuiles.length; k++) {
+        if (tuiles[k].getAttribute('aria-selected') === 'true') return k;
+      }
+      return 0;
+    }
+
+    function majRail() {
+      if (!rail) return;
+      var i = rangActif();
+      if (prec) prec.disabled = i === 0;
+      if (suiv) suiv.disabled = i === tuiles.length - 1;
+      /* Les voiles ne se justifient que si la rangee defile vraiment. */
+      var defile = rangee.scrollWidth > rangee.clientWidth + 4;
+      var x = rangee.scrollLeft;
+      rail.classList.toggle('a-gauche', defile && x > 4);
+      rail.classList.toggle('a-droite', defile && x < rangee.scrollWidth - rangee.clientWidth - 4);
+    }
+
+    if (prec) prec.addEventListener('click', function () { activer(Math.max(0, rangActif() - 1), false); });
+    if (suiv) suiv.addEventListener('click', function () { activer(Math.min(tuiles.length - 1, rangActif() + 1), false); });
+    rangee.addEventListener('scroll', majRail, { passive: true });
+    window.addEventListener('resize', majRail);
+    /* Etat initial : APRES l'affectation de rail. Place plus haut,
+       l'appel partait alors que la variable valait encore undefined et
+       la fonction sortait aussitot — les fleches restaient inertes. */
+    majRail();
 
     rangee.addEventListener('keydown', function (e) {
       var i = tuiles.indexOf(document.activeElement);
