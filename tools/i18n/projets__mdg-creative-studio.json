@@ -126,5 +126,29 @@
  [
   ">← Retour</a>",
   ">← Back</a>"
+ ],
+ [
+  "\"name\": \"Accueil\",",
+  "\"name\": \"Home\","
+ ],
+ [
+  "\"item\": \"https://www.mdgcreative.studio/\"",
+  "\"item\": \"https://www.mdgcreative.studio/en/\""
+ ],
+ [
+  "\"name\": \"Réalisations\",",
+  "\"name\": \"Work\","
+ ],
+ [
+  "\"item\": \"https://www.mdgcreative.studio/work\"",
+  "\"item\": \"https://www.mdgcreative.studio/en/work\""
+ ],
+ [
+  "\"mainEntityOfPage\": \"https://www.mdgcreative.studio/projets/mdg-creative-studio\"",
+  "\"mainEntityOfPage\": \"https://www.mdgcreative.studio/en/projets/mdg-creative-studio\""
+ ],
+ [
+  "\"item\": \"https://www.mdgcreative.studio/projets/mdg-creative-studio\"",
+  "\"item\": \"https://www.mdgcreative.studio/en/projets/mdg-creative-studio\""
  ]
 ]

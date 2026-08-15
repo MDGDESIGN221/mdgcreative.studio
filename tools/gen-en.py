@@ -29,63 +29,65 @@ import io, os, re, sys
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 APPLY = '--apply' in sys.argv
+
+# ── Region reservee ──────────────────────────────────────────────
+# Le graphe d'identite appartient a tools/identite.py : il n'est pas la
+# traduction de la version francaise, c'est la meme entite dite dans
+# l'autre langue. On garde donc ce que la cible porte deja, et on laisse
+# identite.py repasser derriere.
+ID_DEBUT = '<!-- IDENTITE : genere par tools/identite.py, ne pas editer a la main -->'
+ID_FIN   = '<!-- /IDENTITE -->'
+
+
+def garder_identite(produit, cible):
+    """Reinjecte dans `produit` la region d'identite de `cible`."""
+    if not os.path.exists(cible):
+        return produit
+    actuel = io.open(cible, encoding='utf-8').read()
+    a = actuel.find(ID_DEBUT)
+    b = produit.find(ID_DEBUT)
+    if a == -1 or b == -1:
+        return produit
+    region = actuel[a:actuel.index(ID_FIN, a) + len(ID_FIN)]
+    return produit[:b] + region + produit[produit.index(ID_FIN, b) + len(ID_FIN):]
+
 SOURCE, CIBLE = 'index.html', 'en/index.html'
 
 # 1. metas de tete. Elles ne passent pas par le dictionnaire : ce sont des
 #    phrases de page, pas des libelles d'interface.
 TETE = [
- ('<html lang="fr">', '<html lang="en">'),
- ('<title>Mouhamed Al Amine, Creative Director à Kaolack, Sénégal</title>',
-  '<title>Mouhamed Al Amine, Creative Director in Kaolack, Senegal</title>'),
+ ('<html lang="fr" data-mdg-page-unique>', '<html lang="en" data-mdg-page-unique>'),
+ ('<title>Mouhamed Al Amine Diawara (MDG) — Directeur artistique, Sénégal</title>',
+  '<title>Mouhamed Al Amine Diawara (MDG) — Art Director, Senegal</title>'),
  ('<link rel="canonical" href="https://www.mdgcreative.studio">',
   '<link rel="canonical" href="https://www.mdgcreative.studio/en/">'),
  ('<meta property="og:url" content="https://www.mdgcreative.studio">',
   '<meta property="og:url" content="https://www.mdgcreative.studio/en/">'),
  ('<meta property="og:locale" content="fr_FR">',
   '<meta property="og:locale" content="en_US">'),
- ('<meta property="og:title" content="MDG Creative Studio, Creative Director, Kaolack">',
-  '<meta property="og:title" content="MDG Creative Studio · Creative Director, Kaolack">'),
+ ('<meta property="og:title" content="Mouhamed Al Amine Diawara (MDG) — Directeur artistique, Sénégal">',
+  '<meta property="og:title" content="Mouhamed Al Amine Diawara (MDG) — Art Director, Senegal">'),
+ ('<meta name="twitter:title" content="Mouhamed Al Amine Diawara (MDG) — Directeur artistique">',
+  '<meta name="twitter:title" content="Mouhamed Al Amine Diawara (MDG) — Art Director">'),
 ]
 # les descriptions, trop longues pour etre lisibles ci-dessus
 TETE_DESC = [
  ('name="description"',
-  'Creative Director in Kaolack: cover art, brand identity, motion design & web for African '
-  'artists and brands. 7 years of exacting work, 50+ artists, 9 countries.'),
+  'Mouhamed Al Amine Diawara, known as MDG: Senegalese art director and graphic '
+  'designer. Brand identity, cover art, motion design and web design for artists '
+  'and brands, from Kaolack.'),
  ('property="og:description"',
-  'Brand identity, cover art, motion design & web. 7 years of experience. Based in Kaolack, Senegal.'),
+  'Senegalese art director and graphic designer. Brand identity, cover art, motion '
+  'design, web design. Kaolack, Senegal.'),
  ('name="twitter:description"',
-  'Brand identity, cover art, motion design & web. Kaolack, Senegal.'),
+  'Senegalese art director and graphic designer. Identity, cover art, motion, web.'),
 ]
 
-# 1 bis. donnees structurees. Elles sont lues avant tout JavaScript,
-#        exactement comme les metas : la bascule a l'execution ne peut
-#        rien pour elles. La page anglaise annoncait donc une
-#        description francaise et l'URL de la page francaise.
-#
-#        Les @id ne changent PAS : ils identifient la meme entite dans
-#        les deux langues, c'est tout leur interet. Seuls le texte et
-#        les url de page suivent.
-TETE.extend([
- ('"description":"Creative Director à Kaolack : cover art, brand identity, '
-  'motion design & web pour artistes et marques africaines.",',
-  '"description":"Creative Director in Kaolack: cover art, brand identity, '
-  'motion design & web for African artists and brands.",'),
- ('"url":"https://www.mdgcreative.studio",',
-  '"url":"https://www.mdgcreative.studio/en/",'),
- ('"description": "Studio de design créatif spécialisé en brand identity, '
-  'cover art, motion design et web. Basé à Kaolack, Sénégal.",',
-  '"description": "Creative design studio specialising in brand identity, '
-  'cover art, motion design and web. Based in Kaolack, Senegal.",'),
-])
 
-# Chaines de donnees structurees qui reviennent a plusieurs endroits.
-# TETE exige une occurrence unique ; celles-ci en ont plusieurs, et
-# toutes doivent basculer.
-TETE_TOUS = [
- ('"url": "https://www.mdgcreative.studio",',
-  '"url": "https://www.mdgcreative.studio/en/",'),
- ('"name": "Identité d\'Artiste"', '"name": "Artist Identity"'),
-]
+# Aucune chaine multiple a basculer pour l instant : les deux blocs de
+# donnees structurees qui en contenaient ont ete remplaces par la region
+# d identite, laissee intacte par ce generateur.
+TETE_TOUS = []
 
 # 2. liens internes vers les versions anglaises
 LIENS = [('href="/tarifs"', 'href="/en/tarifs"'),
@@ -180,6 +182,7 @@ if sans:
     for x in sans[:10]:
         print('       %s' % x)
 
+sortie = garder_identite(sortie, CIBLE)
 actuel = io.open(CIBLE, encoding='utf-8').read() if os.path.exists(CIBLE) else ''
 if actuel == sortie:
     print('  identique au fichier actuel.')

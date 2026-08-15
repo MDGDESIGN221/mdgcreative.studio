@@ -16,10 +16,6 @@
   "<meta property=\"og:locale\" content=\"en_US\">"
  ],
  [
-  "\"url\":\"https://www.mdgcreative.studio/projets/rima\"",
-  "\"url\":\"https://www.mdgcreative.studio/en/projets/rima\""
- ],
- [
   "Toutes les réalisations",
   "All work"
  ],
@@ -78,5 +74,29 @@
  [
   ">← Retour</a>",
   ">← Back</a>"
+ ],
+ [
+  "\"name\": \"Accueil\",",
+  "\"name\": \"Home\","
+ ],
+ [
+  "\"item\": \"https://www.mdgcreative.studio/\"",
+  "\"item\": \"https://www.mdgcreative.studio/en/\""
+ ],
+ [
+  "\"item\": \"https://www.mdgcreative.studio/atelier\"",
+  "\"item\": \"https://www.mdgcreative.studio/en/atelier\""
+ ],
+ [
+  "\"url\": \"https://www.mdgcreative.studio/projets/rima\"",
+  "\"url\": \"https://www.mdgcreative.studio/en/projets/rima\""
+ ],
+ [
+  "\"mainEntityOfPage\": \"https://www.mdgcreative.studio/projets/rima\"",
+  "\"mainEntityOfPage\": \"https://www.mdgcreative.studio/en/projets/rima\""
+ ],
+ [
+  "\"item\": \"https://www.mdgcreative.studio/projets/rima\"",
+  "\"item\": \"https://www.mdgcreative.studio/en/projets/rima\""
  ]
 ]

@@ -28,6 +28,28 @@ sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 APPLY = '--apply' in sys.argv
 
+# ── Region reservee ──────────────────────────────────────────────
+# Le graphe d'identite appartient a tools/identite.py : il n'est pas la
+# traduction de la version francaise, c'est la meme entite dite dans
+# l'autre langue. On garde donc ce que la cible porte deja, et on laisse
+# identite.py repasser derriere.
+ID_DEBUT = '<!-- IDENTITE : genere par tools/identite.py, ne pas editer a la main -->'
+ID_FIN   = '<!-- /IDENTITE -->'
+
+
+def garder_identite(produit, cible):
+    """Reinjecte dans `produit` la region d'identite de `cible`."""
+    if not os.path.exists(cible):
+        return produit
+    actuel = io.open(cible, encoding='utf-8').read()
+    a = actuel.find(ID_DEBUT)
+    b = produit.find(ID_DEBUT)
+    if a == -1 or b == -1:
+        return produit
+    region = actuel[a:actuel.index(ID_FIN, a) + len(ID_FIN)]
+    return produit[:b] + region + produit[produit.index(ID_FIN, b) + len(ID_FIN):]
+
+
 TABLES = 'tools/i18n'
 echecs = 0
 
@@ -75,6 +97,7 @@ def generer(nom):
     else:
         print()
 
+    s = garder_identite(s, cible)
     actuel = io.open(cible, encoding='utf-8', newline='').read() if os.path.exists(cible) else ''
     if actuel == s:
         print('  %-16s identique au fichier actuel.' % '')
