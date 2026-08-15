@@ -11980,7 +11980,7 @@ main > section{margin-top:0!important;margin-bottom:0!important}
 
 /* mdg-mobile-redesign */
 
-.about-mob,.collabs-mob,.process-mob,.hero-mob,.sp-mob,.services-mob,.faq-mob,.uranus-mob,.pricing-mob{display:none}
+.about-mob,.collabs-mob,.process-mob,.hero-mob,.sp-mob,.faq-mob,.uranus-mob,.pricing-mob{display:none}
 body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!important}
 @keyframes mdgMqScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes uFloatM{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
@@ -12006,8 +12006,6 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
 .hero-mob h2{font-size:1.35rem!important;line-height:1.1!important}
 
 /* Services mob, titre section (1.85rem → 1.45rem) et titres services (1.32rem → 1.05rem) */
-.services-mob>div>h2{font-size:1.45rem!important;line-height:1.05!important}
-.services-mob .svc-title{font-size:1.05rem!important}
 
 /* SP mob, blockquote témoignage (1.5rem → 1.1rem) */
 .sp-mob blockquote{font-size:1.1rem!important;line-height:1.4!important}
@@ -12028,7 +12026,7 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   #process > .container{display:none!important}
   #hero > .hero-photo-wrap,#hero > .hero-left,#hero > .hero-manifeste-line,#hero > .hero-stats{display:none!important}
   #social-proof > .container{display:none!important}
-  #services > .sec-num,#services > .container{display:none!important}
+  #services > .sec-num{display:none!important}
   #faq > .container{display:none!important}
   #pricing > .container,#pricing > .sec-num{display:none!important}
   .about-mob{display:block!important;background:#060606;position:relative;z-index:3}
@@ -12036,8 +12034,6 @@ body.bio-sheet-open #quick-nav,body.bio-sheet-open #mob-tab-bar{display:none!imp
   .process-mob{display:block!important;background:#1a1a1a;position:relative;z-index:3}
   .hero-mob{display:flex!important;flex-direction:column;position:relative;min-height:100svh;background:#060606;overflow:hidden;z-index:3}
   .sp-mob{display:block!important;background:#0e0e0e;position:relative;z-index:3}
-  .services-mob{display:block!important;background:#060606;position:relative;z-index:3}
-  .services-mob > *{opacity:1!important;transform:none!important}
   .faq-mob{display:block!important;background:#f0ede8;position:relative;z-index:3}
   .pricing-mob{display:block!important;position:relative;z-index:3;background:#060606}
   #uranus{padding:0!important}
@@ -14683,4 +14679,193 @@ textarea:focus-visible {
     outline: 2px solid var(--accent) !important;
     outline-offset: 2px !important;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   EXPERTISES
+   ──────────────────────────────────────────────────────────────────
+   La section disait juste, mais elle ne montrait rien : des filets
+   d'un pixel, aucune profondeur, aucune reaction au survol. Sur une
+   page qui vend de la direction artistique, c'etait le pire endroit
+   ou etre plat.
+
+   Un seul principe, tire des trois references : une lueur coloree
+   derriere une surface sombre, des plans qui se decollent, et UN
+   element mis en avant a la fois. Le reste — polices, couleurs,
+   rayons — vient de la charte du site : rien n'est importe.
+
+   Le halo suit le pointeur (assets/lueur.js pose --mx / --my). Sans
+   JavaScript il reste centre en haut : la carte s'allume quand meme.
+   ══════════════════════════════════════════════════════════════════ */
+.xp{
+  position:relative; overflow:hidden;
+  border-radius:18px; border:1px solid var(--border);
+  background:
+    radial-gradient(130% 100% at 50% -14%, rgba(var(--accent-rgb),.07), transparent 62%),
+    #0a0a0a;
+  padding:clamp(44px,5.5vw,88px) clamp(22px,4.4vw,72px);
+}
+/* Un filet clair sur l'arete haute : c'est ce qui fait lire le panneau
+   comme une surface eclairee par le dessus, et non comme un trou. */
+.xp::before{
+  content:''; position:absolute; top:0; left:8%; right:8%; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.16), transparent);
+  pointer-events:none;
+}
+.xp-chiffre{
+  position:absolute; top:26px; right:clamp(18px,3.5vw,58px);
+  font-family:var(--font-accent); font-style:italic;
+  font-size:clamp(5rem,11vw,9rem); line-height:1;
+  color:rgba(255,255,255,.028); pointer-events:none; user-select:none;
+}
+
+.xp-tete{ position:relative; z-index:1 }
+.xp-etiquette{
+  display:flex; align-items:center; gap:15px;
+  font-family:var(--font-display); font-weight:700;
+  font-size:.66rem; letter-spacing:.3em; color:var(--accent);
+  margin-bottom:26px;
+}
+.xp-trait{ width:34px; height:1px; background:var(--accent); flex:0 0 auto }
+.xp-intro{
+  font-family:var(--font-body); font-weight:300;
+  font-size:clamp(.9rem,1.05vw,1rem); line-height:1.75;
+  color:#8f8b84; max-width:56ch; margin:0 0 clamp(38px,4.6vw,62px);
+}
+
+/* ── Les quatre disciplines ─────────────────────────────────────── */
+.xp-grille{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px }
+@media(max-width:1100px){ .xp-grille{ grid-template-columns:repeat(2,1fr) } }
+@media(max-width:620px){  .xp-grille{ grid-template-columns:1fr } }
+
+.xp-carte{
+  position:relative; isolation:isolate;
+  border-radius:15px; border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(168deg, rgba(255,255,255,.052), rgba(255,255,255,.012) 58%);
+  transition:border-color .3s, transform .35s cubic-bezier(.34,1.1,.64,1), box-shadow .35s;
+}
+.xp-carte-corps{ position:relative; z-index:1; padding:clamp(24px,2.3vw,32px) }
+.xp-halo{
+  position:absolute; inset:-1px; z-index:0; border-radius:inherit;
+  opacity:0; transition:opacity .38s; pointer-events:none;
+  background:radial-gradient(340px 280px at var(--mx,50%) var(--my,0%),
+             rgba(var(--accent-rgb),.20), transparent 68%);
+}
+.xp-carte:hover, .xp-carte:focus-within{
+  border-color:rgba(var(--accent-rgb),.42);
+  transform:translateY(-5px);
+  box-shadow:0 26px 62px -30px rgba(var(--accent-rgb),.5),
+             inset 0 1px 0 rgba(255,255,255,.06);
+}
+.xp-carte:hover .xp-halo, .xp-carte:focus-within .xp-halo{ opacity:1 }
+
+.xp-carte-haut{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:22px;
+}
+.xp-no{
+  font-family:var(--font-accent); font-style:italic;
+  font-size:2.9rem; line-height:.8; color:var(--accent);
+  opacity:.72; transition:opacity .3s;
+}
+.xp-carte:hover .xp-no{ opacity:1 }
+
+/* La tuile d'icone porte la lueur, comme la touche allumee au milieu
+   d'une rangee eteinte. */
+.xp-tuile{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:46px; height:46px; flex:0 0 auto;
+  border-radius:13px; border:1px solid rgba(var(--accent-rgb),.26);
+  background:linear-gradient(158deg, rgba(var(--accent-rgb),.14), rgba(var(--accent-rgb),.028));
+  color:var(--accent);
+  transition:border-color .3s, box-shadow .3s, transform .35s cubic-bezier(.34,1.2,.64,1);
+}
+.xp-tuile svg{ width:20px; height:20px; display:block }
+.xp-carte:hover .xp-tuile{
+  border-color:rgba(var(--accent-rgb),.62); transform:scale(1.06);
+  box-shadow:0 0 0 4px rgba(var(--accent-rgb),.07),
+             0 14px 32px -14px rgba(var(--accent-rgb),.75);
+}
+
+.xp-titre{
+  font-family:var(--font-display); font-weight:700;
+  font-size:1.14rem; line-height:1.18; letter-spacing:-.01em;
+  color:var(--light); margin:0 0 11px;
+}
+.xp-desc{
+  font-family:var(--font-body); font-weight:300;
+  font-size:.86rem; line-height:1.68; color:#8f8b84; margin:0 0 18px;
+}
+.xp-desc em{ font-style:italic; color:#b9b4ac }
+.xp-tags{
+  font-family:var(--font-body); font-size:.68rem; font-weight:500;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--dim);
+  margin-bottom:18px;
+}
+
+.xp-plus summary{
+  display:flex; align-items:center; gap:9px; cursor:pointer;
+  font-family:var(--font-display); font-weight:700;
+  font-size:.72rem; letter-spacing:.05em; color:var(--accent);
+  list-style:none;
+}
+.xp-plus summary::-webkit-details-marker{ display:none }
+.xp-plus .expo-tog{ font-weight:400; font-size:1.05rem; transition:transform .28s }
+.xp-liste{ list-style:none; padding:14px 0 0; margin:0; display:flex; flex-direction:column; gap:8px }
+.xp-liste li{
+  position:relative; padding-left:14px;
+  font-family:var(--font-body); font-size:.8rem; line-height:1.5; color:#a7a29b;
+}
+.xp-liste li::before{ content:'\00B7'; position:absolute; left:2px; color:var(--accent) }
+
+/* ── Les savoir-faire complementaires ───────────────────────────── */
+.xp-aussi{ margin-top:clamp(38px,4.4vw,58px) }
+.xp-aussi-titre{
+  font-family:var(--font-display); font-weight:700;
+  font-size:.6rem; letter-spacing:.28em; color:var(--dim); margin-bottom:16px;
+}
+/* Une legere inclinaison au repos : la rangee cesse d'etre un tableau
+   et redevient un jeu de cartes posees. Elle se redresse des qu'on
+   s'en approche — on ne lit pas de travers. */
+.xp-puce{
+  border-radius:12px; border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(150deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+  margin-bottom:10px;
+  transition:transform .35s cubic-bezier(.34,1.1,.64,1), border-color .3s, box-shadow .3s;
+}
+.xp-puce:nth-of-type(odd) { transform:rotate(-.5deg) }
+.xp-puce:nth-of-type(even){ transform:rotate(.45deg) }
+.xp-puce:hover, .xp-puce:focus-within, .xp-puce[open]{
+  transform:rotate(0);
+  border-color:rgba(var(--accent-rgb),.34);
+  box-shadow:0 16px 40px -26px rgba(var(--accent-rgb),.55);
+}
+.xp-puce summary{
+  display:flex; align-items:center; gap:14px; cursor:pointer;
+  padding:17px clamp(16px,2vw,24px); list-style:none;
+}
+.xp-puce summary::-webkit-details-marker{ display:none }
+.xp-puce-no{
+  font-family:var(--font-accent); font-style:italic;
+  font-size:1.05rem; color:var(--accent); opacity:.6; flex:0 0 auto;
+}
+.xp-puce-nom{
+  font-family:var(--font-display); font-weight:700;
+  font-size:.98rem; color:#e9e5df; flex:1;
+}
+.xp-puce .expo-tog{ font-size:1.15rem; color:var(--accent); transition:transform .28s }
+.xp-puce p{
+  font-family:var(--font-body); font-weight:300;
+  font-size:.85rem; line-height:1.68; color:#8f8b84;
+  margin:0; padding:0 clamp(16px,2vw,24px) 20px calc(clamp(16px,2vw,24px) + 28px);
+}
+@media(min-width:820px){
+  .xp-aussi{ display:grid; grid-template-columns:repeat(2,1fr); gap:0 14px }
+  .xp-aussi-titre{ grid-column:1 / -1 }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .xp-carte, .xp-tuile, .xp-puce, .xp-halo, .xp-no{ transition:none }
+  .xp-carte:hover, .xp-carte:focus-within{ transform:none }
+  .xp-puce, .xp-puce:hover, .xp-puce[open]{ transform:none }
 }
