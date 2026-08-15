@@ -258,6 +258,33 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
 .work-card-link{display:inline-flex;align-items:center;gap:7px;margin-top:auto;padding-top:16px;font-family:var(--font-head);font-weight:700;font-size:.74rem;letter-spacing:.03em;color:var(--accent);transition:gap .25s}
 .work-card:hover .work-card-link{gap:11px}
 .section-hint{margin-top:14px;font-size:.92rem;color:var(--gray-600);line-height:1.6;max-width:520px}
+
+/* ── Les sites ──────────────────────────────────────────────────────
+   Une capture de site se regarde en 16/10, comme un ecran, et cadree
+   par le haut : c'est le haut d'une page qui la fait reconnaitre. La
+   legende nomme le projet, sans quoi on ne saurait pas ce qu'on
+   regarde ni que la carte mene quelque part. */
+.sites-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.site-card{display:flex;flex-direction:column;border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;text-decoration:none;background:#fff;
+  transition:border-color .3s,transform .35s cubic-bezier(.34,1.1,.64,1),box-shadow .35s}
+.site-card:hover{border-color:var(--ink);transform:translateY(-4px);
+  box-shadow:0 22px 50px -28px rgba(14,14,14,.45)}
+.site-vue{aspect-ratio:16/10;overflow:hidden;background:var(--gray-100);
+  border-bottom:1px solid var(--border)}
+.site-vue img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+  transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.site-card:hover .site-vue img{transform:scale(1.04)}
+.site-pied{display:flex;align-items:center;gap:12px;padding:15px 17px 16px}
+.site-txt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.site-nom{font-family:var(--font-head);font-weight:700;font-size:.94rem;color:var(--ink);
+  line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.site-sous{font-size:.74rem;color:var(--gray-500);line-height:1.3;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.site-fl{flex:0 0 auto;color:var(--ink);opacity:.45;transition:opacity .28s,transform .28s}
+.site-card:hover .site-fl{opacity:1;transform:translateX(3px)}
+@media(max-width:900px){ .sites-grid{grid-template-columns:1fr;gap:14px} }
+@media (hover: none){ .site-card:hover{transform:none} .site-card:hover .site-vue img{transform:none} }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 <style id="mdg-transition">
@@ -584,6 +611,7 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
         <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#sites">Sites web</a></li>
         <li><a href="#pourquoi">Notre approche</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -711,6 +739,21 @@ body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opa
       <p class="section-hint">Chaque projet ouvre une étude de cas complète · logo, charte et déclinaisons. Cliquez sur une carte pour l'explorer.</p>
     </div>
     <div class="work-grid" id="workGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="sites">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Sites web</div>
+      <h2 class="section-title">Des sites qui <em>tiennent debout.</em></h2>
+      <p class="section-hint">Conception et développement, du premier écran à la mise en ligne. Chaque site ouvre une étude de cas, avec ses captures et le lien vers la version en ligne.</p>
+    </div>
+    <div class="sites-grid">
+      <a class="site-card fade-up" href="/projets/baobabs-site"><span class="site-vue"><img src="/media/img/sites/baobabs-accueil.webp?v=0f78480d" width="1600" height="963" loading="lazy" decoding="async" alt="Page d’accueil du site des Baobabs Basket Club."></span><span class="site-pied"><span class="site-txt"><span class="site-nom">Baobabs Basket Club</span><span class="site-sous">Club de basket · Dakar</span></span><span class="site-fl" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span></span></a>
+      <a class="site-card fade-up" href="/projets/sokan-business"><span class="site-vue"><img src="/media/img/sites/sokan-accueil.webp?v=4fb590fe" width="1600" height="1000" loading="lazy" decoding="async" alt="Page d’accueil du site Sokan Business."></span><span class="site-pied"><span class="site-txt"><span class="site-nom">Sokan Business</span><span class="site-sous">Transit &amp; logistique · Dakar</span></span><span class="site-fl" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span></span></a>
+      <a class="site-card fade-up" href="/projets/mdg-creative-studio"><span class="site-vue"><img src="/media/img/sites/mdg-accueil.webp?v=8a52fc68" width="1600" height="1000" loading="lazy" decoding="async" alt="Page d’accueil du site MDG Creative Studio."></span><span class="site-pied"><span class="site-txt"><span class="site-nom">MDG Creative Studio</span><span class="site-sous">Le site du studio</span></span><span class="site-fl" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span></span></a>
+    </div>
   </div>
 </section>
 

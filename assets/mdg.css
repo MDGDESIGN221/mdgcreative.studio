@@ -15034,3 +15034,40 @@ textarea:focus-visible {
     margin-inline:calc(-1 * (var(--gutter, 0px) + clamp(1.25rem,4vw,3rem)));
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   SURVOL SUR ECRAN TACTILE
+   ──────────────────────────────────────────────────────────────────
+   Sur un pointeur qui ne survole pas, le navigateur applique quand
+   meme :hover — au PREMIER appui. Toute regle de survol qui DEPLACE
+   l'element deplace donc la cible sous le doigt : le bouton monte de
+   2 px pendant que le doigt est encore pose, et si l'appui etait pres
+   d'un bord, la levee ne tombe plus sur le meme element. Le navigateur
+   n'emet pas de click. L'appui semble ignore ; le suivant fonctionne,
+   parce que le decalage a deja eu lieu.
+
+   D'ou "parfois ca ne reagit pas a la premiere touchee" : cela depend
+   de l'endroit exact ou l'on pose le doigt.
+
+   Le site compte 124 regles de survol qui deplacent ou agrandissent
+   quelque chose. On annule le mouvement sur L'ELEMENT CLIQUABLE
+   lui-meme — c'est lui qui doit rester sous le doigt. Les effets sur
+   les enfants (une image qui zoome dans une carte) ne deplacent pas la
+   cible du clic : ils restent. Les changements de couleur aussi.
+   ══════════════════════════════════════════════════════════════════ */
+@media (hover: none) {
+  /* Onze des cinquante-cinq regles concernees passent par un ID et un
+     !important : un selecteur ordinaire ne peut pas les depasser, meme
+     avec !important — a egalite de !important, c'est la specificite qui
+     tranche.
+
+     :is() prend la specificite de son argument le plus fort. Le premier
+     est un identifiant qui n'existe nulle part : il n'ajoute aucune
+     cible, seulement du poids. Les quatre :hover empilent ce qu'il faut
+     pour passer devant #hero.nhero .nh-btn--p:hover. C'est le seul
+     moyen de traiter la cause une fois, plutot que onze symptomes. */
+  :is(#mdg-poids-seulement, a, button, summary,
+      [role="button"], [role="tab"]):hover:hover:hover:hover {
+    transform:none !important;
+  }
+}
