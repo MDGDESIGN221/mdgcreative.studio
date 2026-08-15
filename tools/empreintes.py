@@ -26,22 +26,32 @@ APPLY = '--apply' in sys.argv
 # diverger de leur source. On ne touche qu'aux sources francaises.
 PAGES = sorted(set(glob.glob('*.html') + glob.glob('projets/*.html')))
 
+# Les captures des sites clients changent chaque fois qu'un client refait
+# le sien. media/ est servi avec sept jours de cache : sans empreinte, un
+# visiteur deja venu garde l'ancienne capture une semaine. C'est
+# exactement ce qui s'est passe apres la refonte de Sokan — le fichier
+# avait change, pas son adresse. Le reste de media/ n'est pas tamponne :
+# ce sont des visuels qui, eux, ne changent pas.
+DOSSIERS = ['assets/*', 'media/img/sites/*']
+
 empreintes = {}
-for f in glob.glob('assets/*'):
-    if os.path.isfile(f):
-        empreintes['/' + f.replace('\\', '/')] = \
-            hashlib.md5(io.open(f, 'rb').read()).hexdigest()[:8]
+for dossier in DOSSIERS:
+    for f in glob.glob(dossier):
+        if os.path.isfile(f):
+            empreintes['/' + f.replace('\\', '/')] = \
+                hashlib.md5(io.open(f, 'rb').read()).hexdigest()[:8]
 
 if not empreintes:
-    print('Aucun fichier dans assets/.')
+    print('Aucun fichier a tamponner.')
     sys.exit(0)
 
-print('Empreintes courantes :')
+print('Empreintes courantes : %d fichier(s)' % len(empreintes))
 for chemin, e in sorted(empreintes.items()):
-    print('  %-28s %s' % (chemin, e))
+    if chemin.startswith('/assets/'):
+        print('  %-28s %s' % (chemin, e))
 print()
 
-motif = re.compile(r'(/assets/[A-Za-z0-9_.\-]+)(\?v=([a-f0-9]+))?')
+motif = re.compile(r'((?:/assets|/media/img/sites)/[A-Za-z0-9_.\-]+)(\?v=([a-f0-9]+))?')
 ecarts = 0
 touchees = 0
 
