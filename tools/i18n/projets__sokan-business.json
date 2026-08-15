@@ -72,14 +72,6 @@
   "<span class=\"cs-meta-label\">Year</span>"
  ],
  [
-  "<span class=\"cs-vide-t\">Capture de la page d'accueil</span>",
-  "<span class=\"cs-vide-t\">Home page capture</span>"
- ],
- [
-  "<span class=\"cs-vide-d\">Pleine page, 1 600 px de large minimum</span>",
-  "<span class=\"cs-vide-d\">Full page, 1,600 px wide minimum</span>"
- ],
- [
   "<title>Sokan Business · Le site | Atelier MDG</title>",
   "<title>Sokan Business · The website | Atelier MDG</title>"
  ],
@@ -108,51 +100,31 @@
   "<span class=\"cs-meta-val\">Logistics</span>"
  ],
  [
-  "<span class=\"cs-vide-t\">Les solutions</span>",
-  "<span class=\"cs-vide-t\">The services</span>"
+  "Page d'accueil du site Sokan Business : « Expédiez vos marchandises de la Chine à Dakar » et le tableau des chiffres de l'entreprise.",
+  "Home page of the Sokan Business site: the China-to-Dakar headline and the company figures panel."
  ],
  [
-  "<span class=\"cs-vide-d\">Maritime, aérien, terrestre</span>",
-  "<span class=\"cs-vide-d\">Sea, air, road</span>"
+  "Les prestations : transport maritime, aérien, terrestre et dédouanement.",
+  "The services: sea, air and road freight, plus customs clearance."
  ],
  [
-  "<span class=\"cs-vide-t\">Comment ça marche</span>",
-  "<span class=\"cs-vide-t\">How it works</span>"
+  "Comment ça marche : les quatre étapes, de la prise en charge à la livraison.",
+  "How it works: the four steps from pick-up to delivery."
  ],
  [
-  "<span class=\"cs-vide-d\">Les quatre étapes</span>",
-  "<span class=\"cs-vide-d\">The four steps</span>"
+  "Le suivi d'expédition : la recherche par numéro de dossier et les délais par mode.",
+  "Shipment tracking: search by file number and transit times per mode."
  ],
  [
-  "<span class=\"cs-vide-t\">Suivi de cargaison</span>",
-  "<span class=\"cs-vide-t\">Cargo tracking</span>"
+  "Les solutions clé en main : les quatre offres et leur contenu.",
+  "The turnkey solutions: the four offers and what each includes."
  ],
  [
-  "<span class=\"cs-vide-d\">La recherche par conteneur</span>",
-  "<span class=\"cs-vide-d\">Search by container</span>"
+  "Le formulaire de demande de devis et les coordonnées de l'entreprise.",
+  "The quote request form and the company contact details."
  ],
  [
-  "<span class=\"cs-vide-t\">Solutions clé en main</span>",
-  "<span class=\"cs-vide-t\">Turnkey solutions</span>"
- ],
- [
-  "<span class=\"cs-vide-d\">Les quatre offres</span>",
-  "<span class=\"cs-vide-d\">The four offers</span>"
- ],
- [
-  "<span class=\"cs-vide-t\">Le devis</span>",
-  "<span class=\"cs-vide-t\">The quote</span>"
- ],
- [
-  "<span class=\"cs-vide-d\">Le formulaire de contact</span>",
-  "<span class=\"cs-vide-d\">The contact form</span>"
- ],
- [
-  "<span class=\"cs-vide-t\">Questions fréquentes</span>",
-  "<span class=\"cs-vide-t\">Frequently asked</span>"
- ],
- [
-  "<span class=\"cs-vide-d\">Douane, délais, assurance</span>",
-  "<span class=\"cs-vide-d\">Customs, timescales, insurance</span>"
+  "Les questions fréquentes : douane, délais, assurance.",
+  "Frequently asked questions: customs, timescales, insurance."
  ]
 ]

@@ -57,6 +57,18 @@ a{color:var(--accent)}
 .cs-live:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(14,14,14,.14)}
 .cs-live .dom{font-weight:500;color:var(--gray-700)}
 
+/* Un seul projet de cette liste est le site courant : il n'y a pas de
+   lien "voir en ligne" a poser, le visiteur y est deja. La mention
+   occupe la place du bouton pour que la page garde son rythme, mais
+   elle est sourde : ni fond accent, ni relief, rien qui appelle le clic. */
+.cs-ici{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-head);
+  font-weight:700;font-size:.84rem;letter-spacing:.01em;color:var(--gray-700);
+  background:var(--gray-100);border:1px solid var(--border);
+  padding:13px 22px;border-radius:9999px;margin-bottom:2.2rem}
+.cs-ici::before{content:'';width:7px;height:7px;border-radius:50%;
+  background:var(--accent-bright);flex:0 0 auto}
+.cs-ici .dom{font-weight:500;color:var(--gray-500)}
+
 /* Emplacement d'image en attente. Il garde la place et les proportions
    du visuel a venir, et dit ce qu'il attend : un cadre vide sans
    explication passerait pour une panne. */

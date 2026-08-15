@@ -93,7 +93,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/mdg.css?v=d28638f2">
+<link rel="stylesheet" href="/assets/mdg.css?v=8fbbae5b">
 <script>
 /* Lenis smooth scroll, desktop uniquement + respect prefers-reduced-motion */
 (function(){
@@ -4352,10 +4352,10 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
        { href:'/projets/sokan-business', titre:'Sokan Business',
          sous:['Logistique internationale','International logistics'],
          img:'/media/img/sites/sokan-tuile.webp' },
-       /* Le troisieme site est celui-ci. Aucun lien : le visiteur y est
-          deja, et une vignette qui renvoie a la page courante ressemble a
-          un lien casse. L'ecusson le dit a sa place. */
-       { href:'', titre:'MDG Creative Studio', ici:true,
+       /* Le troisieme site est celui-ci. Sa vignette mene a l'etude de
+          cas, pas au site : le visiteur y est deja. L'ecusson dit lequel
+          des trois est le sien. */
+       { href:'/projets/mdg-creative-studio', titre:'MDG Creative Studio', ici:true,
          sous:['Ce site','This site'],
          img:'/media/img/sites/mdg-tuile.webp' }
      ]}
@@ -4391,14 +4391,14 @@ document.querySelectorAll('.motion-thumb').forEach(function(thumb){
         tile=document.createElement(mene?'a':'div');
         tile.className='chap-it chap-it--web'
                      + (el.img?' chap-it--vue':'')
-                     + (mene?'':' chap-it--ici');
+                     + (el.ici?' chap-it--ici':'');
         if(mene){
           tile.href=el.href;
           tile.setAttribute('aria-label', el.titre + ' — ' + el.sous[iLg]);
         }
         if(el.img){
           tile.innerHTML='<img loading="lazy" decoding="async" src="'+el.img+'" alt="'+el.titre+'">'
-            + (mene?'':'<span class="chap-web-ici" data-i18n="chap_web_ici">'+el.sous[iLg]+'</span>');
+            + (el.ici?'<span class="chap-web-ici" data-i18n="chap_web_ici">'+el.sous[iLg]+'</span>':'');
         } else {
           tile.innerHTML='<span class="chap-web-nom">'+el.titre+'</span>';
         }

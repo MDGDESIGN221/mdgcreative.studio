@@ -72,14 +72,6 @@
   "<span class=\"cs-meta-label\">Year</span>"
  ],
  [
-  "<span class=\"cs-vide-t\">Capture de la page d'accueil</span>",
-  "<span class=\"cs-vide-t\">Home page capture</span>"
- ],
- [
-  "<span class=\"cs-vide-d\">Pleine page, 1 600 px de large minimum</span>",
-  "<span class=\"cs-vide-d\">Full page, 1,600 px wide minimum</span>"
- ],
- [
   "<title>Baobabs Basket Club · Le site | Atelier MDG</title>",
   "<title>Baobabs Basket Club · The website | Atelier MDG</title>"
  ],
@@ -108,51 +100,31 @@
   "<span class=\"cs-meta-val\">Sport</span>"
  ],
  [
-  "<span class=\"cs-vide-t\">L'effectif</span>",
-  "<span class=\"cs-vide-t\">The roster</span>"
+  "Page d'accueil du site des Baobabs : le titre « Le basket sénégalais qui monte », la carte du prochain match et les chiffres du club.",
+  "Home page of the Baobabs site: the headline, the next fixture card and the club figures."
  ],
  [
-  "<span class=\"cs-vide-d\">La grille des joueurs</span>",
-  "<span class=\"cs-vide-d\">The player grid</span>"
+  "La section L'effectif : la grille des joueuses, numéro et poste.",
+  "The roster section: the player grid with number and position."
  ],
  [
-  "<span class=\"cs-vide-t\">Le duel des leaders</span>",
-  "<span class=\"cs-vide-t\">Head to head</span>"
+  "Le duel des leaders : les moyennes des deux joueuses comparées barre à barre.",
+  "Head to head: the two leaders' averages compared bar by bar."
  ],
  [
-  "<span class=\"cs-vide-d\">La comparaison de statistiques</span>",
-  "<span class=\"cs-vide-d\">The stats comparison</span>"
+  "La boutique : maillots domicile, extérieur, troisième et casquette officielle.",
+  "The shop: home, away and third jerseys, plus the official cap."
  ],
  [
-  "<span class=\"cs-vide-t\">La boutique</span>",
-  "<span class=\"cs-vide-t\">The shop</span>"
+  "La section Tryouts : dates, catégories et inscription à la détection.",
+  "The tryouts section: dates, age groups and sign-up."
  ],
  [
-  "<span class=\"cs-vide-d\">Les maillots et la casquette</span>",
-  "<span class=\"cs-vide-d\">Jerseys and cap</span>"
+  "La présentation de l'application des Baobabs sur écrans mobiles.",
+  "The Baobabs app showcased on mobile screens."
  ],
  [
-  "<span class=\"cs-vide-t\">Les tryouts</span>",
-  "<span class=\"cs-vide-t\">Tryouts</span>"
- ],
- [
-  "<span class=\"cs-vide-d\">La section d'inscription</span>",
-  "<span class=\"cs-vide-d\">The sign-up section</span>"
- ],
- [
-  "<span class=\"cs-vide-t\">L'application</span>",
-  "<span class=\"cs-vide-t\">The app</span>"
- ],
- [
-  "<span class=\"cs-vide-d\">La présentation mobile</span>",
-  "<span class=\"cs-vide-d\">The mobile showcase</span>"
- ],
- [
-  "<span class=\"cs-vide-t\">Le camp de base</span>",
-  "<span class=\"cs-vide-t\">Home base</span>"
- ],
- [
-  "<span class=\"cs-vide-d\">La carte et le pied de page</span>",
-  "<span class=\"cs-vide-d\">Map and footer</span>"
+  "Le camp de base : la carte de la salle et l'adresse du club.",
+  "Home base: the venue map and the club address."
  ]
 ]
