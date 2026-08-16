@@ -32,7 +32,7 @@ PAGES = sorted(set(glob.glob('*.html') + glob.glob('projets/*.html')))
 # exactement ce qui s'est passe apres la refonte de Sokan — le fichier
 # avait change, pas son adresse. Le reste de media/ n'est pas tamponne :
 # ce sont des visuels qui, eux, ne changent pas.
-DOSSIERS = ['assets/*', 'media/img/sites/*']
+DOSSIERS = ['assets/*', 'assets/vendor/*', 'media/img/sites/*']
 
 empreintes = {}
 for dossier in DOSSIERS:
@@ -51,7 +51,7 @@ for chemin, e in sorted(empreintes.items()):
         print('  %-28s %s' % (chemin, e))
 print()
 
-motif = re.compile(r'((?:/assets|/media/img/sites)/[A-Za-z0-9_.\-]+)(\?v=([a-f0-9]+))?')
+motif = re.compile(r'((?:/assets(?:/vendor)?|/media/img/sites)/[A-Za-z0-9_.\-]+)(\?v=([a-f0-9]+))?')
 ecarts = 0
 touchees = 0
 

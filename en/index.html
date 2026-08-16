@@ -357,7 +357,7 @@
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(prefersReduced) return;
   var s = document.createElement('script');
-  s.src = 'https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js';
+  s.src = '/assets/vendor/lenis.min.js?v=3ffbbe8c';
   s.onload = function(){
     if(typeof Lenis === 'undefined') return;
     // Appeler initLenis si déjà défini, sinon le poll s'en chargera
@@ -2633,9 +2633,14 @@ function submitPackForm(e) {
 
 
 
-<!-- GSAP placé ici (avant le code d'init, après le HTML), non-bloquant au chargement initial -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- GSAP, servi par le site lui-meme. Il venait de cdnjs : deux
+     poignees de main supplementaires avant le premier octet, et une
+     panne possible hors de notre portee. Le filet de securite
+     ci-dessous, qui rendait tout visible quand GSAP manquait a
+     l'appel, disait bien que le cas s'etait deja produit.
+     Place ici, apres le HTML : non bloquant au chargement initial. -->
+<script src="/assets/vendor/gsap.min.js?v=47da594c"></script>
+<script src="/assets/vendor/ScrollTrigger.min.js?v=ba1fa78e"></script>
 <script>
 // Safety net : si GSAP ne se charge pas (réseau lent), on rend tous les éléments visibles
 // Sur mobile : 400ms (plus rapide), desktop : 2500ms
